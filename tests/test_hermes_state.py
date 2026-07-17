@@ -11,19 +11,6 @@ import hermes_state
 from hermes_state import SCHEMA_SQL, SCHEMA_VERSION, SessionDB
 
 
-def _wait_fts_rebuild(db, timeout=30):
-    """Block until the deferred FTS backfill + trash teardown complete."""
-    deadline = time.time() + timeout
-    while db.fts_rebuild_status() is not None and time.time() < deadline:
-        # The background worker may not have started (e.g. FTS disabled at
-        # open); drive a chunk inline so tests never depend on thread timing.
-        db.fts_rebuild_step()
-        time.sleep(0.01)
-    assert db.fts_rebuild_status() is None, "deferred FTS rebuild never finished"
-    while db._fts_teardown_trash_step() and time.time() < deadline:
-        time.sleep(0.01)
-
-
 class _NoFtsCursor(sqlite3.Cursor):
     """Simulate a SQLite build without the fts5 module."""
 
@@ -807,24 +794,50 @@ class TestSessionLifecycle:
     def test_v11_migration_backfills_base_fts_when_trigram_unavailable(
         self, tmp_path, monkeypatch
     ):
-        """Regression: v11 migration must backfill base FTS even when trigram is unavailable."""
+        """A legacy inline-FTS DB opened under a no-trigram runtime keeps its
+        base FTS searchable (and is flagged optimizable) without crashing.
+
+        Opt-in model: opening never auto-migrates. The legacy single-column
+        index keeps working for content search; the trigram tokenizer being
+        unavailable must not break base FTS or the open itself.
+        """
         real_connect = sqlite3.connect
         db_path = tmp_path / "state.db"
 
-        # Phase 1: create a DB at schema v10 with messages.
-        db = SessionDB(db_path=db_path)
-        db.create_session(session_id="s1", source="cli")
-        db.append_message("s1", role="user", content="legacy message alpha")
-        db.append_message("s1", role="assistant", content="legacy reply beta")
-        # Force schema version to v10 so migration runs on next open.
-        db._conn.execute(
-            "UPDATE schema_version SET version = 10"
+        # Phase 1: build a genuine legacy inline DB by hand (single-column
+        # messages_fts, no trigram table), at an old schema version.
+        conn = sqlite3.connect(str(db_path))
+        conn.executescript(SCHEMA_SQL)
+        conn.executescript("""
+            DROP TABLE IF EXISTS messages_fts;
+            DROP TABLE IF EXISTS messages_fts_trigram;
+            DROP VIEW IF EXISTS messages_fts_trigram_src;
+            CREATE VIRTUAL TABLE messages_fts USING fts5(content);
+            CREATE TRIGGER messages_fts_insert AFTER INSERT ON messages BEGIN
+                INSERT INTO messages_fts(rowid, content) VALUES (new.id, COALESCE(new.content,''));
+            END;
+        """)
+        conn.execute("DELETE FROM schema_version")
+        conn.execute("INSERT INTO schema_version (version) VALUES (10)")
+        conn.execute(
+            "INSERT INTO sessions (id, source, started_at) VALUES ('s1', 'cli', ?)",
+            (time.time(),),
         )
-        db._conn.commit()
-        db.close()
+        for role, content in (
+            ("user", "legacy message alpha"),
+            ("assistant", "legacy reply beta"),
+        ):
+            conn.execute(
+                "INSERT INTO messages (session_id, timestamp, role, content) "
+                "VALUES ('s1', ?, ?, ?)",
+                (time.time(), role, content),
+            )
+        conn.commit()
+        conn.close()
 
-        # Phase 2: reopen with trigram disabled — migration should still
-        # backfill base FTS and make existing messages searchable.
+        # Phase 2: reopen with trigram disabled — must NOT crash, base FTS
+        # keeps working, and the DB is flagged optimizable (opt-in, so no
+        # auto-migration and the version stays put).
         def connect_without_trigram(*args, **kwargs):
             kwargs["factory"] = _NoTrigramConnection
             return real_connect(*args, **kwargs)
@@ -836,9 +849,7 @@ class TestSessionLifecycle:
             assert migrated_db._trigram_available is False
             assert migrated_db._fts_table_exists("messages_fts") is True
             assert migrated_db._fts_table_exists("messages_fts_trigram") is False
-
-            # Deferred v23 backfill must complete before index assertions.
-            _wait_fts_rebuild(migrated_db)
+            assert migrated_db.fts_optimize_available() is True
 
             # Existing messages must be searchable via base FTS.
             results = migrated_db.search_messages("legacy message")
@@ -3707,8 +3718,13 @@ class TestSchemaInit:
         try:
             assert trigram_content_only_inserts == []
             version = migrated_db._conn.execute("SELECT version FROM schema_version").fetchone()[0]
+            # This DB was built via SCHEMA_SQL, so its FTS is already the v23
+            # external-content shape — not a legacy inline install. Opening it
+            # therefore advances the version to current (no opt-in gate) and
+            # runs no backfill (rows were indexed live by the v23 triggers).
             assert version == SCHEMA_VERSION
-            _wait_fts_rebuild(migrated_db)
+            assert migrated_db.fts_optimize_available() is False
+            assert migrated_db.fts_rebuild_status() is None
             # Standard FTS indexes every row, including tool output (MATCH
             # probes the index; COUNT(*) on external-content tables doesn't).
             normal_count = migrated_db._conn.execute(
@@ -5129,15 +5145,22 @@ class TestFTS5ToolCallMigration:
         assert legacy_hits == [], "sanity: legacy FTS must NOT contain tool_name"
         conn.close()
 
-        # Now open via SessionDB — migration runs.
+        # Open via SessionDB — the legacy DB is detected as optimizable but
+        # NOT auto-migrated (opt-in). Its old content-only index still works
+        # for content, but doesn't yet cover tool_name/tool_calls (#16751).
         session_db = SessionDB(db_path=db_path)
         try:
-            _wait_fts_rebuild(session_db)
+            assert session_db.fts_optimize_available() is True
+
+            # `hermes db optimize` performs the v23 transition; afterwards the
+            # tool fields are searchable.
+            result = session_db.optimize_fts_storage(vacuum=False)
+            assert result["ok"] is True
             assert len(session_db.search_messages("LEGACYTOOL")) == 1, \
-                "v23 migration must backfill tool_name into FTS"
+                "v23 optimize must index tool_name into FTS"
             assert len(session_db.search_messages("LEGACYARG")) == 1, \
-                "v23 migration must backfill tool_calls JSON into FTS"
-            # schema_version bumped
+                "v23 optimize must index tool_calls JSON into FTS"
+            # schema_version bumped once the FTS layer is v23
             from hermes_state import SCHEMA_VERSION
             row = session_db._conn.execute(
                 "SELECT version FROM schema_version LIMIT 1"
@@ -5206,130 +5229,137 @@ class TestFTSExternalContentMigration:
         assert shadow, "sanity: v22 inline FTS must have a content shadow table"
         conn.close()
 
-    def test_v22_to_v23_rebuild_external_content(self, tmp_path):
+    def test_v22_open_leaves_legacy_untouched_and_advertises(self, tmp_path):
+        """Opening a legacy v22 DB must NOT auto-migrate: the inline indexes
+        keep working, schema_version stays put, and the opt-in flag is set."""
         db_path = tmp_path / "v22.db"
         self._build_v22_db(db_path)
 
         db = SessionDB(db_path=db_path)
         try:
+            # Version is NOT advanced to v23 — the FTS layer is still legacy.
             version = db._conn.execute(
                 "SELECT version FROM schema_version"
             ).fetchone()[0]
-            assert version == SCHEMA_VERSION
+            assert version == 22, "must not auto-bump past an un-opted-in FTS layer"
 
-            # External-content tables store no private text copies: FTS5
-            # doesn't even create the *_content shadow tables in this mode.
+            # Legacy inline shape is intact (content shadow table still there).
+            assert db._conn.execute(
+                "SELECT name FROM sqlite_master WHERE name = 'messages_fts_content'"
+            ).fetchone() is not None
+            assert db.fts_optimize_available() is True
+            assert db.get_meta("fts_optimize_available") == "1"
+
+            # Search still works on the legacy index (no deferred rebuild, no
+            # gap supplement needed — the index is fully populated).
+            assert db.fts_rebuild_status() is None
+            assert len(db.search_messages("deployment")) == 1
+            assert len(db.search_messages("send_message")) == 1  # #16751 held
+
+            # A new write is indexed live by the legacy triggers.
+            db.append_message("s1", role="user", content="AFTEROPEN token")
+            assert len(db.search_messages("AFTEROPEN")) == 1
+        finally:
+            db.close()
+
+    def test_optimize_fts_storage_transitions_to_v23(self, tmp_path):
+        """`optimize_fts_storage()` migrates a legacy DB to v23 external-content
+        to completion: no shadow copies, tool rows excluded from trigram,
+        version bumped, everything searchable exactly once."""
+        db_path = tmp_path / "v22.db"
+        self._build_v22_db(db_path)
+
+        db = SessionDB(db_path=db_path)
+        try:
+            assert db.fts_optimize_available() is True
+            result = db.optimize_fts_storage(vacuum=False)
+            assert result["ok"] is True
+
+            # Version advanced; flag cleared; no longer "available".
+            assert db._conn.execute(
+                "SELECT version FROM schema_version"
+            ).fetchone()[0] == SCHEMA_VERSION
+            assert db.fts_optimize_available() is False
+            assert db.fts_rebuild_status() is None
+
+            # External-content: no *_content shadow tables, no trash left.
             for shadow in ("messages_fts_content", "messages_fts_trigram_content"):
-                row = db._conn.execute(
+                assert db._conn.execute(
                     "SELECT name FROM sqlite_master WHERE name = ?", (shadow,)
-                ).fetchone()
-                assert row is None, f"{shadow} must not exist in external-content mode"
-
-            # The migration DEFERS the backfill: markers must be set and the
-            # background worker (started by __init__) drives it to completion.
-            deadline = time.time() + 30
-            while db.fts_rebuild_status() is not None and time.time() < deadline:
-                time.sleep(0.05)
-            assert db.fts_rebuild_status() is None, "deferred rebuild never finished"
-            # Trash teardown (phase 2) also completes: old renamed tables gone.
-            while db._fts_teardown_trash_step() and time.time() < deadline:
-                time.sleep(0.01)
-            trash_left = db._conn.execute(
+                ).fetchone() is None
+            assert db._conn.execute(
                 "SELECT name FROM sqlite_master WHERE name LIKE '%_v22_trash%'"
-            ).fetchall()
-            assert trash_left == [], f"trash tables not torn down: {trash_left}"
+            ).fetchall() == []
 
-            # Standard FTS: all rows searchable, tool metadata included (#16751).
+            # Standard FTS: all rows incl tool metadata (#16751).
             assert len(db.search_messages("TOOLBLOB")) == 1
             assert len(db.search_messages("send_message")) == 1
-
-            # Trigram: tool rows excluded, CJK search over conversation works.
-            # (Index-state probes must use MATCH — COUNT(*) on an external-
-            # content FTS table delegates to the content source/view.)
-            cjk = db.search_messages("大别山项目")
-            assert len(cjk) == 2
+            # Trigram excludes tool rows; CJK conversation search works.
+            assert len(db.search_messages("大别山项目")) == 2
             assert db._conn.execute(
                 "SELECT COUNT(*) FROM messages_fts_trigram "
                 "WHERE messages_fts_trigram MATCH '\"项目文件内容\"'"
             ).fetchone()[0] == 0
-            # CJK substring that exists ONLY in tool output: not in trigram,
-            # but role_filter=['tool'] routes to the LIKE fallback and finds it.
             assert db.search_messages("项目文件内容", role_filter=["tool"]) != []
-        finally:
-            db.close()
-
-    def test_v23_deferred_rebuild_searchable_during_and_resumable(self, tmp_path):
-        """Mid-rebuild: new writes are indexed live, unindexed old rows are
-        still found via the gap supplement, and a killed rebuild resumes
-        from its progress marker on reopen."""
-        db_path = tmp_path / "v22.db"
-        self._build_v22_db(db_path)
-
-        # Open WITHOUT letting the worker finish: patch the step to a no-op
-        # so the pending state holds still while we probe it.
-        with mock.patch.object(SessionDB, "start_deferred_fts_rebuild",
-                               return_value=False):
-            db = SessionDB(db_path=db_path)
-            try:
-                status = db.fts_rebuild_status()
-                assert status is not None and status["pending"]
-                assert status["indexed"] == 0 and status["total"] >= 3
-
-                # Old (unindexed) rows: FTS misses them, the gap supplement
-                # serves them.
-                hits = db.search_messages("TOOLBLOB")
-                assert len(hits) == 1, "gap supplement must find unindexed rows"
-                # Direct index probe (MATCH uses the index; COUNT(*) on an
-                # external-content table delegates to the content source and
-                # can't see index state): old row absent from the index.
+            # No duplicate index entries; integrity clean.
+            for term in ("TOOLBLOB", "deployment"):
                 assert db._conn.execute(
-                    "SELECT COUNT(*) FROM messages_fts WHERE messages_fts MATCH 'TOOLBLOB'"
-                ).fetchone()[0] == 0
-
-                # New writes while pending are indexed live (id > high_water).
-                db.create_session(session_id="s2", source="cli")
-                db.append_message("s2", role="user", content="LIVEWRITE token")
-                assert db._conn.execute(
-                    "SELECT COUNT(*) FROM messages_fts WHERE messages_fts MATCH 'LIVEWRITE'"
-                ).fetchone()[0] == 1
-                assert len(db.search_messages("LIVEWRITE")) == 1
-
-                # Run exactly one chunk manually — progress advances.
-                db.fts_rebuild_step()
-                status2 = db.fts_rebuild_status()
-                assert status2 is None or status2["indexed"] > 0
-            finally:
-                db.close()
-
-        # Reopen normally: the worker resumes from the marker and finishes.
-        db = SessionDB(db_path=db_path)
-        try:
-            deadline = time.time() + 30
-            while db.fts_rebuild_status() is not None and time.time() < deadline:
-                time.sleep(0.05)
-            assert db.fts_rebuild_status() is None
-            # Everything searchable via FTS now; no duplicate index entries.
-            assert len(db.search_messages("TOOLBLOB")) == 1
-            assert len(db.search_messages("LIVEWRITE")) == 1
-            for term in ("TOOLBLOB", "LIVEWRITE"):
-                n = db._conn.execute(
                     "SELECT COUNT(*) FROM messages_fts WHERE messages_fts MATCH ?",
                     (term,),
-                ).fetchone()[0]
-                assert n == 1, f"{term} must be indexed exactly once (got {n})"
-            # integrity-check would raise on index/content disagreement
-            # (including double-indexed rowids).
+                ).fetchone()[0] == 1
             db._conn.execute(
                 "INSERT INTO messages_fts(messages_fts, rank) VALUES('integrity-check', 1)"
             )
         finally:
             db.close()
 
-    def test_v23_fresh_db_has_no_pending_rebuild(self, tmp_path):
-        """A brand-new DB never enters the deferred-rebuild state."""
+    def test_optimize_fts_storage_resumable_after_interrupt(self, tmp_path):
+        """A partially-completed optimize resumes on re-run: after demote +
+        one chunk, re-invoking finishes without duplicating rows."""
+        db_path = tmp_path / "v22.db"
+        self._build_v22_db(db_path)
+
+        db = SessionDB(db_path=db_path)
+        try:
+            # Simulate an interrupted run: demote + a single backfill chunk,
+            # then stop (as if the process died mid-optimize).
+            db._demote_legacy_fts_to_trash()
+            assert db.fts_rebuild_status() is not None
+            db.fts_rebuild_step()  # one chunk only
+
+            # Old rows not yet backfilled are still findable via gap supplement.
+            assert len(db.search_messages("TOOLBLOB")) == 1
+
+            # Re-run the full command — must resume, not restart or duplicate.
+            result = db.optimize_fts_storage(vacuum=False)
+            assert result["ok"] is True
+            assert db.fts_rebuild_status() is None
+            assert db._conn.execute(
+                "SELECT version FROM schema_version"
+            ).fetchone()[0] == SCHEMA_VERSION
+            for term in ("TOOLBLOB", "deployment"):
+                assert db._conn.execute(
+                    "SELECT COUNT(*) FROM messages_fts WHERE messages_fts MATCH ?",
+                    (term,),
+                ).fetchone()[0] == 1
+            db._conn.execute(
+                "INSERT INTO messages_fts(messages_fts, rank) VALUES('integrity-check', 1)"
+            )
+        finally:
+            db.close()
+
+    def test_v23_fresh_db_born_optimized(self, tmp_path):
+        """A brand-new DB is born on v23 — no legacy layout, no opt-in flag,
+        no pending rebuild."""
         db = SessionDB(db_path=tmp_path / "fresh.db")
         try:
+            assert db.fts_optimize_available() is False
             assert db.fts_rebuild_status() is None
+            assert db.get_meta("fts_optimize_available") is None
+            # Already external-content: no shadow copy tables.
+            assert db._conn.execute(
+                "SELECT name FROM sqlite_master WHERE name = 'messages_fts_content'"
+            ).fetchone() is None
             db.create_session(session_id="s1", source="cli")
             db.append_message("s1", role="user", content="hello fresh world")
             assert len(db.search_messages("fresh")) == 1

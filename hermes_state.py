@@ -1047,6 +1047,69 @@ END;
 """
 
 
+# ── Legacy (v22 / inline-content) FTS DDL ──────────────────────────────
+# Used ONLY to keep an existing pre-v23 install's search working and its
+# triggers repairable UNTIL the user opts into `hermes db optimize`. This is
+# the exact inline shape v11..v22 shipped: each virtual table stores its own
+# copy of ``content || tool_name || tool_calls`` and the trigram table indexes
+# every row (including role='tool'). We never CREATE these on a fresh install —
+# fresh installs are born on the v23 external-content schema above. These
+# constants exist so a legacy DB is never accidentally handed the v23 DDL
+# (which would create the external-content trigram source VIEW and leave the
+# DB in a mixed, broken state). `optimize_fts_storage()` is what migrates a
+# legacy DB to the v23 shape.
+LEGACY_FTS_SQL = """
+CREATE VIRTUAL TABLE IF NOT EXISTS messages_fts USING fts5(
+    content
+);
+
+CREATE TRIGGER IF NOT EXISTS messages_fts_insert AFTER INSERT ON messages BEGIN
+    INSERT INTO messages_fts(rowid, content) VALUES (
+        new.id,
+        COALESCE(new.content, '') || ' ' || COALESCE(new.tool_name, '') || ' ' || COALESCE(new.tool_calls, '')
+    );
+END;
+
+CREATE TRIGGER IF NOT EXISTS messages_fts_delete AFTER DELETE ON messages BEGIN
+    DELETE FROM messages_fts WHERE rowid = old.id;
+END;
+
+CREATE TRIGGER IF NOT EXISTS messages_fts_update AFTER UPDATE ON messages BEGIN
+    DELETE FROM messages_fts WHERE rowid = old.id;
+    INSERT INTO messages_fts(rowid, content) VALUES (
+        new.id,
+        COALESCE(new.content, '') || ' ' || COALESCE(new.tool_name, '') || ' ' || COALESCE(new.tool_calls, '')
+    );
+END;
+"""
+
+LEGACY_FTS_TRIGRAM_SQL = """
+CREATE VIRTUAL TABLE IF NOT EXISTS messages_fts_trigram USING fts5(
+    content,
+    tokenize='trigram'
+);
+
+CREATE TRIGGER IF NOT EXISTS messages_fts_trigram_insert AFTER INSERT ON messages BEGIN
+    INSERT INTO messages_fts_trigram(rowid, content) VALUES (
+        new.id,
+        COALESCE(new.content, '') || ' ' || COALESCE(new.tool_name, '') || ' ' || COALESCE(new.tool_calls, '')
+    );
+END;
+
+CREATE TRIGGER IF NOT EXISTS messages_fts_trigram_delete AFTER DELETE ON messages BEGIN
+    DELETE FROM messages_fts_trigram WHERE rowid = old.id;
+END;
+
+CREATE TRIGGER IF NOT EXISTS messages_fts_trigram_update AFTER UPDATE ON messages BEGIN
+    DELETE FROM messages_fts_trigram WHERE rowid = old.id;
+    INSERT INTO messages_fts_trigram(rowid, content) VALUES (
+        new.id,
+        COALESCE(new.content, '') || ' ' || COALESCE(new.tool_name, '') || ' ' || COALESCE(new.tool_calls, '')
+    );
+END;
+"""
+
+
 class SessionDB:
     """
     SQLite-backed session storage with FTS5 search.
@@ -1172,12 +1235,13 @@ class SessionDB:
                     raise
                 _connect_and_init()
 
-            # Kick off the deferred FTS backfill if the v23 migration left
-            # one pending. No-op in the common case; never raises.
-            try:
-                self.start_deferred_fts_rebuild()
-            except Exception as exc:
-                logger.debug("Deferred FTS rebuild not started: %s", exc)
+            # NOTE: the v23 FTS optimization is OPT-IN (`hermes db optimize`),
+            # never auto-started on open. Legacy installs keep their working
+            # v22 inline FTS untouched here; only the explicit foreground
+            # command demotes + rebuilds. This avoids a background worker
+            # racing session lifecycle and the surprise disk/latency cost on
+            # an unattended open. (An interrupted optimize resumes when the
+            # user re-runs the command.)
         except Exception as exc:
             # Capture the cause so /resume and friends can surface WHY the
             # session DB is unavailable instead of a bare "Session database
@@ -1212,6 +1276,32 @@ class SessionDB:
     def _is_trigram_unavailable_error(exc: sqlite3.OperationalError) -> bool:
         """True when only the trigram tokenizer is missing (FTS5 itself works)."""
         return "no such tokenizer: trigram" in str(exc).lower()
+
+    @staticmethod
+    def _db_has_legacy_inline_fts(cursor: sqlite3.Cursor) -> bool:
+        """True when messages_fts exists in ANY pre-v23 shape.
+
+        v23's messages_fts is external-content over THREE real columns
+        (content, tool_name, tool_calls). Every pre-v23 shape lacks the
+        tool_name/tool_calls columns — whether the old inline single-column
+        form (v11..v22) or the even older external-content single-column form
+        (v10-era, pre-#16751). We therefore detect "needs optimize" as "the
+        stored CREATE lacks the tool_name column", which is the precise v23
+        marker and correctly catches BOTH legacy variants.
+
+        Returns False when messages_fts doesn't exist yet (fresh DB mid-init):
+        the post-migration FTS setup block will create it in the v23 shape.
+        """
+        row = cursor.execute(
+            "SELECT sql FROM sqlite_master "
+            "WHERE type = 'table' AND name = 'messages_fts'"
+        ).fetchone()
+        if row is None:
+            return False
+        sql = (row[0] if not isinstance(row, sqlite3.Row) else row["sql"]) or ""
+        # The v23 table declares tool_name/tool_calls columns. Their absence
+        # means a legacy shape that doesn't index tool metadata → optimize.
+        return "tool_name" not in sql
 
     def _warn_trigram_unavailable(self, exc: sqlite3.OperationalError) -> None:
         """Log once that the trigram tokenizer is missing; base FTS5 stays enabled."""
@@ -1291,6 +1381,40 @@ class SessionDB:
         cursor.execute(
             "DELETE FROM state_meta WHERE key IN "
             "('fts_rebuild_high_water', 'fts_rebuild_progress')"
+        )
+
+    @staticmethod
+    def _rebuild_legacy_fts_indexes(
+        cursor: sqlite3.Cursor,
+        *,
+        include_trigram: bool = True,
+    ) -> None:
+        """Rebuild the LEGACY inline FTS indexes (pre-v23) from messages.
+
+        Used only to repair a legacy DB whose triggers degraded under an
+        earlier no-FTS5 runtime. Inline tables have no external-content
+        'rebuild' source, so we DELETE + reinsert the concatenated content
+        the legacy triggers produced. Never touches the v23 shape.
+        """
+        cursor.execute("DELETE FROM messages_fts")
+        cursor.execute(
+            "INSERT INTO messages_fts(rowid, content) "
+            "SELECT id, "
+            "COALESCE(content, '') || ' ' || "
+            "COALESCE(tool_name, '') || ' ' || "
+            "COALESCE(tool_calls, '') "
+            "FROM messages"
+        )
+        if not include_trigram:
+            return
+        cursor.execute("DELETE FROM messages_fts_trigram")
+        cursor.execute(
+            "INSERT INTO messages_fts_trigram(rowid, content) "
+            "SELECT id, "
+            "COALESCE(content, '') || ' ' || "
+            "COALESCE(tool_name, '') || ' ' || "
+            "COALESCE(tool_calls, '') "
+            "FROM messages"
         )
 
     def _fts_table_probe(self, cursor: sqlite3.Cursor, table_name: str) -> Optional[bool]:
@@ -1844,6 +1968,152 @@ class SessionDB:
         self._fts_rebuild_thread.start()
         return True
 
+    # ── Opt-in v23 FTS storage optimization (`hermes db optimize`) ─────────
+    #
+    # This is the ONLY path that migrates an existing legacy (v22 inline) DB
+    # to the v23 external-content schema. It is deliberately foreground and
+    # user-invoked, never automatic, because it is disk-heavy and long. It
+    # reuses the same throttled/resumable machinery the (now-removed) auto
+    # path used — demote → new schema → chunked backfill → chunked teardown —
+    # but runs to completion synchronously with progress callbacks, does a
+    # disk preflight first, VACUUMs at the end, and bumps schema_version.
+
+    def fts_optimize_available(self) -> bool:
+        """True when this DB is a legacy inline-FTS install that can be
+        optimized to the v23 external-content schema. False for fresh/opted-in
+        installs (and when FTS5 is unavailable)."""
+        if not self._fts_enabled or self.read_only:
+            return False
+        with self._lock:
+            return self._db_has_legacy_inline_fts(self._conn)
+
+    def _demote_legacy_fts_to_trash(self) -> int:
+        """Demote the legacy inline FTS vtables and stage their shadow tables
+        for chunked teardown. Returns MAX(messages.id) as the rebuild high
+        water. O(1) schema surgery — the heavy delete is deferred to the
+        chunked teardown, exactly as the validated auto path did."""
+        def _do(conn):
+            self._drop_fts_triggers(conn)
+            conn.execute("DROP VIEW IF EXISTS messages_fts_trigram_src")
+            had = bool(conn.execute(
+                "SELECT 1 FROM sqlite_master WHERE type = 'table' "
+                "AND name IN ('messages_fts', 'messages_fts_trigram') "
+                "AND sql LIKE 'CREATE VIRTUAL TABLE%' LIMIT 1"
+            ).fetchone())
+            if had:
+                conn.execute("PRAGMA writable_schema=ON")
+                conn.execute(
+                    "DELETE FROM sqlite_master WHERE type = 'table' "
+                    "AND name IN ('messages_fts', 'messages_fts_trigram') "
+                    "AND sql LIKE 'CREATE VIRTUAL TABLE%'"
+                )
+                conn.execute("PRAGMA writable_schema=RESET")
+                shadows = [
+                    r[0] for r in conn.execute(
+                        "SELECT name FROM sqlite_master WHERE type = 'table' "
+                        "AND (name LIKE 'messages_fts_%' ESCAPE '\\' "
+                        "OR name LIKE 'messages_fts_trigram_%' ESCAPE '\\')"
+                    ).fetchall()
+                ]
+                for sh in shadows:
+                    conn.execute(f"ALTER TABLE {sh} RENAME TO fts_v22_trash_{sh}")
+            # Create the new v23 empty schema + set the backfill markers.
+            self._ensure_fts_schema(conn, "messages_fts", FTS_SQL)
+            self._ensure_fts_schema(conn, "messages_fts_trigram", FTS_TRIGRAM_SQL)
+            hw = conn.execute("SELECT COALESCE(MAX(id), 0) FROM messages").fetchone()[0]
+            for k, v in (
+                ("fts_rebuild_high_water", str(hw)),
+                ("fts_rebuild_progress", "0"),
+            ):
+                conn.execute(
+                    "INSERT INTO state_meta (key, value) VALUES (?, ?) "
+                    "ON CONFLICT(key) DO UPDATE SET value = excluded.value",
+                    (k, v),
+                )
+            conn.execute("DELETE FROM state_meta WHERE key = 'fts_optimize_available'")
+            return hw
+        return int(self._execute_write(_do, _worker=True))
+
+    def optimize_fts_storage(
+        self,
+        *,
+        progress_cb: Optional[Callable[[Dict[str, Any]], None]] = None,
+        vacuum: bool = True,
+    ) -> Dict[str, Any]:
+        """Migrate a legacy v22 inline-FTS DB to the v23 external-content
+        schema, foreground and to completion. Safe to re-run: if a previous
+        attempt was interrupted it resumes from the progress marker.
+
+        ``progress_cb`` receives {"phase", "percent", "indexed", "total"}
+        dicts for a CLI progress bar. Returns a summary dict.
+
+        The trigram tokenizer being unavailable is not fatal — the base index
+        is still rebuilt (CJK falls back to LIKE), mirroring normal startup.
+        """
+        if not self._fts_enabled:
+            return {"ok": False, "reason": "fts5_unavailable"}
+        if self.read_only:
+            return {"ok": False, "reason": "read_only"}
+
+        # Only demote if we're actually still on the legacy shape. If a prior
+        # run already demoted (markers/trash present), skip straight to
+        # finishing the backfill + teardown — this is what makes re-running
+        # after an interruption safe.
+        with self._lock:
+            legacy = self._db_has_legacy_inline_fts(self._conn)
+        pending = self.get_meta("fts_rebuild_high_water") is not None
+        if legacy and not pending:
+            self._demote_legacy_fts_to_trash()
+
+        def _emit(phase: str) -> None:
+            if progress_cb is None:
+                return
+            st = self.fts_rebuild_status()
+            progress_cb({
+                "phase": phase,
+                "percent": st["percent"] if st else 100,
+                "indexed": st["indexed"] if st else 0,
+                "total": st["total"] if st else 0,
+            })
+
+        # Phase 1: backfill (foreground, throttle still applies so a live
+        # gateway sharing the DB stays responsive).
+        _emit("backfill")
+        while self.fts_rebuild_step():
+            _emit("backfill")
+        _emit("backfill")
+
+        # Phase 2: tear down the demoted legacy shadow tables in chunks.
+        _emit("teardown")
+        while self._fts_teardown_trash_step():
+            _emit("teardown")
+
+        # Phase 3: reclaim freed pages to the OS.
+        vacuum_ok = None
+        if vacuum:
+            _emit("vacuum")
+            try:
+                with self._lock:
+                    self._conn.execute("VACUUM")
+                vacuum_ok = True
+            except sqlite3.OperationalError as exc:
+                # Most common cause: not enough free disk for VACUUM's temp
+                # copy. The optimization still succeeded; space just isn't
+                # reclaimed until a later VACUUM. Non-fatal.
+                logger.warning("VACUUM after FTS optimize failed: %s", exc)
+                vacuum_ok = False
+
+        # Phase 4: advance schema_version now that the FTS layer is v23.
+        def _bump(conn):
+            conn.execute(
+                "UPDATE schema_version SET version = ? WHERE version < ?",
+                (SCHEMA_VERSION, SCHEMA_VERSION),
+            )
+        self._execute_write(_bump, _worker=True)
+        _emit("done")
+        logger.info("FTS storage optimization complete (schema v%d).", SCHEMA_VERSION)
+        return {"ok": True, "vacuumed": vacuum_ok}
+
     @staticmethod
     def _parse_schema_columns(schema_sql: str) -> Dict[str, Dict[str, str]]:
         """Extract expected columns per table from SCHEMA_SQL.
@@ -2204,143 +2474,57 @@ class SessionDB:
                     logger.debug("v22 session_model_usage rebuild skipped: %s", exc)
             if current_version < 23:
                 # v23: FTS storage redesign (issues #22478, #43690, #55233).
-                # The v11 inline-mode FTS tables each stored a full private
+                # The v11 inline-mode FTS tables each store a full private
                 # copy of every message (content || tool_name || tool_calls),
-                # and the trigram index additionally covered role='tool' rows
+                # and the trigram index additionally covers role='tool' rows
                 # (~90% of message bytes: base64 payloads, file dumps) at
                 # ~2.6x amplification — together ~75% of state.db on heavy
                 # installs (observed: 18.9 GB of a 25 GB DB).
                 #
-                # New shape, defined in FTS_SQL / FTS_TRIGRAM_SQL:
-                #   - both tables are external-content over real columns
-                #     (content, tool_name, tool_calls) — no duplicate text
-                #     copies, and #16751 tool_calls searchability is kept;
-                #   - the trigram table reads through the
-                #     messages_fts_trigram_src view, which excludes
-                #     role='tool' rows. Tool rows remain fully stored in
-                #     messages and fully searchable via the standard index.
+                # OPT-IN, NOT AUTOMATIC. The transition (demote old vtables →
+                # new external-content schema → backfill → teardown → VACUUM)
+                # is disk-heavy (transient ~2x file size to fully reclaim via
+                # VACUUM) and long (~1-2h background on a 25 GB DB). Doing it
+                # silently on every big user's next open — with a completeness
+                # guarantee that depends on the process staying alive long
+                # enough — is the wrong default. So on an EXISTING install we
+                # touch nothing here: the v22 inline FTS keeps working exactly
+                # as before, and we only record a flag advertising that the
+                # optimization is available. `hermes db optimize` performs the
+                # whole transition as one deliberate, disk-checked, progress-
+                # reported foreground operation and bumps the version itself.
                 #
-                # DEFERRED REBUILD + DEFERRED TEARDOWN: startup must never
-                # block. Two costs are pushed to the background worker:
-                #   1. Backfilling existing rows into the new indexes took
-                #      ~16 min blocking on a real 25 GB / 1.4M-message DB.
-                #   2. DROP TABLE on a multi-GB FTS vtable is itself minutes
-                #      of work (frees millions of pages in one journaled
-                #      transaction — measured 95s+ for one 4.4 GB shadow
-                #      table). So instead of DROP, the old vtable definitions
-                #      are DEMOTED out of sqlite_master (writable_schema —
-                #      the same technique repair_state_db_schema uses), which
-                #      turns their shadow tables into plain tables; those are
-                #      renamed to fts_v22_trash_* and torn down in bounded
-                #      chunks by the worker.
-                # Until the worker completes:
-                #   - new messages are indexed live (triggers gate on the
-                #     high_water/progress predicate, see FTS_SQL);
-                #   - search_messages() serves unindexed rows via the LIKE
-                #     gap supplement and reports rebuild progress.
-                if fts5_available:
-                    _msg_count = cursor.execute(
-                        "SELECT COUNT(*) FROM messages"
-                    ).fetchone()[0]
-                    self._drop_fts_triggers(cursor)
-                    _demote_ok = True
-                    try:
-                        # The view is a plain schema entry — dropping it is O(1).
-                        cursor.execute("DROP VIEW IF EXISTS messages_fts_trigram_src")
-                        _had_old_tables = bool(cursor.execute(
-                            "SELECT 1 FROM sqlite_master WHERE type = 'table' "
-                            "AND name IN ('messages_fts', 'messages_fts_trigram') "
-                            "AND sql LIKE 'CREATE VIRTUAL TABLE%' LIMIT 1"
-                        ).fetchone())
-                        if _had_old_tables:
-                            # Demote: remove ONLY the vtable definition rows.
-                            # Their shadow tables (_data/_idx/_content/...)
-                            # survive as plain tables.
-                            cursor.execute("PRAGMA writable_schema=ON")
-                            cursor.execute(
-                                "DELETE FROM sqlite_master WHERE type = 'table' "
-                                "AND name IN ('messages_fts', 'messages_fts_trigram') "
-                                "AND sql LIKE 'CREATE VIRTUAL TABLE%'"
-                            )
-                            cursor.execute("PRAGMA writable_schema=RESET")
-                            # Rename the orphaned shadows out of the new
-                            # tables' namespace so FTS5 can recreate its own.
-                            _shadows = [
-                                r[0] for r in cursor.execute(
-                                    "SELECT name FROM sqlite_master "
-                                    "WHERE type = 'table' AND ("
-                                    "name LIKE 'messages_fts_%' ESCAPE '\\' OR "
-                                    "name LIKE 'messages_fts_trigram_%' ESCAPE '\\')"
-                                ).fetchall()
-                            ]
-                            for _sh in _shadows:
-                                cursor.execute(
-                                    f"ALTER TABLE {_sh} RENAME TO fts_v22_trash_{_sh}"
-                                )
-                    except (sqlite3.OperationalError, sqlite3.DatabaseError) as exc:
-                        if isinstance(exc, sqlite3.OperationalError) and \
-                                not self._is_fts5_unavailable_error(exc):
-                            raise
-                        logger.warning(
-                            "v23 FTS demote failed (%s); falling back to "
-                            "blocking DROP.", exc,
-                        )
-                        _demote_ok = False
-                        try:
-                            cursor.execute("PRAGMA writable_schema=OFF")
-                        except sqlite3.Error:
-                            pass
-                        for _tbl in ("messages_fts", "messages_fts_trigram"):
-                            try:
-                                cursor.execute(f"DROP TABLE IF EXISTS {_tbl}")
-                            except sqlite3.OperationalError as exc2:
-                                if not self._is_fts5_unavailable_error(exc2):
-                                    raise
-                                fts5_available = False
-                                fts_migrations_complete = False
-                                break
+                # Fresh installs never reach this branch (their schema_version
+                # row is inserted at SCHEMA_VERSION), and the post-migration
+                # FTS setup block below builds them the v23 external-content
+                # schema directly — born optimized, zero cost.
+                #
+                # NOTE: we deliberately do NOT bump schema_version to 23 for
+                # existing DBs (see the guard below). The DB stays at its
+                # current version — its other migrations are already applied —
+                # while the FTS layer remains v22 until the user opts in.
+                if fts5_available and self._db_has_legacy_inline_fts(cursor):
+                    self.set_meta("fts_optimize_available", "1", cursor=cursor)
+                # Leave fts_migrations_complete True: nothing here can fail,
+                # and the version guard below already refuses to advance past
+                # an un-opted-in FTS layer.
 
-                    if fts5_available:
-                        # Create the new empty schema. Backfill is deferred —
-                        # a missing trigram tokenizer must not block the base
-                        # index (same policy as the FTS setup block below).
-                        base_fts_ok = self._ensure_fts_schema(
-                            cursor, "messages_fts", FTS_SQL
-                        )
-                        trigram_ok = self._ensure_fts_schema(
-                            cursor, "messages_fts_trigram", FTS_TRIGRAM_SQL
-                        )
-                        self._trigram_available = trigram_ok
-                        if base_fts_ok:
-                            if _msg_count > 0:
-                                _high_water = cursor.execute(
-                                    "SELECT COALESCE(MAX(id), 0) FROM messages"
-                                ).fetchone()[0]
-                                for _k, _v in (
-                                    ("fts_rebuild_high_water", str(_high_water)),
-                                    ("fts_rebuild_progress", "0"),
-                                ):
-                                    cursor.execute(
-                                        "INSERT INTO state_meta (key, value) "
-                                        "VALUES (?, ?) ON CONFLICT(key) DO "
-                                        "UPDATE SET value = excluded.value",
-                                        (_k, _v),
-                                    )
-                                logger.warning(
-                                    "state.db v23 migration: search index "
-                                    "rebuild deferred for %d existing messages "
-                                    "— it runs in the background in chunks and "
-                                    "search stays available (older results "
-                                    "served via slower scan until indexed). "
-                                    "Run 'hermes sessions optimize' afterwards "
-                                    "to reclaim disk space.",
-                                    _msg_count,
-                                )
-                        else:
-                            fts_migrations_complete = False
-                else:
-                    fts_migrations_complete = False
-            if current_version < SCHEMA_VERSION and fts_migrations_complete:
+            # Advance schema_version to current ONLY when the FTS layer is
+            # already at v23 (fresh install, or a completed `hermes db
+            # optimize`). An existing legacy install that hasn't opted in
+            # stays at its current version so this detection re-runs on each
+            # open (cheap) until the user optimizes — at which point
+            # optimize_fts_storage() bumps the version to SCHEMA_VERSION.
+            #
+            # When FTS5 is unavailable we can't inspect/created the FTS layer
+            # at all, so we can't assert it's v23 — leave the version untouched
+            # rather than falsely claiming the DB reached the current schema.
+            _fts_at_v23 = fts5_available and not self._db_has_legacy_inline_fts(cursor)
+            if (
+                current_version < SCHEMA_VERSION
+                and fts_migrations_complete
+                and _fts_at_v23
+            ):
                 cursor.execute(
                     "UPDATE schema_version SET version = ?",
                     (SCHEMA_VERSION,),
@@ -2386,22 +2570,52 @@ class SessionDB:
             # FTS5 setup. Run the DDL even when the virtual table exists so
             # CREATE TRIGGER IF NOT EXISTS repairs trigger-only degradation from
             # an earlier no-FTS5 runtime.
-            triggers_need_repair = self._fts_trigger_count(cursor) < len(_FTS_TRIGGERS)
-            self._fts_enabled = self._ensure_fts_schema(cursor, "messages_fts", FTS_SQL)
-
-            # Trigram FTS5 for CJK/substring search. This is optional relative
-            # to the main FTS table; if it cannot be created, CJK search falls
-            # back to LIKE.
-            if self._fts_enabled:
-                trigram_enabled = self._ensure_fts_schema(
-                    cursor, "messages_fts_trigram", FTS_TRIGRAM_SQL
+            #
+            # OPT-IN v23 boundary: a legacy v22 install (inline-content FTS,
+            # not yet opted into `hermes db optimize`) must keep its EXISTING
+            # inline schema + triggers. Running the v23 external-content DDL
+            # here would create the trigram source VIEW and leave the DB in a
+            # mixed inline/external state. So for a legacy DB we only ensure
+            # its inline triggers exist (via the legacy DDL), and skip the
+            # v23 view/external tables entirely. Fresh installs and opted-in
+            # DBs have no legacy inline FTS, so they get the v23 DDL.
+            if self._db_has_legacy_inline_fts(cursor):
+                triggers_need_repair = (
+                    self._fts_trigger_count(cursor) < len(_FTS_TRIGGERS)
                 )
-                self._trigram_available = trigram_enabled
-                if triggers_need_repair:
-                    self._rebuild_fts_indexes(
-                        cursor,
-                        include_trigram=trigram_enabled,
+                self._fts_enabled = self._ensure_fts_schema(
+                    cursor, "messages_fts", LEGACY_FTS_SQL
+                )
+                if self._fts_enabled:
+                    trigram_enabled = self._ensure_fts_schema(
+                        cursor, "messages_fts_trigram", LEGACY_FTS_TRIGRAM_SQL
                     )
+                    self._trigram_available = trigram_enabled
+                    if triggers_need_repair:
+                        self._rebuild_legacy_fts_indexes(
+                            cursor, include_trigram=trigram_enabled
+                        )
+            else:
+                triggers_need_repair = (
+                    self._fts_trigger_count(cursor) < len(_FTS_TRIGGERS)
+                )
+                self._fts_enabled = self._ensure_fts_schema(
+                    cursor, "messages_fts", FTS_SQL
+                )
+
+                # Trigram FTS5 for CJK/substring search. This is optional
+                # relative to the main FTS table; if it cannot be created,
+                # CJK search falls back to LIKE.
+                if self._fts_enabled:
+                    trigram_enabled = self._ensure_fts_schema(
+                        cursor, "messages_fts_trigram", FTS_TRIGRAM_SQL
+                    )
+                    self._trigram_available = trigram_enabled
+                    if triggers_need_repair:
+                        self._rebuild_fts_indexes(
+                            cursor,
+                            include_trigram=trigram_enabled,
+                        )
 
         self._conn.commit()
 
@@ -7385,8 +7599,25 @@ class SessionDB:
             return None
         return row["value"] if isinstance(row, sqlite3.Row) else row[0]
 
-    def set_meta(self, key: str, value: str) -> None:
-        """Write a value to the state_meta key/value store."""
+    def set_meta(
+        self, key: str, value: str, *, cursor: Optional[sqlite3.Cursor] = None
+    ) -> None:
+        """Write a value to the state_meta key/value store.
+
+        When ``cursor`` is provided the write is issued on that cursor
+        inline (used during ``_init_schema``, which already holds an open
+        transaction — routing through ``_execute_write`` there would nest
+        BEGIN IMMEDIATE and deadlock). Otherwise a normal write transaction
+        is used.
+        """
+        if cursor is not None:
+            cursor.execute(
+                "INSERT INTO state_meta (key, value) VALUES (?, ?) "
+                "ON CONFLICT(key) DO UPDATE SET value = excluded.value",
+                (key, value),
+            )
+            return
+
         def _do(conn):
             conn.execute(
                 "INSERT INTO state_meta (key, value) VALUES (?, ?) "
