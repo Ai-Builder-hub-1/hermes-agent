@@ -7,10 +7,12 @@ import type {
 } from "@hermes/dashboard-kit";
 import {
   aggregateExecutiveBriefingStatus,
+  buildHermesReadinessCompletionAssessment,
   executiveDecisionQueue,
 } from "@hermes/dashboard-kit";
 
 const generatedAt = "2026-07-25T12:00:00.000Z";
+export const hermesReadinessCompletion = buildHermesReadinessCompletionAssessment();
 
 function evidence(id: string, label: string, kind: ExecutiveEvidenceRef["kind"], href?: string): ExecutiveEvidenceRef {
   return {
@@ -177,8 +179,8 @@ const businessUnits: BusinessUnitReportContract[] = [
     businessUnitName: "Hermes OS",
     period: "24h",
     status: "watch",
-    readinessPercent: 58,
-    summary: "Strong local technical control plane; live enterprise integration and always-on runtime remain open.",
+    readinessPercent: hermesReadinessCompletion.currentOverallPercent,
+    summary: "Local executive command-center surface and control-plane contracts are now stronger; live enterprise integration and always-on runtime remain open.",
     coceoRead: "Use Hermes as the technical builder rail. Do not treat it as a normal revenue-owning business unit.",
     currentFocus: ["executive reporting", "project feeds", "production evidence", "safe runtime"],
     blockers: ["TLC authority matrix", "production SSH/drills", "central logs", "external secret rails"],
@@ -286,16 +288,16 @@ export const sampleExecutiveBriefing: ExecutiveBriefingContract = {
   organizationName: "TLC Capital Group",
   period: "24h",
   status: "watch",
-  summary: "The system is ready for executive reporting contracts and project-feed standardization. Local Hermes technical control-plane capability is stronger than previously reflected, but production integration and live operating feeds are still the main gap.",
+  summary: hermesReadinessCompletion.summary,
   whatChanged: [
     "The handoff now accounts for the separate projects/hermes implementation.",
-    "Overall readiness moved from 52% to 58% after recognizing local technical control-plane maturity.",
+    `Overall readiness moved from ${hermesReadinessCompletion.previousOverallPercent}% to ${hermesReadinessCompletion.currentOverallPercent}% after adding the executive command surface, plan intelligence, and readiness boundary model.`,
     "Cost cockpit V2 gives the target shape for business-unit spend and provider attribution.",
   ],
   topPriorities: [
-    "Create structured co-CEO and officer reports.",
     "Roll out standard project outcome/report feeds.",
-    "Build the Executive Briefing Room as the first-screen operating layer.",
+    "Add adapter ingestion status to the Executive Briefing Room.",
+    "Connect cost and capacity telemetry once provider billing credentials exist.",
     "Keep production actions and paid-provider fallbacks approval-gated.",
   ],
   decisionsNeeded: [
@@ -325,6 +327,7 @@ export function buildExecutiveBriefingViewModel(briefing = sampleExecutiveBriefi
     : 0;
   return {
     briefing,
+    readinessCompletion: hermesReadinessCompletion,
     status: aggregateExecutiveBriefingStatus(briefing),
     decisions,
     atRiskUnits,
@@ -333,4 +336,3 @@ export function buildExecutiveBriefingViewModel(briefing = sampleExecutiveBriefi
     averageReadiness,
   };
 }
-

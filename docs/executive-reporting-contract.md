@@ -1,6 +1,6 @@
 # Executive Reporting Contract
 
-Status: implemented as a static contract and dashboard route.
+Status: implemented as a static contract, dashboard route, and readiness completion boundary.
 Last updated: 2026-07-25.
 
 ## Purpose
@@ -21,6 +21,7 @@ It does not replace project dashboards. It consumes project-level reports and tu
 The shared contract lives in:
 
 - `packages/hermes-dashboard-kit/src/executive-reports.ts`
+- `packages/hermes-dashboard-kit/src/readiness-completion.ts`
 
 The first sample feed lives in:
 
@@ -30,6 +31,13 @@ The dashboard route lives in:
 
 - `web/src/pages/ExecutiveBriefingRoomPage.tsx`
 - `/executive-briefing`
+
+The route now distinguishes:
+
+- locally completed command-center capabilities
+- local build queue items
+- downstream project work
+- external blockers that require credentials, production access, or authority signoff
 
 ## Data Ownership
 

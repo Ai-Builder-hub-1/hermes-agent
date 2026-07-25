@@ -107,7 +107,9 @@ User / Human Co-CEO
 
 Hermes is a strong architecture and dashboard control-plane foundation, but it is not yet a fully live, always-on, multi-agent operating company layer.
 
-Current overall readiness estimate after accounting for the separate `projects/hermes` implementation: **58%**.
+Current overall readiness estimate after accounting for the separate `projects/hermes` implementation and the Nous executive command-center layer: **64%**.
+
+The local command-center surface is farther along than the live operating system. Current local surface readiness is estimated at **76%** because the dashboard shell, executive briefing route, plan command center, reporting contracts, capacity cockpit prototype, and readiness completion boundary now exist. External integration readiness remains closer to **49%** because provider billing, live project feeds, production drill evidence, and always-on worker execution still depend on credentials, production access, or downstream project implementation.
 
 This estimate is intentionally conservative because many surfaces are implemented as plans, contracts, static prototypes, local routes, validators, and sample runtime evidence. The major remaining gap is live production execution, automatic telemetry ingestion, durable artifacts, provider billing reconciliation, and true multi-agent task execution.
 
@@ -279,20 +281,20 @@ Level 4: Raw logs, records, and evidence
 | Architecture-first framework | Green | 85% | Low | Strong docs, contracts, CLI concepts, and governance posture exist. |
 | Control plane foundation | Yellow | 68% | Medium | `projects/hermes` has a strong local technical control plane; live orchestration and enterprise integration remain incomplete. |
 | Project registry | Green | 85% | Low | `projects/hermes` includes project registry/runtime contracts; production sync and cross-repo consumption still need hardening. |
-| Dashboard design system | Green | 85% | Medium | Package, static adapter, recipes, registry, prototypes, and validators exist. Adoption is uneven. |
-| Executive cockpit | Yellow | 55% | Medium | V40 and cost cockpit prototypes exist; live officer reporting and decision queue still needed. |
+| Dashboard design system | Green | 88% | Medium | Package, static adapter, recipes, registry, prototypes, validators, executive briefing, and capacity/readiness surfaces exist. Adoption is uneven. |
+| Executive cockpit | Yellow | 68% | Medium | Executive Briefing Room, reporting contract, decision queue, evidence rollups, and completion boundary exist; live officer reporting adapters still needed. |
 | Task queue | Yellow | 70% | Medium | `projects/hermes` has queue persistence, priority, state, task manager, and tests; cross-runtime dispatch still needs completion. |
 | Agent dispatcher | Yellow | 42% | High | `projects/hermes` has agent roles, registration, delegation, assignment, and communication modules; production worker dispatch remains incomplete. |
-| Context engine | Yellow | 58% | Medium | `projects/hermes` has context manager and project context loader; automatic packaging across all projects remains incomplete. |
+| Context engine | Yellow | 63% | Medium | `projects/hermes` has context manager and project context loader; Nous now has plan indexing and command-center summaries, but automatic packaging across all projects remains incomplete. |
 | Artifact system | Yellow | 70% | Medium | `projects/hermes` writes evidence artifacts and reports; durable external backend and retention policy are not complete. |
 | Review pipeline | Yellow | 45% | High | `projects/hermes` has review managers and evidence bundle writers; independent review and promotion enforcement still need end-to-end hardening. |
 | VPS runtime | Yellow | 35% | High | `projects/hermes/deploy/hetzner` has deployment scripts and compose assets; always-on worker runtime and production drills remain open. |
 | Production operations | Yellow | 45% | High | Routes and command plans exist; live sweeps, screenshots, promotion, secret scans, and incidents need completion. |
-| Cost/capacity observability | Yellow | 45% | High | Cost cockpit prototype exists; universal telemetry and provider reconciliation are missing. |
+| Cost/capacity observability | Yellow | 58% | High | Cost cockpit and capacity command prototypes exist; universal telemetry, provider billing credentials, and provider reconciliation are missing. |
 | Security and approvals | Yellow | 55% | High | Breaker concepts and permission audit exist; enforcement coverage is incomplete. |
 | Mobile control | Red | 10% | Medium | Mobile dashboard/control surface is not built. |
 | Multi-agent execution | Yellow | 35% | High | `projects/hermes` has local agent role/delegation/communication foundations; live parallel worker execution and merge coordination are not ready. |
-| Business-unit readiness hub | Yellow | 60% | Medium | Readiness contracts exist across TLC OS; automatic project reporting still uneven. |
+| Business-unit readiness hub | Yellow | 68% | Medium | Readiness contracts, project plan command center, and executive briefing cards exist; automatic project reporting still uneven. |
 
 ## 3A. `projects/hermes` Actual Implementation Assessment
 
@@ -786,23 +788,24 @@ Exit criteria:
 | Architecture | 88% |
 | Planning | 90% |
 | Documentation | 88% |
-| Dashboard foundation | 80% |
-| Executive reporting | 35% |
+| Dashboard foundation | 86% |
+| Executive reporting | 68% |
 | Infrastructure | 42% |
 | Automation | 52% |
 | Multi-agent | 35% |
 | Security and approvals | 55% |
-| Observability | 35% |
+| Observability | 45% |
 | Deployment | 40% |
-| Cost/capacity attribution | 45% |
+| Cost/capacity attribution | 58% |
 | Mobile | 10% |
 
-Overall readiness: **approximately 58%**.
+Overall readiness: **approximately 64%**.
 
 Interpretation:
 
 - Hermes is past the early planning stage.
 - The local Hermes technical control-plane implementation is meaningful and should be reused.
+- Nous Hermes now has the executive command-center surface, reporting contract, project-plan intelligence, and readiness completion boundary needed for the first operating layer.
 - The system is not yet ready for broad autonomous production execution.
 - The next gains come from live adapters, durable runtime, standardized reporting, and enforcement.
 

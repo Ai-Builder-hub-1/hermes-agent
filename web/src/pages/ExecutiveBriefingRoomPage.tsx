@@ -58,7 +58,16 @@ function decisionToAction(decision: ExecutiveDecisionRequest): ExecutiveActionIt
 
 export default function ExecutiveBriefingRoomPage() {
   const view = useMemo(() => buildExecutiveBriefingViewModel(), []);
-  const { briefing, status, decisions, atRiskUnits, unknownUnits, officerReportCount, averageReadiness } = view;
+  const {
+    briefing,
+    readinessCompletion,
+    status,
+    decisions,
+    atRiskUnits,
+    unknownUnits,
+    officerReportCount,
+    averageReadiness,
+  } = view;
   const actionItems = decisions.map(decisionToAction);
 
   return (
@@ -69,6 +78,7 @@ export default function ExecutiveBriefingRoomPage() {
           description="TLC executive rollup."
           items={[
             { id: "brief", label: "Daily Brief", href: "#brief", active: true, icon: Building2 },
+            { id: "completion", label: "Completion", href: "#completion", icon: ShieldCheck },
             { id: "units", label: "Business Units", href: "#units", icon: BarChart3 },
             { id: "officers", label: "Officer Reports", href: "#officers", icon: FileText },
             { id: "decisions", label: "Decision Queue", href: "#decisions", icon: ListChecks },
@@ -123,6 +133,70 @@ export default function ExecutiveBriefingRoomPage() {
           icon={ShieldCheck}
         />
       </MetricGrid>
+
+      <DashboardSection
+        id="completion"
+        title="Completion Boundary"
+        description="Separates local command-center completion from downstream and external integration work."
+      >
+        <div className="grid gap-4 xl:grid-cols-[minmax(0,1.1fr)_minmax(20rem,0.9fr)]">
+          <InsightPanel title="Local Completion Read" tone="info">
+            <p className="text-sm text-muted-foreground">{readinessCompletion.summary}</p>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <ProgressMetric
+                label="Overall Readiness"
+                value={readinessCompletion.currentOverallPercent}
+                tone={toneForReadiness(readinessCompletion.currentOverallPercent)}
+                detail={`Previously ${readinessCompletion.previousOverallPercent}%`}
+              />
+              <ProgressMetric
+                label="Local Surface"
+                value={readinessCompletion.localSurfacePercent}
+                tone={toneForReadiness(readinessCompletion.localSurfacePercent)}
+                detail="Dashboard, contracts, plan intelligence, and briefing layer"
+              />
+              <ProgressMetric
+                label="External Integration"
+                value={readinessCompletion.externalIntegrationPercent}
+                tone={toneForReadiness(readinessCompletion.externalIntegrationPercent)}
+                detail="Credentials, production evidence, live feeds, workers"
+              />
+            </div>
+          </InsightPanel>
+          <div className="rounded-lg border border-border bg-background p-3">
+            <h3 className="text-sm font-semibold text-foreground">Still Needed</h3>
+            <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+              {readinessCompletion.externalBlockers.map((blocker) => <li key={blocker}>{blocker}</li>)}
+            </ul>
+          </div>
+        </div>
+        <div className="mt-4 grid gap-3 lg:grid-cols-3">
+          {readinessCompletion.areas.map((area) => (
+            <article key={area.id} className="rounded-md border border-border bg-background p-3">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="text-xs text-muted-foreground">{area.ownerProjectId}</div>
+                  <h3 className="mt-1 text-sm font-semibold text-foreground">{area.label}</h3>
+                </div>
+                <StatusPill tone={area.kind === "external-blocked" ? "critical" : area.kind === "local-complete" ? "success" : "warning"}>
+                  {area.kind.replaceAll("-", " ")}
+                </StatusPill>
+              </div>
+              <div className="mt-3">
+                <ProgressMetric
+                  label="Readiness"
+                  value={area.currentPercent}
+                  tone={toneForReadiness(area.currentPercent)}
+                  detail={`${area.previousPercent}% to ${area.currentPercent}% of ${area.targetPercent}% target`}
+                />
+              </div>
+              <div className="mt-3 text-xs text-muted-foreground">
+                {area.externalBlockers[0] ?? area.remainingLocalWork[0] ?? area.evidence[0]}
+              </div>
+            </article>
+          ))}
+        </div>
+      </DashboardSection>
 
       <DashboardSection
         id="brief"
