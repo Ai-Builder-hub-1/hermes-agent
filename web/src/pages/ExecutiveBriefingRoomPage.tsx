@@ -4,8 +4,11 @@ import {
   BarChart3,
   Building2,
   CircleDollarSign,
+  GitBranch,
+  KeyRound,
   FileText,
   ListChecks,
+  Rocket,
   ShieldCheck,
 } from "lucide-react";
 import {
@@ -46,6 +49,21 @@ function actionUrgency(decision: ExecutiveDecisionRequest): ExecutiveActionItem[
   return "low";
 }
 
+function toneForFeedState(state: string): DashboardTone {
+  if (state === "ready") return "success";
+  if (state === "manual-sample" || state === "stubbed") return "warning";
+  if (state === "available" || state === "planned") return "info";
+  if (state === "blocked") return "critical";
+  return "unknown";
+}
+
+function toneForActionGate(state: string): DashboardTone {
+  if (state === "ready") return "success";
+  if (state === "approval-required") return "warning";
+  if (state === "blocked") return "critical";
+  return "unknown";
+}
+
 function decisionToAction(decision: ExecutiveDecisionRequest): ExecutiveActionItem {
   return {
     id: decision.id,
@@ -79,6 +97,8 @@ export default function ExecutiveBriefingRoomPage() {
           items={[
             { id: "brief", label: "Daily Brief", href: "#brief", active: true, icon: Building2 },
             { id: "completion", label: "Completion", href: "#completion", icon: ShieldCheck },
+            { id: "feeds", label: "Feeds", href: "#feeds", icon: GitBranch },
+            { id: "actions", label: "Actions", href: "#actions", icon: Rocket },
             { id: "units", label: "Business Units", href: "#units", icon: BarChart3 },
             { id: "officers", label: "Officer Reports", href: "#officers", icon: FileText },
             { id: "decisions", label: "Decision Queue", href: "#decisions", icon: ListChecks },
@@ -195,6 +215,113 @@ export default function ExecutiveBriefingRoomPage() {
               </div>
             </article>
           ))}
+        </div>
+      </DashboardSection>
+
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_24rem]">
+        <DashboardSection
+          id="feeds"
+          title="Project Feed Adapters"
+          description="The registry Hermes will use to consume business-unit, technical-control, and shared-capability reports."
+        >
+          <div className="grid gap-3 lg:grid-cols-2">
+            {readinessCompletion.projectFeedAdapters.map((adapter) => (
+              <article key={adapter.id} className="rounded-md border border-border bg-background p-3">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="text-xs text-muted-foreground">{adapter.projectId} / {adapter.role.replaceAll("-", " ")}</div>
+                    <h3 className="mt-1 text-sm font-semibold text-foreground">{adapter.projectName}</h3>
+                  </div>
+                  <StatusPill tone={toneForFeedState(adapter.state)}>{adapter.state.replaceAll("-", " ")}</StatusPill>
+                </div>
+                <dl className="mt-3 grid gap-3 text-sm md:grid-cols-2">
+                  <div>
+                    <dt className="text-xs text-muted-foreground">Contract</dt>
+                    <dd className="mt-1 text-foreground">{adapter.expectedContract}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-xs text-muted-foreground">Source</dt>
+                    <dd className="mt-1 text-foreground">{adapter.source}</dd>
+                  </div>
+                </dl>
+                <p className="mt-3 text-sm text-muted-foreground">{adapter.nextStep}</p>
+                {adapter.blocker ? <div className="mt-2 text-xs text-muted-foreground">Blocked by: {adapter.blocker}</div> : null}
+              </article>
+            ))}
+          </div>
+        </DashboardSection>
+
+        <DashboardSection
+          id="integrations"
+          title="Human Setup Queue"
+          description="Credentials, authority decisions, and production variables the system cannot create by itself."
+        >
+          <div className="space-y-3">
+            {readinessCompletion.humanIntegrationChecklist.map((item) => (
+              <article key={item.id} className="rounded-md border border-border bg-background p-3">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <div className="text-xs text-muted-foreground">{item.owner}</div>
+                    <h3 className="mt-1 text-sm font-semibold text-foreground">{item.label}</h3>
+                  </div>
+                  <StatusPill tone={item.priority === "critical" ? "critical" : "warning"}>{item.priority}</StatusPill>
+                </div>
+                <div className="mt-3 flex items-start gap-2 text-xs text-muted-foreground">
+                  <KeyRound className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                  <span>{item.requiredValues.join(", ")}</span>
+                </div>
+                <p className="mt-3 text-xs text-muted-foreground">{item.destination}</p>
+              </article>
+            ))}
+          </div>
+        </DashboardSection>
+      </div>
+
+      <DashboardSection
+        id="actions"
+        title="Action Gates And Production Evidence"
+        description="Actions Hermes can prepare, which ones require approval, and what proof is still needed before production autonomy."
+      >
+        <div className="grid gap-4 xl:grid-cols-2">
+          <div className="grid gap-3 md:grid-cols-2">
+            {readinessCompletion.actionGates.map((gate) => (
+              <article key={gate.id} className="rounded-md border border-border bg-background p-3">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <div className="text-xs text-muted-foreground">{gate.category} / {gate.risk} risk</div>
+                    <h3 className="mt-1 text-sm font-semibold text-foreground">{gate.label}</h3>
+                  </div>
+                  <StatusPill tone={toneForActionGate(gate.state)}>{gate.state.replaceAll("-", " ")}</StatusPill>
+                </div>
+                <p className="mt-3 text-sm text-muted-foreground">{gate.nextStep}</p>
+                <dl className="mt-3 grid gap-3 border-t border-border pt-3 text-xs sm:grid-cols-2">
+                  <div>
+                    <dt className="text-muted-foreground">Target</dt>
+                    <dd className="mt-1 text-foreground">{gate.commandTarget}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-muted-foreground">Approval</dt>
+                    <dd className="mt-1 text-foreground">{gate.requiresHumanApproval ? "required" : "not required"}</dd>
+                  </div>
+                </dl>
+              </article>
+            ))}
+          </div>
+          <div className="space-y-3">
+            {readinessCompletion.productionEvidence.map((item) => (
+              <article key={item.id} className="rounded-md border border-border bg-background p-3">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <div className="text-xs text-muted-foreground">{item.environment}</div>
+                    <h3 className="mt-1 text-sm font-semibold text-foreground">{item.label}</h3>
+                  </div>
+                  <StatusPill tone={toneForFeedState(item.state)}>{item.state}</StatusPill>
+                </div>
+                <p className="mt-3 text-sm text-muted-foreground">{item.currentEvidence}</p>
+                <div className="mt-2 text-xs text-muted-foreground">Needed: {item.requiredEvidence}</div>
+              </article>
+            ))}
+          </div>
         </div>
       </DashboardSection>
 

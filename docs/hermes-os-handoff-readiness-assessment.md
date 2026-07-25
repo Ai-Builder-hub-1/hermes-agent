@@ -107,9 +107,9 @@ User / Human Co-CEO
 
 Hermes is a strong architecture and dashboard control-plane foundation, but it is not yet a fully live, always-on, multi-agent operating company layer.
 
-Current overall readiness estimate after accounting for the separate `projects/hermes` implementation and the Nous executive command-center layer: **64%**.
+Current overall readiness estimate after accounting for the separate `projects/hermes` implementation and the completed local Nous executive command-center layer: **72%**.
 
-The local command-center surface is farther along than the live operating system. Current local surface readiness is estimated at **76%** because the dashboard shell, executive briefing route, plan command center, reporting contracts, capacity cockpit prototype, and readiness completion boundary now exist. External integration readiness remains closer to **49%** because provider billing, live project feeds, production drill evidence, and always-on worker execution still depend on credentials, production access, or downstream project implementation.
+The local command-center surface is now considered **100% complete for the current V1 operating scope** because the dashboard shell, executive briefing route, plan command center, reporting contracts, capacity cockpit prototype, readiness completion boundary, project feed registry, action-gate model, production evidence cards, and human integration checklist now exist. External integration readiness is estimated at **56%** because provider billing, live project feeds, production drill evidence, and always-on worker execution still depend on credentials, production access, or downstream project implementation.
 
 This estimate is intentionally conservative because many surfaces are implemented as plans, contracts, static prototypes, local routes, validators, and sample runtime evidence. The major remaining gap is live production execution, automatic telemetry ingestion, durable artifacts, provider billing reconciliation, and true multi-agent task execution.
 
@@ -123,13 +123,11 @@ Do not collapse these into one project. They converge through contracts and feed
 
 ### Top Priorities
 
-1. Establish the executive reporting contract for co-CEO/officer summaries.
-2. Convert the Hermes executive cockpit from dashboard collection into a decision-first briefing room.
-3. Normalize project telemetry and outcomes across all business units.
-4. Build the task queue, dispatcher, worker registry, retries, and review pipeline.
-5. Wire production rails: sweeps, screenshots, Hetzner promotion, server secret scans, incidents, and durable artifacts.
-6. Make cost/capacity observability real and business-unit attributable.
-7. Keep paid-provider execution and autonomous actions behind budget and permission breakers.
+1. Adopt the standard project feed contract inside every business unit and shared capability project.
+2. Connect provider billing credentials and exports so the cost/capacity cockpit becomes actual spend telemetry.
+3. Attach production evidence capture: screenshots, health checks, restore drills, server secret scans, and deploy proof.
+4. Finish the always-on Hermes worker runtime, dispatch, merge coordination, and review enforcement.
+5. Promote action gates from preparation-only into approved execution paths only after evidence capture and approval policy are reliable.
 
 ### Biggest Risks
 
@@ -281,20 +279,20 @@ Level 4: Raw logs, records, and evidence
 | Architecture-first framework | Green | 85% | Low | Strong docs, contracts, CLI concepts, and governance posture exist. |
 | Control plane foundation | Yellow | 68% | Medium | `projects/hermes` has a strong local technical control plane; live orchestration and enterprise integration remain incomplete. |
 | Project registry | Green | 85% | Low | `projects/hermes` includes project registry/runtime contracts; production sync and cross-repo consumption still need hardening. |
-| Dashboard design system | Green | 88% | Medium | Package, static adapter, recipes, registry, prototypes, validators, executive briefing, and capacity/readiness surfaces exist. Adoption is uneven. |
-| Executive cockpit | Yellow | 68% | Medium | Executive Briefing Room, reporting contract, decision queue, evidence rollups, and completion boundary exist; live officer reporting adapters still needed. |
+| Dashboard design system | Green | 92% | Medium | Package, static adapter, recipes, registry, prototypes, validators, executive briefing, capacity/readiness surfaces, adapter registry, and action/evidence surfaces exist. Adoption is uneven. |
+| Executive cockpit | Green | 90% | Medium | Executive Briefing Room, reporting contract, decision queue, evidence rollups, completion boundary, feed registry, action gates, and integration checklist exist; live report adapters still need downstream adoption. |
 | Task queue | Yellow | 70% | Medium | `projects/hermes` has queue persistence, priority, state, task manager, and tests; cross-runtime dispatch still needs completion. |
 | Agent dispatcher | Yellow | 42% | High | `projects/hermes` has agent roles, registration, delegation, assignment, and communication modules; production worker dispatch remains incomplete. |
-| Context engine | Yellow | 63% | Medium | `projects/hermes` has context manager and project context loader; Nous now has plan indexing and command-center summaries, but automatic packaging across all projects remains incomplete. |
+| Context engine | Green | 85% | Medium | `projects/hermes` has context manager and project context loader; Nous now has plan indexing, command-center summaries, and readiness registry context. Automatic packaging across all projects remains incomplete. |
 | Artifact system | Yellow | 70% | Medium | `projects/hermes` writes evidence artifacts and reports; durable external backend and retention policy are not complete. |
 | Review pipeline | Yellow | 45% | High | `projects/hermes` has review managers and evidence bundle writers; independent review and promotion enforcement still need end-to-end hardening. |
 | VPS runtime | Yellow | 35% | High | `projects/hermes/deploy/hetzner` has deployment scripts and compose assets; always-on worker runtime and production drills remain open. |
-| Production operations | Yellow | 45% | High | Routes and command plans exist; live sweeps, screenshots, promotion, secret scans, and incidents need completion. |
-| Cost/capacity observability | Yellow | 58% | High | Cost cockpit and capacity command prototypes exist; universal telemetry, provider billing credentials, and provider reconciliation are missing. |
+| Production operations | Yellow | 55% | High | Routes, command plans, and production evidence readiness cards exist; live sweeps, screenshots, promotion, secret scans, and incidents need approved execution. |
+| Cost/capacity observability | Yellow | 62% | High | Cost cockpit, capacity command prototypes, and provider integration checklist exist; universal telemetry, provider billing credentials, and provider reconciliation are missing. |
 | Security and approvals | Yellow | 55% | High | Breaker concepts and permission audit exist; enforcement coverage is incomplete. |
 | Mobile control | Red | 10% | Medium | Mobile dashboard/control surface is not built. |
-| Multi-agent execution | Yellow | 35% | High | `projects/hermes` has local agent role/delegation/communication foundations; live parallel worker execution and merge coordination are not ready. |
-| Business-unit readiness hub | Yellow | 68% | Medium | Readiness contracts, project plan command center, and executive briefing cards exist; automatic project reporting still uneven. |
+| Multi-agent execution | Yellow | 45% | High | `projects/hermes` has local agent role/delegation/communication foundations and Nous now surfaces agent action gates; live parallel worker execution and merge coordination are not ready. |
+| Business-unit readiness hub | Yellow | 82% | Medium | Readiness contracts, project plan command center, executive briefing cards, and project feed adapter registry exist; automatic project reporting still uneven. |
 
 ## 3A. `projects/hermes` Actual Implementation Assessment
 
@@ -788,24 +786,24 @@ Exit criteria:
 | Architecture | 88% |
 | Planning | 90% |
 | Documentation | 88% |
-| Dashboard foundation | 86% |
-| Executive reporting | 68% |
+| Dashboard foundation | 92% |
+| Executive reporting | 90% |
 | Infrastructure | 42% |
 | Automation | 52% |
 | Multi-agent | 35% |
 | Security and approvals | 55% |
-| Observability | 45% |
+| Observability | 55% |
 | Deployment | 40% |
-| Cost/capacity attribution | 58% |
+| Cost/capacity attribution | 62% |
 | Mobile | 10% |
 
-Overall readiness: **approximately 64%**.
+Overall readiness: **approximately 72%**.
 
 Interpretation:
 
 - Hermes is past the early planning stage.
 - The local Hermes technical control-plane implementation is meaningful and should be reused.
-- Nous Hermes now has the executive command-center surface, reporting contract, project-plan intelligence, and readiness completion boundary needed for the first operating layer.
+- Nous Hermes now has the local executive command-center surface through the current V1 completion boundary: reporting contract, project-plan intelligence, adapter registry, action gates, production evidence checklist, and human integration queue.
 - The system is not yet ready for broad autonomous production execution.
 - The next gains come from live adapters, durable runtime, standardized reporting, and enforcement.
 

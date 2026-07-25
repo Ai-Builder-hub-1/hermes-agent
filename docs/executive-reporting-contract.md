@@ -1,6 +1,6 @@
 # Executive Reporting Contract
 
-Status: implemented as a static contract, dashboard route, and readiness completion boundary.
+Status: implemented as a static contract, dashboard route, readiness completion boundary, adapter registry, action-gate model, production evidence checklist, and human integration queue.
 Last updated: 2026-07-25.
 
 ## Purpose
@@ -32,12 +32,20 @@ The dashboard route lives in:
 - `web/src/pages/ExecutiveBriefingRoomPage.tsx`
 - `/executive-briefing`
 
+The human/external setup checklist lives in:
+
+- `docs/hermes-command-center-integration-checklist.md`
+
 The route now distinguishes:
 
 - locally completed command-center capabilities
 - local build queue items
 - downstream project work
 - external blockers that require credentials, production access, or authority signoff
+- project feed adapter state
+- command/action gate readiness
+- production evidence readiness
+- human-owned integration setup
 
 ## Data Ownership
 
@@ -56,9 +64,9 @@ These are intentionally not solved in the static contract layer:
 - paid model fallback approvals
 - final authority matrix signoff
 
-## Next Build Slice
+## External Adoption Slice
 
-Replace the static feed with project adapters that read report artifacts from:
+The local command-center surface is complete for the current V1 operating scope. The next work is external adoption: replace static and sample entries with project adapters that read report artifacts from:
 
 - TLC Capital Group OS
 - Hermes
@@ -68,3 +76,11 @@ Replace the static feed with project adapters that read report artifacts from:
 - Rinseables OS
 
 Each adapter should preserve source confidence, freshness, and evidence links so the executive surface can distinguish real telemetry from manually curated status.
+
+Execution actions should remain preparation-only until the relevant action gate has:
+
+- operator approval policy
+- evidence capture
+- rollback or bypass path
+- production secret posture
+- owner assignment
