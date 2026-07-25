@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Command + Model Cost Cockpit</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #eef3f5;
+      --panel: #ffffff;
+      --panel-2: #f7fafb;
+      --ink: #16232d;
+      --muted: #647582;
+      --border: #d6e0e6;
+      --accent: #176b87;
+      --accent-2: #0f8a7e;
+      --warn: #a66b12;
+      --risk: #b14545;
+      --ok: #2f7a53;
+      --shadow: 0 18px 40px rgb(23 46 63 / 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.35;
+    }
+    main { max-width: 1680px; margin: 0 auto; padding: 28px; }
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+    }
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: 28px; letter-spacing: 0; }
+    h2 { font-size: 20px; letter-spacing: 0; }
+    h3 { font-size: 14px; letter-spacing: 0; }
+    .muted { color: var(--muted); }
+    .meta, .chip, .nav a {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 8px 11px;
+      font-size: 13px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+    .screen {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      min-height: 820px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--panel-2);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .side {
+      border-right: 1px solid var(--border);
+      background: #ffffff;
+      padding: 16px;
+    }
+    .brand { font-weight: 800; font-size: 15px; margin-bottom: 18px; }
+    .side-item {
+      display: block;
+      border: 1px solid transparent;
+      border-radius: 7px;
+      padding: 9px 10px;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+    .side-item.active {
+      border-color: #b8d2dc;
+      background: #e9f5f7;
+      color: var(--accent);
+      font-weight: 720;
+    }
+    .content { padding: 18px; min-width: 0; }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+    .tabs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+    .tab {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 6px 9px;
+      font-size: 12px;
+    }
+    .tab.active { color: var(--accent); border-color: #98c9d6; background: #e9f5f7; font-weight: 700; }
+    .grid { display: grid; gap: 12px; }
+    .cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .span-2 { grid-column: span 2; }
+    .card, .decision-card, .provider-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 14px;
+      min-width: 0;
+    }
+    .card.warn, .decision-card.primary { border-color: #dfc58f; background: #fff8e7; }
+    .card.risk { border-color: #e0aaaa; background: #fff1f1; }
+    .provider-card.emphasis { border-color: #dfc58f; background: #fffdf6; }
+    .label {
+      color: var(--muted);
+      text-transform: uppercase;
+      font-size: 11px;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+    .value { font-size: 25px; font-weight: 820; margin-top: 5px; letter-spacing: 0; }
+    .delta { color: var(--muted); font-size: 12px; margin-top: 5px; }
+    .delta.up { color: var(--warn); }
+    .delta.down { color: var(--ok); }
+    .pill {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px 7px;
+      font-size: 12px;
+      color: var(--muted);
+      background: #fff;
+      white-space: nowrap;
+    }
+    .pill.warn { color: var(--warn); border-color: #dfc58f; background: #fff8e7; }
+    .pill.risk { color: var(--risk); border-color: #e0aaaa; background: #fff1f1; }
+    .pill.ok { color: var(--ok); border-color: #acd9c0; background: #eefaf3; }
+    .command-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 1.4fr .85fr;
+      gap: 12px;
+      align-items: start;
+      margin-top: 12px;
+    }
+    .decision-stack { display: grid; gap: 10px; }
+    .provider-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .lane-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+    .mini-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .mini-row:last-child { border-bottom: 0; }
+    .meter {
+      height: 9px;
+      border-radius: 999px;
+      background: #e1eaee;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    .meter span { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
+    .meter .warn { background: #c68a2b; }
+    .meter .risk { background: var(--risk); }
+    .action-list { display: grid; gap: 8px; margin-top: 10px; }
+    .action-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+      font-size: 13px;
+    }
+    .rank {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      display: inline-grid;
+      place-items: center;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 12px;
+      background: #fff;
+    }
+    .chart {
+      height: 180px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background:
+        linear-gradient(to top, transparent 24%, rgb(214 224 230 / .6) 25%, transparent 26%),
+        linear-gradient(to top, transparent 49%, rgb(214 224 230 / .6) 50%, transparent 51%),
+        linear-gradient(to top, transparent 74%, rgb(214 224 230 / .6) 75%, transparent 76%),
+        #ffffff;
+      position: relative;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+    .line {
+      position: absolute;
+      inset: 24px 18px 22px 18px;
+      clip-path: polygon(0 74%, 16% 62%, 31% 68%, 46% 45%, 60% 39%, 78% 24%, 100% 31%, 100% 100%, 0 100%);
+      background: linear-gradient(180deg, rgb(23 107 135 / .35), rgb(23 107 135 / .05));
+      border-top: 3px solid var(--accent);
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 9px 8px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: middle; }
+    th { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0; }
+    tr:last-child td { border-bottom: 0; }
+    @media (max-width: 1180px) {
+      main { padding: 16px; }
+      .screen, .command-grid, .cols-4, .cols-3, .provider-grid { grid-template-columns: 1fr; }
+      .side { border-right: 0; border-bottom: 1px solid var(--border); }
+      .span-2 { grid-column: auto; }
+      header { grid-template-columns: 1fr; }
+      .topbar { display: grid; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>Command + Model Cost Cockpit</h1>
+        <p class="muted">Standalone prototype 6. This is the combination of prototype 1's command-first posture and prototype 3's provider/model cost observability.</p>
+      </div>
+      <div class="meta">Review candidate · Capacity Command Center</div>
+    </header>
+    <nav class="nav" aria-label="Prototype links">
+      <a href="./capacity-command-center.html">All Capacity Prototypes</a>
+      <a href="./index.html">Prototype Gallery</a>
+    </nav>
+
+    <section class="screen">
+      <aside class="side">
+        <div class="brand">Hermes Cost Cockpit</div>
+        <span class="side-item active">Command</span>
+        <span class="side-item">Provider Lanes</span>
+        <span class="side-item">Fallback Gates</span>
+        <span class="side-item">Business Units</span>
+        <span class="side-item">Revenue Context</span>
+        <span class="side-item">Data Trust</span>
+      </aside>
+      <div class="content">
+        <div class="topbar">
+          <div>
+            <h2>Command + Model Cost Cockpit</h2>
+            <p class="muted">30-day posture - start with what needs a decision, then show the provider/model lane causing it.</p>
+          </div>
+          <div class="tabs"><span class="tab">3d</span><span class="tab">7d</span><span class="tab">14d</span><span class="tab active">30d</span><span class="tab">90d</span></div>
+        </div>
+
+        <div class="grid cols-4">
+          <div class="card warn"><div class="label">Operator Attention</div><div class="value">Review fallback</div><p class="delta up">OpenAI premium lane rose faster than outputs.</p></div>
+          <div class="card"><div class="label">Budget Remaining</div><div class="value">$1,158</div><p class="delta">42% used this month.</p></div>
+          <div class="card risk"><div class="label">Missing Data</div><div class="value">2 feeds</div><p class="delta">local Codex ledger + provider balance.</p></div>
+          <div class="card"><div class="label">Known Output Yield</div><div class="value">218</div><p class="delta">successful outputs in 30d.</p></div>
+        </div>
+
+        <div class="command-grid">
+          <div class="decision-stack">
+            <div class="decision-card primary">
+              <div class="label">Decision Now</div>
+              <div class="value">Hold premium auto-upgrade</div>
+              <p class="delta">Premium model fallback should stay approval-gated until output quality scorecards prove the extra cost is worth it.</p>
+            </div>
+            <div class="decision-card">
+              <div class="label">Budget Gate</div>
+              <div class="mini-row"><span>Monthly cap</span><strong>$2,000</strong></div>
+              <div class="mini-row"><span>Known used</span><strong>$842</strong></div>
+              <div class="mini-row"><span>Forecast pressure</span><span class="pill warn">watch</span></div>
+            </div>
+            <div class="card risk">
+              <div class="label">Trust Warning</div>
+              <p class="delta">Revenue and local Codex usage are not reliable enough for ROI automation. Show them as unknown, not zero.</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="label">Provider And Model Lanes</div>
+            <div class="provider-grid">
+              <div class="provider-card emphasis">
+                <div class="lane-head"><strong>OpenAI</strong><span class="pill warn">watch</span></div>
+                <div class="value">$186.40</div>
+                <p class="delta up">452k tokens · 12 fallback events</p>
+                <div class="meter"><span class="warn" style="width:72%"></span></div>
+                <div class="mini-row"><span>Gate</span><strong>approval required</strong></div>
+                <div class="mini-row"><span>Main driver</span><strong>dashboard prototypes</strong></div>
+              </div>
+              <div class="provider-card">
+                <div class="lane-head"><strong>Gemini</strong><span class="pill ok">healthy</span></div>
+                <div class="value">$41.70</div>
+                <p class="delta">284k tokens · stable draft lane</p>
+                <div class="meter"><span style="width:42%"></span></div>
+                <div class="mini-row"><span>Gate</span><strong>open</strong></div>
+                <div class="mini-row"><span>Main driver</span><strong>media generation</strong></div>
+              </div>
+              <div class="provider-card">
+                <div class="lane-head"><strong>DeepSeek</strong><span class="pill ok">healthy</span></div>
+                <div class="value">$9.20</div>
+                <p class="delta down">139k tokens · low-cost lane</p>
+                <div class="meter"><span style="width:19%"></span></div>
+                <div class="mini-row"><span>Gate</span><strong>draft allowed</strong></div>
+                <div class="mini-row"><span>Main driver</span><strong>coding support</strong></div>
+              </div>
+              <div class="provider-card">
+                <div class="lane-head"><strong>Local Codex</strong><span class="pill risk">unknown</span></div>
+                <div class="value">No ledger</div>
+                <p class="delta">cost is not API-billed, but usage telemetry is missing</p>
+                <div class="meter"><span class="risk" style="width:54%"></span></div>
+                <div class="mini-row"><span>Gate</span><strong>needs feed</strong></div>
+                <div class="mini-row"><span>Main driver</span><strong>manual build work</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="decision-stack">
+            <div class="card">
+              <div class="label">Next Actions</div>
+              <div class="action-list">
+                <div class="action-item"><span class="rank">1</span><div><strong>Review OpenAI fallback</strong><br><span class="muted">Keep premium upgrades manual.</span></div></div>
+                <div class="action-item"><span class="rank">2</span><div><strong>Connect local ledger</strong><br><span class="muted">Without it, Codex work looks artificially cheap.</span></div></div>
+                <div class="action-item"><span class="rank">3</span><div><strong>Add revenue feed</strong><br><span class="muted">Needed before ROI decisions.</span></div></div>
+              </div>
+            </div>
+            <div class="card warn">
+              <div class="label">Current Stance</div>
+              <div class="value">Operate, do not scale</div>
+              <p class="delta">The system is usable for observation, but not ready for automatic budget expansion.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid cols-3" style="margin-top:12px">
+          <div class="card span-2">
+            <div class="label">Business Unit Context</div>
+            <table>
+              <thead><tr><th>Unit</th><th>Cost</th><th>Provider Driver</th><th>Revenue</th><th>Decision</th></tr></thead>
+              <tbody>
+                <tr><td>Media Engine</td><td>$138.20</td><td>Gemini + OpenAI</td><td>unknown</td><td><span class="pill warn">optimize workflows</span></td></tr>
+                <tr><td>Nous Hermes Agent</td><td>$92.50</td><td>OpenAI + local Codex</td><td>N/A</td><td><span class="pill risk">connect ledger</span></td></tr>
+                <tr><td>Khashi VC</td><td>$28.70</td><td>deterministic + research</td><td>$0</td><td><span class="pill warn">watch scans</span></td></tr>
+                <tr><td>TLC Enterprise</td><td>$19.60</td><td>readiness rollups</td><td>pending</td><td><span class="pill ok">low burn</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card">
+            <div class="label">Cost Trend</div>
+            <div class="chart"><div class="line"></div></div>
+            <p class="delta up">14d-to-30d increase was driven mostly by prototype work and premium fallback.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

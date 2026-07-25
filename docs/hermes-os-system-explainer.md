@@ -1,5 +1,7 @@
 # Hermes OS System Explainer
 
+Primary handoff: read `docs/hermes-os-handoff-readiness-assessment.md` before starting new Hermes/TLC operating-system work. It summarizes current readiness, gaps, decisions, technical debt, and the master build roadmap.
+
 ## What This System Is
 
 Hermes OS is being shaped into an architecture-first control plane. Its job is not to be a giant pile of project logic. Its job is to govern how projects are designed, planned, executed, validated, stored, and improved.

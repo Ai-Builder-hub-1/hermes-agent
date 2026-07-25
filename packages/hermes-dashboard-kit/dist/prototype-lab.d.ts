@@ -23,7 +23,7 @@ export interface DashboardPrototypeVariant {
 export interface DashboardPrototypePreviewEvidence {
     id: string;
     label: string;
-    kind: "static-gallery" | "app-route" | "screenshot" | "mobbin-reference" | "notes";
+    kind: "static-gallery" | "app-route" | "screenshot" | "mobbin-reference" | "reference-review" | "notes";
     path: string;
     capturedAt?: string;
 }

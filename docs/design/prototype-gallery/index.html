@@ -164,7 +164,7 @@
         <h1>Hermes Dashboard Prototype Gallery</h1>
         <p class="muted">Generated from the prototype registry. Use this to compare operator workflows before production UI changes.</p>
       </div>
-      <div class="meta">2 prototype sets · 2026-07-23T21:20:01.457Z</div>
+      <div class="meta">3 prototype sets · 2026-07-25T12:03:00.771Z</div>
     </header>
     <section class="set">
   <div class="set-header">
@@ -371,6 +371,276 @@
     </div>
     
     
+  </div>
+</article></div>
+</section>
+<section class="set">
+  <div class="set-header">
+    <div>
+      <h2>Capacity Command Center</h2>
+      <p class="muted">hermes-technical-central-command · Create the first portfolio-level capacity cockpit for tokens, provider usage, cost pressure, storage, API calls, throughput, missing data, and budget gates across TLC/Hermes business units.</p>
+      <p class="selected-line"><strong>Selected Direction:</strong> Hermes Cost Cockpit V2 · After reviewing Mobbin references for OpenAI usage, Vercel quotas, Stripe billing, Postman observability, Cursor usage, and finance dashboards, the V2 cockpit best matches the desired posture: business-unit cards, time-window cost comparison, provider/model attribution, revenue context, and trust warnings in one executive command surface.</p>
+      <div class="question-list"><span class="chip">What are we spending or consuming right now?</span><span class="chip">Which business unit is consuming the most tokens, API calls, storage, scan capacity, or job throughput?</span><span class="chip">Which model, provider, or workflow is driving the increase?</span><span class="chip">Is usage improving, flat, or getting worse over 3, 7, 14, 30, and 90 days?</span><span class="chip">What budget or capacity threshold is close to breaking?</span><span class="chip">Which data is missing, stale, estimated, or not trusted yet?</span><span class="chip">What should the operator do next?</span></div>
+    </div>
+    <div class="meta">7 variants</div>
+  </div>
+  <div class="variants"><article class="variant">
+  <div class="variant-top">
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:start">
+      <h3>Command Strip + Capacity Body</h3>
+      <span class="status">draft</span>
+    </div>
+    <div class="workspace-row"><span class="workspace">command</span><span class="workspace">capacity</span><span class="workspace">operations</span></div>
+  </div>
+  <div class="variant-body">
+    <div class="mini-section">
+      <div class="mini-title">Operator Workflow</div>
+      <p class="muted">Lead with attention items, budget warnings, and recommended actions, then show portfolio usage, business-unit breakdowns, provider usage, and trend panels.</p>
+    </div>
+    <div class="mini-section">
+      <div class="mini-title">Reference Notes</div>
+      <ul><li>Executive attention rail</li><li>Dense capacity metrics</li><li>Budget warning strip</li><li>Operator next-actions block</li></ul>
+    </div>
+    <div class="mini-section">
+      <div class="mini-title">Data Requirements</div>
+      <div class="requirement">
+  <span>Portfolio capacity overview</span>
+  <strong class="partial">partial</strong>
+</div><div class="requirement">
+  <span>Capacity alerts and recommendations</span>
+  <strong class="partial">partial</strong>
+</div><div class="requirement">
+  <span>Budget gates and approvals</span>
+  <strong class="partial">partial</strong>
+</div>
+    </div>
+    <div class="mini-section"><div class="mini-title">Preview Evidence</div><ul><li>Command Strip + Capacity Body visual mockup · static-gallery · docs/design/prototype-gallery/capacity-command-center.html#command-strip-capacity-body</li></ul></div>
+    
+  </div>
+</article>
+<article class="variant">
+  <div class="variant-top">
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:start">
+      <h3>Portfolio Ledger</h3>
+      <span class="status">draft</span>
+    </div>
+    <div class="workspace-row"><span class="workspace">projects</span><span class="workspace">capacity</span><span class="workspace">command</span></div>
+  </div>
+  <div class="variant-body">
+    <div class="mini-section">
+      <div class="mini-title">Operator Workflow</div>
+      <p class="muted">Render every business unit as a dense comparison row with token use, API calls, storage, cost estimate, trend, stale data warnings, and next action.</p>
+    </div>
+    <div class="mini-section">
+      <div class="mini-title">Reference Notes</div>
+      <ul><li>Business-unit rank table</li><li>Embedded sparklines</li><li>Sortable resource columns</li><li>Data-trust status chips</li></ul>
+    </div>
+    <div class="mini-section">
+      <div class="mini-title">Data Requirements</div>
+      <div class="requirement">
+  <span>Business-unit capacity breakdown</span>
+  <strong class="partial">partial</strong>
+</div><div class="requirement">
+  <span>Project capacity feeds</span>
+  <strong class="partial">partial</strong>
+</div><div class="requirement">
+  <span>Data trust and freshness</span>
+  <strong class="partial">partial</strong>
+</div>
+    </div>
+    <div class="mini-section"><div class="mini-title">Preview Evidence</div><ul><li>Portfolio Ledger visual mockup · static-gallery · docs/design/prototype-gallery/capacity-command-center.html#portfolio-ledger</li></ul></div>
+    
+  </div>
+</article>
+<article class="variant">
+  <div class="variant-top">
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:start">
+      <h3>Provider / Model Observatory</h3>
+      <span class="status">draft</span>
+    </div>
+    <div class="workspace-row"><span class="workspace">capacity</span><span class="workspace">controls</span><span class="workspace">operations</span></div>
+  </div>
+  <div class="variant-body">
+    <div class="mini-section">
+      <div class="mini-title">Operator Workflow</div>
+      <p class="muted">Group usage by provider and model lane so the operator can see fallback pressure, premium-lane approvals, cheap-model usage, deterministic script volume, and provider budget risk.</p>
+    </div>
+    <div class="mini-section">
+      <div class="mini-title">Reference Notes</div>
+      <ul><li>Provider lanes</li><li>Model scorecards</li><li>Fallback status</li><li>Premium approval gates</li></ul>
+    </div>
+    <div class="mini-section">
+      <div class="mini-title">Data Requirements</div>
+      <div class="requirement">
+  <span>Provider usage</span>
+  <strong class="partial">partial</strong>
+</div><div class="requirement">
+  <span>Model lane usage</span>
+  <strong class="unknown">unknown</strong>
+</div><div class="requirement">
+  <span>Premium fallback approvals</span>
+  <strong class="unknown">unknown</strong>
+</div>
+    </div>
+    <div class="mini-section"><div class="mini-title">Preview Evidence</div><ul><li>Provider / Model Observatory visual mockup · static-gallery · docs/design/prototype-gallery/capacity-command-center.html#provider-model-observatory</li></ul></div>
+    
+  </div>
+</article>
+<article class="variant">
+  <div class="variant-top">
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:start">
+      <h3>Temporal Capacity Map</h3>
+      <span class="status">draft</span>
+    </div>
+    <div class="workspace-row"><span class="workspace">capacity</span><span class="workspace">intelligence</span><span class="workspace">projects</span></div>
+  </div>
+  <div class="variant-body">
+    <div class="mini-section">
+      <div class="mini-title">Operator Workflow</div>
+      <p class="muted">Start with time-window comparisons across 3, 7, 14, 30, and 90 days, then explain which projects, workflows, providers, or missing feeds caused the shape.</p>
+    </div>
+    <div class="mini-section">
+      <div class="mini-title">Reference Notes</div>
+      <ul><li>Time-window tabs</li><li>Small-multiple sparklines</li><li>Anomaly markers</li><li>Trend explanation rail</li></ul>
+    </div>
+    <div class="mini-section">
+      <div class="mini-title">Data Requirements</div>
+      <div class="requirement">
+  <span>Capacity trends by time window</span>
+  <strong class="partial">partial</strong>
+</div><div class="requirement">
+  <span>Workflow cost drivers</span>
+  <strong class="partial">partial</strong>
+</div><div class="requirement">
+  <span>Capacity anomaly events (optional)</span>
+  <strong class="unknown">unknown</strong>
+</div>
+    </div>
+    <div class="mini-section"><div class="mini-title">Preview Evidence</div><ul><li>Temporal Capacity Map visual mockup · static-gallery · docs/design/prototype-gallery/capacity-command-center.html#temporal-capacity-map</li></ul></div>
+    
+  </div>
+</article>
+<article class="variant">
+  <div class="variant-top">
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:start">
+      <h3>Business Unit Capacity Observatory</h3>
+      <span class="status">review</span>
+    </div>
+    <div class="workspace-row"><span class="workspace">projects</span><span class="workspace">capacity</span><span class="workspace">intelligence</span><span class="workspace">controls</span></div>
+  </div>
+  <div class="variant-body">
+    <div class="mini-section">
+      <div class="mini-title">Operator Workflow</div>
+      <p class="muted">Combine business-unit cards, multi-window trend comparison, provider attribution, optional revenue context, and selected-unit drilldown so the operator can move from portfolio cost to one business unit&#039;s operating KPIs without changing dashboards.</p>
+    </div>
+    <div class="mini-section">
+      <div class="mini-title">Reference Notes</div>
+      <ul><li>Business-unit card grid</li><li>Multi-line cost and revenue trend</li><li>Selected unit drilldown</li><li>Provider/model attribution</li><li>Data trust warnings for unknown revenue</li></ul>
+    </div>
+    <div class="mini-section">
+      <div class="mini-title">Data Requirements</div>
+      <div class="requirement">
+  <span>Business-unit capacity cards</span>
+  <strong class="partial">partial</strong>
+</div><div class="requirement">
+  <span>Business-unit cost trends</span>
+  <strong class="partial">partial</strong>
+</div><div class="requirement">
+  <span>Business-unit revenue feed (optional)</span>
+  <strong class="unknown">unknown</strong>
+</div><div class="requirement">
+  <span>Business-unit drilldown KPIs</span>
+  <strong class="partial">partial</strong>
+</div><div class="requirement">
+  <span>Provider attribution by business unit</span>
+  <strong class="partial">partial</strong>
+</div>
+    </div>
+    <div class="mini-section"><div class="mini-title">Preview Evidence</div><ul><li>Business Unit Capacity Observatory visual mockup · static-gallery · docs/design/prototype-gallery/capacity-command-center.html#business-unit-capacity-observatory</li></ul></div>
+    <div class="mini-section"><div class="mini-title">Promotion Targets</div><div class="question-list"><span class="chip">DashboardSnapshotContract</span><span class="chip">CapacityCommandCenterInput</span></div></div>
+  </div>
+</article>
+<article class="variant">
+  <div class="variant-top">
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:start">
+      <h3>Command + Model Cost Cockpit</h3>
+      <span class="status">review</span>
+    </div>
+    <div class="workspace-row"><span class="workspace">command</span><span class="workspace">capacity</span><span class="workspace">controls</span><span class="workspace">operations</span></div>
+  </div>
+  <div class="variant-body">
+    <div class="mini-section">
+      <div class="mini-title">Operator Workflow</div>
+      <p class="muted">Lead with operator attention, budget gates, missing feeds, and recommended decisions, then make provider/model lanes the primary analytical body so the operator can see which model or provider is causing cost pressure before drilling into business-unit context.</p>
+    </div>
+    <div class="mini-section">
+      <div class="mini-title">Reference Notes</div>
+      <ul><li>Command-first attention rail</li><li>Provider/model cost lanes</li><li>Fallback approval gates</li><li>Business-unit context table</li><li>Revenue and local ledger trust warnings</li></ul>
+    </div>
+    <div class="mini-section">
+      <div class="mini-title">Data Requirements</div>
+      <div class="requirement">
+  <span>Capacity alerts and recommended decisions</span>
+  <strong class="partial">partial</strong>
+</div><div class="requirement">
+  <span>Provider/model cost lanes</span>
+  <strong class="partial">partial</strong>
+</div><div class="requirement">
+  <span>Fallback approval gates</span>
+  <strong class="unknown">unknown</strong>
+</div><div class="requirement">
+  <span>Business-unit provider attribution</span>
+  <strong class="partial">partial</strong>
+</div><div class="requirement">
+  <span>Revenue and local ledger trust (optional)</span>
+  <strong class="unknown">unknown</strong>
+</div>
+    </div>
+    <div class="mini-section"><div class="mini-title">Preview Evidence</div><ul><li>Command + Model Cost Cockpit standalone visual mockup · static-gallery · docs/design/prototype-gallery/command-model-cost-cockpit.html</li></ul></div>
+    <div class="mini-section"><div class="mini-title">Promotion Targets</div><div class="question-list"><span class="chip">DashboardSnapshotContract</span><span class="chip">CapacityCommandCenterInput</span></div></div>
+  </div>
+</article>
+<article class="variant">
+  <div class="variant-top">
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:start">
+      <h3>Hermes Cost Cockpit V2</h3>
+      <span class="status">review</span>
+    </div>
+    <div class="workspace-row"><span class="workspace">command</span><span class="workspace">capacity</span><span class="workspace">projects</span><span class="workspace">controls</span><span class="workspace">operations</span></div>
+  </div>
+  <div class="variant-body">
+    <div class="mini-section">
+      <div class="mini-title">Operator Workflow</div>
+      <p class="muted">Show portfolio cost stance, time-window comparison, business-unit cards, selected-unit drilldown, provider/model attribution, operating ledger, and trust warnings in one screen so the operator can understand spend and decide whether to scale, hold, or investigate.</p>
+    </div>
+    <div class="mini-section">
+      <div class="mini-title">Reference Notes</div>
+      <ul><li>OpenAI Platform usage clarity</li><li>Vercel quota and usage controls</li><li>Stripe billing and financial ledger density</li><li>Postman API observability structure</li><li>Cursor AI usage posture</li><li>Finance dashboard revenue/spend comparison</li></ul>
+    </div>
+    <div class="mini-section">
+      <div class="mini-title">Data Requirements</div>
+      <div class="requirement">
+  <span>Portfolio cost posture</span>
+  <strong class="partial">partial</strong>
+</div><div class="requirement">
+  <span>Business-unit cost cards</span>
+  <strong class="partial">partial</strong>
+</div><div class="requirement">
+  <span>Business-unit cost trends by time window</span>
+  <strong class="partial">partial</strong>
+</div><div class="requirement">
+  <span>Provider/model attribution</span>
+  <strong class="partial">partial</strong>
+</div><div class="requirement">
+  <span>Business-unit revenue context (optional)</span>
+  <strong class="unknown">unknown</strong>
+</div><div class="requirement">
+  <span>Usage data trust markers</span>
+  <strong class="partial">partial</strong>
+</div>
+    </div>
+    <div class="mini-section"><div class="mini-title">Preview Evidence</div><ul><li>Mobbin-informed Hermes Cost Cockpit V2 standalone visual mockup · static-gallery · docs/design/prototype-gallery/command-model-cost-cockpit-v2.html</li></ul></div>
+    <div class="mini-section"><div class="mini-title">Promotion Targets</div><div class="question-list"><span class="chip">DashboardSnapshotContract</span><span class="chip">CapacityCommandCenterInput</span></div></div>
   </div>
 </article></div>
 </section>

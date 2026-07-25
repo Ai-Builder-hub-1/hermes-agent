@@ -13,6 +13,7 @@ This plan tracks the work needed to move Hermes/TLC dashboards from project-spec
 | Mobbin reference workflow | 100% | Documented in `docs/design/mobbin-reference-workflow.md`. |
 | Project dashboard retrofits | 55% | Kashi VC and Media Engine emit architecture contracts, expose workspace overviews, validate architecture snapshots in tests, and have declared downstream consumers; package-native React migration remains open. |
 | Prototype lab | 100% | Prototype contracts, starter registry, selected variants, preview evidence, static gallery, shared review component, and Hermes app route exist. |
+| Capacity Command Center | 70% | Plan, prototype registry entry, first dashboard-kit snapshot contract, data requirements, four prototype directions, static visual mockups, revenue-aware fields, a business-unit observatory, and a command/model cost cockpit exist for portfolio-wide tokens, provider usage, cost pressure, storage, API calls, throughput, missing data, revenue context, and budget gates. Final selection and promotion remain. |
 | Production governance | 90% | Adoption registry, prototype registry, downstream feed registry, static gallery, and proving-project snapshot validation are enforced; CI gating remains deferred until package-native migration. |
 
 Spine infrastructure readiness: **100% for the current proving-project boundary**
@@ -84,6 +85,20 @@ Rollout adoption readiness: **72%**
 - [x] Validate downstream snapshot feed producers and consumers.
 - [x] Fail local quality checks when dashboards add unclassified modules, missing owners, invalid workspaces, or stale prototype gallery entries.
 - [ ] Add CI gating once Kashi VC and Media Engine stop using static adapters.
+
+## V8 - Capacity Command Center
+
+- [x] Add trackable plan at `docs/design/capacity-command-center-plan.md`.
+- [x] Register `hermes-capacity-command-center-v1` in the prototype lab.
+- [x] Define a first capacity `DashboardSnapshotContract`.
+- [x] Generate 3-4 visual prototype directions.
+- [x] Create static visual mockups for all four prototype directions.
+- [x] Create recommended hybrid observatory from the ledger, provider, and temporal variants.
+- [x] Create command/model cost cockpit from the command-first and provider/model variants.
+- [ ] Select one prototype direction with written rationale.
+- [ ] Promote reusable capacity/chart modules into `@hermes/dashboard-kit`.
+- [ ] Wire Hermes OS technical central command to consume the snapshot.
+- [ ] Wire TLC Capital Group OS to consume business-unit rollups.
 
 ## Boundary
 

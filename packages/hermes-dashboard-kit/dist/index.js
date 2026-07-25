@@ -16,4 +16,6 @@ export * from "./workspace-overview";
 export * from "./prototype-lab";
 export * from "./prototype-review";
 export * from "./validation";
+export * from "./capacity-command-center";
+export * from "./executive-reports";
 //# sourceMappingURL=index.js.map

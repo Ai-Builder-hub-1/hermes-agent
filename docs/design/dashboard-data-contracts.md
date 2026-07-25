@@ -109,3 +109,32 @@ const snapshot = {
 };
 ```
 
+## Capacity Command Center Contract
+
+The first cross-portfolio capacity contract is exported from the dashboard kit:
+
+```ts
+import {
+  buildCapacityCommandCenterSnapshot,
+  buildSampleCapacityCommandCenterSnapshot,
+  type CapacityCommandCenterInput,
+} from "@hermes/dashboard-kit";
+```
+
+The generated `DashboardSnapshotContract` standardizes:
+
+- portfolio token usage
+- estimated provider cost
+- reported revenue when a business-unit feed exists
+- cost/revenue ratio when both cost and revenue are known
+- API calls
+- storage usage
+- successful outputs
+- business-unit capacity breakdown
+- provider/model usage
+- workflow cost drivers
+- 3d, 7d, 14d, 30d, and 90d trends
+- data trust and missing feed warnings
+- budget gate status
+
+This is the first contract that should power the Capacity Command Center prototype. Provider balances, local Codex usage, exact billing values, and business-unit revenue can remain `unknown`, `partial`, or `estimated` until credentialed integrations are available.

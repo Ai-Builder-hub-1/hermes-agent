@@ -51,10 +51,12 @@ const PackageNativeMigrationsPage = lazy(() => import("@/pages/PackageNativeMigr
 const MediaEnginePackageNativePage = lazy(() => import("@/pages/ProjectSnapshotDashboardPage").then((module) => ({ default: module.MediaEnginePackageNativePage })));
 const KhashiVcPackageNativePage = lazy(() => import("@/pages/ProjectSnapshotDashboardPage").then((module) => ({ default: module.KhashiVcPackageNativePage })));
 const ExecutiveSummaryPage = lazy(() => import("@/pages/ExecutiveSummaryPage"));
+const ExecutiveBriefingRoomPage = lazy(() => import("@/pages/ExecutiveBriefingRoomPage"));
 const CentralCommandPage = lazy(() => import("@/pages/CentralCommandPage"));
 const ThemeSystemPage = lazy(() => import("@/pages/ThemeSystemPage"));
 const DashboardMarketplacePage = lazy(() => import("@/pages/DashboardMarketplacePage"));
 const DashboardPrototypeLabPage = lazy(() => import("@/pages/DashboardPrototypeLabPage"));
+const MainHermesAgentDashboardPrototypePage = lazy(() => import("@/pages/MainHermesAgentDashboardPrototypePage"));
 const LiveSignalsPage = lazy(() => import("@/pages/LiveSignalsPage"));
 const TaskRoutingPage = lazy(() => import("@/pages/TaskRoutingPage"));
 const DecisionLedgerPage = lazy(() => import("@/pages/DecisionLedgerPage"));
@@ -72,6 +74,7 @@ const AgentWorkbenchPage = lazy(() => import("@/pages/AgentWorkbenchPage"));
 const EvaluationGatesPage = lazy(() => import("@/pages/EvaluationGatesPage"));
 const AutonomyReadinessPage = lazy(() => import("@/pages/AutonomyReadinessPage"));
 const ProjectRegistryPage = lazy(() => import("@/pages/ProjectRegistryPage"));
+const ProjectPlanCommandCenterPage = lazy(() => import("@/pages/ProjectPlanCommandCenterPage"));
 const TelemetryFabricPage = lazy(() => import("@/pages/TelemetryFabricPage"));
 const IncidentCommandPage = lazy(() => import("@/pages/IncidentCommandPage"));
 const DeploymentPromotionPage = lazy(() => import("@/pages/DeploymentPromotionPage"));
@@ -159,12 +162,14 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/hermes-os": HermesOsPage,
   "/central-command": CentralCommandPage,
   "/executive-summary": ExecutiveSummaryPage,
+  "/executive-briefing": ExecutiveBriefingRoomPage,
   "/dashboard-migrations": PackageNativeMigrationsPage,
   "/package-native/media-engine": MediaEnginePackageNativePage,
   "/package-native/khashi-vc": KhashiVcPackageNativePage,
   "/theme-system": ThemeSystemPage,
   "/dashboard-marketplace": DashboardMarketplacePage,
   "/dashboard-prototypes": DashboardPrototypeLabPage,
+  "/hermes-command": MainHermesAgentDashboardPrototypePage,
   "/live-signals": LiveSignalsPage,
   "/task-routing": TaskRoutingPage,
   "/decision-ledger": DecisionLedgerPage,
@@ -182,6 +187,7 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/evaluation-gates": EvaluationGatesPage,
   "/autonomy-readiness": AutonomyReadinessPage,
   "/project-registry": ProjectRegistryPage,
+  "/project-plan-command-center": ProjectPlanCommandCenterPage,
   "/telemetry-fabric": TelemetryFabricPage,
   "/incident-command": IncidentCommandPage,
   "/deployment-promotion": DeploymentPromotionPage,
@@ -256,12 +262,14 @@ export const BUILTIN_NAV_REST: BuiltinNavItem[] = [
   { path: "/hermes-os", label: "Hermes OS", icon: GitBranch },
   { path: "/central-command", label: "Central Command", icon: Building2 },
   { path: "/executive-summary", label: "Executive", icon: Building2 },
+  { path: "/executive-briefing", label: "Briefing Room", icon: Building2 },
   { path: "/dashboard-migrations", label: "Dashboard Migrations", icon: Code2 },
   { path: "/package-native/media-engine", label: "Media Native", icon: Activity },
   { path: "/package-native/khashi-vc", label: "Khashi Native", icon: Activity },
   { path: "/theme-system", label: "Theme System", icon: Palette },
   { path: "/dashboard-marketplace", label: "Marketplace", icon: Plug },
   { path: "/dashboard-prototypes", label: "Prototype Lab", icon: GalleryVerticalEnd },
+  { path: "/hermes-command", label: "Hermes Command", icon: Building2 },
   { path: "/live-signals", label: "Live Signals", icon: Radio },
   { path: "/task-routing", label: "Task Routing", icon: ListChecks },
   { path: "/decision-ledger", label: "Decision Ledger", icon: BookOpen },
@@ -279,6 +287,7 @@ export const BUILTIN_NAV_REST: BuiltinNavItem[] = [
   { path: "/evaluation-gates", label: "Evaluation Gates", icon: BookOpen },
   { path: "/autonomy-readiness", label: "Autonomy", icon: ShieldCheck },
   { path: "/project-registry", label: "Project Registry", icon: Building2 },
+  { path: "/project-plan-command-center", label: "Plan Command", icon: ListChecks },
   { path: "/telemetry-fabric", label: "Telemetry Fabric", icon: Activity },
   { path: "/incident-command", label: "Incident Command", icon: Siren },
   { path: "/deployment-promotion", label: "Promotion", icon: GitBranch },

@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hermes Cost Cockpit V2</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4f6f4;
+      --panel: #ffffff;
+      --panel-warm: #fbfaf7;
+      --panel-cool: #f7faf9;
+      --ink: #171d1b;
+      --muted: #66736f;
+      --faint: #8b9793;
+      --border: #dce3df;
+      --border-strong: #becbc6;
+      --green: #1f7a59;
+      --green-soft: #e8f4ee;
+      --amber: #9a6b16;
+      --amber-soft: #fff6df;
+      --red: #a33f3f;
+      --red-soft: #fff1ef;
+      --slate: #28322f;
+      --shadow: 0 18px 45px rgb(36 48 43 / 0.08);
+      --mono: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 14% 0%, rgb(31 122 89 / 0.10), transparent 28%),
+        linear-gradient(180deg, #fbfcfb 0%, var(--bg) 46%, #edf2ef 100%);
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.38;
+      font-variant-numeric: tabular-nums;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .32;
+      background-image:
+        linear-gradient(rgb(23 29 27 / .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgb(23 29 27 / .025) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: linear-gradient(180deg, #000 0%, transparent 70%);
+    }
+    main { max-width: 1720px; margin: 0 auto; padding: 26px; position: relative; }
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: 31px; line-height: 1.05; font-weight: 760; letter-spacing: 0; text-wrap: balance; }
+    h2 { font-size: 18px; font-weight: 760; letter-spacing: 0; }
+    h3 { font-size: 13px; font-weight: 760; letter-spacing: 0; }
+    .muted { color: var(--muted); }
+    .small { color: var(--muted); font-size: 12px; }
+    .eyebrow {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 7px;
+    }
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    a, button {
+      transition: background .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+    }
+    .nav a, .range button, .ghost-button {
+      border: 1px solid var(--border);
+      background: rgb(255 255 255 / .84);
+      color: var(--muted);
+      border-radius: 7px;
+      padding: 8px 10px;
+      font-size: 13px;
+      text-decoration: none;
+      white-space: nowrap;
+      backdrop-filter: blur(10px);
+    }
+    .nav a:hover, .range button:hover, .ghost-button:hover {
+      border-color: var(--border-strong);
+      color: var(--ink);
+      transform: translateY(-1px);
+    }
+    .shell {
+      border: 1px solid var(--border);
+      background: rgb(255 255 255 / .72);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+    }
+    .top-strip {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+      background: rgb(251 250 247 / .84);
+    }
+    .search {
+      min-height: 42px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 0 12px;
+      color: var(--muted);
+      max-width: 540px;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgb(31 122 89 / .10);
+      flex: 0 0 auto;
+    }
+    .range { display: flex; gap: 6px; justify-content: flex-end; flex-wrap: wrap; }
+    .range button {
+      cursor: default;
+      font-weight: 700;
+      color: var(--faint);
+      background: transparent;
+    }
+    .range button.active {
+      color: var(--ink);
+      background: #fff;
+      border-color: var(--border-strong);
+      box-shadow: 0 8px 22px rgb(23 29 27 / .06);
+    }
+    .body {
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      min-height: 890px;
+    }
+    aside {
+      border-right: 1px solid var(--border);
+      background: linear-gradient(180deg, #ffffff 0%, #f7faf8 100%);
+      padding: 18px 14px;
+    }
+    .brand {
+      display: grid;
+      gap: 2px;
+      margin-bottom: 22px;
+      padding: 0 5px;
+    }
+    .brand strong { font-size: 15px; }
+    .nav-group { display: grid; gap: 5px; margin-bottom: 20px; }
+    .nav-label {
+      color: var(--faint);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 0 9px 5px;
+    }
+    .side-item {
+      border: 1px solid transparent;
+      border-radius: 8px;
+      color: var(--muted);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      padding: 9px;
+      font-size: 13px;
+      align-items: center;
+    }
+    .side-item.active {
+      background: var(--green-soft);
+      border-color: #b9d9ca;
+      color: #165c43;
+      font-weight: 760;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 2px 6px;
+      font-size: 11px;
+      color: var(--muted);
+      background: #fff;
+      white-space: nowrap;
+    }
+    .badge.warn { color: var(--amber); border-color: #e1c37a; background: var(--amber-soft); }
+    .badge.risk { color: var(--red); border-color: #e5b1ab; background: var(--red-soft); }
+    .badge.ok { color: var(--green); border-color: #b9d9ca; background: var(--green-soft); }
+    .workspace { padding: 18px; min-width: 0; }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(320px, .8fr);
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .statement, .card {
+      border: 1px solid var(--border);
+      background: rgb(255 255 255 / .86);
+      border-radius: 10px;
+      padding: 16px;
+      min-width: 0;
+    }
+    .statement {
+      background:
+        linear-gradient(135deg, #192420 0%, #2d3a35 55%, #edf5ef 55.2%, #ffffff 100%);
+      color: #fff;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+      min-height: 178px;
+    }
+    .statement .muted { color: rgb(255 255 255 / .72); }
+    .statement h2 { font-size: 28px; line-height: 1.08; text-wrap: balance; }
+    .hero-number {
+      color: var(--slate);
+      background: rgb(255 255 255 / .94);
+      border: 1px solid rgb(255 255 255 / .45);
+      border-radius: 10px;
+      padding: 13px;
+      min-width: 188px;
+    }
+    .hero-number span { color: var(--muted); font-size: 12px; }
+    .hero-number strong { display: block; font-size: 31px; line-height: 1; margin-top: 6px; }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .metric {
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 9px;
+      padding: 13px;
+      min-width: 0;
+    }
+    .metric .label, .section-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .metric strong {
+      display: block;
+      font-size: 24px;
+      line-height: 1;
+      margin-top: 8px;
+    }
+    .metric p { margin-top: 8px; color: var(--muted); font-size: 12px; }
+    .metric.warn { background: var(--amber-soft); border-color: #e3c57f; }
+    .metric.risk { background: var(--red-soft); border-color: #e5b1ab; }
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(360px, .75fr);
+      gap: 14px;
+      align-items: start;
+    }
+    .card-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .chart {
+      height: 302px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background:
+        linear-gradient(to top, transparent 24%, rgb(220 227 223 / .7) 25%, transparent 26%),
+        linear-gradient(to top, transparent 49%, rgb(220 227 223 / .7) 50%, transparent 51%),
+        linear-gradient(to top, transparent 74%, rgb(220 227 223 / .7) 75%, transparent 76%),
+        #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .line {
+      position: absolute;
+      inset: 32px 20px 28px 20px;
+      border-radius: 8px;
+    }
+    .line.media {
+      clip-path: polygon(0 70%, 14% 61%, 30% 66%, 46% 44%, 62% 37%, 78% 22%, 100% 30%, 100% 100%, 0 100%);
+      background: linear-gradient(180deg, rgb(31 122 89 / .30), rgb(31 122 89 / .02));
+      border-top: 3px solid var(--green);
+    }
+    .line.hermes {
+      inset-top: 52px;
+      clip-path: polygon(0 78%, 13% 75%, 28% 58%, 48% 60%, 62% 43%, 82% 51%, 100% 38%, 100% 100%, 0 100%);
+      background: linear-gradient(180deg, rgb(154 107 22 / .24), rgb(154 107 22 / .02));
+      border-top: 3px solid var(--amber);
+    }
+    .line.khashi {
+      inset-top: 72px;
+      clip-path: polygon(0 84%, 17% 78%, 34% 79%, 52% 71%, 66% 74%, 84% 62%, 100% 66%, 100% 100%, 0 100%);
+      background: linear-gradient(180deg, rgb(79 97 90 / .18), rgb(79 97 90 / .02));
+      border-top: 3px solid #66736f;
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .legend i {
+      width: 9px;
+      height: 9px;
+      border-radius: 2px;
+      background: var(--green);
+      display: inline-block;
+    }
+    .legend .h i { background: var(--amber); }
+    .legend .k i { background: #66736f; }
+    .unit-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .unit {
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 12px;
+      background: var(--panel-cool);
+    }
+    .unit.active { background: var(--green-soft); border-color: #b9d9ca; }
+    .unit-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .unit strong { display: block; }
+    .unit-kpis {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .unit-kpis div {
+      border-top: 1px solid rgb(102 115 111 / .18);
+      padding-top: 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .unit-kpis b {
+      display: block;
+      color: var(--ink);
+      font-size: 15px;
+      margin-bottom: 2px;
+      font-family: var(--mono);
+      font-weight: 700;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 10px 8px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: middle; }
+    th { color: var(--muted); font-size: 11px; font-weight: 800; }
+    tr:last-child td { border-bottom: 0; }
+    .provider-list, .action-list, .trust-list { display: grid; gap: 9px; }
+    .provider, .action, .trust {
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 11px;
+      background: #fff;
+    }
+    .provider-top, .action-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: start;
+      margin-bottom: 9px;
+    }
+    .meter {
+      height: 8px;
+      border-radius: 999px;
+      background: #e7ece9;
+      overflow: hidden;
+    }
+    .meter span { display: block; height: 100%; background: var(--green); border-radius: inherit; }
+    .meter .amber { background: var(--amber); }
+    .meter .red { background: var(--red); }
+    .lower {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .source-list {
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .source-list a { color: #1f5f49; }
+    @media (max-width: 1180px) {
+      main { padding: 14px; }
+      header, .top-strip, .body, .hero, .statement, .grid, .lower, .metrics, .unit-grid {
+        grid-template-columns: 1fr;
+      }
+      aside { border-right: 0; border-bottom: 1px solid var(--border); }
+      .hero-number { min-width: 0; }
+      .range { justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <div class="eyebrow">Mobbin-informed prototype · V2</div>
+        <h1>Hermes cost cockpit for business-unit spend, model usage, revenue context, and operator decisions</h1>
+        <p class="muted">Inspired by OpenAI usage, Vercel quotas, Stripe billing, Postman observability, and finance dashboards. This is still static data, but the layout is the target review direction.</p>
+      </div>
+      <a class="ghost-button" href="./index.html">Prototype Gallery</a>
+    </header>
+    <nav class="nav" aria-label="Prototype links">
+      <a href="./command-model-cost-cockpit.html">Previous cockpit</a>
+      <a href="./capacity-command-center.html">All capacity prototypes</a>
+    </nav>
+
+    <section class="shell">
+      <div class="top-strip">
+        <div class="search"><span class="dot"></span><span>Portfolio capacity is live · 2 feeds estimated · OpenAI premium fallback requires approval</span></div>
+        <div class="range" aria-label="Time range">
+          <button>24h</button>
+          <button>7d</button>
+          <button class="active">30d</button>
+          <button>90d</button>
+        </div>
+      </div>
+      <div class="body">
+        <aside>
+          <div class="brand">
+            <strong>Hermes Command</strong>
+            <span class="small">Capacity and cost</span>
+          </div>
+          <div class="nav-group">
+            <div class="nav-label">Cockpit</div>
+            <div class="side-item active"><span>Cost overview</span><span class="badge warn">watch</span></div>
+            <div class="side-item"><span>Business units</span><span class="badge">6</span></div>
+            <div class="side-item"><span>Provider lanes</span><span class="badge risk">2 gaps</span></div>
+            <div class="side-item"><span>Alerts</span><span class="badge">4</span></div>
+          </div>
+          <div class="nav-group">
+            <div class="nav-label">Drilldowns</div>
+            <div class="side-item"><span>Media Engine</span><span class="badge warn">high</span></div>
+            <div class="side-item"><span>Khashi VC</span><span class="badge ok">low</span></div>
+            <div class="side-item"><span>TLC Group OS</span><span class="badge">steady</span></div>
+          </div>
+        </aside>
+
+        <div class="workspace">
+          <section class="hero">
+            <div class="statement">
+              <div>
+                <p class="muted">Operator stance</p>
+                <h2>Run the system, but keep premium model expansion gated.</h2>
+                <p class="muted" style="margin-top:10px">Spend is not out of control, but missing local Codex and revenue feeds make automatic ROI decisions unsafe.</p>
+              </div>
+              <div class="hero-number">
+                <span>Known 30d spend</span>
+                <strong>$842</strong>
+                <span>42.1% of monthly planning cap</span>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-head">
+                <div>
+                  <div class="section-label">Decision queue</div>
+                  <h2>4 items need attention</h2>
+                </div>
+                <span class="badge warn">operator review</span>
+              </div>
+              <div class="action-list">
+                <div class="action">
+                  <div class="action-top"><strong>Approve or hold OpenAI fallback</strong><span class="badge warn">today</span></div>
+                  <p class="small">Fallback events rose faster than accepted outputs. Keep human approval in place.</p>
+                </div>
+                <div class="action">
+                  <div class="action-top"><strong>Connect local Codex ledger</strong><span class="badge risk">missing</span></div>
+                  <p class="small">Local work is operationally expensive even if it is not API-billed.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="metrics">
+            <div class="metric"><div class="label">Tokens processed</div><strong>1.84M</strong><p>+18.7% vs prior 30d</p></div>
+            <div class="metric warn"><div class="label">Provider API calls</div><strong>14,208</strong><p>Media Engine is the main driver</p></div>
+            <div class="metric"><div class="label">Successful outputs</div><strong>218</strong><p>$3.86 estimated per output</p></div>
+            <div class="metric risk"><div class="label">Untrusted feeds</div><strong>2</strong><p>Revenue and local ledger</p></div>
+          </section>
+
+          <section class="grid">
+            <div class="card">
+              <div class="card-head">
+                <div>
+                  <div class="section-label">Cost by business unit</div>
+                  <h2>30-day comparison trend</h2>
+                </div>
+                <span class="badge">tokens + dollars</span>
+              </div>
+              <div class="chart">
+                <div class="line media"></div>
+                <div class="line hermes"></div>
+                <div class="line khashi"></div>
+              </div>
+              <div class="legend">
+                <span><i></i>Media Engine</span>
+                <span class="h"><i></i>Nous Hermes Agent</span>
+                <span class="k"><i></i>Khashi VC</span>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-head">
+                <div>
+                  <div class="section-label">Selected unit</div>
+                  <h2>Media Engine drilldown</h2>
+                </div>
+                <span class="badge warn">high burn</span>
+              </div>
+              <div class="unit-grid">
+                <div class="unit active">
+                  <div class="unit-top"><strong>Media Engine</strong><span class="badge warn">review</span></div>
+                  <div class="unit-kpis">
+                    <div><b>$138</b>Spend</div>
+                    <div><b>721k</b>Tokens</div>
+                    <div><b>N/A</b>Revenue</div>
+                  </div>
+                </div>
+                <div class="unit">
+                  <div class="unit-top"><strong>Khashi VC</strong><span class="badge ok">low</span></div>
+                  <div class="unit-kpis">
+                    <div><b>$29</b>Spend</div>
+                    <div><b>94k</b>Tokens</div>
+                    <div><b>$0</b>Revenue</div>
+                  </div>
+                </div>
+                <div class="unit">
+                  <div class="unit-top"><strong>Hermes Agent</strong><span class="badge risk">gap</span></div>
+                  <div class="unit-kpis">
+                    <div><b>$93</b>Spend</div>
+                    <div><b>410k</b>Tokens</div>
+                    <div><b>?</b>Local</div>
+                  </div>
+                </div>
+                <div class="unit">
+                  <div class="unit-top"><strong>TLC Group OS</strong><span class="badge">steady</span></div>
+                  <div class="unit-kpis">
+                    <div><b>$20</b>Spend</div>
+                    <div><b>72k</b>Tokens</div>
+                    <div><b>Pending</b>Revenue</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="lower">
+            <div class="card">
+              <div class="card-head">
+                <div>
+                  <div class="section-label">Provider and model attribution</div>
+                  <h2>Where the burn is coming from</h2>
+                </div>
+                <span class="badge">ranked</span>
+              </div>
+              <div class="provider-list">
+                <div class="provider">
+                  <div class="provider-top"><strong>OpenAI premium lane</strong><span class="badge warn">$186.40</span></div>
+                  <div class="meter"><span class="amber" style="width:72%"></span></div>
+                  <p class="small" style="margin-top:8px">Prototype builds and fallback code review are the largest drivers.</p>
+                </div>
+                <div class="provider">
+                  <div class="provider-top"><strong>Gemini production lane</strong><span class="badge ok">$41.70</span></div>
+                  <div class="meter"><span style="width:42%"></span></div>
+                  <p class="small" style="margin-top:8px">Stable draft generation lane for Media Engine packages.</p>
+                </div>
+                <div class="provider">
+                  <div class="provider-top"><strong>Local Codex</strong><span class="badge risk">unknown</span></div>
+                  <div class="meter"><span class="red" style="width:54%"></span></div>
+                  <p class="small" style="margin-top:8px">Needs a usage ledger so it is not treated as free capacity.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-head">
+                <div>
+                  <div class="section-label">Operating ledger</div>
+                  <h2>Business-unit rollup</h2>
+                </div>
+                <span class="badge">review table</span>
+              </div>
+              <table>
+                <thead><tr><th>Unit</th><th>Cost</th><th>Output</th><th>Trust</th></tr></thead>
+                <tbody>
+                  <tr><td>Media Engine</td><td>$138.20</td><td>64 packages</td><td><span class="badge warn">estimated</span></td></tr>
+                  <tr><td>Nous Hermes Agent</td><td>$92.50</td><td>11 builds</td><td><span class="badge risk">ledger gap</span></td></tr>
+                  <tr><td>Khashi VC</td><td>$28.70</td><td>market scans</td><td><span class="badge ok">usable</span></td></tr>
+                  <tr><td>Media Business OS</td><td>$24.10</td><td>rollups</td><td><span class="badge warn">partial</span></td></tr>
+                </tbody>
+              </table>
+              <ul class="source-list">
+                <li>Reference: <a href="https://mobbin.com/screens/32d80696-c660-4446-b56a-d58f8613ee0a">OpenAI Platform usage</a></li>
+                <li>Reference: <a href="https://mobbin.com/screens/d61c0f22-6d42-4616-851e-d3bfe67b8e34">Stripe billing dashboard</a></li>
+                <li>Reference: <a href="https://mobbin.com/screens/7ad577a5-36a3-4963-90f9-72248d2ba5b4">Vercel usage dashboard</a></li>
+                <li>Reference: <a href="https://mobbin.com/screens/bc011630-14d2-45ef-8310-0ae194c4f1bb">Postman observability</a></li>
+              </ul>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

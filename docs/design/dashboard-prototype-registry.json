@@ -162,6 +162,213 @@
           "capabilityCoverage": ["data-contracts", "information-architecture", "implementation", "design-system"]
         }
       ]
+    },
+    {
+      "id": "hermes-capacity-command-center-v1",
+      "projectId": "hermes-technical-central-command",
+      "dashboardName": "Capacity Command Center",
+      "createdAt": "2026-07-24T00:00:00.000Z",
+      "objective": "Create the first portfolio-level capacity cockpit for tokens, provider usage, cost pressure, storage, API calls, throughput, missing data, and budget gates across TLC/Hermes business units.",
+      "selectedVariantId": "hermes-cost-cockpit-v2",
+      "selectionRationale": "After reviewing Mobbin references for OpenAI usage, Vercel quotas, Stripe billing, Postman observability, Cursor usage, and finance dashboards, the V2 cockpit best matches the desired posture: business-unit cards, time-window cost comparison, provider/model attribution, revenue context, and trust warnings in one executive command surface.",
+      "selectionEvidence": [
+        {
+          "id": "hermes-cost-cockpit-v2-static",
+          "label": "Hermes Cost Cockpit V2 standalone visual mockup",
+          "kind": "static-gallery",
+          "path": "docs/design/prototype-gallery/command-model-cost-cockpit-v2.html",
+          "capturedAt": "2026-07-25T00:00:00.000Z"
+        },
+        {
+          "id": "mobbin-reference-pass",
+          "label": "Mobbin reference pass for OpenAI, Vercel, Stripe, Postman, Cursor, and finance dashboard patterns",
+          "kind": "reference-review",
+          "path": "docs/design/capacity-command-center-plan.md#mobbin-reference-workflow",
+          "capturedAt": "2026-07-25T00:00:00.000Z"
+        }
+      ],
+      "operatorQuestions": [
+        "What are we spending or consuming right now?",
+        "Which business unit is consuming the most tokens, API calls, storage, scan capacity, or job throughput?",
+        "Which model, provider, or workflow is driving the increase?",
+        "Is usage improving, flat, or getting worse over 3, 7, 14, 30, and 90 days?",
+        "What budget or capacity threshold is close to breaking?",
+        "Which data is missing, stale, estimated, or not trusted yet?",
+        "What should the operator do next?"
+      ],
+      "variants": [
+        {
+          "id": "command-strip-capacity-body",
+          "name": "Command Strip + Capacity Body",
+          "status": "draft",
+          "workspaceFocus": ["command", "capacity", "operations"],
+          "operatorWorkflow": "Lead with attention items, budget warnings, and recommended actions, then show portfolio usage, business-unit breakdowns, provider usage, and trend panels.",
+          "referenceNotes": ["Executive attention rail", "Dense capacity metrics", "Budget warning strip", "Operator next-actions block"],
+          "dataRequirements": [
+            { "id": "capacity-overview", "label": "Portfolio capacity overview", "owner": "hermes", "required": true, "currentState": "partial" },
+            { "id": "capacity-alerts", "label": "Capacity alerts and recommendations", "owner": "hermes", "required": true, "currentState": "partial" },
+            { "id": "budget-gates", "label": "Budget gates and approvals", "owner": "hermes", "required": true, "currentState": "partial" }
+          ],
+          "capabilityCoverage": ["data-contracts", "information-architecture", "business-rules", "design-system"],
+          "previewEvidence": [
+            {
+              "id": "capacity-command-strip-visual",
+              "label": "Command Strip + Capacity Body visual mockup",
+              "kind": "static-gallery",
+              "path": "docs/design/prototype-gallery/capacity-command-center.html#command-strip-capacity-body"
+            }
+          ]
+        },
+        {
+          "id": "portfolio-ledger",
+          "name": "Portfolio Ledger",
+          "status": "draft",
+          "workspaceFocus": ["projects", "capacity", "command"],
+          "operatorWorkflow": "Render every business unit as a dense comparison row with token use, API calls, storage, cost estimate, trend, stale data warnings, and next action.",
+          "referenceNotes": ["Business-unit rank table", "Embedded sparklines", "Sortable resource columns", "Data-trust status chips"],
+          "dataRequirements": [
+            { "id": "business-unit-breakdown", "label": "Business-unit capacity breakdown", "owner": "tlc-capital-group-os", "required": true, "currentState": "partial" },
+            { "id": "project-capacity-feed", "label": "Project capacity feeds", "owner": "project-oses", "required": true, "currentState": "partial" },
+            { "id": "data-trust", "label": "Data trust and freshness", "owner": "hermes", "required": true, "currentState": "partial" }
+          ],
+          "capabilityCoverage": ["data-contracts", "information-architecture", "implementation", "design-system"],
+          "previewEvidence": [
+            {
+              "id": "capacity-portfolio-ledger-visual",
+              "label": "Portfolio Ledger visual mockup",
+              "kind": "static-gallery",
+              "path": "docs/design/prototype-gallery/capacity-command-center.html#portfolio-ledger"
+            }
+          ]
+        },
+        {
+          "id": "provider-model-observatory",
+          "name": "Provider / Model Observatory",
+          "status": "draft",
+          "workspaceFocus": ["capacity", "controls", "operations"],
+          "operatorWorkflow": "Group usage by provider and model lane so the operator can see fallback pressure, premium-lane approvals, cheap-model usage, deterministic script volume, and provider budget risk.",
+          "referenceNotes": ["Provider lanes", "Model scorecards", "Fallback status", "Premium approval gates"],
+          "dataRequirements": [
+            { "id": "provider-usage", "label": "Provider usage", "owner": "hermes", "required": true, "currentState": "partial" },
+            { "id": "model-lane-usage", "label": "Model lane usage", "owner": "hermes", "required": true, "currentState": "unknown" },
+            { "id": "premium-fallback-approvals", "label": "Premium fallback approvals", "owner": "hermes", "required": true, "currentState": "unknown" }
+          ],
+          "capabilityCoverage": ["data-contracts", "information-architecture", "business-rules", "design-system"],
+          "previewEvidence": [
+            {
+              "id": "capacity-provider-observatory-visual",
+              "label": "Provider / Model Observatory visual mockup",
+              "kind": "static-gallery",
+              "path": "docs/design/prototype-gallery/capacity-command-center.html#provider-model-observatory"
+            }
+          ]
+        },
+        {
+          "id": "temporal-capacity-map",
+          "name": "Temporal Capacity Map",
+          "status": "draft",
+          "workspaceFocus": ["capacity", "intelligence", "projects"],
+          "operatorWorkflow": "Start with time-window comparisons across 3, 7, 14, 30, and 90 days, then explain which projects, workflows, providers, or missing feeds caused the shape.",
+          "referenceNotes": ["Time-window tabs", "Small-multiple sparklines", "Anomaly markers", "Trend explanation rail"],
+          "dataRequirements": [
+            { "id": "capacity-trends", "label": "Capacity trends by time window", "owner": "hermes", "required": true, "currentState": "partial" },
+            { "id": "workflow-cost-drivers", "label": "Workflow cost drivers", "owner": "hermes", "required": true, "currentState": "partial" },
+            { "id": "anomaly-events", "label": "Capacity anomaly events", "owner": "hermes", "required": false, "currentState": "unknown" }
+          ],
+          "capabilityCoverage": ["data-contracts", "information-architecture", "implementation", "design-system"],
+          "previewEvidence": [
+            {
+              "id": "capacity-temporal-map-visual",
+              "label": "Temporal Capacity Map visual mockup",
+              "kind": "static-gallery",
+              "path": "docs/design/prototype-gallery/capacity-command-center.html#temporal-capacity-map"
+            }
+          ]
+        },
+        {
+          "id": "business-unit-capacity-observatory",
+          "name": "Business Unit Capacity Observatory",
+          "status": "review",
+          "workspaceFocus": ["projects", "capacity", "intelligence", "controls"],
+          "operatorWorkflow": "Combine business-unit cards, multi-window trend comparison, provider attribution, optional revenue context, and selected-unit drilldown so the operator can move from portfolio cost to one business unit's operating KPIs without changing dashboards.",
+          "referenceNotes": ["Business-unit card grid", "Multi-line cost and revenue trend", "Selected unit drilldown", "Provider/model attribution", "Data trust warnings for unknown revenue"],
+          "dataRequirements": [
+            { "id": "business-unit-capacity-cards", "label": "Business-unit capacity cards", "owner": "tlc-capital-group-os", "required": true, "currentState": "partial" },
+            { "id": "business-unit-cost-trends", "label": "Business-unit cost trends", "owner": "hermes", "required": true, "currentState": "partial" },
+            { "id": "business-unit-revenue-feed", "label": "Business-unit revenue feed", "owner": "tlc-capital-group-os", "required": false, "currentState": "unknown" },
+            { "id": "business-unit-drilldown-kpis", "label": "Business-unit drilldown KPIs", "owner": "project-oses", "required": true, "currentState": "partial" },
+            { "id": "provider-attribution-by-unit", "label": "Provider attribution by business unit", "owner": "hermes", "required": true, "currentState": "partial" }
+          ],
+          "capabilityCoverage": ["data-contracts", "information-architecture", "business-rules", "implementation", "design-system"],
+          "previewEvidence": [
+            {
+              "id": "capacity-business-unit-observatory-visual",
+              "label": "Business Unit Capacity Observatory visual mockup",
+              "kind": "static-gallery",
+              "path": "docs/design/prototype-gallery/capacity-command-center.html#business-unit-capacity-observatory"
+            }
+          ],
+          "promotedComponents": ["DashboardSnapshotContract", "CapacityCommandCenterInput"]
+        },
+        {
+          "id": "command-model-cost-cockpit",
+          "name": "Command + Model Cost Cockpit",
+          "status": "review",
+          "workspaceFocus": ["command", "capacity", "controls", "operations"],
+          "operatorWorkflow": "Lead with operator attention, budget gates, missing feeds, and recommended decisions, then make provider/model lanes the primary analytical body so the operator can see which model or provider is causing cost pressure before drilling into business-unit context.",
+          "referenceNotes": ["Command-first attention rail", "Provider/model cost lanes", "Fallback approval gates", "Business-unit context table", "Revenue and local ledger trust warnings"],
+          "dataRequirements": [
+            { "id": "capacity-alerts", "label": "Capacity alerts and recommended decisions", "owner": "hermes", "required": true, "currentState": "partial" },
+            { "id": "provider-model-cost-lanes", "label": "Provider/model cost lanes", "owner": "hermes", "required": true, "currentState": "partial" },
+            { "id": "fallback-approval-gates", "label": "Fallback approval gates", "owner": "hermes", "required": true, "currentState": "unknown" },
+            { "id": "business-unit-provider-attribution", "label": "Business-unit provider attribution", "owner": "tlc-capital-group-os", "required": true, "currentState": "partial" },
+            { "id": "revenue-and-local-ledger-trust", "label": "Revenue and local ledger trust", "owner": "project-oses", "required": false, "currentState": "unknown" }
+          ],
+          "capabilityCoverage": ["data-contracts", "information-architecture", "business-rules", "implementation", "design-system"],
+          "previewEvidence": [
+            {
+              "id": "capacity-command-model-cost-cockpit-visual",
+              "label": "Command + Model Cost Cockpit standalone visual mockup",
+              "kind": "static-gallery",
+              "path": "docs/design/prototype-gallery/command-model-cost-cockpit.html"
+            }
+          ],
+          "promotedComponents": ["DashboardSnapshotContract", "CapacityCommandCenterInput"]
+        },
+        {
+          "id": "hermes-cost-cockpit-v2",
+          "name": "Hermes Cost Cockpit V2",
+          "status": "review",
+          "workspaceFocus": ["command", "capacity", "projects", "controls", "operations"],
+          "operatorWorkflow": "Show portfolio cost stance, time-window comparison, business-unit cards, selected-unit drilldown, provider/model attribution, operating ledger, and trust warnings in one screen so the operator can understand spend and decide whether to scale, hold, or investigate.",
+          "referenceNotes": [
+            "OpenAI Platform usage clarity",
+            "Vercel quota and usage controls",
+            "Stripe billing and financial ledger density",
+            "Postman API observability structure",
+            "Cursor AI usage posture",
+            "Finance dashboard revenue/spend comparison"
+          ],
+          "dataRequirements": [
+            { "id": "portfolio-cost-posture", "label": "Portfolio cost posture", "owner": "hermes", "required": true, "currentState": "partial" },
+            { "id": "business-unit-cost-cards", "label": "Business-unit cost cards", "owner": "tlc-capital-group-os", "required": true, "currentState": "partial" },
+            { "id": "business-unit-cost-trends", "label": "Business-unit cost trends by time window", "owner": "hermes", "required": true, "currentState": "partial" },
+            { "id": "provider-model-attribution", "label": "Provider/model attribution", "owner": "hermes", "required": true, "currentState": "partial" },
+            { "id": "business-unit-revenue-context", "label": "Business-unit revenue context", "owner": "tlc-capital-group-os", "required": false, "currentState": "unknown" },
+            { "id": "usage-data-trust", "label": "Usage data trust markers", "owner": "project-oses", "required": true, "currentState": "partial" }
+          ],
+          "capabilityCoverage": ["data-contracts", "information-architecture", "business-rules", "implementation", "design-system"],
+          "previewEvidence": [
+            {
+              "id": "hermes-cost-cockpit-v2-visual",
+              "label": "Mobbin-informed Hermes Cost Cockpit V2 standalone visual mockup",
+              "kind": "static-gallery",
+              "path": "docs/design/prototype-gallery/command-model-cost-cockpit-v2.html"
+            }
+          ],
+          "promotedComponents": ["DashboardSnapshotContract", "CapacityCommandCenterInput"]
+        }
+      ]
     }
   ]
 }

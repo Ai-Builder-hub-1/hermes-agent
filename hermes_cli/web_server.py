@@ -1696,6 +1696,16 @@ async def get_hermes_os_summary(project: str = ".", projects_root: str = ""):
         raise HTTPException(status_code=400, detail=str(exc))
 
 
+@app.get("/api/project-plan-index")
+async def get_project_plan_index(projects_root: str = "", registry_path: str = ""):
+    try:
+        from hermes_cli.project_plan_index import build_project_plan_index
+
+        return build_project_plan_index(projects_root or None, registry_path or None)
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+
+
 class HermesOsConversationAskRequest(BaseModel):
     message: str
     project: str = "."

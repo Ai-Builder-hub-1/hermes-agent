@@ -1,0 +1,898 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Capacity Command Center Prototypes</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #eef3f5;
+      --panel: #ffffff;
+      --panel-2: #f7fafb;
+      --ink: #16232d;
+      --muted: #647582;
+      --border: #d6e0e6;
+      --border-strong: #aebdc8;
+      --accent: #176b87;
+      --accent-2: #0f8a7e;
+      --warn: #a66b12;
+      --risk: #b14545;
+      --ok: #2f7a53;
+      --shadow: 0 18px 40px rgb(23 46 63 / 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.35;
+    }
+    main { max-width: 1680px; margin: 0 auto; padding: 28px; }
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+    }
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: 28px; letter-spacing: 0; }
+    h2 { font-size: 20px; letter-spacing: 0; }
+    h3 { font-size: 14px; letter-spacing: 0; }
+    .muted { color: var(--muted); }
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0 26px;
+    }
+    .nav a, .chip {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--muted);
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 8px 11px;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .meta {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .prototype {
+      margin: 0 0 38px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .prototype-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      padding: 18px;
+      border-bottom: 1px solid var(--border);
+      background: #fbfcfd;
+    }
+    .screen {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      min-height: 720px;
+      background: var(--panel-2);
+    }
+    .side {
+      border-right: 1px solid var(--border);
+      background: #ffffff;
+      padding: 16px;
+    }
+    .brand {
+      font-weight: 800;
+      font-size: 15px;
+      margin-bottom: 18px;
+    }
+    .side-item {
+      display: block;
+      border: 1px solid transparent;
+      border-radius: 7px;
+      padding: 9px 10px;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+    .side-item.active {
+      border-color: #b8d2dc;
+      background: #e9f5f7;
+      color: var(--accent);
+      font-weight: 720;
+    }
+    .content { padding: 18px; min-width: 0; }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+    .tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .tab {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 6px 9px;
+      font-size: 12px;
+    }
+    .tab.active { color: var(--accent); border-color: #98c9d6; background: #e9f5f7; font-weight: 700; }
+    .grid { display: grid; gap: 12px; }
+    .cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .span-2 { grid-column: span 2; }
+    .span-3 { grid-column: span 3; }
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 14px;
+      min-width: 0;
+    }
+    .card.soft { background: #f8fbfc; }
+    .card.warn { border-color: #dfc58f; background: #fff8e7; }
+    .card.risk { border-color: #e0aaaa; background: #fff1f1; }
+    .label {
+      color: var(--muted);
+      text-transform: uppercase;
+      font-size: 11px;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+    .value {
+      font-size: 25px;
+      font-weight: 820;
+      margin-top: 5px;
+      letter-spacing: 0;
+    }
+    .delta { color: var(--muted); font-size: 12px; margin-top: 5px; }
+    .delta.up { color: var(--warn); }
+    .delta.down { color: var(--ok); }
+    .pill {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px 7px;
+      font-size: 12px;
+      color: var(--muted);
+      background: #fff;
+      white-space: nowrap;
+    }
+    .pill.warn { color: var(--warn); border-color: #dfc58f; background: #fff8e7; }
+    .pill.risk { color: var(--risk); border-color: #e0aaaa; background: #fff1f1; }
+    .pill.ok { color: var(--ok); border-color: #acd9c0; background: #eefaf3; }
+    .chart {
+      height: 180px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background:
+        linear-gradient(to top, transparent 24%, rgb(214 224 230 / .6) 25%, transparent 26%),
+        linear-gradient(to top, transparent 49%, rgb(214 224 230 / .6) 50%, transparent 51%),
+        linear-gradient(to top, transparent 74%, rgb(214 224 230 / .6) 75%, transparent 76%),
+        #ffffff;
+      position: relative;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+    .line {
+      position: absolute;
+      inset: 24px 18px 22px 18px;
+      clip-path: polygon(0 74%, 16% 62%, 31% 68%, 46% 45%, 60% 39%, 78% 24%, 100% 31%, 100% 100%, 0 100%);
+      background: linear-gradient(180deg, rgb(23 107 135 / .35), rgb(23 107 135 / .05));
+      border-top: 3px solid var(--accent);
+    }
+    .bars {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      align-items: end;
+      gap: 8px;
+      height: 170px;
+      padding: 18px 10px 0;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: #fff;
+      margin-top: 12px;
+    }
+    .bar { border-radius: 5px 5px 0 0; background: var(--accent); min-height: 16px; }
+    .bar.alt { background: var(--accent-2); }
+    .bar.warn { background: #c68a2b; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 9px 8px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: middle; }
+    th { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0; }
+    tr:last-child td { border-bottom: 0; }
+    .spark {
+      height: 24px;
+      width: 86px;
+      background: linear-gradient(135deg, transparent 45%, var(--accent) 46%, var(--accent) 54%, transparent 55%);
+      opacity: .8;
+    }
+    .strip {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 5px;
+      margin-top: 10px;
+    }
+    .strip div { height: 24px; border-radius: 5px; background: #dfecef; border: 1px solid var(--border); }
+    .strip .hot { background: #ffe7bd; border-color: #e5c489; }
+    .strip .risk { background: #ffd7d7; border-color: #e0aaaa; }
+    .observatory {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .lane {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      padding: 12px;
+      min-height: 390px;
+    }
+    .lane-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+    .mini-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .mini-row:last-child { border-bottom: 0; }
+    .time-grid {
+      display: grid;
+      grid-template-columns: 1.2fr repeat(5, minmax(0, 1fr));
+      gap: 8px;
+      align-items: stretch;
+    }
+    .time-cell {
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: #fff;
+      padding: 10px;
+      min-height: 92px;
+    }
+    .time-cell.hot { background: #fff8e7; border-color: #dfc58f; }
+    .time-cell.cool { background: #eefaf3; border-color: #acd9c0; }
+    .unit-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .unit-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+      min-height: 194px;
+    }
+    .unit-card.selected {
+      border-color: #89bdca;
+      box-shadow: inset 0 0 0 2px rgb(23 107 135 / .12);
+    }
+    .unit-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px;
+    }
+    .unit-metric {
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: #f8fbfc;
+      padding: 8px;
+    }
+    .unit-metric strong { display: block; font-size: 16px; margin-top: 2px; }
+    .multi-line-chart {
+      height: 230px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background:
+        linear-gradient(to top, transparent 24%, rgb(214 224 230 / .6) 25%, transparent 26%),
+        linear-gradient(to top, transparent 49%, rgb(214 224 230 / .6) 50%, transparent 51%),
+        linear-gradient(to top, transparent 74%, rgb(214 224 230 / .6) 75%, transparent 76%),
+        #fff;
+      position: relative;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+    .trend-line {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      height: 3px;
+      border-radius: 999px;
+      transform-origin: left center;
+    }
+    .trend-line.media { top: 72px; background: var(--accent); transform: rotate(-7deg); }
+    .trend-line.khashi { top: 126px; background: #c68a2b; transform: rotate(3deg); }
+    .trend-line.enterprise { top: 158px; background: var(--ok); transform: rotate(-2deg); }
+    .trend-line.agent { top: 104px; background: var(--risk); transform: rotate(-11deg); }
+    .chart-labels {
+      position: absolute;
+      inset: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      color: var(--muted);
+      font-size: 11px;
+      pointer-events: none;
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .legend span::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      margin-right: 5px;
+      background: var(--accent);
+    }
+    .legend .khashi::before { background: #c68a2b; }
+    .legend .enterprise::before { background: var(--ok); }
+    .legend .agent::before { background: var(--risk); }
+    .command-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 1.4fr .85fr;
+      gap: 12px;
+      align-items: start;
+    }
+    .decision-stack { display: grid; gap: 10px; }
+    .decision-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+    }
+    .decision-card.primary {
+      border-color: #dfc58f;
+      background: #fff8e7;
+    }
+    .provider-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .provider-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      padding: 12px;
+      min-height: 184px;
+    }
+    .provider-card.emphasis {
+      border-color: #dfc58f;
+      background: #fffdf6;
+    }
+    .meter {
+      height: 9px;
+      border-radius: 999px;
+      background: #e1eaee;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    .meter span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--accent);
+    }
+    .meter .warn { background: #c68a2b; }
+    .meter .risk { background: var(--risk); }
+    .action-list { display: grid; gap: 8px; margin-top: 10px; }
+    .action-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+      font-size: 13px;
+    }
+    .rank {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      display: inline-grid;
+      place-items: center;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 12px;
+      background: #fff;
+    }
+    @media (max-width: 1180px) {
+      .screen { grid-template-columns: 1fr; }
+      .side { border-right: 0; border-bottom: 1px solid var(--border); }
+      .cols-4, .cols-3, .cols-2, .observatory, .time-grid, .unit-grid, .command-grid, .provider-grid { grid-template-columns: 1fr; }
+      .span-2, .span-3 { grid-column: auto; }
+      header, .prototype-head { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>Capacity Command Center Visual Prototypes</h1>
+        <p class="muted">Six concrete dashboard directions for portfolio-wide tokens, provider usage, cost pressure, revenue context, storage, API calls, throughput, missing data, and budget gates.</p>
+      </div>
+      <div class="meta">Prototype set: hermes-capacity-command-center-v1</div>
+    </header>
+
+    <nav class="nav" aria-label="Prototype variants">
+      <a href="#command-strip-capacity-body">Command Strip + Capacity Body</a>
+      <a href="#portfolio-ledger">Portfolio Ledger</a>
+      <a href="#provider-model-observatory">Provider / Model Observatory</a>
+      <a href="#temporal-capacity-map">Temporal Capacity Map</a>
+      <a href="#business-unit-capacity-observatory">Business Unit Capacity Observatory</a>
+      <a href="#command-model-cost-cockpit">Command + Model Cost Cockpit</a>
+      <a href="./index.html">Back to Prototype Gallery</a>
+    </nav>
+
+    <section id="command-strip-capacity-body" class="prototype">
+      <div class="prototype-head">
+        <div>
+          <h2>1. Command Strip + Capacity Body</h2>
+          <p class="muted">Best when the operator wants immediate warnings and next actions before reading detailed usage.</p>
+        </div>
+        <span class="chip">Command + Capacity + Operations</span>
+      </div>
+      <div class="screen">
+        <aside class="side">
+          <div class="brand">Hermes Capacity</div>
+          <span class="side-item active">Command</span>
+          <span class="side-item">Capacity</span>
+          <span class="side-item">Providers</span>
+          <span class="side-item">Workflows</span>
+          <span class="side-item">Budget Gates</span>
+          <span class="side-item">Data Trust</span>
+        </aside>
+        <div class="content">
+          <div class="topbar">
+            <div>
+              <h2>Portfolio Capacity Command</h2>
+              <p class="muted">30-day view · estimated where feeds are partial</p>
+            </div>
+            <div class="tabs"><span class="tab">3d</span><span class="tab">7d</span><span class="tab">14d</span><span class="tab active">30d</span><span class="tab">90d</span></div>
+          </div>
+          <div class="grid cols-3">
+            <div class="card warn"><div class="label">Attention</div><div class="value">2 feeds missing</div><p class="delta up">Local Codex token ledger + provider balance API</p></div>
+            <div class="card"><div class="label">Budget Remaining</div><div class="value">$1,158</div><p class="delta">42% used this month</p></div>
+            <div class="card risk"><div class="label">Next Action</div><div class="value">Review fallback</div><p class="delta">OpenAI usage rising faster than successful outputs</p></div>
+          </div>
+          <div class="grid cols-4" style="margin-top:12px">
+            <div class="card"><div class="label">Tokens In</div><div class="value">771k</div><p class="delta up">+18% vs prior 30d</p></div>
+            <div class="card"><div class="label">Tokens Out</div><div class="value">298k</div><p class="delta up">+12% vs prior 30d</p></div>
+            <div class="card"><div class="label">API Calls</div><div class="value">2,744</div><p class="delta">provider + project feeds</p></div>
+            <div class="card"><div class="label">Storage</div><div class="value">65.4 GB</div><p class="delta up">asset retention pressure</p></div>
+            <div class="card span-2"><div class="label">Portfolio Usage Trend</div><div class="chart"><div class="line"></div></div></div>
+            <div class="card span-2"><div class="label">Cost Drivers</div><div class="bars"><div class="bar" style="height:82%"></div><div class="bar alt" style="height:64%"></div><div class="bar warn" style="height:58%"></div><div class="bar" style="height:38%"></div><div class="bar alt" style="height:26%"></div><div class="bar" style="height:20%"></div></div></div>
+            <div class="card span-3">
+              <div class="label">Business Unit Breakdown</div>
+              <table><thead><tr><th>Unit</th><th>Tokens</th><th>Cost</th><th>Trust</th><th>Status</th></tr></thead><tbody>
+                <tr><td>Media Engine</td><td>600k</td><td>$138.20</td><td>partial</td><td><span class="pill warn">watch</span></td></tr>
+                <tr><td>Nous Hermes Agent</td><td>218k</td><td>$92.50</td><td>partial</td><td><span class="pill risk">degraded</span></td></tr>
+                <tr><td>Khashi VC</td><td>154k</td><td>$28.70</td><td>partial</td><td><span class="pill warn">watch</span></td></tr>
+              </tbody></table>
+            </div>
+            <div class="card"><div class="label">Freshness</div><div class="strip"><div></div><div class="hot"></div><div></div><div class="risk"></div><div></div><div class="hot"></div></div><p class="delta">2 stale · 1 unknown</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="portfolio-ledger" class="prototype">
+      <div class="prototype-head">
+        <div>
+          <h2>2. Portfolio Ledger</h2>
+          <p class="muted">Best when comparison across business units matters more than alert-first navigation.</p>
+        </div>
+        <span class="chip">Projects + Capacity + Command</span>
+      </div>
+      <div class="screen">
+        <aside class="side">
+          <div class="brand">Capacity Ledger</div>
+          <span class="side-item active">Business Units</span>
+          <span class="side-item">Providers</span>
+          <span class="side-item">Workflows</span>
+          <span class="side-item">Freshness</span>
+          <span class="side-item">Rollups</span>
+        </aside>
+        <div class="content">
+          <div class="topbar">
+            <div><h2>Business Unit Capacity Ledger</h2><p class="muted">Sortable operating ledger with embedded trend and data trust.</p></div>
+            <div class="tabs"><span class="tab active">30d</span><span class="tab">Budget</span><span class="tab">Missing data</span></div>
+          </div>
+          <div class="card">
+            <table>
+              <thead><tr><th>Business Unit</th><th>Tokens</th><th>API Calls</th><th>Storage</th><th>Cost</th><th>Trend</th><th>Trust</th><th>Next Action</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Media Engine</strong><br><span class="muted">generation workhorse</span></td><td>600k</td><td>640</td><td>42.1 GB</td><td>$138.20</td><td><div class="spark"></div></td><td><span class="pill warn">partial</span></td><td>Review asset retention</td></tr>
+                <tr><td><strong>Nous Hermes Agent</strong><br><span class="muted">runtime + prototypes</span></td><td>218k</td><td>220</td><td>8.7 GB</td><td>$92.50</td><td><div class="spark"></div></td><td><span class="pill risk">partial</span></td><td>Connect local Codex ledger</td></tr>
+                <tr><td><strong>Khashi VC</strong><br><span class="muted">market scans</span></td><td>154k</td><td>1,800</td><td>11.4 GB</td><td>$28.70</td><td><div class="spark"></div></td><td><span class="pill warn">partial</span></td><td>Separate scan/API usage</td></tr>
+                <tr><td><strong>TLC Enterprise</strong><br><span class="muted">readiness rollups</span></td><td>97k</td><td>84</td><td>3.2 GB</td><td>$19.60</td><td><div class="spark"></div></td><td><span class="pill">estimated</span></td><td>Confirm business rollup feed</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="grid cols-3" style="margin-top:12px">
+            <div class="card"><div class="label">Most expensive unit</div><div class="value">Media Engine</div><p class="delta">$0.23 per 1k tokens blended</p></div>
+            <div class="card warn"><div class="label">Weakest attribution</div><div class="value">Nous Agent</div><p class="delta">local runtime usage unknown</p></div>
+            <div class="card"><div class="label">Best optimization target</div><div class="value">Generation</div><p class="delta">large volume and repeated workflows</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="provider-model-observatory" class="prototype">
+      <div class="prototype-head">
+        <div>
+          <h2>3. Provider / Model Observatory</h2>
+          <p class="muted">Best when model routing, API fallback, and premium-lane cost control are the main questions.</p>
+        </div>
+        <span class="chip">Capacity + Controls + Operations</span>
+      </div>
+      <div class="screen">
+        <aside class="side">
+          <div class="brand">Model Observatory</div>
+          <span class="side-item active">Providers</span>
+          <span class="side-item">Model Lanes</span>
+          <span class="side-item">Fallback Gates</span>
+          <span class="side-item">Approvals</span>
+          <span class="side-item">Scorecards</span>
+        </aside>
+        <div class="content">
+          <div class="topbar">
+            <div><h2>Provider And Model Lane Observatory</h2><p class="muted">Cost, routing, fallback pressure, and reliability by lane.</p></div>
+            <div class="tabs"><span class="tab active">Providers</span><span class="tab">Fallbacks</span><span class="tab">Scorecards</span></div>
+          </div>
+          <div class="observatory">
+            <div class="lane"><div class="lane-head"><strong>OpenAI</strong><span class="pill warn">watch</span></div><div class="value">$186.40</div><p class="delta up">premium usage rising</p><div class="mini-row"><span>Tokens</span><strong>452k</strong></div><div class="mini-row"><span>Calls</span><strong>460</strong></div><div class="mini-row"><span>Fallbacks</span><strong>12</strong></div><div class="mini-row"><span>Gate</span><span class="pill warn">approval</span></div></div>
+            <div class="lane"><div class="lane-head"><strong>Gemini</strong><span class="pill ok">healthy</span></div><div class="value">$41.70</div><p class="delta">usage stable</p><div class="mini-row"><span>Tokens</span><strong>284k</strong></div><div class="mini-row"><span>Calls</span><strong>390</strong></div><div class="mini-row"><span>Fallbacks</span><strong>0</strong></div><div class="mini-row"><span>Gate</span><span class="pill ok">open</span></div></div>
+            <div class="lane"><div class="lane-head"><strong>DeepSeek</strong><span class="pill ok">healthy</span></div><div class="value">$9.20</div><p class="delta down">low-cost lane working</p><div class="mini-row"><span>Tokens</span><strong>139k</strong></div><div class="mini-row"><span>Calls</span><strong>180</strong></div><div class="mini-row"><span>Retries</span><strong>7</strong></div><div class="mini-row"><span>Gate</span><span class="pill ok">draft</span></div></div>
+            <div class="lane"><div class="lane-head"><strong>Local Codex</strong><span class="pill risk">unknown</span></div><div class="value">No ledger</div><p class="delta up">missing local usage feed</p><div class="mini-row"><span>Tokens</span><strong>unknown</strong></div><div class="mini-row"><span>Tasks</span><strong>available</strong></div><div class="mini-row"><span>Cost</span><strong>$0 API</strong></div><div class="mini-row"><span>Gate</span><span class="pill warn">needs feed</span></div></div>
+          </div>
+          <div class="grid cols-2" style="margin-top:12px">
+            <div class="card"><div class="label">Fallback Policy</div><table><tbody><tr><td>Premium API fallback</td><td><span class="pill warn">approval required</span></td></tr><tr><td>Cheap draft lane</td><td><span class="pill ok">allowed</span></td></tr><tr><td>Local Codex unavailable</td><td><span class="pill warn">queue or ask</span></td></tr></tbody></table></div>
+            <div class="card warn"><div class="label">Operator Decision</div><div class="value">Do not auto-upgrade</div><p class="delta">OpenAI fallback should remain approval-gated until scorecards prove value.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="temporal-capacity-map" class="prototype">
+      <div class="prototype-head">
+        <div>
+          <h2>4. Temporal Capacity Map</h2>
+          <p class="muted">Best when the question is whether capacity use is improving, flat, or getting worse over time.</p>
+        </div>
+        <span class="chip">Capacity + Intelligence + Projects</span>
+      </div>
+      <div class="screen">
+        <aside class="side">
+          <div class="brand">Temporal Map</div>
+          <span class="side-item active">Time Windows</span>
+          <span class="side-item">Anomalies</span>
+          <span class="side-item">Drivers</span>
+          <span class="side-item">Projects</span>
+          <span class="side-item">Evidence</span>
+        </aside>
+        <div class="content">
+          <div class="topbar">
+            <div><h2>Capacity Over Time</h2><p class="muted">Window-first view for trend, anomaly, and cause review.</p></div>
+            <div class="tabs"><span class="tab">Tokens</span><span class="tab active">Cost</span><span class="tab">Calls</span><span class="tab">Storage</span></div>
+          </div>
+          <div class="time-grid">
+            <div class="time-cell"><div class="label">Metric</div><div class="value">Est. Cost</div><p class="delta">source: partial provider + project feeds</p></div>
+            <div class="time-cell cool"><div class="label">3d</div><div class="value">$38</div><p class="delta down">normal</p></div>
+            <div class="time-cell"><div class="label">7d</div><div class="value">$104</div><p class="delta">steady</p></div>
+            <div class="time-cell hot"><div class="label">14d</div><div class="value">$212</div><p class="delta up">prototype spike</p></div>
+            <div class="time-cell hot"><div class="label">30d</div><div class="value">$279</div><p class="delta up">generation + OpenAI</p></div>
+            <div class="time-cell"><div class="label">90d</div><div class="value">$613</div><p class="delta">baseline forming</p></div>
+          </div>
+          <div class="grid cols-3" style="margin-top:12px">
+            <div class="card span-2"><div class="label">90-Day Capacity Sparkline Grid</div><div class="chart"><div class="line"></div></div></div>
+            <div class="card warn"><div class="label">Largest change</div><div class="value">+34%</div><p class="delta up">dashboard prototyping and media generation drove the 14d-to-30d move</p></div>
+            <div class="card"><div class="label">Window Driver</div><table><tbody><tr><td>3d</td><td>normal validation</td></tr><tr><td>7d</td><td>media generation</td></tr><tr><td>14d</td><td>prototype buildout</td></tr><tr><td>30d</td><td>provider fallback</td></tr></tbody></table></div>
+            <div class="card"><div class="label">Project trend</div><div class="bars"><div class="bar" style="height:40%"></div><div class="bar alt" style="height:52%"></div><div class="bar warn" style="height:82%"></div><div class="bar" style="height:66%"></div><div class="bar alt" style="height:35%"></div><div class="bar" style="height:28%"></div></div></div>
+            <div class="card risk"><div class="label">Missing explanation</div><div class="value">2 unknowns</div><p class="delta">Need local Codex ledger and exact provider balance to trust long-range trend.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="business-unit-capacity-observatory" class="prototype">
+      <div class="prototype-head">
+        <div>
+          <h2>5. Business Unit Capacity Observatory</h2>
+          <p class="muted">Recommended hybrid: combines the ledger, temporal map, and provider observatory into one portfolio screen with drilldown.</p>
+        </div>
+        <span class="chip">Projects + Capacity + Intelligence + Controls</span>
+      </div>
+      <div class="screen">
+        <aside class="side">
+          <div class="brand">Hermes Observatory</div>
+          <span class="side-item active">Portfolio</span>
+          <span class="side-item">Business Units</span>
+          <span class="side-item">Unit Drilldown</span>
+          <span class="side-item">Revenue Feed</span>
+          <span class="side-item">Provider Attribution</span>
+          <span class="side-item">Data Trust</span>
+        </aside>
+        <div class="content">
+          <div class="topbar">
+            <div>
+              <h2>Business Unit Capacity Observatory</h2>
+              <p class="muted">30-day portfolio view - revenue is shown when reported, otherwise marked unknown instead of guessed.</p>
+            </div>
+            <div class="tabs"><span class="tab">3d</span><span class="tab">7d</span><span class="tab">14d</span><span class="tab active">30d</span><span class="tab">90d</span></div>
+          </div>
+
+          <div class="grid cols-4">
+            <div class="card"><div class="label">Known Token Use</div><div class="value">1.07M</div><p class="delta up">across four reporting units</p></div>
+            <div class="card"><div class="label">Estimated Cost</div><div class="value">$279</div><p class="delta">partial provider attribution</p></div>
+            <div class="card warn"><div class="label">Reported Revenue</div><div class="value">Unknown</div><p class="delta">feed not connected yet</p></div>
+            <div class="card risk"><div class="label">Cost / Revenue</div><div class="value">Unknown</div><p class="delta">blocked until revenue feed exists</p></div>
+          </div>
+
+          <div class="unit-grid" style="margin-top:12px">
+            <div class="unit-card selected">
+              <div><strong>Media Engine</strong><br><span class="muted">generation workhorse</span></div>
+              <div class="unit-metrics">
+                <div class="unit-metric"><span class="label">Tokens</span><strong>600k</strong></div>
+                <div class="unit-metric"><span class="label">Cost</span><strong>$138</strong></div>
+                <div class="unit-metric"><span class="label">Revenue</span><strong>Unknown</strong></div>
+                <div class="unit-metric"><span class="label">Trust</span><strong>Partial</strong></div>
+              </div>
+              <span class="pill warn">selected - review storage</span>
+            </div>
+            <div class="unit-card">
+              <div><strong>Khashi VC</strong><br><span class="muted">market scans and research</span></div>
+              <div class="unit-metrics">
+                <div class="unit-metric"><span class="label">Tokens</span><strong>154k</strong></div>
+                <div class="unit-metric"><span class="label">Cost</span><strong>$29</strong></div>
+                <div class="unit-metric"><span class="label">Revenue</span><strong>$0</strong></div>
+                <div class="unit-metric"><span class="label">Trust</span><strong>Partial</strong></div>
+              </div>
+              <span class="pill warn">watch - API scan volume</span>
+            </div>
+            <div class="unit-card">
+              <div><strong>TLC Enterprise</strong><br><span class="muted">readiness and rollups</span></div>
+              <div class="unit-metrics">
+                <div class="unit-metric"><span class="label">Tokens</span><strong>97k</strong></div>
+                <div class="unit-metric"><span class="label">Cost</span><strong>$20</strong></div>
+                <div class="unit-metric"><span class="label">Revenue</span><strong>Pending</strong></div>
+                <div class="unit-metric"><span class="label">Trust</span><strong>Estimated</strong></div>
+              </div>
+              <span class="pill ok">healthy - low burn</span>
+            </div>
+            <div class="unit-card">
+              <div><strong>Nous Hermes Agent</strong><br><span class="muted">runtime and prototypes</span></div>
+              <div class="unit-metrics">
+                <div class="unit-metric"><span class="label">Tokens</span><strong>218k</strong></div>
+                <div class="unit-metric"><span class="label">Cost</span><strong>$93</strong></div>
+                <div class="unit-metric"><span class="label">Revenue</span><strong>N/A</strong></div>
+                <div class="unit-metric"><span class="label">Trust</span><strong>Partial</strong></div>
+              </div>
+              <span class="pill risk">degraded - local ledger missing</span>
+            </div>
+          </div>
+
+          <div class="grid cols-3" style="margin-top:12px">
+            <div class="card span-2">
+              <div class="label">Cost By Business Unit Over Time</div>
+              <div class="multi-line-chart">
+                <div class="trend-line media"></div>
+                <div class="trend-line khashi"></div>
+                <div class="trend-line enterprise"></div>
+                <div class="trend-line agent"></div>
+                <div class="chart-labels"><span>3d</span><span>7d</span><span>14d</span><span>30d</span><span>90d</span></div>
+              </div>
+              <div class="legend"><span>Media Engine</span><span class="khashi">Khashi VC</span><span class="enterprise">TLC Enterprise</span><span class="agent">Nous Hermes Agent</span></div>
+            </div>
+            <div class="card warn">
+              <div class="label">Portfolio Interpretation</div>
+              <div class="value">Cost is visible. ROI is not.</div>
+              <p class="delta">The dashboard can compare burn today, but revenue feed wiring is required before it can judge business efficiency.</p>
+            </div>
+          </div>
+
+          <div class="grid cols-3" style="margin-top:12px">
+            <div class="card span-2">
+              <div class="label">Selected Unit Drilldown: Media Engine</div>
+              <table>
+                <thead><tr><th>KPI</th><th>30d</th><th>Status</th><th>Operator Read</th></tr></thead>
+                <tbody>
+                  <tr><td>Successful outputs</td><td>76</td><td><span class="pill ok">healthy</span></td><td>production loop is active</td></tr>
+                  <tr><td>Failed jobs</td><td>11</td><td><span class="pill warn">watch</span></td><td>review platform/package failures</td></tr>
+                  <tr><td>Storage growth</td><td>42.1 GB</td><td><span class="pill warn">watch</span></td><td>asset retention is the next cost lever</td></tr>
+                  <tr><td>Top workflow</td><td>generation packages</td><td><span class="pill warn">watch</span></td><td>optimize before scaling brands</td></tr>
+                  <tr><td>Revenue signal</td><td>missing</td><td><span class="pill risk">unknown</span></td><td>cannot calculate true unit economics yet</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card">
+              <div class="label">Provider Attribution</div>
+              <div class="mini-row"><span>OpenAI</span><strong>$72.40</strong></div>
+              <div class="mini-row"><span>Gemini</span><strong>$31.20</strong></div>
+              <div class="mini-row"><span>DeepSeek</span><strong>$4.80</strong></div>
+              <div class="mini-row"><span>Storage / assets</span><strong>unknown</strong></div>
+              <p class="delta">This panel changes when a different business-unit card is selected.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="command-model-cost-cockpit" class="prototype">
+      <div class="prototype-head">
+        <div>
+          <h2>6. Command + Model Cost Cockpit</h2>
+          <p class="muted">Next version: combines prototype 1's command-first posture with prototype 3's provider/model observability.</p>
+        </div>
+        <span class="chip">Command + Capacity + Controls + Providers</span>
+      </div>
+      <div class="screen">
+        <aside class="side">
+          <div class="brand">Hermes Cost Cockpit</div>
+          <span class="side-item active">Command</span>
+          <span class="side-item">Provider Lanes</span>
+          <span class="side-item">Fallback Gates</span>
+          <span class="side-item">Business Units</span>
+          <span class="side-item">Revenue Context</span>
+          <span class="side-item">Data Trust</span>
+        </aside>
+        <div class="content">
+          <div class="topbar">
+            <div>
+              <h2>Command + Model Cost Cockpit</h2>
+              <p class="muted">30-day posture - start with what needs a decision, then show the provider/model lane causing it.</p>
+            </div>
+            <div class="tabs"><span class="tab">3d</span><span class="tab">7d</span><span class="tab">14d</span><span class="tab active">30d</span><span class="tab">90d</span></div>
+          </div>
+
+          <div class="grid cols-4">
+            <div class="card warn"><div class="label">Operator Attention</div><div class="value">Review fallback</div><p class="delta up">OpenAI premium lane rose faster than outputs</p></div>
+            <div class="card"><div class="label">Budget Remaining</div><div class="value">$1,158</div><p class="delta">42% used this month</p></div>
+            <div class="card risk"><div class="label">Missing Data</div><div class="value">2 feeds</div><p class="delta">local Codex ledger + provider balance</p></div>
+            <div class="card"><div class="label">Known Output Yield</div><div class="value">218</div><p class="delta">successful outputs in 30d</p></div>
+          </div>
+
+          <div class="command-grid" style="margin-top:12px">
+            <div class="decision-stack">
+              <div class="decision-card primary">
+                <div class="label">Decision Now</div>
+                <div class="value">Hold premium auto-upgrade</div>
+                <p class="delta">Premium model fallback should stay approval-gated until output quality scorecards prove the extra cost is worth it.</p>
+              </div>
+              <div class="decision-card">
+                <div class="label">Budget Gate</div>
+                <div class="mini-row"><span>Monthly cap</span><strong>$2,000</strong></div>
+                <div class="mini-row"><span>Known used</span><strong>$842</strong></div>
+                <div class="mini-row"><span>Forecast pressure</span><span class="pill warn">watch</span></div>
+              </div>
+              <div class="decision-card risk">
+                <div class="label">Trust Warning</div>
+                <p class="delta">Revenue and local Codex usage are not reliable enough for ROI automation. Show them as unknown, not zero.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="label">Provider And Model Lanes</div>
+              <div class="provider-grid" style="margin-top:10px">
+                <div class="provider-card emphasis">
+                  <div class="lane-head"><strong>OpenAI</strong><span class="pill warn">watch</span></div>
+                  <div class="value">$186.40</div>
+                  <p class="delta up">452k tokens · 12 fallback events</p>
+                  <div class="meter"><span class="warn" style="width:72%"></span></div>
+                  <div class="mini-row"><span>Gate</span><strong>approval required</strong></div>
+                  <div class="mini-row"><span>Main driver</span><strong>dashboard prototypes</strong></div>
+                </div>
+                <div class="provider-card">
+                  <div class="lane-head"><strong>Gemini</strong><span class="pill ok">healthy</span></div>
+                  <div class="value">$41.70</div>
+                  <p class="delta">284k tokens · stable draft lane</p>
+                  <div class="meter"><span style="width:42%"></span></div>
+                  <div class="mini-row"><span>Gate</span><strong>open</strong></div>
+                  <div class="mini-row"><span>Main driver</span><strong>media generation</strong></div>
+                </div>
+                <div class="provider-card">
+                  <div class="lane-head"><strong>DeepSeek</strong><span class="pill ok">healthy</span></div>
+                  <div class="value">$9.20</div>
+                  <p class="delta down">139k tokens · low-cost lane</p>
+                  <div class="meter"><span style="width:19%"></span></div>
+                  <div class="mini-row"><span>Gate</span><strong>draft allowed</strong></div>
+                  <div class="mini-row"><span>Main driver</span><strong>coding support</strong></div>
+                </div>
+                <div class="provider-card">
+                  <div class="lane-head"><strong>Local Codex</strong><span class="pill risk">unknown</span></div>
+                  <div class="value">No ledger</div>
+                  <p class="delta">cost is not API-billed, but usage telemetry is missing</p>
+                  <div class="meter"><span class="risk" style="width:54%"></span></div>
+                  <div class="mini-row"><span>Gate</span><strong>needs feed</strong></div>
+                  <div class="mini-row"><span>Main driver</span><strong>manual build work</strong></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="decision-stack">
+              <div class="card">
+                <div class="label">Next Actions</div>
+                <div class="action-list">
+                  <div class="action-item"><span class="rank">1</span><div><strong>Review OpenAI fallback</strong><br><span class="muted">Keep premium upgrades manual.</span></div></div>
+                  <div class="action-item"><span class="rank">2</span><div><strong>Connect local ledger</strong><br><span class="muted">Without it, Codex work looks artificially cheap.</span></div></div>
+                  <div class="action-item"><span class="rank">3</span><div><strong>Add revenue feed</strong><br><span class="muted">Needed before ROI decisions.</span></div></div>
+                </div>
+              </div>
+              <div class="card warn">
+                <div class="label">Current Stance</div>
+                <div class="value">Operate, do not scale</div>
+                <p class="delta">The system is usable for observation, but not ready for automatic budget expansion.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid cols-3" style="margin-top:12px">
+            <div class="card span-2">
+              <div class="label">Business Unit Context</div>
+              <table>
+                <thead><tr><th>Unit</th><th>Cost</th><th>Provider Driver</th><th>Revenue</th><th>Decision</th></tr></thead>
+                <tbody>
+                  <tr><td>Media Engine</td><td>$138.20</td><td>Gemini + OpenAI</td><td>unknown</td><td><span class="pill warn">optimize workflows</span></td></tr>
+                  <tr><td>Nous Hermes Agent</td><td>$92.50</td><td>OpenAI + local Codex</td><td>N/A</td><td><span class="pill risk">connect ledger</span></td></tr>
+                  <tr><td>Khashi VC</td><td>$28.70</td><td>deterministic + research</td><td>$0</td><td><span class="pill warn">watch scans</span></td></tr>
+                  <tr><td>TLC Enterprise</td><td>$19.60</td><td>readiness rollups</td><td>pending</td><td><span class="pill ok">low burn</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card">
+              <div class="label">Cost Trend</div>
+              <div class="chart"><div class="line"></div></div>
+              <p class="delta up">14d-to-30d increase was driven mostly by prototype work and premium fallback.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
