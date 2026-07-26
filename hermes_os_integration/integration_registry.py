@@ -474,6 +474,54 @@ def integration_registry_summary(
     }
 
 
+def simple_credential_lists(summary: Optional[Mapping[str, Any]] = None) -> Dict[str, Any]:
+    payload = dict(summary or integration_registry_summary())
+    credentials = list(payload.get("credentials", []))
+    needed = [
+        credential
+        for credential in credentials
+        if credential.get("required", True)
+        and not credential.get("human_owned", False)
+        and credential.get("state") == "missing"
+    ]
+    present = [
+        credential
+        for credential in credentials
+        if credential.get("required", True)
+        and not credential.get("human_owned", False)
+        and credential.get("state") == "present"
+    ]
+    manual = [
+        credential
+        for credential in credentials
+        if credential.get("human_owned", False)
+    ]
+    return {
+        "schema": payload.get("schema", INTEGRATION_REGISTRY_SCHEMA),
+        "needed_count": len(needed),
+        "present_count": len(present),
+        "manual_count": len(manual),
+        "needed": sorted(needed, key=lambda item: str(item.get("name", ""))),
+        "present": sorted(present, key=lambda item: str(item.get("name", ""))),
+        "manual": sorted(manual, key=lambda item: str(item.get("name", ""))),
+    }
+
+
+def format_simple_credentials(credentials: Iterable[Mapping[str, Any]], *, title: str) -> str:
+    rows = list(credentials)
+    lines = [title, "=" * len(title)]
+    if not rows:
+        lines.append("None")
+        return "\n".join(lines)
+    for item in rows:
+        used_by = ", ".join(item.get("used_by", [])) or "unassigned"
+        required_by = ", ".join(item.get("required_by", [])) or "optional/registry"
+        lines.append(
+            f"- {item.get('name')} | scope: {item.get('scope')} | store: {item.get('storage')} | used by: {used_by} | required by: {required_by}"
+        )
+    return "\n".join(lines)
+
+
 def _count_by(values: Iterable[str]) -> Dict[str, int]:
     counts: Dict[str, int] = {}
     for value in values:

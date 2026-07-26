@@ -86,6 +86,8 @@ Production-affecting actions must remain approval-gated until each action has ev
 
 ## Integration Registry Commands
 
+- `hermes integrations needed`: simple list of required credentials still needed.
+- `hermes integrations present`: simple list of required credentials already present.
 - `hermes integrations status`: full cross-project integration and credential registry.
 - `hermes integrations missing`: missing credentials, human-owned setup items, and global secret candidates.
 - `hermes integrations projects`: project-by-project integration matrix.

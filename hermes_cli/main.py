@@ -10979,9 +10979,11 @@ def cmd_remote_operator(args):
 def cmd_integrations(args):
     """Inspect the cross-project integration and credential registry."""
     from hermes_os_integration.integration_registry import (
+        format_simple_credentials,
         integration_dashboard_panels,
         integration_registry_summary,
         load_integration_records,
+        simple_credential_lists,
     )
 
     records = load_integration_records(getattr(args, "registry", "")) if getattr(args, "registry", "") else None
@@ -10994,6 +10996,14 @@ def cmd_integrations(args):
             "human_setup_items": summary["human_setup_items"],
             "global_secret_candidates": summary["global_secret_candidates"],
         }
+    elif command in {"needed", "present"}:
+        lists = simple_credential_lists(summary)
+        if getattr(args, "json", False):
+            result = {"schema": lists["schema"], command: lists[command], f"{command}_count": lists[f"{command}_count"]}
+        else:
+            title = "Credentials Still Needed" if command == "needed" else "Credentials Already Present"
+            print(format_simple_credentials(lists[command], title=title))
+            return
     elif command == "projects":
         result = {
             "schema": summary["schema"],
@@ -11686,6 +11696,14 @@ def main():
     integrations_missing = integrations_subparsers.add_parser("missing", help="Show missing credentials and human setup items")
     integrations_missing.add_argument("--registry", default="", help="Optional JSON registry override")
     integrations_missing.set_defaults(func=cmd_integrations)
+    integrations_needed = integrations_subparsers.add_parser("needed", help="Show a simple list of required credentials still needed")
+    integrations_needed.add_argument("--registry", default="", help="Optional JSON registry override")
+    integrations_needed.add_argument("--json", action="store_true", help="Print JSON instead of plain text")
+    integrations_needed.set_defaults(func=cmd_integrations)
+    integrations_present = integrations_subparsers.add_parser("present", help="Show a simple list of required credentials already present")
+    integrations_present.add_argument("--registry", default="", help="Optional JSON registry override")
+    integrations_present.add_argument("--json", action="store_true", help="Print JSON instead of plain text")
+    integrations_present.set_defaults(func=cmd_integrations)
     integrations_projects = integrations_subparsers.add_parser("projects", help="Show per-project integration matrix")
     integrations_projects.add_argument("--registry", default="", help="Optional JSON registry override")
     integrations_projects.set_defaults(func=cmd_integrations)

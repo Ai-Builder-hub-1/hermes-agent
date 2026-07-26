@@ -16,12 +16,14 @@ from hermes_os_integration.integration_registry import (
     integration_status,
     load_integration_records,
     project_integration_matrix,
+    simple_credential_lists,
 )
 from hermes_os_integration.phase_completion import complete_phases, completion_summary, phase_statuses, task_ids_for_phases
 
 
 def test_integration_registry_summary_tracks_missing_and_global_credentials():
     summary = integration_registry_summary(env={"OPENAI_API_KEY": "runtime-key", "META_ACCESS_TOKEN": "meta"})
+    simple = simple_credential_lists(summary)
 
     assert summary["schema"] == "hermes-integration-registry-v1"
     assert summary["project_count"] >= 7
@@ -30,6 +32,8 @@ def test_integration_registry_summary_tracks_missing_and_global_credentials():
     assert any(item["name"] == "OPENAI_API_KEY" for item in summary["global_secret_candidates"])
     assert any(item["name"] == "OPENAI_ADMIN_KEY" for item in summary["human_setup_items"])
     assert not any(item["name"] == "DISCORD_ALLOWED_CHANNEL_IDS" for item in summary["human_setup_items"])
+    assert any(item["name"] == "OPENAI_ADMIN_KEY" for item in simple["needed"])
+    assert any(item["name"] == "OPENAI_API_KEY" for item in simple["present"])
 
 
 def test_credential_state_and_integration_status_do_not_store_values():
@@ -77,12 +81,16 @@ def test_integration_dashboard_panels_and_project_dashboard_include_registry(tmp
     assert "integration-project-matrix" in dashboard_ids
 
 
-def test_cmd_integrations_outputs_status_missing_projects_and_dashboard(capsys):
+def test_cmd_integrations_outputs_status_missing_projects_dashboard_and_simple_lists(capsys):
     base = SimpleNamespace(registry="")
 
-    for command in ["status", "missing", "projects", "dashboard"]:
+    for command in ["status", "missing", "projects", "dashboard", "needed", "present"]:
         cmd_integrations(SimpleNamespace(**base.__dict__, integrations_command=command))
-        payload = json.loads(capsys.readouterr().out)
+        output = capsys.readouterr().out
+        if command in {"needed", "present"}:
+            assert "Credentials" in output
+            continue
+        payload = json.loads(output)
         assert payload["schema"] == "hermes-integration-registry-v1"
         if command == "missing":
             assert "human_setup_items" in payload
@@ -90,6 +98,17 @@ def test_cmd_integrations_outputs_status_missing_projects_and_dashboard(capsys):
             assert "projects" in payload
         if command == "dashboard":
             assert "panels" in payload
+
+
+def test_cmd_integrations_simple_lists_can_emit_json(capsys):
+    cmd_integrations(SimpleNamespace(registry="", integrations_command="needed", json=True))
+    needed = json.loads(capsys.readouterr().out)
+    cmd_integrations(SimpleNamespace(registry="", integrations_command="present", json=True))
+    present = json.loads(capsys.readouterr().out)
+
+    assert needed["schema"] == "hermes-integration-registry-v1"
+    assert "needed" in needed
+    assert "present" in present
 
 
 def test_load_integration_records_from_json(tmp_path):
