@@ -1,0 +1,17 @@
+{
+  "id": "task-483",
+  "title": "Add remote operator health endpoint covering gateway status, worker availability, queue depth, active jobs, recent failures, and policy blocks",
+  "status": "completed",
+  "priority": "high",
+  "phase": "Remote Operator Runtime",
+  "summary": "Expose inspectable health for the remote operator foundation before live gateway deployment.",
+  "acceptanceCriteria": [
+    "Health reports available state, dry-run/live mode, configured gateways, active jobs, pending approvals, failures, policy blocks, and emergency stop.",
+    "Health is available through a local CLI status command.",
+    "Dashboard panels can consume the same health summary."
+  ],
+  "source": "Hermes Remote Operator Runtime extension",
+  "generatedAt": "2026-07-26T00:00:00.000Z",
+  "completedAt": "2026-07-26T00:00:00.000Z",
+  "reviewNotes": "Implemented RemoteOperatorHealth, remote_operator_health, hermes operator status, and remote operator dashboard health/job/inbox panels."
+}

@@ -1,0 +1,17 @@
+{
+  "id": "task-479",
+  "title": "Add runtime deployment topology for VPS-hosted Hermes API, gateway workers, project workspace access, logs, persistence, and health checks",
+  "status": "completed",
+  "priority": "high",
+  "phase": "Remote Operator Runtime",
+  "summary": "Define the production topology needed for the always-on remote operator service before live VPS deployment.",
+  "acceptanceCriteria": [
+    "Topology names operator API, Discord gateway, Telegram gateway, and worker runner processes.",
+    "Persistence, workspace access, and health-check responsibilities are explicit.",
+    "The topology can be inspected from the Hermes CLI."
+  ],
+  "source": "Hermes Remote Operator Runtime extension",
+  "generatedAt": "2026-07-26T00:00:00.000Z",
+  "completedAt": "2026-07-26T00:00:00.000Z",
+  "reviewNotes": "Implemented remote_operator_deployment_topology and exposed it through hermes operator topology for VPS planning."
+}

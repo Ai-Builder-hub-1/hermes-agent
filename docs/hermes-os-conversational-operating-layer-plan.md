@@ -191,6 +191,71 @@ Convert skills into conversational commands and prove the end-to-end launch expe
 - `task-476`: Add rollout and migration guide from command-first Hermes to chat-first Hermes.
 - `task-477`: Add regression release tests for dynamic commands, launch workflow, dashboard panels, and documentation links.
 
+### Phase 74 - Remote Operator Runtime
+
+Make Hermes available as an always-on operator service that can receive remote requests, route them through the Chief of Staff, execute approved workflows through controlled workers, and stream progress back without requiring the operator to sit at the local computer.
+
+Build status: local dry-run foundation complete as of 2026-07-26. Live VPS service execution and gateway tokens remain external setup items.
+
+- `task-478`: Define Remote Operator Runtime contracts for inbound messages, normalized requests, workflow jobs, worker sessions, progress events, approvals, and final summaries.
+- `task-479`: Add runtime deployment topology for VPS-hosted Hermes API, gateway workers, project workspace access, logs, persistence, and health checks.
+- `task-480`: Add remote operator configuration schema for enabled gateways, allowed projects, allowed workflows, approval policy, budget ceilings, and emergency stop controls.
+- `task-481`: Add operator identity and authorization model for Discord users, Telegram users, admin profiles, project scopes, and action classes.
+- `task-482`: Add remote request audit records linking platform message IDs to Hermes sessions, workflow IDs, approvals, artifacts, commits, deploys, and dashboard events.
+- `task-483`: Add remote operator health endpoint covering gateway status, worker availability, queue depth, active jobs, recent failures, and policy blocks.
+- `task-484`: Add tests for remote operator contracts, identity mapping, audit records, policy checks, and degraded-runtime behavior.
+
+### Phase 75 - Discord And Telegram Gateways
+
+Expose Hermes through Discord and Telegram as first-class conversational control surfaces for daily briefings, project switching, agent messaging, workflow launch, approvals, and streamed status updates.
+
+- `task-485`: Add shared gateway adapter interface for inbound messages, outbound replies, streaming updates, approval prompts, file attachments, and command metadata.
+- `task-486`: Add Discord gateway implementation for direct messages, allowed channels, slash commands, threaded progress, reactions/buttons for approvals, and admin-only commands.
+- `task-487`: Add Telegram gateway implementation for private chats, allowed chat IDs, short approval replies, mobile/watch-friendly summaries, and resumable workflow status.
+- `task-488`: Add remote command parser for natural-language requests and slash shortcuts such as `/status`, `/briefing`, `/switch`, `/ask-agent`, `/run`, `/approve`, `/reject`, and `/stop`.
+- `task-489`: Add gateway-to-Hermes command envelope mapping so Discord, Telegram, CLI, API, and dashboard requests use the same routing contract.
+- `task-490`: Add streaming progress fanout so long-running workflows can report step changes, logs, blockers, approvals, artifacts, commits, deploys, and final outcomes to the originating platform.
+- `task-491`: Add gateway tests for authentication, allowlisted users, project selection, workflow launch, approval handling, streaming updates, duplicate message protection, and failed delivery retries.
+
+### Phase 76 - Project-Aware Remote Delegation
+
+Allow remote requests to reach the correct business unit, capability, or specialist agent while keeping Hermes OS as the source of truth for state, approvals, and promoted artifacts.
+
+- `task-492`: Add project registry lookup for remote requests using project names, aliases, business-unit labels, capability labels, and active-session context.
+- `task-493`: Add specialist agent addressing for requests such as "ask the Khashi lead scientist", "ask Media Engine for content briefs", or "ask TLC for portfolio blockers".
+- `task-494`: Add agent briefing workflow that loads current project memory, plan state, dashboard feeds, runtime status, recent decisions, and open blockers before answering.
+- `task-495`: Add remote research workflow for evidence collection, source-backed synthesis, review package generation, and follow-up action recommendations.
+- `task-496`: Add remote build workflow for plan selection, task batch sizing, worker delegation, validation, commit preparation, and approval-gated deploy handoff.
+- `task-497`: Add remote dashboard update workflow that refreshes project feeds, readiness summaries, blockers, human-action queues, and executive daily briefing cards.
+- `task-498`: Add tests for project routing, agent addressing, cross-project isolation, briefing quality gates, and source-backed remote responses.
+
+### Phase 77 - Approval-Gated Live Execution
+
+Promote remote Hermes from advisory chat to controlled live operations by connecting allowlisted worker execution, Codex or equivalent CLI workers, deployment rails, rollback evidence, and production-safe approval gates.
+
+- `task-499`: Add remote execution allowlist for safe read-only actions, safe write actions, build/test actions, commit actions, push actions, deploy actions, and destructive actions.
+- `task-500`: Add approval prompts that include action class, target project, command/workflow summary, risk, expected cost, rollback path, timeout, and one-tap approve/reject options.
+- `task-501`: Add Codex worker adapter contract for starting a delegated coding session, streaming status, collecting evidence, handling interruptions, and returning final artifacts.
+- `task-502`: Add shell/runtime worker adapter for allowlisted non-Codex project commands such as tests, health checks, feed refreshes, dashboard refreshes, and deploy scripts.
+- `task-503`: Add job queue persistence for running, waiting-for-approval, completed, failed, canceled, timed-out, and resumed remote workflows.
+- `task-504`: Add spend, token, and provider-limit guardrails before launching remote research, coding, or deployment workflows.
+- `task-505`: Add production deployment evidence contract for commit SHA, build result, health check, deployment URL, rollback command, and post-deploy summary.
+- `task-506`: Add emergency stop behavior that can cancel queued jobs, stop running workers where possible, disable gateways, and record the operator decision.
+- `task-507`: Add live execution tests for dry-run parity, approval gates, worker launch, status streaming, failure recovery, rollback evidence, and emergency stop.
+
+### Phase 78 - Remote Operator Dashboard Integration
+
+Mirror every Discord, Telegram, CLI, API, and dashboard action into the Hermes command center so the operator can see remote activity, agent work, approvals, costs, blockers, and outcomes in one place.
+
+- `task-508`: Add remote activity feed panel for gateway messages, routed intents, active workflows, agent traces, approvals, artifacts, commits, deploys, and failures.
+- `task-509`: Add operator inbox panel for pending approvals, human-only blockers, risk acceptances, missing credentials, DNS actions, and production setup items.
+- `task-510`: Add remote jobs panel with active, queued, waiting, completed, failed, canceled, and timed-out workflows across all projects.
+- `task-511`: Add gateway health panel for Discord, Telegram, API, workers, queues, persistence, uptime, error rate, and delivery failures.
+- `task-512`: Add project drill-through links from remote events into TLC, Khashi, Media Engine, Media Business Operations, Rinseables OS, and future registered projects.
+- `task-513`: Add daily CEO briefing delivery policy for dashboard, Discord, and Telegram with severity filtering and watch-friendly summaries.
+- `task-514`: Add dashboard actions to retry failed remote jobs, request more context, approve/reject pending work, open project evidence, and pause a gateway.
+- `task-515`: Add end-to-end release test proving a remote message can request a project briefing, route to a specialist agent, return status, request approval for a safe workflow, execute in dry-run/live mode, and mirror the result in the dashboard.
+
 ## Operating Guardrails
 
 - Conversation is an interface, not a replacement for Hermes OS governance.
@@ -199,7 +264,12 @@ Convert skills into conversational commands and prove the end-to-end launch expe
 - High-risk, write-capable, costly, or destructive actions require approval.
 - Every routed intent, delegated action, workflow checkpoint, and promoted artifact must be auditable.
 - Existing command-first Hermes behavior remains available during rollout.
+- Discord, Telegram, and other gateways are interfaces into Hermes OS, not independent agent brains or direct shell access.
+- Remote execution must use allowlisted workflows, project-scoped context, budget checks, approval gates, and auditable worker sessions.
+- Mobile/watch interactions should summarize, approve, reject, pause, and request detail; large artifacts remain source-linked in Hermes OS and project dashboards.
 
 ## Completion Definition
 
 The COL roadmap is complete when natural-language and slash-command interactions can launch new projects, resume existing project work, route research, route architecture reviews, implement tasks through delegated agents, show progress in the dashboard, preserve session memory, and produce source-backed artifacts without requiring the operator to manually choose each command.
+
+The remote-operator extension is complete when the operator can use Discord or Telegram from desktop, phone, or watch to request daily briefings, switch projects, ask specialist agents for current state, launch approved workflows, receive streaming progress, approve or reject risky steps, and see every remote action mirrored in the Hermes dashboard with source-backed evidence.

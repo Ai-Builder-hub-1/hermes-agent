@@ -1,0 +1,17 @@
+{
+  "id": "task-481",
+  "title": "Add operator identity and authorization model for Discord users, Telegram users, admin profiles, project scopes, and action classes",
+  "status": "completed",
+  "priority": "high",
+  "phase": "Remote Operator Runtime",
+  "summary": "Map platform identities into Hermes operator policy so remote requests can be accepted, blocked, scoped, and audited.",
+  "acceptanceCriteria": [
+    "Gateway identity includes source, user, channel/chat, display name, and platform message id.",
+    "Authorization checks gateway, user, project, emergency stop, and live action policy.",
+    "Action classes distinguish read-only, research, build, commit, push, deploy, destructive, approval, and unknown requests."
+  ],
+  "source": "Hermes Remote Operator Runtime extension",
+  "generatedAt": "2026-07-26T00:00:00.000Z",
+  "completedAt": "2026-07-26T00:00:00.000Z",
+  "reviewNotes": "Implemented RemoteGatewayIdentity, action classification, normalized remote requests, and authorization tests."
+}

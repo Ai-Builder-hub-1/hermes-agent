@@ -1,0 +1,17 @@
+{
+  "id": "task-482",
+  "title": "Add remote request audit records linking platform message IDs to Hermes sessions, workflow IDs, approvals, artifacts, commits, deploys, and dashboard events",
+  "status": "completed",
+  "priority": "high",
+  "phase": "Remote Operator Runtime",
+  "summary": "Ensure every remote operator request can be traced from platform message to Hermes workflow outcome.",
+  "acceptanceCriteria": [
+    "Audit records include request id, job id, source, user, project, action class, event type, outcome, platform message id, and artifacts.",
+    "Accepted and blocked requests both produce auditable outcomes.",
+    "Audit records can be mirrored into dashboard activity feeds later."
+  ],
+  "source": "Hermes Remote Operator Runtime extension",
+  "generatedAt": "2026-07-26T00:00:00.000Z",
+  "completedAt": "2026-07-26T00:00:00.000Z",
+  "reviewNotes": "Implemented RemoteAuditRecord and remote_audit_records with platform-message linkage and workflow routing outcomes."
+}

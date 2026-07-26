@@ -457,14 +457,14 @@ def route_intent(message: str, slash_command: str = "") -> IntentRoute:
 
     if any(word in text for word in ("build ", "create ", "start ", "launch ")):
         return IntentRoute(INTENT_NEW_PROJECT, 0.88, "new_project_launch", [INTENT_ARCHITECTURE])
-    if any(word in text for word in ("continue", "update", "fix", "improve", "switch")):
+    if any(word in text for word in ("continue", "update", "fix", "improve", "switch", "status", "briefing", "summary", "blocker")):
         return IntentRoute(INTENT_EXISTING_PROJECT, 0.84, "existing_project_work", [INTENT_TASK_WORK])
-    if any(word in text for word in ("research", "analyze", "compare", "investigate")):
+    if any(word in text for word in ("implement task", "complete task", "task-")):
+        return IntentRoute(INTENT_TASK_WORK, 0.86, "task_execution", [INTENT_REVIEW])
+    if any(word in text for word in ("research", "analyze", "compare", "investigate")) or text.startswith("ask ") or " ask " in text:
         return IntentRoute(INTENT_RESEARCH, 0.86, "research", [INTENT_ARCHITECTURE])
     if any(word in text for word in ("architecture", "architect", "refactor", "design workflow")):
         return IntentRoute(INTENT_ARCHITECTURE, 0.86, "architecture_review", [INTENT_TASK_WORK])
-    if any(word in text for word in ("implement task", "complete task", "task-")):
-        return IntentRoute(INTENT_TASK_WORK, 0.86, "task_execution", [INTENT_REVIEW])
     if any(word in text for word in ("review task", "approve", "reject")):
         return IntentRoute(INTENT_REVIEW, 0.86, "review")
     return IntentRoute(

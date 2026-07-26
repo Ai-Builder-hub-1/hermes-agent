@@ -1,0 +1,17 @@
+{
+  "id": "task-484",
+  "title": "Add tests for remote operator contracts, identity mapping, audit records, policy checks, and degraded-runtime behavior",
+  "status": "completed",
+  "priority": "high",
+  "phase": "Remote Operator Runtime",
+  "summary": "Validate the Phase 74 remote operator dry-run foundation and completion tracking.",
+  "acceptanceCriteria": [
+    "Tests cover request normalization, authorization, job creation, progress events, audit records, health, dashboard panels, CLI preview, and phase completion tracking.",
+    "Live unallowlisted actions are blocked.",
+    "Phase 74 reports 100% completion with implementation evidence."
+  ],
+  "source": "Hermes Remote Operator Runtime extension",
+  "generatedAt": "2026-07-26T00:00:00.000Z",
+  "completedAt": "2026-07-26T00:00:00.000Z",
+  "reviewNotes": "Implemented tests/hermes_os_integration/test_phase_74_remote_operator.py and validated it with .venv/bin/pytest tests/hermes_os_integration/test_phase_74_remote_operator.py -q."
+}

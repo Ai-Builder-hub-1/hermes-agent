@@ -1,0 +1,17 @@
+{
+  "id": "task-478",
+  "title": "Define Remote Operator Runtime contracts for inbound messages, normalized requests, workflow jobs, worker sessions, progress events, approvals, and final summaries",
+  "status": "completed",
+  "priority": "high",
+  "phase": "Remote Operator Runtime",
+  "summary": "Make Hermes available as an always-on operator service that can receive remote requests, route them through the Chief of Staff, execute approved workflows through controlled workers, and stream progress back without requiring the operator to sit at the local computer.",
+  "acceptanceCriteria": [
+    "Remote requests use one normalized command envelope across CLI, API, dashboard, Discord, and Telegram.",
+    "Workflow jobs, progress events, approvals, and audit records have explicit schemas.",
+    "Gateways remain interfaces into Hermes OS and do not get direct shell access."
+  ],
+  "source": "Hermes Remote Operator Runtime extension",
+  "generatedAt": "2026-07-26T00:00:00.000Z",
+  "completedAt": "2026-07-26T00:00:00.000Z",
+  "reviewNotes": "Implemented in hermes_os_integration.remote_operator with RemoteCommandEnvelope, RemoteWorkflowJob, RemoteProgressEvent, RemoteApprovalPrompt, RemoteAuditRecord, gateway contracts, CLI preview, dashboard panels, and focused Phase 74 tests."
+}

@@ -1,0 +1,17 @@
+{
+  "id": "task-480",
+  "title": "Add remote operator configuration schema for enabled gateways, allowed projects, allowed workflows, approval policy, budget ceilings, and emergency stop controls",
+  "status": "completed",
+  "priority": "high",
+  "phase": "Remote Operator Runtime",
+  "summary": "Create the policy configuration that keeps remote operation scoped, dry-run-first, budget-aware, and stoppable.",
+  "acceptanceCriteria": [
+    "Configuration defines enabled gateways, allowed users, allowed projects, allowed workflows, live action allowlists, approval-required actions, budgets, and emergency stop.",
+    "Dry-run mode remains the default.",
+    "Emergency stop blocks remote operation at policy level."
+  ],
+  "source": "Hermes Remote Operator Runtime extension",
+  "generatedAt": "2026-07-26T00:00:00.000Z",
+  "completedAt": "2026-07-26T00:00:00.000Z",
+  "reviewNotes": "Implemented RemoteOperatorConfig, remote_operator_config, authorize_remote_request, live action allowlist checks, budget fields, and emergency stop behavior."
+}

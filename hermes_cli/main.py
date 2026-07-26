@@ -10935,6 +10935,47 @@ def cmd_ask_col(args):
     print(json.dumps(result, indent=2, sort_keys=True))
 
 
+def cmd_remote_operator(args):
+    """Preview and inspect the Hermes Remote Operator Runtime foundation."""
+    from hermes_os_integration.remote_operator import (
+        remote_operator_config,
+        remote_operator_deployment_topology,
+        remote_operator_health,
+        remote_operator_preview,
+    )
+
+    command = getattr(args, "operator_command", "") or "status"
+    gateways = getattr(args, "gateway", None) or ["cli", "api", "dashboard"]
+    allowed_users = getattr(args, "allowed_user", None) or [getattr(args, "user_id", "operator")]
+    allowed_projects = getattr(args, "allowed_project", None) or [getattr(args, "project_id", "workspace")]
+    config = remote_operator_config(
+        enabled_gateways=gateways,
+        allowed_users=allowed_users,
+        allowed_projects=allowed_projects,
+        dry_run=not bool(getattr(args, "live", False)),
+        emergency_stop=bool(getattr(args, "emergency_stop", False)),
+    )
+    if command == "preview":
+        message = " ".join(getattr(args, "message", []) or []).strip()
+        if not message:
+            print("hermes operator preview requires a message", file=sys.stderr)
+            raise SystemExit(2)
+        result = remote_operator_preview(
+            message,
+            source=getattr(args, "source", "cli"),
+            user_id=getattr(args, "user_id", "operator"),
+            project_id=getattr(args, "project_id", "workspace"),
+            session_id=getattr(args, "session_id", "remote"),
+            project_path=getattr(args, "project", "."),
+            config=config,
+        )
+    elif command == "topology":
+        result = remote_operator_deployment_topology(getattr(args, "vps_host", ""))
+    else:
+        result = remote_operator_health(config)
+    print(json.dumps(result if isinstance(result, dict) else result.__dict__, indent=2, sort_keys=True))
+
+
 def cmd_plan(args):
     """Run Hermes OS work-graph planning commands."""
     from hermes_os_integration.plan_cli import main as _plan_main
@@ -11022,7 +11063,7 @@ _BUILTIN_SUBCOMMANDS = frozenset(
         "config", "cron", "curator", "dashboard", "debug", "doctor",
         "dump", "fallback", "gateway", "hooks", "import", "insights",
         "gui", "desktop", "kanban", "login", "logout", "logs", "lsp", "mcp", "memory", "migrate",
-        "model", "pairing", "plan", "plugins", "portal", "postinstall", "profile", "projects", "proxy",
+        "model", "operator", "pairing", "plan", "plugins", "portal", "postinstall", "profile", "projects", "proxy",
         "prompt-size",
         "send", "sessions", "setup",
         "skills", "slack", "snapshot", "start", "status", "switch", "tools", "uninstall", "update",
@@ -11558,6 +11599,43 @@ def main():
     ask_parser.add_argument("--initiative", default="", help="Active initiative to include in session memory")
     ask_parser.add_argument("--live", action="store_true", help="Mark the request as live instead of dry-run")
     ask_parser.set_defaults(func=cmd_ask_col)
+
+    operator_parser = subparsers.add_parser(
+        "operator",
+        help="Preview and inspect the Hermes Remote Operator Runtime",
+        description=(
+            "Inspect the dry-run Remote Operator Runtime foundation that will "
+            "serve CLI, API, dashboard, Discord, and Telegram requests through "
+            "one Hermes command envelope."
+        ),
+    )
+    operator_subparsers = operator_parser.add_subparsers(dest="operator_command")
+    operator_status = operator_subparsers.add_parser("status", help="Show remote operator health")
+    operator_status.add_argument("--gateway", action="append", help="Enabled gateway; repeatable")
+    operator_status.add_argument("--allowed-user", action="append", help="Allowed remote user; repeatable")
+    operator_status.add_argument("--allowed-project", action="append", help="Allowed project id; repeatable")
+    operator_status.add_argument("--user-id", default="operator", help="Operator identifier")
+    operator_status.add_argument("--project-id", default="workspace", help="Project id for default allowlist")
+    operator_status.add_argument("--live", action="store_true", help="Show live-mode policy instead of dry-run")
+    operator_status.add_argument("--emergency-stop", action="store_true", help="Preview emergency-stop health")
+    operator_status.set_defaults(func=cmd_remote_operator)
+    operator_preview = operator_subparsers.add_parser("preview", help="Preview a remote operator request")
+    operator_preview.add_argument("message", nargs="+", help="Remote natural-language request to route")
+    operator_preview.add_argument("--source", default="cli", choices=["cli", "api", "dashboard", "discord", "telegram"], help="Remote gateway source")
+    operator_preview.add_argument("--project", default=".", help="Project path to use for memory loading")
+    operator_preview.add_argument("--project-id", default="workspace", help="Project id for routing and policy")
+    operator_preview.add_argument("--user-id", default="operator", help="Remote operator user id")
+    operator_preview.add_argument("--session-id", default="remote", help="Remote session id")
+    operator_preview.add_argument("--gateway", action="append", help="Enabled gateway; repeatable")
+    operator_preview.add_argument("--allowed-user", action="append", help="Allowed remote user; repeatable")
+    operator_preview.add_argument("--allowed-project", action="append", help="Allowed project id; repeatable")
+    operator_preview.add_argument("--live", action="store_true", help="Preview live-mode policy instead of dry-run")
+    operator_preview.add_argument("--emergency-stop", action="store_true", help="Preview emergency-stop blocking")
+    operator_preview.set_defaults(func=cmd_remote_operator)
+    operator_topology = operator_subparsers.add_parser("topology", help="Show remote operator deployment topology")
+    operator_topology.add_argument("--vps-host", default="", help="VPS host label")
+    operator_topology.set_defaults(func=cmd_remote_operator)
+    operator_parser.set_defaults(func=cmd_remote_operator)
 
     # =========================================================================
     # model command  (parser built in hermes_cli/subcommands/model.py)

@@ -57,6 +57,7 @@ PHASES_35_45: Dict[int, Dict[str, Any]] = {
     71: {"name": "Agent Hierarchy And Delegation", "tasks": range(448, 458), "evidence": ["hermes_os_integration/conversational.py", "tests/hermes_os_integration/test_phase_66_73_completion.py"]},
     72: {"name": "Hermes Chat UI And Dashboard", "tasks": range(458, 468), "evidence": ["hermes_os_integration/conversational.py", "hermes_os_integration/dashboard.py", "tests/hermes_os_integration/test_phase_66_73_completion.py"]},
     73: {"name": "Dynamic Commands And Launch Success", "tasks": range(468, 478), "evidence": ["hermes_os_integration/conversational.py", "tests/hermes_os_integration/test_phase_66_73_completion.py"]},
+    74: {"name": "Remote Operator Runtime", "tasks": range(478, 485), "evidence": ["hermes_os_integration/remote_operator.py", "hermes_cli/main.py", "hermes_os_integration/dashboard.py", "tests/hermes_os_integration/test_phase_74_remote_operator.py"]},
 }
 
 
