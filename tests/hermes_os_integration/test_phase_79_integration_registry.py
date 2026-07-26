@@ -15,14 +15,16 @@ from hermes_os_integration.integration_registry import (
     integration_registry_summary,
     integration_status,
     load_integration_records,
+    parse_env_file_presence,
     project_integration_matrix,
+    scan_project_env_credentials,
     simple_credential_lists,
 )
 from hermes_os_integration.phase_completion import complete_phases, completion_summary, phase_statuses, task_ids_for_phases
 
 
 def test_integration_registry_summary_tracks_missing_and_global_credentials():
-    summary = integration_registry_summary(env={"OPENAI_API_KEY": "runtime-key", "META_ACCESS_TOKEN": "meta"})
+    summary = integration_registry_summary(env={"OPENAI_API_KEY": "runtime-key", "META_ACCESS_TOKEN": "meta"}, scan_project_env=False)
     simple = simple_credential_lists(summary)
 
     assert summary["schema"] == "hermes-integration-registry-v1"
@@ -71,7 +73,7 @@ def test_project_integration_matrix_groups_missing_credentials_by_project():
 
 
 def test_integration_dashboard_panels_and_project_dashboard_include_registry(tmp_path):
-    panels = integration_dashboard_panels(integration_registry_summary(env={}))
+    panels = integration_dashboard_panels(integration_registry_summary(env={}, scan_project_env=False))
     dashboard = build_project_dashboard(str(tmp_path))
     dashboard_ids = {panel["panel_id"] for panel in dashboard["panels"]}
 
@@ -84,10 +86,10 @@ def test_integration_dashboard_panels_and_project_dashboard_include_registry(tmp
 def test_cmd_integrations_outputs_status_missing_projects_dashboard_and_simple_lists(capsys):
     base = SimpleNamespace(registry="")
 
-    for command in ["status", "missing", "projects", "dashboard", "needed", "present"]:
+    for command in ["status", "missing", "projects", "dashboard", "needed", "present", "promote"]:
         cmd_integrations(SimpleNamespace(**base.__dict__, integrations_command=command))
         output = capsys.readouterr().out
-        if command in {"needed", "present"}:
+        if command in {"needed", "present", "promote"}:
             assert "Credentials" in output
             continue
         payload = json.loads(output)
@@ -105,10 +107,38 @@ def test_cmd_integrations_simple_lists_can_emit_json(capsys):
     needed = json.loads(capsys.readouterr().out)
     cmd_integrations(SimpleNamespace(registry="", integrations_command="present", json=True))
     present = json.loads(capsys.readouterr().out)
+    cmd_integrations(SimpleNamespace(registry="", integrations_command="promote", json=True))
+    promote = json.loads(capsys.readouterr().out)
 
     assert needed["schema"] == "hermes-integration-registry-v1"
     assert "needed" in needed
     assert "present" in present
+    assert "needs_promotion" in promote
+
+
+def test_project_env_scan_marks_global_credentials_for_promotion(tmp_path):
+    investing = tmp_path / "investing-system"
+    media = tmp_path / "media-engine"
+    investing.mkdir()
+    media.mkdir()
+    (investing / ".env").write_text("DISCORD_BOT_TOKEN=abc\nEMPTY_TOKEN=\n", encoding="utf-8")
+    (media / ".env").write_text("DISCORD_BOT_TOKEN=def\n", encoding="utf-8")
+
+    parsed = parse_env_file_presence(investing / ".env")
+    presence = scan_project_env_credentials({
+        "investing-system": str(investing),
+        "media-engine": str(media),
+    })
+    summary = integration_registry_summary(env={}, project_presence=presence, scan_project_env=False)
+    simple = simple_credential_lists(summary)
+    discord = next(item for item in summary["credentials"] if item["name"] == "DISCORD_BOT_TOKEN")
+
+    assert parsed["DISCORD_BOT_TOKEN"] is True
+    assert parsed["EMPTY_TOKEN"] is False
+    assert discord["state"] == "needs_promotion_to_global"
+    assert discord["project_locations"] == ["investing-system", "media-engine"]
+    assert any(item["name"] == "DISCORD_BOT_TOKEN" for item in simple["needs_promotion"])
+    assert not any(item["name"] == "DISCORD_BOT_TOKEN" for item in simple["needed"])
 
 
 def test_load_integration_records_from_json(tmp_path):

@@ -17,7 +17,7 @@ from typing import Any, Dict, Iterable, List, Mapping, Optional
 INTEGRATION_REGISTRY_SCHEMA = "hermes-integration-registry-v1"
 
 SECRET_SCOPES = ["global_org", "shared_business_unit", "project_local", "human_owned"]
-CREDENTIAL_STATES = ["present", "partial", "missing", "manual", "unknown"]
+CREDENTIAL_STATES = ["present", "present_project_local", "needs_promotion_to_global", "partial", "missing", "manual", "unknown"]
 INTEGRATION_STATES = ["connected", "configured", "planned", "missing", "blocked", "manual", "unknown"]
 
 
@@ -67,6 +67,7 @@ class CredentialStatus:
     required_by: List[str]
     required: bool = True
     human_owned: bool = False
+    project_locations: List[str] = field(default_factory=list)
 
 
 @dataclass(frozen=True)
@@ -83,6 +84,12 @@ class IntegrationStatus:
     present_credentials: List[str]
     storage_recommendation: str
     notes: str = ""
+
+
+@dataclass(frozen=True)
+class ProjectCredentialLocation:
+    project_id: str
+    path: str
 
 
 def default_project_manifests() -> List[ProjectIntegrationManifest]:
@@ -123,6 +130,20 @@ def default_project_manifests() -> List[ProjectIntegrationManifest]:
             planned_integrations=["portfolio-readiness-feeds"],
         ),
     ]
+
+
+def default_project_paths(workspace_root: str | Path = "/Users/hq/Workspace/projects") -> Dict[str, str]:
+    root = Path(workspace_root)
+    return {
+        "hermes": str(root / "nous-hermes-agent"),
+        "tlc-capital-group-os": str(root / "tlc-capital-group-os"),
+        "media-engine": str(root / "media-engine"),
+        "media-business-operations": str(root / "media-business-operations"),
+        "khashi-vc": str(root / "khashi-vc"),
+        "rinseables-os": str(root / "rinseables-os"),
+        "business-mapper": str(root / "business-mapper"),
+        "investing-system": str(root / "investing-system"),
+    }
 
 
 def default_integration_records() -> List[IntegrationRecord]:
@@ -325,7 +346,64 @@ def credential_presence(requirement: CredentialRequirement, env: Optional[Mappin
     return "present" if value else "missing"
 
 
-def credential_state(records: Iterable[CredentialRequirement], env: Optional[Mapping[str, str]] = None) -> str:
+def parse_env_file_presence(path: str | Path) -> Dict[str, bool]:
+    target = Path(path)
+    if not target.exists() or not target.is_file():
+        return {}
+    presence: Dict[str, bool] = {}
+    for raw in target.read_text(encoding="utf-8", errors="ignore").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip().removeprefix("export ").strip()
+        if not key:
+            continue
+        value = value.strip().strip("\"'")
+        presence[key] = bool(value)
+    return presence
+
+
+def scan_project_env_credentials(project_paths: Optional[Mapping[str, str]] = None) -> Dict[str, List[ProjectCredentialLocation]]:
+    paths = dict(project_paths or default_project_paths())
+    found: Dict[str, List[ProjectCredentialLocation]] = {}
+    for project_id, project_path in paths.items():
+        root = Path(project_path).expanduser()
+        candidates = [root / ".env", root / ".env.local", root / ".env.production"]
+        for candidate in candidates:
+            for key, present in parse_env_file_presence(candidate).items():
+                if not present:
+                    continue
+                found.setdefault(key, []).append(ProjectCredentialLocation(project_id=project_id, path=str(candidate)))
+    return found
+
+
+def _location_project_ids(locations: Optional[Iterable[ProjectCredentialLocation]]) -> List[str]:
+    return sorted({location.project_id for location in (locations or [])})
+
+
+def credential_presence_state(
+    requirement: CredentialRequirement,
+    *,
+    env: Optional[Mapping[str, str]] = None,
+    project_locations: Optional[Iterable[ProjectCredentialLocation]] = None,
+) -> str:
+    direct = credential_presence(requirement, env)
+    if direct == "present" or direct == "manual":
+        return direct
+    locations = list(project_locations or [])
+    if not locations:
+        return "missing"
+    if requirement.scope == "global_org":
+        return "needs_promotion_to_global"
+    return "present_project_local"
+
+
+def credential_state(
+    records: Iterable[CredentialRequirement],
+    env: Optional[Mapping[str, str]] = None,
+    project_presence: Optional[Mapping[str, List[ProjectCredentialLocation]]] = None,
+) -> str:
     requirements = list(records)
     required = [item for item in requirements if item.required and not item.human_owned]
     manual = [item for item in requirements if item.human_owned]
@@ -333,25 +411,40 @@ def credential_state(records: Iterable[CredentialRequirement], env: Optional[Map
         return "manual"
     if not required:
         return "unknown"
-    states = [credential_presence(item, env) for item in required]
+    states = [
+        credential_presence_state(item, env=env, project_locations=(project_presence or {}).get(item.name, []))
+        for item in required
+    ]
     if all(state == "present" for state in states):
         return "present"
+    if all(state in {"present", "present_project_local"} for state in states):
+        return "present_project_local"
+    if all(state in {"present", "needs_promotion_to_global"} for state in states):
+        return "needs_promotion_to_global"
     if any(state == "present" for state in states):
+        return "partial"
+    if any(state in {"present_project_local", "needs_promotion_to_global"} for state in states):
         return "partial"
     return "missing"
 
 
-def integration_status(record: IntegrationRecord, env: Optional[Mapping[str, str]] = None) -> IntegrationStatus:
-    cred_state = credential_state(record.credentials, env)
+def integration_status(
+    record: IntegrationRecord,
+    env: Optional[Mapping[str, str]] = None,
+    project_presence: Optional[Mapping[str, List[ProjectCredentialLocation]]] = None,
+) -> IntegrationStatus:
+    cred_state = credential_state(record.credentials, env, project_presence)
     missing = [
         credential.name
         for credential in record.credentials
-        if credential.required and credential_presence(credential, env) == "missing"
+        if credential.required
+        and credential_presence_state(credential, env=env, project_locations=(project_presence or {}).get(credential.name, [])) == "missing"
     ]
     present = [
         credential.name
         for credential in record.credentials
-        if credential_presence(credential, env) == "present"
+        if credential_presence_state(credential, env=env, project_locations=(project_presence or {}).get(credential.name, []))
+        in {"present", "present_project_local", "needs_promotion_to_global"}
     ]
     if record.current_state == "manual":
         state = "manual"
@@ -376,6 +469,14 @@ def integration_status(record: IntegrationRecord, env: Optional[Mapping[str, str
 
 
 def credential_matrix(records: Iterable[IntegrationRecord], env: Optional[Mapping[str, str]] = None) -> List[CredentialStatus]:
+    return credential_matrix_with_project_presence(records, env=env)
+
+
+def credential_matrix_with_project_presence(
+    records: Iterable[IntegrationRecord],
+    env: Optional[Mapping[str, str]] = None,
+    project_presence: Optional[Mapping[str, List[ProjectCredentialLocation]]] = None,
+) -> List[CredentialStatus]:
     by_name: Dict[str, Dict[str, Any]] = {}
     for record in records:
         for requirement in record.credentials:
@@ -393,16 +494,18 @@ def credential_matrix(records: Iterable[IntegrationRecord], env: Optional[Mappin
     matrix = []
     for name, row in sorted(by_name.items()):
         requirement = row["requirement"]
+        locations = list((project_presence or {}).get(name, []))
         matrix.append(
             CredentialStatus(
                 name=name,
-                state=credential_presence(requirement, env),
+                state=credential_presence_state(requirement, env=env, project_locations=locations),
                 scope=requirement.scope,
                 storage=requirement.storage,
                 used_by=sorted(row["used_by"]),
                 required_by=sorted(row["required_by"]),
                 required=requirement.required,
                 human_owned=requirement.human_owned,
+                project_locations=_location_project_ids(locations),
             )
         )
     return matrix
@@ -412,9 +515,13 @@ def project_integration_matrix(
     manifests: Optional[Iterable[ProjectIntegrationManifest]] = None,
     records: Optional[Iterable[IntegrationRecord]] = None,
     env: Optional[Mapping[str, str]] = None,
+    project_presence: Optional[Mapping[str, List[ProjectCredentialLocation]]] = None,
 ) -> List[Dict[str, Any]]:
     manifest_list = list(manifests or default_project_manifests())
-    status_by_id = {status.integration_id: status for status in [integration_status(record, env) for record in (records or default_integration_records())]}
+    status_by_id = {
+        status.integration_id: status
+        for status in [integration_status(record, env, project_presence) for record in (records or default_integration_records())]
+    }
     rows = []
     for manifest in manifest_list:
         integrations = []
@@ -441,12 +548,24 @@ def integration_registry_summary(
     records: Optional[Iterable[IntegrationRecord]] = None,
     manifests: Optional[Iterable[ProjectIntegrationManifest]] = None,
     env: Optional[Mapping[str, str]] = None,
+    project_presence: Optional[Mapping[str, List[ProjectCredentialLocation]]] = None,
+    scan_project_env: bool = True,
+    project_paths: Optional[Mapping[str, str]] = None,
 ) -> Dict[str, Any]:
     record_list = list(records or default_integration_records())
     manifest_list = list(manifests or default_project_manifests())
-    statuses = [integration_status(record, env) for record in record_list]
-    credentials = credential_matrix(record_list, env)
+    scanned_presence = project_presence
+    if scanned_presence is None and scan_project_env:
+        scanned_presence = scan_project_env_credentials(project_paths)
+    scanned_presence = scanned_presence or {}
+    statuses = [integration_status(record, env, scanned_presence) for record in record_list]
+    credentials = credential_matrix_with_project_presence(record_list, env=env, project_presence=scanned_presence)
     missing_credentials = [credential for credential in credentials if credential.required and credential.state == "missing" and not credential.human_owned]
+    promotion_credentials = [
+        credential
+        for credential in credentials
+        if credential.required and credential.state == "needs_promotion_to_global" and not credential.human_owned
+    ]
     global_candidates = [
         credential
         for credential in credentials
@@ -459,13 +578,15 @@ def integration_registry_summary(
         "integration_count": len(statuses),
         "credential_count": len(credentials),
         "missing_credential_count": len(missing_credentials),
+        "needs_promotion_count": len(promotion_credentials),
         "global_candidate_count": len(global_candidates),
         "status_counts": _count_by([status.state for status in statuses]),
         "credential_state_counts": _count_by([credential.state for credential in credentials]),
         "integrations": [asdict(status) for status in statuses],
         "credentials": [asdict(credential) for credential in credentials],
-        "projects": project_integration_matrix(manifest_list, record_list, env),
+        "projects": project_integration_matrix(manifest_list, record_list, env, scanned_presence),
         "global_secret_candidates": [asdict(credential) for credential in global_candidates],
+        "needs_promotion": [asdict(credential) for credential in promotion_credentials],
         "human_setup_items": [
             asdict(credential)
             for credential in credentials
@@ -491,6 +612,13 @@ def simple_credential_lists(summary: Optional[Mapping[str, Any]] = None) -> Dict
         and not credential.get("human_owned", False)
         and credential.get("state") == "present"
     ]
+    needs_promotion = [
+        credential
+        for credential in credentials
+        if credential.get("required", True)
+        and not credential.get("human_owned", False)
+        and credential.get("state") == "needs_promotion_to_global"
+    ]
     manual = [
         credential
         for credential in credentials
@@ -500,9 +628,11 @@ def simple_credential_lists(summary: Optional[Mapping[str, Any]] = None) -> Dict
         "schema": payload.get("schema", INTEGRATION_REGISTRY_SCHEMA),
         "needed_count": len(needed),
         "present_count": len(present),
+        "needs_promotion_count": len(needs_promotion),
         "manual_count": len(manual),
         "needed": sorted(needed, key=lambda item: str(item.get("name", ""))),
         "present": sorted(present, key=lambda item: str(item.get("name", ""))),
+        "needs_promotion": sorted(needs_promotion, key=lambda item: str(item.get("name", ""))),
         "manual": sorted(manual, key=lambda item: str(item.get("name", ""))),
     }
 
@@ -541,6 +671,7 @@ def integration_dashboard_panels(summary: Optional[Mapping[str, Any]] = None) ->
                 "integration_count": payload.get("integration_count", 0),
                 "credential_count": payload.get("credential_count", 0),
                 "missing_credential_count": payload.get("missing_credential_count", 0),
+                "needs_promotion_count": payload.get("needs_promotion_count", 0),
                 "global_candidate_count": payload.get("global_candidate_count", 0),
                 "status_counts": payload.get("status_counts", {}),
             },

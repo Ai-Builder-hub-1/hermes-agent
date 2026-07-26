@@ -10996,13 +10996,23 @@ def cmd_integrations(args):
             "human_setup_items": summary["human_setup_items"],
             "global_secret_candidates": summary["global_secret_candidates"],
         }
-    elif command in {"needed", "present"}:
+    elif command in {"needed", "present", "promote"}:
         lists = simple_credential_lists(summary)
         if getattr(args, "json", False):
-            result = {"schema": lists["schema"], command: lists[command], f"{command}_count": lists[f"{command}_count"]}
+            list_key = "needs_promotion" if command == "promote" else command
+            count_key = "needs_promotion_count" if command == "promote" else f"{command}_count"
+            result = {"schema": lists["schema"], list_key: lists[list_key], count_key: lists[count_key]}
         else:
-            title = "Credentials Still Needed" if command == "needed" else "Credentials Already Present"
-            print(format_simple_credentials(lists[command], title=title))
+            if command == "needed":
+                title = "Credentials Still Needed"
+                rows = lists["needed"]
+            elif command == "promote":
+                title = "Credentials Found Project-Locally, Need Global Promotion"
+                rows = lists["needs_promotion"]
+            else:
+                title = "Credentials Already Present Globally"
+                rows = lists["present"]
+            print(format_simple_credentials(rows, title=title))
             return
     elif command == "projects":
         result = {
@@ -11704,6 +11714,10 @@ def main():
     integrations_present.add_argument("--registry", default="", help="Optional JSON registry override")
     integrations_present.add_argument("--json", action="store_true", help="Print JSON instead of plain text")
     integrations_present.set_defaults(func=cmd_integrations)
+    integrations_promote = integrations_subparsers.add_parser("promote", help="Show credentials found in project env files that should move to global/shared storage")
+    integrations_promote.add_argument("--registry", default="", help="Optional JSON registry override")
+    integrations_promote.add_argument("--json", action="store_true", help="Print JSON instead of plain text")
+    integrations_promote.set_defaults(func=cmd_integrations)
     integrations_projects = integrations_subparsers.add_parser("projects", help="Show per-project integration matrix")
     integrations_projects.add_argument("--registry", default="", help="Optional JSON registry override")
     integrations_projects.set_defaults(func=cmd_integrations)
