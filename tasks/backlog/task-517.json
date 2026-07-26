@@ -1,0 +1,13 @@
+{
+  "id": "task-517",
+  "title": "Define credential requirement schema for credential name, required flag, scope, storage target, human-owned status, and description",
+  "status": "completed",
+  "priority": "high",
+  "phase": "Global Integration And Credential Registry",
+  "summary": "Separate credential metadata from secret values while tracking global, shared, project-local, and human-owned setup.",
+  "acceptanceCriteria": ["Credential records never store secret values.", "Credential records distinguish global, shared, project-local, and human-owned setup."],
+  "source": "Hermes Remote Operator Runtime extension",
+  "generatedAt": "2026-07-26T00:00:00.000Z",
+  "completedAt": "2026-07-26T00:00:00.000Z",
+  "reviewNotes": "Implemented CredentialRequirement, CredentialStatus, credential_presence, credential_state, and credential_matrix."
+}

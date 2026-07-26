@@ -256,6 +256,23 @@ Mirror every Discord, Telegram, CLI, API, and dashboard action into the Hermes c
 - `task-514`: Add dashboard actions to retry failed remote jobs, request more context, approve/reject pending work, open project evidence, and pause a gateway.
 - `task-515`: Add end-to-end release test proving a remote message can request a project briefing, route to a specialist agent, return status, request approval for a safe workflow, execute in dry-run/live mode, and mirror the result in the dashboard.
 
+### Phase 79 - Global Integration And Credential Registry
+
+Create the cross-project index that shows which integrations are connected, planned, missing, shared globally, local to a project, or human-owned so Hermes can identify what must be promoted to global/org-level secrets versus what remains project-local.
+
+Build status: local registry foundation complete as of 2026-07-26. Live secret-store verification still requires access to the configured GitHub, VPS, and provider environments.
+
+- `task-516`: Define integration registry schema for integration id, name, category, scope, current state, consuming projects, planned projects, credential requirements, storage recommendation, and notes.
+- `task-517`: Define credential requirement schema for credential name, required flag, scope, storage target, human-owned status, and description.
+- `task-518`: Add canonical project integration manifests for Hermes, TLC Capital Group OS, Media Engine, Media Business Operations, Khashi VC, Rinseables OS, and Business Mapper.
+- `task-519`: Add default global integration records for OpenAI billing, Google/Gemini billing, Hetzner, Discord, Telegram, remote operator runtime, Meta, model runtimes, GitHub Actions, TLC authority, YouTube, and Search Console.
+- `task-520`: Add credential state evaluation for present, partial, missing, manual, and unknown without storing secret values.
+- `task-521`: Add per-project integration matrix showing connected/planned integrations and missing credentials by project.
+- `task-522`: Add global secret candidate report showing credentials used by multiple projects and recommended storage target.
+- `task-523`: Add `hermes integrations` CLI for status, missing setup items, project matrix, and dashboard payloads.
+- `task-524`: Add Hermes dashboard panels for registry summary, missing credentials, and project integration matrix.
+- `task-525`: Add tests for registry summaries, credential state, project matrix, CLI output, dashboard panels, and Phase 79 completion tracking.
+
 ## Operating Guardrails
 
 - Conversation is an interface, not a replacement for Hermes OS governance.

@@ -1,0 +1,13 @@
+{
+  "id": "task-521",
+  "title": "Add per-project integration matrix showing connected/planned integrations and missing credentials by project",
+  "status": "completed",
+  "priority": "high",
+  "phase": "Global Integration And Credential Registry",
+  "summary": "Expose the project-by-project view needed to see what each OS has, plans, and lacks.",
+  "acceptanceCriteria": ["Project matrix includes current integrations, planned integrations, and missing credentials.", "Unknown integration ids are represented without crashing."],
+  "source": "Hermes Remote Operator Runtime extension",
+  "generatedAt": "2026-07-26T00:00:00.000Z",
+  "completedAt": "2026-07-26T00:00:00.000Z",
+  "reviewNotes": "Implemented project_integration_matrix and CLI project matrix output."
+}

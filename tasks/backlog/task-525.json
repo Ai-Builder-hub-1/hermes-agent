@@ -1,0 +1,13 @@
+{
+  "id": "task-525",
+  "title": "Add tests for registry summaries, credential state, project matrix, CLI output, dashboard panels, and Phase 79 completion tracking",
+  "status": "completed",
+  "priority": "high",
+  "phase": "Global Integration And Credential Registry",
+  "summary": "Validate the Phase 79 local foundation and completion metadata.",
+  "acceptanceCriteria": ["Tests cover summaries, credential state, project matrix, dashboard panels, CLI output, registry loading, and completion tracking.", "Phase 79 reports 100% local completion."],
+  "source": "Hermes Remote Operator Runtime extension",
+  "generatedAt": "2026-07-26T00:00:00.000Z",
+  "completedAt": "2026-07-26T00:00:00.000Z",
+  "reviewNotes": "Implemented tests/hermes_os_integration/test_phase_79_integration_registry.py."
+}

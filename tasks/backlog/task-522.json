@@ -1,0 +1,13 @@
+{
+  "id": "task-522",
+  "title": "Add global secret candidate report showing credentials used by multiple projects and recommended storage target",
+  "status": "completed",
+  "priority": "high",
+  "phase": "Global Integration And Credential Registry",
+  "summary": "Identify credentials that should be promoted to org/global/shared storage instead of duplicated per project.",
+  "acceptanceCriteria": ["Global secret candidates include credentials used by multiple projects.", "Each candidate includes scope, storage recommendation, and consuming projects."],
+  "source": "Hermes Remote Operator Runtime extension",
+  "generatedAt": "2026-07-26T00:00:00.000Z",
+  "completedAt": "2026-07-26T00:00:00.000Z",
+  "reviewNotes": "Implemented global_secret_candidates in integration_registry_summary."
+}

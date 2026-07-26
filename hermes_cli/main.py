@@ -10976,6 +10976,39 @@ def cmd_remote_operator(args):
     print(json.dumps(result if isinstance(result, dict) else result.__dict__, indent=2, sort_keys=True))
 
 
+def cmd_integrations(args):
+    """Inspect the cross-project integration and credential registry."""
+    from hermes_os_integration.integration_registry import (
+        integration_dashboard_panels,
+        integration_registry_summary,
+        load_integration_records,
+    )
+
+    records = load_integration_records(getattr(args, "registry", "")) if getattr(args, "registry", "") else None
+    summary = integration_registry_summary(records=records)
+    command = getattr(args, "integrations_command", "") or "status"
+    if command == "missing":
+        result = {
+            "schema": summary["schema"],
+            "missing_credential_count": summary["missing_credential_count"],
+            "human_setup_items": summary["human_setup_items"],
+            "global_secret_candidates": summary["global_secret_candidates"],
+        }
+    elif command == "projects":
+        result = {
+            "schema": summary["schema"],
+            "projects": summary["projects"],
+        }
+    elif command == "dashboard":
+        result = {
+            "schema": summary["schema"],
+            "panels": integration_dashboard_panels(summary),
+        }
+    else:
+        result = summary
+    print(json.dumps(result, indent=2, sort_keys=True))
+
+
 def cmd_plan(args):
     """Run Hermes OS work-graph planning commands."""
     from hermes_os_integration.plan_cli import main as _plan_main
@@ -11061,7 +11094,7 @@ _BUILTIN_SUBCOMMANDS = frozenset(
         "acp", "architect", "auth", "backup", "bundles", "checkpoints", "claw", "completion",
         "computer-use",
         "config", "cron", "curator", "dashboard", "debug", "doctor",
-        "dump", "fallback", "gateway", "hooks", "import", "insights",
+        "dump", "fallback", "gateway", "hooks", "import", "insights", "integrations",
         "gui", "desktop", "kanban", "login", "logout", "logs", "lsp", "mcp", "memory", "migrate",
         "model", "operator", "pairing", "plan", "plugins", "portal", "postinstall", "profile", "projects", "proxy",
         "prompt-size",
@@ -11636,6 +11669,30 @@ def main():
     operator_topology.add_argument("--vps-host", default="", help="VPS host label")
     operator_topology.set_defaults(func=cmd_remote_operator)
     operator_parser.set_defaults(func=cmd_remote_operator)
+
+    integrations_parser = subparsers.add_parser(
+        "integrations",
+        help="Inspect cross-project integrations and credential requirements",
+        description=(
+            "Show the Hermes cross-project integration registry, credential "
+            "requirements, global secret candidates, missing setup items, and "
+            "per-project integration matrix."
+        ),
+    )
+    integrations_subparsers = integrations_parser.add_subparsers(dest="integrations_command")
+    integrations_status = integrations_subparsers.add_parser("status", help="Show full integration registry status")
+    integrations_status.add_argument("--registry", default="", help="Optional JSON registry override")
+    integrations_status.set_defaults(func=cmd_integrations)
+    integrations_missing = integrations_subparsers.add_parser("missing", help="Show missing credentials and human setup items")
+    integrations_missing.add_argument("--registry", default="", help="Optional JSON registry override")
+    integrations_missing.set_defaults(func=cmd_integrations)
+    integrations_projects = integrations_subparsers.add_parser("projects", help="Show per-project integration matrix")
+    integrations_projects.add_argument("--registry", default="", help="Optional JSON registry override")
+    integrations_projects.set_defaults(func=cmd_integrations)
+    integrations_dashboard = integrations_subparsers.add_parser("dashboard", help="Show dashboard panel payloads")
+    integrations_dashboard.add_argument("--registry", default="", help="Optional JSON registry override")
+    integrations_dashboard.set_defaults(func=cmd_integrations)
+    integrations_parser.set_defaults(func=cmd_integrations)
 
     # =========================================================================
     # model command  (parser built in hermes_cli/subcommands/model.py)

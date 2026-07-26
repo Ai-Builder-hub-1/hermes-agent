@@ -1,0 +1,13 @@
+{
+  "id": "task-520",
+  "title": "Add credential state evaluation for present, partial, missing, manual, and unknown without storing secret values",
+  "status": "completed",
+  "priority": "high",
+  "phase": "Global Integration And Credential Registry",
+  "summary": "Let Hermes evaluate whether required credentials appear available without leaking secret values.",
+  "acceptanceCriteria": ["Credential state detects present, partial, missing, manual, and unknown states.", "Secret values are never included in status payloads."],
+  "source": "Hermes Remote Operator Runtime extension",
+  "generatedAt": "2026-07-26T00:00:00.000Z",
+  "completedAt": "2026-07-26T00:00:00.000Z",
+  "reviewNotes": "Implemented credential_presence, credential_state, and tests proving secret values are not returned."
+}

@@ -1,0 +1,13 @@
+{
+  "id": "task-523",
+  "title": "Add hermes integrations CLI for status, missing setup items, project matrix, and dashboard payloads",
+  "status": "completed",
+  "priority": "high",
+  "phase": "Global Integration And Credential Registry",
+  "summary": "Make the cross-project integration registry queryable from the Hermes CLI.",
+  "acceptanceCriteria": ["CLI supports status, missing, projects, and dashboard views.", "CLI emits JSON suitable for dashboard or agent consumption."],
+  "source": "Hermes Remote Operator Runtime extension",
+  "generatedAt": "2026-07-26T00:00:00.000Z",
+  "completedAt": "2026-07-26T00:00:00.000Z",
+  "reviewNotes": "Implemented cmd_integrations and registered hermes integrations subcommands in hermes_cli.main."
+}

@@ -8,8 +8,8 @@ Last updated: 2026-07-26.
 | Layer | Current Status | Meaning |
 | --- | ---: | --- |
 | Local command-center surface | 100% | Executive briefing, project feed registry, action gates, production evidence checklist, and human setup queue are built locally. |
-| External/live integration | 62% | Hermes now has the Remote Operator Runtime dry-run foundation, but live feeds, credentials, production evidence, Discord/Telegram tokens, VPS services, and always-on workers are not fully connected. |
-| Overall operating readiness | 78% | Blended state across local surfaces, downstream project adoption, production evidence, cost telemetry, remote operator foundation, and runtime execution. |
+| External/live integration | 66% | Hermes now has the Remote Operator Runtime dry-run foundation and cross-project integration/credential registry, but live secret-store verification, provider credentials, Discord/Telegram tokens, VPS services, and always-on workers are not fully connected. |
+| Overall operating readiness | 82% | Blended state across local surfaces, downstream project adoption, production evidence, cost telemetry, remote operator foundation, integration registry, and runtime execution. |
 
 ## Current Build Slice
 
@@ -20,6 +20,7 @@ Last updated: 2026-07-26.
 | Phase 76 - Project-Aware Remote Delegation | 0% implementation | Plan exists; requires specialist routing against live project registry, project memory, feeds, and agent briefing workflows. |
 | Phase 77 - Approval-Gated Live Execution | 0% implementation | Plan exists; requires worker adapters, allowlists, budget checks, production evidence, rollback paths, and operator approval flows. |
 | Phase 78 - Remote Operator Dashboard Integration | 15% foundation | Dashboard now has remote operator health/job/inbox panels; live activity feed and action controls still need implementation. |
+| Phase 79 - Global Integration And Credential Registry | 100% local foundation | Cross-project integration records, credential requirements, global-secret candidates, per-project matrix, missing setup items, CLI, dashboard panels, tests, and phase tracking are built. |
 
 ## Human-Owned Setup Items
 
@@ -82,3 +83,10 @@ Production-affecting actions must remain approval-gated until each action has ev
 7. Add allowlisted worker adapters for Codex or equivalent coding sessions, tests, feed refreshes, dashboard refreshes, commits, pushes, and deployment rails.
 8. Mirror every remote request, approval, worker session, artifact, and outcome into the Hermes dashboard.
 9. Enable one low-risk project in live mode, then expand per project after evidence and rollback policies pass.
+
+## Integration Registry Commands
+
+- `hermes integrations status`: full cross-project integration and credential registry.
+- `hermes integrations missing`: missing credentials, human-owned setup items, and global secret candidates.
+- `hermes integrations projects`: project-by-project integration matrix.
+- `hermes integrations dashboard`: dashboard panel payloads for registry summary, missing credentials, and project matrix.

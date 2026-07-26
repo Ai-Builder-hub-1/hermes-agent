@@ -1,0 +1,13 @@
+{
+  "id": "task-524",
+  "title": "Add Hermes dashboard panels for registry summary, missing credentials, and project integration matrix",
+  "status": "completed",
+  "priority": "high",
+  "phase": "Global Integration And Credential Registry",
+  "summary": "Surface integration and credential state in the Hermes dashboard command center.",
+  "acceptanceCriteria": ["Dashboard includes registry summary, missing credentials, and project matrix panels.", "Panels use the same registry summary as the CLI."],
+  "source": "Hermes Remote Operator Runtime extension",
+  "generatedAt": "2026-07-26T00:00:00.000Z",
+  "completedAt": "2026-07-26T00:00:00.000Z",
+  "reviewNotes": "Implemented integration_dashboard_panels and added them to build_project_dashboard."
+}

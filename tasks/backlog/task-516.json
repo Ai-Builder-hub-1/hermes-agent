@@ -1,0 +1,13 @@
+{
+  "id": "task-516",
+  "title": "Define integration registry schema for integration id, name, category, scope, current state, consuming projects, planned projects, credential requirements, storage recommendation, and notes",
+  "status": "completed",
+  "priority": "high",
+  "phase": "Global Integration And Credential Registry",
+  "summary": "Create the cross-project index for connected, planned, missing, shared, project-local, and human-owned integrations.",
+  "acceptanceCriteria": ["Integration records are metadata-only.", "Records include scope, state, project usage, credential requirements, and storage recommendation."],
+  "source": "Hermes Remote Operator Runtime extension",
+  "generatedAt": "2026-07-26T00:00:00.000Z",
+  "completedAt": "2026-07-26T00:00:00.000Z",
+  "reviewNotes": "Implemented IntegrationRecord and registry summary support in hermes_os_integration.integration_registry."
+}

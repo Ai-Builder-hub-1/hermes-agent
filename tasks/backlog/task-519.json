@@ -1,0 +1,13 @@
+{
+  "id": "task-519",
+  "title": "Add default global integration records for OpenAI billing, Google/Gemini billing, Hetzner, Discord, Telegram, remote operator runtime, Meta, model runtimes, GitHub Actions, TLC authority, YouTube, and Search Console",
+  "status": "completed",
+  "priority": "high",
+  "phase": "Global Integration And Credential Registry",
+  "summary": "Seed the registry with the known cross-project and project-specific integrations that block the remaining operating readiness.",
+  "acceptanceCriteria": ["Known billing, model, deployment, gateway, media, governance, and analytics integrations are represented.", "Each record includes credential requirements and storage recommendation."],
+  "source": "Hermes Remote Operator Runtime extension",
+  "generatedAt": "2026-07-26T00:00:00.000Z",
+  "completedAt": "2026-07-26T00:00:00.000Z",
+  "reviewNotes": "Implemented default_integration_records for global and project-specific integrations."
+}

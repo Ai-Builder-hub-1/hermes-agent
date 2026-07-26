@@ -14,6 +14,7 @@ from .tasks import generate_tasks_from_review, generate_tasks_from_work_graph, t
 from .templates import discover_templates, template_registry_paths
 from .project_runtime_ops import runtime_dashboard_modules
 from .conversational import col_dashboard_panels
+from .integration_registry import integration_dashboard_panels
 from .remote_operator import remote_operator_config, remote_operator_dashboard_panels
 
 
@@ -249,6 +250,14 @@ def build_project_dashboard(project: str, projects_root: str | None = None, laun
                 allowed_projects=[scan.project_id, "workspace"],
             )
         )
+    )
+    panels.extend(
+        DashboardPanel(
+            panel_id=module["panel_id"],
+            title=module["title"],
+            data=module["data"],
+        )
+        for module in integration_dashboard_panels()
     )
     return {
         "project_id": scan.project_id,
