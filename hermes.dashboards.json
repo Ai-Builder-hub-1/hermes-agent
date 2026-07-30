@@ -28,7 +28,8 @@
       "category": "research-operations",
       "owner": "Khashi VC",
       "url": "https://roc.tlccapitalgroup.com/",
-      "proofUrl": "https://roc.tlccapitalgroup.com/dashboard/proof",
+      "proofUrl": "https://roc.tlccapitalgroup.com/dashboard/proof?view=live-market-intelligence",
+      "localProofUrl": "http://127.0.0.1:3000/dashboard/proof?view=live-market-intelligence",
       "proofAuth": {
         "type": "bearer-env",
         "env": "HERMES_DASHBOARD_PROOF_TOKEN"

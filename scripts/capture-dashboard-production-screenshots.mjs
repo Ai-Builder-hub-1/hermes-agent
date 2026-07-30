@@ -12,6 +12,7 @@ const outputDir = path.join(root, "docs/design/production-screenshots");
 const args = process.argv.slice(2);
 const idArg = args.find((arg) => arg.startsWith("--id="));
 const onlyId = idArg ? idArg.slice("--id=".length) : null;
+const useLocalProof = args.includes("--local");
 const timeoutMs = Number(args.find((arg) => arg.startsWith("--timeout="))?.slice("--timeout=".length) ?? 30000);
 
 function readJson(file) {
@@ -19,7 +20,7 @@ function readJson(file) {
 }
 
 function proofCaptureTarget(entry) {
-  const targetUrl = entry.proofUrl || entry.url;
+  const targetUrl = useLocalProof ? entry.localProofUrl || entry.proofUrl || entry.url : entry.proofUrl || entry.url;
   const headers = {};
   const proofAuth = entry.proofAuth;
   if (!proofAuth) return { targetUrl, headers, proofEndpointUsed: Boolean(entry.proofUrl) };
@@ -73,7 +74,9 @@ for (const entry of entries) {
     if (Object.keys(target.headers).length) {
       await page.setExtraHTTPHeaders(target.headers);
     }
-    await page.goto(target.targetUrl, { waitUntil: "domcontentloaded", timeout: timeoutMs });
+    const response = await page.goto(target.targetUrl, { waitUntil: "domcontentloaded", timeout: timeoutMs });
+    const httpStatus = response?.status();
+    const proofAuthFailed = httpStatus === 401 || httpStatus === 403;
     await page.waitForLoadState("networkidle", { timeout: Math.min(timeoutMs, 10000) }).catch(() => {});
     const bodyText = await page.locator("body").innerText({ timeout: 5000 }).catch(() => "");
     const lowerText = bodyText.toLowerCase();
@@ -83,6 +86,24 @@ for (const entry of entries) {
       (lowerText.includes("password") || lowerText.includes("username") || lowerText.includes("signed out"))
     );
     const blankPrimaryDetected = bodyText.trim().length < 120;
+    if (proofAuthFailed) {
+      results.push({
+        id: entry.id,
+        url: entry.url,
+        status: "proof-auth-failed",
+        screenshotBaselinePath: entry.screenshotBaselinePath,
+        capturedAt: startedAt,
+        localProofUsed: useLocalProof,
+        proofEndpointUsed: target.proofEndpointUsed,
+        proofAuthMissing: target.authMissing ?? false,
+        httpStatus,
+        authWallDetected: true,
+        blankPrimaryDetected: false,
+        textLength: bodyText.trim().length,
+        error: `proof endpoint returned HTTP ${httpStatus}`
+      });
+      continue;
+    }
     await page.screenshot({ path: screenshotPath, fullPage: true });
     results.push({
       id: entry.id,
@@ -90,6 +111,8 @@ for (const entry of entries) {
       status: authWallDetected || blankPrimaryDetected ? "captured-review-needed" : "captured",
       screenshotBaselinePath: entry.screenshotBaselinePath,
       capturedAt: startedAt,
+      httpStatus,
+      localProofUsed: useLocalProof,
       proofEndpointUsed: target.proofEndpointUsed,
       proofAuthMissing: target.authMissing ?? false,
       authWallDetected,
@@ -103,6 +126,7 @@ for (const entry of entries) {
       status: "failed",
       screenshotBaselinePath: entry.screenshotBaselinePath,
       proofEndpointUsed: Boolean(entry.proofUrl),
+      localProofUsed: useLocalProof,
       error: error instanceof Error ? error.message : String(error)
     });
   } finally {
@@ -118,6 +142,7 @@ const updatedEntries = (registry.entries ?? []).map((entry) => {
   if (!result) return entry;
   const captured = result.status === "captured";
   const reviewNeeded = result.status === "captured-review-needed";
+  const authFailed = result.status === "proof-auth-failed";
   return {
     ...entry,
     proof: {
@@ -127,7 +152,10 @@ const updatedEntries = (registry.entries ?? []).map((entry) => {
       capturedAt: captured || reviewNeeded ? result.capturedAt : entry.proof?.capturedAt,
       proofEndpointDeclared: Boolean(entry.proofUrl),
       proofEndpointUsed: result.proofEndpointUsed ?? entry.proof?.proofEndpointUsed ?? false,
+      localProofUsed: result.localProofUsed ?? entry.proof?.localProofUsed ?? false,
       proofAuthMissing: result.proofAuthMissing ?? entry.proof?.proofAuthMissing ?? false,
+      proofAuthFailed: authFailed,
+      httpStatus: result.httpStatus ?? entry.proof?.httpStatus,
       authWallDetected: result.authWallDetected ?? entry.proof?.authWallDetected ?? false,
       blankPrimaryDetected: result.blankPrimaryDetected ?? entry.proof?.blankPrimaryDetected ?? false,
       textLength: result.textLength ?? entry.proof?.textLength,
@@ -152,17 +180,20 @@ fs.writeFileSync(registryPath, `${JSON.stringify({
 }, null, 2)}\n`);
 
 const failures = results.filter((result) => result.status === "failed");
+const authFailures = results.filter((result) => result.status === "proof-auth-failed");
 for (const result of results) {
   console.log(`${result.status}: ${result.id} -> ${result.screenshotBaselinePath}`);
   if (result.proofEndpointUsed) console.log("  proof endpoint used");
   if (result.proofAuthMissing) console.log("  proof auth token missing");
+  if (result.status === "proof-auth-failed") console.log("  proof auth failed");
   if (result.authWallDetected) console.log("  auth wall detected");
   if (result.blankPrimaryDetected) console.log("  blank primary region suspected");
+  if (result.httpStatus) console.log(`  http ${result.httpStatus}`);
   if (result.error) console.log(`  ${result.error}`);
 }
 
-if (failures.length) {
-  console.error(`Production screenshot capture completed with ${failures.length} failure(s).`);
+if (failures.length || authFailures.length) {
+  console.error(`Production screenshot capture completed with ${failures.length} failure(s) and ${authFailures.length} auth failure(s).`);
   process.exit(1);
 }
 

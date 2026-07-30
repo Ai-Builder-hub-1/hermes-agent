@@ -27,6 +27,7 @@ const entries = dashboards.map((dashboard) => {
     owner: dashboard.owner,
     url: dashboard.url,
     proofUrl: dashboard.proofUrl,
+    localProofUrl: dashboard.localProofUrl,
     proofAuth: dashboard.proofAuth ?? (dashboard.proofUrl ? { type: "bearer-env", env: "HERMES_DASHBOARD_PROOF_TOKEN" } : undefined),
     healthUrl: dashboard.healthUrl,
     snapshotUrl: dashboard.snapshotUrl,

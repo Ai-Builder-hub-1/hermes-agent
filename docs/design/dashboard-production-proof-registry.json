@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-30T15:30:35.901Z",
+  "generatedAt": "2026-07-30T18:41:24.074Z",
   "entries": [
     {
       "id": "nous-hermes-agent.dashboard",
@@ -32,7 +32,8 @@
       "label": "Khashi VC ROC",
       "owner": "Khashi VC",
       "url": "https://roc.tlccapitalgroup.com/",
-      "proofUrl": "https://roc.tlccapitalgroup.com/dashboard/proof",
+      "proofUrl": "https://roc.tlccapitalgroup.com/dashboard/proof?view=live-market-intelligence",
+      "localProofUrl": "http://127.0.0.1:3000/dashboard/proof?view=live-market-intelligence",
       "proofAuth": {
         "type": "bearer-env",
         "env": "HERMES_DASHBOARD_PROOF_TOKEN"
@@ -51,13 +52,18 @@
       "proof": {
         "screenshotCaptured": true,
         "screenshotBaselinePath": "docs/design/production-screenshots/khashi-vc.roc.png",
-        "capturedAt": "2026-07-30T15:06:06.122Z",
-        "authWallDetected": true,
+        "capturedAt": "2026-07-30T18:41:22.451Z",
+        "authWallDetected": false,
         "blankPrimaryDetected": false,
-        "textLength": 1686,
-        "proofEndpointDeclared": true
+        "textLength": 13361,
+        "proofEndpointDeclared": true,
+        "proofEndpointUsed": true,
+        "localProofUsed": false,
+        "proofAuthMissing": false,
+        "proofAuthFailed": false,
+        "httpStatus": 200
       },
-      "status": "captured-review-needed"
+      "status": "baseline-present"
     },
     {
       "id": "media-engine.ops",
@@ -220,5 +226,28 @@
       },
       "status": "captured-review-needed"
     }
-  ]
+  ],
+  "lastCapture": {
+    "generatedAt": "2026-07-30T18:41:24.074Z",
+    "requestedId": "khashi-vc.roc",
+    "capturedCount": 1,
+    "reviewNeededCount": 0,
+    "failedCount": 0,
+    "results": [
+      {
+        "id": "khashi-vc.roc",
+        "url": "https://roc.tlccapitalgroup.com/",
+        "status": "captured",
+        "screenshotBaselinePath": "docs/design/production-screenshots/khashi-vc.roc.png",
+        "capturedAt": "2026-07-30T18:41:22.451Z",
+        "httpStatus": 200,
+        "localProofUsed": false,
+        "proofEndpointUsed": true,
+        "proofAuthMissing": false,
+        "authWallDetected": false,
+        "blankPrimaryDetected": false,
+        "textLength": 13361
+      }
+    ]
+  }
 }
