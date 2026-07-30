@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-30T14:47:08.535Z",
+  "source": {
+    "package": "@hermes/dashboard-kit",
+    "version": "0.1.0",
+    "cssPath": "packages/hermes-dashboard-kit/static/hermes-dashboard-kit.css",
+    "designContractPath": "packages/hermes-dashboard-kit/DESIGN.md",
+    "minimumRequiredVersion": "0.1.0"
+  },
+  "sourceHash": "ede1c22c72b584e75b7639ca0f7c6a973ada14818e9a7fdea787a9daf13517f1",
+  "results": [
+    {
+      "project": "khashi-vc",
+      "name": "Kashi VC",
+      "status": "current",
+      "issues": []
+    },
+    {
+      "project": "media-engine",
+      "name": "Media Engine",
+      "status": "needs-review",
+      "issues": [
+        {
+          "severity": "warning",
+          "code": "surface.componentMissing",
+          "message": "Surface media-engine-ops-active does not show adoption evidence for DashboardShell.",
+          "path": "docs/design/prototype-gallery/media-engine-ops-active.html"
+        },
+        {
+          "severity": "warning",
+          "code": "surface.componentMissing",
+          "message": "Surface media-engine-ops-active does not show adoption evidence for DetailDrawerShell.",
+          "path": "docs/design/prototype-gallery/media-engine-ops-active.html"
+        },
+        {
+          "severity": "warning",
+          "code": "surface.componentMissing",
+          "message": "Surface media-engine-ops-active does not show adoption evidence for EntitySummaryCard.",
+          "path": "docs/design/prototype-gallery/media-engine-ops-active.html"
+        },
+        {
+          "severity": "warning",
+          "code": "surface.componentMissing",
+          "message": "Surface media-engine-ops-active does not show adoption evidence for AiAssistantPanel.",
+          "path": "docs/design/prototype-gallery/media-engine-ops-active.html"
+        },
+        {
+          "severity": "warning",
+          "code": "surface.componentMissing",
+          "message": "Surface media-engine-ops-active does not show adoption evidence for StateChecklist.",
+          "path": "docs/design/prototype-gallery/media-engine-ops-active.html"
+        }
+      ]
+    },
+    {
+      "project": "media-business-os",
+      "name": "Media Business OS",
+      "status": "current",
+      "issues": []
+    },
+    {
+      "project": "business-mapper",
+      "name": "Business Mapper",
+      "status": "current",
+      "issues": []
+    },
+    {
+      "project": "meal-assistant",
+      "name": "Meal Assistant",
+      "status": "current",
+      "issues": []
+    },
+    {
+      "project": "hermes-os",
+      "name": "Hermes OS",
+      "status": "current",
+      "issues": []
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "name": "TLC Capital Group OS",
+      "status": "current",
+      "issues": []
+    }
+  ]
+}

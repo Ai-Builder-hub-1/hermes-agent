@@ -8,6 +8,16 @@ Run:
 npm run dashboard:design-system:status
 ```
 
+Run the deeper project/surface adoption audit:
+
+```bash
+npm run dashboard-kit:adoption:audit
+npm run dashboard-kit:adoption:audit:strict
+npm run dashboard-kit:adoption:report
+```
+
+The older `dashboard:design-system:status` command verifies that copied static CSS adapters match the canonical CSS file. The newer `dashboard-kit:adoption:audit` command verifies that projects also declare which dashboard surfaces use the kit, which components those surfaces are expected to adopt, and which stale local patterns are still present.
+
 Use `-- --strict` in CI when all listed dashboards are expected to be synced. Use `-- --sync` only when intentionally updating copied static adapters from the canonical CSS source.
 
 Install local pre-commit hooks across every registered dashboard repo:
@@ -40,6 +50,8 @@ CI remains check-only. It does not auto-heal files inside GitHub Actions.
 
 The canonical registry is `docs/design/dashboard-kit-adoption.json`.
 
+The executable adoption registry is `packages/hermes-dashboard-kit/adoption/registry.json`.
+
 Current known dashboard adapter targets:
 
 - `khashi-vc`: `../khashi-vc/public/roc/hermes-dashboard-kit.css`
@@ -51,6 +63,51 @@ Current known dashboard adapter targets:
 ## Migration Rule
 
 Static adapters are bridge infrastructure. They are acceptable when a dashboard is not React package-native yet, but they must be tracked and checked for drift.
+
+Each downstream project should also include a local `.hermes-dashboard.json` manifest. That file declares:
+
+- the project id
+- the required `@hermes/dashboard-kit` version
+- whether adoption is `package-native`, `static-adapter`, `hybrid`, `planned`, or `prototype`
+- the static adapter path when one exists
+- the dashboard surfaces that must adopt shared components
+- temporary exceptions that explain why strict adoption is not yet possible
+
+The central registry lives in Nous Hermes Agent so one command can answer which dashboards are stale without opening every project manually.
+
+## Commands
+
+Audit every registered project:
+
+```bash
+npm run dashboard-kit:adoption:audit
+```
+
+Audit one project:
+
+```bash
+npm run dashboard-kit:adoption:audit -- --project khashi-vc
+```
+
+Sync a project adapter and update the manifest hash:
+
+```bash
+npm run dashboard-kit:adoption:sync -- --project khashi-vc
+```
+
+Generate a concrete migration plan for a surface:
+
+```bash
+npm run dashboard-kit:adoption:migrate -- --project khashi-vc --surface market-intelligence-live
+```
+
+Write a machine-readable report for Hermes OS/readiness consumers:
+
+```bash
+npm run dashboard-kit:adoption:report
+```
+
+The report is written to `packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json`.
 
 ## Drift Handling
 

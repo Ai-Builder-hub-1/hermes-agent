@@ -1,0 +1,194 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-30T15:30:57.930Z",
+  "sourceReports": {
+    "adoption": "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
+    "telemetry": "docs/design/dashboard-telemetry-contract-report.json",
+    "productionProof": "docs/design/dashboard-production-proof-registry.json",
+    "visualQuality": "docs/design/dashboard-visual-quality-report.json",
+    "readiness": "docs/design/dashboard-readiness-impact.json"
+  },
+  "levels": [
+    "0 unregistered",
+    "1 CSS synced",
+    "2 surface manifest declared",
+    "3 stale detection active",
+    "4 kit adoption needs review",
+    "5 registered and adoption-current",
+    "6 live data verified",
+    "7 production screenshots verified",
+    "8 premium design reviewed",
+    "9 readiness-gated",
+    "10 telemetry-normalized and world-class"
+  ],
+  "items": [
+    {
+      "project": "khashi-vc",
+      "name": "Kashi VC",
+      "status": "current",
+      "issueCount": 0,
+      "level": 6,
+      "label": "live data verified",
+      "blockers": [
+        "production screenshot baseline missing"
+      ],
+      "evidence": {
+        "telemetryReady": true,
+        "productionBaselined": false,
+        "visualPass": false,
+        "readinessClear": true,
+        "telemetryMatches": [
+          "khashi-vc.roc"
+        ],
+        "productionMatches": [
+          "khashi-vc.roc"
+        ],
+        "visualMatches": [
+          "khashi-vc/market-intelligence-live"
+        ]
+      }
+    },
+    {
+      "project": "media-engine",
+      "name": "Media Engine",
+      "status": "needs-review",
+      "issueCount": 5,
+      "level": 4,
+      "label": "kit adoption needs review",
+      "blockers": [],
+      "evidence": {
+        "telemetryReady": true,
+        "productionBaselined": true,
+        "visualPass": false,
+        "readinessClear": false,
+        "telemetryMatches": [
+          "media-engine.ops"
+        ],
+        "productionMatches": [
+          "media-engine.ops"
+        ],
+        "visualMatches": [
+          "media-engine/media-engine-ops-active"
+        ]
+      }
+    },
+    {
+      "project": "media-business-os",
+      "name": "Media Business OS",
+      "status": "current",
+      "issueCount": 0,
+      "level": 5,
+      "label": "registered and adoption-current",
+      "blockers": [
+        "telemetry contract incomplete or missing"
+      ],
+      "evidence": {
+        "telemetryReady": false,
+        "productionBaselined": true,
+        "visualPass": false,
+        "readinessClear": true,
+        "telemetryMatches": [
+          "media-business-operations.main"
+        ],
+        "productionMatches": [
+          "media-business-operations.main"
+        ],
+        "visualMatches": []
+      }
+    },
+    {
+      "project": "business-mapper",
+      "name": "Business Mapper",
+      "status": "current",
+      "issueCount": 0,
+      "level": 5,
+      "label": "registered and adoption-current",
+      "blockers": [
+        "telemetry contract incomplete or missing"
+      ],
+      "evidence": {
+        "telemetryReady": false,
+        "productionBaselined": true,
+        "visualPass": false,
+        "readinessClear": true,
+        "telemetryMatches": [
+          "business-mapper.workspace"
+        ],
+        "productionMatches": [
+          "business-mapper.workspace"
+        ],
+        "visualMatches": []
+      }
+    },
+    {
+      "project": "meal-assistant",
+      "name": "Meal Assistant",
+      "status": "current",
+      "issueCount": 0,
+      "level": 5,
+      "label": "registered and adoption-current",
+      "blockers": [
+        "telemetry contract incomplete or missing"
+      ],
+      "evidence": {
+        "telemetryReady": false,
+        "productionBaselined": false,
+        "visualPass": false,
+        "readinessClear": true,
+        "telemetryMatches": [
+          "meal-assistant.main"
+        ],
+        "productionMatches": [
+          "meal-assistant.main"
+        ],
+        "visualMatches": []
+      }
+    },
+    {
+      "project": "hermes-os",
+      "name": "Hermes OS",
+      "status": "current",
+      "issueCount": 0,
+      "level": 5,
+      "label": "registered and adoption-current",
+      "blockers": [
+        "telemetry contract incomplete or missing"
+      ],
+      "evidence": {
+        "telemetryReady": false,
+        "productionBaselined": false,
+        "visualPass": false,
+        "readinessClear": true,
+        "telemetryMatches": [
+          "nous-hermes-agent.dashboard",
+          "hermes.workspace"
+        ],
+        "productionMatches": [
+          "nous-hermes-agent.dashboard",
+          "hermes.workspace"
+        ],
+        "visualMatches": []
+      }
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "name": "TLC Capital Group OS",
+      "status": "current",
+      "issueCount": 0,
+      "level": 5,
+      "label": "registered and adoption-current",
+      "blockers": [
+        "telemetry contract incomplete or missing"
+      ],
+      "evidence": {
+        "telemetryReady": false,
+        "productionBaselined": false,
+        "visualPass": false,
+        "readinessClear": true,
+        "telemetryMatches": [],
+        "productionMatches": [],
+        "visualMatches": []
+      }
+    }
+  ]
+}

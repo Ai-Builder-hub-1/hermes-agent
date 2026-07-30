@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-30T15:02:12.621Z",
+  "checkedCount": 2,
+  "missingCount": 0,
+  "items": [
+    {
+      "project": "khashi-vc",
+      "surface": "market-intelligence-live",
+      "path": "public/roc/market-intelligence-live.html",
+      "status": "pass",
+      "missing": []
+    },
+    {
+      "project": "media-engine",
+      "surface": "media-engine-ops-active",
+      "path": "docs/design/prototype-gallery/media-engine-ops-active.html",
+      "status": "pass",
+      "missing": []
+    }
+  ]
+}

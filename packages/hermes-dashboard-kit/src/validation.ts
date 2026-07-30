@@ -2,6 +2,7 @@ import type {
   DashboardDataSourceState,
   DashboardModuleContract,
   DashboardSnapshotContract,
+  DashboardTelemetrySnapshotContract,
   DashboardWorkspaceId,
 } from "./contracts";
 import { HERMES_DASHBOARD_WORKSPACES } from "./workspaces";
@@ -106,6 +107,48 @@ export function validateDashboardSnapshot(snapshot: DashboardSnapshotContract): 
     }
     moduleIds.add(module.id);
   });
+
+  const errorCount = issues.filter((issue) => issue.severity === "error").length;
+  const warningCount = issues.filter((issue) => issue.severity === "warning").length;
+
+  return {
+    valid: errorCount === 0,
+    issueCount: issues.length,
+    errorCount,
+    warningCount,
+    issues,
+  };
+}
+
+export function validateDashboardTelemetrySnapshot(snapshot: DashboardTelemetrySnapshotContract): DashboardValidationResult {
+  const issues: DashboardValidationIssue[] = [];
+
+  if (!snapshot.id) pushIssue(issues, "error", "telemetry.id.missing", "id", "Telemetry snapshot must have an id.");
+  if (!snapshot.projectId) pushIssue(issues, "error", "telemetry.project-id.missing", "projectId", "Telemetry snapshot must have a project id.");
+  if (!snapshot.generatedAt) pushIssue(issues, "error", "telemetry.generated-at.missing", "generatedAt", "Telemetry snapshot must have a generated timestamp.");
+
+  for (const [index, usage] of (snapshot.providerUsage ?? []).entries()) {
+    const path = `providerUsage[${index}]`;
+    if (!usage.provider) pushIssue(issues, "error", "telemetry.provider.missing", `${path}.provider`, "Provider usage must name a provider.");
+    if (!usage.projectId) pushIssue(issues, "error", "telemetry.provider.project-id.missing", `${path}.projectId`, "Provider usage must name a project.");
+    if (!usage.window) pushIssue(issues, "error", "telemetry.provider.window.missing", `${path}.window`, "Provider usage must declare a window.");
+  }
+
+  for (const [index, queue] of (snapshot.queues ?? []).entries()) {
+    const path = `queues[${index}]`;
+    if (!queue.label) pushIssue(issues, "error", "telemetry.queue.label.missing", `${path}.label`, "Queue must have a label.");
+    for (const field of ["queued", "running", "failed"] as const) {
+      if (!Number.isFinite(queue[field]) || queue[field] < 0) {
+        pushIssue(issues, "error", `telemetry.queue.${field}.invalid`, `${path}.${field}`, `${field} must be a non-negative number.`);
+      }
+    }
+  }
+
+  for (const [index, action] of (snapshot.actionsNeeded ?? []).entries()) {
+    const path = `actionsNeeded[${index}]`;
+    if (!action.owner) pushIssue(issues, "error", "telemetry.action.owner.missing", `${path}.owner`, "Action-needed items must declare an owner.");
+    if (!action.nextAction) pushIssue(issues, "error", "telemetry.action.next-action.missing", `${path}.nextAction`, "Action-needed items must declare a next action.");
+  }
 
   const errorCount = issues.filter((issue) => issue.severity === "error").length;
   const warningCount = issues.filter((issue) => issue.severity === "warning").length;

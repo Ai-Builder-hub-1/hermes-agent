@@ -28,6 +28,11 @@
       "category": "research-operations",
       "owner": "Khashi VC",
       "url": "https://roc.tlccapitalgroup.com/",
+      "proofUrl": "https://roc.tlccapitalgroup.com/dashboard/proof",
+      "proofAuth": {
+        "type": "bearer-env",
+        "env": "HERMES_DASHBOARD_PROOF_TOKEN"
+      },
       "healthUrl": "https://roc.tlccapitalgroup.com/readyz",
       "snapshotUrl": "https://roc.tlccapitalgroup.com/api/dashboard-snapshot",
       "projectPath": "/Users/hq/Workspace/projects/khashi-vc",
@@ -107,6 +112,11 @@
       "category": "investment-operations",
       "owner": "Investing System",
       "url": "https://investing.tlccapitalgroup.com/roc",
+      "proofUrl": "https://investing.tlccapitalgroup.com/dashboard/proof",
+      "proofAuth": {
+        "type": "bearer-env",
+        "env": "HERMES_DASHBOARD_PROOF_TOKEN"
+      },
       "healthUrl": "https://investing.tlccapitalgroup.com/health",
       "projectPath": "/Users/hq/Workspace/projects/investing-system",
       "projectName": "Investing System",

@@ -70,11 +70,14 @@ This model exists so Kashi, Media Engine, Media Business Operations, Hermes OS, 
 Before redesigning a dashboard:
 
 - [ ] Produce or update a `DashboardSnapshotContract`.
+- [ ] Declare a readonly `proofUrl` in `hermes.dashboards.json` for production screenshot capture.
 - [ ] Map existing tabs/pages into the six workspace model.
 - [ ] Mark each data source with owner, endpoint/file, freshness, and failure mode.
 - [ ] Convert raw metrics into explicit `healthy`, `watch`, `degraded`, `blocked`, or `unknown`.
 - [ ] Use `assessDashboardArchitecture()` to identify remaining gaps.
 - [ ] Use Mobbin only after the information architecture and data contract are understood.
+
+Production screenshot proof is governed by `docs/design/dashboard-production-proof-endpoints.md`. Proof endpoints are the preferred long-term replacement for giving automated capture tools interactive dashboard login credentials.
 
 ## Example Snapshot
 

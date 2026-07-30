@@ -122,6 +122,7 @@ Before building or changing a dashboard, agents should:
 7. Prefer package primitives or the static adapter.
 8. Update adoption status when a dashboard moves closer to package-native usage.
 9. Run `npm run dashboard:spine:validate` from the Hermes agent project after changing adoption metadata or dashboard spine docs.
+10. Run `npm run dashboard-kit:adoption:audit` when a downstream dashboard claims it has adopted the kit.
 
 ## Research And Adoption Registries
 
@@ -132,3 +133,4 @@ The operating interface system is backed by:
 - `docs/design/operating-interface-state-coverage.json` for ready/loading/empty/error/stale/preview/permission-limited/partial coverage.
 - `docs/design/operating-interface-adoption-score.json` for project adoption scoring.
 - `docs/design/operating-interface-visual-qa.md` for visual QA expectations.
+- `packages/hermes-dashboard-kit/adoption/registry.json` plus downstream `.hermes-dashboard.json` manifests for executable project/surface adoption checks.

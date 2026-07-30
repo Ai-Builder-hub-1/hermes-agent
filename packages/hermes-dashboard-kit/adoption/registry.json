@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "package": "@hermes/dashboard-kit",
+    "version": "0.1.0",
+    "cssPath": "packages/hermes-dashboard-kit/static/hermes-dashboard-kit.css",
+    "designContractPath": "packages/hermes-dashboard-kit/DESIGN.md",
+    "minimumRequiredVersion": "0.1.0"
+  },
+  "legacyPatterns": [
+    {
+      "id": "inline-svg-chart-function",
+      "pattern": "function chart(",
+      "severity": "error",
+      "message": "Surface still renders one-off inline chart functions instead of adopting dashboard-kit chart primitives."
+    },
+    {
+      "id": "inline-depth-chart-function",
+      "pattern": "function depthChart(",
+      "severity": "error",
+      "message": "Surface still renders one-off depth chart functions instead of adopting LiquidityDepthChart or the static chart-surface contract."
+    },
+    {
+      "id": "prototype-preview-copy",
+      "pattern": "prototype preview",
+      "severity": "warning",
+      "message": "Production-facing surfaces should not present real data as prototype preview copy."
+    },
+    {
+      "id": "local-chart-card-only",
+      "pattern": "class=\"chart-card\"",
+      "severity": "warning",
+      "message": "Surface uses local chart-card styling; confirm it is backed by dashboard-kit chart surface classes."
+    }
+  ],
+  "projects": [
+    {
+      "id": "khashi-vc",
+      "name": "Kashi VC",
+      "path": "../khashi-vc",
+      "manifest": "../khashi-vc/.hermes-dashboard.json",
+      "adapterTarget": "../khashi-vc/public/roc/hermes-dashboard-kit.css",
+      "expectedMode": "static-adapter",
+      "requiredSurfaces": ["market-intelligence-live"]
+    },
+    {
+      "id": "media-engine",
+      "name": "Media Engine",
+      "path": "../media-engine",
+      "manifest": "../media-engine/.hermes-dashboard.json",
+      "adapterTarget": "../media-engine/core/operations/hermes-dashboard-kit.css",
+      "expectedMode": "static-adapter",
+      "requiredSurfaces": ["media-engine-ops-active"]
+    },
+    {
+      "id": "media-business-os",
+      "name": "Media Business OS",
+      "path": "../media-business-operations",
+      "manifest": "../media-business-operations/.hermes-dashboard.json",
+      "adapterTarget": "../media-business-operations/public/dashboard/hermes-dashboard-kit.css",
+      "expectedMode": "static-adapter",
+      "requiredSurfaces": []
+    },
+    {
+      "id": "business-mapper",
+      "name": "Business Mapper",
+      "path": "../business-mapper",
+      "manifest": "../business-mapper/.hermes-dashboard.json",
+      "adapterTarget": "../business-mapper/business_mapper/static/hermes-dashboard-kit.css",
+      "expectedMode": "static-adapter",
+      "requiredSurfaces": []
+    },
+    {
+      "id": "meal-assistant",
+      "name": "Meal Assistant",
+      "path": "../Meal-assistant",
+      "manifest": "../Meal-assistant/.hermes-dashboard.json",
+      "adapterTarget": "../Meal-assistant/src/hermes-dashboard-kit.css",
+      "expectedMode": "static-adapter",
+      "requiredSurfaces": []
+    },
+    {
+      "id": "hermes-os",
+      "name": "Hermes OS",
+      "path": "../hermes",
+      "manifest": "../hermes/.hermes-dashboard.json",
+      "expectedMode": "planned",
+      "requiredSurfaces": []
+    },
+    {
+      "id": "tlc-capital-group-os",
+      "name": "TLC Capital Group OS",
+      "path": "../tlc-capital-group-os",
+      "manifest": "../tlc-capital-group-os/.hermes-dashboard.json",
+      "expectedMode": "planned",
+      "requiredSurfaces": []
+    }
+  ]
+}

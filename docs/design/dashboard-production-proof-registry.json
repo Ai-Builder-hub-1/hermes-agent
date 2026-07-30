@@ -1,0 +1,224 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-30T15:30:35.901Z",
+  "entries": [
+    {
+      "id": "nous-hermes-agent.dashboard",
+      "label": "Nous Hermes Agent",
+      "owner": "Hermes",
+      "url": "http://127.0.0.1:9119/",
+      "healthUrl": "http://127.0.0.1:9119/api/status",
+      "screenshotBaselinePath": "docs/design/production-screenshots/nous-hermes-agent.dashboard.png",
+      "requiredProof": [
+        "health-url-reachable",
+        "screenshot-captured",
+        "proof-endpoint-declared",
+        "no-production-mock-copy",
+        "no-blank-primary-region",
+        "primary-data-freshness-visible"
+      ],
+      "proof": {
+        "screenshotCaptured": false,
+        "screenshotBaselinePath": "docs/design/production-screenshots/nous-hermes-agent.dashboard.png",
+        "lastError": "page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:9119/\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:9119/\", waiting until \"domcontentloaded\"\u001b[22m\n",
+        "authWallDetected": false,
+        "blankPrimaryDetected": false,
+        "proofEndpointDeclared": false
+      },
+      "status": "baseline-needed"
+    },
+    {
+      "id": "khashi-vc.roc",
+      "label": "Khashi VC ROC",
+      "owner": "Khashi VC",
+      "url": "https://roc.tlccapitalgroup.com/",
+      "proofUrl": "https://roc.tlccapitalgroup.com/dashboard/proof",
+      "proofAuth": {
+        "type": "bearer-env",
+        "env": "HERMES_DASHBOARD_PROOF_TOKEN"
+      },
+      "healthUrl": "https://roc.tlccapitalgroup.com/readyz",
+      "snapshotUrl": "https://roc.tlccapitalgroup.com/api/dashboard-snapshot",
+      "screenshotBaselinePath": "docs/design/production-screenshots/khashi-vc.roc.png",
+      "requiredProof": [
+        "health-url-reachable",
+        "screenshot-captured",
+        "proof-endpoint-declared",
+        "no-production-mock-copy",
+        "no-blank-primary-region",
+        "primary-data-freshness-visible"
+      ],
+      "proof": {
+        "screenshotCaptured": true,
+        "screenshotBaselinePath": "docs/design/production-screenshots/khashi-vc.roc.png",
+        "capturedAt": "2026-07-30T15:06:06.122Z",
+        "authWallDetected": true,
+        "blankPrimaryDetected": false,
+        "textLength": 1686,
+        "proofEndpointDeclared": true
+      },
+      "status": "captured-review-needed"
+    },
+    {
+      "id": "media-engine.ops",
+      "label": "Media Engine Ops",
+      "owner": "Media Engine",
+      "url": "https://media.tlccapitalgroup.com/dashboard",
+      "healthUrl": "https://media.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://media.tlccapitalgroup.com/dashboard-snapshot",
+      "screenshotBaselinePath": "docs/design/production-screenshots/media-engine.ops.png",
+      "requiredProof": [
+        "health-url-reachable",
+        "screenshot-captured",
+        "proof-endpoint-declared",
+        "no-production-mock-copy",
+        "no-blank-primary-region",
+        "primary-data-freshness-visible"
+      ],
+      "proof": {
+        "screenshotCaptured": true,
+        "screenshotBaselinePath": "docs/design/production-screenshots/media-engine.ops.png",
+        "capturedAt": "2026-07-30T15:06:07.182Z",
+        "authWallDetected": false,
+        "blankPrimaryDetected": false,
+        "textLength": 155010,
+        "proofEndpointDeclared": false
+      },
+      "status": "baseline-present"
+    },
+    {
+      "id": "media-business-operations.main",
+      "label": "Media Business Operations",
+      "owner": "Media Business Operations",
+      "url": "https://media-business-operations.tlccapitalgroup.com/dashboard",
+      "healthUrl": "https://media-business-operations.tlccapitalgroup.com/health",
+      "screenshotBaselinePath": "docs/design/production-screenshots/media-business-operations.main.png",
+      "requiredProof": [
+        "health-url-reachable",
+        "screenshot-captured",
+        "proof-endpoint-declared",
+        "no-production-mock-copy",
+        "no-blank-primary-region",
+        "primary-data-freshness-visible"
+      ],
+      "proof": {
+        "screenshotCaptured": true,
+        "screenshotBaselinePath": "docs/design/production-screenshots/media-business-operations.main.png",
+        "capturedAt": "2026-07-30T15:06:12.028Z",
+        "authWallDetected": false,
+        "blankPrimaryDetected": false,
+        "textLength": 533,
+        "proofEndpointDeclared": false
+      },
+      "status": "baseline-present"
+    },
+    {
+      "id": "business-mapper.workspace",
+      "label": "Business Mapper Workspace",
+      "owner": "Business Mapper",
+      "url": "https://business-mapper.tlccapitalgroup.com/dashboard",
+      "healthUrl": "https://business-mapper.tlccapitalgroup.com/health",
+      "screenshotBaselinePath": "docs/design/production-screenshots/business-mapper.workspace.png",
+      "requiredProof": [
+        "health-url-reachable",
+        "screenshot-captured",
+        "proof-endpoint-declared",
+        "no-production-mock-copy",
+        "no-blank-primary-region",
+        "primary-data-freshness-visible"
+      ],
+      "proof": {
+        "screenshotCaptured": true,
+        "screenshotBaselinePath": "docs/design/production-screenshots/business-mapper.workspace.png",
+        "capturedAt": "2026-07-30T15:06:13.415Z",
+        "authWallDetected": false,
+        "blankPrimaryDetected": false,
+        "textLength": 4090,
+        "proofEndpointDeclared": false
+      },
+      "status": "baseline-present"
+    },
+    {
+      "id": "meal-assistant.main",
+      "label": "Meal Assistant",
+      "owner": "Meal Assistant",
+      "url": "https://meal.tlccapitalgroup.com/",
+      "healthUrl": "https://meal.tlccapitalgroup.com/health",
+      "screenshotBaselinePath": "docs/design/production-screenshots/meal-assistant.main.png",
+      "requiredProof": [
+        "health-url-reachable",
+        "screenshot-captured",
+        "proof-endpoint-declared",
+        "no-production-mock-copy",
+        "no-blank-primary-region",
+        "primary-data-freshness-visible"
+      ],
+      "proof": {
+        "screenshotCaptured": false,
+        "screenshotBaselinePath": "docs/design/production-screenshots/meal-assistant.main.png",
+        "lastError": "page.goto: net::ERR_NAME_NOT_RESOLVED at https://meal.tlccapitalgroup.com/\nCall log:\n\u001b[2m  - navigating to \"https://meal.tlccapitalgroup.com/\", waiting until \"domcontentloaded\"\u001b[22m\n",
+        "authWallDetected": false,
+        "blankPrimaryDetected": false,
+        "proofEndpointDeclared": false
+      },
+      "status": "baseline-needed"
+    },
+    {
+      "id": "investing-system.roc",
+      "label": "Investing System ROC",
+      "owner": "Investing System",
+      "url": "https://investing.tlccapitalgroup.com/roc",
+      "proofUrl": "https://investing.tlccapitalgroup.com/dashboard/proof",
+      "proofAuth": {
+        "type": "bearer-env",
+        "env": "HERMES_DASHBOARD_PROOF_TOKEN"
+      },
+      "healthUrl": "https://investing.tlccapitalgroup.com/health",
+      "screenshotBaselinePath": "docs/design/production-screenshots/investing-system.roc.png",
+      "requiredProof": [
+        "health-url-reachable",
+        "screenshot-captured",
+        "proof-endpoint-declared",
+        "no-production-mock-copy",
+        "no-blank-primary-region",
+        "primary-data-freshness-visible"
+      ],
+      "proof": {
+        "screenshotCaptured": true,
+        "screenshotBaselinePath": "docs/design/production-screenshots/investing-system.roc.png",
+        "capturedAt": "2026-07-30T15:06:14.369Z",
+        "authWallDetected": true,
+        "blankPrimaryDetected": false,
+        "textLength": 210,
+        "proofEndpointDeclared": true
+      },
+      "status": "captured-review-needed"
+    },
+    {
+      "id": "hermes.workspace",
+      "label": "Hermes Workspace",
+      "owner": "Hermes",
+      "url": "https://hermes.tlccapitalgroup.com/",
+      "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+      "screenshotBaselinePath": "docs/design/production-screenshots/hermes.workspace.png",
+      "requiredProof": [
+        "health-url-reachable",
+        "screenshot-captured",
+        "proof-endpoint-declared",
+        "no-production-mock-copy",
+        "no-blank-primary-region",
+        "primary-data-freshness-visible"
+      ],
+      "proof": {
+        "screenshotCaptured": true,
+        "screenshotBaselinePath": "docs/design/production-screenshots/hermes.workspace.png",
+        "capturedAt": "2026-07-30T15:06:15.213Z",
+        "authWallDetected": true,
+        "blankPrimaryDetected": false,
+        "textLength": 544,
+        "proofEndpointDeclared": false
+      },
+      "status": "captured-review-needed"
+    }
+  ]
+}

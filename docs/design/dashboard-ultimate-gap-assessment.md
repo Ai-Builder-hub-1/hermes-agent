@@ -7,6 +7,23 @@ This document separates two different ideas that were previously getting blurred
 
 Current assessment: the foundation is strong, but the ultimate goal is still only partially built.
 
+## Repeatable World-Class Audit
+
+Run the systems-level audit before answering “what gaps, enhancements, or limitations remain?”:
+
+```bash
+npm run dashboard-kit:adoption:report
+npm run dashboard:world-class:report
+```
+
+The audit definition lives in `docs/design/world-class-dashboard-system-audit.json`.
+
+The latest generated report is `docs/design/world-class-dashboard-system-audit-report.json`.
+
+Failed checks also generate `docs/design/world-class-dashboard-system-backlog.json`, with a short guide in `docs/design/world-class-dashboard-system-backlog.md`.
+
+This audit intentionally goes beyond component inventory. It checks source of truth, adoption, enforcement, migration, runtime proof, design quality, data contracts, governance, observability, and operator experience.
+
 ## Where We Are
 
 | Capability | Current State | Estimated Ultimate Completion |

@@ -94,6 +94,68 @@ export interface DashboardCostContract {
   lastUpdatedAt?: string;
 }
 
+export interface DashboardProviderUsageContract {
+  id: string;
+  provider: string;
+  projectId: string;
+  modelOrService?: string;
+  inputTokens?: number;
+  outputTokens?: number;
+  requests?: number;
+  costUsd?: number;
+  window: "live" | "today" | "1h" | "4h" | "24h" | "7d" | "30d" | "90d" | "month";
+  status: DashboardOperationalStatus;
+  lastUpdatedAt?: string;
+}
+
+export interface DashboardQueueContract {
+  id: string;
+  projectId: string;
+  label: string;
+  queued: number;
+  running: number;
+  failed: number;
+  completed?: number;
+  oldestQueuedSeconds?: number;
+  status: DashboardOperationalStatus;
+  lastUpdatedAt?: string;
+}
+
+export interface DashboardStorageContract {
+  id: string;
+  projectId: string;
+  label: string;
+  usedBytes?: number;
+  limitBytes?: number;
+  objectCount?: number;
+  status: DashboardOperationalStatus;
+  lastUpdatedAt?: string;
+}
+
+export interface DashboardActionNeededContract {
+  id: string;
+  projectId: string;
+  title: string;
+  owner: string;
+  severity: Exclude<DashboardOperationalStatus, "healthy">;
+  reason: string;
+  nextAction: string;
+  dueAt?: string;
+  sourceIds?: string[];
+}
+
+export interface DashboardTelemetrySnapshotContract {
+  id: string;
+  projectId: string;
+  generatedAt: string;
+  providerUsage: DashboardProviderUsageContract[];
+  costs: DashboardCostContract[];
+  queues: DashboardQueueContract[];
+  storage?: DashboardStorageContract[];
+  actionsNeeded: DashboardActionNeededContract[];
+  systemHealth: DashboardSystemHealthContract[];
+}
+
 export interface DashboardSystemHealthContract {
   id: string;
   projectId: string;
@@ -141,6 +203,7 @@ export interface DashboardSnapshotContract {
   cost?: DashboardCostContract[];
   systemHealth?: DashboardSystemHealthContract[];
   readiness?: DashboardReadinessSnapshotContract;
+  telemetry?: DashboardTelemetrySnapshotContract;
 }
 
 export function clampReadinessPercent(value: number): number {

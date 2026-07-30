@@ -1,4 +1,4 @@
-import type { DashboardSnapshotContract } from "./contracts";
+import type { DashboardSnapshotContract, DashboardTelemetrySnapshotContract } from "./contracts";
 export type DashboardValidationSeverity = "error" | "warning";
 export interface DashboardValidationIssue {
     severity: DashboardValidationSeverity;
@@ -35,5 +35,6 @@ export interface DashboardAdoptionRegistry {
     dashboards: DashboardAdoptionEntry[];
 }
 export declare function validateDashboardSnapshot(snapshot: DashboardSnapshotContract): DashboardValidationResult;
+export declare function validateDashboardTelemetrySnapshot(snapshot: DashboardTelemetrySnapshotContract): DashboardValidationResult;
 export declare function validateDashboardAdoptionRegistry(registry: DashboardAdoptionRegistry): DashboardValidationResult;
 //# sourceMappingURL=validation.d.ts.map

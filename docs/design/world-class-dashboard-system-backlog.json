@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-30T15:30:57.945Z",
+  "sourceReport": "docs/design/world-class-dashboard-system-audit-report.json",
+  "openItems": 12,
+  "items": [
+    {
+      "id": "dashboard-world-class-adoption-all-priority-projects-adoption-current",
+      "title": "Priority project adoption reports are fully current, not merely non-stale.",
+      "layer": "adoption",
+      "layerName": "Adoption",
+      "severity": "high",
+      "status": "open",
+      "source": "world-class-dashboard-system-audit",
+      "suggestedAction": "Close the failed audit check and rerun the world-class report.",
+      "createdAt": "2026-07-30T15:30:57.945Z"
+    },
+    {
+      "id": "dashboard-world-class-migration-codemod-candidates-cleared",
+      "title": "No generated migration codemod candidates remain open.",
+      "layer": "migration",
+      "layerName": "Migration",
+      "severity": "medium",
+      "status": "open",
+      "source": "world-class-dashboard-system-audit",
+      "suggestedAction": "Close the failed audit check and rerun the world-class report.",
+      "createdAt": "2026-07-30T15:30:57.945Z"
+    },
+    {
+      "id": "dashboard-world-class-runtime-proof-proof-endpoints-declared",
+      "title": "Registered production dashboards declare readonly proof endpoints.",
+      "layer": "runtime-proof",
+      "layerName": "Runtime Proof",
+      "severity": "high",
+      "status": "open",
+      "source": "world-class-dashboard-system-audit",
+      "suggestedAction": "Close the failed audit check and rerun the world-class report.",
+      "createdAt": "2026-07-30T15:30:57.945Z"
+    },
+    {
+      "id": "dashboard-world-class-runtime-proof-production-proof-baselines-exist",
+      "title": "Registered production dashboards have screenshot baselines.",
+      "layer": "runtime-proof",
+      "layerName": "Runtime Proof",
+      "severity": "high",
+      "status": "open",
+      "source": "world-class-dashboard-system-audit",
+      "suggestedAction": "Close the failed audit check and rerun the world-class report.",
+      "createdAt": "2026-07-30T15:30:57.945Z"
+    },
+    {
+      "id": "dashboard-world-class-runtime-proof-production-proof-status-complete",
+      "title": "Production proof registry has no baseline-needed or review-needed dashboard entries.",
+      "layer": "runtime-proof",
+      "layerName": "Runtime Proof",
+      "severity": "high",
+      "status": "open",
+      "source": "world-class-dashboard-system-audit",
+      "suggestedAction": "Close the failed audit check and rerun the world-class report.",
+      "createdAt": "2026-07-30T15:30:57.945Z"
+    },
+    {
+      "id": "dashboard-world-class-design-quality-visual-quality-all-pass",
+      "title": "Tracked dashboard surfaces pass automated visual-quality thresholds.",
+      "layer": "design-quality",
+      "layerName": "Design Quality",
+      "severity": "medium",
+      "status": "open",
+      "source": "world-class-dashboard-system-audit",
+      "suggestedAction": "Add proof-based visual scoring using screenshots, chart criteria, and approved reference patterns.",
+      "createdAt": "2026-07-30T15:30:57.945Z"
+    },
+    {
+      "id": "dashboard-world-class-design-quality-visual-quality-min-score",
+      "title": "Tracked dashboard surfaces score at least 90 on visual-quality heuristics.",
+      "layer": "design-quality",
+      "layerName": "Design Quality",
+      "severity": "medium",
+      "status": "open",
+      "source": "world-class-dashboard-system-audit",
+      "suggestedAction": "Add proof-based visual scoring using screenshots, chart criteria, and approved reference patterns.",
+      "createdAt": "2026-07-30T15:30:57.945Z"
+    },
+    {
+      "id": "dashboard-world-class-data-contract-telemetry-contracts-complete",
+      "title": "Registered dashboards have complete telemetry contracts.",
+      "layer": "data-contract",
+      "layerName": "Data Contract",
+      "severity": "high",
+      "status": "open",
+      "source": "world-class-dashboard-system-audit",
+      "suggestedAction": "Close the failed audit check and rerun the world-class report.",
+      "createdAt": "2026-07-30T15:30:57.945Z"
+    },
+    {
+      "id": "dashboard-world-class-governance-readiness-impact-no-penalty",
+      "title": "Dashboard adoption creates no readiness penalties.",
+      "layer": "governance",
+      "layerName": "Governance",
+      "severity": "high",
+      "status": "open",
+      "source": "world-class-dashboard-system-audit",
+      "suggestedAction": "Close the failed audit check and rerun the world-class report.",
+      "createdAt": "2026-07-30T15:30:57.945Z"
+    },
+    {
+      "id": "dashboard-world-class-governance-readiness-impact-no-cap",
+      "title": "Dashboard adoption does not cap readiness below 100%.",
+      "layer": "governance",
+      "layerName": "Governance",
+      "severity": "high",
+      "status": "open",
+      "source": "world-class-dashboard-system-audit",
+      "suggestedAction": "Close the failed audit check and rerun the world-class report.",
+      "createdAt": "2026-07-30T15:30:57.945Z"
+    },
+    {
+      "id": "dashboard-world-class-observability-maturity-levels-reach-registered-current",
+      "title": "Registered dashboard projects have reached at least adoption-current maturity.",
+      "layer": "observability",
+      "layerName": "Observability",
+      "severity": "medium",
+      "status": "open",
+      "source": "world-class-dashboard-system-audit",
+      "suggestedAction": "Normalize cost, token, provider, health, queue, storage, and stale-data telemetry across registered projects.",
+      "createdAt": "2026-07-30T15:30:57.945Z"
+    },
+    {
+      "id": "dashboard-world-class-observability-maturity-levels-reach-world-class",
+      "title": "Registered dashboard projects have reached telemetry-normalized world-class maturity.",
+      "layer": "observability",
+      "layerName": "Observability",
+      "severity": "medium",
+      "status": "open",
+      "source": "world-class-dashboard-system-audit",
+      "suggestedAction": "Normalize cost, token, provider, health, queue, storage, and stale-data telemetry across registered projects.",
+      "createdAt": "2026-07-30T15:30:57.945Z"
+    }
+  ]
+}
