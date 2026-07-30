@@ -1,0 +1,872 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hermes Cost Cockpit V3</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8f5;
+      --paper: #ffffff;
+      --paper-2: #f2f5f1;
+      --ink: #121817;
+      --muted: #69736f;
+      --faint: #929c97;
+      --border: #dce3dc;
+      --border-strong: #b9c5bd;
+      --accent: #166a4d;
+      --accent-soft: #e5f3ed;
+      --amber: #9a6813;
+      --amber-soft: #fff6df;
+      --red: #a23e3e;
+      --red-soft: #fff0ee;
+      --blue: #245f8f;
+      --blue-soft: #e8f0f8;
+      --mono: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+      --shadow: 0 24px 70px rgb(32 44 38 / .10);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background:
+        linear-gradient(180deg, #fbfcf9 0%, var(--bg) 54%, #eef3ee 100%);
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.35;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgb(18 24 23 / .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgb(18 24 23 / .025) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: linear-gradient(180deg, #000 0%, transparent 68%);
+    }
+
+    a { color: inherit; }
+    h1, h2, h3, p { margin: 0; }
+    main { max-width: 1760px; margin: 0 auto; padding: 24px; position: relative; }
+
+    .review-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+
+    .kicker { color: var(--accent); font-size: 12px; font-weight: 800; margin-bottom: 7px; }
+    h1 { max-width: 940px; font-size: 34px; line-height: 1.04; letter-spacing: 0; font-weight: 780; }
+    .subcopy { max-width: 880px; margin-top: 9px; color: var(--muted); font-size: 14px; }
+
+    .button-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: rgb(255 255 255 / .86);
+      color: var(--muted);
+      min-height: 38px;
+      padding: 0 12px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 10px 26px rgb(32 44 38 / .05);
+    }
+
+    .cockpit {
+      display: grid;
+      grid-template-columns: 286px minmax(0, 1fr);
+      min-height: 940px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgb(255 255 255 / .72);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px 16px 0;
+      margin-bottom: 14px;
+      border-bottom: 0;
+      background: transparent;
+    }
+
+    .content-title {
+      display: grid;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .content-title strong {
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    .content-title span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      background:
+        linear-gradient(180deg, #ffffff 0%, #f7faf6 46%, #eef4ef 100%);
+      padding: 16px 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 820;
+      padding: 2px 5px 14px;
+      margin-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, #0e2f26, var(--accent));
+      font-family: var(--mono);
+      font-size: 12px;
+      box-shadow: inset 0 1px 0 rgb(255 255 255 / .22);
+    }
+
+    .status-strip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 38px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #fff;
+      padding: 0 11px;
+      color: var(--muted);
+      font-size: 13px;
+      min-width: 0;
+    }
+
+    .pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 5px rgb(22 106 77 / .10);
+      flex: 0 0 auto;
+    }
+
+    .range {
+      display: grid;
+      grid-template-columns: repeat(4, auto);
+      gap: 5px;
+      justify-content: end;
+    }
+
+    .range span,
+    .range button {
+      border: 1px solid transparent;
+      border-radius: 7px;
+      padding: 7px 9px;
+      color: var(--faint);
+      font-size: 12px;
+      font-weight: 800;
+      background: transparent;
+      font: inherit;
+    }
+
+    .range .active,
+    .range button.active {
+      border-color: var(--border-strong);
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .body {
+      min-width: 0;
+      background: rgb(248 250 247 / .76);
+    }
+
+    .nav-label {
+      padding: 10px 9px 6px;
+      color: var(--faint);
+      font-size: 11px;
+      font-weight: 820;
+    }
+
+    .nav-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 9px;
+      color: var(--muted);
+      font-size: 13px;
+      font: inherit;
+      text-align: left;
+      width: 100%;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .nav-item.active {
+      background: var(--accent-soft);
+      border-color: #b9d9cc;
+      color: #12553f;
+      font-weight: 760;
+    }
+
+    .nav-item:hover {
+      border-color: var(--border-strong);
+      color: var(--ink);
+    }
+
+    .nav-note {
+      margin: 12px 9px 4px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 22px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0 7px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 760;
+      white-space: nowrap;
+    }
+
+    .badge.ok { background: var(--accent-soft); border-color: #b9d9cc; color: var(--accent); }
+    .badge.warn { background: var(--amber-soft); border-color: #e2c47d; color: var(--amber); }
+    .badge.risk { background: var(--red-soft); border-color: #e2aaa4; color: var(--red); }
+    .badge.info { background: var(--blue-soft); border-color: #bed2e5; color: var(--blue); }
+
+    .workspace { padding: 0 16px 16px; min-width: 0; }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .thesis, .panel, .metric {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: rgb(255 255 255 / .92);
+      min-width: 0;
+    }
+
+    .thesis {
+      padding: 18px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: end;
+      background:
+        linear-gradient(135deg, #111918 0%, #24332e 58%, #edf5ee 58.2%, #ffffff 100%);
+      color: #fff;
+      min-height: 194px;
+    }
+
+    .thesis .muted { color: rgb(255 255 255 / .72); }
+    .thesis h2 { max-width: 620px; font-size: 29px; line-height: 1.07; letter-spacing: 0; }
+
+    .decision-number {
+      min-width: 188px;
+      border: 1px solid rgb(255 255 255 / .45);
+      border-radius: 10px;
+      background: rgb(255 255 255 / .94);
+      color: var(--ink);
+      padding: 14px;
+    }
+
+    .decision-number span, .tiny { color: var(--muted); font-size: 12px; }
+    .decision-number strong { display: block; margin: 7px 0; font-size: 34px; line-height: 1; }
+
+    .panel { padding: 14px; }
+    .panel-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .section-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 840;
+    }
+
+    h2 { font-size: 18px; line-height: 1.14; letter-spacing: 0; }
+    h3 { font-size: 14px; letter-spacing: 0; }
+
+    .action-stack { display: grid; gap: 8px; }
+    .action {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: start;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: var(--paper);
+      padding: 10px;
+    }
+
+    .rank {
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      background: var(--paper-2);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .metric { padding: 13px; }
+    .metric strong { display: block; margin-top: 8px; font-size: 25px; line-height: 1; }
+    .metric p { margin-top: 8px; color: var(--muted); font-size: 12px; }
+    .metric.warn { background: var(--amber-soft); border-color: #e2c47d; }
+    .metric.risk { background: var(--red-soft); border-color: #e2aaa4; }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(380px, .8fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .chart {
+      height: 318px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background:
+        linear-gradient(to top, transparent 24%, rgb(220 227 220 / .78) 25%, transparent 26%),
+        linear-gradient(to top, transparent 49%, rgb(220 227 220 / .78) 50%, transparent 51%),
+        linear-gradient(to top, transparent 74%, rgb(220 227 220 / .78) 75%, transparent 76%),
+        #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chart::before {
+      content: "$ by business unit";
+      position: absolute;
+      left: 12px;
+      top: 10px;
+      color: var(--faint);
+      font-size: 11px;
+      font-weight: 760;
+    }
+
+    .axis {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      color: var(--faint);
+      font-size: 11px;
+    }
+
+    .line {
+      position: absolute;
+      inset: 46px 18px 34px 18px;
+      border-radius: 8px;
+    }
+
+    .line.media {
+      clip-path: polygon(0 76%, 12% 70%, 25% 62%, 39% 48%, 53% 54%, 67% 33%, 82% 21%, 100% 28%, 100% 100%, 0 100%);
+      background: linear-gradient(180deg, rgb(22 106 77 / .32), rgb(22 106 77 / .02));
+      border-top: 3px solid var(--accent);
+    }
+
+    .line.hermes {
+      inset-top: 67px;
+      clip-path: polygon(0 82%, 13% 78%, 27% 63%, 42% 66%, 58% 43%, 74% 52%, 89% 39%, 100% 44%, 100% 100%, 0 100%);
+      background: linear-gradient(180deg, rgb(154 104 19 / .24), rgb(154 104 19 / .02));
+      border-top: 3px solid var(--amber);
+    }
+
+    .line.khashi {
+      inset-top: 92px;
+      clip-path: polygon(0 86%, 16% 84%, 33% 77%, 51% 80%, 68% 70%, 82% 73%, 100% 62%, 100% 100%, 0 100%);
+      background: linear-gradient(180deg, rgb(36 95 143 / .18), rgb(36 95 143 / .02));
+      border-top: 3px solid var(--blue);
+    }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 12px; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 12px; }
+    .legend i { width: 9px; height: 9px; border-radius: 3px; display: inline-block; background: var(--accent); }
+    .legend .h i { background: var(--amber); }
+    .legend .k i { background: var(--blue); }
+
+    .unit-list { display: grid; gap: 8px; }
+    .unit {
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 10px;
+      background: #fff;
+    }
+
+    .unit.active { border-color: #b9d9cc; background: var(--accent-soft); }
+    .unit-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+    .unit-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+    .unit-kpis div { border-top: 1px solid rgb(105 115 111 / .18); padding-top: 7px; color: var(--muted); font-size: 11px; }
+    .unit-kpis b { display: block; color: var(--ink); font-family: var(--mono); font-size: 13px; margin-bottom: 2px; }
+
+    .lower-grid {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .provider-stack { display: grid; gap: 9px; }
+    .provider {
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #fff;
+      padding: 10px;
+    }
+
+    .provider-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 9px; }
+    .meter { height: 8px; border-radius: 999px; background: #e7ece7; overflow: hidden; }
+    .meter span { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
+    .meter .amber { background: var(--amber); }
+    .meter .blue { background: var(--blue); }
+
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 9px 8px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: middle; }
+    th { color: var(--muted); font-size: 11px; font-weight: 840; }
+    tr:last-child td { border-bottom: 0; }
+
+    .refs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .refs a {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--muted);
+      padding: 5px 8px;
+      font-size: 11px;
+      font-weight: 760;
+      text-decoration: none;
+    }
+
+    @media (max-width: 1220px) {
+      main { padding: 14px; }
+      .review-header, .cockpit, .topbar, .hero-grid, .thesis, .metric-grid, .content-grid, .lower-grid {
+        grid-template-columns: 1fr;
+      }
+      .sidebar { border-right: 0; border-bottom: 1px solid var(--border); }
+      .range { justify-content: start; grid-template-columns: repeat(4, max-content); }
+      .decision-number { min-width: 0; }
+    }
+
+    @media (max-width: 760px) {
+      h1 { font-size: 27px; }
+      .workspace { padding: 12px; }
+      .unit-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .action { grid-template-columns: minmax(0, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="review-header">
+      <div>
+        <div class="kicker">Mobbin-backed prototype · V3</div>
+        <h1>Hermes cost cockpit as an executive operating screen, not a component sampler</h1>
+        <p class="subcopy">This pass uses the authenticated Mobbin search results as layout reference material: dense usage screens, AI product consoles, billing ledgers, and business-unit drilldowns. The data remains static, but the screen shape is the candidate visual language.</p>
+      </div>
+      <div class="button-row">
+        <a class="button" href="./command-model-cost-cockpit-v2.html">Previous V2</a>
+        <a class="button" href="./index.html">Prototype Gallery</a>
+      </div>
+    </header>
+
+    <section class="cockpit">
+      <aside class="sidebar">
+        <div class="brand"><span class="mark">HC</span><span>Hermes Cost Cockpit</span></div>
+        <div class="nav-label">Command</div>
+        <button class="nav-item active" type="button" data-view="executive"><span>Executive cost view</span><span class="badge warn">watch</span></button>
+        <button class="nav-item" type="button" data-view="models"><span>Model routing</span><span class="badge">5</span></button>
+        <button class="nav-item" type="button" data-view="budgets"><span>Budget gates</span><span class="badge risk">2</span></button>
+        <button class="nav-item" type="button" data-view="trust"><span>Data trust</span><span class="badge">8</span></button>
+
+        <div class="nav-label">Business Units</div>
+        <button class="nav-item active" type="button" data-unit="media"><span>Media Engine</span><span class="badge warn">hot</span></button>
+        <button class="nav-item" type="button" data-unit="khashi"><span>Khashi VC</span><span class="badge ok">steady</span></button>
+        <button class="nav-item" type="button" data-unit="tlc"><span>TLC Group OS</span><span class="badge">partial</span></button>
+        <button class="nav-item" type="button" data-unit="mediaBusiness"><span>Media Business OS</span><span class="badge info">new</span></button>
+
+        <div class="nav-label">Time Window</div>
+        <button class="nav-item" type="button" data-window="24h"><span>Last 24 hours</span><span class="badge">24h</span></button>
+        <button class="nav-item" type="button" data-window="7d"><span>Last 7 days</span><span class="badge">7d</span></button>
+        <button class="nav-item active" type="button" data-window="30d"><span>Last 30 days</span><span class="badge ok">30d</span></button>
+        <button class="nav-item" type="button" data-window="90d"><span>Last 90 days</span><span class="badge">90d</span></button>
+
+        <div class="nav-label">Feeds</div>
+        <button class="nav-item" type="button" data-view="trust"><span>OpenAI Admin</span><span class="badge ok">set</span></button>
+        <button class="nav-item" type="button" data-view="trust"><span>Gemini estimate</span><span class="badge warn">manual</span></button>
+        <button class="nav-item" type="button" data-view="trust"><span>Revenue</span><span class="badge risk">pending</span></button>
+        <p class="nav-note">Prototype controls: these change the screen context with static data. In production, the same rail should route or filter live telemetry.</p>
+      </aside>
+
+      <div class="body">
+        <div class="topbar">
+          <div class="content-title">
+            <strong>Executive operating cockpit</strong>
+            <span>Cost, token capacity, business-unit pressure, and trust state</span>
+          </div>
+          <div class="range" aria-label="Current time window">
+            <span>24h</span>
+            <span>7d</span>
+            <span class="active" data-top-window>30d</span>
+            <span>90d</span>
+          </div>
+        </div>
+        <div class="workspace">
+          <div class="status-strip" style="margin-bottom:14px"><span class="pulse"></span><span>Portfolio usage live · 6 business units · 2 untrusted feeds · premium fallback gated</span></div>
+          <section class="hero-grid">
+            <div class="thesis">
+              <div>
+                <p class="muted" data-view-label>Executive cost view · Media Engine · 30d</p>
+                <h2 data-stance>Media Engine is carrying the burn. Keep premium fallback gated until output value is visible.</h2>
+                <p class="muted" style="margin-top:10px" data-stance-detail>The cockpit should show spend, tokens, revenue context, model routing, and trust state on one surface before the operator clicks into a unit.</p>
+              </div>
+              <div class="decision-number">
+                <span data-spend-label>30d known spend</span>
+                <strong data-total-spend>$842</strong>
+                <span data-cap-usage>42.1% of planning cap</span>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <div class="section-label">Attention queue</div>
+                  <h2>Decisions before more automation</h2>
+                </div>
+                <span class="badge warn">4 open</span>
+              </div>
+              <div class="action-stack">
+                <div class="action"><span class="rank">1</span><div><h3>Hold OpenAI premium fallback</h3><p class="tiny">Fallback cost is visible, but accepted-output value is not yet tied to revenue.</p></div><span class="badge warn">today</span></div>
+                <div class="action"><span class="rank">2</span><div><h3>Connect local Codex ledger</h3><p class="tiny">Local work should be counted as capacity even when it is not API-billed.</p></div><span class="badge risk">gap</span></div>
+                <div class="action"><span class="rank">3</span><div><h3>Promote cost contract to TLC Group OS</h3><p class="tiny">Business rollups need the same trust markers this cockpit uses.</p></div><span class="badge info">next</span></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="metric-grid">
+            <div class="metric"><div class="section-label">Tokens processed</div><strong data-metric="tokens">1.84M</strong><p data-metric-note="tokens">+18.7% vs prior 30d</p></div>
+            <div class="metric warn"><div class="section-label">Provider calls</div><strong data-metric="calls">14,208</strong><p data-metric-note="calls">Media Engine is the main driver</p></div>
+            <div class="metric"><div class="section-label">Successful outputs</div><strong data-metric="outputs">218</strong><p data-metric-note="outputs">$3.86 estimated per output</p></div>
+            <div class="metric"><div class="section-label">Reported revenue</div><strong data-metric="revenue">$0</strong><p data-metric-note="revenue">Feed not connected yet</p></div>
+            <div class="metric risk"><div class="section-label">Trust gaps</div><strong data-metric="trust">2</strong><p data-metric-note="trust">Revenue and local ledger</p></div>
+          </section>
+
+          <section class="content-grid">
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <div class="section-label" data-chart-label>Business-unit cost curve</div>
+                  <h2 data-chart-title>Usage trend with unit comparison</h2>
+                </div>
+                <span class="badge" data-window-badge>30d active</span>
+              </div>
+              <div class="chart">
+                <div class="line media"></div>
+                <div class="line hermes"></div>
+                <div class="line khashi"></div>
+                <div class="axis"><span>Jun 29</span><span>Jul 7</span><span>Jul 15</span><span>Jul 23</span><span>Jul 28</span></div>
+              </div>
+              <div class="legend">
+                <span><i></i>Media Engine</span>
+                <span class="h"><i></i>Nous Hermes Agent</span>
+                <span class="k"><i></i>Khashi VC</span>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <div class="section-label">Unit drilldown</div>
+                  <h2 data-unit-heading>One glance operating summary</h2>
+                </div>
+                <span class="badge warn" data-selected-unit-badge>Media Engine selected</span>
+              </div>
+              <div class="unit-list">
+                <div class="unit active" data-unit-card="media">
+                  <div class="unit-head"><strong>Media Engine</strong><span class="badge warn">high burn</span></div>
+                  <div class="unit-kpis"><div><b>$138</b>Spend</div><div><b>721k</b>Tokens</div><div><b>64</b>Packages</div><div><b>N/A</b>Revenue</div></div>
+                </div>
+                <div class="unit" data-unit-card="khashi">
+                  <div class="unit-head"><strong>Khashi VC</strong><span class="badge ok">steady</span></div>
+                  <div class="unit-kpis"><div><b>$29</b>Spend</div><div><b>94k</b>Tokens</div><div><b>Scans</b>Output</div><div><b>$0</b>Revenue</div></div>
+                </div>
+                <div class="unit" data-unit-card="tlc">
+                  <div class="unit-head"><strong>TLC Group OS</strong><span class="badge">partial</span></div>
+                  <div class="unit-kpis"><div><b>$20</b>Spend</div><div><b>72k</b>Tokens</div><div><b>14</b>Reports</div><div><b>Pending</b>Revenue</div></div>
+                </div>
+                <div class="unit" data-unit-card="mediaBusiness">
+                  <div class="unit-head"><strong>Media Business OS</strong><span class="badge info">new</span></div>
+                  <div class="unit-kpis"><div><b>$24</b>Spend</div><div><b>118k</b>Tokens</div><div><b>28</b>Rollups</div><div><b>Pending</b>Revenue</div></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="lower-grid">
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <div class="section-label">Provider attribution</div>
+                  <h2>Which lane caused pressure</h2>
+                </div>
+                <span class="badge">ranked</span>
+              </div>
+              <div class="provider-stack">
+                <div class="provider"><div class="provider-top"><strong>OpenAI premium lane</strong><span class="badge warn">$186.40</span></div><div class="meter"><span class="amber" style="width:72%"></span></div><p class="tiny" style="margin-top:8px">Prototype builds and code review fallback are the largest drivers.</p></div>
+                <div class="provider"><div class="provider-top"><strong>Gemini production lane</strong><span class="badge ok">$41.70</span></div><div class="meter"><span style="width:42%"></span></div><p class="tiny" style="margin-top:8px">Stable draft and media package generation lane.</p></div>
+                <div class="provider"><div class="provider-top"><strong>DeepSeek development lane</strong><span class="badge info">$18.90</span></div><div class="meter"><span class="blue" style="width:26%"></span></div><p class="tiny" style="margin-top:8px">Candidate lower-cost coding and planning model.</p></div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <div class="section-label">Operating ledger</div>
+                  <h2>What rolls up to TLC Group OS</h2>
+                </div>
+                <span class="badge">business-ready</span>
+              </div>
+              <table>
+                <thead>
+                  <tr><th>Unit</th><th>Cost</th><th>Output</th><th>Revenue</th><th>Trust</th><th>Next action</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Media Engine</td><td>$138.20</td><td>64 packages</td><td>N/A</td><td><span class="badge warn">estimated</span></td><td>connect performance feed</td></tr>
+                  <tr><td>Nous Hermes Agent</td><td>$92.50</td><td>11 builds</td><td>N/A</td><td><span class="badge risk">ledger gap</span></td><td>track local runtime</td></tr>
+                  <tr><td>Khashi VC</td><td>$28.70</td><td>market scans</td><td>$0</td><td><span class="badge ok">usable</span></td><td>keep scanner separate</td></tr>
+                  <tr><td>Media Business OS</td><td>$24.10</td><td>rollups</td><td>pending</td><td><span class="badge warn">partial</span></td><td>map brand costs</td></tr>
+                </tbody>
+              </table>
+              <div class="refs" aria-label="Mobbin references">
+                <a href="https://mobbin.com/screens/725959e2-fde7-4b89-a8e3-1d272d9ec735">Snowflake</a>
+                <a href="https://mobbin.com/screens/0e6d8ddc-04bf-4e41-9398-37299d7feb26">StackAI</a>
+                <a href="https://mobbin.com/screens/f9487f47-07b7-4189-aa89-f4fc5bb88858">WRITER</a>
+                <a href="https://mobbin.com/screens/7483692e-1571-40a7-829d-468a0686e2d9">Adaline</a>
+                <a href="https://mobbin.com/screens/3a84294a-2371-44ba-8a09-fdfd163fb453">Cursor</a>
+                <a href="https://mobbin.com/screens/fe36ec31-b25c-4cf1-9932-85bf66cd89fc">OpenAI Platform</a>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+    const cockpitState = {
+      view: "executive",
+      unit: "media",
+      window: "30d"
+    };
+
+    const views = {
+      executive: {
+        label: "Executive cost view",
+        chartLabel: "Business-unit cost curve",
+        chartTitle: "Usage trend with unit comparison",
+        detail: "The cockpit should show spend, tokens, revenue context, model routing, and trust state on one surface before the operator clicks into a unit."
+      },
+      models: {
+        label: "Model routing",
+        chartLabel: "Provider and model routing",
+        chartTitle: "Premium fallback, production lanes, and cheap-model routing",
+        detail: "This view should explain which model lane produced the cost, which fallback was used, and whether premium expansion needs approval."
+      },
+      budgets: {
+        label: "Budget gates",
+        chartLabel: "Budget pressure curve",
+        chartTitle: "Planning cap, burn rate, and approval thresholds",
+        detail: "This view should show whether spend is inside the approved cap, close to a warning threshold, or blocked by a hard stop."
+      },
+      trust: {
+        label: "Data trust",
+        chartLabel: "Trust and freshness posture",
+        chartTitle: "Real, estimated, missing, stale, and manual feeds",
+        detail: "This view should show which numbers can be trusted, which are estimates, and which business decisions are unsafe until a feed is fixed."
+      }
+    };
+
+    const units = {
+      media: {
+        name: "Media Engine",
+        stance: "Media Engine is carrying the burn. Keep premium fallback gated until output value is visible.",
+        badge: "Media Engine selected",
+        metrics: {
+          tokens: ["721k", "Largest active token consumer"],
+          calls: ["8,940", "Generation and package workflow"],
+          outputs: ["64", "$2.16 estimated per package"],
+          revenue: ["N/A", "Performance feed not connected"],
+          trust: ["2", "Revenue and platform performance"]
+        }
+      },
+      khashi: {
+        name: "Khashi VC",
+        stance: "Khashi VC is lower cost right now. Keep scanner capacity separate from experiment capacity.",
+        badge: "Khashi VC selected",
+        metrics: {
+          tokens: ["94k", "Mostly analysis and scan summaries"],
+          calls: ["2,108", "Market API plus deterministic rollups"],
+          outputs: ["Scans", "Broad market intelligence layer"],
+          revenue: ["$0", "Research mode, not trading mode"],
+          trust: ["1", "Market freshness watch"]
+        }
+      },
+      tlc: {
+        name: "TLC Group OS",
+        stance: "TLC Group OS is the rollup layer. It needs trusted business-unit feeds before ROI automation.",
+        badge: "TLC Group OS selected",
+        metrics: {
+          tokens: ["72k", "Readiness and business rollups"],
+          calls: ["620", "Mostly internal reporting"],
+          outputs: ["14", "Readiness snapshots"],
+          revenue: ["Pending", "Manual business inputs first"],
+          trust: ["3", "Several downstream feeds partial"]
+        }
+      },
+      mediaBusiness: {
+        name: "Media Business OS",
+        stance: "Media Business OS should consume Media Engine performance and cost without owning generation.",
+        badge: "Media Business OS selected",
+        metrics: {
+          tokens: ["118k", "Brand analytics and planning"],
+          calls: ["1,420", "Reporting and operations checks"],
+          outputs: ["28", "Brand operations rollups"],
+          revenue: ["Pending", "Platform reporting not connected"],
+          trust: ["2", "Revenue and channel performance"]
+        }
+      }
+    };
+
+    const windows = {
+      "24h": { spend: "$41", cap: "2.1% of planning cap", scale: "24h active" },
+      "7d": { spend: "$214", cap: "10.7% of planning cap", scale: "7d active" },
+      "30d": { spend: "$842", cap: "42.1% of planning cap", scale: "30d active" },
+      "90d": { spend: "$1.9k", cap: "95.0% of planning cap", scale: "90d active" }
+    };
+
+    function setActive(selector, key, value) {
+      document.querySelectorAll(selector).forEach((element) => {
+        element.classList.toggle("active", element.dataset[key] === value);
+      });
+    }
+
+    function renderCockpit() {
+      const view = views[cockpitState.view];
+      const unit = units[cockpitState.unit];
+      const windowValue = windows[cockpitState.window];
+
+      document.querySelector("[data-view-label]").textContent = `${view.label} · ${unit.name} · ${cockpitState.window}`;
+      document.querySelector("[data-stance]").textContent = unit.stance;
+      document.querySelector("[data-stance-detail]").textContent = view.detail;
+      document.querySelector("[data-spend-label]").textContent = `${cockpitState.window} known spend`;
+      document.querySelector("[data-total-spend]").textContent = windowValue.spend;
+      document.querySelector("[data-cap-usage]").textContent = windowValue.cap;
+      document.querySelector("[data-chart-label]").textContent = view.chartLabel;
+      document.querySelector("[data-chart-title]").textContent = view.chartTitle;
+      document.querySelector("[data-window-badge]").textContent = windowValue.scale;
+      document.querySelector("[data-unit-heading]").textContent = `${unit.name} operating summary`;
+      document.querySelector("[data-selected-unit-badge]").textContent = unit.badge;
+      document.querySelector("[data-top-window]").textContent = cockpitState.window;
+
+      Object.entries(unit.metrics).forEach(([key, [value, note]]) => {
+        document.querySelector(`[data-metric="${key}"]`).textContent = value;
+        document.querySelector(`[data-metric-note="${key}"]`).textContent = note;
+      });
+
+      setActive("[data-view]", "view", cockpitState.view);
+      setActive("[data-unit]", "unit", cockpitState.unit);
+      setActive("[data-window]", "window", cockpitState.window);
+      setActive("[data-unit-card]", "unitCard", cockpitState.unit);
+    }
+
+    document.querySelectorAll("[data-view]").forEach((button) => {
+      button.addEventListener("click", () => {
+        cockpitState.view = button.dataset.view;
+        renderCockpit();
+      });
+    });
+
+    document.querySelectorAll("[data-unit]").forEach((button) => {
+      button.addEventListener("click", () => {
+        cockpitState.unit = button.dataset.unit;
+        renderCockpit();
+      });
+    });
+
+    document.querySelectorAll("[data-window]").forEach((button) => {
+      button.addEventListener("click", () => {
+        cockpitState.window = button.dataset.window;
+        renderCockpit();
+      });
+    });
+
+    renderCockpit();
+  </script>
+</body>
+</html>

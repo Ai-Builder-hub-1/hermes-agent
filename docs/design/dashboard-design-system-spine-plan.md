@@ -12,8 +12,8 @@ This plan tracks the work needed to move Hermes/TLC dashboards from project-spec
 | Workspace overview component | 100% | Implemented in `@hermes/dashboard-kit/src/workspace-overview.tsx`. |
 | Mobbin reference workflow | 100% | Documented in `docs/design/mobbin-reference-workflow.md`. |
 | Project dashboard retrofits | 55% | Kashi VC and Media Engine emit architecture contracts, expose workspace overviews, validate architecture snapshots in tests, and have declared downstream consumers; package-native React migration remains open. |
-| Prototype lab | 100% | Prototype contracts, starter registry, selected variants, preview evidence, static gallery, shared review component, and Hermes app route exist. |
-| Capacity Command Center | 70% | Plan, prototype registry entry, first dashboard-kit snapshot contract, data requirements, four prototype directions, static visual mockups, revenue-aware fields, a business-unit observatory, and a command/model cost cockpit exist for portfolio-wide tokens, provider usage, cost pressure, storage, API calls, throughput, missing data, revenue context, and budget gates. Final selection and promotion remain. |
+| Prototype lab | 100% | Prototype contracts, starter registry, selected variants, preview evidence, static gallery, shared review component, visual selection bridge, and Hermes app route exist. |
+| Capacity Command Center | 80% | Plan, prototype registry entry, first dashboard-kit snapshot contract, data requirements, four prototype directions, static visual mockups, revenue-aware fields, a business-unit observatory, command/model cockpit, Mobbin-backed V3 exploration, V2-based active prototype, and browser selection bridge exist. Promotion into reusable kit modules and live consumers remain. |
 | Production governance | 90% | Adoption registry, prototype registry, downstream feed registry, static gallery, and proving-project snapshot validation are enforced; CI gating remains deferred until package-native migration. |
 
 Spine infrastructure readiness: **100% for the current proving-project boundary**
@@ -95,7 +95,9 @@ Rollout adoption readiness: **72%**
 - [x] Create static visual mockups for all four prototype directions.
 - [x] Create recommended hybrid observatory from the ledger, provider, and temporal variants.
 - [x] Create command/model cost cockpit from the command-first and provider/model variants.
-- [ ] Select one prototype direction with written rationale.
+- [x] Create Mobbin-backed V3 executive cockpit exploration after authenticated Mobbin reference search.
+- [x] Set V2-based `hermes-cost-cockpit-active.html` as the active iteration target after operator review.
+- [x] Select one prototype direction with written rationale.
 - [ ] Promote reusable capacity/chart modules into `@hermes/dashboard-kit`.
 - [ ] Wire Hermes OS technical central command to consume the snapshot.
 - [ ] Wire TLC Capital Group OS to consume business-unit rollups.

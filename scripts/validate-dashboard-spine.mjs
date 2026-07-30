@@ -7,10 +7,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const registryPath = path.join(root, "docs/design/dashboard-kit-adoption.json");
 const prototypeRegistryPath = path.join(root, "docs/design/dashboard-prototype-registry.json");
+const prototypeReviewMapPath = path.join(root, "docs/design/prototype-review-map.json");
 const prototypeGalleryPath = path.join(root, "docs/design/prototype-gallery/index.html");
 const downstreamFeedPath = path.join(root, "docs/design/dashboard-downstream-snapshot-feed.json");
 const packageNativeParityPath = path.join(root, "docs/design/package-native-parity-registry.json");
 const packageNativeCutoverPath = path.join(root, "docs/design/package-native-cutover-checklist.json");
+const operatingInterfaceTaxonomyPath = path.join(root, "docs/design/operating-interface-system-taxonomy.md");
+const operatingInterfaceRegistryPath = path.join(root, "docs/design/operating-interface-system-registry.json");
 const planPath = path.join(root, "docs/design/dashboard-design-system-spine-plan.md");
 const requiredDocs = [
   "docs/design/dashboard-data-contracts.md",
@@ -21,9 +24,14 @@ const requiredDocs = [
   "docs/design/dashboard-design-system-spine-plan.md",
   "docs/design/dashboard-prototype-lab.md",
   "docs/design/dashboard-prototype-registry.json",
+  "docs/design/prototype-review-map.json",
+  "docs/design/visual-selection-bridge.md",
+  "docs/design/prototype-gallery/visual-selection-bridge.js",
   "docs/design/package-native-cutover-checklist.md",
   "docs/design/package-native-cutover-checklist.json",
   "docs/design/package-native-parity-registry.json",
+  "docs/design/operating-interface-system-taxonomy.md",
+  "docs/design/operating-interface-system-registry.json",
   "docs/design/prototype-gallery/index.html",
   "packages/hermes-dashboard-kit/DESIGN.md",
   "packages/hermes-dashboard-kit/README.md",
@@ -165,6 +173,76 @@ function validatePrototypeGallery(registry) {
   return issues;
 }
 
+function validatePrototypeReviewMap(map) {
+  const issues = [];
+  if (map.schemaVersion !== 1) {
+    issues.push(issue("error", "prototypeReviewMap.schemaVersion", "prototype review map schemaVersion must be 1."));
+  }
+  if (map.project?.id !== "nous-hermes-agent") {
+    issues.push(issue("error", "prototypeReviewMap.project", "prototype review map must belong to nous-hermes-agent."));
+  }
+  if (!map.activeSurface?.file) {
+    issues.push(issue("error", "prototypeReviewMap.activeSurface.file", "activeSurface.file is required."));
+    return issues;
+  }
+
+  const activeSurfacePath = path.join(root, map.activeSurface.file);
+  if (!fs.existsSync(activeSurfacePath)) {
+    issues.push(issue("error", "prototypeReviewMap.activeSurface.exists", `${map.activeSurface.file} does not exist.`));
+    return issues;
+  }
+
+  if (!Array.isArray(map.reviewIds) || map.reviewIds.length === 0) {
+    issues.push(issue("error", "prototypeReviewMap.reviewIds", "reviewIds must include at least one stable review handle."));
+    return issues;
+  }
+
+  const html = fs.readFileSync(activeSurfacePath, "utf8");
+  if (!html.includes("window.HERMES_VISUAL_SELECTION_BRIDGE")) {
+    issues.push(issue("error", "prototypeReviewMap.bridgeConfig", `${map.activeSurface.file} must define HERMES_VISUAL_SELECTION_BRIDGE config.`));
+  }
+  if (!html.includes("./visual-selection-bridge.js")) {
+    issues.push(issue("error", "prototypeReviewMap.bridgeScript", `${map.activeSurface.file} must load visual-selection-bridge.js.`));
+  }
+  if (!html.includes(`surfaceId: "${map.activeSurface.id}"`)) {
+    issues.push(issue("error", "prototypeReviewMap.bridgeSurface", `bridge surfaceId must match activeSurface.id ${map.activeSurface.id}.`));
+  }
+  const htmlIds = [...html.matchAll(/data-review-id="([^"]+)"/g)].map((match) => match[1]);
+  const htmlIdSet = new Set(htmlIds);
+  const duplicateHtmlIds = htmlIds.filter((id, index) => htmlIds.indexOf(id) !== index);
+  for (const id of new Set(duplicateHtmlIds)) {
+    issues.push(issue("error", `prototypeReviewMap.htmlDuplicate:${id}`, `data-review-id ${id} appears more than once in ${map.activeSurface.file}.`));
+  }
+
+  const mapIds = new Set();
+  for (const [index, reviewItem] of map.reviewIds.entries()) {
+    const prefix = `prototypeReviewMap.reviewIds[${index}] ${reviewItem.id ?? "(missing id)"}`;
+    for (const field of ["id", "label", "file", "owner", "changeScope", "description"]) {
+      if (!reviewItem[field]) issues.push(issue("error", `${prefix}.${field}`, `${field} is required.`));
+    }
+    if (reviewItem.id) {
+      if (mapIds.has(reviewItem.id)) {
+        issues.push(issue("error", `${prefix}.duplicate`, `${reviewItem.id} is duplicated in the review map.`));
+      }
+      mapIds.add(reviewItem.id);
+      if (!htmlIdSet.has(reviewItem.id)) {
+        issues.push(issue("error", `${prefix}.html`, `${reviewItem.id} is not present as data-review-id in ${map.activeSurface.file}.`));
+      }
+    }
+    if (reviewItem.file && reviewItem.file !== map.activeSurface.file) {
+      issues.push(issue("warning", `${prefix}.file`, "review item file differs from active surface file; make sure routing is intentional."));
+    }
+  }
+
+  for (const htmlId of htmlIdSet) {
+    if (!mapIds.has(htmlId)) {
+      issues.push(issue("warning", `prototypeReviewMap.unmappedHtmlId:${htmlId}`, `${htmlId} exists in HTML but is not documented in the review map.`));
+    }
+  }
+
+  return issues;
+}
+
 function validateDownstreamFeed(feed) {
   const issues = [];
   if (feed.schemaVersion !== 1) {
@@ -247,17 +325,64 @@ function validatePackageNativeParity(registry, checklist) {
   return issues;
 }
 
+function validateOperatingInterfaceSystem(registry) {
+  const issues = [];
+  const requiredFamilies = [
+    "navigation-workspace",
+    "information-architecture",
+    "cards-panels",
+    "tables-lists",
+    "charts-visualization",
+    "drilldowns-drawers",
+    "command-control",
+    "state-design",
+    "search-filter-discovery",
+    "ai-assisted-interaction",
+    "visual-language",
+    "reference-research",
+    "project-retrofit",
+  ];
+  if (registry.schemaVersion !== 1) {
+    issues.push(issue("error", "operatingInterface.schemaVersion", "operating interface registry schemaVersion must be 1."));
+  }
+  if (registry.canonicalPackage !== "@hermes/dashboard-kit") {
+    issues.push(issue("error", "operatingInterface.canonicalPackage", "canonical package must be @hermes/dashboard-kit."));
+  }
+  const families = new Map((registry.families ?? []).map((family) => [family.id, family]));
+  for (const familyId of requiredFamilies) {
+    const family = families.get(familyId);
+    if (!family) {
+      issues.push(issue("error", `operatingInterface.family:${familyId}`, `${familyId} is missing.`));
+      continue;
+    }
+    if (!Array.isArray(family.components) || family.components.length === 0) {
+      issues.push(issue("error", `operatingInterface.family:${familyId}.components`, `${familyId} must list components.`));
+    }
+    if (!Array.isArray(family.gaps)) {
+      issues.push(issue("error", `operatingInterface.family:${familyId}.gaps`, `${familyId} must list gaps.`));
+    }
+  }
+  if (!fs.existsSync(operatingInterfaceTaxonomyPath)) {
+    issues.push(issue("error", "operatingInterface.taxonomy", "operating interface taxonomy is missing."));
+  }
+  return issues;
+}
+
 const registry = readJson(registryPath);
 const prototypeRegistry = readJson(prototypeRegistryPath);
+const prototypeReviewMap = readJson(prototypeReviewMapPath);
 const downstreamFeed = readJson(downstreamFeedPath);
 const packageNativeParity = readJson(packageNativeParityPath);
 const packageNativeCutover = readJson(packageNativeCutoverPath);
+const operatingInterfaceRegistry = readJson(operatingInterfaceRegistryPath);
 const issues = [
   ...validateRegistry(registry),
   ...validatePrototypeRegistry(prototypeRegistry),
   ...validatePrototypeGallery(prototypeRegistry),
+  ...validatePrototypeReviewMap(prototypeReviewMap),
   ...validateDownstreamFeed(downstreamFeed),
   ...validatePackageNativeParity(packageNativeParity, packageNativeCutover),
+  ...validateOperatingInterfaceSystem(operatingInterfaceRegistry),
   ...validateDocs(),
 ];
 const errors = issues.filter((item) => item.severity === "error");

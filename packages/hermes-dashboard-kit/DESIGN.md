@@ -40,6 +40,8 @@ tokens:
     header: "DashboardHeader / .hdk-header"
     card: "KpiCard, ChartPanel, DataTable / .hdk-card"
     table: "DataTable / .hdk-table"
+    data_visualization: "MarketTape, MarketVolatilityDrawer, PriceMovementChart, SpreadBandChart, LiquidityDepthChart, VolumePulseChart, CategoryHeatmap, OpportunityMatrix, ProviderSpendTimeline, BusinessUnitCostCard, AlertRail, DrilldownPanel, TimeWindowSelector, CrosshairTooltipFrame, OrderBookLadder, ForecastConeChart, WaterfallChart"
+    product_interface: "WorkspaceSwitcher, BreadcrumbTrail, SplitWorkspaceLayout, DetailDrawerShell, EntitySummaryCard, EvidenceStack, RecommendationStack, SavedFilterChips, CommandPalette, GlobalSearchOverlay, SavedViewsManager, ExpandableDataList, AiAssistantPanel, StateChecklist, PermissionLimitedPanel, GeneratedInsightCallout"
     button: "Command buttons / .hdk-button"
     status: "StatusPill / .hdk-pill"
 ---
@@ -89,6 +91,8 @@ Hermes OS governs enforcement and adoption. It does not own a competing design-s
 ## Component Rules
 
 - Use `DashboardShell`, `DashboardHeader`, `MetricGrid`, `KpiCard`, `DataTable`, `ChartPanel`, and status primitives before creating local UI.
+- Use the data-visualization primitives (`MarketTape`, `MarketVolatilityDrawer`, `PriceMovementChart`, `SpreadBandChart`, `LiquidityDepthChart`, `VolumePulseChart`, `CategoryHeatmap`, `OpportunityMatrix`, `ProviderSpendTimeline`, `BusinessUnitCostCard`, `AlertRail`, `DrilldownPanel`, `TimeWindowSelector`, `CrosshairTooltipFrame`, `OrderBookLadder`, `ForecastConeChart`, `WaterfallChart`, and preview/empty/error states) before creating one-off chart surfaces.
+- Use the product-interface primitives (`WorkspaceSwitcher`, `BreadcrumbTrail`, `SplitWorkspaceLayout`, `DetailDrawerShell`, `EntitySummaryCard`, `EvidenceStack`, `RecommendationStack`, `SavedFilterChips`, `CommandPalette`, `GlobalSearchOverlay`, `SavedViewsManager`, `ExpandableDataList`, `AiAssistantPanel`, `StateChecklist`, `PermissionLimitedPanel`, and `GeneratedInsightCallout`) before creating local navigation, drilldown, evidence, AI-assist, search, saved-view, expandable-list, or state-review UI.
 - Use `DashboardSnapshotContract`, `DashboardModuleContract`, `HERMES_DASHBOARD_WORKSPACES`, and `DashboardWorkspaceOverview` when a dashboard needs to report or audit its own structure.
 - Use `DashboardPrototypeSet` before production redesigns that need Mobbin references or multiple layout directions.
 - Use `validateDashboardSnapshot` before treating `/api/dashboard-architecture` output as trustworthy.
@@ -118,3 +122,13 @@ Before building or changing a dashboard, agents should:
 7. Prefer package primitives or the static adapter.
 8. Update adoption status when a dashboard moves closer to package-native usage.
 9. Run `npm run dashboard:spine:validate` from the Hermes agent project after changing adoption metadata or dashboard spine docs.
+
+## Research And Adoption Registries
+
+The operating interface system is backed by:
+
+- `docs/design/operating-interface-reference-library.json` for Mobbin-informed pattern research.
+- `docs/design/operating-interface-system-registry.json` for canonical families and shared components.
+- `docs/design/operating-interface-state-coverage.json` for ready/loading/empty/error/stale/preview/permission-limited/partial coverage.
+- `docs/design/operating-interface-adoption-score.json` for project adoption scoring.
+- `docs/design/operating-interface-visual-qa.md` for visual QA expectations.

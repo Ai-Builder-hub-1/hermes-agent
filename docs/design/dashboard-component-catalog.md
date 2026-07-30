@@ -47,6 +47,24 @@ Avoid:
 - Filters detached from the table they control.
 - Tables without empty, loading, and error states.
 
+## Operating Interface And Drilldowns
+
+Use `WorkspaceSwitcher`, `BreadcrumbTrail`, `SplitWorkspaceLayout`, `DetailDrawerShell`, `EntitySummaryCard`, `EvidenceStack`, `RecommendationStack`, `SavedFilterChips`, `CommandPalette`, `GlobalSearchOverlay`, `SavedViewsManager`, `ExpandableDataList`, `AiAssistantPanel`, `StateChecklist`, `PermissionLimitedPanel`, and `GeneratedInsightCallout`.
+
+Use these when:
+
+- Operators need to move between business units, workspaces, or entity drilldowns.
+- Operators need command-palette access, global search, saved views, or expandable drilldown rows.
+- A dashboard needs source/evidence/recommendation context beside the main data.
+- AI-assisted summaries, comparisons, or next actions are visible inside an operating surface.
+- A module needs to show permission-limited, generated, partial, or state-support information.
+
+Avoid:
+
+- Building local side panels, evidence cards, or AI chat panels without checking the kit.
+- Hiding source/freshness context behind generic copy.
+- Treating AI output as ordinary dashboard truth without labeling it.
+
 ## Charts And Insights
 
 Use `ChartPanel`, `SimpleBarChart`, `SimpleLineChart`, `HeatmapGrid`, `InsightPanel`, `FindingCard`, and `RecommendationCard`.
@@ -61,6 +79,24 @@ Avoid:
 - Decorative charts that do not support a decision.
 - Unlabeled color scales.
 - Recommendations without confidence or action text.
+
+## Data Product Visualizations
+
+Use `MarketTape`, `MarketVolatilityDrawer`, `PriceMovementChart`, `SpreadBandChart`, `LiquidityDepthChart`, `VolumePulseChart`, `CategoryHeatmap`, `OpportunityMatrix`, `ProviderSpendTimeline`, `BusinessUnitCostCard`, `AlertRail`, `DrilldownPanel`, `TimeWindowSelector`, `CrosshairTooltipFrame`, `OrderBookLadder`, `ForecastConeChart`, `WaterfallChart`, and `VisualizationStateFrame`.
+
+Use these when:
+
+- A dashboard needs to explain live movement, capacity, cost, liquidity, opportunity, alerts, or drilldown context.
+- A dashboard needs trading-style market depth, forecast ranges, cumulative contribution, or hover/crosshair chart framing.
+- A static or prototype dashboard needs clearly labeled mock-preview behavior before real data is available.
+- The same chart/table/drawer pattern is likely to be reused across two or more business units.
+
+Avoid:
+
+- Building project-local SVG charts when a shared data-viz primitive fits.
+- Showing mock data without an explicit preview label.
+- Treating time windows, units, or freshness as visual-only details.
+- Creating chart primitives without empty, loading, stale, and error states.
 
 ## Launcher And Registry
 
@@ -106,6 +142,16 @@ Every new dashboard must account for:
 - Critical.
 - Disabled or permission-limited.
 - Compact/mobile layout.
+
+## Operating Interface Registries
+
+Use these files when planning major dashboard redesigns:
+
+- `operating-interface-reference-library.json`: Mobbin-informed pattern intake and search briefs.
+- `operating-interface-system-registry.json`: canonical component families.
+- `operating-interface-state-coverage.json`: state coverage by component.
+- `operating-interface-adoption-score.json`: project adoption scoring and retrofit targets.
+- `operating-interface-visual-qa.md`: visual QA checklist.
 
 ## Validation
 

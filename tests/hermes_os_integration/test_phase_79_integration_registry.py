@@ -16,7 +16,12 @@ from hermes_os_integration.integration_registry import (
     integration_status,
     load_integration_records,
     parse_env_file_presence,
+    parse_simple_yaml_presence,
     project_integration_matrix,
+    scan_github_repo_credentials,
+    scan_hermes_global_config_credentials,
+    scan_hermes_global_env_credentials,
+    scan_project_credential_sources,
     scan_project_env_credentials,
     simple_credential_lists,
 )
@@ -86,10 +91,10 @@ def test_integration_dashboard_panels_and_project_dashboard_include_registry(tmp
 def test_cmd_integrations_outputs_status_missing_projects_dashboard_and_simple_lists(capsys):
     base = SimpleNamespace(registry="")
 
-    for command in ["status", "missing", "projects", "dashboard", "needed", "present", "promote"]:
+    for command in ["status", "missing", "projects", "dashboard", "needed", "present", "promote", "map", "verify"]:
         cmd_integrations(SimpleNamespace(**base.__dict__, integrations_command=command))
         output = capsys.readouterr().out
-        if command in {"needed", "present", "promote"}:
+        if command in {"needed", "present", "promote", "map", "verify"}:
             assert "Credentials" in output
             continue
         payload = json.loads(output)
@@ -109,11 +114,17 @@ def test_cmd_integrations_simple_lists_can_emit_json(capsys):
     present = json.loads(capsys.readouterr().out)
     cmd_integrations(SimpleNamespace(registry="", integrations_command="promote", json=True))
     promote = json.loads(capsys.readouterr().out)
+    cmd_integrations(SimpleNamespace(registry="", integrations_command="map", json=True))
+    mapping = json.loads(capsys.readouterr().out)
+    cmd_integrations(SimpleNamespace(registry="", integrations_command="verify", json=True))
+    verify = json.loads(capsys.readouterr().out)
 
     assert needed["schema"] == "hermes-integration-registry-v1"
     assert "needed" in needed
     assert "present" in present
     assert "needs_promotion" in promote
+    assert "needs_mapping" in mapping
+    assert "needs_verification" in verify
 
 
 def test_project_env_scan_marks_global_credentials_for_promotion(tmp_path):
@@ -139,6 +150,109 @@ def test_project_env_scan_marks_global_credentials_for_promotion(tmp_path):
     assert discord["project_locations"] == ["investing-system", "media-engine"]
     assert any(item["name"] == "DISCORD_BOT_TOKEN" for item in simple["needs_promotion"])
     assert not any(item["name"] == "DISCORD_BOT_TOKEN" for item in simple["needed"])
+
+
+def test_hermes_global_config_counts_as_global_presence(tmp_path):
+    config = tmp_path / "config.yaml"
+    config.write_text(
+        "\n".join(
+            [
+                "HETZNER_HOST: 192.0.2.10",
+                "HETZNER_USER: root",
+                "HETZNER_SSH_KEY_PATH: /Users/example/.ssh/hetzner_hermes",
+                "PRODUCTION_DOMAIN: tlccapitalgroup.com",
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    parsed = parse_simple_yaml_presence(config)
+    presence = scan_hermes_global_config_credentials(config)
+    summary = integration_registry_summary(env={}, hermes_config_path=config, project_presence=presence, scan_project_env=False)
+    simple = simple_credential_lists(summary)
+    ssh_key = next(item for item in summary["credentials"] if item["name"] == "HETZNER_SSH_KEY")
+
+    assert parsed["HETZNER_SSH_KEY_PATH"] is True
+    assert ssh_key["state"] == "needs_mapping"
+    assert ssh_key["alias_locations"] == ["hermes-global"]
+    assert "hermes_global_config" in ssh_key["evidence_sources"]
+    assert any(item["name"] == "HETZNER_SSH_KEY" for item in simple["needs_mapping"])
+    assert not any(item["name"] == "HETZNER_SSH_KEY" for item in simple["needed"])
+
+
+def test_hermes_global_env_counts_as_global_presence(tmp_path):
+    env_file = tmp_path / ".env"
+    env_file.write_text("OPENAI_ADMIN_KEY=admin\nOPENAI_ORG_ID=org\n", encoding="utf-8")
+
+    presence = scan_hermes_global_env_credentials(env_file)
+    summary = integration_registry_summary(env={}, project_presence=presence, scan_project_env=False)
+    simple = simple_credential_lists(summary)
+    admin_key = next(item for item in summary["credentials"] if item["name"] == "OPENAI_ADMIN_KEY")
+
+    assert admin_key["state"] == "present"
+    assert admin_key["project_locations"] == ["hermes-global"]
+    assert "hermes_global_env" in admin_key["evidence_sources"]
+    assert any(item["name"] == "OPENAI_ADMIN_KEY" for item in simple["present"])
+    assert not any(item["name"] == "OPENAI_ADMIN_KEY" for item in simple["needs_promotion"])
+
+
+def test_deferred_credentials_do_not_pollute_missing_list():
+    summary = integration_registry_summary(env={}, scan_project_env=False)
+    simple = simple_credential_lists(summary)
+    needed_names = {item["name"] for item in simple["needed"]}
+    firework = next(item for item in summary["credentials"] if item["name"] == "FIREWORKS_API_KEY")
+    youtube_client = next(item for item in summary["credentials"] if item["name"] == "YOUTUBE_CLIENT_ID")
+    search_site = next(item for item in summary["credentials"] if item["name"] == "GOOGLE_SEARCH_CONSOLE_SITE_URL")
+
+    assert firework["required"] is False
+    assert youtube_client["required"] is False
+    assert search_site["required"] is False
+    assert "FIREWORKS_API_KEY" not in needed_names
+    assert "YOUTUBE_CLIENT_ID" not in needed_names
+    assert "GOOGLE_SEARCH_CONSOLE_SITE_URL" not in needed_names
+
+
+def test_alias_credentials_need_mapping_instead_of_counting_as_missing(tmp_path):
+    hermes = tmp_path / "hermes"
+    hermes.mkdir()
+    (hermes / ".env").write_text("HERMES_PRODUCTION_SSH_HOST=host.example\nHERMES_PRODUCTION_BASE_DOMAIN=example.com\n", encoding="utf-8")
+
+    presence = scan_project_credential_sources({"hermes": str(hermes)}, include_workflow_references=False)
+    summary = integration_registry_summary(env={}, project_presence=presence, scan_project_env=False)
+    simple = simple_credential_lists(summary)
+    hetzner_host = next(item for item in summary["credentials"] if item["name"] == "HETZNER_HOST")
+    production_domain = next(item for item in summary["credentials"] if item["name"] == "PRODUCTION_DOMAIN")
+
+    assert hetzner_host["state"] == "needs_mapping"
+    assert hetzner_host["alias_locations"] == ["hermes"]
+    assert production_domain["state"] == "present_project_local"
+    assert any(item["name"] == "HETZNER_HOST" for item in simple["needs_mapping"])
+    assert not any(item["name"] == "HETZNER_HOST" for item in simple["needed"])
+    assert not any(item["name"] == "PRODUCTION_DOMAIN" for item in simple["needs_mapping"])
+
+
+def test_github_repo_secret_names_count_as_project_secret_evidence(monkeypatch):
+    def fake_repo_names(repo, kind):
+        if repo == "Ai-Builder-hub-1/khashi-vc" and kind == "secret":
+            return ["HETZNER_HOST", "HETZNER_SSH_KEY", "HETZNER_USER"]
+        if repo == "Ai-Builder-hub-1/khashi-vc" and kind == "variable":
+            return ["PRODUCTION_BASE_DOMAIN"]
+        return []
+
+    monkeypatch.setattr("hermes_os_integration.integration_registry._project_repo_secret_names", fake_repo_names)
+
+    presence = scan_github_repo_credentials({"khashi-vc": "Ai-Builder-hub-1/khashi-vc"})
+    summary = integration_registry_summary(env={}, project_presence=presence, scan_project_env=False)
+    simple = simple_credential_lists(summary)
+    host = next(item for item in summary["credentials"] if item["name"] == "HETZNER_HOST")
+    domain = next(item for item in summary["credentials"] if item["name"] == "PRODUCTION_DOMAIN")
+
+    assert host["state"] == "present_project_secret"
+    assert host["project_locations"] == ["khashi-vc"]
+    assert "github_repo_secret" in host["evidence_sources"]
+    assert domain["state"] == "present_project_secret"
+    assert any(item["name"] == "HETZNER_HOST" for item in simple["needs_promotion"])
+    assert not any(item["name"] == "HETZNER_HOST" for item in simple["needed"])
 
 
 def test_load_integration_records_from_json(tmp_path):

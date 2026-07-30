@@ -170,21 +170,28 @@
       "createdAt": "2026-07-24T00:00:00.000Z",
       "objective": "Create the first portfolio-level capacity cockpit for tokens, provider usage, cost pressure, storage, API calls, throughput, missing data, and budget gates across TLC/Hermes business units.",
       "selectedVariantId": "hermes-cost-cockpit-v2",
-      "selectionRationale": "After reviewing Mobbin references for OpenAI usage, Vercel quotas, Stripe billing, Postman observability, Cursor usage, and finance dashboards, the V2 cockpit best matches the desired posture: business-unit cards, time-window cost comparison, provider/model attribution, revenue context, and trust warnings in one executive command surface.",
+      "selectionRationale": "After visual review, the V2 cockpit is the preferred active direction: it keeps the business-unit spend cards, time-window cost comparison, provider/model attribution, revenue context, and trust warnings without overcorrecting into a heavier sidebar shell. Future iteration should happen on the active prototype target instead of creating new numbered pages for every small change.",
       "selectionEvidence": [
         {
           "id": "hermes-cost-cockpit-v2-static",
-          "label": "Hermes Cost Cockpit V2 standalone visual mockup",
+          "label": "Hermes Cost Cockpit active prototype based on V2",
           "kind": "static-gallery",
-          "path": "docs/design/prototype-gallery/command-model-cost-cockpit-v2.html",
-          "capturedAt": "2026-07-25T00:00:00.000Z"
+          "path": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+          "capturedAt": "2026-07-28T00:00:00.000Z"
+        },
+        {
+          "id": "hermes-cost-cockpit-v3-static",
+          "label": "Hermes Cost Cockpit V3 Mobbin-backed visual mockup",
+          "kind": "static-gallery",
+          "path": "docs/design/prototype-gallery/hermes-cost-cockpit-v3.html",
+          "capturedAt": "2026-07-28T00:00:00.000Z"
         },
         {
           "id": "mobbin-reference-pass",
-          "label": "Mobbin reference pass for OpenAI, Vercel, Stripe, Postman, Cursor, and finance dashboard patterns",
+          "label": "Mobbin reference pass for Snowflake, StackAI, WRITER, Adaline, Cursor, and OpenAI Platform dashboard patterns",
           "kind": "reference-review",
           "path": "docs/design/capacity-command-center-plan.md#mobbin-reference-workflow",
-          "capturedAt": "2026-07-25T00:00:00.000Z"
+          "capturedAt": "2026-07-28T00:00:00.000Z"
         }
       ],
       "operatorQuestions": [
@@ -367,6 +374,45 @@
             }
           ],
           "promotedComponents": ["DashboardSnapshotContract", "CapacityCommandCenterInput"]
+        },
+        {
+          "id": "hermes-cost-cockpit-v3",
+          "name": "Hermes Cost Cockpit V3",
+          "status": "review",
+          "workspaceFocus": ["command", "capacity", "projects", "controls", "operations"],
+          "operatorWorkflow": "Present Hermes as an executive operating cockpit rather than a component sampler: a decision stance, attention queue, time-window controls, cost and revenue cards, business-unit trend comparison, selected-unit drilldown, provider attribution, operating ledger, and explicit trust warnings all on one reviewable screen.",
+          "referenceNotes": [
+            "Snowflake console density and left-rail hierarchy",
+            "StackAI and WRITER AI operations posture",
+            "Adaline prompt/model operations structure",
+            "Cursor usage and developer-cost context",
+            "OpenAI Platform usage/billing clarity"
+          ],
+          "dataRequirements": [
+            { "id": "executive-cost-stance", "label": "Executive cost stance and recommended action", "owner": "hermes", "required": true, "currentState": "partial" },
+            { "id": "business-unit-cost-revenue-cards", "label": "Business-unit cost, token, output, and revenue cards", "owner": "tlc-capital-group-os", "required": true, "currentState": "partial" },
+            { "id": "business-unit-comparative-trends", "label": "Business-unit comparative trend lines by time window", "owner": "hermes", "required": true, "currentState": "partial" },
+            { "id": "selected-unit-operating-summary", "label": "Selected business-unit operating summary", "owner": "project-oses", "required": true, "currentState": "partial" },
+            { "id": "provider-lane-attribution", "label": "Provider and model lane attribution", "owner": "hermes", "required": true, "currentState": "partial" },
+            { "id": "tlc-group-operating-ledger", "label": "TLC Group OS operating ledger feed", "owner": "tlc-capital-group-os", "required": true, "currentState": "partial" },
+            { "id": "trust-gap-markers", "label": "Missing, estimated, stale, and manual feed markers", "owner": "hermes", "required": true, "currentState": "partial" }
+          ],
+          "capabilityCoverage": ["data-contracts", "information-architecture", "business-rules", "implementation", "design-system"],
+          "previewEvidence": [
+            {
+              "id": "hermes-cost-cockpit-v3-visual",
+              "label": "Mobbin-backed Hermes Cost Cockpit V3 standalone visual mockup",
+              "kind": "static-gallery",
+              "path": "docs/design/prototype-gallery/hermes-cost-cockpit-v3.html"
+            },
+            {
+              "id": "hermes-cost-cockpit-v3-mobbin-links",
+              "label": "Authenticated Mobbin references for Snowflake, StackAI, WRITER, Adaline, Cursor, and OpenAI Platform",
+              "kind": "reference-review",
+              "path": "docs/design/capacity-command-center-plan.md#mobbin-reference-workflow"
+            }
+          ],
+          "promotedComponents": ["DashboardSnapshotContract", "CapacityCommandCenterInput", "BusinessUnitCostCard", "ProviderAttributionLane", "TrustGapMarker"]
         }
       ]
     }

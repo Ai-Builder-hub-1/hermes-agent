@@ -1,0 +1,304 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-07-28",
+  "purpose": "Stable review handles for visual prototype feedback. Lavish or Hermes OS can pass a data-review-id from the selected element back to Codex instead of relying on brittle DOM selectors.",
+  "project": {
+    "id": "nous-hermes-agent",
+    "label": "Nous Hermes Agent",
+    "role": "Dashboard design/prototype layer"
+  },
+  "coordinator": {
+    "projectId": "hermes-os",
+    "role": "Future review-to-change coordinator. Hermes OS should route selected review IDs to the owning prototype or dashboard implementation instead of editing visuals directly."
+  },
+  "activeSurface": {
+    "id": "hermes-cost-cockpit-active",
+    "label": "Hermes Cost Cockpit Active Prototype",
+    "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+    "sourceDirection": "Hermes Cost Cockpit V2",
+    "status": "active-review"
+  },
+  "reviewIds": [
+    {
+      "id": "cost-cockpit.shell",
+      "label": "Full Hermes cost cockpit app shell",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "layout",
+      "description": "The entire full-viewport cockpit layout, including sidebar, top strip, and dashboard workspace."
+    },
+    {
+      "id": "cost-cockpit.sidebar",
+      "label": "Primary navigation sidebar",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "navigation-layout",
+      "description": "Persistent left navigation rail with cockpit sections, drilldowns, and prototype links."
+    },
+    {
+      "id": "cost-cockpit.sidebar-brand",
+      "label": "Sidebar brand block",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "navigation-branding",
+      "description": "The Hermes Command label and sidebar product context."
+    },
+    {
+      "id": "cost-cockpit.sidebar-cockpit-nav",
+      "label": "Cockpit navigation group",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "navigation-content",
+      "description": "Primary cockpit navigation items such as Cost overview, Business units, Provider lanes, and Alerts."
+    },
+    {
+      "id": "cost-cockpit.sidebar-drilldowns",
+      "label": "Business-unit drilldown navigation",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "navigation-content",
+      "description": "Business-unit drilldown shortcuts for Media Engine, Khashi VC, and TLC Group OS."
+    },
+    {
+      "id": "cost-cockpit.sidebar-footer",
+      "label": "Sidebar prototype footer",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "prototype-navigation",
+      "description": "Prototype-only footer with active direction note and links back to the gallery."
+    },
+    {
+      "id": "cost-cockpit.top-strip",
+      "label": "Status strip and time-window controls",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "header-layout",
+      "description": "Top status area with active prototype title, live status summary, and time range selector."
+    },
+    {
+      "id": "cost-cockpit.title-status",
+      "label": "Title and live status summary",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "header-content",
+      "description": "Dashboard title and live operating status text inside the top strip."
+    },
+    {
+      "id": "cost-cockpit.time-range",
+      "label": "Time range selector",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "controls",
+      "description": "24h, 7d, 30d, and 90d range controls used to frame cockpit metrics."
+    },
+    {
+      "id": "cost-cockpit.workspace",
+      "label": "Scrollable dashboard workspace",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "layout",
+      "description": "Main scrollable dashboard canvas to the right of the sidebar."
+    },
+    {
+      "id": "cost-cockpit.view-overview",
+      "label": "Cost overview view",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "portfolio-view",
+      "description": "Default portfolio-level view with operator stance, decision queue, headline metrics, trend comparison, provider attribution, and operating ledger."
+    },
+    {
+      "id": "cost-cockpit.view-business-units",
+      "label": "Business units view",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "portfolio-view",
+      "description": "Portfolio comparison view for business-unit spend, tokens, output, trust, readiness gaps, and drilldown routing expectations."
+    },
+    {
+      "id": "cost-cockpit.view-provider-lanes",
+      "label": "Provider lanes view",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "provider-analytics",
+      "description": "Provider/model lane view for cost, tokens, fallback gates, approval mode, local ledger gaps, and model-routing data contract requirements."
+    },
+    {
+      "id": "cost-cockpit.view-alerts",
+      "label": "Alerts view",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "attention-workflow",
+      "description": "Operator alert queue for cost spikes, missing ledgers, revenue gaps, accepted policy exceptions, severity, source, status, and timing."
+    },
+    {
+      "id": "cost-cockpit.view-media-engine",
+      "label": "Media Engine drilldown view",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "business-unit-drilldown",
+      "description": "Business-unit drilldown for Media Engine production runs, cost ledger, approval queue, publishing log, human-video packages, social readiness, and system health."
+    },
+    {
+      "id": "cost-cockpit.view-khashi-vc",
+      "label": "Khashi VC drilldown view",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "business-unit-drilldown",
+      "description": "Business-unit drilldown for Khashi VC research command, market cartography, scheduler capacity, segment intelligence, strategy readiness, and system health."
+    },
+    {
+      "id": "cost-cockpit.view-tlc-group-os",
+      "label": "TLC Group OS drilldown view",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "enterprise-rollup",
+      "description": "Enterprise rollup drilldown for readiness percentages, build-plan status, shared credential backlog, production maps, cross-unit alerts, and deferred integrations."
+    },
+    {
+      "id": "cost-cockpit.command-summary",
+      "label": "Executive command summary",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "executive-summary",
+      "description": "Top hero area combining operator stance and decision queue."
+    },
+    {
+      "id": "cost-cockpit.operator-stance",
+      "label": "Operator stance card",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "executive-summary",
+      "description": "Primary interpretation card showing the recommended operating posture and known 30-day spend."
+    },
+    {
+      "id": "cost-cockpit.decision-queue",
+      "label": "Decision queue",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "decision-workflow",
+      "description": "Attention list for approval, missing ledger, and other operator decisions."
+    },
+    {
+      "id": "cost-cockpit.metric-cards",
+      "label": "Portfolio metric cards",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "metrics",
+      "description": "Top-level cards for tokens, API calls, outputs, and untrusted feeds."
+    },
+    {
+      "id": "cost-cockpit.business-unit-trend",
+      "label": "Business-unit cost trend",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "charting",
+      "description": "Comparative 30-day trend chart for business-unit capacity/cost movement."
+    },
+    {
+      "id": "cost-cockpit.chart-portfolio-trend",
+      "label": "Portfolio trend chart",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "charting",
+      "description": "Multi-line cost and capacity trend chart with event markers for spikes and operator context."
+    },
+    {
+      "id": "cost-cockpit.chart-supporting-patterns",
+      "label": "Supporting chart patterns",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "charting",
+      "description": "Supporting provider ranking and feed freshness heat-strip patterns beneath the main portfolio trend chart."
+    },
+    {
+      "id": "cost-cockpit.selected-unit-drilldown",
+      "label": "Selected business-unit drilldown",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "drilldown",
+      "description": "Selected unit KPI cards for Media Engine, Khashi VC, Hermes Agent, and TLC Group OS."
+    },
+    {
+      "id": "cost-cockpit.chart-business-unit-health",
+      "label": "Business-unit health charts",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "business-unit-analytics",
+      "description": "Radar and ranked-bar patterns for comparing business-unit health, pressure, and trust."
+    },
+    {
+      "id": "cost-cockpit.provider-attribution",
+      "label": "Provider and model attribution",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "provider-analytics",
+      "description": "Ranked provider/model burn lanes including OpenAI, Gemini, and local Codex."
+    },
+    {
+      "id": "cost-cockpit.chart-provider-flow",
+      "label": "Provider flow map",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "provider-analytics",
+      "description": "Sankey-style provider-to-workflow-to-business-unit attribution pattern for tracing tokens and dollars."
+    },
+    {
+      "id": "cost-cockpit.chart-alert-timeline",
+      "label": "Alert timeline chart",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "attention-workflow",
+      "description": "Timeline pattern for showing when alerts, decisions, accepted risks, and missing-data events occurred."
+    },
+    {
+      "id": "cost-cockpit.chart-media-engine",
+      "label": "Media Engine chart modules",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "business-unit-drilldown",
+      "description": "Media Engine throughput and brand-mix chart patterns for the unit drilldown."
+    },
+    {
+      "id": "cost-cockpit.chart-khashi-vc",
+      "label": "Khashi VC chart modules",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "business-unit-drilldown",
+      "description": "Khashi VC market coverage heat and research readiness radar patterns for the unit drilldown."
+    },
+    {
+      "id": "cost-cockpit.chart-tlc-group-os",
+      "label": "TLC Group OS chart modules",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "enterprise-rollup",
+      "description": "TLC Group OS readiness and blocker heat patterns for the enterprise rollup drilldown."
+    },
+    {
+      "id": "cost-cockpit.operating-ledger",
+      "label": "Operating ledger",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "ledger-table",
+      "description": "Business-unit rollup table with cost, output, and trust status."
+    },
+    {
+      "id": "cost-cockpit.reference-links",
+      "label": "Reference links",
+      "file": "docs/design/prototype-gallery/hermes-cost-cockpit-active.html",
+      "owner": "dashboard-design",
+      "changeScope": "reference-evidence",
+      "description": "Mobbin reference links used for visual direction and critique."
+    }
+  ],
+  "handoffContract": {
+    "preferredFeedbackShape": {
+      "reviewId": "cost-cockpit.sidebar",
+      "instruction": "Make this rail feel more like a modern app sidebar.",
+      "priority": "normal",
+      "source": "lavish-selection"
+    },
+    "routingRule": "If a feedback item includes reviewId, edit the mapped file and section. If it only includes a DOM selector, first resolve it to the nearest parent with data-review-id."
+  }
+}

@@ -10987,7 +10987,7 @@ def cmd_integrations(args):
     )
 
     records = load_integration_records(getattr(args, "registry", "")) if getattr(args, "registry", "") else None
-    summary = integration_registry_summary(records=records)
+    summary = integration_registry_summary(records=records, include_github_repo_credentials=getattr(args, "live_github", False))
     command = getattr(args, "integrations_command", "") or "status"
     if command == "missing":
         result = {
@@ -10996,11 +10996,21 @@ def cmd_integrations(args):
             "human_setup_items": summary["human_setup_items"],
             "global_secret_candidates": summary["global_secret_candidates"],
         }
-    elif command in {"needed", "present", "promote"}:
+    elif command in {"needed", "present", "promote", "map", "verify"}:
         lists = simple_credential_lists(summary)
         if getattr(args, "json", False):
-            list_key = "needs_promotion" if command == "promote" else command
-            count_key = "needs_promotion_count" if command == "promote" else f"{command}_count"
+            if command == "promote":
+                list_key = "needs_promotion"
+                count_key = "needs_promotion_count"
+            elif command == "map":
+                list_key = "needs_mapping"
+                count_key = "needs_mapping_count"
+            elif command == "verify":
+                list_key = "needs_verification"
+                count_key = "needs_verification_count"
+            else:
+                list_key = command
+                count_key = f"{command}_count"
             result = {"schema": lists["schema"], list_key: lists[list_key], count_key: lists[count_key]}
         else:
             if command == "needed":
@@ -11009,6 +11019,12 @@ def cmd_integrations(args):
             elif command == "promote":
                 title = "Credentials Found Project-Locally, Need Global Promotion"
                 rows = lists["needs_promotion"]
+            elif command == "map":
+                title = "Credentials Found Under Alias, Need Mapping"
+                rows = lists["needs_mapping"]
+            elif command == "verify":
+                title = "Credentials Referenced By Deployment, Need Verification"
+                rows = lists["needs_verification"]
             else:
                 title = "Credentials Already Present Globally"
                 rows = lists["present"]
@@ -11702,27 +11718,44 @@ def main():
     integrations_subparsers = integrations_parser.add_subparsers(dest="integrations_command")
     integrations_status = integrations_subparsers.add_parser("status", help="Show full integration registry status")
     integrations_status.add_argument("--registry", default="", help="Optional JSON registry override")
+    integrations_status.add_argument("--live-github", action="store_true", help="Include live GitHub repo secret and variable name checks")
     integrations_status.set_defaults(func=cmd_integrations)
     integrations_missing = integrations_subparsers.add_parser("missing", help="Show missing credentials and human setup items")
     integrations_missing.add_argument("--registry", default="", help="Optional JSON registry override")
+    integrations_missing.add_argument("--live-github", action="store_true", help="Include live GitHub repo secret and variable name checks")
     integrations_missing.set_defaults(func=cmd_integrations)
     integrations_needed = integrations_subparsers.add_parser("needed", help="Show a simple list of required credentials still needed")
     integrations_needed.add_argument("--registry", default="", help="Optional JSON registry override")
     integrations_needed.add_argument("--json", action="store_true", help="Print JSON instead of plain text")
+    integrations_needed.add_argument("--live-github", action="store_true", help="Include live GitHub repo secret and variable name checks")
     integrations_needed.set_defaults(func=cmd_integrations)
     integrations_present = integrations_subparsers.add_parser("present", help="Show a simple list of required credentials already present")
     integrations_present.add_argument("--registry", default="", help="Optional JSON registry override")
     integrations_present.add_argument("--json", action="store_true", help="Print JSON instead of plain text")
+    integrations_present.add_argument("--live-github", action="store_true", help="Include live GitHub repo secret and variable name checks")
     integrations_present.set_defaults(func=cmd_integrations)
     integrations_promote = integrations_subparsers.add_parser("promote", help="Show credentials found in project env files that should move to global/shared storage")
     integrations_promote.add_argument("--registry", default="", help="Optional JSON registry override")
     integrations_promote.add_argument("--json", action="store_true", help="Print JSON instead of plain text")
+    integrations_promote.add_argument("--live-github", action="store_true", help="Include live GitHub repo secret and variable name checks")
     integrations_promote.set_defaults(func=cmd_integrations)
+    integrations_map = integrations_subparsers.add_parser("map", help="Show credentials found under alias names that need canonical mapping")
+    integrations_map.add_argument("--registry", default="", help="Optional JSON registry override")
+    integrations_map.add_argument("--json", action="store_true", help="Print JSON instead of plain text")
+    integrations_map.add_argument("--live-github", action="store_true", help="Include live GitHub repo secret and variable name checks")
+    integrations_map.set_defaults(func=cmd_integrations)
+    integrations_verify = integrations_subparsers.add_parser("verify", help="Show credentials referenced by deployment workflows that need storage verification")
+    integrations_verify.add_argument("--registry", default="", help="Optional JSON registry override")
+    integrations_verify.add_argument("--json", action="store_true", help="Print JSON instead of plain text")
+    integrations_verify.add_argument("--live-github", action="store_true", help="Include live GitHub repo secret and variable name checks")
+    integrations_verify.set_defaults(func=cmd_integrations)
     integrations_projects = integrations_subparsers.add_parser("projects", help="Show per-project integration matrix")
     integrations_projects.add_argument("--registry", default="", help="Optional JSON registry override")
+    integrations_projects.add_argument("--live-github", action="store_true", help="Include live GitHub repo secret and variable name checks")
     integrations_projects.set_defaults(func=cmd_integrations)
     integrations_dashboard = integrations_subparsers.add_parser("dashboard", help="Show dashboard panel payloads")
     integrations_dashboard.add_argument("--registry", default="", help="Optional JSON registry override")
+    integrations_dashboard.add_argument("--live-github", action="store_true", help="Include live GitHub repo secret and variable name checks")
     integrations_dashboard.set_defaults(func=cmd_integrations)
     integrations_parser.set_defaults(func=cmd_integrations)
 

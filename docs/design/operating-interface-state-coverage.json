@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "name": "Hermes Dashboard Kit State Coverage",
+  "status": "implemented",
+  "requiredStates": ["ready", "loading", "empty", "error", "stale", "preview", "permission-limited", "partial"],
+  "components": [
+    {
+      "id": "VisualizationStateFrame",
+      "states": ["ready", "loading", "empty", "error", "stale", "preview"],
+      "coverage": "complete"
+    },
+    {
+      "id": "MarketTape",
+      "states": ["ready", "loading", "empty", "error", "stale", "preview"],
+      "coverage": "complete"
+    },
+    {
+      "id": "MarketVolatilityDrawer",
+      "states": ["ready", "loading", "empty", "error", "stale", "preview"],
+      "coverage": "complete"
+    },
+    {
+      "id": "CommandPalette",
+      "states": ["ready", "empty", "permission-limited"],
+      "coverage": "implemented"
+    },
+    {
+      "id": "GlobalSearchOverlay",
+      "states": ["ready", "empty", "loading", "permission-limited"],
+      "coverage": "implemented"
+    },
+    {
+      "id": "SavedViewsManager",
+      "states": ["ready", "empty", "permission-limited"],
+      "coverage": "implemented"
+    },
+    {
+      "id": "ExpandableDataList",
+      "states": ["ready", "empty", "partial"],
+      "coverage": "implemented"
+    },
+    {
+      "id": "OrderBookLadder",
+      "states": ["ready", "loading", "empty", "error", "preview", "stale"],
+      "coverage": "complete"
+    },
+    {
+      "id": "ForecastConeChart",
+      "states": ["ready", "loading", "empty", "error", "preview", "stale"],
+      "coverage": "complete"
+    },
+    {
+      "id": "WaterfallChart",
+      "states": ["ready", "loading", "empty", "error", "preview", "stale"],
+      "coverage": "complete"
+    },
+    {
+      "id": "CrosshairTooltipFrame",
+      "states": ["ready", "loading", "empty", "error", "preview", "stale"],
+      "coverage": "complete"
+    }
+  ],
+  "remainingProofWork": [
+    "Add screenshot regression coverage for every state variant.",
+    "Add keyboard navigation tests for command/search surfaces.",
+    "Add project-level adoption assertions once Kashi and Media Engine switch to package-native components."
+  ]
+}

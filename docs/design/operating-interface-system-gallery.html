@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hermes Operating Interface System Gallery</title>
+  <link rel="stylesheet" href="../../packages/hermes-dashboard-kit/static/hermes-dashboard-kit.css" />
+  <style>
+    body { margin: 0; }
+    .gallery-shell { display: grid; grid-template-columns: 260px minmax(0, 1fr); min-height: 100vh; }
+    .gallery-sidebar { background: #fff; border-right: 1px solid var(--hdk-border); padding: 18px; position: sticky; top: 0; height: 100vh; }
+    .gallery-main { padding: 22px; }
+    .gallery-title { font-size: 26px; line-height: 1.1; margin: 0; }
+    .gallery-subtitle { color: var(--hdk-muted); line-height: 1.5; max-width: 820px; }
+    .gallery-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .gallery-wide { display: grid; gap: 14px; grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr); }
+    .micro-chart { height: 180px; position: relative; }
+    .micro-chart svg { height: 100%; width: 100%; position: relative; z-index: 2; }
+    .micro-chart path, .micro-chart polyline { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .mini-label { color: var(--hdk-muted); font-size: 12px; font-weight: 750; text-transform: uppercase; }
+    .big-number { font-size: 30px; font-weight: 850; letter-spacing: 0; margin: 6px 0; }
+    .nav-note { color: var(--hdk-muted); font-size: 13px; line-height: 1.45; }
+    .section-title { align-items: end; display: flex; gap: 12px; justify-content: space-between; margin: 24px 0 10px; }
+    .section-title h2 { font-size: 18px; margin: 0; }
+    .fake-result-title { color: var(--hdk-text); font-weight: 760; }
+    .fake-result-detail { color: var(--hdk-muted); font-size: 13px; margin-top: 3px; }
+    @media (max-width: 900px) { .gallery-shell, .gallery-wide { grid-template-columns: 1fr; } .gallery-sidebar { height: auto; position: static; } }
+  </style>
+</head>
+<body class="hdk-body">
+  <div class="gallery-shell">
+    <aside class="gallery-sidebar">
+      <div class="hdk-pill success">Shared source of truth</div>
+      <h1 class="gallery-title" style="margin-top: 14px;">Hermes Operating Interface</h1>
+      <p class="nav-note">Reusable product and data-visualization primitives for Kashi, Media Engine, Hermes Agent, TLC OS, and future dashboards.</p>
+      <nav style="display: grid; gap: 8px; margin-top: 18px;">
+        <a class="hdk-nav-item active" href="#command">Command surfaces</a>
+        <a class="hdk-nav-item" href="#market">Market intelligence</a>
+        <a class="hdk-nav-item" href="#analytics">Analytics patterns</a>
+        <a class="hdk-nav-item" href="#states">States and adoption</a>
+      </nav>
+    </aside>
+
+    <main class="gallery-main">
+      <header class="hdk-header">
+        <div>
+          <div class="mini-label">Mobbin-informed pattern system</div>
+          <h2 class="gallery-title">Dashboard components with operating behavior, not one-off decoration.</h2>
+          <p class="gallery-subtitle">This gallery shows the shared vocabulary now available to project dashboards: search, command, saved views, expandable lists, market tape, volatility drawers, order book ladders, forecast cones, waterfall contribution, and adoption scoring.</p>
+        </div>
+        <button class="hdk-button primary" type="button">Open registry</button>
+      </header>
+
+      <section id="command" class="section-title">
+        <h2>Command Surfaces</h2>
+        <span class="hdk-pill">product_interface</span>
+      </section>
+      <div class="gallery-wide">
+        <section class="hdk-command-palette">
+          <div class="mini-label">CommandPalette</div>
+          <input class="hdk-command-input" value="market volatility" aria-label="Command search" />
+          <div class="hdk-command-list">
+            <div class="hdk-command-item"><span><span class="fake-result-title">Open Kashi live volatility</span><span class="fake-result-detail">Market intelligence · live scanner</span></span><kbd>⌘ 1</kbd></div>
+            <div class="hdk-command-item"><span><span class="fake-result-title">Create saved view</span><span class="fake-result-detail">Filters: live, moving, liquid</span></span><kbd>⌘ S</kbd></div>
+            <div class="hdk-command-item"><span><span class="fake-result-title">Ask dashboard</span><span class="fake-result-detail">Summarize movement by category</span></span><kbd>⌘ K</kbd></div>
+          </div>
+        </section>
+        <section class="hdk-global-search">
+          <div class="mini-label">GlobalSearchOverlay</div>
+          <input class="hdk-global-search-input" value="energy for self" aria-label="Global search" />
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top: 10px;">
+            <span class="hdk-pill success">Brands 3</span><span class="hdk-pill">Runs 14</span><span class="hdk-pill warning">Alerts 2</span>
+          </div>
+          <div class="hdk-search-results">
+            <div class="hdk-search-result"><span><span class="fake-result-title">Energy for Self brand health</span><span class="fake-result-detail">Media Engine · verified story loop</span></span><span>→</span></div>
+            <div class="hdk-search-result"><span><span class="fake-result-title">Meta account audit</span><span class="fake-result-detail">Media Business OS · permissions</span></span><span>→</span></div>
+          </div>
+        </section>
+      </div>
+
+      <section id="market" class="section-title">
+        <h2>Market Intelligence</h2>
+        <span class="hdk-pill">data_visualization</span>
+      </section>
+      <div class="gallery-wide">
+        <section class="hdk-market-tape">
+          <div class="hdk-market-tape-header"><div>Market</div><div>Mid</div><div>Move</div><div>Spread</div><div>Depth</div><div>Seen</div></div>
+          <div class="hdk-market-tape-body">
+            <div class="hdk-market-tape-row active"><div><div class="hdk-market-title">Will Team A win live match?</div><div class="hdk-market-meta"><span>Sports</span><span class="hdk-pill success">live</span></div></div><div>62c</div><div>+14c</div><div>4c</div><div>$18.2k</div><div>20s</div></div>
+            <div class="hdk-market-tape-row"><div><div class="hdk-market-title">Will candidate mention tariffs?</div><div class="hdk-market-meta"><span>Elections</span><span class="hdk-pill success">live</span></div></div><div>48c</div><div>-6c</div><div>8c</div><div>$6.8k</div><div>50s</div></div>
+            <div class="hdk-market-tape-row"><div><div class="hdk-market-title">Crypto hourly range closes above target</div><div class="hdk-market-meta"><span>Crypto</span><span class="hdk-pill success">live</span></div></div><div>54c</div><div>+3c</div><div>5c</div><div>$11.4k</div><div>1m</div></div>
+          </div>
+        </section>
+        <aside class="hdk-drawer-panel">
+          <div>
+            <div class="mini-label">MarketVolatilityDrawer</div>
+            <h2 style="margin: 4px 0 0;">Selected market detail</h2>
+          </div>
+          <div class="hdk-metric-grid">
+            <div class="hdk-card"><div class="hdk-kpi-label">Movement</div><div class="hdk-kpi-value">+14c</div></div>
+            <div class="hdk-card"><div class="hdk-kpi-label">Mid</div><div class="hdk-kpi-value">62c</div></div>
+            <div class="hdk-card"><div class="hdk-kpi-label">Spread</div><div class="hdk-kpi-value">4c</div></div>
+          </div>
+          <div class="hdk-chart-surface micro-chart">
+            <svg viewBox="0 0 500 180" aria-hidden="true"><path d="M10 140 C 70 125, 90 150, 130 118 S 210 85, 250 95 S 330 45, 380 62 S 450 35, 490 48" stroke="#237a4b" stroke-width="5"/><polyline points="10,150 130,142 250,132 370,100 490,88" stroke="#256f8d" stroke-width="2" stroke-dasharray="6 8"/></svg>
+          </div>
+        </aside>
+      </div>
+
+      <section id="analytics" class="section-title">
+        <h2>Analytics Patterns</h2>
+        <span class="hdk-pill">premium primitives</span>
+      </section>
+      <div class="gallery-grid">
+        <section class="hdk-order-book">
+          <div class="mini-label">OrderBookLadder</div>
+          <div class="hdk-order-book-header"><span>Bid</span><span>Price</span><span>Ask</span></div>
+          <div class="hdk-order-book-row"><div class="hdk-depth-bar" style="--hdk-depth:.72"><span style="position:relative;padding:5px 8px;display:block;">$12.1k</span></div><strong>61c</strong><div class="hdk-depth-bar ask" style="--hdk-depth:.42"><span style="position:relative;padding:5px 8px;display:block;text-align:right;">$7.1k</span></div></div>
+          <div class="hdk-order-book-row"><div class="hdk-depth-bar" style="--hdk-depth:.55"><span style="position:relative;padding:5px 8px;display:block;">$9.4k</span></div><strong>60c</strong><div class="hdk-depth-bar ask" style="--hdk-depth:.69"><span style="position:relative;padding:5px 8px;display:block;text-align:right;">$11.7k</span></div></div>
+        </section>
+        <section class="hdk-forecast-cone">
+          <div class="mini-label">ForecastConeChart</div>
+          <div class="hdk-chart-surface micro-chart"><svg viewBox="0 0 500 180"><path d="M20 130 C 150 90, 260 60, 480 40 L480 130 C260 145, 150 155, 20 145 Z" fill="#256f8d" opacity=".16"/><path d="M20 138 C 150 116, 260 92, 480 72" stroke="#172026" stroke-width="4"/></svg></div>
+        </section>
+        <section class="hdk-waterfall">
+          <div class="mini-label">WaterfallChart</div>
+          <div class="hdk-chart-surface micro-chart"><svg viewBox="0 0 500 180"><rect x="35" y="88" width="54" height="52" rx="7" fill="#237a4b"/><rect x="120" y="64" width="54" height="76" rx="7" fill="#237a4b"/><rect x="205" y="108" width="54" height="32" rx="7" fill="#ad3d32"/><rect x="290" y="46" width="54" height="94" rx="7" fill="#237a4b"/><rect x="375" y="70" width="54" height="70" rx="7" fill="#256f8d"/></svg></div>
+        </section>
+      </div>
+
+      <section id="states" class="section-title">
+        <h2>States And Adoption</h2>
+        <span class="hdk-pill">governance</span>
+      </section>
+      <div class="gallery-wide">
+        <section class="hdk-expandable-list">
+          <div class="mini-label">ExpandableDataList</div>
+          <details open><summary class="hdk-expandable-row-summary"><span><strong>Kashi market intelligence retrofit</strong><span class="fake-result-detail">MarketTape, VolatilityDrawer, OrderBookLadder</span></span><span class="hdk-pill warning">high drift</span></summary></details>
+          <details><summary class="hdk-expandable-row-summary"><span><strong>Media Engine ops retrofit</strong><span class="fake-result-detail">Saved brand views and briefing workspace</span></span><span class="hdk-pill warning">high drift</span></summary></details>
+        </section>
+        <section class="hdk-saved-views">
+          <div class="mini-label">Adoption score</div>
+          <div class="hdk-adoption-score"><span>Kashi VC</span><span class="hdk-progress-track"><span class="hdk-progress-fill" style="--hdk-progress:24%"></span></span><strong>24%</strong></div>
+          <div class="hdk-adoption-score"><span>Hermes Agent</span><span class="hdk-progress-track"><span class="hdk-progress-fill" style="--hdk-progress:72%"></span></span><strong>72%</strong></div>
+          <div class="hdk-adoption-score"><span>Media Engine</span><span class="hdk-progress-track"><span class="hdk-progress-fill" style="--hdk-progress:28%"></span></span><strong>28%</strong></div>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

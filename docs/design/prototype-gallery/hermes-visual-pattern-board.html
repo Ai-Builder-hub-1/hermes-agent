@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hermes Visual Pattern Board</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4f6f4;
+      --panel: #ffffff;
+      --ink: #171d1b;
+      --muted: #66736f;
+      --border: #dce3df;
+      --green: #1f7a59;
+      --amber: #9a6b16;
+      --red: #a33f3f;
+      --soft-green: #e8f4ee;
+      --soft-amber: #fff6df;
+      --soft-red: #fff1ef;
+      --mono: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 8% 0%, rgb(31 122 89 / .12), transparent 28%),
+        linear-gradient(180deg, #fbfcfb 0%, var(--bg) 50%, #edf2ef 100%);
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.42;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .28;
+      background-image:
+        linear-gradient(rgb(23 29 27 / .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgb(23 29 27 / .025) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: linear-gradient(180deg, #000 0%, transparent 70%);
+    }
+    main { max-width: 1480px; margin: 0 auto; padding: 28px; position: relative; }
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+      padding: 18px 0 24px;
+    }
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: 34px; line-height: 1.05; letter-spacing: 0; max-width: 880px; }
+    h2 { font-size: 17px; line-height: 1.18; }
+    .muted { color: var(--muted); }
+    .button {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 8px;
+      padding: 9px 12px;
+      text-decoration: none;
+      font-weight: 720;
+      font-size: 13px;
+    }
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .pattern {
+      border: 1px solid var(--border);
+      background: rgb(255 255 255 / .88);
+      border-radius: 10px;
+      padding: 14px;
+      min-height: 330px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 12px;
+    }
+    .pattern-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+    }
+    .label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .badge {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 3px 7px;
+      font-size: 11px;
+      color: var(--muted);
+      background: #fff;
+      white-space: nowrap;
+    }
+    .viz {
+      border: 1px solid var(--border);
+      background:
+        linear-gradient(to top, transparent 24%, rgb(220 227 223 / .72) 25%, transparent 26%),
+        linear-gradient(to top, transparent 49%, rgb(220 227 223 / .72) 50%, transparent 51%),
+        linear-gradient(to top, transparent 74%, rgb(220 227 223 / .72) 75%, transparent 76%),
+        #fff;
+      border-radius: 9px;
+      min-height: 170px;
+      position: relative;
+      overflow: hidden;
+      padding: 12px;
+    }
+    .svg { width: 100%; height: 170px; display: block; }
+    .bars { display: grid; gap: 12px; padding-top: 8px; }
+    .bar { display: grid; grid-template-columns: 82px 1fr 42px; gap: 9px; align-items: center; font-size: 12px; color: var(--muted); }
+    .track { height: 9px; background: #e7ece9; border-radius: 999px; overflow: hidden; }
+    .track span { display: block; height: 100%; background: var(--green); border-radius: inherit; }
+    .track .amber { background: var(--amber); }
+    .track .red { background: var(--red); }
+    .track .slate { background: #66736f; }
+    .heat { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; }
+    .cell { min-height: 38px; display: grid; place-items: center; border: 1px solid #b9d9ca; border-radius: 7px; background: var(--soft-green); color: var(--green); font-size: 10px; font-weight: 800; }
+    .cell.warn { border-color: #e1c37a; background: var(--soft-amber); color: var(--amber); }
+    .cell.risk { border-color: #e5b1ab; background: var(--soft-red); color: var(--red); }
+    .radar {
+      width: 154px;
+      height: 154px;
+      margin: 8px auto;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background:
+        conic-gradient(from 18deg, rgb(31 122 89 / .25), rgb(154 107 22 / .24), rgb(102 115 111 / .18), rgb(31 122 89 / .25)),
+        radial-gradient(circle, #fff 0 28%, transparent 29%),
+        repeating-radial-gradient(circle, transparent 0 24px, rgb(190 203 198 / .72) 25px 26px);
+      position: relative;
+    }
+    .radar::after {
+      content: "";
+      position: absolute;
+      inset: 30px 25px 36px 36px;
+      background: rgb(31 122 89 / .40);
+      clip-path: polygon(50% 0, 92% 32%, 74% 88%, 24% 82%, 10% 34%);
+      border: 2px solid var(--green);
+    }
+    .flow { display: grid; grid-template-columns: 1fr 22px 1fr 22px 1fr; gap: 8px; align-items: center; min-height: 150px; }
+    .node { border: 1px solid var(--border); border-radius: 9px; background: #fff; padding: 10px; min-height: 70px; font-size: 12px; }
+    .rail { height: 78px; border-radius: 999px; background: linear-gradient(180deg, rgb(31 122 89 / .22), rgb(154 107 22 / .26), rgb(163 63 63 / .18)); }
+    .timeline { display: grid; gap: 0; }
+    .event { display: grid; grid-template-columns: 56px 12px 1fr; gap: 10px; font-size: 12px; color: var(--muted); }
+    .dot { width: 10px; height: 10px; border-radius: 999px; background: var(--green); margin-top: 4px; box-shadow: 0 0 0 5px rgb(31 122 89 / .10); }
+    .event.warn .dot { background: var(--amber); box-shadow: 0 0 0 5px rgb(154 107 22 / .10); }
+    .event.risk .dot { background: var(--red); box-shadow: 0 0 0 5px rgb(163 63 63 / .10); }
+    .event-copy { border-left: 1px solid var(--border); padding: 0 0 13px 12px; }
+    .notes { color: var(--muted); font-size: 13px; }
+    .notes strong { color: var(--ink); }
+    @media (max-width: 1180px) {
+      .board, header { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <div class="label">Hermes dashboard kit · visual vocabulary</div>
+        <h1>Visual pattern board for making the cockpit more understandable, interactive, and alive.</h1>
+        <p class="muted" style="margin-top:10px;max-width:84ch">Use this page to choose how the same operating data should be displayed: motion, comparison, composition, health, flow, trust, or narrative. These are sample-data patterns, not live telemetry.</p>
+      </div>
+      <a class="button" href="./hermes-cost-cockpit-active.html">Back to active cockpit</a>
+    </header>
+
+    <section class="board">
+      <article class="pattern">
+        <div class="pattern-head"><div><div class="label">Trend over time</div><h2>Multi-line cost trend with event marker</h2></div><span class="badge">overview</span></div>
+        <div class="viz"><svg class="svg" viewBox="0 0 360 170"><path d="M18 36H342M18 82H342M18 128H342" stroke="#dce3df"/><path d="M18 130 C72 106 92 112 126 84 C168 48 196 68 232 52 C278 30 300 62 342 48" fill="none" stroke="#1f7a59" stroke-width="4" stroke-linecap="round"/><path d="M18 142 C70 136 104 118 142 116 C182 110 214 96 244 102 C284 110 310 82 342 76" fill="none" stroke="#9a6b16" stroke-width="3" stroke-linecap="round"/><line x1="254" y1="24" x2="254" y2="146" stroke="#9a6b16" stroke-dasharray="4 5"/><circle cx="254" cy="46" r="5" fill="#1f7a59"/></svg></div>
+        <p class="notes"><strong>Use for:</strong> cost, tokens, revenue, output, or failures over 24h/7d/30d/90d.</p>
+      </article>
+
+      <article class="pattern">
+        <div class="pattern-head"><div><div class="label">Comparison</div><h2>Ranked horizontal bars</h2></div><span class="badge">scan fast</span></div>
+        <div class="viz"><div class="bars"><div class="bar"><span>Media</span><div class="track"><span class="amber" style="width:82%"></span></div><b>$138</b></div><div class="bar"><span>Hermes</span><div class="track"><span class="red" style="width:63%"></span></div><b>$93</b></div><div class="bar"><span>Khashi</span><div class="track"><span style="width:34%"></span></div><b>$29</b></div><div class="bar"><span>TLC</span><div class="track"><span class="slate" style="width:26%"></span></div><b>$20</b></div></div></div>
+        <p class="notes"><strong>Use for:</strong> ranking business units, providers, workflows, brands, or blockers.</p>
+      </article>
+
+      <article class="pattern">
+        <div class="pattern-head"><div><div class="label">Trust and freshness</div><h2>Heat strip</h2></div><span class="badge">status</span></div>
+        <div class="viz"><div class="heat"><div class="cell">ME</div><div class="cell">KV</div><div class="cell warn">TLC</div><div class="cell risk">LC</div><div class="cell">API</div><div class="cell warn">REV</div><div class="cell">OPS</div><div class="cell">SOC</div><div class="cell warn">DNS</div><div class="cell">RUN</div><div class="cell risk">COD</div><div class="cell">AUTH</div></div></div>
+        <p class="notes"><strong>Use for:</strong> showing which feeds are live, stale, partial, or missing at a glance.</p>
+      </article>
+
+      <article class="pattern">
+        <div class="pattern-head"><div><div class="label">Health shape</div><h2>Radar scorecard</h2></div><span class="badge">diagnose</span></div>
+        <div class="viz"><div class="radar"></div></div>
+        <p class="notes"><strong>Use for:</strong> quick shape-of-health across cost, trust, velocity, quality, risk, and readiness.</p>
+      </article>
+
+      <article class="pattern">
+        <div class="pattern-head"><div><div class="label">Attribution</div><h2>Provider-to-workflow flow map</h2></div><span class="badge">flow</span></div>
+        <div class="viz"><div class="flow"><div class="node"><strong>OpenAI</strong><br><span class="muted">premium</span></div><div class="rail"></div><div class="node"><strong>Build review</strong><br><span class="muted">fallbacks</span></div><div class="rail"></div><div class="node"><strong>Hermes</strong><br><span class="muted">cockpit</span></div></div></div>
+        <p class="notes"><strong>Use for:</strong> tracing tokens/dollars from provider to workflow to business unit.</p>
+      </article>
+
+      <article class="pattern">
+        <div class="pattern-head"><div><div class="label">Narrative</div><h2>Event timeline</h2></div><span class="badge">why</span></div>
+        <div class="viz"><div class="timeline"><div class="event warn"><div>09:12</div><div class="dot"></div><div class="event-copy"><strong>Fallback rose</strong><br>OpenAI approval required.</div></div><div class="event risk"><div>10:06</div><div class="dot"></div><div class="event-copy"><strong>Ledger missing</strong><br>Codex usage is unknown.</div></div><div class="event"><div>11:40</div><div class="dot"></div><div class="event-copy"><strong>Manual posting kept</strong><br>Accepted policy exception.</div></div></div></div>
+        <p class="notes"><strong>Use for:</strong> explaining what changed, when it changed, and what decision followed.</p>
+      </article>
+
+      <article class="pattern">
+        <div class="pattern-head"><div><div class="label">Composition</div><h2>Stacked usage bands</h2></div><span class="badge">makeup</span></div>
+        <div class="viz"><svg class="svg" viewBox="0 0 360 170"><rect x="24" y="38" width="70" height="96" rx="8" fill="#e8f4ee"/><rect x="24" y="78" width="70" height="56" rx="8" fill="#1f7a59" opacity=".76"/><rect x="120" y="24" width="70" height="110" rx="8" fill="#fff6df"/><rect x="120" y="58" width="70" height="76" rx="8" fill="#9a6b16" opacity=".72"/><rect x="216" y="72" width="70" height="62" rx="8" fill="#fff1ef"/><rect x="216" y="102" width="70" height="32" rx="8" fill="#a33f3f" opacity=".70"/></svg></div>
+        <p class="notes"><strong>Use for:</strong> showing cost makeup by provider inside each unit or workflow.</p>
+      </article>
+
+      <article class="pattern">
+        <div class="pattern-head"><div><div class="label">Unit card</div><h2>KPI card with sparkline</h2></div><span class="badge">drilldown</span></div>
+        <div class="viz"><div style="display:grid;gap:10px"><strong>Media Engine</strong><div style="font-size:30px;font-family:var(--mono)">$138.20</div><svg class="svg" viewBox="0 0 360 90" style="height:90px"><path d="M18 72 C60 58 86 66 120 42 C156 18 188 36 222 26 C268 12 302 30 342 20" fill="none" stroke="#1f7a59" stroke-width="4" stroke-linecap="round"/></svg></div></div>
+        <p class="notes"><strong>Use for:</strong> business-unit cards that show number, trend, and trust state without opening a full page.</p>
+      </article>
+
+      <article class="pattern">
+        <div class="pattern-head"><div><div class="label">Matrix</div><h2>Business unit by provider grid</h2></div><span class="badge">cross-tab</span></div>
+        <div class="viz"><div class="heat"><div class="cell warn">ME/OAI</div><div class="cell">ME/GEM</div><div class="cell risk">ME/LC</div><div class="cell">KV/OAI</div><div class="cell warn">KV/API</div><div class="cell">KV/SCR</div><div class="cell risk">HA/OAI</div><div class="cell warn">HA/LC</div><div class="cell">HA/SCR</div><div class="cell">TLC/OAI</div><div class="cell warn">TLC/REV</div><div class="cell">TLC/DOC</div></div></div>
+        <p class="notes"><strong>Use for:</strong> seeing which unit-provider pair is expensive, stale, or risky.</p>
+      </article>
+
+      <article class="pattern">
+        <div class="pattern-head"><div><div class="label">Budget</div><h2>Burn gauge</h2></div><span class="badge">control</span></div>
+        <div class="viz"><svg class="svg" viewBox="0 0 360 170"><path d="M62 132 A118 118 0 0 1 298 132" fill="none" stroke="#e7ece9" stroke-width="22" stroke-linecap="round"/><path d="M62 132 A118 118 0 0 1 232 40" fill="none" stroke="#9a6b16" stroke-width="22" stroke-linecap="round"/><text x="180" y="118" text-anchor="middle" font-size="32" font-weight="800" fill="#171d1b">42%</text><text x="180" y="140" text-anchor="middle" font-size="12" fill="#66736f">monthly planning cap</text></svg></div>
+        <p class="notes"><strong>Use for:</strong> caps, approval gates, monthly budget, and run-rate pressure.</p>
+      </article>
+
+      <article class="pattern">
+        <div class="pattern-head"><div><div class="label">Distribution</div><h2>Treemap-like blocks</h2></div><span class="badge">many parts</span></div>
+        <div class="viz" style="display:grid;grid-template-columns:1.4fr 1fr;gap:8px"><div style="background:#e8f4ee;border-radius:9px;padding:10px;color:#165c43;font-weight:800">Media Engine<br><span class="muted">$138</span></div><div style="display:grid;gap:8px"><div style="background:#fff6df;border-radius:9px;padding:10px;color:#9a6b16;font-weight:800">Hermes</div><div style="background:#f7faf9;border-radius:9px;padding:10px;color:#66736f;font-weight:800">Khashi</div></div></div>
+        <p class="notes"><strong>Use for:</strong> many categories where relative size matters more than exact sequence.</p>
+      </article>
+
+      <article class="pattern">
+        <div class="pattern-head"><div><div class="label">Command</div><h2>Decision queue card stack</h2></div><span class="badge">action</span></div>
+        <div class="viz" style="display:grid;gap:9px"><div class="node"><strong>Approve OpenAI fallback</strong><br><span class="muted">today · budget gate</span></div><div class="node"><strong>Connect Codex ledger</strong><br><span class="muted">blocked · data trust</span></div><div class="node"><strong>Accept manual publishing</strong><br><span class="muted">policy · deferred integration</span></div></div>
+        <p class="notes"><strong>Use for:</strong> turning insight into the next operator action.</p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

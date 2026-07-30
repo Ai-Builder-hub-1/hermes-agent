@@ -55,6 +55,21 @@ import {
   KpiCard,
   DataTable,
   ChartPanel,
+  MarketTape,
+  MarketVolatilityDrawer,
+  PriceMovementChart,
+  OrderBookLadder,
+  ForecastConeChart,
+  WaterfallChart,
+  CommandPalette,
+  GlobalSearchOverlay,
+  SavedViewsManager,
+  LiquidityDepthChart,
+  CategoryHeatmap,
+  WorkspaceSwitcher,
+  BreadcrumbTrail,
+  AiAssistantPanel,
+  EvidenceStack,
   DashboardLauncher,
   CommandBar,
   DashboardWorkspaceOverview,
@@ -83,6 +98,48 @@ Use `DashboardPrototypeSet` and `assessDashboardPrototypeSet` before changing a 
 
 Use `validateDashboardSnapshot` when a project exposes `/api/dashboard-architecture`. It catches unclassified workspaces, missing owners, empty data-source declarations, and duplicate module ids.
 
+Use the data-visualization primitives before building local chart UI:
+
+- `MarketTape`
+- `MarketVolatilityDrawer`
+- `PriceMovementChart`
+- `SpreadBandChart`
+- `LiquidityDepthChart`
+- `VolumePulseChart`
+- `CategoryHeatmap`
+- `OpportunityMatrix`
+- `ProviderSpendTimeline`
+- `BusinessUnitCostCard`
+- `AlertRail`
+- `DrilldownPanel`
+- `TimeWindowSelector`
+- `CrosshairTooltipFrame`
+- `OrderBookLadder`
+- `ForecastConeChart`
+- `WaterfallChart`
+- `VisualizationStateFrame`
+
+These components support real-data, preview, stale, loading, empty, and error states so prototypes can demonstrate intent without pretending mock data is production truth.
+
+Use the product-interface primitives before building local dashboard interaction UI:
+
+- `WorkspaceSwitcher`
+- `BreadcrumbTrail`
+- `SplitWorkspaceLayout`
+- `DetailDrawerShell`
+- `EntitySummaryCard`
+- `EvidenceStack`
+- `RecommendationStack`
+- `SavedFilterChips`
+- `CommandPalette`
+- `GlobalSearchOverlay`
+- `SavedViewsManager`
+- `ExpandableDataList`
+- `AiAssistantPanel`
+- `StateChecklist`
+- `PermissionLimitedPanel`
+- `GeneratedInsightCallout`
+
 See:
 
 - `docs/design/dashboard-data-contracts.md`
@@ -90,6 +147,9 @@ See:
 - `docs/design/mobbin-reference-workflow.md`
 - `docs/design/dashboard-prototype-lab.md`
 - `docs/design/dashboard-design-system-spine-plan.md`
+- `docs/design/operating-interface-reference-library.json`
+- `docs/design/operating-interface-state-coverage.json`
+- `docs/design/operating-interface-adoption-score.json`
 
 ## Versioning Rule
 

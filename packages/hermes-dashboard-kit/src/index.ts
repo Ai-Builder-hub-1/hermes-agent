@@ -19,3 +19,5 @@ export * from "./validation";
 export * from "./capacity-command-center";
 export * from "./executive-reports";
 export * from "./readiness-completion";
+export * from "./data-visualization";
+export * from "./product-interface";

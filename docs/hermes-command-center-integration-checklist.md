@@ -8,7 +8,7 @@ Last updated: 2026-07-26.
 | Layer | Current Status | Meaning |
 | --- | ---: | --- |
 | Local command-center surface | 100% | Executive briefing, project feed registry, action gates, production evidence checklist, and human setup queue are built locally. |
-| External/live integration | 66% | Hermes now has the Remote Operator Runtime dry-run foundation and cross-project integration/credential registry, but live secret-store verification, provider credentials, Discord/Telegram tokens, VPS services, and always-on workers are not fully connected. |
+| External/live integration | 70% | Hermes now has the Remote Operator Runtime dry-run foundation and cross-project integration/credential registry, plus local/global credential detection. Live secret-store verification, Discord/Telegram tokens, VPS services, and always-on workers are not fully connected. Deferred publishing APIs no longer block readiness. |
 | Overall operating readiness | 82% | Blended state across local surfaces, downstream project adoption, production evidence, cost telemetry, remote operator foundation, integration registry, and runtime execution. |
 
 ## Current Build Slice
@@ -26,13 +26,16 @@ Last updated: 2026-07-26.
 
 | Integration | Required Values | Store In | Unlocks |
 | --- | --- | --- | --- |
-| OpenAI actual cost feed | `OPENAI_ADMIN_KEY`, `OPENAI_ORG_ID` | GitHub production environment or org secret store for the billing adapter | Actual OpenAI spend import, model cost attribution, budget alerts |
-| Google Cloud and Gemini billing | `GOOGLE_APPLICATION_CREDENTIALS_JSON`, `GOOGLE_CLOUD_BILLING_ACCOUNT_ID`, `GOOGLE_CLOUD_BILLING_EXPORT_DATASET`, `GOOGLE_CLOUD_BILLING_EXPORT_TABLE` | GitHub production environment or org secret store for the billing adapter | Gemini/Google spend import, cloud service cost attribution, budget alerts |
-| DeepSeek and Fireworks billing | `DEEPSEEK_API_KEY`, `FIREWORKS_API_KEY` | GitHub production environment or org secret store for the billing adapter | Fallback model spend import, provider comparison, capacity guardrails |
-| Hetzner production rail | `HETZNER_HOST`, `HETZNER_USER`, `HETZNER_SSH_KEY`, `PRODUCTION_DOMAIN` | GitHub production environment or project deployment secret store | Production deploy evidence, restore drills, server health checks |
+| OpenAI actual cost feed | `OPENAI_ADMIN_KEY`, `OPENAI_ORG_ID` | GitHub production environment, org secret store, or billing adapter environment | Actual OpenAI spend import, model cost attribution, budget alerts |
+| Gemini usage estimate | Gemini runtime key already used by active projects | Existing project/global runtime secret store | Estimated Gemini usage and cost until Google billing export is worth connecting |
+| Google Cloud billing export | `GOOGLE_APPLICATION_CREDENTIALS_JSON`, `GOOGLE_CLOUD_BILLING_ACCOUNT_ID`, `GOOGLE_CLOUD_BILLING_EXPORT_DATASET`, `GOOGLE_CLOUD_BILLING_EXPORT_TABLE` | Deferred GitHub production environment or org secret store | Optional actual Google/Gemini spend import; not a current blocker |
+| DeepSeek runtime | `DEEPSEEK_API_KEY` | GitHub production environment, org secret store, or VPS secret store | Lower-cost fallback model routing, provider comparison, capacity guardrails |
+| Fireworks runtime | `FIREWORKS_API_KEY` | Deferred GitHub production environment, org secret store, or VPS secret store | Optional fallback model provider; only required if selected in routing |
+| Hetzner production rail | `HETZNER_HOST`, `HETZNER_USER`, `HETZNER_SSH_KEY` or `HETZNER_SSH_KEY_PATH`, `PRODUCTION_DOMAIN` | Hermes global config for local access, plus GitHub production environment or project deployment secret store for automation | Production deploy evidence, restore drills, server health checks |
+| Google Search Console manual import | `GOOGLE_SEARCH_CONSOLE_SITE_URL`, optional `GOOGLE_SEARCH_CONSOLE_IMPORT_DIR` | Project environment or Hermes global config | Manual export ingestion without live Google OAuth/API setup |
 | Discord remote operator gateway | `DISCORD_BOT_TOKEN`, allowed Discord user IDs, allowed channel IDs, signing/public key if used | VPS secret store plus GitHub production environment for deploy automation | Discord control surface for briefings, project routing, approvals, streaming status, and workflow launch |
 | Telegram remote operator gateway | `TELEGRAM_BOT_TOKEN`, allowed Telegram user IDs, allowed chat IDs | VPS secret store plus GitHub production environment for deploy automation | Telegram/watch-friendly control surface for briefings, approvals, status, specialist agent requests, and workflow launch |
-| Remote operator runtime | `HERMES_OPERATOR_API_URL`, `HERMES_OPERATOR_API_TOKEN`, worker allowlist, project workspace root, emergency stop policy | VPS secret store and Hermes production config | Always-on Hermes command router, job queue, worker delegation, streamed progress, approval gates, and audit records |
+| Remote operator runtime | `HERMES_OPERATOR_API_URL`, `HERMES_OPERATOR_API_TOKEN`, worker allowlist, project workspace root, emergency stop policy | Generated by Hermes and stored in VPS secret store plus Hermes production config | Always-on Hermes command router, job queue, worker delegation, streamed progress, approval gates, and audit records |
 | TLC authority matrix | production approval owner, spend approval owner, publishing approval owner, destructive action policy | TLC Capital Group OS report feed | Safe command gates, agent delegation policy, approval ledger |
 
 ## Project Feed Adoption
@@ -65,12 +68,14 @@ Production-affecting actions must remain approval-gated until each action has ev
 
 ## External Work Sequence
 
-1. Add provider billing credentials and exports.
-2. Add the TLC authority matrix feed.
-3. Add project outcome/report feeds in the active business units.
-4. Capture production screenshots, health checks, and restore drill evidence.
-5. Connect always-on Hermes worker runtime and review enforcement.
-6. Promote action gates from preparation-only to approved live execution.
+1. Verify global credentials that have already been added locally: Hetzner host/user/key path, OpenAI admin key, OpenAI org ID, Discord allowlist, and active model runtime keys.
+2. Promote repeated project-local secrets into the shared/global store when multiple projects use the same credential.
+3. Add the TLC authority matrix feed.
+4. Add project outcome/report feeds in the active business units.
+5. Capture production screenshots, health checks, and restore drill evidence.
+6. Connect always-on Hermes worker runtime and review enforcement.
+7. Promote action gates from preparation-only to approved live execution.
+8. Revisit deferred APIs only after the manual package/import workflows prove reliable.
 
 ## Remote Operator Build Sequence
 

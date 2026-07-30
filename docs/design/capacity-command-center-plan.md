@@ -100,6 +100,31 @@ Do not make charts decorative. Each chart must answer an operating question.
 | Freshness Heat Strip | Which feeds are stale or missing? |
 | 90-Day Capacity Sparkline Grid | Which projects are changing over time? |
 
+## Visual Pattern Board
+
+The cockpit now has a dedicated visual vocabulary page:
+
+```text
+docs/design/prototype-gallery/hermes-visual-pattern-board.html
+```
+
+Use this page before adding new dashboard modules. It demonstrates the main display patterns Hermes can choose from:
+
+- multi-line trends with event markers
+- ranked comparison bars
+- freshness and trust heat strips
+- business-unit health radar
+- provider-to-workflow flow maps
+- alert timelines
+- stacked usage bands
+- KPI cards with sparklines
+- cross-tab heat matrices
+- budget burn gauges
+- treemap-like distribution blocks
+- decision queue card stacks
+
+These are sample-data patterns. They are allowed to be visually rich, but they should not be promoted as truthful runtime telemetry until the producer project exports the matching `DashboardSnapshotContract` fields.
+
 ## Prototype Variants
 
 Create at least four visual prototypes before promotion:
@@ -140,6 +165,12 @@ Create at least four visual prototypes before promotion:
    - Keeps revenue first-class but explicitly marks it pending or unknown where business-unit feeds are not connected.
    - Best if the dashboard should answer: what is the portfolio spending, which business unit is driving it, which provider/model caused it, what revenue context exists, and what decision should the operator make?
 
+8. **Hermes Cost Cockpit V3**
+   - Authenticated Mobbin-backed refinement using Snowflake, StackAI, WRITER, Adaline, Cursor, and OpenAI Platform references.
+   - Moves the design away from a component inventory and toward a real operating cockpit: concise left rail, live status strip, time-window controls, executive stance, decision queue, cost/revenue cards, business-unit trend comparison, provider attribution, operating ledger, and trust markers.
+   - Keeps the same data-contract boundary as V2, but makes the visual hierarchy more product-grade and more useful for a founder/operator who wants to know what changed, what costs money, what is trusted, and what to do next.
+   - Best if the dashboard should answer: where is spend happening, which business unit is driving it, which model/provider lane caused it, what business context is missing, and which action is safe today?
+
 Visual mockups:
 
 ```text
@@ -159,6 +190,8 @@ Standalone review page:
 
 - `docs/design/prototype-gallery/command-model-cost-cockpit.html`
 - `docs/design/prototype-gallery/command-model-cost-cockpit-v2.html`
+- `docs/design/prototype-gallery/hermes-cost-cockpit-v3.html`
+- `docs/design/prototype-gallery/hermes-cost-cockpit-active.html`
 
 ## Recommended Hybrid
 
@@ -172,7 +205,7 @@ This does not replace the other prototypes. It combines the preferred parts:
 
 Revenue is included as an optional feed. Until Media Business OS, TLC Capital Group OS, or another source reports revenue, the dashboard should show `Unknown`, `Pending`, or `N/A` instead of pretending it knows ROI.
 
-After Mobbin reference review, the next visual review candidate is **Hermes Cost Cockpit V2**. It keeps the command/model decision spine, but adds the Stripe/OpenAI/Vercel-style operating density the first static prototype was missing:
+After the first Mobbin reference review, **Hermes Cost Cockpit V2** kept the command/model decision spine, but added the Stripe/OpenAI/Vercel-style operating density the first static prototype was missing:
 
 - a sharper shell with search/status, time windows, and one active route
 - portfolio headline with a decision stance instead of generic dashboard copy
@@ -190,6 +223,32 @@ Mobbin references used for the V2 direction:
 - Postman API observability screen: `https://mobbin.com/screens/bc011630-14d2-45ef-8310-0ae194c4f1bb`
 - Cursor usage/billing screen: `https://mobbin.com/screens/aab19640-0c58-40f8-a349-f7f81943900b`
 - Midday finance dashboard: `https://mobbin.com/screens/514c372f-89f5-4182-9bbe-5ab3d1d0d397`
+
+After Mobbin auth was repaired on 2026-07-28, **Hermes Cost Cockpit V3** was created as a sidebar-heavy exploration. After operator review, V2 is the preferred active visual direction because it keeps the business-unit spend cards, time-window cost comparison, provider/model attribution, revenue context, and trust warnings without overcorrecting into a heavier sidebar shell.
+
+Active prototype rule:
+
+- `hermes-cost-cockpit-active.html` is the only file to review for ongoing iteration.
+- `command-model-cost-cockpit-v2.html` remains the preferred base direction.
+- `hermes-cost-cockpit-v3.html` remains archived as a sidebar exploration.
+- Do not create `v4`, `v5`, or similar files for small visual edits. Create a new numbered file only for a major fork that needs side-by-side review.
+
+Review-handle rule:
+
+- Major reviewable regions in `hermes-cost-cockpit-active.html` must include stable `data-review-id` handles.
+- The canonical map lives at `docs/design/prototype-review-map.json`.
+- Lavish feedback, screenshots, or operator notes should reference the nearest `data-review-id` when possible instead of brittle selectors like `body > main > section > div:nth-of-type(2)`.
+- Hermes OS should consume the review map as routing metadata later, but Nous Hermes Agent remains the owner of dashboard prototype implementation.
+- `npm run dashboard:spine:validate` must fail if mapped review IDs drift from the active prototype.
+
+Mobbin references used for the V3 direction:
+
+- Snowflake dashboard reference: `https://mobbin.com/screens/725959e2-fde7-4b89-a8e3-1d272d9ec735`
+- StackAI dashboard reference: `https://mobbin.com/screens/0e6d8ddc-04bf-4e41-9398-37299d7feb26`
+- WRITER dashboard reference: `https://mobbin.com/screens/f9487f47-07b7-4189-aa89-f4fc5bb88858`
+- Adaline dashboard reference: `https://mobbin.com/screens/7483692e-1571-40a7-829d-468a0686e2d9`
+- Cursor dashboard reference: `https://mobbin.com/screens/3a84294a-2371-44ba-8a09-fdfd163fb453`
+- OpenAI Platform dashboard reference: `https://mobbin.com/screens/fe36ec31-b25c-4cf1-9932-85bf66cd89fc`
 
 ## Mobbin Reference Workflow
 
@@ -230,7 +289,11 @@ These should render as data trust warnings, not blank dashboards.
 - [x] Create a recommended hybrid prototype for business-unit cards, trend comparison, revenue context, and drilldown.
 - [x] Create a command/model cost cockpit prototype from variants 1 and 3.
 - [x] Create a Mobbin-informed V2 cockpit with business-unit spend, time windows, provider attribution, revenue context, and trust warnings.
-- [ ] Select one prototype direction with written rationale.
+- [x] Create a Mobbin-backed V3 cockpit with a more product-grade executive operating screen, actual authenticated references, cost/revenue cards, business-unit comparison, provider lanes, and trust markers.
+- [x] Select one prototype direction with written rationale.
+- [x] Add the active cockpit sidebar view model for cost overview, business units, provider lanes, alerts, Media Engine, Khashi VC, and TLC Group OS.
+- [x] Add the first sample-data charting pass to the active cockpit: multi-line trend, heat strip, radar, provider flow, alert timeline, throughput, and readiness modules.
+- [x] Add a Hermes visual pattern board for choosing future chart/display modules before production implementation.
 - [ ] Promote reusable chart modules into `@hermes/dashboard-kit`.
 - [ ] Wire Hermes OS technical central command to consume the capacity snapshot.
 - [ ] Wire TLC Capital Group OS to consume business-unit rollups.

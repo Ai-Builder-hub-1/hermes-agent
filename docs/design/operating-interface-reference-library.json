@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "name": "Hermes Operating Interface Reference Library",
+  "status": "implemented",
+  "purpose": "Provide a repeatable research intake for modern operating dashboards before patterns become shared Hermes components.",
+  "sourcePolicy": {
+    "mobbin": "Use as visual and interaction reference only. Extract patterns, not copyrighted screen copies.",
+    "productBenchmarks": "Use public product patterns for taxonomy, density, interaction, and chart behavior.",
+    "implementation": "Translate observed patterns into original @hermes/dashboard-kit components."
+  },
+  "requiredExtractionFields": [
+    "patternFamily",
+    "screenType",
+    "primaryUserQuestion",
+    "layoutStructure",
+    "navigationBehavior",
+    "dataDensity",
+    "interactionModel",
+    "stateCoverage",
+    "mobileBehavior",
+    "accessibilityNotes",
+    "componentCandidates",
+    "adoptionTargets"
+  ],
+  "patternFamilies": [
+    {
+      "id": "executive-command",
+      "label": "Executive Command Centers",
+      "searchBriefs": ["enterprise command center dashboard", "executive KPI dashboard", "business operations overview"],
+      "components": ["BusinessUnitCostCard", "ProviderSpendTimeline", "AlertRail", "DrilldownPanel"]
+    },
+    {
+      "id": "trading-market-intelligence",
+      "label": "Trading And Market Intelligence",
+      "searchBriefs": ["trading terminal dashboard", "market volatility dashboard", "order book ladder", "portfolio analytics dashboard"],
+      "components": ["MarketTape", "MarketVolatilityDrawer", "OrderBookLadder", "PriceMovementChart", "LiquidityDepthChart"]
+    },
+    {
+      "id": "analytics-exploration",
+      "label": "Analytics Exploration",
+      "searchBriefs": ["analytics dashboard drilldown", "cohort analysis dashboard", "metric explorer dashboard"],
+      "components": ["CategoryHeatmap", "OpportunityMatrix", "ExpandableDataList", "SavedViewsManager"]
+    },
+    {
+      "id": "incident-operations",
+      "label": "Incident And Operations Monitoring",
+      "searchBriefs": ["incident management dashboard", "observability alert dashboard", "system health dashboard"],
+      "components": ["AlertRail", "RunStatusPanel", "DashboardErrorState", "PermissionLimitedPanel"]
+    },
+    {
+      "id": "ai-copilot-workspaces",
+      "label": "AI Copilot Workspaces",
+      "searchBriefs": ["AI assistant dashboard", "copilot workspace", "AI generated report review"],
+      "components": ["AiAssistantPanel", "CommandPalette", "EvidenceStack", "RecommendationStack"]
+    },
+    {
+      "id": "search-filter-navigation",
+      "label": "Search, Filter, And Navigation",
+      "searchBriefs": ["global search command palette", "saved filters dashboard", "dashboard sidebar navigation"],
+      "components": ["GlobalSearchOverlay", "CommandPalette", "SavedFilterChips", "TimeWindowSelector"]
+    },
+    {
+      "id": "review-approval-queues",
+      "label": "Review And Approval Queues",
+      "searchBriefs": ["approval queue dashboard", "content review workflow", "operations queue UI"],
+      "components": ["ExpandableDataList", "QueuePanel", "EvidenceStack", "RecommendationStack"]
+    },
+    {
+      "id": "settings-permissions",
+      "label": "Settings And Permissions",
+      "searchBriefs": ["admin settings dashboard", "permissions management UI", "integration settings dashboard"],
+      "components": ["PermissionLimitedPanel", "StateChecklist", "SavedViewsManager"]
+    }
+  ],
+  "intakeWorkflow": [
+    "Run reference searches by pattern family before a major dashboard redesign.",
+    "Extract recurring layout and interaction patterns into this registry or a linked pattern note.",
+    "Promote only reusable patterns into @hermes/dashboard-kit.",
+    "Add state coverage and adoption targets before project retrofit begins.",
+    "Validate with dashboard:interface-system:validate before shipping."
+  ]
+}
