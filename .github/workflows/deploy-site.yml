@@ -61,6 +61,7 @@ jobs:
       HERMES_AGENT_DASHBOARD_USERNAME: ${{ secrets.HERMES_AGENT_DASHBOARD_USERNAME }}
       HERMES_AGENT_DASHBOARD_PASSWORD: ${{ secrets.HERMES_AGENT_DASHBOARD_PASSWORD }}
       HERMES_DASHBOARD_PROOF_TOKEN: ${{ secrets.HERMES_DASHBOARD_PROOF_TOKEN }}
+      PRIVATE_REPO_SSH_URL: git@github.com:Ai-Builder-hub-1/hermes-agent.git
     steps:
       - name: Checkout deployment metadata
         uses: actions/checkout@v5
@@ -120,7 +121,7 @@ jobs:
         if: env.DEPLOY_READY == 'true'
         run: |
           ssh -i ~/.ssh/hermes_deploy -p "${HETZNER_SSH_PORT:-22}" "$HETZNER_USER@$HETZNER_HOST" \
-            "export HERMES_DASHBOARD_PROOF_TOKEN='$HERMES_DASHBOARD_PROOF_TOKEN' HERMES_AGENT_DASHBOARD_USERNAME='$HERMES_AGENT_DASHBOARD_USERNAME' HERMES_AGENT_DASHBOARD_PASSWORD='$HERMES_AGENT_DASHBOARD_PASSWORD'; if [ -d \"\$HOME/apps/nous-hermes-agent/.git\" ]; then cd \"\$HOME/apps/nous-hermes-agent\" && git stash push --include-untracked -m \"pre-deploy-$DEPLOY_REF\" || true; fi; '$HETZNER_PROMOTE_SCRIPT' '$HERMES_SERVICE_KEY' '$DEPLOY_REF'"
+            "export HERMES_DASHBOARD_PROOF_TOKEN='$HERMES_DASHBOARD_PROOF_TOKEN' HERMES_AGENT_DASHBOARD_USERNAME='$HERMES_AGENT_DASHBOARD_USERNAME' HERMES_AGENT_DASHBOARD_PASSWORD='$HERMES_AGENT_DASHBOARD_PASSWORD'; mkdir -p \"\$HOME/.ssh\" && chmod 700 \"\$HOME/.ssh\" && ssh-keyscan github.com >> \"\$HOME/.ssh/known_hosts\" 2>/dev/null || true; if [ -d \"\$HOME/apps/nous-hermes-agent/.git\" ]; then cd \"\$HOME/apps/nous-hermes-agent\" && git remote set-url origin '$PRIVATE_REPO_SSH_URL' && git stash push --include-untracked -m \"pre-deploy-$DEPLOY_REF\" || true; fi; '$HETZNER_PROMOTE_SCRIPT' '$HERMES_SERVICE_KEY' '$DEPLOY_REF'"
 
       - name: Verify production health
         if: env.DEPLOY_READY == 'true'
