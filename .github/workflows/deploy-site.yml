@@ -43,7 +43,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Vercel Deploy
-        run: curl -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}"
+        env:
+          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$VERCEL_DEPLOY_HOOK" ]; then
+            echo "::error::VERCEL_DEPLOY_HOOK is not set for this repository. Add the private repo deploy hook secret before running Deploy Site."
+            exit 1
+          fi
+          curl -X POST "$VERCEL_DEPLOY_HOOK"
 
   deploy-docs:
     if: github.repository == 'NousResearch/hermes-agent'
