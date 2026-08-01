@@ -1,0 +1,130 @@
+schemaVersion: 1
+generatedAt: "2026-07-30"
+contracts:
+  - id: "khashi-vc.market-intelligence-live"
+    kind: "surface"
+    owner: "khashi-vc"
+    status: "draft"
+    purpose:
+      userProblem: "The operator needs to identify live market movement, liquidity, category behavior, and stale data without tab hopping."
+      supportedDecision: "Decide which live markets or categories deserve deeper research before experiments resume."
+      audience:
+        - "founder-operator"
+        - "market research operator"
+      admissionRules:
+        - "Use when live or recently expired market snapshots are available."
+        - "Use when at least one source freshness value can be shown."
+      prohibitedUse:
+        - "Do not present mock chart data as production data."
+        - "Do not use old experiment horizon lanes as the primary ranking model."
+    data:
+      schema:
+        - "marketId"
+        - "title"
+        - "category"
+        - "subcategory"
+        - "status"
+        - "midPrice"
+        - "spread"
+        - "bidDepth"
+        - "askDepth"
+        - "volume24h"
+        - "openInterest"
+        - "snapshotCount"
+        - "lastSeenAt"
+      units:
+        - "cents"
+        - "contracts"
+        - "usd"
+        - "timestamp"
+      provenance:
+        - "Kashi VC live scan snapshots"
+        - "Kashi VC category taxonomy"
+      nullability: "Unknown category, missing liquidity, or missing snapshot series must render as partial data with data-quality flags."
+      uncertainty: "Category and subcategory mappings can be unknown until taxonomy enrichment catches up."
+      transformations:
+        - "aggregate snapshots by marketId"
+        - "derive movement from earliest/latest midPrice in selected window"
+        - "derive depth from bidDepth plus askDepth"
+      versionCompatibility: "Contract is V1 draft and may gain fields during Kashi reference migration."
+    state:
+      supported:
+        - "initial"
+        - "loading"
+        - "partial"
+        - "empty"
+        - "success"
+        - "refreshing"
+        - "stale"
+        - "unavailable"
+        - "error"
+    interaction:
+      supported:
+        - "row selection"
+        - "pagination"
+        - "time window filter"
+        - "category filter"
+        - "drilldown drawer"
+        - "chart hover"
+        - "chart fallback table"
+      keyboardPath: "Tab to filters, table rows, pagination, and drawer close; Enter opens selected market drawer."
+    freshness:
+      class: "live"
+      pollingSeconds: 90
+      staleThresholdSeconds: 270
+      retry: "retry next polling cycle; show degraded source after two consecutive failures"
+      fallback: "show latest retained snapshot series with stale state"
+    responsive:
+      desktop: "table plus right drawer or overlay drawer"
+      tablet: "table with full-width drawer"
+      mobile: "stacked tape rows and full-screen drawer"
+      embedded: "summary strip plus selected chart only"
+      export: "include equivalent table and freshness metadata"
+    accessibility:
+      names: "Charts and tables must have descriptive labels tied to selected market."
+      keyboard: "All filters, rows, pagination, and drawer controls keyboard reachable."
+      contrast: "Semantic tones must pass dashboard contrast rules."
+      reducedMotion: "Live refresh must not animate aggressively under reduced motion."
+      fallback: "Snapshot series must be available as a table."
+    performance:
+      loadBudgetMs: 2500
+      renderBudgetMs: 500
+      dataVolumeLimit: "paginate or virtualize when live row count exceeds 48"
+      fallback: "aggregate chart series to visible window when snapshots exceed render threshold"
+    security:
+      permissions: "Readonly by default; no trading/execution controls in proof mode."
+      fieldMasking: "No credentials or private tokens displayed."
+      auditLog: "Selection and refresh telemetry only; no destructive action."
+      sensitiveData: "Production proof route must be readonly and token-protected."
+    observability:
+      events:
+        - "live.refresh.success"
+        - "live.refresh.failure"
+        - "live.data.stale"
+        - "live.row.selected"
+        - "live.drawer.chart.rendered"
+      timings:
+        - "refresh latency"
+        - "chart render time"
+        - "stale duration"
+      ownerAlerts: "Alert Kashi owner when source is stale for more than three polling intervals."
+    quality:
+      tests:
+        - "contract validation"
+        - "live table pagination smoke"
+        - "selected market chart rendering smoke"
+        - "production proof screenshot"
+        - "visual quality score"
+      evidence:
+        - "docs/design/kaoshi-live-data-reference-capability.md"
+        - "experience-audit/live-data-reference.yaml"
+        - "experience-audit/visualization-intent-matrix.yaml"
+    governance:
+      version: "0.1.0-draft"
+      migration: "Use as V5 reference migration contract for Kashi VC."
+      deprecation: "Deprecated only after package-native Kashi contract replaces it."
+      approvedLibraries:
+        - "@hermes/dashboard-kit"
+        - "recharts through kit wrappers"
+      exceptions: "Direct chart implementations require gap register entry and migration owner."
+

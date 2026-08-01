@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "handoff": "/Users/hq/Downloads/Kaoshi_Experience_Architecture_Gap_Analysis_Handoff.docx",
+    "repo": "projects/nous-hermes-agent",
+    "commit": "c420cd91d"
+  },
+  "summary": {
+    "currentCentralScore": 82.4,
+    "target": "Evidence-backed experience architecture for governed dashboard redesign and adoption",
+    "recommendedFirstReference": "khashi-vc.market-intelligence-live",
+    "completedVersions": ["V1", "V2", "V3", "V4", "V5", "V6"],
+    "partialVersions": [],
+    "remainingVersions": ["V7"],
+    "deferredVersions": ["V8"]
+  },
+  "gaps": [
+    {
+      "id": "kaoshi-gap-001",
+      "class": "foundation",
+      "status": "closed-by-v1",
+      "title": "No canonical experience-audit package",
+      "claim": "The repository has several dashboard reports but not the full Kaoshi audit inventory package required by the handoff.",
+      "evidence": [
+        "docs/design/world-class-dashboard-system-backlog.md",
+        "docs/design/dashboard-maturity-report.json",
+        "packages/hermes-dashboard-kit/adoption/registry.json"
+      ],
+      "impact": 5,
+      "reach": 5,
+      "riskReduction": 5,
+      "dependencyLeverage": 5,
+      "effort": 3,
+      "score": 41.7,
+      "ownerType": "architecture",
+      "dependency": "none",
+      "recommendation": "Create experience-audit repository-map, surfaces, components, visualizations, contracts, gaps, decisions, roadmap, and evidence-ledger files.",
+      "validation": "Inventory files exist and each material claim includes evidence paths."
+    },
+    {
+      "id": "kaoshi-gap-002",
+      "class": "contract",
+      "status": "closed-by-v2",
+      "title": "Experience contract standard is not fully enforced",
+      "claim": "Dashboard data contracts exist, but full purpose/data/state/interaction/freshness/responsive/accessibility/performance/security/observability/quality/governance contracts are not yet required for every reusable capability.",
+      "evidence": [
+        "packages/hermes-dashboard-kit/src/contracts.ts",
+        "docs/design/dashboard-data-contracts.md",
+        "packages/hermes-dashboard-kit/DESIGN.md"
+      ],
+      "impact": 5,
+      "reach": 5,
+      "riskReduction": 5,
+      "dependencyLeverage": 5,
+      "effort": 4,
+      "score": 31.3,
+      "ownerType": "frontend-architecture",
+      "dependency": "kaoshi-gap-001",
+      "recommendation": "Add a machine-readable experience contract schema and require it for major components, visualizations, and dashboard surfaces.",
+      "validation": "Example contracts validate and Kashi Market Intelligence has a complete draft contract."
+    },
+    {
+      "id": "kaoshi-gap-003",
+      "class": "governance",
+      "status": "closed-by-v3",
+      "title": "Visualization admission rules are still advisory",
+      "claim": "Chart primitives exist, but the system does not yet force chart choice to be tied to user question, data shape, freshness, interaction, and fallback.",
+      "evidence": [
+        "packages/hermes-dashboard-kit/src/data-visualization.tsx",
+        "packages/hermes-dashboard-kit/src/charts.tsx",
+        "docs/design/mobbin-reference-workflow.md"
+      ],
+      "impact": 5,
+      "reach": 4,
+      "riskReduction": 4,
+      "dependencyLeverage": 5,
+      "effort": 3,
+      "score": 33.3,
+      "ownerType": "data-ux",
+      "dependency": "kaoshi-gap-002",
+      "recommendation": "Create a visualization intent matrix and chart admission checklist with required accessible fallback and proof states.",
+      "validation": "Kashi chart usage maps to the matrix and one-off chart usage is detected in reports."
+    },
+    {
+      "id": "kaoshi-gap-004",
+      "class": "documentation",
+      "status": "closed-by-v1",
+      "title": "Required end-to-end feature traces are absent",
+      "claim": "The handoff requires five representative feature traces. The repo does not yet have a consolidated feature trace artifact.",
+      "evidence": [
+        "docs/design/dashboard-data-contracts.md",
+        "docs/design/dashboard-information-architecture.md"
+      ],
+      "impact": 4,
+      "reach": 4,
+      "riskReduction": 5,
+      "dependencyLeverage": 4,
+      "effort": 3,
+      "score": 26.7,
+      "ownerType": "architecture",
+      "dependency": "kaoshi-gap-001",
+      "recommendation": "Trace simple CRUD, analytical dashboard, live view, AI workflow, and high-risk action through data, state, UI, permissions, telemetry, accessibility, and tests.",
+      "validation": "Feature trace file lists five complete traces with evidence paths and failure modes."
+    },
+    {
+      "id": "kaoshi-gap-005",
+      "class": "quality",
+      "status": "open-v5-plus",
+      "title": "Production proof adoption is incomplete",
+      "claim": "Proof endpoint and screenshot capture rules exist, but downstream dashboards still lack complete proof baselines.",
+      "evidence": [
+        "docs/design/dashboard-production-proof-endpoints.md",
+        "docs/design/dashboard-maturity-report.json",
+        "docs/design/world-class-dashboard-system-backlog.md"
+      ],
+      "impact": 5,
+      "reach": 5,
+      "riskReduction": 5,
+      "dependencyLeverage": 4,
+      "effort": 4,
+      "score": 31.3,
+      "ownerType": "platform",
+      "dependency": "downstream proof routes",
+      "recommendation": "Require readonly proofUrl entries and screenshot baselines for priority dashboards before world-class status.",
+      "validation": "Production proof registry has no baseline-needed entries for priority dashboards."
+    },
+    {
+      "id": "kaoshi-gap-006",
+      "class": "quality",
+      "status": "open-v5-plus",
+      "title": "Visual quality scoring is not premium enough",
+      "claim": "The current visual score catches generic failures but still requires human/Mobbin review for premium dashboard quality.",
+      "evidence": [
+        "docs/design/dashboard-visual-quality-report.json",
+        "docs/design/operating-interface-visual-qa.md"
+      ],
+      "impact": 4,
+      "reach": 4,
+      "riskReduction": 4,
+      "dependencyLeverage": 3,
+      "effort": 3,
+      "score": 21.3,
+      "ownerType": "design-systems",
+      "dependency": "kaoshi-gap-003",
+      "recommendation": "Expand visual QA to score chart polish, density, hierarchy, interaction affordance, state labels, and data/prototype truthfulness.",
+      "validation": "Priority surfaces score at least 90 and include screenshot evidence."
+    },
+    {
+      "id": "kaoshi-gap-007",
+      "class": "adoption",
+      "status": "open-v5-plus",
+      "title": "Static adapter can hide incomplete migrations",
+      "claim": "Static adapter adoption improves consistency but does not guarantee package-native behavior, richer state, or live data interactions.",
+      "evidence": [
+        "packages/hermes-dashboard-kit/README.md",
+        "packages/hermes-dashboard-kit/adoption/registry.json",
+        "docs/design/dashboard-ultimate-gap-assessment.md"
+      ],
+      "impact": 4,
+      "reach": 5,
+      "riskReduction": 4,
+      "dependencyLeverage": 4,
+      "effort": 5,
+      "score": 16,
+      "ownerType": "frontend",
+      "dependency": "kaoshi-gap-002",
+      "recommendation": "Use static adapter only as a bridge; require package-native migration plans for priority dashboards.",
+      "validation": "Migration backlog identifies package-native target state for each priority dashboard."
+    },
+    {
+      "id": "kaoshi-gap-008",
+      "class": "observability",
+      "status": "open-v5-plus",
+      "title": "Telemetry normalization remains uneven across projects",
+      "claim": "Some projects are adoption-current while still missing complete telemetry-normalized maturity.",
+      "evidence": [
+        "docs/design/dashboard-maturity-report.json",
+        "docs/design/dashboard-telemetry-contract-report.json"
+      ],
+      "impact": 5,
+      "reach": 5,
+      "riskReduction": 4,
+      "dependencyLeverage": 4,
+      "effort": 4,
+      "score": 25,
+      "ownerType": "data-platform",
+      "dependency": "downstream telemetry endpoints",
+      "recommendation": "Standardize health, cost, queue, capacity, activity, action-needed, freshness, and error telemetry across project manifests.",
+      "validation": "Maturity report shows priority projects at telemetry-normalized levels."
+    }
+  ],
+  "dependencyGraph": [
+    { "from": "kaoshi-gap-001", "to": "kaoshi-gap-002" },
+    { "from": "kaoshi-gap-002", "to": "kaoshi-gap-003" },
+    { "from": "kaoshi-gap-001", "to": "kaoshi-gap-004" },
+    { "from": "kaoshi-gap-003", "to": "kaoshi-gap-006" },
+    { "from": "kaoshi-gap-002", "to": "kaoshi-gap-007" },
+    { "from": "kaoshi-gap-005", "to": "kaoshi-gap-007" },
+    { "from": "kaoshi-gap-008", "to": "kaoshi-gap-007" }
+  ],
+  "roadmap": [
+    "V1 Evidence and architecture baseline",
+    "V2 Experience contract foundation",
+    "V3 Visualization decision and wrapper layer",
+    "V4 Live-data reference capability",
+    "V5 Screen-level Kashi reference migration",
+    "V6 Governance and enforcement",
+    "V7 Broad adoption across priority dashboards",
+    "V8 Advanced capability modules"
+  ]
+}

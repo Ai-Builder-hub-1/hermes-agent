@@ -24,10 +24,10 @@ export function DashboardShell({
   className?: string;
 }) {
   return (
-    <div className={cn("min-h-0 w-full", className)}>
-      <div className="grid min-h-0 gap-4 lg:grid-cols-[minmax(0,16rem)_minmax(0,1fr)]">
-        {sidebar ? <aside className="min-w-0">{sidebar}</aside> : null}
-        <section className="min-w-0 space-y-4">
+    <div className={cn("min-h-0 w-full", className)} data-component="DashboardShell">
+      <div className="grid min-h-0 gap-4 lg:grid-cols-[minmax(13.5rem,16.5rem)_minmax(0,1fr)]">
+        {sidebar ? <aside className="min-w-0" data-component="DashboardSidebar">{sidebar}</aside> : null}
+        <section className="min-w-0 space-y-4" data-component="DashboardWorkspace">
           {header}
           <DashboardMain>{children}</DashboardMain>
         </section>
@@ -93,7 +93,7 @@ export function DashboardHeader({
   className?: string;
 }) {
   return (
-    <header className={cn("flex flex-wrap items-start justify-between gap-4 rounded-lg border border-border bg-card p-4", className)}>
+    <header className={cn("hdk-command-header flex flex-wrap items-start justify-between gap-4 rounded-lg border border-border bg-card p-4", className)} data-component="DashboardHeader">
       <div className="min-w-0">
         {eyebrow ? <div className="mb-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">{eyebrow}</div> : null}
         <h1 className="truncate text-2xl font-semibold text-foreground">{title}</h1>
@@ -119,12 +119,12 @@ export function DashboardSidebar({
   className?: string;
 }) {
   return (
-    <nav className={cn("rounded-lg border border-border bg-card p-3", className)} aria-label={title}>
-      <div className="border-b border-border pb-3">
-        <div className="text-sm font-semibold text-foreground">{title}</div>
-        {description ? <div className="mt-1 text-xs text-muted-foreground">{description}</div> : null}
+    <nav className={cn("hdk-sidebar-rail rounded-lg border border-border bg-card p-3", className)} aria-label={title} data-component="DashboardSidebar">
+      <div className="hdk-sidebar-brand border-b border-border pb-3">
+        <div className="hdk-sidebar-title text-sm font-semibold text-foreground">{title}</div>
+        {description ? <div className="hdk-sidebar-description mt-1 text-xs text-muted-foreground">{description}</div> : null}
       </div>
-      <div className="mt-3 space-y-1">
+      <div className="hdk-sidebar-nav mt-3 space-y-1">
         {items.map((item) => {
           const Icon = item.icon;
           const content = (
@@ -152,7 +152,7 @@ export function DashboardSidebar({
           );
         })}
       </div>
-      {footer ? <div className="mt-4 border-t border-border pt-3">{footer}</div> : null}
+      {footer ? <div className="hdk-sidebar-footer mt-4 border-t border-border pt-3">{footer}</div> : null}
     </nav>
   );
 }

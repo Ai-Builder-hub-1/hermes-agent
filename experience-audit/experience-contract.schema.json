@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tlc.local/schemas/kaoshi-experience-contract.schema.json",
+  "title": "Kaoshi Experience Contract",
+  "type": "object",
+  "required": [
+    "id",
+    "kind",
+    "owner",
+    "status",
+    "purpose",
+    "data",
+    "state",
+    "interaction",
+    "freshness",
+    "responsive",
+    "accessibility",
+    "performance",
+    "security",
+    "observability",
+    "quality",
+    "governance"
+  ],
+  "properties": {
+    "id": { "type": "string", "minLength": 3 },
+    "kind": { "enum": ["surface", "component", "visualization", "capability"] },
+    "owner": { "type": "string", "minLength": 2 },
+    "status": { "enum": ["draft", "active", "validated", "deprecated"] },
+    "purpose": {
+      "type": "object",
+      "required": ["userProblem", "supportedDecision", "audience", "admissionRules", "prohibitedUse"],
+      "properties": {
+        "userProblem": { "type": "string" },
+        "supportedDecision": { "type": "string" },
+        "audience": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "admissionRules": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "prohibitedUse": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      }
+    },
+    "data": {
+      "type": "object",
+      "required": ["schema", "units", "provenance", "nullability", "transformations"],
+      "properties": {
+        "schema": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "units": { "type": "array", "items": { "type": "string" } },
+        "provenance": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "nullability": { "type": "string" },
+        "uncertainty": { "type": "string" },
+        "transformations": { "type": "array", "items": { "type": "string" } },
+        "versionCompatibility": { "type": "string" }
+      }
+    },
+    "state": {
+      "type": "object",
+      "required": ["supported"],
+      "properties": {
+        "supported": {
+          "type": "array",
+          "items": {
+            "enum": ["initial", "loading", "partial", "empty", "success", "refreshing", "stale", "offline", "unauthorized", "unavailable", "error"]
+          },
+          "minItems": 4
+        }
+      }
+    },
+    "interaction": {
+      "type": "object",
+      "required": ["supported", "keyboardPath"],
+      "properties": {
+        "supported": { "type": "array", "items": { "type": "string" } },
+        "keyboardPath": { "type": "string" }
+      }
+    },
+    "freshness": {
+      "type": "object",
+      "required": ["class", "staleThresholdSeconds", "retry"],
+      "properties": {
+        "class": { "enum": ["static", "manual", "periodic", "near-live", "live", "historical", "forecast", "unknown"] },
+        "pollingSeconds": { "type": "number" },
+        "staleThresholdSeconds": { "type": "number" },
+        "retry": { "type": "string" },
+        "fallback": { "type": "string" }
+      }
+    },
+    "responsive": {
+      "type": "object",
+      "required": ["desktop", "mobile"],
+      "properties": {
+        "desktop": { "type": "string" },
+        "tablet": { "type": "string" },
+        "mobile": { "type": "string" },
+        "embedded": { "type": "string" },
+        "export": { "type": "string" }
+      }
+    },
+    "accessibility": {
+      "type": "object",
+      "required": ["names", "keyboard", "fallback"],
+      "properties": {
+        "names": { "type": "string" },
+        "keyboard": { "type": "string" },
+        "contrast": { "type": "string" },
+        "reducedMotion": { "type": "string" },
+        "fallback": { "type": "string" }
+      }
+    },
+    "performance": {
+      "type": "object",
+      "required": ["loadBudgetMs", "renderBudgetMs", "dataVolumeLimit"],
+      "properties": {
+        "loadBudgetMs": { "type": "number" },
+        "renderBudgetMs": { "type": "number" },
+        "dataVolumeLimit": { "type": "string" },
+        "fallback": { "type": "string" }
+      }
+    },
+    "security": {
+      "type": "object",
+      "required": ["permissions", "sensitiveData"],
+      "properties": {
+        "permissions": { "type": "string" },
+        "fieldMasking": { "type": "string" },
+        "auditLog": { "type": "string" },
+        "sensitiveData": { "type": "string" }
+      }
+    },
+    "observability": {
+      "type": "object",
+      "required": ["events", "ownerAlerts"],
+      "properties": {
+        "events": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "timings": { "type": "array", "items": { "type": "string" } },
+        "ownerAlerts": { "type": "string" }
+      }
+    },
+    "quality": {
+      "type": "object",
+      "required": ["tests", "evidence"],
+      "properties": {
+        "tests": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "evidence": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      }
+    },
+    "governance": {
+      "type": "object",
+      "required": ["version", "migration", "deprecation", "approvedLibraries"],
+      "properties": {
+        "version": { "type": "string" },
+        "migration": { "type": "string" },
+        "deprecation": { "type": "string" },
+        "approvedLibraries": { "type": "array", "items": { "type": "string" } },
+        "exceptions": { "type": "string" }
+      }
+    }
+  }
+}
+

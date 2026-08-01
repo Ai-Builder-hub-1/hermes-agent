@@ -36,8 +36,8 @@ tokens:
     grid_gap: "12px"
   components:
     shell: "DashboardShell / .hdk-shell"
-    sidebar: "DashboardSidebar / .hdk-sidebar"
-    header: "DashboardHeader / .hdk-header"
+    sidebar: "DashboardSidebar / .hdk-sidebar / .hdk-sidebar-rail"
+    header: "DashboardHeader / .hdk-header / .hdk-command-header"
     card: "KpiCard, ChartPanel, DataTable / .hdk-card"
     table: "DataTable / .hdk-table"
     data_visualization: "MarketTape, MarketVolatilityDrawer, PriceMovementChart, SpreadBandChart, LiquidityDepthChart, VolumePulseChart, CategoryHeatmap, OpportunityMatrix, ProviderSpendTimeline, BusinessUnitCostCard, AlertRail, DrilldownPanel, TimeWindowSelector, CrosshairTooltipFrame, OrderBookLadder, ForecastConeChart, WaterfallChart"
@@ -82,11 +82,73 @@ Hermes OS governs enforcement and adoption. It does not own a competing design-s
 ## Layout Rules
 
 - Use a stable left-navigation plus main-workspace shell for operational dashboards.
+- Each dashboard product must have exactly one production app shell: one primary sidebar/top nav, one auth surface, one global header region, and one route model.
+- Do not nest production app shells. Page content, embedded routes, iframes, and promoted prototypes must not bring their own sidebar, global nav, app title bar, login form, or dashboard switcher unless explicitly marked standalone/dev-only.
+- When a prototype becomes production, decompose it into shell-level layout, page content, reusable components, and route config. Do not ship a full standalone prototype app inside another dashboard shell.
+- Keep compatibility routes only as redirects, legacy links, or dev review pages. The primary operator path must use the canonical dashboard route declared by the route registry.
 - Use dense metric grids, tables, charts, and insight panels.
 - Do not use marketing heroes, oversized card stacks, or decorative page backgrounds in dashboard views.
+- Tier 3 dashboards must use a real app-navigation rail, not a loose card stack. The sidebar should be visually persistent, width-bounded, text-safe, scroll-safe, and collapse to an explicit top navigation or drawer on small screens.
+- Tier 3 dashboards must use a compact command header, not a fat hero/banner. The header should answer the current page question, expose a small number of actions/filters, and keep summary metrics in a constrained grid below or beside the title.
+- Global decision/output banners belong only on the canonical command center, overview, or home route. They must not repeat above every page in a routed dashboard. Secondary pages should use compact page headings and page-specific controls instead.
+- Command/overview banners must align to the same content width and inset as the page components below them. Do not use a narrower shell-level banner that floats out of line with cockpit cards, tables, charts, or proof panels.
+- Tier 3 dashboards must use a single viewport shell on desktop: the app shell owns `100dvh`, the sidebar and content column share the same visual height, the document body does not become the primary scroll surface, and the main content pane is the only vertical scroll owner. Mobile may switch back to normal document scrolling.
+- Tier 3 dashboards with multiple evidence tables in one view must use a table composition pattern: table tabs, accordions, or full-width stacked sections. Do not place two large data tables side-by-side in a two-column grid. Tables should consume the page width and own their horizontal scroll inside `.hdk-table-wrap`.
+- Banners inside dashboard pages are allowed only for alerts, proof states, or onboarding empty states. They must not become the primary layout container and must not push the real workspace below the fold.
 - Do not nest cards inside cards.
+- Cards, pills, table cells, nav labels, and action buttons must be text-safe. Long IDs, URLs, run names, titles, and recommendations must truncate or wrap inside their parent; they must not stretch cards, overflow the viewport, or cover adjacent controls.
 - Preserve stable dimensions for KPI cards, tables, charts, buttons, tabs, and status controls.
+- Tier 3 dashboard verification should capture at least desktop-expanded, desktop-collapsed, and mobile screenshots for the primary route. Verification must check for horizontal document overflow, clipped nav, card text overflow, table containment, and visible proof/error/empty states.
 - Mobile layouts must keep the primary workflow usable before secondary analytics.
+
+## Sidebar And Header Contract
+
+The shell standard has two visible quality gates:
+
+1. Navigation rail quality: a production sidebar must use `DashboardSidebar`, `.hdk-sidebar`, or `.hdk-sidebar-rail`; constrain labels with truncation/wrapping rules; keep footer/status content from overflowing; and show the active route clearly.
+2. Viewport shell quality: a desktop dashboard must have exactly one vertical scroll owner inside the app shell. The shell should be `100dvh`, the sidebar should not visually stop before the content, and raw body/page scrolling should not expose blank shell edges.
+3. Table layout quality: large data tables must use `.hdk-table-wrap` inside full-width table sections, tabs, or stacked table groups. Avoid putting two raw tables next to each other.
+4. Text containment quality: cards, tables, pills, buttons, and nav items must include overflow-safe wrapping or truncation so screenshots do not show content leaking outside containers.
+5. Command header quality: a production page header must use `DashboardHeader`, `.hdk-header`, or `.hdk-command-header`; keep heading copy concise; avoid stacked marketing copy; and place metrics/actions in a compact, responsive layout.
+
+If a dashboard cannot satisfy these gates, it cannot be considered Tier 3 even when it has one shell.
+
+## Chart And Comparison Contract
+
+Charts are decision surfaces, not decoration. A chart is not production-grade unless it makes the comparison, unit, and time basis obvious without the operator guessing.
+
+- Every production chart must declare its type and data contract in markup or component props:
+  - `data-chart-type` or component equivalent.
+  - For axis charts: `data-x-axis`, `data-x-axis-label`, `data-y-axis`, and `data-y-axis-label`.
+  - For part-to-whole charts: `data-dimension` and `data-measure`.
+- Line and area charts require a visible X axis and Y axis with readable tick labels. A line chart with only a floating path is a sparkline, not a primary chart.
+- Time-series charts should put time on the X axis and the measured unit on the Y axis: dollars, count, percent, rate, seconds, bytes/GB, or another explicit unit.
+- Bar and column charts should be used for category comparisons, issue counts, provider spend, channel distribution, and ranked comparisons.
+- Donut/ring charts should be used only for simple part-to-whole mixes with a small number of segments and a clear total. Do not use a donut when ranking or precise comparison matters.
+- Heatmaps and matrices should be used for cross-category comparisons, calendar/time bucket intensity, market/category pressure, and opportunity maps.
+- Scatter and bubble charts should be used for correlation or opportunity comparisons, such as cost versus output, liquidity versus volatility, or quality versus volume.
+- Stacked bars or stacked areas should be used when the operator needs composition over time.
+- Waterfall charts should be used when explaining drivers of change between two totals.
+- Comparison charts must use a common scale and visible legend. Do not compare lines, bars, or rings with hidden or inconsistent units.
+- Mini sparklines are allowed only inside metric cards as secondary micro-trends. They cannot replace an axis-bearing `ChartPanel` for the main dashboard view.
+- Empty, partial, stale, loading, error, and mock-preview chart states must be visibly different from live chart states.
+- Mobbin reference passes should inspect analytics/trading/reporting screens for chart density, legend placement, axis treatment, compact cards, and table/chart pairing before creating new chart patterns.
+
+## Experience Tier Standard
+
+The one-shell rule is a checkpoint, not the finish line. A dashboard can be structurally correct and still fail the product experience bar.
+
+Every governed dashboard must declare a current and target experience tier:
+
+| Tier | Name | Meaning | Completion Bar |
+| --- | --- | --- | --- |
+| `0` | Raw legacy report | Static report output, raw tables, or prototype pages with little product framing. | Allowed only as legacy/debug evidence. Not production complete. |
+| `1` | One-shell organized report | One shell, one navigation model, and grouped report sections. | Passes structure only. Not product-grade. |
+| `2` | Shared component dashboard | Uses dashboard-kit cards, tables, charts, filters, drawers, states, and route contracts for the main operator path. | Suitable for production review when states and proof routes are present. |
+| `3` | Product-grade cockpit | Purpose-built cockpit with drilldowns, chartable/live data, proof states, polished interaction, clear operator decisions, and no raw-report primary surfaces. | Target completion tier for priority dashboards. |
+
+Priority dashboards should target Tier 3 unless a documented exception sets a lower target. A Tier 1 migration must not be marked complete when the operator intent requires Tier 3.
+Tier 3 requires explicit sidebar rail evidence and compact command-header evidence in addition to shared components, drilldowns, charts, proof states, and polished interaction.
 
 ## Component Rules
 
@@ -118,11 +180,28 @@ Before building or changing a dashboard, agents should:
 3. Check `docs/design/dashboard-kit-adoption.md`.
 4. Define or update the dashboard data contracts in `docs/design/dashboard-data-contracts.md`.
 5. Map the dashboard into the six-workspace information architecture.
-6. Use Mobbin references only after the data model and operating questions are understood.
-7. Prefer package primitives or the static adapter.
-8. Update adoption status when a dashboard moves closer to package-native usage.
-9. Run `npm run dashboard:spine:validate` from the Hermes agent project after changing adoption metadata or dashboard spine docs.
-10. Run `npm run dashboard-kit:adoption:audit` when a downstream dashboard claims it has adopted the kit.
+6. Declare the canonical route and confirm there is one production app shell.
+7. Use Mobbin references only after the data model and operating questions are understood.
+8. Prefer package primitives or the static adapter.
+9. Update adoption status when a dashboard moves closer to package-native usage.
+10. Run `npm run dashboard:spine:validate` from the Hermes agent project after changing adoption metadata or dashboard spine docs.
+11. Run `npm run dashboard-kit:adoption:audit` when a downstream dashboard claims it has adopted the kit.
+
+For Kaoshi-grade redesign work, agents should also read:
+
+- `docs/design/kaoshi-experience-architecture-comparison.md`
+- `docs/design/kaoshi-experience-architecture-build-plan.md`
+- `docs/design/kaoshi-experience-architecture-gap-register.json`
+- `docs/design/kaoshi-experience-contract-standard.md`
+- `docs/design/kaoshi-visualization-decision-system.md`
+- `docs/design/kaoshi-live-data-reference-capability.md`
+- `docs/design/dashboard-governance-and-enforcement.md`
+- `docs/design/dashboard-admission-rfc-template.md`
+
+These files extend ordinary dashboard-kit adoption into a full experience-architecture audit: repository evidence, capability inventory, feature traces, cross-layer contracts, dependency ordering, proof endpoints, visual QA, and downstream adoption gates.
+
+Run `npm run dashboard:kaoshi:validate` after changing Kaoshi experience-architecture artifacts.
+Run `npm run dashboard:governance:validate` after changing dashboard governance gates, admission templates, proof requirements, surface ownership, reviewers, or exceptions.
 
 ## Research And Adoption Registries
 

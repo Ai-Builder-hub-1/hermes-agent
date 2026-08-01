@@ -1,0 +1,18 @@
+schemaVersion: 1
+generatedAt: "2026-07-30"
+source: "docs/design/kaoshi-experience-architecture-gap-register.json"
+openGapIds:
+  - "kaoshi-gap-005"
+  - "kaoshi-gap-006"
+  - "kaoshi-gap-007"
+  - "kaoshi-gap-008"
+closedByV1ToV4:
+  - "kaoshi-gap-001"
+  - "kaoshi-gap-002"
+  - "kaoshi-gap-003"
+  - "kaoshi-gap-004"
+highestLeverageFirst:
+  - "kaoshi-gap-005"
+  - "kaoshi-gap-006"
+  - "kaoshi-gap-007"
+  - "kaoshi-gap-008"

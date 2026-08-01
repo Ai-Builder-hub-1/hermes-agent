@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-30T14:47:08.535Z",
+  "generatedAt": "2026-08-01T15:50:04.081Z",
   "source": {
     "package": "@hermes/dashboard-kit",
     "version": "0.1.0",
@@ -8,80 +8,216 @@
     "designContractPath": "packages/hermes-dashboard-kit/DESIGN.md",
     "minimumRequiredVersion": "0.1.0"
   },
-  "sourceHash": "ede1c22c72b584e75b7639ca0f7c6a973ada14818e9a7fdea787a9daf13517f1",
+  "sourceHash": "7e7f426ff5a75efe149deb59d61b6844af1539c11d411e40cfb4e5bf5fd4eb08",
   "results": [
     {
       "project": "khashi-vc",
       "name": "Kashi VC",
-      "status": "current",
-      "issues": []
-    },
-    {
-      "project": "media-engine",
-      "name": "Media Engine",
-      "status": "needs-review",
+      "status": "stale",
+      "experienceTier": {
+        "current": 3,
+        "target": 3,
+        "migrationRequired": false,
+        "note": "Kashi VC Live Command is the current Tier 3 reference surface for live market cockpit behavior."
+      },
       "issues": [
         {
-          "severity": "warning",
-          "code": "surface.componentMissing",
-          "message": "Surface media-engine-ops-active does not show adoption evidence for DashboardShell.",
-          "path": "docs/design/prototype-gallery/media-engine-ops-active.html"
+          "severity": "error",
+          "code": "adapter.drifted",
+          "message": "Static adapter has drifted from the canonical dashboard-kit CSS.",
+          "path": "../khashi-vc/public/roc/hermes-dashboard-kit.css",
+          "expectedHash": "7e7f426ff5a7",
+          "actualHash": "ede1c22c72b5"
         },
         {
           "severity": "warning",
-          "code": "surface.componentMissing",
-          "message": "Surface media-engine-ops-active does not show adoption evidence for DetailDrawerShell.",
-          "path": "docs/design/prototype-gallery/media-engine-ops-active.html"
+          "code": "adapter.recordedHashStale",
+          "message": "Manifest recorded canonicalCssHash does not match current kit CSS hash.",
+          "recordedHash": "ede1c22c72b5",
+          "currentHash": "7e7f426ff5a7"
         },
         {
           "severity": "warning",
-          "code": "surface.componentMissing",
-          "message": "Surface media-engine-ops-active does not show adoption evidence for EntitySummaryCard.",
-          "path": "docs/design/prototype-gallery/media-engine-ops-active.html"
+          "code": "tier3.sidebarRailMissing",
+          "message": "Tier 3 surfaces must show a real sidebar rail/nav standard instead of a loose card stack.",
+          "surface": "market-intelligence-live",
+          "path": "public/roc/market-intelligence-live.html"
         },
         {
           "severity": "warning",
-          "code": "surface.componentMissing",
-          "message": "Surface media-engine-ops-active does not show adoption evidence for AiAssistantPanel.",
-          "path": "docs/design/prototype-gallery/media-engine-ops-active.html"
-        },
-        {
-          "severity": "warning",
-          "code": "surface.componentMissing",
-          "message": "Surface media-engine-ops-active does not show adoption evidence for StateChecklist.",
-          "path": "docs/design/prototype-gallery/media-engine-ops-active.html"
+          "code": "tier3.commandHeaderMissing",
+          "message": "Tier 3 surfaces must show compact command-header evidence instead of a fat dashboard banner.",
+          "surface": "market-intelligence-live",
+          "path": "public/roc/market-intelligence-live.html"
         }
       ]
     },
     {
+      "project": "media-engine",
+      "name": "Media Engine",
+      "status": "current",
+      "experienceTier": {
+        "current": 3,
+        "target": 3,
+        "migrationRequired": false,
+        "note": "Media Engine production renderer satisfies the Tier 3 cockpit standard with shared-kit shell markers, sidebar rail, compact command header, overflow protection, state checklist, entity cards, drilldown drawer, AI review panel, chart telemetry, proof/state surfaces, and raw tables retained as secondary evidence."
+      },
+      "issues": []
+    },
+    {
       "project": "media-business-os",
       "name": "Media Business OS",
-      "status": "current",
-      "issues": []
+      "status": "stale",
+      "experienceTier": {
+        "current": 1,
+        "target": 3,
+        "migrationRequired": true,
+        "note": "Media Business OS has adapter-level alignment but still needs a product-grade operating cockpit migration."
+      },
+      "issues": [
+        {
+          "severity": "warning",
+          "code": "experienceTier.migrationRequired",
+          "message": "Experience tier is One-shell organized report (Tier 1) but target is Product-grade cockpit (Tier 3).",
+          "currentExperienceTier": 1,
+          "targetExperienceTier": 3,
+          "tierMigrationRequired": true,
+          "tierMigrationNote": "Media Business OS has adapter-level alignment but still needs a product-grade operating cockpit migration."
+        },
+        {
+          "severity": "error",
+          "code": "adapter.drifted",
+          "message": "Static adapter has drifted from the canonical dashboard-kit CSS.",
+          "path": "../media-business-operations/public/dashboard/hermes-dashboard-kit.css",
+          "expectedHash": "7e7f426ff5a7",
+          "actualHash": "ede1c22c72b5"
+        },
+        {
+          "severity": "warning",
+          "code": "adapter.recordedHashStale",
+          "message": "Manifest recorded canonicalCssHash does not match current kit CSS hash.",
+          "recordedHash": "ede1c22c72b5",
+          "currentHash": "7e7f426ff5a7"
+        }
+      ]
     },
     {
       "project": "business-mapper",
       "name": "Business Mapper",
-      "status": "current",
-      "issues": []
+      "status": "stale",
+      "experienceTier": {
+        "current": 1,
+        "target": 2,
+        "migrationRequired": true,
+        "note": "Business Mapper should move from static adapter usage to shared component dashboard quality before being considered complete."
+      },
+      "issues": [
+        {
+          "severity": "warning",
+          "code": "experienceTier.migrationRequired",
+          "message": "Experience tier is One-shell organized report (Tier 1) but target is Shared component dashboard (Tier 2).",
+          "currentExperienceTier": 1,
+          "targetExperienceTier": 2,
+          "tierMigrationRequired": true,
+          "tierMigrationNote": "Business Mapper should move from static adapter usage to shared component dashboard quality before being considered complete."
+        },
+        {
+          "severity": "error",
+          "code": "adapter.drifted",
+          "message": "Static adapter has drifted from the canonical dashboard-kit CSS.",
+          "path": "../business-mapper/business_mapper/static/hermes-dashboard-kit.css",
+          "expectedHash": "7e7f426ff5a7",
+          "actualHash": "ede1c22c72b5"
+        },
+        {
+          "severity": "warning",
+          "code": "adapter.recordedHashStale",
+          "message": "Manifest recorded canonicalCssHash does not match current kit CSS hash.",
+          "recordedHash": "ede1c22c72b5",
+          "currentHash": "7e7f426ff5a7"
+        }
+      ]
     },
     {
       "project": "meal-assistant",
       "name": "Meal Assistant",
-      "status": "current",
-      "issues": []
+      "status": "stale",
+      "experienceTier": {
+        "current": 1,
+        "target": 2,
+        "migrationRequired": true,
+        "note": "Meal Assistant should move from static adapter usage to shared component dashboard quality before being considered complete."
+      },
+      "issues": [
+        {
+          "severity": "warning",
+          "code": "experienceTier.migrationRequired",
+          "message": "Experience tier is One-shell organized report (Tier 1) but target is Shared component dashboard (Tier 2).",
+          "currentExperienceTier": 1,
+          "targetExperienceTier": 2,
+          "tierMigrationRequired": true,
+          "tierMigrationNote": "Meal Assistant should move from static adapter usage to shared component dashboard quality before being considered complete."
+        },
+        {
+          "severity": "error",
+          "code": "adapter.drifted",
+          "message": "Static adapter has drifted from the canonical dashboard-kit CSS.",
+          "path": "../Meal-assistant/src/hermes-dashboard-kit.css",
+          "expectedHash": "7e7f426ff5a7",
+          "actualHash": "ede1c22c72b5"
+        },
+        {
+          "severity": "warning",
+          "code": "adapter.recordedHashStale",
+          "message": "Manifest recorded canonicalCssHash does not match current kit CSS hash.",
+          "recordedHash": "ede1c22c72b5",
+          "currentHash": "7e7f426ff5a7"
+        }
+      ]
     },
     {
       "project": "hermes-os",
       "name": "Hermes OS",
-      "status": "current",
-      "issues": []
+      "status": "needs-review",
+      "experienceTier": {
+        "current": 0,
+        "target": 3,
+        "migrationRequired": true,
+        "note": "Hermes OS is planned in this registry and must move through shell, shared components, and product-grade cockpit adoption."
+      },
+      "issues": [
+        {
+          "severity": "warning",
+          "code": "experienceTier.migrationRequired",
+          "message": "Experience tier is Raw legacy report (Tier 0) but target is Product-grade cockpit (Tier 3).",
+          "currentExperienceTier": 0,
+          "targetExperienceTier": 3,
+          "tierMigrationRequired": true,
+          "tierMigrationNote": "Hermes OS is planned in this registry and must move through shell, shared components, and product-grade cockpit adoption."
+        }
+      ]
     },
     {
       "project": "tlc-capital-group-os",
       "name": "TLC Capital Group OS",
-      "status": "current",
-      "issues": []
+      "status": "needs-review",
+      "experienceTier": {
+        "current": 0,
+        "target": 3,
+        "migrationRequired": true,
+        "note": "TLC Capital Group OS is planned in this registry and must move through shell, shared components, and product-grade cockpit adoption."
+      },
+      "issues": [
+        {
+          "severity": "warning",
+          "code": "experienceTier.migrationRequired",
+          "message": "Experience tier is Raw legacy report (Tier 0) but target is Product-grade cockpit (Tier 3).",
+          "currentExperienceTier": 0,
+          "targetExperienceTier": 3,
+          "tierMigrationRequired": true,
+          "tierMigrationNote": "TLC Capital Group OS is planned in this registry and must move through shell, shared components, and product-grade cockpit adoption."
+        }
+      ]
     }
   ]
 }

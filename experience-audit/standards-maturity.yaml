@@ -1,0 +1,192 @@
+schemaVersion: 1
+generatedAt: "2026-07-31"
+source: "Product_Architecture_Standards_Audit_and_Build_Handoff.docx"
+scale:
+  0: "Absent"
+  1: "Ad hoc"
+  2: "Documented"
+  3: "Implemented"
+  4: "Enforced"
+  5: "Measured"
+classes:
+  - id: "principles"
+    label: "Principles"
+    currentMaturity: 2
+    targetMaturity: 4
+    claimClass: "observed"
+    evidence:
+      - "packages/hermes-dashboard-kit/DESIGN.md"
+      - "docs/design/dashboard-governance-and-enforcement.md"
+    gaps:
+      - "Principle IDs are not yet compiled into every AI preflight or PR template."
+  - id: "foundations"
+    label: "Foundations"
+    currentMaturity: 3
+    targetMaturity: 4
+    claimClass: "observed"
+    evidence:
+      - "packages/hermes-dashboard-kit/src/themes.ts"
+      - "packages/hermes-dashboard-kit/static/hermes-dashboard-kit.css"
+      - "packages/hermes-dashboard-kit/DESIGN.md"
+    gaps:
+      - "Raw-token and contrast enforcement are not yet a hard CI gate for every downstream project."
+  - id: "interface-system"
+    label: "Interface System"
+    currentMaturity: 3
+    targetMaturity: 4
+    claimClass: "observed"
+    evidence:
+      - "packages/hermes-dashboard-kit/src/index.ts"
+      - "packages/hermes-dashboard-kit/src/shell.tsx"
+      - "packages/hermes-dashboard-kit/src/data-table.tsx"
+      - "packages/hermes-dashboard-kit/src/data-visualization.tsx"
+    gaps:
+      - "Some downstream dashboards still use one-off HTML/CSS or compatibility routes."
+  - id: "product-domain"
+    label: "Product And Domain Architecture"
+    currentMaturity: 2
+    targetMaturity: 4
+    claimClass: "observed"
+    evidence:
+      - "experience-audit/repository-map.yaml"
+      - "experience-audit/surfaces.yaml"
+      - "experience-audit/contracts.yaml"
+    gaps:
+      - "Domain ownership exists for priority surfaces but is not yet enforced across all project boundaries."
+  - id: "information-composition"
+    label: "Information And Composition Architecture"
+    currentMaturity: 3
+    targetMaturity: 4
+    claimClass: "observed"
+    evidence:
+      - "docs/design/dashboard-information-architecture.md"
+      - "docs/design/dashboard-governance-and-enforcement.md"
+      - "experience-audit/governance-gates.yaml"
+    gaps:
+      - "Single-shell enforcement exists centrally but downstream project route implementations still need migration evidence."
+  - id: "state"
+    label: "State Architecture"
+    currentMaturity: 2
+    targetMaturity: 4
+    claimClass: "observed"
+    evidence:
+      - "experience-audit/experience-contract.schema.json"
+      - "experience-audit/experience-contracts.yaml"
+    gaps:
+      - "State ownership is declared in contracts but not yet fully audited against implementation stores, URL state, caches, and drafts."
+  - id: "data-api"
+    label: "Data And API Architecture"
+    currentMaturity: 3
+    targetMaturity: 4
+    claimClass: "observed"
+    evidence:
+      - "docs/design/dashboard-data-contracts.md"
+      - "packages/hermes-dashboard-kit/src/contracts.ts"
+      - "experience-audit/live-data-reference.yaml"
+    gaps:
+      - "Freshness, null semantics, provenance, and schema compatibility checks need broader downstream enforcement."
+  - id: "interaction-loading-errors"
+    label: "Interaction, Loading, And Error Architecture"
+    currentMaturity: 3
+    targetMaturity: 4
+    claimClass: "observed"
+    evidence:
+      - "packages/hermes-dashboard-kit/src/states.tsx"
+      - "experience-audit/experience-contracts.yaml"
+      - "docs/design/dashboard-governance-and-enforcement.md"
+    gaps:
+      - "Long-running job and partial-failure contracts are not yet migrated into every dashboard workflow."
+  - id: "responsive-adaptive"
+    label: "Responsive And Adaptive Architecture"
+    currentMaturity: 2
+    targetMaturity: 4
+    claimClass: "observed"
+    evidence:
+      - "packages/hermes-dashboard-kit/DESIGN.md"
+      - "docs/design/dashboard-visual-quality-report.json"
+    gaps:
+      - "Canonical viewport/container screenshot matrix is not yet required for every production dashboard."
+  - id: "accessibility"
+    label: "Accessibility Architecture"
+    currentMaturity: 2
+    targetMaturity: 4
+    claimClass: "observed"
+    evidence:
+      - "packages/hermes-dashboard-kit/DESIGN.md"
+      - "experience-audit/feature-traces.yaml"
+    gaps:
+      - "WCAG 2.2 AA checks and keyboard/focus journeys are not yet hard gates across all surfaces."
+  - id: "performance-reliability"
+    label: "Performance And Reliability Architecture"
+    currentMaturity: 2
+    targetMaturity: 4
+    claimClass: "observed"
+    evidence:
+      - "docs/design/dashboard-telemetry-contract-report.json"
+      - "docs/design/dashboard-production-proof-endpoints.md"
+    gaps:
+      - "Performance budgets, SLOs, and degradation behavior are documented directionally but not measured everywhere."
+  - id: "security-privacy"
+    label: "Security, Permissions, And Privacy"
+    currentMaturity: 2
+    targetMaturity: 4
+    claimClass: "observed"
+    evidence:
+      - "docs/design/dashboard-production-proof-endpoints.md"
+      - "experience-audit/governance-gates.yaml"
+    gaps:
+      - "Readonly proof token boundaries exist, but ASVS/SSDF control mapping is not complete."
+  - id: "observability"
+    label: "Observability And Operations"
+    currentMaturity: 2
+    targetMaturity: 4
+    claimClass: "observed"
+    evidence:
+      - "docs/design/dashboard-telemetry-contract-report.json"
+      - "experience-audit/feature-traces.yaml"
+    gaps:
+      - "Trace, metric, log, and correlation IDs are not yet enforced end to end across project dashboards."
+  - id: "ai-assisted-engineering"
+    label: "AI-Assisted Engineering"
+    currentMaturity: 3
+    targetMaturity: 4
+    claimClass: "observed"
+    evidence:
+      - "docs/design/dashboard-governance-and-enforcement.md"
+      - "packages/hermes-dashboard-kit/adoption/registry.json"
+      - "packages/hermes-dashboard-kit/scripts/audit-adoption.mjs"
+    gaps:
+      - "AI preflight is partially encoded through validators, but not yet generated from a complete standards registry."
+  - id: "quality-testing-review"
+    label: "Quality, Testing, And Review"
+    currentMaturity: 3
+    targetMaturity: 4
+    claimClass: "observed"
+    evidence:
+      - "package.json"
+      - "scripts/validate-dashboard-governance.mjs"
+      - "scripts/validate-kaoshi-experience-architecture.mjs"
+    gaps:
+      - "Critical journey coverage exists for dashboard architecture, but downstream implementation proof is still uneven."
+  - id: "governance-lifecycle"
+    label: "Governance And Lifecycle"
+    currentMaturity: 3
+    targetMaturity: 4
+    claimClass: "observed"
+    evidence:
+      - "docs/design/dashboard-governance-and-enforcement.md"
+      - "docs/design/dashboard-admission-rfc-template.md"
+      - "experience-audit/governance-gates.yaml"
+    gaps:
+      - "Exception expiry is enforced locally, but release/quarterly health review reporting is not complete."
+  - id: "enforcement"
+    label: "Enforcement Architecture"
+    currentMaturity: 3
+    targetMaturity: 4
+    claimClass: "observed"
+    evidence:
+      - "scripts/validate-dashboard-governance.mjs"
+      - "scripts/validate-kaoshi-experience-architecture.mjs"
+      - "packages/hermes-dashboard-kit/scripts/audit-adoption.mjs"
+    gaps:
+      - "Several MUST rules still rely on manual review instead of static/test/runtime evidence."

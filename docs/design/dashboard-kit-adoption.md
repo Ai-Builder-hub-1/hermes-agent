@@ -20,6 +20,21 @@ The older `dashboard:design-system:status` command verifies that copied static C
 
 Use `-- --strict` in CI when all listed dashboards are expected to be synced. Use `-- --sync` only when intentionally updating copied static adapters from the canonical CSS source.
 
+## Experience Tiers
+
+Adapter sync is not dashboard completion. Each priority dashboard also needs an experience tier.
+
+| Tier | State | Meaning |
+| --- | --- | --- |
+| `0` | Raw legacy report | Static report output, debug table, or prototype-first screen. |
+| `1` | One-shell organized report | One shell and grouped pages, but still mainly raw report sections. |
+| `2` | Shared component dashboard | Uses shared dashboard-kit components for the primary operator path. |
+| `3` | Product-grade cockpit | Purpose-built operating cockpit with drilldowns, charts/live data, proof states, polished interactions, and clear decisions. |
+
+The one-shell rule is only a Tier 1 requirement. Priority dashboards should target Tier 3 unless an exception says otherwise.
+
+Media Engine is explicitly tracked as Tier 1 after its one-shell migration. It is not complete until it reaches Tier 3.
+
 Install local pre-commit hooks across every registered dashboard repo:
 
 ```bash

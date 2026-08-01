@@ -1,0 +1,155 @@
+schemaVersion: 1
+generatedAt: "2026-07-30"
+families:
+  - id: "time-series"
+    decisionQuestion: "How did a metric move over time?"
+    dataShape: "ordered timestamped points"
+    allowedVariants:
+      - "line"
+      - "area"
+      - "stepped line"
+      - "sparkline"
+      - "multi-series comparison"
+      - "event-annotated timeline"
+    requiredInteractions:
+      - "hover or crosshair"
+      - "time window selection"
+      - "equivalent table"
+    preferredComponents:
+      - "PriceMovementChart"
+      - "ProviderSpendTimeline"
+    prohibitedWhen:
+      - "only one datapoint exists"
+      - "data order is not meaningful"
+  - id: "market-microstructure"
+    decisionQuestion: "Is this market moving, liquid, tradeable, or noisy?"
+    dataShape: "timestamped market snapshots plus book/depth fields"
+    allowedVariants:
+      - "price movement"
+      - "spread band"
+      - "depth bars"
+      - "volume pulse"
+      - "order book ladder"
+    requiredInteractions:
+      - "selected market drawer"
+      - "time window selection"
+      - "snapshot table fallback"
+    preferredComponents:
+      - "PriceMovementChart"
+      - "SpreadBandChart"
+      - "LiquidityDepthChart"
+      - "VolumePulseChart"
+      - "OrderBookLadder"
+    prohibitedWhen:
+      - "snapshot count is less than two for movement charts"
+      - "preview data is not labeled"
+  - id: "category-comparison"
+    decisionQuestion: "Which categories, subcategories, or tags deserve attention?"
+    dataShape: "category rows with comparable measures"
+    allowedVariants:
+      - "heatmap"
+      - "ranked table"
+      - "grouped bar"
+      - "treemap"
+      - "opportunity matrix"
+    requiredInteractions:
+      - "filter"
+      - "sort"
+      - "drilldown"
+      - "data-quality flag for unknowns"
+    preferredComponents:
+      - "CategoryHeatmap"
+      - "OpportunityMatrix"
+      - "DataTable"
+    prohibitedWhen:
+      - "categories are mostly unknown"
+      - "metric denominator is hidden"
+  - id: "distribution"
+    decisionQuestion: "How concentrated, spread out, or anomalous is the data?"
+    dataShape: "numeric samples"
+    allowedVariants:
+      - "histogram"
+      - "percentile strip"
+      - "box-summary"
+      - "outlier list"
+    requiredInteractions:
+      - "range explanation"
+      - "sample count"
+      - "equivalent table"
+    preferredComponents:
+      - "DistributionPlot"
+    prohibitedWhen:
+      - "sample count is too low"
+  - id: "forecast-uncertainty"
+    decisionQuestion: "What range of outcomes is plausible?"
+    dataShape: "expected value plus low/high or confidence bands"
+    allowedVariants:
+      - "forecast cone"
+      - "confidence band"
+      - "scenario range"
+    requiredInteractions:
+      - "assumption disclosure"
+      - "confidence explanation"
+    preferredComponents:
+      - "ForecastConeChart"
+    prohibitedWhen:
+      - "forecast is not source-backed or labeled as estimate"
+  - id: "flow-dependency"
+    decisionQuestion: "How do entities, capacity, or handoffs move through a system?"
+    dataShape: "nodes and edges or stage transitions"
+    allowedVariants:
+      - "sankey"
+      - "dependency graph"
+      - "funnel"
+      - "handoff timeline"
+    requiredInteractions:
+      - "node selection"
+      - "edge explanation"
+      - "table fallback"
+    preferredComponents:
+      - "SankeyFlow"
+      - "DependencyGraph"
+    prohibitedWhen:
+      - "relationships are inferred but not explainable"
+  - id: "executive-finance"
+    decisionQuestion: "Where are cost, budget, revenue, or provider usage moving?"
+    dataShape: "cost, usage, budget, revenue, and trend points"
+    allowedVariants:
+      - "provider spend timeline"
+      - "waterfall"
+      - "budget burn"
+      - "cost/revenue ratio"
+    requiredInteractions:
+      - "business-unit drilldown"
+      - "provider filter"
+      - "time window selector"
+    preferredComponents:
+      - "ProviderSpendTimeline"
+      - "WaterfallChart"
+      - "BusinessUnitCostCard"
+    prohibitedWhen:
+      - "costs are placeholders without confidence label"
+  - id: "readiness-quality"
+    decisionQuestion: "What is ready, blocked, mature, or below standard?"
+    dataShape: "scores, gates, blockers, maturity levels"
+    allowedVariants:
+      - "scorecard"
+      - "readiness radar"
+      - "maturity ladder"
+      - "gate checklist"
+    requiredInteractions:
+      - "evidence links"
+      - "blocker drilldown"
+      - "owner display"
+    preferredComponents:
+      - "StateChecklist"
+      - "DashboardWorkspaceOverview"
+    prohibitedWhen:
+      - "score cannot be decomposed into evidence"
+khashiReferenceMapping:
+  liveMarketTape: "category-comparison plus market-microstructure"
+  selectedMarketDrawer: "market-microstructure"
+  categoryHeatmap: "category-comparison"
+  expiredMarkets: "time-series plus market-microstructure"
+  opportunityRanking: "category-comparison"
+

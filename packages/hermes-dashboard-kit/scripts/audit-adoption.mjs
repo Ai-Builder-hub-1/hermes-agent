@@ -46,6 +46,12 @@ function issue(severity, code, message, details = {}) {
   return { severity, code, message, ...details };
 }
 
+function experienceTierLabel(registry, tier) {
+  const match =
+    (registry.experienceTiers ?? []).find((item) => Number(item.tier) === Number(tier));
+  return match ? `${match.label} (Tier ${match.tier})` : `Tier ${tier}`;
+}
+
 function evaluateProject(registry, project, sourceHash) {
   const projectRoot = path.resolve(root, project.path);
   const manifestPath = path.resolve(root, project.manifest);
@@ -77,6 +83,40 @@ function evaluateProject(registry, project, sourceHash) {
   }
   if (project.expectedMode !== "planned" && manifest.dashboardKit?.adoptionMode !== project.expectedMode && manifest.dashboardKit?.adoptionMode !== "hybrid") {
     issues.push(issue("warning", "manifest.adoptionMode", `Expected ${project.expectedMode} or hybrid adoption mode.`));
+  }
+
+  const currentExperienceTier =
+    project.currentExperienceTier ?? manifest.dashboardKit?.currentExperienceTier ?? null;
+  const targetExperienceTier =
+    project.targetExperienceTier ?? manifest.dashboardKit?.targetExperienceTier ?? null;
+  const tierMigrationRequired =
+    project.tierMigrationRequired ?? (
+      currentExperienceTier !== null &&
+      targetExperienceTier !== null &&
+      Number(currentExperienceTier) < Number(targetExperienceTier)
+    );
+
+  if (currentExperienceTier === null || targetExperienceTier === null) {
+    issues.push(issue(
+      "warning",
+      "experienceTier.missing",
+      "Dashboard adoption should declare currentExperienceTier and targetExperienceTier so shell compliance is not confused with product-grade completion."
+    ));
+  } else if (Number(currentExperienceTier) < Number(targetExperienceTier)) {
+    issues.push(issue(
+      "warning",
+      "experienceTier.migrationRequired",
+      `Experience tier is ${experienceTierLabel(registry, currentExperienceTier)} but target is ${experienceTierLabel(registry, targetExperienceTier)}.`,
+      {
+        currentExperienceTier:
+          Number(currentExperienceTier),
+        targetExperienceTier:
+          Number(targetExperienceTier),
+        tierMigrationRequired,
+        tierMigrationNote:
+          project.tierMigrationNote || manifest.dashboardKit?.tierMigrationNote || ""
+      }
+    ));
   }
 
   const adapterTarget = manifest.dashboardKit?.staticAdapterPath
@@ -138,15 +178,219 @@ function evaluateProject(registry, project, sourceHash) {
     for (const pattern of registry.legacyPatterns ?? []) {
       if (allowed.has(pattern.id)) continue;
       if (content.toLowerCase().includes(pattern.pattern.toLowerCase())) {
+        if (pattern.requiresDevOnlyGuard && hasDevOnlyGuard(content)) continue;
         issues.push(issue(pattern.severity, `legacy.${pattern.id}`, pattern.message, { surface: surface.id, path: surface.path }));
       }
+    }
+    if (Number(targetExperienceTier) >= 3 && surface.status !== "prototype" && surface.status !== "planned") {
+      const shellQualityIssues =
+        evaluateTier3ShellQuality(content, surface);
+      issues.push(...shellQualityIssues);
     }
   }
 
   const errorCount = issues.filter((item) => item.severity === "error").length;
   const warningCount = issues.filter((item) => item.severity === "warning").length;
   const status = errorCount ? "stale" : warningCount ? "needs-review" : "current";
-  return { project: project.id, name: project.name, status, issues };
+  return {
+    project:
+      project.id,
+    name:
+      project.name,
+    status,
+    experienceTier: {
+      current:
+        currentExperienceTier === null ? null : Number(currentExperienceTier),
+      target:
+        targetExperienceTier === null ? null : Number(targetExperienceTier),
+      migrationRequired:
+        Boolean(tierMigrationRequired),
+      note:
+        project.tierMigrationNote || manifest?.dashboardKit?.tierMigrationNote || ""
+    },
+    issues
+  };
+}
+
+function hasDevOnlyGuard(content) {
+  const lower = content.toLowerCase();
+  return (
+    lower.includes("localhost") &&
+    lower.includes("127.0.0.1") &&
+    lower.includes("window.location.hostname")
+  );
+}
+
+function evaluateTier3ShellQuality(content, surface) {
+  const lower =
+    content.toLowerCase();
+  const issues = [];
+  const sidebarEvidence = [
+    "dashboardsidebar",
+    "data-component=\"dashboardsidebar\"",
+    "hdk-sidebar-rail",
+    "hdk-sidebar"
+  ];
+  const headerEvidence = [
+    "dashboardheader",
+    "data-component=\"dashboardheader\"",
+    "hdk-command-header",
+    "hdk-header"
+  ];
+  const overflowEvidence = [
+    "text-overflow",
+    "truncate",
+    "overflow-wrap",
+    "white-space: nowrap",
+    "minmax(13.5rem",
+    "max-width"
+  ];
+  const tableEvidence = [
+    "hdk-table-tabs",
+    "hdk-table-layout",
+    "data-component=\"datatabletabs\"",
+    "data-component=\"datatable\""
+  ];
+  const chartEvidence = [
+    "data-component=\"chartpanel\"",
+    "hdk-chart-panel",
+    "data-chart-type="
+  ];
+  const axisChartEvidence =
+    lower.includes("data-chart-type=\"line\"") ||
+    lower.includes("data-chart-type=\"area\"") ||
+    lower.includes("data-chart-type=\"bar\"") ||
+    lower.includes("data-chart-type=\"column\"");
+  const axisContractEvidence =
+    lower.includes("data-x-axis=") &&
+    lower.includes("data-x-axis-label=") &&
+    lower.includes("data-y-axis=") &&
+    lower.includes("data-y-axis-label=");
+  const partToWholeEvidence =
+    lower.includes("data-chart-type=\"donut\"") ||
+    lower.includes("data-chart-type=\"ring\"") ||
+    lower.includes("data-chart-type=\"pie\"");
+  const partToWholeContractEvidence =
+    lower.includes("data-dimension=") &&
+    lower.includes("data-measure=");
+
+  if (!sidebarEvidence.some((marker) => lower.includes(marker))) {
+    issues.push(issue(
+      "warning",
+      "tier3.sidebarRailMissing",
+      "Tier 3 surfaces must show a real sidebar rail/nav standard instead of a loose card stack.",
+      {
+        surface:
+          surface.id,
+        path:
+          surface.path
+      }
+    ));
+  }
+
+  if (!headerEvidence.some((marker) => lower.includes(marker))) {
+    issues.push(issue(
+      "warning",
+      "tier3.commandHeaderMissing",
+      "Tier 3 surfaces must show compact command-header evidence instead of a fat dashboard banner.",
+      {
+        surface:
+          surface.id,
+        path:
+          surface.path
+      }
+    ));
+  }
+
+  const routerIndex =
+    lower.indexOf("data-media-ops-router");
+  const commandHeaderIndex =
+    lower.indexOf("hdk-command-header");
+  if (routerIndex >= 0 && commandHeaderIndex >= 0 && commandHeaderIndex < routerIndex) {
+    issues.push(issue(
+      "warning",
+      "tier3.shellLevelCommandBanner",
+      "Command/overview banners should be route-owned content, not shell-level banners repeated above every dashboard page.",
+      {
+        surface:
+          surface.id,
+        path:
+          surface.path
+      }
+    ));
+  }
+
+  if (!overflowEvidence.some((marker) => lower.includes(marker))) {
+    issues.push(issue(
+      "warning",
+      "tier3.overflowProtectionMissing",
+      "Tier 3 surfaces should show sidebar/header overflow protection so labels, cards, and actions do not spill out of the shell.",
+      {
+        surface:
+          surface.id,
+        path:
+          surface.path
+      }
+    ));
+  }
+
+  if (lower.includes("hdk-table") && !tableEvidence.some((marker) => lower.includes(marker))) {
+    issues.push(issue(
+      "warning",
+      "tier3.tableCompositionMissing",
+      "Tier 3 surfaces with data tables should show table composition evidence such as DataTableTabs, hdk-table-tabs, hdk-table-layout, or DataTable.",
+      {
+        surface:
+          surface.id,
+        path:
+          surface.path
+      }
+    ));
+  }
+
+  if ((lower.includes("chart") || lower.includes("svg")) && !chartEvidence.some((marker) => lower.includes(marker))) {
+    issues.push(issue(
+      "warning",
+      "tier3.chartPanelMissing",
+      "Tier 3 surfaces with charts should use ChartPanel/hdk-chart-panel evidence instead of local decorative chart cards.",
+      {
+        surface:
+          surface.id,
+        path:
+          surface.path
+      }
+    ));
+  }
+
+  if (axisChartEvidence && !axisContractEvidence) {
+    issues.push(issue(
+      "warning",
+      "tier3.axisChartContractMissing",
+      "Axis charts must declare x/y axis fields and labels so line, area, bar, and column charts are semantically reviewable.",
+      {
+        surface:
+          surface.id,
+        path:
+          surface.path
+      }
+    ));
+  }
+
+  if (partToWholeEvidence && !partToWholeContractEvidence) {
+    issues.push(issue(
+      "warning",
+      "tier3.partToWholeContractMissing",
+      "Donut/ring/pie charts must declare their dimension and measure contract.",
+      {
+        surface:
+          surface.id,
+        path:
+          surface.path
+      }
+    ));
+  }
+
+  return issues;
 }
 
 if (!fs.existsSync(registryPath)) {
@@ -181,6 +425,9 @@ if (json) {
   console.table(results.map((result) => ({
     project: result.project,
     status: result.status,
+    tier: result.experienceTier?.current === null
+      ? "unset"
+      : `${result.experienceTier.current}->${result.experienceTier.target}`,
     errors: result.issues.filter((item) => item.severity === "error").length,
     warnings: result.issues.filter((item) => item.severity === "warning").length
   })));

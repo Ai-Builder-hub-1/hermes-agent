@@ -1,0 +1,27 @@
+schemaVersion: 1
+generatedAt: "2026-07-30"
+existingContracts:
+  - id: "DashboardSnapshotContract"
+    path: "packages/hermes-dashboard-kit/src/contracts.ts"
+    coverage: "project, modules, metrics, alerts, activity, decisions, cost, health, readiness, telemetry"
+  - id: "DashboardTelemetrySnapshotContract"
+    path: "packages/hermes-dashboard-kit/src/contracts.ts"
+    coverage: "provider usage, costs, queues, storage, actions needed, system health"
+  - id: "DashboardDataSourceState"
+    path: "packages/hermes-dashboard-kit/src/contracts.ts"
+    coverage: "source id, label, owner, endpoint, freshness, last updated, status, failure mode"
+missingContractFamilies:
+  - "Purpose: user problem, supported decision/action, audience, admission rules, prohibited use"
+  - "Data: input schema, units, provenance, nullability, uncertainty, transformations, version compatibility"
+  - "State: initial/loading/partial/empty/success/refreshing/stale/offline/unauthorized/unavailable/error"
+  - "Interaction: pointer/touch/keyboard/selection/drilldown/zoom/filters/reset/undo/confirmation/agent execution"
+  - "Freshness: static/periodic/near-live/live classification, stale threshold, retry, fallback"
+  - "Responsive: desktop/laptop/tablet/mobile/embedded/print/export/density"
+  - "Accessibility: names, semantics, focus, keyboard, contrast, reduced motion, equivalent table/text"
+  - "Performance: load budget, render budget, data thresholds, virtualization, aggregation"
+  - "Security: visibility, masking, permissions, audit log, sensitive data handling"
+  - "Observability: events, timings, failures, stale duration, interaction completion, owner alerts"
+  - "Quality: unit, integration, E2E, visual regression, accessibility, performance, contract tests"
+  - "Governance: owner, status, version, migration, deprecation, approved libraries, exceptions"
+nextStep: "Create an executable schema and validator for full experience contracts."
+

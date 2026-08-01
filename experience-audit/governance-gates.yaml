@@ -1,0 +1,195 @@
+schemaVersion: 1
+generatedAt: "2026-07-30"
+source: "docs/design/dashboard-governance-and-enforcement.md"
+requiredGates:
+  - id: "owner-reviewer"
+    severity: "error"
+    description: "Every governed surface and capability declares an owner and reviewer."
+  - id: "workspace-mapping"
+    severity: "error"
+    description: "Every governed surface maps to an approved workspace."
+  - id: "single-shell-route-model"
+    severity: "error"
+    description: "Every governed production surface declares one canonical route, one shell model, and any compatibility routes."
+  - id: "shell-visual-contract"
+    severity: "error"
+    description: "Every governed Tier 3 production surface declares sidebar rail, compact command header, active route, and overflow protection expectations."
+  - id: "experience-tier"
+    severity: "error"
+    description: "Every governed surface declares current and target experience tiers so shell compliance is not confused with product-grade completion."
+  - id: "recipe-selection"
+    severity: "error"
+    description: "Every governed surface selects one primary dashboard recipe."
+  - id: "data-contract"
+    severity: "error"
+    description: "Every governed surface has an experience/data contract before UI build."
+  - id: "interaction-contract"
+    severity: "error"
+    description: "Every governed surface declares interactions, fallbacks, and state behavior."
+  - id: "proof-route"
+    severity: "error"
+    description: "Every production dashboard declares a readonly proof route or approved exception."
+  - id: "visual-quality"
+    severity: "warning"
+    description: "Every governed surface declares visual QA evidence or a score target."
+  - id: "adoption-reporting"
+    severity: "error"
+    description: "Every governed surface appears in adoption or migration evidence."
+  - id: "exception-review"
+    severity: "error"
+    description: "Every exception has owner, reviewer, expiration, and replacement plan."
+approvedWorkspaces:
+  - "command"
+  - "intelligence"
+  - "research"
+  - "operations"
+  - "efficiency"
+  - "readiness"
+  - "capacity"
+approvedRecipes:
+  - "executive-command"
+  - "live-market-intelligence"
+  - "operations-health"
+  - "research-workbench"
+  - "cost-efficiency"
+  - "readiness-build"
+governedSurfaces:
+  - id: "khashi-vc.market-intelligence-live"
+    owner: "Kashi VC"
+    reviewer: "Nous Hermes Agent"
+    workspace: "intelligence"
+    primaryRecipe: "live-market-intelligence"
+    canonicalRoute: "/"
+    shellModel: "single-shell"
+    legacyRoutes:
+      - "/market-intelligence-live.html"
+    contractId: "khashi-vc.market-intelligence-live"
+    proofRegistryId: "khashi-vc.roc"
+    proofRequired: true
+    visualQualityTarget: 90
+    shellVisualContract:
+      sidebar: "hdk-sidebar-rail or package-native DashboardSidebar with active route, bounded width, and overflow-safe labels"
+      header: "hdk-command-header or package-native DashboardHeader with compact title/action layout"
+      overflow: "labels, buttons, badges, and footer/status content cannot spill outside the shell"
+    currentExperienceTier: 3
+    targetExperienceTier: 3
+    tierMigrationRequired: false
+    adoptionEvidence:
+      - "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json"
+      - "docs/design/production-screenshots/khashi-vc.roc.png"
+    status: "reference"
+  - id: "media-engine.media-engine-ops-active"
+    owner: "Media Engine"
+    reviewer: "Nous Hermes Agent"
+    workspace: "operations"
+    primaryRecipe: "operations-health"
+    canonicalRoute: "/"
+    shellModel: "single-shell"
+    legacyRoutes: []
+    contractId: "pending"
+    proofRegistryId: "media-engine.ops"
+    proofRequired: true
+    visualQualityTarget: 90
+    shellVisualContract:
+      sidebar: "hdk-sidebar-rail or package-native DashboardSidebar with active route, bounded width, and overflow-safe labels"
+      header: "hdk-command-header or package-native DashboardHeader with compact title/action layout"
+      overflow: "labels, buttons, badges, and footer/status content cannot spill outside the shell"
+    currentExperienceTier: 3
+    targetExperienceTier: 3
+    tierMigrationRequired: false
+    tierMigrationNote: "Production renderer satisfies shared-kit cockpit, shell visual contract, drilldown, state, telemetry, and proof-state requirements."
+    adoptionEvidence:
+      - "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json"
+    status: "reference"
+  - id: "nous-hermes-agent.capacity-command-center"
+    owner: "Nous Hermes Agent"
+    reviewer: "Hermes OS"
+    workspace: "capacity"
+    primaryRecipe: "cost-efficiency"
+    canonicalRoute: "/"
+    shellModel: "single-shell"
+    legacyRoutes:
+      - "/docs/design/prototype-gallery/hermes-cost-cockpit-active.html"
+    contractId: "pending"
+    proofRegistryId: "nous-hermes-agent.dashboard"
+    proofRequired: true
+    visualQualityTarget: 90
+    shellVisualContract:
+      sidebar: "hdk-sidebar-rail or package-native DashboardSidebar with active route, bounded width, and overflow-safe labels"
+      header: "hdk-command-header or package-native DashboardHeader with compact title/action layout"
+      overflow: "labels, buttons, badges, and footer/status content cannot spill outside the shell"
+    currentExperienceTier: 2
+    targetExperienceTier: 3
+    tierMigrationRequired: true
+    tierMigrationNote: "Capacity command center has shared-kit reference implementation and still needs production proof and broader cockpit polish before Tier 3."
+    adoptionEvidence:
+      - "docs/design/prototype-gallery/hermes-cost-cockpit-active.html"
+      - "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json"
+    status: "reference"
+  - id: "hermes-os.workspace"
+    owner: "Hermes OS"
+    reviewer: "Nous Hermes Agent"
+    workspace: "command"
+    primaryRecipe: "executive-command"
+    canonicalRoute: "/"
+    shellModel: "single-shell"
+    legacyRoutes: []
+    contractId: "pending"
+    proofRegistryId: "hermes.workspace"
+    proofRequired: true
+    visualQualityTarget: 90
+    shellVisualContract:
+      sidebar: "hdk-sidebar-rail or package-native DashboardSidebar with active route, bounded width, and overflow-safe labels"
+      header: "hdk-command-header or package-native DashboardHeader with compact title/action layout"
+      overflow: "labels, buttons, badges, and footer/status content cannot spill outside the shell"
+    currentExperienceTier: 0
+    targetExperienceTier: 3
+    tierMigrationRequired: true
+    tierMigrationNote: "Hermes OS workspace is planned and must move through shell, shared components, and proof-backed cockpit migration."
+    adoptionEvidence:
+      - "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json"
+    status: "planned"
+governedCapabilities:
+  - id: "dashboard-kit.live-data-reference"
+    owner: "Nous Hermes Agent"
+    reviewer: "Kashi VC"
+    capabilityType: "live-data"
+    contractPath: "docs/design/kaoshi-live-data-reference-capability.md"
+    validationCommand: "npm run dashboard:kaoshi:validate"
+  - id: "dashboard-kit.visualization-decision-system"
+    owner: "Nous Hermes Agent"
+    reviewer: "Kashi VC"
+    capabilityType: "visualization"
+    contractPath: "docs/design/kaoshi-visualization-decision-system.md"
+    validationCommand: "npm run dashboard:kaoshi:validate"
+  - id: "dashboard-kit.production-proof-capture"
+    owner: "Nous Hermes Agent"
+    reviewer: "Hermes OS"
+    capabilityType: "proof"
+    contractPath: "docs/design/dashboard-production-proof-endpoints.md"
+    validationCommand: "npm run dashboard:production-proof:registry"
+exceptions:
+  - id: "exception-media-engine-contract-pending"
+    surfaceId: "media-engine.media-engine-ops-active"
+    gate: "data-contract"
+    owner: "Media Engine"
+    reviewer: "Nous Hermes Agent"
+    reason: "Media Engine is priority V7 adoption; active prototype exists before full experience contract."
+    expiresOn: "2026-08-31"
+    replacementPlan: "Create Media Engine operations experience contract before production proof is considered complete."
+  - id: "exception-hermes-capacity-contract-pending"
+    surfaceId: "nous-hermes-agent.capacity-command-center"
+    gate: "data-contract"
+    owner: "Nous Hermes Agent"
+    reviewer: "Hermes OS"
+    reason: "Prototype exists and must be brought under the V6 contract before broad V7 adoption."
+    expiresOn: "2026-08-31"
+    replacementPlan: "Create capacity command center experience contract and connect production proof route."
+  - id: "exception-hermes-os-contract-pending"
+    surfaceId: "hermes-os.workspace"
+    gate: "data-contract"
+    owner: "Hermes OS"
+    reviewer: "Nous Hermes Agent"
+    reason: "Hermes OS governance surface is planned and not yet migrated into package-native proof."
+    expiresOn: "2026-08-31"
+    replacementPlan: "Create Hermes OS workspace contract during V7 adoption."

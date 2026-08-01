@@ -1,0 +1,45 @@
+schemaVersion: 1
+generatedAt: "2026-07-30"
+sourceCommit: "c420cd91d"
+project: "nous-hermes-agent"
+purpose: "Kaoshi experience architecture baseline map"
+runtime:
+  packageManager: "npm workspaces"
+  node: ">=20.0.0"
+  evidence:
+    - "package.json"
+commands:
+  adoptionReport: "npm run dashboard-kit:adoption:report"
+  spineValidate: "npm run dashboard:spine:validate"
+  worldClassReport: "npm run dashboard:world-class:report"
+  productionProofRegistry: "npm run dashboard:production-proof:registry"
+  productionProofCapture: "npm run dashboard:production-proof:capture"
+  visualQualityScore: "npm run dashboard:visual-quality:score"
+canonicalPackages:
+  - id: "hermes-dashboard-kit"
+    package: "@hermes/dashboard-kit"
+    path: "packages/hermes-dashboard-kit"
+    role: "shared dashboard design system, contracts, components, validators, adoption tooling"
+    evidence:
+      - "packages/hermes-dashboard-kit/package.json"
+      - "packages/hermes-dashboard-kit/DESIGN.md"
+      - "packages/hermes-dashboard-kit/README.md"
+docs:
+  designContract: "packages/hermes-dashboard-kit/DESIGN.md"
+  dataContracts: "docs/design/dashboard-data-contracts.md"
+  informationArchitecture: "docs/design/dashboard-information-architecture.md"
+  productionProof: "docs/design/dashboard-production-proof-endpoints.md"
+  worldClassBacklog: "docs/design/world-class-dashboard-system-backlog.md"
+  kaoshiComparison: "docs/design/kaoshi-experience-architecture-comparison.md"
+  kaoshiBuildPlan: "docs/design/kaoshi-experience-architecture-build-plan.md"
+  kaoshiGapRegister: "docs/design/kaoshi-experience-architecture-gap-register.json"
+registries:
+  adoption: "packages/hermes-dashboard-kit/adoption/registry.json"
+  operatingInterface: "docs/design/operating-interface-system-registry.json"
+  productionProof: "docs/design/dashboard-production-proof-registry.json"
+  maturity: "docs/design/dashboard-maturity-report.json"
+  visualQuality: "docs/design/dashboard-visual-quality-report.json"
+knownLimitations:
+  - "This baseline records central design-system evidence only; downstream project traces must be added during reference migrations."
+  - "Production screenshots depend on downstream proof endpoints and tokens."
+

@@ -1,0 +1,38 @@
+schemaVersion: 1
+generatedAt: "2026-07-30"
+commands:
+  - id: "kaoshi-validate"
+    command: "npm run dashboard:kaoshi:validate"
+    proves: "Kaoshi V1-V4 artifacts are present, parseable, and internally consistent."
+  - id: "spine-validate"
+    command: "npm run dashboard:spine:validate"
+    proves: "Existing dashboard spine remains valid."
+  - id: "adoption-report"
+    command: "npm run dashboard-kit:adoption:report"
+    proves: "Downstream dashboard adoption state can be regenerated."
+  - id: "world-class-report"
+    command: "npm run dashboard:world-class:report"
+    proves: "Central world-class score and open gates can be regenerated."
+  - id: "production-proof-registry"
+    command: "npm run dashboard:production-proof:registry"
+    proves: "Production proof endpoint status can be regenerated."
+evidenceRequiredByVersion:
+  V1:
+    - "repository-map.yaml"
+    - "surfaces.yaml"
+    - "components.yaml"
+    - "visualizations.yaml"
+    - "contracts.yaml"
+    - "feature-traces.yaml"
+    - "dependency-graph.yaml"
+  V2:
+    - "experience-contract.schema.json"
+    - "experience-contracts.yaml"
+    - "kaoshi-experience-contract-standard.md"
+  V3:
+    - "visualization-intent-matrix.yaml"
+    - "kaoshi-visualization-decision-system.md"
+  V4:
+    - "live-data-reference.yaml"
+    - "kaoshi-live-data-reference-capability.md"
+    - "Kashi VC implementation proof pending"

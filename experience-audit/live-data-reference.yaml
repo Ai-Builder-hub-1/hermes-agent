@@ -1,0 +1,82 @@
+schemaVersion: 1
+generatedAt: "2026-07-30"
+capability:
+  id: "live-data-reference"
+  status: "active-baseline"
+  owner: "nous-hermes-agent"
+  purpose: "Standardize live and near-live dashboard behavior before downstream redesigns."
+freshness:
+  classes:
+    static:
+      staleRule: "none unless owner declares review interval"
+    manual:
+      staleRule: "owner-defined"
+    periodic:
+      staleRule: "2x schedule interval"
+    near-live:
+      staleRule: "2x polling interval"
+    live:
+      staleRule: "2-3x polling interval"
+polling:
+  defaultLivePollingSeconds: 90
+  defaultStaleThresholdSeconds: 270
+  retryPolicy: "retry next cycle; mark degraded after two consecutive failures"
+snapshotSeries:
+  requiredFields:
+    - "entityId"
+    - "timestamp"
+    - "metrics"
+  marketFields:
+    - "midPrice"
+    - "spread"
+    - "bidDepth"
+    - "askDepth"
+    - "volume"
+  minimumForMovementChart: 2
+  retentionGuidance: "retain enough snapshots to show 15m, 30m, 1h, 4h, and expired-market review when storage allows"
+liveTable:
+  paginationRequiredWhenRowsExceed: 48
+  virtualizationRequiredWhenRowsExceed: 250
+  requiredColumns:
+    - "title"
+    - "category"
+    - "subcategory"
+    - "status"
+    - "midPrice"
+    - "movement"
+    - "spread"
+    - "totalDepth"
+    - "volume24h"
+    - "openInterest"
+    - "snapshotCount"
+    - "lastSeen"
+detailDrawer:
+  requiredSections:
+    - "identity"
+    - "freshness"
+    - "price movement"
+    - "spread"
+    - "depth"
+    - "volume"
+    - "raw snapshot fallback"
+  previewPolicy: "Preview data may render only when state is explicitly preview; real snapshot data must never be labeled prototype preview."
+expiredEntityHandling:
+  required: true
+  display: "recently expired or removed entities list with retained snapshot series"
+telemetryEvents:
+  - "live.refresh.success"
+  - "live.refresh.failure"
+  - "live.data.stale"
+  - "live.data.partial"
+  - "live.row.selected"
+  - "live.drawer.opened"
+  - "live.drawer.chart.rendered"
+  - "live.drawer.chart.empty"
+  - "live.pagination.changed"
+khashiRules:
+  - "Live market scanning is independent from experiment horizon allocation."
+  - "Horizon may be secondary metadata only."
+  - "Unknown categories are data-quality issues, not a primary category strategy."
+  - "Full live set must be reachable through pagination or virtualization."
+  - "Selected market drawer must render real charts when snapshotCount >= 2."
+
