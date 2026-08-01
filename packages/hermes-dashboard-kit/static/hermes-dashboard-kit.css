@@ -1,21 +1,117 @@
 :root {
-  --hdk-bg: var(--background, #f5f7f8);
-  --hdk-card: var(--card, #ffffff);
-  --hdk-card-muted: var(--muted, #eef3f5);
-  --hdk-border: var(--border, #d8e0e5);
-  --hdk-border-strong: #b7c4cc;
-  --hdk-text: var(--foreground, #172026);
-  --hdk-muted: var(--muted-foreground, #61717d);
-  --hdk-primary: var(--primary, #256f8d);
-  --hdk-primary-soft: #e4f2f6;
-  --hdk-success: #237a4b;
-  --hdk-success-soft: #e5f3eb;
-  --hdk-warning: #9b6b18;
-  --hdk-warning-soft: #fff2d9;
-  --hdk-critical: #ad3d32;
-  --hdk-critical-soft: #fdebe8;
+  color-scheme: light;
+  --hdk-bg: var(--hdk-surface-page, var(--background, #f6f8fb));
+  --hdk-card: var(--hdk-surface-panel, var(--card, #ffffff));
+  --hdk-card-muted: var(--hdk-surface-panel-muted, var(--muted, #eef3f6));
+  --hdk-panel-strong: var(--hdk-surface-panel-strong, #172026);
+  --hdk-inset: var(--hdk-surface-inset, #f9fbfc);
+  --hdk-border: var(--hdk-border-subtle, var(--border, #dce4ea));
+  --hdk-border-strong: #aebcc7;
+  --hdk-text: var(--hdk-text-primary, var(--foreground, #141b23));
+  --hdk-text-secondary: #40505d;
+  --hdk-muted: var(--hdk-text-muted, var(--muted-foreground, #667684));
+  --hdk-inverse: var(--hdk-text-inverse, #f8fbfc);
+  --hdk-primary: var(--hdk-chart-series-primary, var(--primary, #256f8d));
+  --hdk-primary-soft: var(--hdk-status-info-soft, #e4f2f6);
+  --hdk-accent: var(--hdk-chart-series-secondary, #0f9f8f);
+  --hdk-success: var(--hdk-status-success, #237a4b);
+  --hdk-success-soft: var(--hdk-status-success-soft, #e5f3eb);
+  --hdk-warning: var(--hdk-status-warning, #9b6b18);
+  --hdk-warning-soft: var(--hdk-status-warning-soft, #fff2d9);
+  --hdk-critical: var(--hdk-status-error, #ad3d32);
+  --hdk-critical-soft: var(--hdk-status-error-soft, #fdebe8);
+  --hdk-info: var(--hdk-status-info, #256f8d);
+  --hdk-info-soft: var(--hdk-status-info-soft, #e4f2f6);
+  --hdk-focus: var(--hdk-focus-ring, #256f8d);
+  --hdk-chart-axis: #667684;
+  --hdk-chart-grid: #dce4ea;
+  --hdk-chart-tooltip-bg: #111a22;
+  --hdk-chart-tooltip-text: #f8fbfc;
+  --hdk-chart-series-primary: #256f8d;
+  --hdk-chart-series-secondary: #0f9f8f;
+  --hdk-chart-series-tertiary: #8f5b25;
+  --hdk-shadow-rgb: 23 32 38;
   --hdk-radius: 8px;
   --hdk-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+[data-theme="dark"],
+.hdk-theme-dark {
+  color-scheme: dark;
+  --hdk-bg: #0b1016;
+  --hdk-card: #111923;
+  --hdk-card-muted: #162231;
+  --hdk-panel-strong: #edf4f8;
+  --hdk-inset: #0f1721;
+  --hdk-border: #253342;
+  --hdk-border-strong: #3a4a5a;
+  --hdk-text: #edf4f8;
+  --hdk-text-secondary: #c1ccd6;
+  --hdk-muted: #8fa0ad;
+  --hdk-inverse: #111923;
+  --hdk-primary: #63c7e6;
+  --hdk-primary-soft: #102636;
+  --hdk-accent: #5ed6b9;
+  --hdk-success: #68d391;
+  --hdk-success-soft: #11281d;
+  --hdk-warning: #f6c76a;
+  --hdk-warning-soft: #2a2112;
+  --hdk-critical: #f08b81;
+  --hdk-critical-soft: #2d1716;
+  --hdk-info: #63c7e6;
+  --hdk-info-soft: #102636;
+  --hdk-focus: #63c7e6;
+  --hdk-chart-axis: #9badb9;
+  --hdk-chart-grid: #263544;
+  --hdk-chart-tooltip-bg: #edf4f8;
+  --hdk-chart-tooltip-text: #111923;
+  --hdk-chart-series-primary: #63c7e6;
+  --hdk-chart-series-secondary: #5ed6b9;
+  --hdk-chart-series-tertiary: #f0b76a;
+  --hdk-shadow-rgb: 0 0 0;
+}
+
+[data-theme="light"],
+.hdk-theme-light {
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="system"],
+  .hdk-theme-system {
+    color-scheme: dark;
+    --hdk-bg: #0b1016;
+    --hdk-card: #111923;
+    --hdk-card-muted: #162231;
+    --hdk-panel-strong: #edf4f8;
+    --hdk-inset: #0f1721;
+    --hdk-border: #253342;
+    --hdk-border-strong: #3a4a5a;
+    --hdk-text: #edf4f8;
+    --hdk-text-secondary: #c1ccd6;
+    --hdk-muted: #8fa0ad;
+    --hdk-inverse: #111923;
+    --hdk-primary: #63c7e6;
+    --hdk-primary-soft: #102636;
+    --hdk-accent: #5ed6b9;
+    --hdk-success: #68d391;
+    --hdk-success-soft: #11281d;
+    --hdk-warning: #f6c76a;
+    --hdk-warning-soft: #2a2112;
+    --hdk-critical: #f08b81;
+    --hdk-critical-soft: #2d1716;
+    --hdk-info: #63c7e6;
+    --hdk-info-soft: #102636;
+    --hdk-focus: #63c7e6;
+    --hdk-chart-axis: #9badb9;
+    --hdk-chart-grid: #263544;
+    --hdk-chart-tooltip-bg: #edf4f8;
+    --hdk-chart-tooltip-text: #111923;
+    --hdk-chart-series-primary: #63c7e6;
+    --hdk-chart-series-secondary: #5ed6b9;
+    --hdk-chart-series-tertiary: #f0b76a;
+    --hdk-shadow-rgb: 0 0 0;
+  }
 }
 
 .hdk-body {
@@ -23,6 +119,11 @@
   color: var(--hdk-text);
   font-family: var(--hdk-font);
   overflow: hidden;
+}
+
+.hdk-theme-scope {
+  background: var(--hdk-bg);
+  color: var(--hdk-text);
 }
 
 .hdk-shell {
@@ -249,7 +350,7 @@
 .hdk-nav-item.active {
   background: var(--hdk-primary-soft);
   border-color: var(--hdk-primary);
-  outline: 2px solid var(--hdk-primary);
+  outline: 2px solid var(--hdk-focus);
   outline-offset: 2px;
 }
 
@@ -263,7 +364,7 @@
 .hdk-button.primary {
   background: var(--hdk-primary);
   border-color: var(--hdk-primary);
-  color: #fff;
+  color: var(--hdk-inverse);
 }
 
 @media (max-width: 900px) {
@@ -369,7 +470,7 @@
 }
 
 .hdk-table th {
-  background: #f6f9fb;
+  background: var(--hdk-card-muted);
   color: var(--hdk-text);
   font-size: 11px;
   font-weight: 800;
@@ -426,7 +527,7 @@
 .hdk-tab:focus-visible {
   background: var(--hdk-primary);
   border-color: var(--hdk-primary);
-  color: #fff;
+  color: var(--hdk-inverse);
   outline: 0;
 }
 
@@ -559,7 +660,7 @@
   background: var(--hdk-card);
   border: 1px solid var(--hdk-border);
   border-radius: var(--hdk-radius);
-  box-shadow: 0 18px 50px rgb(23 32 38 / 0.12);
+  box-shadow: 0 18px 50px rgb(var(--hdk-shadow-rgb) / 0.18);
   display: grid;
   gap: 14px;
   padding: 16px;
@@ -634,7 +735,7 @@
 .hdk-time-window-option:focus-visible,
 .hdk-time-window-option.active {
   background: var(--hdk-primary);
-  color: #fff;
+  color: var(--hdk-inverse);
   outline: 0;
 }
 
@@ -731,7 +832,7 @@
 .hdk-filter-chip:focus-visible {
   background: var(--hdk-primary);
   border-color: var(--hdk-primary);
-  color: #fff;
+  color: var(--hdk-inverse);
   outline: 0;
 }
 
@@ -768,7 +869,7 @@
   background: var(--hdk-card);
   border: 1px solid var(--hdk-border);
   border-radius: var(--hdk-radius);
-  box-shadow: 0 18px 45px rgb(23 32 38 / 0.08);
+  box-shadow: 0 18px 45px rgb(var(--hdk-shadow-rgb) / 0.18);
   min-width: 0;
   padding: 14px;
 }
@@ -876,7 +977,7 @@
 
 .hdk-chart-surface {
   background:
-    linear-gradient(180deg, rgb(255 255 255 / 0.68), transparent),
+    linear-gradient(180deg, color-mix(in srgb, var(--hdk-card) 88%, transparent), transparent),
     radial-gradient(circle at 20% 0%, color-mix(in srgb, var(--hdk-primary) 12%, transparent), transparent 28%),
     var(--hdk-card);
   border: 1px solid var(--hdk-border);
@@ -889,11 +990,11 @@
 
 .hdk-chart-panel {
   background:
-    linear-gradient(180deg, rgb(255 255 255 / 0.92), rgb(247 250 248 / 0.98)),
+    linear-gradient(180deg, color-mix(in srgb, var(--hdk-card) 94%, var(--hdk-bg)), color-mix(in srgb, var(--hdk-card) 86%, var(--hdk-bg))),
     var(--hdk-card);
   border: 1px solid color-mix(in srgb, var(--hdk-border) 86%, transparent);
   border-radius: var(--hdk-radius);
-  box-shadow: 0 18px 45px rgb(24 38 31 / 0.08);
+  box-shadow: 0 18px 45px rgb(var(--hdk-shadow-rgb) / 0.16);
   min-width: 0;
   overflow: hidden;
   padding: 14px;
@@ -926,10 +1027,10 @@
 }
 
 .hdk-chart-badge {
-  background: #eef4f1;
+  background: var(--hdk-card-muted);
   border: 1px solid color-mix(in srgb, var(--hdk-border) 80%, transparent);
   border-radius: 999px;
-  color: #3f5049;
+  color: var(--hdk-text-secondary);
   flex: 0 0 auto;
   font-size: 0.72rem;
   font-weight: 700;
@@ -981,12 +1082,12 @@
 }
 
 .hdk-chart-grid-line {
-  stroke: color-mix(in srgb, var(--hdk-border) 78%, transparent);
+  stroke: var(--hdk-chart-grid);
   stroke-width: 1;
 }
 
 .hdk-chart-axis {
-  stroke: color-mix(in srgb, var(--hdk-muted) 48%, transparent);
+  stroke: var(--hdk-chart-axis);
   stroke-width: 1.2;
 }
 
@@ -997,19 +1098,19 @@
 
 .hdk-chart-line {
   fill: none;
-  stroke: var(--hdk-series-color, var(--hdk-primary));
+  stroke: var(--hdk-series-color, var(--hdk-chart-series-primary));
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 2.6;
 }
 
 .hdk-chart-area {
-  fill: var(--hdk-series-color, var(--hdk-primary));
+  fill: var(--hdk-series-color, var(--hdk-chart-series-primary));
   opacity: 0.08;
 }
 
 .hdk-bar {
-  fill: var(--hdk-series-color, var(--hdk-primary));
+  fill: var(--hdk-series-color, var(--hdk-chart-series-primary));
   rx: 5;
 }
 
@@ -1055,7 +1156,7 @@
 
 .hdk-chart-empty {
   align-items: center;
-  background: repeating-linear-gradient(-45deg, rgb(248 250 248), rgb(248 250 248) 8px, rgb(242 246 243) 8px, rgb(242 246 243) 16px);
+  background: repeating-linear-gradient(-45deg, var(--hdk-inset), var(--hdk-inset) 8px, var(--hdk-card-muted) 8px, var(--hdk-card-muted) 16px);
   border: 1px dashed var(--hdk-border);
   border-radius: var(--hdk-radius);
   color: var(--hdk-muted);
@@ -1071,7 +1172,7 @@
 }
 
 .hdk-chart-surface::after {
-  background-image: linear-gradient(var(--hdk-border) 1px, transparent 1px), linear-gradient(90deg, var(--hdk-border) 1px, transparent 1px);
+  background-image: linear-gradient(var(--hdk-chart-grid) 1px, transparent 1px), linear-gradient(90deg, var(--hdk-chart-grid) 1px, transparent 1px);
   background-size: 100% 25%, 12.5% 100%;
   content: "";
   inset: 12px;

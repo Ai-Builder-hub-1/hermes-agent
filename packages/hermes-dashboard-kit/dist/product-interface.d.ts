@@ -53,6 +53,37 @@ export type ExpandableDataListRow = {
     summary?: ReactNode;
     detail?: ReactNode;
 };
+export type CalendarDayItem = {
+    id: string;
+    label: string;
+    dateLabel?: string;
+    status?: "planned" | "open" | "blocked" | "complete";
+    summary?: string;
+    selected?: boolean;
+    disabled?: boolean;
+};
+export type ApprovalQueueItem = {
+    id: string;
+    title: string;
+    detail?: string;
+    status: "pending" | "approved" | "rejected" | "needs-review";
+    owner?: string;
+    dueLabel?: string;
+};
+export type PublishingQueueItem = {
+    id: string;
+    title: string;
+    destination: string;
+    scheduledLabel?: string;
+    status: "draft" | "ready" | "posted" | "blocked";
+};
+export type ProofEvidenceRecord = {
+    id: string;
+    label: string;
+    value: string;
+    detail?: string;
+    tone?: DashboardTone;
+};
 export declare function WorkspaceSwitcher({ label, value, options, onChange, className, }: {
     label?: string;
     value: string;
@@ -152,6 +183,35 @@ export declare function StateChecklist({ states, }: {
 export declare function PermissionLimitedPanel({ title, description, }: {
     title?: string;
     description?: string;
+}): import("react/jsx-runtime").JSX.Element;
+export declare function CalendarMonthGrid({ days, title, onSelect, }: {
+    days: CalendarDayItem[];
+    title?: string;
+    onSelect?: (day: CalendarDayItem) => void;
+}): import("react/jsx-runtime").JSX.Element;
+export declare function ApprovalQueuePanel({ items, title, onApprove, onReject, }: {
+    items: ApprovalQueueItem[];
+    title?: string;
+    onApprove?: (item: ApprovalQueueItem) => void;
+    onReject?: (item: ApprovalQueueItem) => void;
+}): import("react/jsx-runtime").JSX.Element;
+export declare function PublishingQueuePanel({ items, title, }: {
+    items: PublishingQueueItem[];
+    title?: string;
+}): import("react/jsx-runtime").JSX.Element;
+export declare function ProofEvidencePanel({ records, title, }: {
+    records: ProofEvidenceRecord[];
+    title?: string;
+}): import("react/jsx-runtime").JSX.Element;
+export declare function DirectPostingControlPanel({ enabled, destinations, title, }: {
+    enabled: boolean;
+    destinations: {
+        id: string;
+        label: string;
+        status: "postable" | "manual" | "blocked";
+        detail?: string;
+    }[];
+    title?: string;
 }): import("react/jsx-runtime").JSX.Element;
 export declare function GeneratedInsightCallout({ children, label, }: {
     children: ReactNode;

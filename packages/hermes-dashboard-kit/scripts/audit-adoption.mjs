@@ -158,11 +158,120 @@ function evaluateProject(registry, project, sourceHash) {
     ));
   }
 
+  const staticAdapterAllowed =
+    project.staticAdapterAllowed ?? manifest.dashboardKit?.staticAdapterAllowed ?? true;
+  const policyRequiresPackageNative =
+    Number(targetExperienceTier) >= 3 &&
+    (
+      staticAdapterAllowed === false ||
+      (
+        registry.newDashboardPolicy?.staticAdaptersAllowedForNewTier3 === false &&
+        (project.newDashboard === true || manifest.dashboardKit?.newDashboard === true)
+      )
+    );
+
+  if (policyRequiresPackageNative && implementationMode !== "package-native") {
+    issues.push(issue(
+      "error",
+      "packageNative.required",
+      "New or explicitly package-native Tier 3 dashboards must use package-native @hermes/dashboard-kit components instead of static adapters.",
+      {
+        implementationMode,
+        staticAdapterAllowed,
+        requiredAdoptionMode:
+          registry.newDashboardPolicy?.requiredAdoptionModeForTier3 || "package-native"
+      }
+    ));
+  }
+
   if (Number(targetExperienceTier) >= 3 && project.mobbinReferenceRequired !== true) {
     issues.push(issue(
       "warning",
       "referenceEvidence.mobbinMissing",
       "Tier 3 dashboard migrations should require Mobbin/reference extraction before implementation."
+    ));
+  }
+
+  const mobbinReferenceRequired =
+    project.mobbinReferenceRequired === true ||
+    manifest.dashboardKit?.mobbinReferenceRequired === true ||
+    (Number(targetExperienceTier) >= 3 && registry.newDashboardPolicy?.requiresMobbinReferenceIntake === true);
+  const referenceIntakePath =
+    manifest.referenceIntake?.path
+      ? path.resolve(projectRoot, manifest.referenceIntake.path)
+      : null;
+
+  if (mobbinReferenceRequired && implementationMode === "package-native") {
+    if (!referenceIntakePath) {
+      issues.push(issue(
+        "error",
+        "referenceEvidence.intakeMissing",
+        "Package-native Tier 3 dashboards must declare a Mobbin/reference intake path."
+      ));
+    } else if (!fs.existsSync(referenceIntakePath)) {
+      issues.push(issue(
+        "error",
+        "referenceEvidence.intakeFileMissing",
+        "Declared Mobbin/reference intake file is missing.",
+        { path: rel(referenceIntakePath) }
+      ));
+    } else {
+      const intake = fs.readFileSync(referenceIntakePath, "utf8");
+      if (!/mobbin\.com\/screens\//i.test(intake) && !/Add Mobbin links here before implementation/i.test(intake)) {
+        issues.push(issue(
+          "warning",
+          "referenceEvidence.mobbinLinksMissing",
+          "Mobbin/reference intake should list the reviewed Mobbin screen links or remain explicitly marked as draft."
+        ));
+      }
+    }
+  }
+
+  const designReviewPath =
+    manifest.designReview?.path
+      ? path.resolve(projectRoot, manifest.designReview.path)
+      : null;
+
+  if (Number(targetExperienceTier) >= 3 && implementationMode === "package-native") {
+    if (!designReviewPath) {
+      issues.push(issue(
+        "error",
+        "designReview.artifactMissing",
+        "Package-native Tier 3 dashboards must declare a design-review checklist artifact."
+      ));
+    } else if (!fs.existsSync(designReviewPath)) {
+      issues.push(issue(
+        "error",
+        "designReview.fileMissing",
+        "Declared design-review checklist file is missing.",
+        { path: rel(designReviewPath) }
+      ));
+    }
+  }
+
+  if (
+    Number(targetExperienceTier) >= 3 &&
+    implementationMode === "package-native" &&
+    registry.newDashboardPolicy?.requiresProofScreenshots === true &&
+    !manifest.proof?.playwrightConfig
+  ) {
+    issues.push(issue(
+      "error",
+      "proof.playwrightConfigMissing",
+      "Package-native Tier 3 dashboards must declare Playwright proof capture configuration."
+    ));
+  }
+
+  if (
+    Number(targetExperienceTier) >= 3 &&
+    implementationMode === "package-native" &&
+    registry.newDashboardPolicy?.requiresProofScreenshots === true &&
+    !manifest.proof?.captureScript
+  ) {
+    issues.push(issue(
+      "error",
+      "proof.captureScriptMissing",
+      "Package-native Tier 3 dashboards must declare a proof screenshot capture script."
     ));
   }
 
@@ -219,6 +328,24 @@ function evaluateProject(registry, project, sourceHash) {
       if (!componentMarkers.some((marker) => content.includes(marker))) {
         const severity = surface.status === "prototype" || surface.status === "planned" ? "warning" : "error";
         issues.push(issue(severity, "surface.componentMissing", `Surface ${surface.id} does not show adoption evidence for ${component}.`, { path: surface.path }));
+      }
+    }
+    if (Number(targetExperienceTier) >= 3 && implementationMode === "package-native") {
+      if (!content.includes("data-theme=") && !content.includes("hdk-theme-scope")) {
+        issues.push(issue(
+          "error",
+          "theme.modeMissing",
+          `Surface ${surface.id} must expose a shell-level theme mode through data-theme or hdk-theme-scope.`,
+          { path: surface.path }
+        ));
+      }
+      if (!content.includes("@hermes/dashboard-kit")) {
+        issues.push(issue(
+          "error",
+          "packageNative.importMissing",
+          `Surface ${surface.id} must import @hermes/dashboard-kit directly.`,
+          { path: surface.path }
+        ));
       }
     }
     const allowed = new Set(surface.allowedLegacyPatterns ?? []);

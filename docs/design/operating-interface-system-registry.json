@@ -93,6 +93,14 @@
       "firstConsumers": ["all"]
     },
     {
+      "id": "theme-mode-contract",
+      "label": "Light And Dark Theme Mode Contract",
+      "status": "implemented",
+      "components": ["dashboardThemeModes", "dashboardThemeModeCssVariables", "dashboard-theme-mode-standard.md", "hermes-dashboard-kit.css"],
+      "gaps": ["AutomatedScreenshotContrastDiff"],
+      "firstConsumers": ["all"]
+    },
+    {
       "id": "reference-research",
       "label": "Reference Research Beyond Charts",
       "status": "implemented",
@@ -107,6 +115,14 @@
       "components": ["dashboard-kit-adoption.json", "package-native-parity-registry.json", "package-native-cutover-checklist.json", "operating-interface-adoption-score.json"],
       "gaps": ["PackageNativeCutovers"],
       "firstConsumers": ["khashi-vc", "nous-hermes-agent", "media-engine", "tlc-capital-group-os"]
+    },
+    {
+      "id": "package-native-starters",
+      "label": "Package-Native Dashboard Starters",
+      "status": "implemented",
+      "components": ["create-package-native-dashboard.mjs", "package-native-dashboard-starter-standard.md", "dashboard:package-native:create", "dashboard:package-native:validate"],
+      "gaps": ["StarterVisualRegressionBaseline"],
+      "firstConsumers": ["new-dashboard-projects"]
     }
   ]
 }

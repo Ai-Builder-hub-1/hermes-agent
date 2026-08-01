@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-01",
+  "source": "Mobbin MCP search",
+  "references": [
+    {
+      "id": "mixpanel-analytics-dashboard",
+      "app_name": "Mixpanel",
+      "label": "Mixpanel analytics dashboard reference",
+      "query": "analytics dashboard with sidebar dense charts tables filters and drilldown drawer",
+      "mobbin_url": "https://mobbin.com/screens/55fc4611-f390-44c5-a722-30c74789c6d2",
+      "image_url": "https://mobbin.com/api/mcp/short/8S66wouT"
+    },
+    {
+      "id": "attio-analytics-dashboard",
+      "app_name": "Attio",
+      "label": "Attio dense CRM analytics reference",
+      "query": "analytics dashboard with sidebar dense charts tables filters and drilldown drawer",
+      "mobbin_url": "https://mobbin.com/screens/ee6e3758-5da3-4da1-83fa-0e6f8ed1d7b0",
+      "image_url": "https://mobbin.com/api/mcp/short/9XqYCZYe"
+    },
+    {
+      "id": "dub-analytics-dashboard",
+      "app_name": "Dub",
+      "label": "Dub analytics dashboard reference",
+      "query": "analytics dashboard with sidebar dense charts tables filters and drilldown drawer",
+      "mobbin_url": "https://mobbin.com/screens/fa13abe1-ef50-478f-a64d-2d124bc407f7",
+      "image_url": "https://mobbin.com/api/mcp/short/KT9v42oM"
+    },
+    {
+      "id": "kraken-trading-dashboard",
+      "app_name": "Kraken",
+      "label": "Kraken trading dashboard reference",
+      "query": "trading market dashboard table chart sidebar filters asset detail panel",
+      "mobbin_url": "https://mobbin.com/screens/0a042ced-3459-43d8-b271-34df9921ae25",
+      "image_url": "https://mobbin.com/api/mcp/short/zA2rbjj2"
+    },
+    {
+      "id": "fey-market-dashboard",
+      "app_name": "Fey",
+      "label": "Fey market dashboard reference",
+      "query": "trading market dashboard table chart sidebar filters asset detail panel",
+      "mobbin_url": "https://mobbin.com/screens/957fd895-354c-4910-acca-d7e3d0a13fd8",
+      "image_url": "https://mobbin.com/api/mcp/short/aiWGNO1s"
+    }
+  ]
+}

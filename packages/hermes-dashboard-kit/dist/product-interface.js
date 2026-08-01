@@ -1,5 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { Bot, CheckCircle2, ChevronRight, CircleAlert, Command, Filter, Lock, Search, Sparkles, Star } from "lucide-react";
+import { Bot, CalendarDays, CheckCircle2, ChevronRight, CircleAlert, ClipboardCheck, Command, Filter, Lock, Search, Send, Sparkles, Star } from "lucide-react";
 import { cn } from "./utils";
 import { StatusPill } from "./metrics";
 export function WorkspaceSwitcher({ label = "Workspace", value, options, onChange, className, }) {
@@ -52,6 +52,44 @@ export function StateChecklist({ states, }) {
 }
 export function PermissionLimitedPanel({ title = "Permission limited", description = "You can view this surface, but you do not have access to run this action.", }) {
     return (_jsxs("div", { className: "flex items-start gap-3 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm", children: [_jsx(Lock, { className: "mt-0.5 h-4 w-4 shrink-0 text-amber-700 dark:text-amber-300", "aria-hidden": "true" }), _jsxs("div", { children: [_jsx("div", { className: "font-medium text-foreground", children: title }), _jsx("p", { className: "mt-1 text-muted-foreground", children: description })] })] }));
+}
+export function CalendarMonthGrid({ days, title = "Calendar", onSelect, }) {
+    const toneByStatus = {
+        planned: "info",
+        open: "neutral",
+        blocked: "warning",
+        complete: "success",
+    };
+    return (_jsxs("section", { className: "rounded-lg border border-border bg-card p-4", children: [_jsxs("div", { className: "mb-3 flex items-center justify-between gap-3", children: [_jsxs("div", { className: "flex items-center gap-2", children: [_jsx(CalendarDays, { className: "h-4 w-4 text-primary", "aria-hidden": "true" }), _jsx("h2", { className: "text-base font-semibold text-foreground", children: title })] }), _jsxs(StatusPill, { tone: "info", children: [days.length, " days"] })] }), _jsx("div", { className: "grid grid-cols-7 overflow-hidden rounded-lg border border-border", children: days.map((day) => (_jsxs("button", { type: "button", disabled: day.disabled, className: cn("min-h-24 border-b border-r border-border bg-background p-2 text-left transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50", day.selected ? "bg-primary/10 ring-1 ring-primary" : undefined), onClick: () => onSelect?.(day), children: [_jsxs("div", { className: "flex items-start justify-between gap-2", children: [_jsx("span", { className: "text-sm font-semibold text-foreground", children: day.label }), day.status ? _jsx(StatusPill, { tone: toneByStatus[day.status], children: day.status }) : null] }), day.dateLabel ? _jsx("div", { className: "mt-1 text-xs text-muted-foreground", children: day.dateLabel }) : null, day.summary ? _jsx("p", { className: "mt-3 line-clamp-2 text-xs text-muted-foreground", children: day.summary }) : null] }, day.id))) })] }));
+}
+export function ApprovalQueuePanel({ items, title = "Approval queue", onApprove, onReject, }) {
+    const tones = {
+        pending: "info",
+        approved: "success",
+        rejected: "critical",
+        "needs-review": "warning",
+    };
+    return (_jsxs("section", { className: "rounded-lg border border-border bg-card p-4", children: [_jsxs("div", { className: "mb-3 flex items-center justify-between gap-3", children: [_jsxs("div", { className: "flex items-center gap-2", children: [_jsx(ClipboardCheck, { className: "h-4 w-4 text-primary", "aria-hidden": "true" }), _jsx("h2", { className: "text-base font-semibold text-foreground", children: title })] }), _jsxs(StatusPill, { tone: "info", children: [items.length, " items"] })] }), _jsx("div", { className: "grid gap-2", children: items.map((item) => (_jsxs("article", { className: "rounded-md border border-border bg-background p-3", children: [_jsxs("div", { className: "flex items-start justify-between gap-3", children: [_jsxs("div", { className: "min-w-0", children: [_jsx("div", { className: "font-medium text-foreground", children: item.title }), item.detail ? _jsx("p", { className: "mt-1 text-sm text-muted-foreground", children: item.detail }) : null, _jsxs("div", { className: "mt-2 flex flex-wrap gap-2 text-xs text-muted-foreground", children: [item.owner ? _jsx("span", { children: item.owner }) : null, item.dueLabel ? _jsx("span", { children: item.dueLabel }) : null] })] }), _jsx(StatusPill, { tone: tones[item.status], children: item.status })] }), _jsxs("div", { className: "mt-3 flex flex-wrap gap-2", children: [_jsx("button", { className: "hdk-button primary", type: "button", onClick: () => onApprove?.(item), children: "Approve" }), _jsx("button", { className: "hdk-button", type: "button", onClick: () => onReject?.(item), children: "Reject" })] })] }, item.id))) })] }));
+}
+export function PublishingQueuePanel({ items, title = "Publishing queue", }) {
+    const tones = {
+        draft: "neutral",
+        ready: "success",
+        posted: "info",
+        blocked: "warning",
+    };
+    return (_jsxs("section", { className: "rounded-lg border border-border bg-card p-4", children: [_jsxs("div", { className: "mb-3 flex items-center justify-between gap-3", children: [_jsxs("div", { className: "flex items-center gap-2", children: [_jsx(Send, { className: "h-4 w-4 text-primary", "aria-hidden": "true" }), _jsx("h2", { className: "text-base font-semibold text-foreground", children: title })] }), _jsxs(StatusPill, { tone: "info", children: [items.length, " posts"] })] }), _jsx("div", { className: "grid gap-2", children: items.map((item) => (_jsxs("div", { className: "flex items-start justify-between gap-3 rounded-md border border-border bg-background p-3", children: [_jsxs("div", { className: "min-w-0", children: [_jsx("div", { className: "font-medium text-foreground", children: item.title }), _jsxs("div", { className: "mt-1 text-sm text-muted-foreground", children: [item.destination, item.scheduledLabel ? ` · ${item.scheduledLabel}` : ""] })] }), _jsx(StatusPill, { tone: tones[item.status], children: item.status })] }, item.id))) })] }));
+}
+export function ProofEvidencePanel({ records, title = "Proof evidence", }) {
+    return (_jsxs("section", { className: "rounded-lg border border-border bg-card p-4", children: [_jsxs("div", { className: "mb-3 flex items-center justify-between gap-3", children: [_jsx("h2", { className: "text-base font-semibold text-foreground", children: title }), _jsxs(StatusPill, { tone: "info", children: [records.length, " checks"] })] }), _jsx("div", { className: "grid gap-2 sm:grid-cols-2", children: records.map((record) => (_jsxs("div", { className: "rounded-md border border-border bg-background p-3", children: [_jsxs("div", { className: "flex items-start justify-between gap-3", children: [_jsx("span", { className: "text-sm font-medium text-muted-foreground", children: record.label }), _jsx(StatusPill, { tone: record.tone ?? "neutral", children: record.tone ?? "proof" })] }), _jsx("div", { className: "mt-2 text-lg font-semibold text-foreground", children: record.value }), record.detail ? _jsx("div", { className: "mt-1 text-xs text-muted-foreground", children: record.detail }) : null] }, record.id))) })] }));
+}
+export function DirectPostingControlPanel({ enabled, destinations, title = "Direct posting", }) {
+    const tones = {
+        postable: "success",
+        manual: "warning",
+        blocked: "critical",
+    };
+    return (_jsxs("section", { className: "rounded-lg border border-border bg-card p-4", children: [_jsxs("div", { className: "mb-3 flex items-center justify-between gap-3", children: [_jsx("h2", { className: "text-base font-semibold text-foreground", children: title }), _jsx(StatusPill, { tone: enabled ? "success" : "warning", children: enabled ? "enabled" : "human review" })] }), _jsx("div", { className: "grid gap-2", children: destinations.map((destination) => (_jsxs("div", { className: "flex items-start justify-between gap-3 rounded-md border border-border bg-background p-3", children: [_jsxs("div", { className: "min-w-0", children: [_jsx("div", { className: "font-medium text-foreground", children: destination.label }), destination.detail ? _jsx("div", { className: "mt-1 text-sm text-muted-foreground", children: destination.detail }) : null] }), _jsx(StatusPill, { tone: tones[destination.status], children: destination.status })] }, destination.id))) })] }));
 }
 export function GeneratedInsightCallout({ children, label = "Generated insight", }) {
     return (_jsxs("div", { className: "rounded-lg border border-sky-500/30 bg-sky-500/10 p-3", children: [_jsxs("div", { className: "mb-2 inline-flex items-center gap-1.5 text-xs font-semibold text-sky-700 dark:text-sky-300", children: [_jsx(Sparkles, { className: "h-3.5 w-3.5", "aria-hidden": "true" }), label] }), _jsx("div", { className: "text-sm text-muted-foreground", children: children })] }));

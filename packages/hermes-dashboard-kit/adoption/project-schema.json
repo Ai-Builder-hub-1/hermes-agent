@@ -20,7 +20,16 @@
         },
         "staticAdapterPath": { "type": "string" },
         "canonicalCssHash": { "type": "string" },
-        "lastSyncedAt": { "type": "string" }
+        "lastSyncedAt": { "type": "string" },
+        "implementationMode": {
+          "enum": ["package-native", "static-adapter", "hybrid", "planned", "server-rendered-legacy"]
+        },
+        "currentExperienceTier": { "type": "number" },
+        "targetExperienceTier": { "type": "number" },
+        "targetExperienceBand": { "type": "string" },
+        "packageNativeRequired": { "type": "boolean" },
+        "staticAdapterAllowed": { "type": "boolean" },
+        "mobbinReferenceRequired": { "type": "boolean" }
       }
     },
     "surfaces": {
@@ -62,6 +71,38 @@
           "reason": { "type": "string", "minLength": 1 },
           "expiresAfter": { "type": "string", "minLength": 1 }
         }
+      }
+    },
+    "referenceIntake": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "required": { "type": "boolean" },
+        "status": { "type": "string", "minLength": 1 }
+      }
+    },
+    "designReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "required": { "type": "boolean" },
+        "status": { "type": "string", "minLength": 1 }
+      }
+    },
+    "proof": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "playwrightConfig": { "type": "string" },
+        "captureScript": { "type": "string" },
+        "evidenceDir": { "type": "string" },
+        "screenshotStates": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "status": { "type": "string" }
       }
     }
   }

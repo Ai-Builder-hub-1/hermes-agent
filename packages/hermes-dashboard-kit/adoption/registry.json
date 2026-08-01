@@ -7,6 +7,18 @@
     "designContractPath": "packages/hermes-dashboard-kit/DESIGN.md",
     "minimumRequiredVersion": "0.1.0"
   },
+  "newDashboardPolicy": {
+    "effectiveDate": "2026-08-01",
+    "requiredAdoptionModeForTier3": "package-native",
+    "staticAdaptersAllowedForNewTier3": false,
+    "requiresMobbinReferenceIntake": true,
+    "requiresDesignReviewArtifact": true,
+    "requiresThemeModeContract": true,
+    "requiresProofScreenshots": true,
+    "requiresPackageNativeSurfaceValidation": true,
+    "blocksUnreviewedLocalDashboardCss": true,
+    "starterCommand": "npm run dashboard:package-native:create"
+  },
   "legacyPatterns": [
     {
       "id": "inline-svg-chart-function",

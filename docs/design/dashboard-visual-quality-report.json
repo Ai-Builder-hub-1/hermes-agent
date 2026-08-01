@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-30T17:27:53.056Z",
+  "generatedAt": "2026-08-01T22:25:12.603Z",
   "note": "This is a heuristic quality gate. Human/Mobbin review is still required for premium visual taste.",
   "items": [
     {
@@ -39,9 +39,9 @@
     {
       "project": "media-engine",
       "surface": "media-engine-ops-active",
-      "path": "docs/design/prototype-gallery/media-engine-ops-active.html",
-      "score": 83,
-      "status": "needs-review",
+      "path": "core/operations/unified-publishing-dashboard.js",
+      "score": 100,
+      "status": "pass",
       "checks": [
         {
           "id": "review-handles",
@@ -65,7 +65,7 @@
         },
         {
           "id": "not-placeholder",
-          "passed": false
+          "passed": true
         }
       ]
     }

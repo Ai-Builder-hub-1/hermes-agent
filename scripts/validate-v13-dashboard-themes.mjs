@@ -8,10 +8,22 @@ const failures = [];
 
 check("theme package exports", () => {
   const themes = read("packages/hermes-dashboard-kit/src/themes.ts");
-  for (const phrase of ["DashboardThemeProfile", "DashboardThemeTokenSet", "dashboardThemeProfiles", "tlc-base", "khashi-research", "media-publishing", "business-analytics"]) {
+  for (const phrase of ["DashboardThemeProfile", "DashboardThemeTokenSet", "DashboardThemeMode", "DashboardThemeModeTokenSet", "dashboardThemeModes", "dashboardThemeModeCssVariables", "dashboardThemeProfiles", "tlc-base", "khashi-research", "media-publishing", "business-analytics"]) {
     requireIncludes(themes, phrase, phrase);
   }
   requireIncludes(read("packages/hermes-dashboard-kit/src/index.ts"), 'export * from "./themes"', "theme export");
+});
+
+check("light and dark theme contract", () => {
+  const standard = read("docs/design/dashboard-theme-mode-standard.md");
+  for (const phrase of ["data-theme=\"light\"", "data-theme=\"dark\"", "data-theme=\"system\"", "Contrast Contract", "Visual QA Requirement"]) {
+    requireIncludes(standard, phrase, phrase);
+  }
+
+  const css = read("packages/hermes-dashboard-kit/static/hermes-dashboard-kit.css");
+  for (const phrase of ["[data-theme=\"light\"]", "[data-theme=\"dark\"]", "[data-theme=\"system\"]", "--hdk-chart-tooltip-bg", "--hdk-chart-tooltip-text"]) {
+    requireIncludes(css, phrase, phrase);
+  }
 });
 
 check("theme system route", () => {

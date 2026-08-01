@@ -20,6 +20,19 @@ tokens:
     warning_soft: "var(--hdk-warning-soft)"
     critical: "var(--hdk-critical)"
     critical_soft: "var(--hdk-critical-soft)"
+    surface_page: "var(--hdk-bg)"
+    surface_panel: "var(--hdk-card)"
+    surface_panel_muted: "var(--hdk-card-muted)"
+    surface_panel_strong: "var(--hdk-panel-strong)"
+    surface_inset: "var(--hdk-inset)"
+    text_primary: "var(--hdk-text)"
+    text_secondary: "var(--hdk-text-secondary)"
+    text_inverse: "var(--hdk-inverse)"
+    focus_ring: "var(--hdk-focus)"
+    chart_axis: "var(--hdk-chart-axis)"
+    chart_grid: "var(--hdk-chart-grid)"
+    chart_tooltip_bg: "var(--hdk-chart-tooltip-bg)"
+    chart_tooltip_text: "var(--hdk-chart-tooltip-text)"
   typography:
     font_family: "var(--hdk-font)"
     card_label: "12px"
@@ -78,6 +91,13 @@ The canonical implementation lives in `packages/hermes-dashboard-kit`.
 React dashboards should consume `@hermes/dashboard-kit`. Static dashboards should consume or sync from `packages/hermes-dashboard-kit/static/hermes-dashboard-kit.css` until they are migrated to package-native React.
 
 Hermes OS governs enforcement and adoption. It does not own a competing design-system implementation.
+
+New dashboard products must start package-native. Static adapters are a
+temporary bridge for existing dashboards and must not be the primary
+implementation path for newly created Tier 3 dashboards. Use
+`docs/design/package-native-dashboard-starter-standard.md` and
+`npm run dashboard:package-native:create` before creating a new dashboard
+project.
 
 ## Layout Rules
 
@@ -166,6 +186,11 @@ Tier 3 requires explicit sidebar rail evidence and compact command-header eviden
 ## Visual Rules
 
 - Use the `--hdk-*` token layer or compatible app-level variables.
+- Every production dashboard must declare one shell-level theme mode: `data-theme="light"`, `data-theme="dark"`, or `data-theme="system"`.
+- Light and dark modes must use the semantic theme contract in `docs/design/dashboard-theme-mode-standard.md`; local components must not invent separate dark or light palettes.
+- Dark surfaces require `--hdk-text`, `--hdk-muted`, or an approved inverse pairing. Light surfaces require the same token family. Do not mix dark cards with dark text or light cards with light text.
+- Charts must inherit `--hdk-chart-axis`, `--hdk-chart-grid`, `--hdk-chart-tooltip-bg`, `--hdk-chart-tooltip-text`, and series tokens. Chart axes, labels, legends, and tooltips are not allowed to hardcode black/white/gray.
+- Theme QA must capture light and dark screenshots for Tier 3 dashboards when the product supports both modes.
 - Status color is semantic: success, warning, critical, neutral, unknown.
 - Border radius should stay at `8px` or below unless the kit changes the token.
 - Do not use one-off gradients, decorative blobs, or viewport-scaled typography.
@@ -179,13 +204,18 @@ Before building or changing a dashboard, agents should:
 2. Read `docs/design/hermes-dashboard-design-contract.md`.
 3. Check `docs/design/dashboard-kit-adoption.md`.
 4. Define or update the dashboard data contracts in `docs/design/dashboard-data-contracts.md`.
-5. Map the dashboard into the six-workspace information architecture.
-6. Declare the canonical route and confirm there is one production app shell.
-7. Use Mobbin references only after the data model and operating questions are understood.
-8. Prefer package primitives or the static adapter.
-9. Update adoption status when a dashboard moves closer to package-native usage.
-10. Run `npm run dashboard:spine:validate` from the Hermes agent project after changing adoption metadata or dashboard spine docs.
-11. Run `npm run dashboard-kit:adoption:audit` when a downstream dashboard claims it has adopted the kit.
+5. Read `docs/design/dashboard-theme-mode-standard.md` before changing color, chart, shell, card, table, drawer, or form styling.
+6. For new dashboards, read `docs/design/package-native-dashboard-starter-standard.md` and use package-native scaffolding instead of static adapters.
+7. Map the dashboard into the six-workspace information architecture.
+8. Declare the canonical route and confirm there is one production app shell.
+9. Use Mobbin references only after the data model and operating questions are understood.
+10. Prefer package primitives. Use the static adapter only for legacy bridge work.
+11. Update adoption status when a dashboard moves closer to package-native usage.
+12. Run `npm run dashboard:spine:validate` from the Hermes agent project after changing adoption metadata or dashboard spine docs.
+13. Run `npm run dashboard-kit:adoption:audit` when a downstream dashboard claims it has adopted the kit.
+14. Run `npm run dashboard:package-native:validate` after changing package-native dashboard starter standards.
+15. Run `npm run dashboard:package-native:surface:validate -- --project-dir <project>` before calling a Tier 3 package-native dashboard complete.
+16. Capture a visual baseline with `npm run dashboard:visual-baseline:capture -- --url <local-or-proof-url>` before production approval.
 
 For Kaoshi-grade redesign work, agents should also read:
 

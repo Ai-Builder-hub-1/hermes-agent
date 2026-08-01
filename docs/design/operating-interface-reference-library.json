@@ -70,6 +70,27 @@
       "label": "Settings And Permissions",
       "searchBriefs": ["admin settings dashboard", "permissions management UI", "integration settings dashboard"],
       "components": ["PermissionLimitedPanel", "StateChecklist", "SavedViewsManager"]
+    },
+    {
+      "id": "theme-mode-systems",
+      "label": "Light And Dark Theme Systems",
+      "searchBriefs": ["analytics dashboard dark mode sidebar charts tables", "light mode product dashboard metrics table", "enterprise dashboard theme tokens dark light"],
+      "mobbinReferences": [
+        "https://mobbin.com/screens/1bd5c747-466a-4a3e-9b8c-5aab2b05cfbc",
+        "https://mobbin.com/screens/1a7d8d86-f0e8-456a-a60c-65c6eb13a252",
+        "https://mobbin.com/screens/190a82d9-8013-45c6-b768-5cc7d0cc2a7b",
+        "https://mobbin.com/screens/10d76bb3-6f65-4805-ad42-30ee24ec78e2",
+        "https://mobbin.com/screens/461965db-524a-42ea-93db-d0a3b28c588c",
+        "https://mobbin.com/screens/27a96864-839c-45f8-b1f4-479672827122"
+      ],
+      "extractedPatterns": [
+        "one shell-level mode selector",
+        "semantic surface and text token pairs",
+        "chart-specific axis, grid, tooltip, and series tokens",
+        "status soft-fill variants per mode",
+        "no mixed local dark/light card palettes"
+      ],
+      "components": ["dashboardThemeModes", "dashboardThemeModeCssVariables", "dashboard-theme-mode-standard.md"]
     }
   ],
   "intakeWorkflow": [
@@ -77,6 +98,7 @@
     "Extract recurring layout and interaction patterns into this registry or a linked pattern note.",
     "Promote only reusable patterns into @hermes/dashboard-kit.",
     "Add state coverage and adoption targets before project retrofit begins.",
+    "For new dashboards, scaffold package-native projects with npm run dashboard:package-native:create instead of static adapters.",
     "Validate with dashboard:interface-system:validate before shipping."
   ]
 }

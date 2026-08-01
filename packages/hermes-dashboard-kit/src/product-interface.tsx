@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Bot, CheckCircle2, ChevronRight, CircleAlert, Command, Filter, Lock, Search, Sparkles, Star } from "lucide-react";
+import { Bot, CalendarDays, CheckCircle2, ChevronRight, CircleAlert, ClipboardCheck, Command, Filter, Lock, Search, Send, Sparkles, Star } from "lucide-react";
 import { cn } from "./utils";
 import { StatusPill, type DashboardTone } from "./metrics";
 
@@ -62,6 +62,41 @@ export type ExpandableDataListRow = {
   status?: ReactNode;
   summary?: ReactNode;
   detail?: ReactNode;
+};
+
+export type CalendarDayItem = {
+  id: string;
+  label: string;
+  dateLabel?: string;
+  status?: "planned" | "open" | "blocked" | "complete";
+  summary?: string;
+  selected?: boolean;
+  disabled?: boolean;
+};
+
+export type ApprovalQueueItem = {
+  id: string;
+  title: string;
+  detail?: string;
+  status: "pending" | "approved" | "rejected" | "needs-review";
+  owner?: string;
+  dueLabel?: string;
+};
+
+export type PublishingQueueItem = {
+  id: string;
+  title: string;
+  destination: string;
+  scheduledLabel?: string;
+  status: "draft" | "ready" | "posted" | "blocked";
+};
+
+export type ProofEvidenceRecord = {
+  id: string;
+  label: string;
+  value: string;
+  detail?: string;
+  tone?: DashboardTone;
 };
 
 export function WorkspaceSwitcher({
@@ -602,6 +637,207 @@ export function PermissionLimitedPanel({
         <p className="mt-1 text-muted-foreground">{description}</p>
       </div>
     </div>
+  );
+}
+
+export function CalendarMonthGrid({
+  days,
+  title = "Calendar",
+  onSelect,
+}: {
+  days: CalendarDayItem[];
+  title?: string;
+  onSelect?: (day: CalendarDayItem) => void;
+}) {
+  const toneByStatus: Record<NonNullable<CalendarDayItem["status"]>, DashboardTone> = {
+    planned: "info",
+    open: "neutral",
+    blocked: "warning",
+    complete: "success",
+  };
+  return (
+    <section className="rounded-lg border border-border bg-card p-4">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <CalendarDays className="h-4 w-4 text-primary" aria-hidden="true" />
+          <h2 className="text-base font-semibold text-foreground">{title}</h2>
+        </div>
+        <StatusPill tone="info">{days.length} days</StatusPill>
+      </div>
+      <div className="grid grid-cols-7 overflow-hidden rounded-lg border border-border">
+        {days.map((day) => (
+          <button
+            key={day.id}
+            type="button"
+            disabled={day.disabled}
+            className={cn(
+              "min-h-24 border-b border-r border-border bg-background p-2 text-left transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50",
+              day.selected ? "bg-primary/10 ring-1 ring-primary" : undefined,
+            )}
+            onClick={() => onSelect?.(day)}
+          >
+            <div className="flex items-start justify-between gap-2">
+              <span className="text-sm font-semibold text-foreground">{day.label}</span>
+              {day.status ? <StatusPill tone={toneByStatus[day.status]}>{day.status}</StatusPill> : null}
+            </div>
+            {day.dateLabel ? <div className="mt-1 text-xs text-muted-foreground">{day.dateLabel}</div> : null}
+            {day.summary ? <p className="mt-3 line-clamp-2 text-xs text-muted-foreground">{day.summary}</p> : null}
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export function ApprovalQueuePanel({
+  items,
+  title = "Approval queue",
+  onApprove,
+  onReject,
+}: {
+  items: ApprovalQueueItem[];
+  title?: string;
+  onApprove?: (item: ApprovalQueueItem) => void;
+  onReject?: (item: ApprovalQueueItem) => void;
+}) {
+  const tones: Record<ApprovalQueueItem["status"], DashboardTone> = {
+    pending: "info",
+    approved: "success",
+    rejected: "critical",
+    "needs-review": "warning",
+  };
+  return (
+    <section className="rounded-lg border border-border bg-card p-4">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <ClipboardCheck className="h-4 w-4 text-primary" aria-hidden="true" />
+          <h2 className="text-base font-semibold text-foreground">{title}</h2>
+        </div>
+        <StatusPill tone="info">{items.length} items</StatusPill>
+      </div>
+      <div className="grid gap-2">
+        {items.map((item) => (
+          <article key={item.id} className="rounded-md border border-border bg-background p-3">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <div className="font-medium text-foreground">{item.title}</div>
+                {item.detail ? <p className="mt-1 text-sm text-muted-foreground">{item.detail}</p> : null}
+                <div className="mt-2 flex flex-wrap gap-2 text-xs text-muted-foreground">
+                  {item.owner ? <span>{item.owner}</span> : null}
+                  {item.dueLabel ? <span>{item.dueLabel}</span> : null}
+                </div>
+              </div>
+              <StatusPill tone={tones[item.status]}>{item.status}</StatusPill>
+            </div>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <button className="hdk-button primary" type="button" onClick={() => onApprove?.(item)}>Approve</button>
+              <button className="hdk-button" type="button" onClick={() => onReject?.(item)}>Reject</button>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export function PublishingQueuePanel({
+  items,
+  title = "Publishing queue",
+}: {
+  items: PublishingQueueItem[];
+  title?: string;
+}) {
+  const tones: Record<PublishingQueueItem["status"], DashboardTone> = {
+    draft: "neutral",
+    ready: "success",
+    posted: "info",
+    blocked: "warning",
+  };
+  return (
+    <section className="rounded-lg border border-border bg-card p-4">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <Send className="h-4 w-4 text-primary" aria-hidden="true" />
+          <h2 className="text-base font-semibold text-foreground">{title}</h2>
+        </div>
+        <StatusPill tone="info">{items.length} posts</StatusPill>
+      </div>
+      <div className="grid gap-2">
+        {items.map((item) => (
+          <div key={item.id} className="flex items-start justify-between gap-3 rounded-md border border-border bg-background p-3">
+            <div className="min-w-0">
+              <div className="font-medium text-foreground">{item.title}</div>
+              <div className="mt-1 text-sm text-muted-foreground">{item.destination}{item.scheduledLabel ? ` · ${item.scheduledLabel}` : ""}</div>
+            </div>
+            <StatusPill tone={tones[item.status]}>{item.status}</StatusPill>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export function ProofEvidencePanel({
+  records,
+  title = "Proof evidence",
+}: {
+  records: ProofEvidenceRecord[];
+  title?: string;
+}) {
+  return (
+    <section className="rounded-lg border border-border bg-card p-4">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <h2 className="text-base font-semibold text-foreground">{title}</h2>
+        <StatusPill tone="info">{records.length} checks</StatusPill>
+      </div>
+      <div className="grid gap-2 sm:grid-cols-2">
+        {records.map((record) => (
+          <div key={record.id} className="rounded-md border border-border bg-background p-3">
+            <div className="flex items-start justify-between gap-3">
+              <span className="text-sm font-medium text-muted-foreground">{record.label}</span>
+              <StatusPill tone={record.tone ?? "neutral"}>{record.tone ?? "proof"}</StatusPill>
+            </div>
+            <div className="mt-2 text-lg font-semibold text-foreground">{record.value}</div>
+            {record.detail ? <div className="mt-1 text-xs text-muted-foreground">{record.detail}</div> : null}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export function DirectPostingControlPanel({
+  enabled,
+  destinations,
+  title = "Direct posting",
+}: {
+  enabled: boolean;
+  destinations: { id: string; label: string; status: "postable" | "manual" | "blocked"; detail?: string }[];
+  title?: string;
+}) {
+  const tones: Record<"postable" | "manual" | "blocked", DashboardTone> = {
+    postable: "success",
+    manual: "warning",
+    blocked: "critical",
+  };
+  return (
+    <section className="rounded-lg border border-border bg-card p-4">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <h2 className="text-base font-semibold text-foreground">{title}</h2>
+        <StatusPill tone={enabled ? "success" : "warning"}>{enabled ? "enabled" : "human review"}</StatusPill>
+      </div>
+      <div className="grid gap-2">
+        {destinations.map((destination) => (
+          <div key={destination.id} className="flex items-start justify-between gap-3 rounded-md border border-border bg-background p-3">
+            <div className="min-w-0">
+              <div className="font-medium text-foreground">{destination.label}</div>
+              {destination.detail ? <div className="mt-1 text-sm text-muted-foreground">{destination.detail}</div> : null}
+            </div>
+            <StatusPill tone={tones[destination.status]}>{destination.status}</StatusPill>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 

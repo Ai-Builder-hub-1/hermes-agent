@@ -14,7 +14,14 @@ on:
       - "playwright.dashboard.config.ts"
       - "playwright.v8-production.config.ts"
       - "scripts/audit-dashboard-usage.mjs"
+      - "scripts/audit-rendered-dashboard.mjs"
+      - "scripts/capture-dashboard-visual-baseline.mjs"
+      - "scripts/compare-dashboard-visual-baseline.mjs"
       - "scripts/design-system-status.mjs"
+      - "scripts/enforce-dashboard-creation-gate.mjs"
+      - "scripts/generate-mobbin-reference-intake.mjs"
+      - "scripts/score-tier3-dashboard.mjs"
+      - "scripts/validate-package-native-surface.mjs"
       - "scripts/validate-v8-dashboard-migrations.mjs"
       - "scripts/validate-dashboard-registry.mjs"
       - "tests/dashboard/**"
@@ -31,7 +38,14 @@ on:
       - "playwright.dashboard.config.ts"
       - "playwright.v8-production.config.ts"
       - "scripts/audit-dashboard-usage.mjs"
+      - "scripts/audit-rendered-dashboard.mjs"
+      - "scripts/capture-dashboard-visual-baseline.mjs"
+      - "scripts/compare-dashboard-visual-baseline.mjs"
       - "scripts/design-system-status.mjs"
+      - "scripts/enforce-dashboard-creation-gate.mjs"
+      - "scripts/generate-mobbin-reference-intake.mjs"
+      - "scripts/score-tier3-dashboard.mjs"
+      - "scripts/validate-package-native-surface.mjs"
       - "scripts/validate-v8-dashboard-migrations.mjs"
       - "scripts/validate-dashboard-registry.mjs"
       - "tests/dashboard/**"
@@ -66,6 +80,9 @@ jobs:
 
       - name: Audit dashboard design-system usage
         run: npm run dashboard:usage:audit
+
+      - name: Validate package-native starter standard
+        run: npm run dashboard:package-native:validate
 
       - name: Validate canonical design-system registry
         run: npm run dashboard:design-system:status -- --allow-missing-external

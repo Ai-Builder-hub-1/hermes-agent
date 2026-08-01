@@ -1,42 +1,15 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-30T15:02:12.617Z",
-  "note": "This is a codemod candidate plan. Actual source rewriting remains gated by per-surface review.",
-  "candidates": [
-    {
-      "project": "media-engine",
-      "path": "docs/design/prototype-gallery/media-engine-ops-active.html",
-      "issueCode": "surface.componentMissing",
-      "suggestedCodemod": "insert-dashboard-kit-component-marker-and-static-wrapper",
-      "status": "planned"
-    },
-    {
-      "project": "media-engine",
-      "path": "docs/design/prototype-gallery/media-engine-ops-active.html",
-      "issueCode": "surface.componentMissing",
-      "suggestedCodemod": "insert-dashboard-kit-component-marker-and-static-wrapper",
-      "status": "planned"
-    },
-    {
-      "project": "media-engine",
-      "path": "docs/design/prototype-gallery/media-engine-ops-active.html",
-      "issueCode": "surface.componentMissing",
-      "suggestedCodemod": "insert-dashboard-kit-component-marker-and-static-wrapper",
-      "status": "planned"
-    },
-    {
-      "project": "media-engine",
-      "path": "docs/design/prototype-gallery/media-engine-ops-active.html",
-      "issueCode": "surface.componentMissing",
-      "suggestedCodemod": "insert-dashboard-kit-component-marker-and-static-wrapper",
-      "status": "planned"
-    },
-    {
-      "project": "media-engine",
-      "path": "docs/design/prototype-gallery/media-engine-ops-active.html",
-      "issueCode": "surface.componentMissing",
-      "suggestedCodemod": "insert-dashboard-kit-component-marker-and-static-wrapper",
-      "status": "planned"
-    }
-  ]
+  "generatedAt": "2026-08-01T22:20:08.511Z",
+  "note": "This is a codemod candidate plan. Actual source rewriting remains gated by per-surface review. Package-native migrations must move standalone/static surfaces into shared kit components before production cutover.",
+  "defaultPackageNativeStages": [
+    "inventory-current-shell-routes-and-production-links",
+    "create-package-native-dashboard-shell",
+    "map-static-selectors-to-dashboard-kit-components",
+    "replace-local-cards-tables-charts-forms-drawers",
+    "add-mobbin-reference-intake-and-design-review-artifact",
+    "add-light-dark-system-proof-screenshots",
+    "cutover-canonical-route-and-retire-static-adapter"
+  ],
+  "candidates": []
 }

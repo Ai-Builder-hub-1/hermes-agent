@@ -73,6 +73,15 @@
     "dashboard:v11:validate": "node scripts/validate-v11-agent-governance.mjs",
     "dashboard:v12:validate": "node scripts/validate-v12-central-command.mjs",
     "dashboard:v13:validate": "node scripts/validate-v13-dashboard-themes.mjs",
+    "dashboard:theme-contract:validate": "node scripts/validate-dashboard-theme-contract.mjs",
+    "dashboard:package-native:validate": "node scripts/validate-package-native-dashboard-starter.mjs",
+    "dashboard:package-native:surface:validate": "node scripts/validate-package-native-surface.mjs",
+    "dashboard:visual-baseline:capture": "node scripts/capture-dashboard-visual-baseline.mjs",
+    "dashboard:visual-baseline:compare": "node scripts/compare-dashboard-visual-baseline.mjs",
+    "dashboard:rendered:audit": "node scripts/audit-rendered-dashboard.mjs",
+    "dashboard:tier3:score": "node scripts/score-tier3-dashboard.mjs",
+    "dashboard:creation-gate": "node scripts/enforce-dashboard-creation-gate.mjs",
+    "dashboard:mobbin-intake:generate": "node scripts/generate-mobbin-reference-intake.mjs",
     "dashboard:v14:validate": "node scripts/validate-v14-dashboard-marketplace.mjs",
     "dashboard:v15:validate": "node scripts/validate-v15-v21-operating-system.mjs V15",
     "dashboard:v16:validate": "node scripts/validate-v15-v21-operating-system.mjs V16",
@@ -147,7 +156,8 @@
     "dashboard:v61-v70:validate": "node scripts/validate-v61-v70-live-adapters.mjs",
     "dashboard:v71-v80:validate": "node scripts/validate-v71-v80-operational-readiness.mjs",
     "dashboard:visual:check": "npx playwright test -c playwright.dashboard.config.ts",
-    "dashboard:scaffold": "node scripts/scaffold-dashboard-page.mjs"
+    "dashboard:scaffold": "node scripts/scaffold-dashboard-page.mjs",
+    "dashboard:package-native:create": "node scripts/create-package-native-dashboard.mjs"
   },
   "repository": {
     "type": "git",
