@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { execFileSync } from "node:child_process";
+import { existsSync, readFileSync } from "node:fs";
 
 const PUBLIC_UPSTREAM_PATTERNS = [
   "github.com/NousResearch/hermes-agent",
@@ -46,6 +47,21 @@ if (!pushDefault) {
 
 if (branchUpstream.startsWith("origin/") && isPublicUpstream(originFetch) && isPublicUpstream(originPush)) {
   issues.push("current branch tracks origin and origin is pushable to the public upstream.");
+}
+
+const deployWorkflowPath = ".github/workflows/deploy-site.yml";
+if (existsSync(deployWorkflowPath)) {
+  const deployWorkflow = readFileSync(deployWorkflowPath, "utf8");
+  if (deployWorkflow.includes("VERCEL_DEPLOY_HOOK")) {
+    issues.push("private deploy workflow still depends on VERCEL_DEPLOY_HOOK instead of the Hetzner promotion rail.");
+  }
+
+  if (
+    deployWorkflow.includes("deploy-hetzner") &&
+    !deployWorkflow.includes("github.repository == 'Ai-Builder-hub-1/hermes-agent'")
+  ) {
+    issues.push("Hetzner deploy workflow is not gated to the private Ai-Builder-hub-1/hermes-agent repository.");
+  }
 }
 
 console.log("Private fork remote validation");

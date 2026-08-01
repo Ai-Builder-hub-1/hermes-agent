@@ -6,18 +6,28 @@ on:
   push:
     branches: [main]
     paths:
-      - 'website/**'
-      - 'skills/**'
-      - 'optional-skills/**'
-      - '.github/workflows/deploy-site.yml'
+      - "website/**"
+      - "skills/**"
+      - "optional-skills/**"
+      - ".github/workflows/deploy-site.yml"
   workflow_dispatch:
     inputs:
+      ref:
+        description: Git ref or SHA to deploy through the private Hetzner rail
+        required: false
+        default: codex/design-intelligence-standards
+        type: string
+      service:
+        description: Hermes deploy service key
+        required: false
+        default: nous-hermes-agent
+        type: string
       skills_index_run_id:
-        description: 'Optional Build Skills Index run ID whose skills-index artifact should be deployed'
+        description: Optional public-docs skills-index artifact run ID
         required: false
         type: string
       rebuild_skills_index:
-        description: 'Force a fresh multi-source crawl instead of reusing the latest healthy index'
+        description: Force a fresh public-docs skills index crawl
         required: false
         default: false
         type: boolean
@@ -25,32 +35,140 @@ on:
 permissions:
   contents: read
   actions: read
+  deployments: write
   pages: write
   id-token: write
 
 concurrency:
-  group: pages
+  group: ${{ github.repository == 'NousResearch/hermes-agent' && 'pages' || 'nous-hermes-agent-production' }}
   cancel-in-progress: false
 
 jobs:
-  deploy-vercel:
-    # Triggered automatically on release publish (production cuts) and
-    # manually via `gh workflow run deploy-site.yml` when an out-of-band
-    # main commit needs to ship live before the next release tag — e.g.
-    # a skills-index PR that doesn't touch website/** paths and so
-    # doesn't auto-deploy via the deploy-docs path.
-    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+  deploy-hetzner:
+    if: github.repository == 'Ai-Builder-hub-1/hermes-agent' && github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      DEPLOY_REF: ${{ github.event.inputs.ref || github.sha }}
+      HERMES_SERVICE_KEY: ${{ github.event.inputs.service || vars.HERMES_SERVICE_KEY || 'nous-hermes-agent' }}
+      HETZNER_HOST: ${{ secrets.HETZNER_HOST || secrets.PRODUCTION_HOST }}
+      HETZNER_USER: ${{ secrets.HETZNER_USER || secrets.PRODUCTION_USER }}
+      HETZNER_SSH_KEY: ${{ secrets.HETZNER_SSH_KEY || secrets.PRODUCTION_SSH_KEY }}
+      HETZNER_SSH_PORT: ${{ secrets.HETZNER_SSH_PORT || secrets.PRODUCTION_SSH_PORT }}
+      HETZNER_PROMOTE_SCRIPT: ${{ vars.HETZNER_PROMOTE_SCRIPT || '/root/apps/deploy/scripts/promote-service.sh' }}
+      PRODUCTION_BASE_DOMAIN: ${{ secrets.PRODUCTION_BASE_DOMAIN || vars.PRODUCTION_BASE_DOMAIN || secrets.HERMES_PRODUCTION_BASE_DOMAIN || vars.HERMES_PRODUCTION_BASE_DOMAIN }}
+      PRODUCTION_URL: ${{ secrets.PRODUCTION_URL || vars.PRODUCTION_URL }}
+      HERMES_AGENT_DASHBOARD_USERNAME: ${{ secrets.HERMES_AGENT_DASHBOARD_USERNAME }}
+      HERMES_AGENT_DASHBOARD_PASSWORD: ${{ secrets.HERMES_AGENT_DASHBOARD_PASSWORD }}
+      HERMES_DASHBOARD_PROOF_TOKEN: ${{ secrets.HERMES_DASHBOARD_PROOF_TOKEN }}
     steps:
-      - name: Trigger Vercel Deploy
-        env:
-          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+      - name: Checkout deployment metadata
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ env.DEPLOY_REF }}
+
+      - name: Validate production deploy inputs
         run: |
-          if [ -z "$VERCEL_DEPLOY_HOOK" ]; then
-            echo "::error::VERCEL_DEPLOY_HOOK is not set for this repository. Add the private repo deploy hook secret before running Deploy Site."
+          missing=()
+          for name in HETZNER_HOST HETZNER_USER HETZNER_SSH_KEY; do
+            if [ -z "${!name}" ]; then
+              missing+=("$name")
+            fi
+          done
+
+          if [ -z "$PRODUCTION_URL" ] && [ -z "$PRODUCTION_BASE_DOMAIN" ]; then
+            missing+=("PRODUCTION_BASE_DOMAIN or PRODUCTION_URL")
+          fi
+
+          if [ "${#missing[@]}" -gt 0 ]; then
+            echo "::notice::Skipping production deploy because required repository secrets or variables are missing: ${missing[*]}"
+            echo "Add shared Hetzner secrets and PRODUCTION_BASE_DOMAIN in GitHub repository Settings > Secrets and variables > Actions."
+            echo "DEPLOY_READY=false" >> "$GITHUB_ENV"
+            exit 0
+          fi
+          echo "DEPLOY_READY=true" >> "$GITHUB_ENV"
+
+      - name: Resolve production target
+        if: env.DEPLOY_READY == 'true'
+        run: node .github/scripts/resolve-production-target.mjs
+
+      - name: Validate resolved production target
+        if: env.DEPLOY_READY == 'true'
+        run: |
+          missing=()
+          for name in PRODUCTION_URL PRODUCTION_HEALTH_URL HERMES_SERVICE_KEY; do
+            if [ -z "${!name}" ]; then
+              missing+=("$name")
+            fi
+          done
+
+          if [ "${#missing[@]}" -gt 0 ]; then
+            echo "::error::Production target resolution did not produce required values: ${missing[*]}"
             exit 1
           fi
-          curl -X POST "$VERCEL_DEPLOY_HOOK"
+
+      - name: Prepare SSH
+        if: env.DEPLOY_READY == 'true'
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$HETZNER_SSH_KEY" > ~/.ssh/hermes_deploy
+          chmod 600 ~/.ssh/hermes_deploy
+          ssh-keyscan -p "${HETZNER_SSH_PORT:-22}" "$HETZNER_HOST" >> ~/.ssh/known_hosts
+
+      - name: Promote service through shared Hetzner deploy rail
+        if: env.DEPLOY_READY == 'true'
+        run: |
+          ssh -i ~/.ssh/hermes_deploy -p "${HETZNER_SSH_PORT:-22}" "$HETZNER_USER@$HETZNER_HOST" \
+            "export HERMES_DASHBOARD_PROOF_TOKEN='$HERMES_DASHBOARD_PROOF_TOKEN' HERMES_AGENT_DASHBOARD_USERNAME='$HERMES_AGENT_DASHBOARD_USERNAME' HERMES_AGENT_DASHBOARD_PASSWORD='$HERMES_AGENT_DASHBOARD_PASSWORD'; if [ -d \"\$HOME/apps/nous-hermes-agent/.git\" ]; then cd \"\$HOME/apps/nous-hermes-agent\" && git stash push --include-untracked -m \"pre-deploy-$DEPLOY_REF\" || true; fi; '$HETZNER_PROMOTE_SCRIPT' '$HERMES_SERVICE_KEY' '$DEPLOY_REF'"
+
+      - name: Verify production health
+        if: env.DEPLOY_READY == 'true'
+        run: |
+          for attempt in $(seq 1 80); do
+            body="$(curl --silent --show-error --max-time 20 "$PRODUCTION_HEALTH_URL" || true)"
+            if printf '%s' "$body" | grep -Eq '"status":"ready"|"auth_required":true|"ok":true'; then
+              printf '%s\n' "$body"
+              exit 0
+            fi
+            echo "Production health not ready yet (attempt $attempt/80): $body"
+            sleep 3
+          done
+          echo "::error::Production did not become ready within the health-check window."
+          exit 1
+
+      - name: Record GitHub deployment
+        if: env.DEPLOY_READY == 'true'
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const ref = process.env.DEPLOY_REF;
+            const productionUrl = process.env.PRODUCTION_URL;
+            const deployment = await github.rest.repos.createDeployment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref,
+              environment: 'production',
+              required_contexts: [],
+              auto_merge: false,
+              description: `Production deployment: ${productionUrl}`,
+            });
+
+            await github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: deployment.data.id,
+              state: 'success',
+              environment: 'production',
+              environment_url: productionUrl,
+              log_url: `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+              description: 'Production deployment completed.',
+            });
+
+      - name: Report skipped deployment
+        if: env.DEPLOY_READY != 'true'
+        run: |
+          echo "Production deployment was skipped because deploy secrets are not configured."
 
   deploy-docs:
     if: github.repository == 'NousResearch/hermes-agent'
@@ -69,7 +187,7 @@ jobs:
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install PyYAML for skill extraction
         run: pip install pyyaml==6.0.2 httpx==0.28.1
@@ -81,17 +199,6 @@ jobs:
           SKILLS_INDEX_RUN_ID: ${{ github.event.inputs.skills_index_run_id || '' }}
           REBUILD_SKILLS_INDEX: ${{ github.event.inputs.rebuild_skills_index || 'false' }}
         run: |
-          # The unified external catalog is expensive to crawl and can burn
-          # through the repository installation's GitHub API quota when several
-          # docs deploys land close together.  Normal docs deploys therefore
-          # reuse the latest healthy catalog: first the artifact from a
-          # scheduled skills-index run, then the currently live index.  Only a
-          # manual force rebuild does a fresh crawl here.
-          #
-          # If we do crawl, the build remains fatal. build_skills_index.py runs
-          # the health check BEFORE writing and exits non-zero on source
-          # collapse, keeping the last good Pages deployment live instead of
-          # publishing a degenerate catalog.
           set -euo pipefail
           INDEX_PATH="website/static/api/skills-index.json"
           mkdir -p "$(dirname "$INDEX_PATH")"
@@ -168,10 +275,6 @@ jobs:
         run: |
           mkdir -p _site/docs
           cp -r website/build/* _site/docs/
-          # llms.txt / llms-full.txt are also published at the site root
-          # (https://hermes-agent.nousresearch.com/llms.txt) because some
-          # agents and IDE plugins probe the classic root-level path rather
-          # than /docs/llms.txt. Same file, two URLs, one source of truth.
           if [ -f website/build/llms.txt ]; then
             cp website/build/llms.txt _site/llms.txt
           fi

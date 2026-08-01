@@ -1,0 +1,14 @@
+{
+  "targets": [
+    {
+      "service": "nous-hermes-agent",
+      "repo": "nous-hermes-agent",
+      "defaultBranch": "main",
+      "appRoot": "$HOME/apps/nous-hermes-agent",
+      "composeService": "nous-hermes-agent",
+      "domain": "agent.${HERMES_PRODUCTION_BASE_DOMAIN}",
+      "healthPath": "/api/status",
+      "promotionScript": "$HOME/apps/deploy/scripts/promote-service.sh"
+    }
+  ]
+}
