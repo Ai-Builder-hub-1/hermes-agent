@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-01T15:50:04.081Z",
+  "generatedAt": "2026-08-01T20:03:07.751Z",
   "source": {
     "package": "@hermes/dashboard-kit",
     "version": "0.1.0",
@@ -8,33 +8,28 @@
     "designContractPath": "packages/hermes-dashboard-kit/DESIGN.md",
     "minimumRequiredVersion": "0.1.0"
   },
-  "sourceHash": "7e7f426ff5a75efe149deb59d61b6844af1539c11d411e40cfb4e5bf5fd4eb08",
+  "sourceHash": "d732f1affe9399a900e15fd0a77f24b184b7b46a245a26901d5f7eedb0cc3251",
   "results": [
     {
       "project": "khashi-vc",
       "name": "Kashi VC",
-      "status": "stale",
+      "status": "needs-review",
       "experienceTier": {
         "current": 3,
         "target": 3,
+        "targetBand": "T3C",
+        "implementationMode": "static-adapter",
         "migrationRequired": false,
-        "note": "Kashi VC Live Command is the current Tier 3 reference surface for live market cockpit behavior."
+        "note": "Kashi VC Live Command is the current Tier 3 reference surface for live market cockpit behavior, but the highest maturity target remains T3C package-native delivery."
       },
       "issues": [
         {
-          "severity": "error",
-          "code": "adapter.drifted",
-          "message": "Static adapter has drifted from the canonical dashboard-kit CSS.",
-          "path": "../khashi-vc/public/roc/hermes-dashboard-kit.css",
-          "expectedHash": "7e7f426ff5a7",
-          "actualHash": "ede1c22c72b5"
-        },
-        {
           "severity": "warning",
-          "code": "adapter.recordedHashStale",
-          "message": "Manifest recorded canonicalCssHash does not match current kit CSS hash.",
-          "recordedHash": "ede1c22c72b5",
-          "currentHash": "7e7f426ff5a7"
+          "code": "packageNative.bridge",
+          "message": "Target band is T3C, but current implementation mode is static-adapter. Treat this as a bridge, not the final standard.",
+          "implementationMode": "static-adapter",
+          "targetExperienceBand": "T3C",
+          "bridgeStatus": "temporary"
         },
         {
           "severity": "warning",
@@ -49,28 +44,48 @@
           "message": "Tier 3 surfaces must show compact command-header evidence instead of a fat dashboard banner.",
           "surface": "market-intelligence-live",
           "path": "public/roc/market-intelligence-live.html"
+        },
+        {
+          "severity": "warning",
+          "code": "tier3.chartPanelMissing",
+          "message": "Tier 3 surfaces with charts should use ChartPanel/hdk-chart-panel evidence instead of local decorative chart cards.",
+          "surface": "market-intelligence-live",
+          "path": "public/roc/market-intelligence-live.html"
         }
       ]
     },
     {
       "project": "media-engine",
       "name": "Media Engine",
-      "status": "current",
+      "status": "needs-review",
       "experienceTier": {
         "current": 3,
         "target": 3,
+        "targetBand": "T3C",
+        "implementationMode": "static-adapter",
         "migrationRequired": false,
-        "note": "Media Engine production renderer satisfies the Tier 3 cockpit standard with shared-kit shell markers, sidebar rail, compact command header, overflow protection, state checklist, entity cards, drilldown drawer, AI review panel, chart telemetry, proof/state surfaces, and raw tables retained as secondary evidence."
+        "note": "Media Engine production renderer satisfies the Tier 3 cockpit standard through a static/hybrid bridge with shared-kit shell markers, sidebar rail, compact command header, overflow protection, state checklist, entity cards, drilldown drawer, AI review panel, chart telemetry, proof/state surfaces, and raw tables retained as secondary evidence. The next maturity target is T3C package-native delivery."
       },
-      "issues": []
+      "issues": [
+        {
+          "severity": "warning",
+          "code": "packageNative.bridge",
+          "message": "Target band is T3C, but current implementation mode is static-adapter. Treat this as a bridge, not the final standard.",
+          "implementationMode": "static-adapter",
+          "targetExperienceBand": "T3C",
+          "bridgeStatus": "temporary"
+        }
+      ]
     },
     {
       "project": "media-business-os",
       "name": "Media Business OS",
-      "status": "stale",
+      "status": "needs-review",
       "experienceTier": {
         "current": 1,
         "target": 3,
+        "targetBand": "T3C",
+        "implementationMode": "static-adapter",
         "migrationRequired": true,
         "note": "Media Business OS has adapter-level alignment but still needs a product-grade operating cockpit migration."
       },
@@ -85,29 +100,24 @@
           "tierMigrationNote": "Media Business OS has adapter-level alignment but still needs a product-grade operating cockpit migration."
         },
         {
-          "severity": "error",
-          "code": "adapter.drifted",
-          "message": "Static adapter has drifted from the canonical dashboard-kit CSS.",
-          "path": "../media-business-operations/public/dashboard/hermes-dashboard-kit.css",
-          "expectedHash": "7e7f426ff5a7",
-          "actualHash": "ede1c22c72b5"
-        },
-        {
           "severity": "warning",
-          "code": "adapter.recordedHashStale",
-          "message": "Manifest recorded canonicalCssHash does not match current kit CSS hash.",
-          "recordedHash": "ede1c22c72b5",
-          "currentHash": "7e7f426ff5a7"
+          "code": "packageNative.bridge",
+          "message": "Target band is T3C, but current implementation mode is static-adapter. Treat this as a bridge, not the final standard.",
+          "implementationMode": "static-adapter",
+          "targetExperienceBand": "T3C",
+          "bridgeStatus": "temporary"
         }
       ]
     },
     {
       "project": "business-mapper",
       "name": "Business Mapper",
-      "status": "stale",
+      "status": "needs-review",
       "experienceTier": {
         "current": 1,
         "target": 2,
+        "targetBand": "T2B",
+        "implementationMode": "static-adapter",
         "migrationRequired": true,
         "note": "Business Mapper should move from static adapter usage to shared component dashboard quality before being considered complete."
       },
@@ -120,58 +130,45 @@
           "targetExperienceTier": 2,
           "tierMigrationRequired": true,
           "tierMigrationNote": "Business Mapper should move from static adapter usage to shared component dashboard quality before being considered complete."
-        },
-        {
-          "severity": "error",
-          "code": "adapter.drifted",
-          "message": "Static adapter has drifted from the canonical dashboard-kit CSS.",
-          "path": "../business-mapper/business_mapper/static/hermes-dashboard-kit.css",
-          "expectedHash": "7e7f426ff5a7",
-          "actualHash": "ede1c22c72b5"
-        },
-        {
-          "severity": "warning",
-          "code": "adapter.recordedHashStale",
-          "message": "Manifest recorded canonicalCssHash does not match current kit CSS hash.",
-          "recordedHash": "ede1c22c72b5",
-          "currentHash": "7e7f426ff5a7"
         }
       ]
     },
     {
       "project": "meal-assistant",
       "name": "Meal Assistant",
-      "status": "stale",
+      "status": "needs-review",
       "experienceTier": {
         "current": 1,
-        "target": 2,
+        "target": 3,
+        "targetBand": "T3C",
+        "implementationMode": "server-rendered-legacy",
         "migrationRequired": true,
-        "note": "Meal Assistant should move from static adapter usage to shared component dashboard quality before being considered complete."
+        "note": "Meal Assistant is currently server-rendered/static dashboard UI and should move to package-native shared component dashboard quality before being considered complete."
       },
       "issues": [
         {
           "severity": "warning",
           "code": "experienceTier.migrationRequired",
-          "message": "Experience tier is One-shell organized report (Tier 1) but target is Shared component dashboard (Tier 2).",
+          "message": "Experience tier is One-shell organized report (Tier 1) but target is Product-grade cockpit (Tier 3).",
           "currentExperienceTier": 1,
-          "targetExperienceTier": 2,
+          "targetExperienceTier": 3,
           "tierMigrationRequired": true,
-          "tierMigrationNote": "Meal Assistant should move from static adapter usage to shared component dashboard quality before being considered complete."
-        },
-        {
-          "severity": "error",
-          "code": "adapter.drifted",
-          "message": "Static adapter has drifted from the canonical dashboard-kit CSS.",
-          "path": "../Meal-assistant/src/hermes-dashboard-kit.css",
-          "expectedHash": "7e7f426ff5a7",
-          "actualHash": "ede1c22c72b5"
+          "tierMigrationNote": "Meal Assistant is currently server-rendered/static dashboard UI and should move to package-native shared component dashboard quality before being considered complete."
         },
         {
           "severity": "warning",
-          "code": "adapter.recordedHashStale",
-          "message": "Manifest recorded canonicalCssHash does not match current kit CSS hash.",
-          "recordedHash": "ede1c22c72b5",
-          "currentHash": "7e7f426ff5a7"
+          "code": "packageNative.bridge",
+          "message": "Target band is T3C, but current implementation mode is server-rendered-legacy. Treat this as a bridge, not the final standard.",
+          "implementationMode": "server-rendered-legacy",
+          "targetExperienceBand": "T3C",
+          "bridgeStatus": "legacy-bridge"
+        },
+        {
+          "severity": "warning",
+          "code": "implementationMode.serverRenderedLegacy",
+          "message": "Server-rendered dashboard HTML/CSS cannot be the default path for Tier 3 completion; migrate to package-native/shared dashboard-kit components.",
+          "implementationMode": "server-rendered-legacy",
+          "targetExperienceBand": "T3C"
         }
       ]
     },
@@ -182,6 +179,8 @@
       "experienceTier": {
         "current": 0,
         "target": 3,
+        "targetBand": "T3C",
+        "implementationMode": "planned",
         "migrationRequired": true,
         "note": "Hermes OS is planned in this registry and must move through shell, shared components, and product-grade cockpit adoption."
       },
@@ -194,6 +193,14 @@
           "targetExperienceTier": 3,
           "tierMigrationRequired": true,
           "tierMigrationNote": "Hermes OS is planned in this registry and must move through shell, shared components, and product-grade cockpit adoption."
+        },
+        {
+          "severity": "warning",
+          "code": "packageNative.bridge",
+          "message": "Target band is T3C, but current implementation mode is planned. Treat this as a bridge, not the final standard.",
+          "implementationMode": "planned",
+          "targetExperienceBand": "T3C",
+          "bridgeStatus": "not-started"
         }
       ]
     },
@@ -204,6 +211,8 @@
       "experienceTier": {
         "current": 0,
         "target": 3,
+        "targetBand": "T3C",
+        "implementationMode": "planned",
         "migrationRequired": true,
         "note": "TLC Capital Group OS is planned in this registry and must move through shell, shared components, and product-grade cockpit adoption."
       },
@@ -216,6 +225,14 @@
           "targetExperienceTier": 3,
           "tierMigrationRequired": true,
           "tierMigrationNote": "TLC Capital Group OS is planned in this registry and must move through shell, shared components, and product-grade cockpit adoption."
+        },
+        {
+          "severity": "warning",
+          "code": "packageNative.bridge",
+          "message": "Target band is T3C, but current implementation mode is planned. Treat this as a bridge, not the final standard.",
+          "implementationMode": "planned",
+          "targetExperienceBand": "T3C",
+          "bridgeStatus": "not-started"
         }
       ]
     }

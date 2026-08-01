@@ -8,6 +8,7 @@ import {
   Layers3,
   ListChecks,
   MonitorSmartphone,
+  Network,
   ShieldCheck,
   Workflow,
 } from "lucide-react";
@@ -32,14 +33,16 @@ import {
   buildVersions,
   componentOwnershipRules,
   patternRegistry,
+  projectTierAssessments,
   validationCommands,
   type BuildVersion,
   type ComponentOwnershipRule,
   type PatternRegistryEntry,
+  type ProjectTierAssessment,
   type ValidationCommand,
 } from "./design-intelligence-data";
 
-type ViewMode = "versions" | "patterns" | "ownership" | "validation";
+type ViewMode = "versions" | "projects" | "patterns" | "ownership" | "validation";
 
 const statusTone = {
   ready: "success",
@@ -131,6 +134,50 @@ const validationColumns: DataTableColumn<ValidationCommand>[] = [
   { id: "signal", header: "Expected Signal", accessor: (row) => row.expectedSignal, sortValue: (row) => row.expectedSignal },
 ];
 
+const projectColumns: DataTableColumn<ProjectTierAssessment>[] = [
+  {
+    id: "project",
+    header: "Project",
+    accessor: (row) => (
+      <div>
+        <div className="font-medium text-foreground">{row.name}</div>
+        <div className="mt-1 font-mono-ui text-xs text-muted-foreground">{row.project}</div>
+      </div>
+    ),
+    sortValue: (row) => row.name,
+  },
+  {
+    id: "status",
+    header: "Audit",
+    accessor: (row) => <StatusPill tone={row.auditStatus === "current" ? "success" : "warning"}>{row.auditStatus}</StatusPill>,
+    sortValue: (row) => row.auditStatus,
+  },
+  {
+    id: "coarse",
+    header: "Coarse",
+    accessor: (row) => <span className="font-mono-ui text-xs">{row.coarseTier}</span>,
+    sortValue: (row) => row.coarseTier,
+  },
+  {
+    id: "band",
+    header: "Band",
+    accessor: (row) => <StatusPill tone={row.currentBand.startsWith("T3") ? row.currentBand === "T3A" ? "warning" : "success" : "info"}>{row.currentBand}</StatusPill>,
+    sortValue: (row) => row.currentBand,
+  },
+  {
+    id: "target",
+    header: "Target",
+    accessor: (row) => row.targetBand,
+    sortValue: (row) => row.targetBand,
+  },
+  {
+    id: "warnings",
+    header: "Warnings",
+    accessor: (row) => row.warnings.length,
+    sortValue: (row) => row.warnings.length,
+  },
+];
+
 function listBlock(title: string, items: string[]) {
   return (
     <div>
@@ -166,6 +213,7 @@ export default function DesignIntelligenceCommandCenterPage() {
 
   const navItems: DashboardNavItem[] = [
     { id: "versions", label: "Build Versions", active: view === "versions", icon: GitBranch, onClick: () => setView("versions") },
+    { id: "projects", label: "Project Tiers", active: view === "projects", icon: Network, onClick: () => setView("projects") },
     { id: "patterns", label: "Pattern Registry", active: view === "patterns", icon: Layers3, onClick: () => setView("patterns") },
     { id: "ownership", label: "Ownership Rules", active: view === "ownership", icon: ShieldCheck, onClick: () => setView("ownership") },
     { id: "validation", label: "Validation Gates", active: view === "validation", icon: ListChecks, onClick: () => setView("validation") },
@@ -218,6 +266,7 @@ export default function DesignIntelligenceCommandCenterPage() {
             onChange={setView}
             options={[
               { value: "versions", label: "Versions" },
+              { value: "projects", label: "Projects" },
               { value: "patterns", label: "Patterns" },
               { value: "ownership", label: "Ownership" },
               { value: "validation", label: "Validation" },
@@ -247,6 +296,16 @@ export default function DesignIntelligenceCommandCenterPage() {
             columns={patternColumns}
             getRowKey={(row) => row.id}
             onRowClick={(row) => setSelectedPatternId(row.id)}
+          />
+        ) : null}
+
+        {view === "projects" ? (
+          <DataTable
+            rows={projectTierAssessments}
+            columns={projectColumns}
+            getRowKey={(row) => row.project}
+            emptyTitle="No project tier assessments"
+            emptyDescription="Run the adoption report and update the project tier assessment registry."
           />
         ) : null}
 
@@ -308,6 +367,31 @@ export default function DesignIntelligenceCommandCenterPage() {
               ))}
             </ul>
           </div>
+        </div>
+      </DashboardSection>
+
+      <DashboardSection title="Project Tier Actions" description="Current refined tier bands and next moves from the latest adoption assessment.">
+        <div className="grid gap-3 lg:grid-cols-2">
+          {projectTierAssessments.map((project) => (
+            <div key={project.project} className="rounded-lg border border-border bg-muted/30 p-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <div className="font-medium text-foreground">{project.name}</div>
+                  <div className="font-mono-ui text-xs text-muted-foreground">{project.project}</div>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <StatusPill tone={project.auditStatus === "current" ? "success" : "warning"}>{project.auditStatus}</StatusPill>
+                  <StatusPill tone={project.currentBand.startsWith("T3") ? project.currentBand === "T3A" ? "warning" : "success" : "info"}>{project.currentBand}</StatusPill>
+                </div>
+              </div>
+              <div className="mt-3 text-sm text-muted-foreground">{project.nextMove}</div>
+              {project.warnings.length ? (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {project.warnings.map((warning) => <StatusPill key={warning} tone="warning">{warning}</StatusPill>)}
+                </div>
+              ) : null}
+            </div>
+          ))}
         </div>
       </DashboardSection>
 

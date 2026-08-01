@@ -23,6 +23,7 @@
     "audit:fix:web": "npm audit fix --workspace web",
     "audit:fix:tui": "npm audit fix --workspace ui-tui",
     "dashboard:registry:validate": "node scripts/validate-dashboard-registry.mjs",
+    "repo:remote:validate": "node scripts/validate-private-fork-remote.mjs",
     "dashboard:design-system:status": "node scripts/design-system-status.mjs",
     "dashboard-kit:adoption:audit": "node packages/hermes-dashboard-kit/scripts/audit-adoption.mjs",
     "dashboard-kit:adoption:audit:strict": "node packages/hermes-dashboard-kit/scripts/audit-adoption.mjs --strict",
@@ -150,13 +151,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NousResearch/Hermes-Agent.git"
+    "url": "git+ssh://git@github.com/Ai-Builder-hub-1/hermes-agent.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/NousResearch/Hermes-Agent/issues"
+    "url": "https://github.com/Ai-Builder-hub-1/hermes-agent/issues"
   },
-  "homepage": "https://github.com/NousResearch/Hermes-Agent#readme",
+  "homepage": "https://github.com/Ai-Builder-hub-1/hermes-agent#readme",
   "dependencies": {
     "@streamdown/math": "^1.0.2",
     "agent-browser": "^0.26.0",

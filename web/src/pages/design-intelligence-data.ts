@@ -43,6 +43,109 @@ export interface ValidationCommand {
   expectedSignal: string;
 }
 
+export interface TierBand {
+  band: string;
+  tier: 0 | 1 | 2 | 3;
+  label: string;
+  meaning: string;
+}
+
+export interface ProjectTierAssessment {
+  project: string;
+  name: string;
+  auditStatus: "current" | "needs-review" | "stale" | "missing" | "unregistered";
+  coarseTier: string;
+  currentBand: string;
+  targetBand: string;
+  warnings: string[];
+  nextMove: string;
+}
+
+export const tierBands: TierBand[] = [
+  { band: "T0P", tier: 0, label: "Planned or governance-only", meaning: "Project is registered for governance/readiness but has no audited operator surface yet." },
+  { band: "T0L", tier: 0, label: "Raw legacy surface", meaning: "Dashboard exists as a raw report, debug table, prototype, or ungoverned screen." },
+  { band: "T1A", tier: 1, label: "Adapter-aligned shell", meaning: "Canonical CSS/static adapter is synced, but no surface-level component inventory is enforceable." },
+  { band: "T1B", tier: 1, label: "Inventoried one-shell report", meaning: "One-shell route and surfaces are inventoried, but the main operator path still reads as a report." },
+  { band: "T2A", tier: 2, label: "Hybrid shared-component dashboard", meaning: "Primary surface uses shared-kit contracts through a static or hybrid implementation, but is not fully package-native." },
+  { band: "T2B", tier: 2, label: "Package-native shared-component dashboard", meaning: "Primary surface imports shared components directly and covers required states, but is not yet a product-grade cockpit." },
+  { band: "T3A", tier: 3, label: "Cockpit candidate with review gaps", meaning: "Dashboard targets product-grade cockpit behavior but still has Tier 3 visual, shell, chart, proof, or interaction warnings." },
+  { band: "T3B", tier: 3, label: "Current static/hybrid product cockpit", meaning: "Audited product-grade cockpit is current, but delivery still depends on static or hybrid adapter infrastructure." },
+  { band: "T3C", tier: 3, label: "Package-native product cockpit", meaning: "Highest maturity: audited Tier 3 cockpit implemented directly with shared package components and complete proof/validation." },
+];
+
+export const projectTierAssessments: ProjectTierAssessment[] = [
+  {
+    project: "khashi-vc",
+    name: "Kashi VC",
+    auditStatus: "needs-review",
+    coarseTier: "3->3",
+    currentBand: "T3A",
+    targetBand: "T3C",
+    warnings: ["packageNative.bridge", "tier3.sidebarRailMissing", "tier3.commandHeaderMissing", "tier3.chartPanelMissing"],
+    nextMove: "Repair Tier 3 visual/shell/chart markers in the live command surface; then plan package-native route migration.",
+  },
+  {
+    project: "media-engine",
+    name: "Media Engine",
+    auditStatus: "needs-review",
+    coarseTier: "3->3",
+    currentBand: "T3B",
+    targetBand: "T3C",
+    warnings: ["packageNative.bridge"],
+    nextMove: "Preserve as the current static/hybrid Tier 3 reference; next maturity step is package-native implementation.",
+  },
+  {
+    project: "media-business-os",
+    name: "Media Business OS",
+    auditStatus: "needs-review",
+    coarseTier: "1->3",
+    currentBand: "T1A",
+    targetBand: "T3C",
+    warnings: ["experienceTier.migrationRequired", "packageNative.bridge"],
+    nextMove: "Add surface inventory, pick primary recipe, define data/state contracts, then build shared-component cockpit.",
+  },
+  {
+    project: "business-mapper",
+    name: "Business Mapper",
+    auditStatus: "needs-review",
+    coarseTier: "1->2",
+    currentBand: "T1A",
+    targetBand: "T2B",
+    warnings: ["experienceTier.migrationRequired"],
+    nextMove: "Add surface inventory and migrate primary dashboard path to shared components.",
+  },
+  {
+    project: "meal-assistant",
+    name: "Meal Assistant",
+    auditStatus: "needs-review",
+    coarseTier: "1->3",
+    currentBand: "T1A",
+    targetBand: "T3C",
+    warnings: ["experienceTier.migrationRequired", "packageNative.bridge", "implementationMode.serverRenderedLegacy"],
+    nextMove: "Add surface inventory, define the product cockpit routes, and migrate away from hand-authored server-rendered dashboard HTML/CSS.",
+  },
+  {
+    project: "hermes-os",
+    name: "Hermes OS",
+    auditStatus: "needs-review",
+    coarseTier: "0->3",
+    currentBand: "T0P",
+    targetBand: "T3C",
+    warnings: ["experienceTier.migrationRequired", "packageNative.bridge"],
+    nextMove: "Decide whether Hermes OS owns a production operator dashboard or remains governance-only; if dashboard-owned, add surfaces and target package-native cockpit.",
+  },
+  {
+    project: "tlc-capital-group-os",
+    name: "TLC Capital Group OS",
+    auditStatus: "needs-review",
+    coarseTier: "0->3",
+    currentBand: "T0P",
+    targetBand: "T3C",
+    warnings: ["experienceTier.migrationRequired", "packageNative.bridge"],
+    nextMove: "Inventory executive/operator surfaces and define whether this becomes a package-native cockpit or remains a readiness consumer.",
+  },
+];
+
 export const buildVersions: BuildVersion[] = [
   {
     id: "V1",

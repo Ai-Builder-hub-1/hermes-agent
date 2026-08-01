@@ -89,6 +89,10 @@ function evaluateProject(registry, project, sourceHash) {
     project.currentExperienceTier ?? manifest.dashboardKit?.currentExperienceTier ?? null;
   const targetExperienceTier =
     project.targetExperienceTier ?? manifest.dashboardKit?.targetExperienceTier ?? null;
+  const implementationMode =
+    project.implementationMode ?? manifest.dashboardKit?.implementationMode ?? manifest.dashboardKit?.adoptionMode ?? project.expectedMode ?? null;
+  const targetExperienceBand =
+    project.targetExperienceBand ?? manifest.dashboardKit?.targetExperienceBand ?? null;
   const tierMigrationRequired =
     project.tierMigrationRequired ?? (
       currentExperienceTier !== null &&
@@ -116,6 +120,49 @@ function evaluateProject(registry, project, sourceHash) {
         tierMigrationNote:
           project.tierMigrationNote || manifest.dashboardKit?.tierMigrationNote || ""
       }
+    ));
+  }
+
+  if (!implementationMode) {
+    issues.push(issue(
+      "warning",
+      "implementationMode.missing",
+      "Dashboard adoption should declare implementationMode so static/server-rendered bridges are not confused with package-native completion."
+    ));
+  }
+
+  if (targetExperienceBand === "T3C" && project.packageNativeRequired === true && implementationMode !== "package-native") {
+    issues.push(issue(
+      "warning",
+      "packageNative.bridge",
+      `Target band is T3C, but current implementation mode is ${implementationMode}. Treat this as a bridge, not the final standard.`,
+      {
+        implementationMode,
+        targetExperienceBand,
+        bridgeStatus:
+          project.bridgeStatus || manifest.dashboardKit?.bridgeStatus || ""
+      }
+    ));
+  }
+
+  if (implementationMode === "server-rendered-legacy" && Number(targetExperienceTier) >= 3) {
+    issues.push(issue(
+      "warning",
+      "implementationMode.serverRenderedLegacy",
+      "Server-rendered dashboard HTML/CSS cannot be the default path for Tier 3 completion; migrate to package-native/shared dashboard-kit components.",
+      {
+        implementationMode,
+        targetExperienceBand:
+          targetExperienceBand || ""
+      }
+    ));
+  }
+
+  if (Number(targetExperienceTier) >= 3 && project.mobbinReferenceRequired !== true) {
+    issues.push(issue(
+      "warning",
+      "referenceEvidence.mobbinMissing",
+      "Tier 3 dashboard migrations should require Mobbin/reference extraction before implementation."
     ));
   }
 
@@ -203,6 +250,9 @@ function evaluateProject(registry, project, sourceHash) {
         currentExperienceTier === null ? null : Number(currentExperienceTier),
       target:
         targetExperienceTier === null ? null : Number(targetExperienceTier),
+      targetBand:
+        targetExperienceBand,
+      implementationMode,
       migrationRequired:
         Boolean(tierMigrationRequired),
       note:
@@ -427,7 +477,8 @@ if (json) {
     status: result.status,
     tier: result.experienceTier?.current === null
       ? "unset"
-      : `${result.experienceTier.current}->${result.experienceTier.target}`,
+      : `${result.experienceTier.current}->${result.experienceTier.target}${result.experienceTier.targetBand ? ` ${result.experienceTier.targetBand}` : ""}`,
+    mode: result.experienceTier?.implementationMode || "unset",
     errors: result.issues.filter((item) => item.severity === "error").length,
     warnings: result.issues.filter((item) => item.severity === "warning").length
   })));

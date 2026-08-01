@@ -19,6 +19,11 @@ surfaces:
       overflow: "labels, buttons, badges, and footer/status content cannot spill outside the shell"
     currentExperienceTier: 3
     targetExperienceTier: 3
+    implementationMode: "static-adapter"
+    targetExperienceBand: "T3C"
+    packageNativeRequired: true
+    bridgeStatus: "temporary"
+    mobbinReferenceRequired: true
     tierMigrationRequired: false
     purpose: "Understand live market volatility, liquidity, movement, category behavior, and actionable opportunities."
     evidence:
@@ -48,6 +53,11 @@ surfaces:
       overflow: "labels, buttons, badges, and footer/status content cannot spill outside the shell"
     currentExperienceTier: 3
     targetExperienceTier: 3
+    implementationMode: "static-adapter"
+    targetExperienceBand: "T3C"
+    packageNativeRequired: true
+    bridgeStatus: "temporary"
+    mobbinReferenceRequired: true
     tierMigrationRequired: false
     tierMigrationNote: "Media Engine production renderer satisfies shared-kit cockpit, shell visual contract, drilldown, state, telemetry, and proof-state requirements."
     purpose: "Operate brand output, content packages, briefings, and human video workflows."
@@ -72,6 +82,11 @@ surfaces:
       overflow: "labels, buttons, badges, and footer/status content cannot spill outside the shell"
     currentExperienceTier: 2
     targetExperienceTier: 3
+    implementationMode: "hybrid"
+    targetExperienceBand: "T3C"
+    packageNativeRequired: true
+    bridgeStatus: "temporary"
+    mobbinReferenceRequired: true
     tierMigrationRequired: true
     tierMigrationNote: "Shared-kit implementation exists; production proof and polished operator cockpit behavior remain."
     purpose: "Track cost, tokens, provider usage, capacity, and business-unit drilldowns."
@@ -95,6 +110,11 @@ surfaces:
       overflow: "labels, buttons, badges, and footer/status content cannot spill outside the shell"
     currentExperienceTier: 0
     targetExperienceTier: 3
+    implementationMode: "planned"
+    targetExperienceBand: "T3C"
+    packageNativeRequired: true
+    bridgeStatus: "not-started"
+    mobbinReferenceRequired: true
     tierMigrationRequired: true
     tierMigrationNote: "Planned surface; must move through shell, shared components, and proof-backed cockpit migration."
     purpose: "Govern cross-project readiness, adoption, routing, and production operations."

@@ -11,15 +11,24 @@ requiredGates:
   - id: "single-shell-route-model"
     severity: "error"
     description: "Every governed production surface declares one canonical route, one shell model, and any compatibility routes."
+  - id: "private-remote"
+    severity: "error"
+    description: "Dashboard/design-system release work must target the private project remote/backbone, never the public upstream remote by default."
   - id: "shell-visual-contract"
     severity: "error"
     description: "Every governed Tier 3 production surface declares sidebar rail, compact command header, active route, and overflow protection expectations."
   - id: "experience-tier"
     severity: "error"
     description: "Every governed surface declares current and target experience tiers so shell compliance is not confused with product-grade completion."
+  - id: "implementation-mode"
+    severity: "error"
+    description: "Every governed surface declares whether it is package-native, hybrid, static-adapter, server-rendered-legacy, or planned."
   - id: "recipe-selection"
     severity: "error"
     description: "Every governed surface selects one primary dashboard recipe."
+  - id: "reference-evidence"
+    severity: "error"
+    description: "Material redesign work must include Mobbin/reference extraction before implementation."
   - id: "data-contract"
     severity: "error"
     description: "Every governed surface has an experience/data contract before UI build."
@@ -73,6 +82,11 @@ governedSurfaces:
       overflow: "labels, buttons, badges, and footer/status content cannot spill outside the shell"
     currentExperienceTier: 3
     targetExperienceTier: 3
+    implementationMode: "static-adapter"
+    targetExperienceBand: "T3C"
+    packageNativeRequired: true
+    bridgeStatus: "temporary"
+    mobbinReferenceRequired: true
     tierMigrationRequired: false
     adoptionEvidence:
       - "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json"
@@ -96,6 +110,11 @@ governedSurfaces:
       overflow: "labels, buttons, badges, and footer/status content cannot spill outside the shell"
     currentExperienceTier: 3
     targetExperienceTier: 3
+    implementationMode: "static-adapter"
+    targetExperienceBand: "T3C"
+    packageNativeRequired: true
+    bridgeStatus: "temporary"
+    mobbinReferenceRequired: true
     tierMigrationRequired: false
     tierMigrationNote: "Production renderer satisfies shared-kit cockpit, shell visual contract, drilldown, state, telemetry, and proof-state requirements."
     adoptionEvidence:
@@ -120,6 +139,11 @@ governedSurfaces:
       overflow: "labels, buttons, badges, and footer/status content cannot spill outside the shell"
     currentExperienceTier: 2
     targetExperienceTier: 3
+    implementationMode: "hybrid"
+    targetExperienceBand: "T3C"
+    packageNativeRequired: true
+    bridgeStatus: "temporary"
+    mobbinReferenceRequired: true
     tierMigrationRequired: true
     tierMigrationNote: "Capacity command center has shared-kit reference implementation and still needs production proof and broader cockpit polish before Tier 3."
     adoptionEvidence:
@@ -144,6 +168,11 @@ governedSurfaces:
       overflow: "labels, buttons, badges, and footer/status content cannot spill outside the shell"
     currentExperienceTier: 0
     targetExperienceTier: 3
+    implementationMode: "planned"
+    targetExperienceBand: "T3C"
+    packageNativeRequired: true
+    bridgeStatus: "not-started"
+    mobbinReferenceRequired: true
     tierMigrationRequired: true
     tierMigrationNote: "Hermes OS workspace is planned and must move through shell, shared components, and proof-backed cockpit migration."
     adoptionEvidence:

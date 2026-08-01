@@ -84,6 +84,62 @@
       "completionMeaning": "Priority-dashboard completion target."
     }
   ],
+  "experienceTierBands": [
+    {
+      "band": "T0P",
+      "tier": 0,
+      "label": "Planned or governance-only",
+      "meaning": "Project is registered for governance/readiness but has no audited operator surface yet."
+    },
+    {
+      "band": "T0L",
+      "tier": 0,
+      "label": "Raw legacy surface",
+      "meaning": "Dashboard exists as a raw report, debug table, prototype, or ungoverned screen."
+    },
+    {
+      "band": "T1A",
+      "tier": 1,
+      "label": "Adapter-aligned shell",
+      "meaning": "Canonical CSS/static adapter is synced, but no surface-level component inventory is enforceable."
+    },
+    {
+      "band": "T1B",
+      "tier": 1,
+      "label": "Inventoried one-shell report",
+      "meaning": "One-shell route and surfaces are inventoried, but the main operator path still reads as a report."
+    },
+    {
+      "band": "T2A",
+      "tier": 2,
+      "label": "Hybrid shared-component dashboard",
+      "meaning": "Primary surface uses shared-kit contracts through a static or hybrid implementation, but is not fully package-native."
+    },
+    {
+      "band": "T2B",
+      "tier": 2,
+      "label": "Package-native shared-component dashboard",
+      "meaning": "Primary surface imports shared components directly and covers required dashboard states, but is not yet a product-grade cockpit."
+    },
+    {
+      "band": "T3A",
+      "tier": 3,
+      "label": "Cockpit candidate with review gaps",
+      "meaning": "Dashboard targets product-grade cockpit behavior but still has Tier 3 visual, shell, chart, proof, or interaction warnings."
+    },
+    {
+      "band": "T3B",
+      "tier": 3,
+      "label": "Current static/hybrid product cockpit",
+      "meaning": "Audited product-grade cockpit is current, but delivery still depends on static or hybrid adapter infrastructure."
+    },
+    {
+      "band": "T3C",
+      "tier": 3,
+      "label": "Package-native product cockpit",
+      "meaning": "Highest maturity: audited Tier 3 cockpit implemented directly with shared package components and complete proof/validation."
+    }
+  ],
   "projects": [
     {
       "id": "khashi-vc",
@@ -92,10 +148,15 @@
       "manifest": "../khashi-vc/.hermes-dashboard.json",
       "adapterTarget": "../khashi-vc/public/roc/hermes-dashboard-kit.css",
       "expectedMode": "static-adapter",
+      "implementationMode": "static-adapter",
+      "targetExperienceBand": "T3C",
+      "packageNativeRequired": true,
+      "bridgeStatus": "temporary",
+      "mobbinReferenceRequired": true,
       "currentExperienceTier": 3,
       "targetExperienceTier": 3,
       "tierMigrationRequired": false,
-      "tierMigrationNote": "Kashi VC Live Command is the current Tier 3 reference surface for live market cockpit behavior.",
+      "tierMigrationNote": "Kashi VC Live Command is the current Tier 3 reference surface for live market cockpit behavior, but the highest maturity target remains T3C package-native delivery.",
       "requiredSurfaces": ["market-intelligence-live"]
     },
     {
@@ -105,10 +166,15 @@
       "manifest": "../media-engine/.hermes-dashboard.json",
       "adapterTarget": "../media-engine/core/operations/hermes-dashboard-kit.css",
       "expectedMode": "static-adapter",
+      "implementationMode": "static-adapter",
+      "targetExperienceBand": "T3C",
+      "packageNativeRequired": true,
+      "bridgeStatus": "temporary",
+      "mobbinReferenceRequired": true,
       "currentExperienceTier": 3,
       "targetExperienceTier": 3,
       "tierMigrationRequired": false,
-      "tierMigrationNote": "Media Engine production renderer satisfies the Tier 3 cockpit standard with shared-kit shell markers, sidebar rail, compact command header, overflow protection, state checklist, entity cards, drilldown drawer, AI review panel, chart telemetry, proof/state surfaces, and raw tables retained as secondary evidence.",
+      "tierMigrationNote": "Media Engine production renderer satisfies the Tier 3 cockpit standard through a static/hybrid bridge with shared-kit shell markers, sidebar rail, compact command header, overflow protection, state checklist, entity cards, drilldown drawer, AI review panel, chart telemetry, proof/state surfaces, and raw tables retained as secondary evidence. The next maturity target is T3C package-native delivery.",
       "requiredSurfaces": ["media-engine-ops-active"]
     },
     {
@@ -118,6 +184,11 @@
       "manifest": "../media-business-operations/.hermes-dashboard.json",
       "adapterTarget": "../media-business-operations/public/dashboard/hermes-dashboard-kit.css",
       "expectedMode": "static-adapter",
+      "implementationMode": "static-adapter",
+      "targetExperienceBand": "T3C",
+      "packageNativeRequired": true,
+      "bridgeStatus": "temporary",
+      "mobbinReferenceRequired": true,
       "currentExperienceTier": 1,
       "targetExperienceTier": 3,
       "tierMigrationRequired": true,
@@ -131,6 +202,11 @@
       "manifest": "../business-mapper/.hermes-dashboard.json",
       "adapterTarget": "../business-mapper/business_mapper/static/hermes-dashboard-kit.css",
       "expectedMode": "static-adapter",
+      "implementationMode": "static-adapter",
+      "targetExperienceBand": "T2B",
+      "packageNativeRequired": true,
+      "bridgeStatus": "temporary",
+      "mobbinReferenceRequired": true,
       "currentExperienceTier": 1,
       "targetExperienceTier": 2,
       "tierMigrationRequired": true,
@@ -144,10 +220,15 @@
       "manifest": "../Meal-assistant/.hermes-dashboard.json",
       "adapterTarget": "../Meal-assistant/src/hermes-dashboard-kit.css",
       "expectedMode": "static-adapter",
+      "implementationMode": "server-rendered-legacy",
+      "targetExperienceBand": "T3C",
+      "packageNativeRequired": true,
+      "bridgeStatus": "legacy-bridge",
+      "mobbinReferenceRequired": true,
       "currentExperienceTier": 1,
-      "targetExperienceTier": 2,
+      "targetExperienceTier": 3,
       "tierMigrationRequired": true,
-      "tierMigrationNote": "Meal Assistant should move from static adapter usage to shared component dashboard quality before being considered complete.",
+      "tierMigrationNote": "Meal Assistant is currently server-rendered/static dashboard UI and should move to package-native shared component dashboard quality before being considered complete.",
       "requiredSurfaces": []
     },
     {
@@ -156,6 +237,11 @@
       "path": "../hermes",
       "manifest": "../hermes/.hermes-dashboard.json",
       "expectedMode": "planned",
+      "implementationMode": "planned",
+      "targetExperienceBand": "T3C",
+      "packageNativeRequired": true,
+      "bridgeStatus": "not-started",
+      "mobbinReferenceRequired": true,
       "currentExperienceTier": 0,
       "targetExperienceTier": 3,
       "tierMigrationRequired": true,
@@ -168,6 +254,11 @@
       "path": "../tlc-capital-group-os",
       "manifest": "../tlc-capital-group-os/.hermes-dashboard.json",
       "expectedMode": "planned",
+      "implementationMode": "planned",
+      "targetExperienceBand": "T3C",
+      "packageNativeRequired": true,
+      "bridgeStatus": "not-started",
+      "mobbinReferenceRequired": true,
       "currentExperienceTier": 0,
       "targetExperienceTier": 3,
       "tierMigrationRequired": true,

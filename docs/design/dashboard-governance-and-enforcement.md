@@ -10,6 +10,23 @@ Dashboard redesign work must be governed before implementation. A page should no
 
 This standard turns the Kaoshi experience architecture into a repeatable admission gate for Kashi VC, Media Engine, Hermes Agent, TLC Capital Group OS, Media Business OS, and future dashboards.
 
+## Private Fork And Deployment Rule
+
+Nous Hermes Agent is the source-of-truth workspace for this operating system, but this local working copy must not publish dashboard or design-intelligence work back to the public open-source upstream.
+
+Required behavior:
+
+- `origin` may remain a fetch-only upstream for reading and comparison.
+- pushes, deployment triggers, and dashboard proof changes must target the project-owned private remote/backbone.
+- dashboard/design-system work must not push to `NousResearch/hermes-agent` or any public upstream remote unless the user explicitly asks for an upstream contribution.
+- local clones should run the remote guard before release work:
+
+```bash
+npm run repo:remote:validate
+```
+
+If the guard fails, deployment is blocked until the push remote points to the private project remote or the public upstream push URL is disabled.
+
 ## Required Gate Sequence
 
 Every new or materially redesigned dashboard surface must pass these gates in order:
@@ -28,6 +45,34 @@ Every new or materially redesigned dashboard surface must pass these gates in or
 | `visual-quality` | visual QA score or screenshot review target is declared | screen can ship while still looking generic |
 | `adoption-reporting` | dashboard-kit adoption report includes the surface | project claims standards without evidence |
 | `exception-review` | any missing gate has an owner, expiry date, and migration plan | exceptions become permanent |
+
+## Build Order Rule
+
+Dashboard work must start with the system path, not a quick page patch:
+
+1. Select the dashboard recipe and target tier.
+2. Gather Mobbin/reference examples before implementation.
+3. Extract patterns into component requirements and acceptance criteria.
+4. Define the data/state/interaction contract.
+5. Build package-native or shared-kit components.
+6. Compose the product route in the one shell.
+7. Capture local and production proof screenshots.
+8. Update adoption/tier reporting.
+
+Skipping the reference and contract steps is allowed only for emergency fixes. Emergency fixes do not increase a dashboard's experience tier.
+
+## Mobbin-First Reference Rule
+
+Mobbin is part of the design workflow, not a late inspiration pass. For material dashboard redesigns, the handoff must include reference evidence before implementation:
+
+- selected reference category or product pattern
+- extracted layout pattern
+- extracted interaction pattern
+- mapped dashboard-kit components
+- visual acceptance criteria
+- screenshot proof after build
+
+The implementation must translate the reference into original Hermes components. It must not copy proprietary Mobbin assets, markup, or product-specific branding.
 
 ## Required Recipe Selection
 
@@ -62,7 +107,45 @@ Every governed surface must declare:
 
 Priority dashboards default to `targetExperienceTier: 3`. Lower targets require an exception with owner, reviewer, expiration date, and replacement plan.
 
-Media Engine is currently a Tier 1 dashboard after the one-shell migration. It must remain marked as requiring Tier 3 migration until its production operator path replaces raw report sections with package-native/shared-kit pages for Command Center, Production Queue, QA & Review, Brand Operations, Content Intelligence, Publishing & Channels, Cost & Usage, Issues & Reliability, and Settings/Registry.
+Use refined bands alongside numeric tiers when the coarse tier hides true status:
+
+| Band | Numeric tier | Label |
+| --- | ---: | --- |
+| `T0P` | 0 | Planned or governance-only |
+| `T0L` | 0 | Raw legacy surface |
+| `T1A` | 1 | Adapter-aligned shell |
+| `T1B` | 1 | Inventoried one-shell report |
+| `T2A` | 2 | Hybrid shared-component dashboard |
+| `T2B` | 2 | Package-native shared-component dashboard |
+| `T3A` | 3 | Cockpit candidate with review gaps |
+| `T3B` | 3 | Current static/hybrid product cockpit |
+| `T3C` | 3 | Package-native product cockpit |
+
+Media Engine is currently `T3B`: a current product-grade cockpit with static/hybrid delivery. Its next maturity target is `T3C`, package-native cockpit delivery.
+
+Kashi VC is currently `T3A`: the project targets Tier 3 cockpit behavior, but current audit warnings for sidebar rail, command header, and chart-panel evidence keep it in review until repaired.
+
+## Package-Native First Rule
+
+The long-term dashboard path is package-native, not one-off HTML/CSS.
+
+Tier meanings are enforced this way:
+
+- Tier 1 may use static/server-rendered HTML when the goal is organization only.
+- Tier 2 should use shared dashboard-kit components or a narrowly scoped static adapter.
+- Tier 3 can be considered current through an approved static/hybrid bridge, but the highest maturity band is always `T3C`: package-native product cockpit.
+- Server-rendered dashboard HTML/CSS is a legacy bridge unless it is generated from shared package components.
+- A dashboard cannot be called finished at the highest standard while it hand-rolls its shell, charts, drawers, tables, forms, or calendar UX.
+
+Every governed dashboard must declare its implementation mode. Valid modes are:
+
+- `package-native`
+- `hybrid`
+- `static-adapter`
+- `server-rendered-legacy`
+- `planned`
+
+Any `server-rendered-legacy` dashboard with target Tier 3 must declare a migration plan or exception.
 
 ## One Shell Rule
 

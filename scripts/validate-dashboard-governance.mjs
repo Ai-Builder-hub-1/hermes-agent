@@ -52,9 +52,12 @@ const requiredGateIds = new Set([
   "owner-reviewer",
   "workspace-mapping",
   "single-shell-route-model",
+  "private-remote",
   "shell-visual-contract",
   "experience-tier",
+  "implementation-mode",
   "recipe-selection",
+  "reference-evidence",
   "data-contract",
   "interaction-contract",
   "proof-route",
@@ -71,6 +74,8 @@ const approvedWorkspaces = new Set(gates.approvedWorkspaces ?? []);
 const approvedRecipes = new Set(gates.approvedRecipes ?? []);
 const approvedShellModels = new Set(["single-shell", "standalone-dev-only", "compatibility-route"]);
 const approvedExperienceTiers = new Set([0, 1, 2, 3]);
+const approvedImplementationModes = new Set(["package-native", "hybrid", "static-adapter", "server-rendered-legacy", "planned"]);
+const approvedTargetBands = new Set(["T0P", "T0L", "T1A", "T1B", "T2A", "T2B", "T3A", "T3B", "T3C"]);
 const surfaces = surfacesDoc.surfaces ?? [];
 const contracts = contractsDoc.contracts ?? [];
 const contractIds = new Set(contracts.map((contract) => contract.id));
@@ -84,6 +89,7 @@ for (const surface of surfaces) {
   if (!approvedWorkspaces.has(surface.workspace)) issue("error", `surface:${surface.id}.workspace`, `${surface.id} uses unapproved workspace ${surface.workspace}.`);
   validateShellRouteModel("surface", surface);
   validateShellVisualContract("surface", surface);
+  validateImplementationMode("surface", surface);
   if (!surface.primaryRecipe || !approvedRecipes.has(surface.primaryRecipe)) {
     issue("error", `surface:${surface.id}.primaryRecipe`, `${surface.id} must select an approved primary recipe.`);
   }
@@ -96,6 +102,7 @@ for (const governed of gates.governedSurfaces ?? []) {
   if (!approvedWorkspaces.has(governed.workspace)) issue("error", `governed:${governed.id}.workspace`, `${governed.id} uses unapproved workspace.`);
   validateShellRouteModel("governed", governed);
   validateShellVisualContract("governed", governed);
+  validateImplementationMode("governed", governed);
   validateExperienceTier("governed", governed);
   if (!approvedRecipes.has(governed.primaryRecipe)) issue("error", `governed:${governed.id}.recipe`, `${governed.id} must select an approved primary recipe.`);
 
@@ -201,6 +208,32 @@ function validateExperienceTier(kind, surface) {
   }
   if (approvedExperienceTiers.has(current) && approvedExperienceTiers.has(target) && current >= target && surface.tierMigrationRequired === true) {
     issue("warning", `${kind}:${surface.id}.tierMigrationRequired`, `${surface.id} is at or above target tier but still declares migration required.`);
+  }
+}
+
+function validateImplementationMode(kind, surface) {
+  if (!surface.implementationMode || !approvedImplementationModes.has(surface.implementationMode)) {
+    issue("error", `${kind}:${surface.id}.implementationMode`, `${surface.id} must declare implementationMode as one of: ${Array.from(approvedImplementationModes).join(", ")}.`);
+  }
+
+  if (surface.targetExperienceBand && !approvedTargetBands.has(surface.targetExperienceBand)) {
+    issue("error", `${kind}:${surface.id}.targetExperienceBand`, `${surface.id} has invalid targetExperienceBand ${surface.targetExperienceBand}.`);
+  }
+
+  if (Number(surface.targetExperienceTier) >= 3 && surface.mobbinReferenceRequired !== true) {
+    issue("warning", `${kind}:${surface.id}.mobbinReferenceRequired`, `${surface.id} targets Tier 3 and should require Mobbin/reference evidence before material redesign work.`);
+  }
+
+  if (surface.targetExperienceBand === "T3C" && surface.packageNativeRequired !== true) {
+    issue("error", `${kind}:${surface.id}.packageNativeRequired`, `${surface.id} targets T3C and must declare packageNativeRequired: true.`);
+  }
+
+  if (surface.implementationMode === "server-rendered-legacy" && Number(surface.targetExperienceTier) >= 3 && !surface.tierMigrationRequired) {
+    issue("error", `${kind}:${surface.id}.serverRenderedTier3`, `${surface.id} cannot target Tier 3 as server-rendered legacy without tierMigrationRequired: true.`);
+  }
+
+  if (surface.implementationMode !== "package-native" && surface.targetExperienceBand === "T3C" && !surface.bridgeStatus) {
+    issue("warning", `${kind}:${surface.id}.bridgeStatus`, `${surface.id} targets T3C but is not package-native yet; declare bridgeStatus.`);
   }
 }
 

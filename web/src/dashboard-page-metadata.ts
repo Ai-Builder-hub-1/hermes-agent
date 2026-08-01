@@ -67,7 +67,7 @@ export const dashboardPageMetadata: DashboardPageMetadata[] = [
     recipe: "system-health-deployment",
     owner: "Hermes",
     category: "design-system-governance",
-    dataContracts: ["BuildVersion[]", "PatternRegistryEntry[]", "ComponentOwnershipRule[]", "ValidationCommand[]"],
+    dataContracts: ["BuildVersion[]", "PatternRegistryEntry[]", "ProjectTierAssessment[]", "ComponentOwnershipRule[]", "ValidationCommand[]"],
     requiredStates: ["normal", "filtered", "selected", "zero-results", "stale", "mobile"],
     validation: ["dashboard:v80:validate", "dashboard:visual:check", "build --workspace web"],
     localOnlyReason: "Internal standards modernization route served by the Hermes dashboard app.",
