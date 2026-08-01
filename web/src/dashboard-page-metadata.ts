@@ -62,6 +62,17 @@ export const dashboardPageMetadata: DashboardPageMetadata[] = [
     localOnlyReason: "Internal gallery route served by the Hermes dashboard app.",
   },
   {
+    route: "/design-intelligence",
+    title: "Hermes Design Intelligence Command Center",
+    recipe: "system-health-deployment",
+    owner: "Hermes",
+    category: "design-system-governance",
+    dataContracts: ["BuildVersion[]", "PatternRegistryEntry[]", "ComponentOwnershipRule[]", "ValidationCommand[]"],
+    requiredStates: ["normal", "filtered", "selected", "zero-results", "stale", "mobile"],
+    validation: ["dashboard:v80:validate", "dashboard:visual:check", "build --workspace web"],
+    localOnlyReason: "Internal standards modernization route served by the Hermes dashboard app.",
+  },
+  {
     route: "/executive-summary",
     title: "TLC Executive Summary",
     recipe: "executive-command-center",

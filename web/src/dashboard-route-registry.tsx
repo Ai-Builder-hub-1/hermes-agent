@@ -32,6 +32,7 @@ import {
   Terminal,
   Users,
   Webhook,
+  Workflow,
   Wrench,
   type LucideIcon,
 } from "lucide-react";
@@ -47,6 +48,7 @@ const ModelsPage = lazy(() => import("@/pages/ModelsPage"));
 const CronPage = lazy(() => import("@/pages/CronPage"));
 const HermesOsPage = lazy(() => import("@/pages/HermesOsPage"));
 const DesignSystemPage = lazy(() => import("@/pages/DesignSystemPage"));
+const DesignIntelligenceCommandCenterPage = lazy(() => import("@/pages/DesignIntelligenceCommandCenterPage"));
 const PackageNativeMigrationsPage = lazy(() => import("@/pages/PackageNativeMigrationsPage"));
 const MediaEnginePackageNativePage = lazy(() => import("@/pages/ProjectSnapshotDashboardPage").then((module) => ({ default: module.MediaEnginePackageNativePage })));
 const KhashiVcPackageNativePage = lazy(() => import("@/pages/ProjectSnapshotDashboardPage").then((module) => ({ default: module.KhashiVcPackageNativePage })));
@@ -237,6 +239,7 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/provider-eval-execution": ProviderEvalExecutionPage,
   "/billing-provider-integrations": BillingProviderIntegrationsPage,
   "/release-train-execution": ReleaseTrainExecutionPage,
+  "/design-intelligence": DesignIntelligenceCommandCenterPage,
   "/design-system": DesignSystemPage,
   "/models": ModelsPage,
   "/logs": LogsPage,
@@ -337,6 +340,7 @@ export const BUILTIN_NAV_REST: BuiltinNavItem[] = [
   { path: "/provider-eval-execution", label: "Provider Evals", icon: Code2 },
   { path: "/billing-provider-integrations", label: "Billing APIs", icon: Scale },
   { path: "/release-train-execution", label: "Train Execute", icon: GitBranch },
+  { path: "/design-intelligence", label: "Design Intel", icon: Workflow },
   { path: "/design-system", label: "Design System", icon: GalleryVerticalEnd },
   { path: "/models", labelKey: "models", label: "Models", icon: Cpu },
   { path: "/logs", labelKey: "logs", label: "Logs", icon: FileText },

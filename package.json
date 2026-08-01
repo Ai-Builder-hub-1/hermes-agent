@@ -58,6 +58,8 @@
     "dashboard:usage:audit:strict": "node scripts/audit-dashboard-usage.mjs --strict",
     "dashboard:recipe:score": "node scripts/score-dashboard-recipe-compliance.mjs",
     "dashboard:recipe:score:strict": "node scripts/score-dashboard-recipe-compliance.mjs --strict",
+    "dashboard:standards:summary": "node scripts/summarize-dashboard-standards.mjs",
+    "dashboard:standards:summary:fast": "node scripts/summarize-dashboard-standards.mjs --fast",
     "dashboard:v3:validate": "node scripts/validate-v3-dashboard-migrations.mjs",
     "dashboard:v4:validate": "node scripts/validate-v4-dashboard-standardization.mjs",
     "dashboard:v5:validate": "node scripts/validate-v5-dashboard-quality.mjs",
