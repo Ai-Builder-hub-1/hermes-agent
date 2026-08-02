@@ -20,10 +20,22 @@
         "composeProject": "deploy",
         "serviceName": "nous-hermes-agent",
         "containerName": "deploy-nous-hermes-agent-1",
+        "buildContext": "/root/apps/nous-hermes-agent",
+        "hostCheckoutRemote": "ai-builder",
+        "hostCheckoutBranch": "codex/dashboard-design-maturity-system",
+        "hostCheckoutCommit": "a28b50cdc685dd4f4512415859c3e9309dfb8ef4",
         "reverseProxy": "caddy",
         "reverseProxyConfig": "/root/apps/deploy/Caddyfile",
         "internalPort": 9119,
         "processRuntime": "Hermes dashboard inside Docker container"
+      },
+      "deploymentContract": {
+        "artifactSource": "Docker image built on the Hetzner host from /root/apps/nous-hermes-agent through /root/apps/deploy/docker-compose.yml.",
+        "routineRestartCommand": "ssh hermes-os docker compose -f /root/apps/deploy/docker-compose.yml restart nous-hermes-agent",
+        "rebuildServiceCommand": "ssh hermes-os docker compose -f /root/apps/deploy/docker-compose.yml up -d --build --no-deps nous-hermes-agent",
+        "rollbackStrategy": "Switch /root/apps/nous-hermes-agent back to the previously recorded good Git ref, then rebuild only nous-hermes-agent with docker compose.",
+        "mainPromotionStatus": "blocked",
+        "mainPromotionBlocker": "Production build context is currently on codex/dashboard-design-maturity-system at a28b50cdc685dd4f4512415859c3e9309dfb8ef4. Promoting main is a controlled cutover, not a routine deploy."
       },
       "verifiedFacts": [
         {
@@ -37,6 +49,14 @@
         {
           "fact": "agent.tlccapitalgroup.com reverse proxies to nous-hermes-agent:9119 through Caddy.",
           "verifiedBy": "ssh hermes-os sed -n '1,220p' /root/apps/deploy/Caddyfile"
+        },
+        {
+          "fact": "The compose service builds from /root/apps/nous-hermes-agent.",
+          "verifiedBy": "ssh hermes-os sed -n '260,560p' /root/apps/deploy/docker-compose.yml"
+        },
+        {
+          "fact": "The current host checkout is codex/dashboard-design-maturity-system at a28b50cdc685dd4f4512415859c3e9309dfb8ef4.",
+          "verifiedBy": "ssh hermes-os git -C /root/apps/nous-hermes-agent status --short --branch && ssh hermes-os git -C /root/apps/nous-hermes-agent rev-parse HEAD"
         }
       ],
       "knownInvalidDeployPaths": [
@@ -46,9 +66,9 @@
         }
       ],
       "requiredBeforeAutomatedDeploy": [
-        "Confirm artifact source and deploy strategy for /root/apps/deploy because that directory is not a git checkout.",
-        "Confirm whether automation should rebuild only nous-hermes-agent or the full deploy compose project.",
-        "Confirm restart command and rollback command for the compose service.",
+        "Decide whether production should continue from codex/dashboard-design-maturity-system or cut over to ai-builder/main.",
+        "Confirm that the main branch has the required dashboard route/component parity before cutover.",
+        "Add image/source revision labels so a running container can report the Git ref it was built from.",
         "Confirm environment-file and secret ownership without committing secret values.",
         "Add GitHub Actions environment protection for production.",
         "Record health-check and post-deploy evidence requirements."

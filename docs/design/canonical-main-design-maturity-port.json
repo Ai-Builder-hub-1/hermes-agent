@@ -93,10 +93,11 @@
         "merge approved slices to main",
         "keep stale docs/Vercel deploy assumptions out of production runbooks",
         "maintain the Hetzner host, Docker Compose service, and Caddy route source of truth",
+        "resolve the current production build context on codex/dashboard-design-maturity-system",
         "configure Hetzner deploy automation from main or signed release ref",
         "record health evidence"
       ],
-      "blocks": ["D1"]
+      "blocks": ["D1", "D2"]
     }
   ],
   "externalWork": [
@@ -104,6 +105,13 @@
       "id": "D1",
       "name": "Document and wire Hetzner production deploy contract",
       "status": "in-progress",
+      "owner": "project",
+      "note": "Restart, rebuild, rollback shape, build context, host branch, and host commit are documented; automation remains blocked by main cutover approval and source revision labeling."
+    },
+    {
+      "id": "D2",
+      "name": "Approve production cutover from legacy dashboard branch to main",
+      "status": "blocked",
       "owner": "project"
     },
     {

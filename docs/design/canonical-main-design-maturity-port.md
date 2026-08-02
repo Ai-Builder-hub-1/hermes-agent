@@ -22,7 +22,7 @@ Current `main` tracks `ai-builder/main` and must stay aligned with the productio
 
 Production deploys must not assume Vercel. The current production target is Hetzner at SSH host alias `hermes-os`, using Docker Compose project `deploy`, service `nous-hermes-agent`, and Caddy routing from `agent.tlccapitalgroup.com` to `nous-hermes-agent:9119`.
 
-The remaining automation gap is the deploy method for `/root/apps/deploy`, because that host directory is not a git checkout. The repo still needs the artifact promotion, restart, rollback, environment-file ownership, and evidence contract before production automation can be wired safely.
+The deployment method is now known: `/root/apps/deploy/docker-compose.yml` builds `nous-hermes-agent` from `/root/apps/nous-hermes-agent`. The current production build context is on `codex/dashboard-design-maturity-system` at `a28b50cdc685dd4f4512415859c3e9309dfb8ef4`, so deploying `main` is a controlled product cutover rather than routine automation.
 
 ## Port Rules
 
@@ -41,11 +41,12 @@ The remaining automation gap is the deploy method for `/root/apps/deploy`, becau
 | S3 | Port lightweight maturity reports and generators | Pending | Bring over tier assessment, gap matrix, visual evidence tasks, and promotion readiness summaries. |
 | S4 | Decide dashboard-kit package fate | Pending decision | Decide whether dashboard-kit returns as a workspace package, external package, or legacy-only artifact. |
 | S5 | Port web design intelligence UI | Blocked | Depends on S3 and S4 because current `main` does not carry the old dashboard route/component stack. |
-| S6 | Make canonical production deploy come from main | Blocked | Keep stale Vercel assumptions out, complete the Hetzner artifact/restart/rollback contract, then deploy from `main` or a signed release ref. |
+| S6 | Make canonical production deploy come from main | Blocked | Keep stale Vercel assumptions out, approve the legacy-dashboard-to-main cutover, then deploy from `main` or a signed release ref. |
 
 ## External Work
 
 - Finish wiring the Hetzner production deploy contract.
+- Approve or defer the production cutover from `codex/dashboard-design-maturity-system` to `main`.
 - Capture production visual evidence for Nous Hermes Agent.
 - Capture production visual evidence for Meal Assistant.
 - Capture production visual evidence for Hermes Workspace.
