@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "version": "V9",
+  "title": "Token And Styling Enforcement",
+  "status": "ready",
+  "sourceArtifacts": [
+    "packages/hermes-dashboard-kit/static/hermes-dashboard-kit.css",
+    "packages/hermes-dashboard-kit/src/dashboard-kit.css",
+    "packages/hermes-dashboard-kit/src/charts.tsx",
+    "packages/hermes-dashboard-kit/src/data-visualization.tsx",
+    "packages/hermes-dashboard-kit/src/themes.ts",
+    "docs/design/dashboard-theme-mode-standard.md"
+  ],
+  "tokenFamilies": [
+    "color",
+    "typography",
+    "spacing",
+    "radius",
+    "shadow",
+    "border",
+    "motion",
+    "z-index",
+    "density",
+    "breakpoint"
+  ],
+  "forbiddenPatterns": [
+    {
+      "id": "hard-coded-color",
+      "pattern": "#[0-9a-fA-F]{3,8}|rgb\\(|hsl\\(",
+      "scope": ["web/src/pages", "packages/hermes-dashboard-kit/src"],
+      "allowedWhen": "inside canonical token definitions or third-party reset files"
+    },
+    {
+      "id": "raw-radius",
+      "pattern": "borderRadius:\\s*[\"'`]?[0-9]|rounded-\\[[^\\]]+\\]",
+      "scope": ["web/src/pages", "packages/hermes-dashboard-kit/src"],
+      "allowedWhen": "inside package primitive implementation with documented token mapping"
+    },
+    {
+      "id": "raw-shadow",
+      "pattern": "boxShadow:\\s*[\"'`]|shadow-\\[[^\\]]+\\]",
+      "scope": ["web/src/pages", "packages/hermes-dashboard-kit/src"],
+      "allowedWhen": "inside canonical elevation token definitions"
+    },
+    {
+      "id": "viewport-scaled-type",
+      "pattern": "text-\\[[^\\]]*vw|font-size:\\s*[^;]*vw",
+      "scope": ["web/src/pages", "packages/hermes-dashboard-kit/src"],
+      "allowedWhen": "never for dashboard UI text"
+    }
+  ],
+  "requiredPractices": [
+    "Prefer CSS variables and exported theme contracts for product identity.",
+    "Use dashboard-kit classes and component props before local visual values.",
+    "New colors require a named token and usage rationale.",
+    "Dark-mode and density behavior must be token-compatible."
+  ],
+  "scanner": {
+    "command": "npm run dashboard:token-scan:strict",
+    "defaultScope": "changed-files",
+    "fullScopeCommand": "npm run dashboard:token-scan:all",
+    "blockingInSummary": true
+  }
+}

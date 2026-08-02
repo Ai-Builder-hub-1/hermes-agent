@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "name": "Hermes/TLC Operating Interface System",
+  "canonicalPackage": "@hermes/dashboard-kit",
+  "statusScale": ["identified", "researched", "contracted", "prototyped", "implemented", "adopted", "validated"],
+  "families": [
+    {
+      "id": "navigation-workspace",
+      "label": "Navigation And Workspace Structure",
+      "status": "implemented",
+      "components": ["DashboardShell", "DashboardSidebar", "DashboardHeader", "DashboardMain", "DashboardSection", "WorkspaceSwitcher", "BreadcrumbTrail", "SplitWorkspaceLayout", "CommandPalette"],
+      "gaps": ["MobileNavigation"],
+      "firstConsumers": ["nous-hermes-agent", "khashi-vc", "media-engine", "tlc-capital-group-os"]
+    },
+    {
+      "id": "information-architecture",
+      "label": "Information Architecture",
+      "status": "contracted",
+      "components": ["DashboardSnapshotContract", "DashboardModuleContract", "DashboardWorkspaceOverview", "assessDashboardArchitecture"],
+      "gaps": ["EntityDetailRoutePattern", "ReviewQueuePattern", "ControlRoomPattern"],
+      "firstConsumers": ["all"]
+    },
+    {
+      "id": "cards-panels",
+      "label": "Cards And Panels",
+      "status": "implemented",
+      "components": ["KpiCard", "BusinessUnitCostCard", "InsightPanel", "FindingCard", "RecommendationCard", "EvidenceStack", "RecommendationStack", "EntitySummaryCard"],
+      "gaps": ["RiskCard", "FreshnessPanel", "ExecutiveSummaryStrip"],
+      "firstConsumers": ["nous-hermes-agent", "media-business-operations", "tlc-capital-group-os"]
+    },
+    {
+      "id": "tables-lists",
+      "label": "Tables And Lists",
+      "status": "implemented",
+      "components": ["DataTable", "TableToolbar", "FilterBar", "SearchInput", "MarketTape", "QueuePanel", "AuditEventList", "ExpandableDataList"],
+      "gaps": ["StickyHeaderTable", "InlineSparklineCell", "BulkActionTable"],
+      "firstConsumers": ["khashi-vc", "media-engine", "nous-hermes-agent"]
+    },
+    {
+      "id": "charts-visualization",
+      "label": "Charts And Data Visualization",
+      "status": "implemented",
+      "components": ["PriceMovementChart", "SpreadBandChart", "LiquidityDepthChart", "VolumePulseChart", "CategoryHeatmap", "OpportunityMatrix", "ProviderSpendTimeline", "CrosshairTooltipFrame", "OrderBookLadder", "ForecastConeChart", "WaterfallChart"],
+      "gaps": ["CandlestickChart", "DistributionPlot", "SankeyFlow", "ReadinessRadar"],
+      "firstConsumers": ["khashi-vc", "nous-hermes-agent", "media-business-operations"]
+    },
+    {
+      "id": "drilldowns-drawers",
+      "label": "Drilldowns And Drawers",
+      "status": "implemented",
+      "components": ["DrilldownPanel", "MarketVolatilityDrawer", "DetailDrawerShell"],
+      "gaps": ["CompareDrawer", "EvidenceDrawer", "ActionConfirmationDrawer"],
+      "firstConsumers": ["khashi-vc", "media-engine", "tlc-capital-group-os"]
+    },
+    {
+      "id": "command-control",
+      "label": "Command And Control",
+      "status": "implemented",
+      "components": ["CommandBar", "ActionButtonGroup", "RunStatusPanel", "QueuePanel"],
+      "gaps": ["ApprovalPanel", "RetryPanel", "DeployPromotionPanel", "PermissionAuditPanel"],
+      "firstConsumers": ["hermes", "nous-hermes-agent", "media-engine"]
+    },
+    {
+      "id": "state-design",
+      "label": "State Design",
+      "status": "implemented",
+      "components": ["DashboardEmptyState", "DashboardLoadingState", "DashboardErrorState", "VisualizationStateFrame", "StateChecklist"],
+      "gaps": ["FirstRunSetupState", "PermissionLimitedState", "PartialDataState"],
+      "firstConsumers": ["all"]
+    },
+    {
+      "id": "search-filter-discovery",
+      "label": "Search, Filtering, And Discovery",
+      "status": "implemented",
+      "components": ["SearchInput", "FilterBar", "SegmentedControl", "DateRangeToggle", "TimeWindowSelector", "SavedFilterChips", "GlobalSearchOverlay", "SavedViewsManager"],
+      "gaps": ["QueryExplanationPanel"],
+      "firstConsumers": ["khashi-vc", "media-engine", "tlc-capital-group-os"]
+    },
+    {
+      "id": "ai-assisted-interaction",
+      "label": "AI-Assisted Interaction",
+      "status": "implemented",
+      "components": ["AiAssistantPanel", "EvidenceStack", "RecommendationStack"],
+      "gaps": ["AskDashboardComposer", "CreateInvestigationPanel", "GeneratedReportPanel"],
+      "firstConsumers": ["media-engine", "nous-hermes-agent", "tlc-capital-group-os"]
+    },
+    {
+      "id": "visual-language",
+      "label": "Visual Language",
+      "status": "implemented",
+      "components": ["DESIGN.md", "hermes-dashboard-kit.css", "dashboard-component-catalog.md", "operating-interface-visual-qa.md"],
+      "gaps": ["DensityModes"],
+      "firstConsumers": ["all"]
+    },
+    {
+      "id": "theme-mode-contract",
+      "label": "Light And Dark Theme Mode Contract",
+      "status": "implemented",
+      "components": ["dashboardThemeModes", "dashboardThemeModeCssVariables", "dashboard-theme-mode-standard.md", "hermes-dashboard-kit.css"],
+      "gaps": ["AutomatedScreenshotContrastDiff"],
+      "firstConsumers": ["all"]
+    },
+    {
+      "id": "reference-research",
+      "label": "Reference Research Beyond Charts",
+      "status": "implemented",
+      "components": ["mobbin-reference-workflow.md", "DashboardPrototypeSet", "operating-interface-reference-library.json"],
+      "gaps": ["PatternExtractionRecords", "MobbinSearchRuns"],
+      "firstConsumers": ["all"]
+    },
+    {
+      "id": "project-retrofit",
+      "label": "Project Retrofit Tracks",
+      "status": "implemented",
+      "components": ["dashboard-kit-adoption.json", "package-native-parity-registry.json", "package-native-cutover-checklist.json", "operating-interface-adoption-score.json"],
+      "gaps": ["PackageNativeCutovers"],
+      "firstConsumers": ["khashi-vc", "nous-hermes-agent", "media-engine", "tlc-capital-group-os"]
+    },
+    {
+      "id": "package-native-starters",
+      "label": "Package-Native Dashboard Starters",
+      "status": "implemented",
+      "components": ["create-package-native-dashboard.mjs", "package-native-dashboard-starter-standard.md", "dashboard:package-native:create", "dashboard:package-native:validate"],
+      "gaps": ["StarterVisualRegressionBaseline"],
+      "firstConsumers": ["new-dashboard-projects"]
+    }
+  ]
+}

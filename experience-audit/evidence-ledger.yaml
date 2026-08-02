@@ -1,0 +1,42 @@
+schemaVersion: 1
+generatedAt: "2026-07-30"
+evidence:
+  - id: "evidence-001"
+    claim: "Canonical dashboard kit exists."
+    paths:
+      - "packages/hermes-dashboard-kit/package.json"
+      - "packages/hermes-dashboard-kit/DESIGN.md"
+  - id: "evidence-002"
+    claim: "Shared dashboard data contracts exist."
+    paths:
+      - "packages/hermes-dashboard-kit/src/contracts.ts"
+      - "docs/design/dashboard-data-contracts.md"
+  - id: "evidence-003"
+    claim: "Visualization primitives exist."
+    paths:
+      - "packages/hermes-dashboard-kit/src/data-visualization.tsx"
+      - "packages/hermes-dashboard-kit/src/charts.tsx"
+  - id: "evidence-004"
+    claim: "Production proof endpoint standard exists."
+    paths:
+      - "docs/design/dashboard-production-proof-endpoints.md"
+  - id: "evidence-005"
+    claim: "Adoption registry exists and tracks downstream projects."
+    paths:
+      - "packages/hermes-dashboard-kit/adoption/registry.json"
+  - id: "evidence-006"
+    claim: "World-class score is not yet 100 because downstream proof, visual QA, telemetry, and adoption gates remain."
+    paths:
+      - "docs/design/world-class-dashboard-system-backlog.md"
+      - "docs/design/dashboard-maturity-report.json"
+      - "docs/design/dashboard-visual-quality-report.json"
+  - id: "evidence-007"
+    claim: "Product Architecture Standards handoff has been converted into a current-state assessment baseline."
+    paths:
+      - "docs/design/product-architecture-standards-current-assessment.md"
+      - "experience-audit/standards-maturity.yaml"
+      - "experience-audit/feature-traces.yaml"
+  - id: "evidence-008"
+    claim: "The audit baseline now includes the six vertical traces required before broad standards implementation."
+    paths:
+      - "experience-audit/feature-traces.yaml"

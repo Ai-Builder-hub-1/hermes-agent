@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-02T01:35:00.205Z",
+  "command": "node scripts/scan-dashboard-tokens.mjs --all",
+  "exitCode": 0,
+  "issueCount": 0,
+  "advisory": true,
+  "summary": "Dashboard token scan: 0 error(s), 0 warning(s), 137 file(s) scanned.",
+  "issues": []
+}

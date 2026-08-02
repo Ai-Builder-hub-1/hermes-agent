@@ -1,0 +1,57 @@
+schemaVersion: 1
+generatedAt: "2026-07-30"
+visualizations:
+  - id: "price-movement"
+    component: "PriceMovementChart"
+    type: "time-series area"
+    userQuestion: "How did a market's mid price move over time?"
+    evidence:
+      - "packages/hermes-dashboard-kit/src/data-visualization.tsx"
+    requiredData:
+      - "timestamp or label"
+      - "midPrice"
+    requiredStates:
+      - "ready"
+      - "loading"
+      - "empty"
+      - "error"
+      - "preview"
+      - "stale"
+  - id: "spread-band"
+    component: "SpreadBandChart"
+    type: "market microstructure bar"
+    userQuestion: "How wide or tight has the spread been?"
+    evidence:
+      - "packages/hermes-dashboard-kit/src/data-visualization.tsx"
+  - id: "liquidity-depth"
+    component: "LiquidityDepthChart"
+    type: "stacked depth bar"
+    userQuestion: "How much bid and ask depth exists over time?"
+    evidence:
+      - "packages/hermes-dashboard-kit/src/data-visualization.tsx"
+  - id: "volume-pulse"
+    component: "VolumePulseChart"
+    type: "bar plus line"
+    userQuestion: "Where did volume activity pulse or decay?"
+    evidence:
+      - "packages/hermes-dashboard-kit/src/data-visualization.tsx"
+  - id: "category-heatmap"
+    component: "CategoryHeatmap"
+    type: "matrix heatmap"
+    userQuestion: "Which categories or tags have the strongest opportunity clusters?"
+    evidence:
+      - "packages/hermes-dashboard-kit/src/data-visualization.tsx"
+  - id: "opportunity-matrix"
+    component: "OpportunityMatrix"
+    type: "ranked opportunity matrix"
+    userQuestion: "Which segments deserve operator attention?"
+    evidence:
+      - "packages/hermes-dashboard-kit/src/data-visualization.tsx"
+missingFamilies:
+  - "candlestick"
+  - "distribution plot"
+  - "sankey flow"
+  - "readiness radar"
+  - "event-annotated comparison timeline"
+requiredNextArtifact: "visualization intent matrix with admission rules and accessible fallbacks"
+

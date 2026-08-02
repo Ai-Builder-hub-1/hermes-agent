@@ -1,0 +1,424 @@
+{
+  "schemaVersion": 1,
+  "version": "V12",
+  "title": "Mobbin Reference Map Runtime",
+  "status": "ready",
+  "refreshMetadata": {
+    "lastSearchedAt": "2026-08-02",
+    "reviewer": "human-review-required",
+    "nextRefreshAt": "2026-09-02",
+    "refreshCommand": "npm run dashboard:mobbin-intake:generate"
+  },
+  "sourceArtifacts": [
+    "docs/design/mobbin-reference-automation-seed.json",
+    "docs/design/mobbin-reference-workflow.md",
+    "docs/design/operating-interface-reference-library.json"
+  ],
+  "references": [
+    {
+      "id": "mixpanel-analytics-dashboard",
+      "lastSearchedAt": "2026-08-01",
+      "query": "analytics dashboard with sidebar dense charts tables filters and drilldown drawer",
+      "patterns": [
+        "analytics-drilldown",
+        "executive-dashboard"
+      ],
+      "usefulFor": [
+        "dense metric grouping",
+        "filter-to-result proximity",
+        "chart/table hierarchy"
+      ],
+      "doNotCopy": [
+        "brand palette",
+        "exact spacing scale",
+        "screen composition wholesale"
+      ],
+      "kaoshiAdaptation": "Translate hierarchy into DashboardShell, MetricGrid, ChartPanel, FilterBar, and DataTable using Hermes tokens."
+    },
+    {
+      "id": "attio-analytics-dashboard",
+      "lastSearchedAt": "2026-08-01",
+      "query": "analytics dashboard with sidebar dense charts tables filters and drilldown drawer",
+      "patterns": [
+        "table-first-operations",
+        "master-detail-explorer"
+      ],
+      "usefulFor": [
+        "CRM-style row scanning",
+        "detail context beside lists",
+        "compact operational density"
+      ],
+      "doNotCopy": [
+        "Attio visual identity",
+        "CRM-specific language"
+      ],
+      "kaoshiAdaptation": "Use as structure guidance for DataTable plus DetailDrawerShell, not as a full-screen template."
+    },
+    {
+      "id": "dub-analytics-dashboard",
+      "lastSearchedAt": "2026-08-01",
+      "query": "analytics dashboard with sidebar dense charts tables filters and drilldown drawer",
+      "patterns": [
+        "historical-trend-page",
+        "analytics-drilldown"
+      ],
+      "usefulFor": [
+        "simple time-series hierarchy",
+        "compact summary metrics",
+        "clear empty-state affordances"
+      ],
+      "doNotCopy": [
+        "marketing analytics wording",
+        "product-specific color accents"
+      ],
+      "kaoshiAdaptation": "Map to ChartPanel and TrendDelta where time-series proof is required."
+    },
+    {
+      "id": "kraken-trading-dashboard",
+      "lastSearchedAt": "2026-08-01",
+      "query": "trading market dashboard table chart sidebar filters asset detail panel",
+      "patterns": [
+        "market-intelligence-workspace"
+      ],
+      "usefulFor": [
+        "market-depth scanning",
+        "selected instrument context",
+        "high-density live data treatment"
+      ],
+      "doNotCopy": [
+        "trading brand visuals",
+        "order-entry affordances unless required"
+      ],
+      "kaoshiAdaptation": "Use only for live tape, market depth, and detail inspector behavior in Kaoshi market intelligence."
+    },
+    {
+      "id": "fey-market-dashboard",
+      "lastSearchedAt": "2026-08-01",
+      "query": "trading market dashboard table chart sidebar filters asset detail panel",
+      "patterns": [
+        "market-intelligence-workspace",
+        "analytics-drilldown"
+      ],
+      "usefulFor": [
+        "watchlist plus chart hierarchy",
+        "research-oriented drilldown",
+        "compact supporting insights"
+      ],
+      "doNotCopy": [
+        "consumer investing brand style",
+        "full layout as a single source"
+      ],
+      "kaoshiAdaptation": "Compose with separate Hermes patterns: KPI ribbon, ranked table, chart panel, and inspector."
+    },
+    {
+      "id": "manus-operations-command-center",
+      "lastSearchedAt": "2026-08-02",
+      "query": "operations command center dashboard with approval queue issue timeline and publishing workflow",
+      "patterns": [
+        "operations-command-center",
+        "workflow-approval-queue"
+      ],
+      "usefulFor": [
+        "operator action hierarchy",
+        "run/status grouping",
+        "decision queue adjacency"
+      ],
+      "doNotCopy": [
+        "agent product language",
+        "exact task card composition"
+      ],
+      "kaoshiAdaptation": "Use for Media Business Ops and Media Engine command centers where approvals, jobs, publishing packages, and issue timelines need one operator cockpit."
+    },
+    {
+      "id": "replit-operations-workspace",
+      "lastSearchedAt": "2026-08-02",
+      "query": "operations command center dashboard with approval queue issue timeline and publishing workflow",
+      "patterns": [
+        "operations-command-center",
+        "dev-workspace-shell"
+      ],
+      "usefulFor": [
+        "workspace-first navigation",
+        "status/action proximity",
+        "tool pane density"
+      ],
+      "doNotCopy": [
+        "developer IDE branding",
+        "workspace terminology unless project-specific"
+      ],
+      "kaoshiAdaptation": "Translate the workspace density into DashboardShell plus CommandBar, QueuePanel, RunStatusPanel, and AuditEventList."
+    },
+    {
+      "id": "employment-hero-workflow-dashboard",
+      "lastSearchedAt": "2026-08-02",
+      "query": "operations command center dashboard with approval queue issue timeline and publishing workflow",
+      "patterns": [
+        "workflow-approval-queue",
+        "human-review-workspace"
+      ],
+      "usefulFor": [
+        "human approval states",
+        "reviewable work grouping",
+        "workflow ownership labels"
+      ],
+      "doNotCopy": [
+        "HR-specific language",
+        "workflow styling wholesale"
+      ],
+      "kaoshiAdaptation": "Use for QA approval, reject, revise, and publish-decision panels across Media Engine and TLC OS."
+    },
+    {
+      "id": "planetscale-operations-dashboard",
+      "lastSearchedAt": "2026-08-02",
+      "query": "operations command center dashboard with approval queue issue timeline and publishing workflow",
+      "patterns": [
+        "operations-command-center",
+        "system-health-dashboard"
+      ],
+      "usefulFor": [
+        "service health structure",
+        "compact infrastructure status",
+        "incident-style timeline"
+      ],
+      "doNotCopy": [
+        "database product identity",
+        "exact infrastructure entity model"
+      ],
+      "kaoshiAdaptation": "Use for Hermes OS and dashboard proof surfaces where status, health, sync, and verification belong beside actions."
+    },
+    {
+      "id": "jobber-calendar-planner",
+      "lastSearchedAt": "2026-08-02",
+      "query": "meal planning calendar dashboard month view right drawer form library filters",
+      "patterns": [
+        "calendar-planning-workspace",
+        "drawer-form-workflow"
+      ],
+      "usefulFor": [
+        "large month grid treatment",
+        "selected-day details",
+        "right-side planning workflow"
+      ],
+      "doNotCopy": [
+        "field-service terminology",
+        "appointment-specific layout details"
+      ],
+      "kaoshiAdaptation": "Use for Meal Assistant month calendar, selected day/multi-day drawer, and broad meal planning workflow."
+    },
+    {
+      "id": "assembly-calendar-workspace",
+      "lastSearchedAt": "2026-08-02",
+      "query": "meal planning calendar dashboard month view right drawer form library filters",
+      "patterns": [
+        "calendar-planning-workspace",
+        "team-planning-dashboard"
+      ],
+      "usefulFor": [
+        "calendar navigation controls",
+        "planning state tags",
+        "compact day metadata"
+      ],
+      "doNotCopy": [
+        "team engagement wording",
+        "exact card contents"
+      ],
+      "kaoshiAdaptation": "Use for week/day planning states and calendar drilldowns without filling each day cell with noisy status copy."
+    },
+    {
+      "id": "sprout-social-content-calendar",
+      "lastSearchedAt": "2026-08-02",
+      "query": "meal planning calendar dashboard month view right drawer form library filters",
+      "patterns": [
+        "calendar-planning-workspace",
+        "publishing-calendar"
+      ],
+      "usefulFor": [
+        "content calendar scanning",
+        "scheduled item density",
+        "filters aligned with calendar surface"
+      ],
+      "doNotCopy": [
+        "social product branding",
+        "publishing labels unless used by Media Engine"
+      ],
+      "kaoshiAdaptation": "Use for Media Engine scheduling and Meal Assistant planner when calendar items need status without visual clutter."
+    },
+    {
+      "id": "adobe-express-calendar-planner",
+      "lastSearchedAt": "2026-08-02",
+      "query": "meal planning calendar dashboard month view right drawer form library filters",
+      "patterns": [
+        "calendar-planning-workspace",
+        "asset-library-workspace"
+      ],
+      "usefulFor": [
+        "library-to-calendar relationship",
+        "asset selection patterns",
+        "planning/editor flow"
+      ],
+      "doNotCopy": [
+        "creative suite branding",
+        "asset-specific iconography"
+      ],
+      "kaoshiAdaptation": "Use for Meal Assistant library selection and Media Engine asset-to-schedule planning."
+    },
+    {
+      "id": "wrike-enterprise-portfolio",
+      "lastSearchedAt": "2026-08-02",
+      "query": "enterprise portfolio dashboard readiness approvals project feed executive operations",
+      "patterns": [
+        "enterprise-portfolio-dashboard",
+        "project-feed-dashboard"
+      ],
+      "usefulFor": [
+        "portfolio rollup hierarchy",
+        "project status grouping",
+        "executive scan density"
+      ],
+      "doNotCopy": [
+        "project management product model",
+        "brand palette"
+      ],
+      "kaoshiAdaptation": "Use for TLC OS portfolio, readiness hub, project feeds, and executive command pages."
+    },
+    {
+      "id": "asana-enterprise-operations",
+      "lastSearchedAt": "2026-08-02",
+      "query": "enterprise portfolio dashboard readiness approvals project feed executive operations",
+      "patterns": [
+        "enterprise-portfolio-dashboard",
+        "work-management-dashboard"
+      ],
+      "usefulFor": [
+        "work status grouping",
+        "initiative progress surfacing",
+        "portfolio-to-task drilldown"
+      ],
+      "doNotCopy": [
+        "task-management language",
+        "exact project hierarchy"
+      ],
+      "kaoshiAdaptation": "Use for Hermes OS and TLC OS when surfacing initiatives, readiness, blockers, and next actions."
+    },
+    {
+      "id": "linear-project-feed",
+      "lastSearchedAt": "2026-08-02",
+      "query": "enterprise portfolio dashboard readiness approvals project feed executive operations",
+      "patterns": [
+        "project-feed-dashboard",
+        "issue-operations-workspace"
+      ],
+      "usefulFor": [
+        "issue/activity stream density",
+        "status grouping",
+        "fast keyboard-oriented scanning"
+      ],
+      "doNotCopy": [
+        "issue tracker terminology unless needed",
+        "minimal monochrome identity"
+      ],
+      "kaoshiAdaptation": "Use for project feed surfaces, dashboard adoption reports, and technical command center queues."
+    },
+    {
+      "id": "plane-project-operations",
+      "lastSearchedAt": "2026-08-02",
+      "query": "enterprise portfolio dashboard readiness approvals project feed executive operations",
+      "patterns": [
+        "project-feed-dashboard",
+        "work-management-dashboard"
+      ],
+      "usefulFor": [
+        "project state pages",
+        "cycle/work grouping",
+        "compact progress context"
+      ],
+      "doNotCopy": [
+        "Plane branding",
+        "software-cycle naming by default"
+      ],
+      "kaoshiAdaptation": "Use for Hermes OS project workspaces and TLC OS project feed drilldowns."
+    },
+    {
+      "id": "obvious-business-graph-workspace",
+      "lastSearchedAt": "2026-08-02",
+      "query": "business mapping graph workspace recommendations validation queue advisory roadmap dashboard",
+      "patterns": [
+        "business-mapping-workspace",
+        "graph-detail-workspace"
+      ],
+      "usefulFor": [
+        "graph-plus-detail layout",
+        "knowledge workspace framing",
+        "selected entity context"
+      ],
+      "doNotCopy": [
+        "AI product branding",
+        "exact graph visuals"
+      ],
+      "kaoshiAdaptation": "Use for Business Mapper graph workspace with shared shell, evidence, validation, and advisory panels around the graph."
+    },
+    {
+      "id": "adaline-validation-workspace",
+      "lastSearchedAt": "2026-08-02",
+      "query": "business mapping graph workspace recommendations validation queue advisory roadmap dashboard",
+      "patterns": [
+        "validation-workspace",
+        "ai-review-workspace"
+      ],
+      "usefulFor": [
+        "evaluation/validation queues",
+        "model/result review",
+        "review state separation"
+      ],
+      "doNotCopy": [
+        "LLM evaluation-specific language",
+        "exact review panel anatomy"
+      ],
+      "kaoshiAdaptation": "Use for Business Mapper validation queues and Media Engine QA review when human approval is required."
+    },
+    {
+      "id": "productboard-roadmap-workspace",
+      "lastSearchedAt": "2026-08-02",
+      "query": "business mapping graph workspace recommendations validation queue advisory roadmap dashboard",
+      "patterns": [
+        "roadmap-workspace",
+        "recommendation-board"
+      ],
+      "usefulFor": [
+        "roadmap grouping",
+        "recommendation prioritization",
+        "business impact labels"
+      ],
+      "doNotCopy": [
+        "product-management-specific taxonomy",
+        "exact voting/priority UI"
+      ],
+      "kaoshiAdaptation": "Use for Business Mapper roadmap and TLC OS recommendation prioritization."
+    },
+    {
+      "id": "mixpanel-business-analysis-workspace",
+      "lastSearchedAt": "2026-08-02",
+      "query": "business mapping graph workspace recommendations validation queue advisory roadmap dashboard",
+      "patterns": [
+        "business-mapping-workspace",
+        "analytics-drilldown"
+      ],
+      "usefulFor": [
+        "analysis workspace density",
+        "metric-to-detail hierarchy",
+        "filterable evidence panels"
+      ],
+      "doNotCopy": [
+        "analytics product identity",
+        "event analytics assumptions"
+      ],
+      "kaoshiAdaptation": "Use for Business Mapper and executive analytics when the operator needs evidence-backed recommendations."
+    }
+  ],
+  "rules": [
+    "Search by pattern and task, not broad category.",
+    "Use at least two references for material redesigns unless a human grants an exception.",
+    "Every reference must include usefulFor, doNotCopy, and kaoshiAdaptation.",
+    "References are evidence, not source-of-truth design."
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-01T22:25:12.603Z",
+  "note": "This is a heuristic quality gate. Human/Mobbin review is still required for premium visual taste.",
+  "items": [
+    {
+      "project": "khashi-vc",
+      "surface": "market-intelligence-live",
+      "path": "public/roc/market-intelligence-live.html",
+      "score": 83,
+      "status": "needs-review",
+      "checks": [
+        {
+          "id": "review-handles",
+          "passed": true
+        },
+        {
+          "id": "selection-bridge",
+          "passed": true
+        },
+        {
+          "id": "states",
+          "passed": true
+        },
+        {
+          "id": "responsive",
+          "passed": true
+        },
+        {
+          "id": "chart-language",
+          "passed": true
+        },
+        {
+          "id": "not-placeholder",
+          "passed": false
+        }
+      ]
+    },
+    {
+      "project": "media-engine",
+      "surface": "media-engine-ops-active",
+      "path": "core/operations/unified-publishing-dashboard.js",
+      "score": 100,
+      "status": "pass",
+      "checks": [
+        {
+          "id": "review-handles",
+          "passed": true
+        },
+        {
+          "id": "selection-bridge",
+          "passed": true
+        },
+        {
+          "id": "states",
+          "passed": true
+        },
+        {
+          "id": "responsive",
+          "passed": true
+        },
+        {
+          "id": "chart-language",
+          "passed": true
+        },
+        {
+          "id": "not-placeholder",
+          "passed": true
+        }
+      ]
+    }
+  ]
+}

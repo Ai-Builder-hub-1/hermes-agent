@@ -1,0 +1,59 @@
+schemaVersion: 1
+generatedAt: "2026-07-31"
+purpose: "Dependency-aware Product Architecture System gap register."
+gaps:
+  - id: "PAS-GAP-001"
+    standardId: "SHELL-001"
+    currentMaturity: 3
+    targetMaturity: 4
+    severity: "high"
+    blastRadius: "cross-product"
+    owner: "Nous Hermes Agent"
+    dependencies: ["experience-audit/governance-gates.yaml", "downstream route manifests"]
+    evidence: ["docs/design/dashboard-governance-and-enforcement.md"]
+    acceptanceEvidence: ["dashboard:governance:validate", "dashboard-kit:adoption:audit:strict"]
+    status: "open-v7"
+  - id: "PAS-GAP-002"
+    standardId: "DATA-001"
+    currentMaturity: 3
+    targetMaturity: 4
+    severity: "high"
+    blastRadius: "analytics dashboards"
+    owner: "Nous Hermes Agent"
+    dependencies: ["experience-audit/experience-contracts.yaml", "downstream data contracts"]
+    evidence: ["docs/design/dashboard-data-contracts.md", "experience-audit/live-data-reference.yaml"]
+    acceptanceEvidence: ["dashboard:kaoshi:validate", "downstream contract tests"]
+    status: "open-v7"
+  - id: "PAS-GAP-003"
+    standardId: "A11Y-001"
+    currentMaturity: 2
+    targetMaturity: 4
+    severity: "medium"
+    blastRadius: "all operator UI"
+    owner: "Nous Hermes Agent"
+    dependencies: ["component behavior contracts", "screenshot/proof routes"]
+    evidence: ["experience-audit/feature-traces.yaml"]
+    acceptanceEvidence: ["a11y journey tests", "visual QA report"]
+    status: "open-v7"
+  - id: "PAS-GAP-004"
+    standardId: "OBS-001"
+    currentMaturity: 2
+    targetMaturity: 4
+    severity: "high"
+    blastRadius: "production debugging"
+    owner: "Nous Hermes Agent"
+    dependencies: ["telemetry contracts", "proof capture", "runtime event emitters"]
+    evidence: ["docs/design/dashboard-telemetry-contract-report.json"]
+    acceptanceEvidence: ["dashboard health report", "proof capture report"]
+    status: "open-v7"
+  - id: "PAS-GAP-005"
+    standardId: "AI-ENG-001"
+    currentMaturity: 3
+    targetMaturity: 4
+    severity: "high"
+    blastRadius: "AI-assisted development"
+    owner: "Nous Hermes Agent"
+    dependencies: ["product architecture standards registry", "AI instruction pack"]
+    evidence: ["docs/design/product-architecture-ai-instruction-pack.md"]
+    acceptanceEvidence: ["product architecture validator", "AI preflight checklist"]
+    status: "open-v7"

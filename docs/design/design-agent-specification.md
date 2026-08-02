@@ -39,6 +39,7 @@ The Design Agent turns product requirements into grounded interface proposals. I
 - Prefer insight-first layouts for low-frequency summary review.
 - Use split view or inspector patterns when scanning and detail review are both frequent.
 - Every page must define loading, empty, error, stale, and responsive behavior.
+- Every dashboard-capable project must keep Playwright locally installed and expose proof capture scripts defined in `playwright-proof-standard.md`.
 - Every production-affecting action must include confirmation and audit expectations.
 - Do not introduce a new component if an existing component can be refactored to support the need.
 - Do not introduce a new library unless it closes a documented implementation gap.

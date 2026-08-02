@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "version": "V7",
+  "title": "Visual Evidence Layer",
+  "status": "ready",
+  "sourceArtifacts": [
+    "docs/design/dashboard-visual-quality-report.json",
+    "docs/design/production-screenshots",
+    "playwright.dashboard.config.ts"
+  ],
+  "viewportMatrix": [
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "required": true
+    },
+    {
+      "id": "standard-desktop",
+      "width": 1280,
+      "height": 900,
+      "required": true
+    },
+    {
+      "id": "tablet",
+      "width": 834,
+      "height": 1112,
+      "required": true
+    },
+    {
+      "id": "mobile",
+      "width": 390,
+      "height": 844,
+      "required": true
+    },
+    {
+      "id": "embedded-panel",
+      "width": 420,
+      "height": 900,
+      "required": true
+    }
+  ],
+  "requiredSignals": [
+    "nonblank-render",
+    "text-containment",
+    "no-incoherent-overlap",
+    "sidebar-header-frame",
+    "loading-empty-error-states",
+    "keyboard-visible-focus",
+    "mobile-priority-content"
+  ],
+  "promotionRules": [
+    {
+      "tierBand": "T3A",
+      "minimumEvidence": "local-screenshot-and-audit",
+      "blocking": true
+    },
+    {
+      "tierBand": "T3B",
+      "minimumEvidence": "production-screenshot-and-visual-quality-score",
+      "blocking": true
+    },
+    {
+      "tierBand": "T3C",
+      "minimumEvidence": "package-native-production-screenshot-a11y-and-responsive-matrix",
+      "blocking": true
+    }
+  ],
+  "commands": [
+    "npm run dashboard:visual-quality:score",
+    "npm run dashboard:visual-baseline:capture",
+    "npm run dashboard:visual-baseline:compare",
+    "npm run dashboard:visual:check"
+  ]
+}

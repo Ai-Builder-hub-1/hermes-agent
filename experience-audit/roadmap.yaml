@@ -1,0 +1,56 @@
+schemaVersion: 1
+generatedAt: "2026-07-30"
+source: "docs/design/kaoshi-experience-architecture-build-plan.md"
+versions:
+  - id: "V1"
+    title: "Evidence and architecture baseline"
+    status: "complete"
+    targetCompletion: 100
+    exitEvidence:
+      - "repository map"
+      - "surface inventory"
+      - "component inventory"
+      - "visualization inventory"
+      - "evidence ledger"
+  - id: "V2"
+    title: "Experience contract foundation"
+    status: "complete"
+    targetCompletion: 100
+  - id: "V3"
+    title: "Visualization decision and wrapper layer"
+    status: "complete"
+    targetCompletion: 100
+  - id: "V4"
+    title: "Live-data reference capability"
+    status: "complete"
+    targetCompletion: 100
+    exitEvidence:
+      - "live-data-reference.yaml"
+      - "Kashi VC live market implementation"
+      - "Kashi VC selected-market real snapshot chart proof"
+  - id: "V5"
+    title: "Screen-level Kashi reference migration"
+    status: "complete"
+    targetCompletion: 100
+    exitEvidence:
+      - "Kashi workspace mapping contract"
+      - "Kashi taxonomy contract"
+      - "Kashi snapshot-series contract"
+      - "Kashi production proof screenshot"
+  - id: "V6"
+    title: "Governance and enforcement"
+    status: "complete"
+    targetCompletion: 100
+    exitEvidence:
+      - "dashboard governance standard"
+      - "dashboard admission RFC template"
+      - "governance gates registry"
+      - "strict governance validator"
+  - id: "V7"
+    title: "Broad adoption across priority dashboards"
+    status: "planned"
+    targetCompletion: 0
+  - id: "V8"
+    title: "Advanced capability modules"
+    status: "deferred"
+    targetCompletion: 0

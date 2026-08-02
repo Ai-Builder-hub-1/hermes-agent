@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-02T01:21:27.672Z",
+  "warningAgeDays": 21,
+  "blockingAgeDays": 30,
+  "itemCount": 3,
+  "items": [
+    {
+      "dashboardId": "nous-hermes-agent.dashboard",
+      "label": "Nous Hermes Agent",
+      "status": "needs-evidence",
+      "priority": "P0",
+      "action": "Capture production screenshot evidence and rerun visual coverage report.",
+      "screenshotAgeDays": null,
+      "warningAgeDays": 21,
+      "blockingAgeDays": 30
+    },
+    {
+      "dashboardId": "meal-assistant.main",
+      "label": "Meal Assistant",
+      "status": "needs-evidence",
+      "priority": "P0",
+      "action": "Capture production screenshot evidence and rerun visual coverage report.",
+      "screenshotAgeDays": null,
+      "warningAgeDays": 21,
+      "blockingAgeDays": 30
+    },
+    {
+      "dashboardId": "hermes.workspace",
+      "label": "Hermes Workspace",
+      "status": "needs-evidence",
+      "priority": "P0",
+      "action": "Capture production screenshot evidence and rerun visual coverage report.",
+      "screenshotAgeDays": null,
+      "warningAgeDays": 21,
+      "blockingAgeDays": 30
+    }
+  ]
+}

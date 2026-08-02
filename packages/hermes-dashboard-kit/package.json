@@ -1,0 +1,26 @@
+{
+  "name": "@hermes/dashboard-kit",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "Shared Hermes dashboard shell, data visualization, proof state, and surface validation kit.",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./css": "./src/dashboard-kit.css",
+    "./static/hermes-dashboard-kit.css": "./static/hermes-dashboard-kit.css",
+    "./validator": "./src/validate-surface.js"
+  },
+  "scripts": {
+    "test": "node --test tests/dashboard-kit.test.js",
+    "status": "node scripts/status.mjs",
+    "validate:surface": "node src/validate-surface.js",
+    "adoption:audit": "node scripts/audit-adoption.mjs",
+    "adoption:report": "node scripts/audit-adoption.mjs --write-report",
+    "adoption:sync": "node scripts/sync-project.mjs",
+    "adoption:migrate": "node scripts/migrate-surface.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
+}

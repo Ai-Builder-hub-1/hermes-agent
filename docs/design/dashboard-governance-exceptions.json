@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "version": "V12",
+  "title": "Dashboard Governance Exceptions",
+  "status": "ready",
+  "exceptions": [],
+  "rules": [
+    "Every exception requires owner, reviewer, blockedGate, reason, replacementPlan, createdAt, and expiresAt.",
+    "Expired exceptions are blocking.",
+    "Exceptions cannot promote a project to T3C.",
+    "Exceptions must be reviewed before release or deploy promotion."
+  ]
+}

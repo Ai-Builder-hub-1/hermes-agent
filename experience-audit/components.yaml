@@ -1,0 +1,58 @@
+schemaVersion: 1
+generatedAt: "2026-07-30"
+componentFamilies:
+  - id: "navigation-workspace"
+    status: "implemented"
+    components:
+      - "DashboardShell"
+      - "DashboardSidebar"
+      - "DashboardHeader"
+      - "WorkspaceSwitcher"
+      - "BreadcrumbTrail"
+      - "SplitWorkspaceLayout"
+      - "CommandPalette"
+    evidence:
+      - "docs/design/operating-interface-system-registry.json"
+      - "packages/hermes-dashboard-kit/src/shell.tsx"
+      - "packages/hermes-dashboard-kit/src/product-interface.tsx"
+  - id: "metrics-cards-panels"
+    status: "implemented"
+    components:
+      - "KpiCard"
+      - "BusinessUnitCostCard"
+      - "InsightPanel"
+      - "FindingCard"
+      - "RecommendationCard"
+      - "EvidenceStack"
+      - "EntitySummaryCard"
+    evidence:
+      - "packages/hermes-dashboard-kit/src/metrics.tsx"
+      - "packages/hermes-dashboard-kit/src/data-visualization.tsx"
+      - "packages/hermes-dashboard-kit/src/charts.tsx"
+  - id: "tables-lists"
+    status: "implemented"
+    components:
+      - "DataTable"
+      - "TableToolbar"
+      - "FilterBar"
+      - "SearchInput"
+      - "MarketTape"
+      - "ExpandableDataList"
+    evidence:
+      - "packages/hermes-dashboard-kit/src/data-table.tsx"
+      - "packages/hermes-dashboard-kit/src/data-visualization.tsx"
+  - id: "state-design"
+    status: "implemented"
+    components:
+      - "DashboardEmptyState"
+      - "DashboardLoadingState"
+      - "DashboardErrorState"
+      - "VisualizationStateFrame"
+      - "StateChecklist"
+    evidence:
+      - "packages/hermes-dashboard-kit/src/states.tsx"
+      - "packages/hermes-dashboard-kit/src/data-visualization.tsx"
+gaps:
+  - "Component-level experience contracts are not yet complete for every family."
+  - "Advanced interaction components need admission rules before broad use."
+

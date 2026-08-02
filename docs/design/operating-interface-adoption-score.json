@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "name": "Hermes Dashboard Kit Adoption Score",
+  "status": "implemented",
+  "scoreMeaning": {
+    "packageNativePercent": "How much of the dashboard uses @hermes/dashboard-kit directly.",
+    "staticAdapterPercent": "How much uses the synced hermes-dashboard-kit.css adapter.",
+    "localDriftRisk": "How much bespoke dashboard styling still risks fragmenting the system."
+  },
+  "projects": [
+    {
+      "id": "nous-hermes-agent",
+      "label": "Nous Hermes Agent",
+      "packageNativePercent": 72,
+      "staticAdapterPercent": 18,
+      "localDriftRisk": "medium",
+      "nextRetrofit": ["Hermes cost cockpit active page", "prototype gallery consolidation", "command/search components"]
+    },
+    {
+      "id": "khashi-vc",
+      "label": "Kashi VC",
+      "packageNativePercent": 24,
+      "staticAdapterPercent": 54,
+      "localDriftRisk": "high",
+      "nextRetrofit": ["Live volatility drawer", "market tape", "category heatmap", "order book ladder"]
+    },
+    {
+      "id": "media-engine",
+      "label": "Media Engine",
+      "packageNativePercent": 28,
+      "staticAdapterPercent": 48,
+      "localDriftRisk": "high",
+      "nextRetrofit": ["Human video briefing workspace", "video package review drawer", "saved brand views"]
+    },
+    {
+      "id": "media-business-os",
+      "label": "Media Business OS",
+      "packageNativePercent": 20,
+      "staticAdapterPercent": 50,
+      "localDriftRisk": "high",
+      "nextRetrofit": ["Business unit overview", "channel health alerts", "cost/performance cards"]
+    },
+    {
+      "id": "tlc-capital-group-os",
+      "label": "TLC Capital Group OS",
+      "packageNativePercent": 18,
+      "staticAdapterPercent": 32,
+      "localDriftRisk": "medium",
+      "nextRetrofit": ["Enterprise readiness dashboard", "portfolio drilldowns", "adoption reporting"]
+    },
+    {
+      "id": "hermes",
+      "label": "Hermes OS",
+      "packageNativePercent": 16,
+      "staticAdapterPercent": 24,
+      "localDriftRisk": "medium",
+      "nextRetrofit": ["Governance status", "design-system route map", "validation report viewer"]
+    }
+  ],
+  "target": {
+    "packageNativePercent": 80,
+    "staticAdapterPercent": 15,
+    "localDriftRisk": "low"
+  }
+}

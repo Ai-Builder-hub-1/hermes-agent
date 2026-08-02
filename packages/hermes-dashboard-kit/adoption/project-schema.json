@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tlccapitalgroup.com/schemas/hermes-dashboard-adoption-project.json",
+  "title": "Hermes Dashboard Kit Project Adoption Manifest",
+  "type": "object",
+  "required": ["schemaVersion", "projectId", "dashboardKit", "surfaces"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "projectId": { "type": "string", "minLength": 1 },
+    "dashboardKit": {
+      "type": "object",
+      "required": ["package", "requiredVersion", "adoptionMode"],
+      "additionalProperties": false,
+      "properties": {
+        "package": { "const": "@hermes/dashboard-kit" },
+        "requiredVersion": { "type": "string", "minLength": 1 },
+        "adoptionMode": {
+          "enum": ["package-native", "static-adapter", "hybrid", "planned"]
+        },
+        "staticAdapterPath": { "type": "string" },
+        "canonicalCssHash": { "type": "string" },
+        "lastSyncedAt": { "type": "string" },
+        "implementationMode": {
+          "enum": ["package-native", "static-adapter", "hybrid", "planned", "server-rendered-legacy"]
+        },
+        "currentExperienceTier": { "type": "number" },
+        "targetExperienceTier": { "type": "number" },
+        "targetExperienceBand": { "type": "string" },
+        "packageNativeRequired": { "type": "boolean" },
+        "staticAdapterAllowed": { "type": "boolean" },
+        "mobbinReferenceRequired": { "type": "boolean" },
+        "blockUnreviewedLocalDashboardCss": { "type": "boolean" },
+        "localVisualOverridePolicy": {
+          "enum": ["declared-exceptions-only", "allow-composition-only", "allow-local-overrides"]
+        }
+      }
+    },
+    "surfaces": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "path", "status", "requiredComponents"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "path": { "type": "string", "minLength": 1 },
+          "status": {
+            "enum": ["package-native", "static-adapter", "hybrid", "legacy", "prototype", "planned"]
+          },
+          "requiredComponents": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "markers": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "allowedLegacyPatterns": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "exceptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "reason", "expiresAfter"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "type": {
+            "enum": ["governance", "local-visual-override", "visual-override", "local-style-override"]
+          },
+          "path": { "type": "string", "minLength": 1 },
+          "selector": { "type": "string", "minLength": 1 },
+          "token": { "type": "string", "minLength": 1 },
+          "kind": {
+            "enum": ["protected-selector", "protected-token", "*"]
+          },
+          "owner": { "type": "string", "minLength": 1 },
+          "reviewer": { "type": "string", "minLength": 1 },
+          "reason": { "type": "string", "minLength": 1 },
+          "expiresAfter": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "referenceIntake": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "required": { "type": "boolean" },
+        "status": { "type": "string", "minLength": 1 }
+      }
+    },
+    "designReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "required": { "type": "boolean" },
+        "status": { "type": "string", "minLength": 1 }
+      }
+    },
+    "proof": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "playwrightConfig": { "type": "string" },
+        "captureScript": { "type": "string" },
+        "evidenceDir": { "type": "string" },
+        "screenshotStates": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "status": { "type": "string" }
+      }
+    }
+  }
+}

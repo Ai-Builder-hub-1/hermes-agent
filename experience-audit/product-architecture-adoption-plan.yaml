@@ -1,0 +1,49 @@
+schemaVersion: 1
+generatedAt: "2026-07-31"
+purpose: "Migration and adoption system for the Product Architecture Standards System."
+adoptionClusters:
+  - id: "khashi-vc"
+    priority: 1
+    owner: "Kashi VC"
+    reviewer: "Nous Hermes Agent"
+    canonicalQuestion: "Which live markets are worth inspecting now?"
+    requiredRules: ["SHELL-001", "DATA-001", "SEC-001", "QUAL-001"]
+    nextEvidence:
+      - "package-native live command content inside one shell"
+      - "real snapshot charts with no prototype-preview behavior"
+      - "production proof screenshot"
+  - id: "media-engine"
+    priority: 2
+    owner: "Media Engine"
+    reviewer: "Nous Hermes Agent"
+    canonicalQuestion: "What content package should a human review, record, and publish?"
+    requiredRules: ["SHELL-001", "PROTO-001", "A11Y-001", "QUAL-001"]
+    nextEvidence:
+      - "operations experience contract"
+      - "thumbnail/transcript package proof"
+      - "Discord handoff proof"
+  - id: "nous-hermes-agent"
+    priority: 3
+    owner: "Nous Hermes Agent"
+    reviewer: "Hermes OS"
+    canonicalQuestion: "How much capacity and spend is being used across business units?"
+    requiredRules: ["SHELL-001", "DATA-001", "OBS-001", "PERF-001"]
+    nextEvidence:
+      - "capacity command center contract"
+      - "cost data provenance"
+      - "proof screenshot"
+  - id: "hermes-os"
+    priority: 4
+    owner: "Hermes OS"
+    reviewer: "Nous Hermes Agent"
+    canonicalQuestion: "What is the enterprise operating state and what needs intervention?"
+    requiredRules: ["ENG-OWN-001", "SHELL-001", "GOV-001", "OBS-001"]
+    nextEvidence:
+      - "workspace contract"
+      - "governance health route"
+      - "adoption report"
+exitCriteria:
+  - "Every priority cluster has an experience contract or unexpired exception."
+  - "Every production dashboard has a single canonical shell model."
+  - "Every production dashboard has a readonly proof route or approved exception."
+  - "Every migration produces screenshot evidence and validation output."

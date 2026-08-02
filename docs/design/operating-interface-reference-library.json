@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "name": "Hermes Operating Interface Reference Library",
+  "status": "implemented",
+  "purpose": "Provide a repeatable research intake for modern operating dashboards before patterns become shared Hermes components.",
+  "sourcePolicy": {
+    "mobbin": "Use as visual and interaction reference only. Extract patterns, not copyrighted screen copies.",
+    "productBenchmarks": "Use public product patterns for taxonomy, density, interaction, and chart behavior.",
+    "implementation": "Translate observed patterns into original @hermes/dashboard-kit components."
+  },
+  "requiredExtractionFields": [
+    "patternFamily",
+    "screenType",
+    "primaryUserQuestion",
+    "layoutStructure",
+    "navigationBehavior",
+    "dataDensity",
+    "interactionModel",
+    "stateCoverage",
+    "mobileBehavior",
+    "accessibilityNotes",
+    "componentCandidates",
+    "adoptionTargets"
+  ],
+  "patternFamilies": [
+    {
+      "id": "executive-command",
+      "label": "Executive Command Centers",
+      "searchBriefs": ["enterprise command center dashboard", "executive KPI dashboard", "business operations overview"],
+      "components": ["BusinessUnitCostCard", "ProviderSpendTimeline", "AlertRail", "DrilldownPanel"]
+    },
+    {
+      "id": "trading-market-intelligence",
+      "label": "Trading And Market Intelligence",
+      "searchBriefs": ["trading terminal dashboard", "market volatility dashboard", "order book ladder", "portfolio analytics dashboard"],
+      "components": ["MarketTape", "MarketVolatilityDrawer", "OrderBookLadder", "PriceMovementChart", "LiquidityDepthChart"]
+    },
+    {
+      "id": "analytics-exploration",
+      "label": "Analytics Exploration",
+      "searchBriefs": ["analytics dashboard drilldown", "cohort analysis dashboard", "metric explorer dashboard"],
+      "components": ["CategoryHeatmap", "OpportunityMatrix", "ExpandableDataList", "SavedViewsManager"]
+    },
+    {
+      "id": "incident-operations",
+      "label": "Incident And Operations Monitoring",
+      "searchBriefs": ["incident management dashboard", "observability alert dashboard", "system health dashboard"],
+      "components": ["AlertRail", "RunStatusPanel", "DashboardErrorState", "PermissionLimitedPanel"]
+    },
+    {
+      "id": "ai-copilot-workspaces",
+      "label": "AI Copilot Workspaces",
+      "searchBriefs": ["AI assistant dashboard", "copilot workspace", "AI generated report review"],
+      "components": ["AiAssistantPanel", "CommandPalette", "EvidenceStack", "RecommendationStack"]
+    },
+    {
+      "id": "search-filter-navigation",
+      "label": "Search, Filter, And Navigation",
+      "searchBriefs": ["global search command palette", "saved filters dashboard", "dashboard sidebar navigation"],
+      "components": ["GlobalSearchOverlay", "CommandPalette", "SavedFilterChips", "TimeWindowSelector"]
+    },
+    {
+      "id": "review-approval-queues",
+      "label": "Review And Approval Queues",
+      "searchBriefs": ["approval queue dashboard", "content review workflow", "operations queue UI"],
+      "components": ["ExpandableDataList", "QueuePanel", "EvidenceStack", "RecommendationStack"]
+    },
+    {
+      "id": "settings-permissions",
+      "label": "Settings And Permissions",
+      "searchBriefs": ["admin settings dashboard", "permissions management UI", "integration settings dashboard"],
+      "components": ["PermissionLimitedPanel", "StateChecklist", "SavedViewsManager"]
+    },
+    {
+      "id": "theme-mode-systems",
+      "label": "Light And Dark Theme Systems",
+      "searchBriefs": ["analytics dashboard dark mode sidebar charts tables", "light mode product dashboard metrics table", "enterprise dashboard theme tokens dark light"],
+      "mobbinReferences": [
+        "https://mobbin.com/screens/1bd5c747-466a-4a3e-9b8c-5aab2b05cfbc",
+        "https://mobbin.com/screens/1a7d8d86-f0e8-456a-a60c-65c6eb13a252",
+        "https://mobbin.com/screens/190a82d9-8013-45c6-b768-5cc7d0cc2a7b",
+        "https://mobbin.com/screens/10d76bb3-6f65-4805-ad42-30ee24ec78e2",
+        "https://mobbin.com/screens/461965db-524a-42ea-93db-d0a3b28c588c",
+        "https://mobbin.com/screens/27a96864-839c-45f8-b1f4-479672827122"
+      ],
+      "extractedPatterns": [
+        "one shell-level mode selector",
+        "semantic surface and text token pairs",
+        "chart-specific axis, grid, tooltip, and series tokens",
+        "status soft-fill variants per mode",
+        "no mixed local dark/light card palettes"
+      ],
+      "components": ["dashboardThemeModes", "dashboardThemeModeCssVariables", "dashboard-theme-mode-standard.md"]
+    }
+  ],
+  "intakeWorkflow": [
+    "Run reference searches by pattern family before a major dashboard redesign.",
+    "Extract recurring layout and interaction patterns into this registry or a linked pattern note.",
+    "Promote only reusable patterns into @hermes/dashboard-kit.",
+    "Add state coverage and adoption targets before project retrofit begins.",
+    "For new dashboards, scaffold package-native projects with npm run dashboard:package-native:create instead of static adapters.",
+    "Validate with dashboard:interface-system:validate before shipping."
+  ]
+}

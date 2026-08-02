@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-02T01:35:06.136Z",
+  "itemCount": 7,
+  "items": [
+    {
+      "project": "khashi-vc",
+      "name": "Kashi VC",
+      "currentBand": "T3A",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "visualStatus": "covered",
+      "externalWorkItems": 2,
+      "score": 51,
+      "status": "blocked",
+      "blockers": {
+        "project": [],
+        "central": [],
+        "external": [
+          "external-work"
+        ]
+      },
+      "flatBlockers": [
+        "external-work"
+      ]
+    },
+    {
+      "project": "media-engine",
+      "name": "Media Engine",
+      "currentBand": "T3B",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "visualStatus": "covered",
+      "externalWorkItems": 1,
+      "score": 62,
+      "status": "needs-work",
+      "blockers": {
+        "project": [],
+        "central": [],
+        "external": [
+          "external-work"
+        ]
+      },
+      "flatBlockers": [
+        "external-work"
+      ]
+    },
+    {
+      "project": "media-business-os",
+      "name": "Media Business OS",
+      "currentBand": "T1A",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "visualStatus": "unknown",
+      "externalWorkItems": 2,
+      "score": 20,
+      "status": "blocked",
+      "blockers": {
+        "project": [
+          "visual-coverage"
+        ],
+        "central": [],
+        "external": [
+          "external-work"
+        ]
+      },
+      "flatBlockers": [
+        "visual-coverage",
+        "external-work"
+      ]
+    },
+    {
+      "project": "business-mapper",
+      "name": "Business Mapper",
+      "currentBand": "T1A",
+      "targetBand": "T2B",
+      "auditStatus": "needs-review",
+      "visualStatus": "covered",
+      "externalWorkItems": 2,
+      "score": 37,
+      "status": "blocked",
+      "blockers": {
+        "project": [],
+        "central": [],
+        "external": [
+          "external-work"
+        ]
+      },
+      "flatBlockers": [
+        "external-work"
+      ]
+    },
+    {
+      "project": "meal-assistant",
+      "name": "Meal Assistant",
+      "currentBand": "T1A",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "visualStatus": "needs-evidence",
+      "externalWorkItems": 2,
+      "score": 20,
+      "status": "blocked",
+      "blockers": {
+        "project": [
+          "visual-coverage"
+        ],
+        "central": [],
+        "external": [
+          "external-work"
+        ]
+      },
+      "flatBlockers": [
+        "visual-coverage",
+        "external-work"
+      ]
+    },
+    {
+      "project": "hermes-os",
+      "name": "Hermes OS",
+      "currentBand": "T0P",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "visualStatus": "unknown",
+      "externalWorkItems": 2,
+      "score": 12,
+      "status": "blocked",
+      "blockers": {
+        "project": [
+          "visual-coverage"
+        ],
+        "central": [],
+        "external": [
+          "external-work"
+        ]
+      },
+      "flatBlockers": [
+        "visual-coverage",
+        "external-work"
+      ]
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "name": "TLC Capital Group OS",
+      "currentBand": "T0P",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "visualStatus": "unknown",
+      "externalWorkItems": 2,
+      "score": 12,
+      "status": "blocked",
+      "blockers": {
+        "project": [
+          "visual-coverage"
+        ],
+        "central": [],
+        "external": [
+          "external-work"
+        ]
+      },
+      "flatBlockers": [
+        "visual-coverage",
+        "external-work"
+      ]
+    }
+  ]
+}

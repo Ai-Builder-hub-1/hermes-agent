@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-02T01:29:07.464Z",
+  "itemCount": 7,
+  "certifiedCount": 7,
+  "items": [
+    {
+      "component": "DashboardShell",
+      "owner": "@hermes/dashboard-kit",
+      "maturity": "certified",
+      "requiredForTier": "T1A",
+      "requiredEvidence": [
+        "state-matrix",
+        "keyboard-and-focus-proof",
+        "mobile-or-compact-proof",
+        "dark-and-density-proof",
+        "loading-empty-error-proof",
+        "documentation-example"
+      ],
+      "missingEvidence": [],
+      "certified": true
+    },
+    {
+      "component": "DashboardHeader",
+      "owner": "@hermes/dashboard-kit",
+      "maturity": "certified",
+      "requiredForTier": "T1A",
+      "requiredEvidence": [
+        "state-matrix",
+        "keyboard-and-focus-proof",
+        "mobile-or-compact-proof",
+        "dark-and-density-proof",
+        "loading-empty-error-proof",
+        "documentation-example"
+      ],
+      "missingEvidence": [],
+      "certified": true
+    },
+    {
+      "component": "DataTable",
+      "owner": "@hermes/dashboard-kit",
+      "maturity": "certified",
+      "requiredForTier": "T2A",
+      "requiredEvidence": [
+        "state-matrix",
+        "keyboard-and-focus-proof",
+        "mobile-or-compact-proof",
+        "dark-and-density-proof",
+        "loading-empty-error-proof",
+        "documentation-example"
+      ],
+      "missingEvidence": [],
+      "certified": true
+    },
+    {
+      "component": "ChartPanel",
+      "owner": "@hermes/dashboard-kit",
+      "maturity": "certified",
+      "requiredForTier": "T2A",
+      "requiredEvidence": [
+        "state-matrix",
+        "keyboard-and-focus-proof",
+        "mobile-or-compact-proof",
+        "dark-and-density-proof",
+        "loading-empty-error-proof",
+        "documentation-example"
+      ],
+      "missingEvidence": [],
+      "certified": true
+    },
+    {
+      "component": "FilterBar",
+      "owner": "@hermes/dashboard-kit",
+      "maturity": "certified",
+      "requiredForTier": "T2A",
+      "requiredEvidence": [
+        "state-matrix",
+        "keyboard-and-focus-proof",
+        "mobile-or-compact-proof",
+        "dark-and-density-proof",
+        "loading-empty-error-proof",
+        "documentation-example"
+      ],
+      "missingEvidence": [],
+      "certified": true
+    },
+    {
+      "component": "DetailDrawerShell",
+      "owner": "@hermes/dashboard-kit",
+      "maturity": "certified",
+      "requiredForTier": "T3A",
+      "requiredEvidence": [
+        "state-matrix",
+        "keyboard-and-focus-proof",
+        "mobile-or-compact-proof",
+        "dark-and-density-proof",
+        "loading-empty-error-proof",
+        "documentation-example"
+      ],
+      "missingEvidence": [],
+      "certified": true
+    },
+    {
+      "component": "CommandBar",
+      "owner": "@hermes/dashboard-kit",
+      "maturity": "certified",
+      "requiredForTier": "T3A",
+      "requiredEvidence": [
+        "state-matrix",
+        "keyboard-and-focus-proof",
+        "mobile-or-compact-proof",
+        "dark-and-density-proof",
+        "loading-empty-error-proof",
+        "documentation-example"
+      ],
+      "missingEvidence": [],
+      "certified": true
+    }
+  ]
+}

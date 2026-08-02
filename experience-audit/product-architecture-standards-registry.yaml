@@ -1,0 +1,206 @@
+schemaVersion: 1
+generatedAt: "2026-07-31"
+purpose: "Machine-readable Product Architecture System rules used by humans, CI, and AI agents."
+ruleLifecycle:
+  - "draft"
+  - "trial"
+  - "approved"
+  - "deprecated"
+  - "retired"
+verificationTypes:
+  - "static"
+  - "test"
+  - "runtime"
+  - "review"
+  - "audit"
+rules:
+  - id: "ENG-OWN-001"
+    class: "principles"
+    status: "approved"
+    level: "MUST"
+    rule: "Every durable state, contract, dependency, and production signal has one accountable owner."
+    owner: "Nous Hermes Agent"
+    sources: ["S13"]
+    verification: ["audit", "review"]
+    evidence:
+      - "experience-audit/surfaces.yaml"
+      - "experience-audit/governance-gates.yaml"
+  - id: "TOKEN-SEM-001"
+    class: "foundations"
+    status: "approved"
+    level: "MUST"
+    rule: "Product code consumes semantic tokens; primitive palette values are restricted to theme-definition layers."
+    owner: "Nous Hermes Agent"
+    sources: ["S07", "S14"]
+    verification: ["static", "review"]
+    evidence:
+      - "packages/hermes-dashboard-kit/src/themes.ts"
+      - "packages/hermes-dashboard-kit/static/hermes-dashboard-kit.css"
+  - id: "UI-LAYER-001"
+    class: "interface-system"
+    status: "approved"
+    level: "MUST"
+    rule: "Design-system primitives do not import product-domain modules, application stores, API clients, or feature permissions."
+    owner: "Nous Hermes Agent"
+    sources: ["S13"]
+    verification: ["static", "review"]
+    evidence:
+      - "packages/hermes-dashboard-kit/src"
+  - id: "ARCH-DOM-001"
+    class: "product-domain"
+    status: "approved"
+    level: "MUST"
+    rule: "A domain may depend on another domain's published contract, but it does not import, query, or rely on that domain's private implementation or storage schema without an approved exception."
+    owner: "Nous Hermes Agent"
+    sources: ["S13"]
+    verification: ["static", "review", "audit"]
+    evidence:
+      - "experience-audit/contracts.yaml"
+      - "experience-audit/dependency-graph.yaml"
+  - id: "SHELL-001"
+    class: "information-composition"
+    status: "approved"
+    level: "MUST"
+    rule: "Each production dashboard product has exactly one app shell: one primary navigation model, one auth surface, one global header region, and one canonical route model."
+    owner: "Nous Hermes Agent"
+    sources: ["S13"]
+    verification: ["static", "audit"]
+    evidence:
+      - "docs/design/dashboard-governance-and-enforcement.md"
+      - "experience-audit/governance-gates.yaml"
+      - "scripts/validate-dashboard-governance.mjs"
+  - id: "PROTO-001"
+    class: "governance-lifecycle"
+    status: "approved"
+    level: "MUST"
+    rule: "A prototype promoted to production is decomposed into shell-level layout, page content, reusable components, and route config."
+    owner: "Nous Hermes Agent"
+    sources: ["S13"]
+    verification: ["audit", "review"]
+    evidence:
+      - "docs/design/dashboard-governance-and-enforcement.md"
+  - id: "STATE-001"
+    class: "state"
+    status: "approved"
+    level: "MUST"
+    rule: "Shareable navigable state is encoded in the URL unless doing so exposes sensitive information; remote authoritative data remains in the server-state layer."
+    owner: "Nous Hermes Agent"
+    sources: ["S13"]
+    verification: ["review", "test"]
+    evidence:
+      - "experience-audit/experience-contract.schema.json"
+      - "experience-audit/experience-contracts.yaml"
+  - id: "DATA-001"
+    class: "data-api"
+    status: "approved"
+    level: "MUST"
+    rule: "Decision-critical metrics declare definition, unit, source, owner, refresh cadence, stale threshold, null semantics, and estimate/revision status."
+    owner: "Nous Hermes Agent"
+    sources: ["S10", "S13"]
+    verification: ["static", "runtime", "audit"]
+    evidence:
+      - "docs/design/dashboard-data-contracts.md"
+      - "experience-audit/live-data-reference.yaml"
+  - id: "ERR-001"
+    class: "interaction-loading-errors"
+    status: "approved"
+    level: "MUST"
+    rule: "A child-region failure does not replace a functioning parent surface; errors are isolated to the smallest meaningful recovery boundary."
+    owner: "Nous Hermes Agent"
+    sources: ["S13"]
+    verification: ["test", "review"]
+    evidence:
+      - "packages/hermes-dashboard-kit/src/states.tsx"
+      - "experience-audit/feature-traces.yaml"
+  - id: "RESP-001"
+    class: "responsive-adaptive"
+    status: "approved"
+    level: "MUST"
+    rule: "Responsive transformations preserve the user's core task; removing capability is not an acceptable mobile strategy unless the product explicitly excludes that task."
+    owner: "Nous Hermes Agent"
+    sources: ["S01", "S12"]
+    verification: ["test", "visual-regression", "review"]
+    evidence:
+      - "docs/design/dashboard-visual-quality-report.json"
+  - id: "A11Y-001"
+    class: "accessibility"
+    status: "approved"
+    level: "MUST"
+    rule: "Dashboard components and critical journeys target WCAG 2.2 AA with keyboard, focus, names, and equivalent data fallbacks."
+    owner: "Nous Hermes Agent"
+    sources: ["S01", "S02"]
+    verification: ["test", "review"]
+    evidence:
+      - "experience-audit/feature-traces.yaml"
+  - id: "PERF-001"
+    class: "performance-reliability"
+    status: "trial"
+    level: "SHOULD"
+    rule: "Production dashboards declare load, render, refresh, and data-volume budgets before migration."
+    owner: "Nous Hermes Agent"
+    sources: ["S09", "S12"]
+    verification: ["runtime", "audit"]
+    evidence:
+      - "docs/design/dashboard-telemetry-contract-report.json"
+  - id: "SEC-001"
+    class: "security-privacy"
+    status: "approved"
+    level: "MUST"
+    rule: "Proof routes are readonly, token-protected, and do not expose credentials, destructive actions, private user content, or editable controls."
+    owner: "Nous Hermes Agent"
+    sources: ["S03", "S05"]
+    verification: ["static", "runtime", "review"]
+    evidence:
+      - "docs/design/dashboard-production-proof-endpoints.md"
+      - "scripts/capture-dashboard-production-screenshots.mjs"
+  - id: "OBS-001"
+    class: "observability"
+    status: "trial"
+    level: "SHOULD"
+    rule: "A failed user outcome can be reconstructed across route, client event, service/job, dependency, and proof evidence."
+    owner: "Nous Hermes Agent"
+    sources: ["S10", "S09"]
+    verification: ["runtime", "audit"]
+    evidence:
+      - "docs/design/dashboard-telemetry-contract-report.json"
+  - id: "AI-ENG-001"
+    class: "ai-assisted-engineering"
+    status: "approved"
+    level: "MUST"
+    rule: "AI agents inspect repository evidence before changing code and do not introduce new shared dependencies, patterns, stores, clients, primitives, or permissions without an ADR."
+    owner: "Nous Hermes Agent"
+    sources: ["S08", "S13"]
+    verification: ["review", "audit"]
+    evidence:
+      - "docs/design/product-architecture-ai-instruction-pack.md"
+  - id: "QUAL-001"
+    class: "quality-testing-review"
+    status: "approved"
+    level: "MUST"
+    rule: "A change is complete only when applicable contracts are satisfied, tests pass, operational signals exist, documentation is current, and rollback is credible."
+    owner: "Nous Hermes Agent"
+    sources: ["S08"]
+    verification: ["test", "review", "audit"]
+    evidence:
+      - "package.json"
+  - id: "GOV-001"
+    class: "governance-lifecycle"
+    status: "approved"
+    level: "MUST"
+    rule: "Every exception names owner, reviewer, scope, reason, risk, compensating control, expiration date, and replacement plan."
+    owner: "Nous Hermes Agent"
+    sources: ["S13"]
+    verification: ["static", "audit"]
+    evidence:
+      - "experience-audit/governance-gates.yaml"
+      - "scripts/validate-dashboard-governance.mjs"
+  - id: "ENF-001"
+    class: "enforcement"
+    status: "approved"
+    level: "MUST"
+    rule: "Every MUST rule identifies at least one verification mechanism: static, test, runtime, review, or audit."
+    owner: "Nous Hermes Agent"
+    sources: ["S13"]
+    verification: ["static"]
+    evidence:
+      - "scripts/validate-product-architecture-system.mjs"

@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-01",
+  "source": "Mobbin MCP search",
+  "references": [
+    {
+      "id": "mixpanel-analytics-dashboard",
+      "app_name": "Mixpanel",
+      "label": "Mixpanel analytics dashboard reference",
+      "query": "analytics dashboard with sidebar dense charts tables filters and drilldown drawer",
+      "mobbin_url": "https://mobbin.com/screens/55fc4611-f390-44c5-a722-30c74789c6d2",
+      "image_url": "https://mobbin.com/api/mcp/short/8S66wouT"
+    },
+    {
+      "id": "attio-analytics-dashboard",
+      "app_name": "Attio",
+      "label": "Attio dense CRM analytics reference",
+      "query": "analytics dashboard with sidebar dense charts tables filters and drilldown drawer",
+      "mobbin_url": "https://mobbin.com/screens/ee6e3758-5da3-4da1-83fa-0e6f8ed1d7b0",
+      "image_url": "https://mobbin.com/api/mcp/short/9XqYCZYe"
+    },
+    {
+      "id": "dub-analytics-dashboard",
+      "app_name": "Dub",
+      "label": "Dub analytics dashboard reference",
+      "query": "analytics dashboard with sidebar dense charts tables filters and drilldown drawer",
+      "mobbin_url": "https://mobbin.com/screens/fa13abe1-ef50-478f-a64d-2d124bc407f7",
+      "image_url": "https://mobbin.com/api/mcp/short/KT9v42oM"
+    },
+    {
+      "id": "kraken-trading-dashboard",
+      "app_name": "Kraken",
+      "label": "Kraken trading dashboard reference",
+      "query": "trading market dashboard table chart sidebar filters asset detail panel",
+      "mobbin_url": "https://mobbin.com/screens/0a042ced-3459-43d8-b271-34df9921ae25",
+      "image_url": "https://mobbin.com/api/mcp/short/zA2rbjj2"
+    },
+    {
+      "id": "fey-market-dashboard",
+      "app_name": "Fey",
+      "label": "Fey market dashboard reference",
+      "query": "trading market dashboard table chart sidebar filters asset detail panel",
+      "mobbin_url": "https://mobbin.com/screens/957fd895-354c-4910-acca-d7e3d0a13fd8",
+      "image_url": "https://mobbin.com/api/mcp/short/aiWGNO1s"
+    },
+    {
+      "id": "manus-operations-command-center",
+      "app_name": "Manus",
+      "label": "Manus operations command center reference",
+      "query": "operations command center dashboard with approval queue issue timeline and publishing workflow",
+      "mobbin_url": "https://mobbin.com/screens/6459d49c-17ac-4f10-bf92-b70d5e0a20e4",
+      "image_url": "https://mobbin.com/api/mcp/short/W184bwj5"
+    },
+    {
+      "id": "replit-operations-workspace",
+      "app_name": "Replit",
+      "label": "Replit operations workspace reference",
+      "query": "operations command center dashboard with approval queue issue timeline and publishing workflow",
+      "mobbin_url": "https://mobbin.com/screens/391346fa-b178-4a09-a9e0-206bf55d62a0",
+      "image_url": "https://mobbin.com/api/mcp/short/5EZkREbs"
+    },
+    {
+      "id": "employment-hero-workflow-dashboard",
+      "app_name": "Employment Hero",
+      "label": "Employment Hero workflow dashboard reference",
+      "query": "operations command center dashboard with approval queue issue timeline and publishing workflow",
+      "mobbin_url": "https://mobbin.com/screens/9e501280-5c35-49d9-825d-039d85fd9af5",
+      "image_url": "https://mobbin.com/api/mcp/short/zkXvFbiR"
+    },
+    {
+      "id": "planetscale-operations-dashboard",
+      "app_name": "PlanetScale",
+      "label": "PlanetScale operations dashboard reference",
+      "query": "operations command center dashboard with approval queue issue timeline and publishing workflow",
+      "mobbin_url": "https://mobbin.com/screens/be0ec4c5-4a49-4f4a-8a29-179143a514c5",
+      "image_url": "https://mobbin.com/api/mcp/short/mrrSlAjv"
+    },
+    {
+      "id": "jobber-calendar-planner",
+      "app_name": "Jobber",
+      "label": "Jobber calendar planner reference",
+      "query": "meal planning calendar dashboard month view right drawer form library filters",
+      "mobbin_url": "https://mobbin.com/screens/36069a10-c2f8-4d88-8153-bd57f50e289a",
+      "image_url": "https://mobbin.com/api/mcp/short/MMaBdIKd"
+    },
+    {
+      "id": "assembly-calendar-workspace",
+      "app_name": "Assembly",
+      "label": "Assembly calendar workspace reference",
+      "query": "meal planning calendar dashboard month view right drawer form library filters",
+      "mobbin_url": "https://mobbin.com/screens/0329a411-7058-4cf7-bf21-6682d8ed2f23",
+      "image_url": "https://mobbin.com/api/mcp/short/OtHckpu3"
+    },
+    {
+      "id": "sprout-social-content-calendar",
+      "app_name": "Sprout Social",
+      "label": "Sprout Social content calendar reference",
+      "query": "meal planning calendar dashboard month view right drawer form library filters",
+      "mobbin_url": "https://mobbin.com/screens/68209e50-690c-470e-871e-bab21a61e817",
+      "image_url": "https://mobbin.com/api/mcp/short/hFyufxcW"
+    },
+    {
+      "id": "adobe-express-calendar-planner",
+      "app_name": "Adobe Express",
+      "label": "Adobe Express calendar planner reference",
+      "query": "meal planning calendar dashboard month view right drawer form library filters",
+      "mobbin_url": "https://mobbin.com/screens/a9946797-645c-4f24-b8c3-2d63fff7e630",
+      "image_url": "https://mobbin.com/api/mcp/short/qRxlifaa"
+    },
+    {
+      "id": "wrike-enterprise-portfolio",
+      "app_name": "Wrike",
+      "label": "Wrike enterprise portfolio dashboard reference",
+      "query": "enterprise portfolio dashboard readiness approvals project feed executive operations",
+      "mobbin_url": "https://mobbin.com/screens/870801c6-8507-473d-be80-594f713ac360",
+      "image_url": "https://mobbin.com/api/mcp/short/iKZbPu4F"
+    },
+    {
+      "id": "asana-enterprise-operations",
+      "app_name": "Asana",
+      "label": "Asana enterprise operations reference",
+      "query": "enterprise portfolio dashboard readiness approvals project feed executive operations",
+      "mobbin_url": "https://mobbin.com/screens/96adabaf-18ec-4ea4-a786-f7924df08f8e",
+      "image_url": "https://mobbin.com/api/mcp/short/7TO1hgE1"
+    },
+    {
+      "id": "linear-project-feed",
+      "app_name": "Linear",
+      "label": "Linear project feed reference",
+      "query": "enterprise portfolio dashboard readiness approvals project feed executive operations",
+      "mobbin_url": "https://mobbin.com/screens/9c8e3907-b7af-48d6-ae2d-9b4ff700d433",
+      "image_url": "https://mobbin.com/api/mcp/short/h0NDrIPf"
+    },
+    {
+      "id": "plane-project-operations",
+      "app_name": "Plane",
+      "label": "Plane project operations reference",
+      "query": "enterprise portfolio dashboard readiness approvals project feed executive operations",
+      "mobbin_url": "https://mobbin.com/screens/14824988-ad65-403a-9acf-5de457043a06",
+      "image_url": "https://mobbin.com/api/mcp/short/Y3MQAclv"
+    },
+    {
+      "id": "obvious-business-graph-workspace",
+      "app_name": "Obvious",
+      "label": "Obvious business graph workspace reference",
+      "query": "business mapping graph workspace recommendations validation queue advisory roadmap dashboard",
+      "mobbin_url": "https://mobbin.com/screens/1f73557c-e0dd-45c8-af73-a6e300c14462",
+      "image_url": "https://mobbin.com/api/mcp/short/GCYU2Twz"
+    },
+    {
+      "id": "adaline-validation-workspace",
+      "app_name": "Adaline",
+      "label": "Adaline validation workspace reference",
+      "query": "business mapping graph workspace recommendations validation queue advisory roadmap dashboard",
+      "mobbin_url": "https://mobbin.com/screens/34d120dd-fad7-40f3-bb1f-a8713df94385",
+      "image_url": "https://mobbin.com/api/mcp/short/QIwnMgUV"
+    },
+    {
+      "id": "productboard-roadmap-workspace",
+      "app_name": "Productboard",
+      "label": "Productboard roadmap workspace reference",
+      "query": "business mapping graph workspace recommendations validation queue advisory roadmap dashboard",
+      "mobbin_url": "https://mobbin.com/screens/e02ef67a-b98f-4ff3-aaa4-f1fa406b6dd3",
+      "image_url": "https://mobbin.com/api/mcp/short/jHsJBbmj"
+    },
+    {
+      "id": "mixpanel-business-analysis-workspace",
+      "app_name": "Mixpanel",
+      "label": "Mixpanel business analysis workspace reference",
+      "query": "business mapping graph workspace recommendations validation queue advisory roadmap dashboard",
+      "mobbin_url": "https://mobbin.com/screens/585399fe-fa56-4556-a7af-36981ff900b0",
+      "image_url": "https://mobbin.com/api/mcp/short/BSgNhhV9"
+    }
+  ]
+}

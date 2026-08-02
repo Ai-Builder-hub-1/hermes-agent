@@ -1,0 +1,123 @@
+schemaVersion: 1
+generatedAt: "2026-07-30"
+surfaces:
+  - id: "khashi-vc.market-intelligence-live"
+    project: "khashi-vc"
+    owner: "Kashi VC"
+    reviewer: "Nous Hermes Agent"
+    workspace: "intelligence"
+    primaryRecipe: "live-market-intelligence"
+    canonicalRoute: "/"
+    shellModel: "single-shell"
+    legacyRoutes:
+      - "/market-intelligence-live.html"
+    proofRegistryId: "khashi-vc.roc"
+    status: "priority-reference"
+    shellVisualContract:
+      sidebar: "hdk-sidebar-rail or package-native DashboardSidebar with active route, bounded width, and overflow-safe labels"
+      header: "hdk-command-header or package-native DashboardHeader with compact title/action layout"
+      overflow: "labels, buttons, badges, and footer/status content cannot spill outside the shell"
+    currentExperienceTier: 3
+    targetExperienceTier: 3
+    implementationMode: "static-adapter"
+    targetExperienceBand: "T3C"
+    packageNativeRequired: true
+    bridgeStatus: "temporary"
+    mobbinReferenceRequired: true
+    tierMigrationRequired: false
+    purpose: "Understand live market volatility, liquidity, movement, category behavior, and actionable opportunities."
+    evidence:
+      - "packages/hermes-dashboard-kit/adoption/registry.json"
+      - "docs/design/dashboard-maturity-report.json"
+    requiredContracts:
+      - "live data freshness"
+      - "snapshot series"
+      - "market taxonomy"
+      - "drilldown chart"
+      - "pagination"
+      - "production proof"
+  - id: "media-engine.media-engine-ops-active"
+    project: "media-engine"
+    owner: "Media Engine"
+    reviewer: "Nous Hermes Agent"
+    workspace: "operations"
+    primaryRecipe: "operations-health"
+    canonicalRoute: "/"
+    shellModel: "single-shell"
+    legacyRoutes: []
+    proofRegistryId: "media-engine.ops"
+    status: "priority"
+    shellVisualContract:
+      sidebar: "hdk-sidebar-rail or package-native DashboardSidebar with active route, bounded width, and overflow-safe labels"
+      header: "hdk-command-header or package-native DashboardHeader with compact title/action layout"
+      overflow: "labels, buttons, badges, and footer/status content cannot spill outside the shell"
+    currentExperienceTier: 3
+    targetExperienceTier: 3
+    implementationMode: "static-adapter"
+    targetExperienceBand: "T3C"
+    packageNativeRequired: true
+    bridgeStatus: "temporary"
+    mobbinReferenceRequired: true
+    tierMigrationRequired: false
+    tierMigrationNote: "Media Engine production renderer satisfies shared-kit cockpit, shell visual contract, drilldown, state, telemetry, and proof-state requirements."
+    purpose: "Operate brand output, content packages, briefings, and human video workflows."
+    evidence:
+      - "packages/hermes-dashboard-kit/adoption/registry.json"
+      - "docs/design/dashboard-maturity-report.json"
+  - id: "nous-hermes-agent.capacity-command-center"
+    project: "nous-hermes-agent"
+    owner: "Nous Hermes Agent"
+    reviewer: "Hermes OS"
+    workspace: "capacity"
+    primaryRecipe: "cost-efficiency"
+    canonicalRoute: "/"
+    shellModel: "single-shell"
+    legacyRoutes:
+      - "/docs/design/prototype-gallery/hermes-cost-cockpit-active.html"
+    proofRegistryId: "nous-hermes-agent.dashboard"
+    status: "reference"
+    shellVisualContract:
+      sidebar: "hdk-sidebar-rail or package-native DashboardSidebar with active route, bounded width, and overflow-safe labels"
+      header: "hdk-command-header or package-native DashboardHeader with compact title/action layout"
+      overflow: "labels, buttons, badges, and footer/status content cannot spill outside the shell"
+    currentExperienceTier: 2
+    targetExperienceTier: 3
+    implementationMode: "hybrid"
+    targetExperienceBand: "T3C"
+    packageNativeRequired: true
+    bridgeStatus: "temporary"
+    mobbinReferenceRequired: true
+    tierMigrationRequired: true
+    tierMigrationNote: "Shared-kit implementation exists; production proof and polished operator cockpit behavior remain."
+    purpose: "Track cost, tokens, provider usage, capacity, and business-unit drilldowns."
+    evidence:
+      - "packages/hermes-dashboard-kit/src/capacity-command-center.ts"
+      - "docs/design/prototype-gallery/hermes-cost-cockpit-active.html"
+  - id: "hermes-os.workspace"
+    project: "hermes-os"
+    owner: "Hermes OS"
+    reviewer: "Nous Hermes Agent"
+    workspace: "command"
+    primaryRecipe: "executive-command"
+    canonicalRoute: "/"
+    shellModel: "single-shell"
+    legacyRoutes: []
+    proofRegistryId: "hermes.workspace"
+    status: "planned"
+    shellVisualContract:
+      sidebar: "hdk-sidebar-rail or package-native DashboardSidebar with active route, bounded width, and overflow-safe labels"
+      header: "hdk-command-header or package-native DashboardHeader with compact title/action layout"
+      overflow: "labels, buttons, badges, and footer/status content cannot spill outside the shell"
+    currentExperienceTier: 0
+    targetExperienceTier: 3
+    implementationMode: "planned"
+    targetExperienceBand: "T3C"
+    packageNativeRequired: true
+    bridgeStatus: "not-started"
+    mobbinReferenceRequired: true
+    tierMigrationRequired: true
+    tierMigrationNote: "Planned surface; must move through shell, shared components, and proof-backed cockpit migration."
+    purpose: "Govern cross-project readiness, adoption, routing, and production operations."
+    evidence:
+      - "packages/hermes-dashboard-kit/adoption/registry.json"
+      - "docs/design/dashboard-maturity-report.json"

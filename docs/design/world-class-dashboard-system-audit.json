@@ -1,0 +1,577 @@
+{
+  "schemaVersion": 1,
+  "minimumWorldClassScore": 90,
+  "layers": [
+    {
+      "id": "source-of-truth",
+      "name": "Source Of Truth",
+      "weight": 10,
+      "question": "Can every project identify the canonical dashboard system, version, contracts, and owner without guessing?",
+      "checks": [
+        {
+          "id": "kit-package",
+          "type": "file",
+          "path": "packages/hermes-dashboard-kit/package.json",
+          "points": 2,
+          "message": "Canonical dashboard package exists."
+        },
+        {
+          "id": "kit-design-contract",
+          "type": "file",
+          "path": "packages/hermes-dashboard-kit/DESIGN.md",
+          "points": 2,
+          "message": "Canonical dashboard design contract exists."
+        },
+        {
+          "id": "ownership-doc",
+          "type": "file",
+          "path": "docs/design/design-system-ownership.md",
+          "points": 2,
+          "message": "Ownership split is documented."
+        },
+        {
+          "id": "package-version",
+          "type": "package-version",
+          "path": "packages/hermes-dashboard-kit/package.json",
+          "points": 2,
+          "message": "Dashboard kit has an explicit package version."
+        },
+        {
+          "id": "changelog",
+          "type": "file",
+          "path": "packages/hermes-dashboard-kit/CHANGELOG.md",
+          "points": 2,
+          "message": "Dashboard kit has a changelog."
+        }
+      ]
+    },
+    {
+      "id": "adoption",
+      "name": "Adoption",
+      "weight": 10,
+      "question": "Can we prove which downstream dashboards are current, stale, planned, or still local?",
+      "checks": [
+        {
+          "id": "adoption-registry",
+          "type": "file",
+          "path": "packages/hermes-dashboard-kit/adoption/registry.json",
+          "points": 2,
+          "message": "Executable adoption registry exists."
+        },
+        {
+          "id": "project-schema",
+          "type": "file",
+          "path": "packages/hermes-dashboard-kit/adoption/project-schema.json",
+          "points": 2,
+          "message": "Project adoption manifest schema exists."
+        },
+        {
+          "id": "all-registered-projects-have-manifests",
+          "type": "adoption-manifests",
+          "points": 3,
+          "message": "Registered projects have local .hermes-dashboard.json manifests."
+        },
+        {
+          "id": "no-stale-priority-surfaces",
+          "type": "adoption-no-stale",
+          "points": 3,
+          "message": "Priority surfaces are not stale."
+        },
+        {
+          "id": "all-priority-projects-adoption-current",
+          "type": "json-array-all-status",
+          "path": "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
+          "array": "results",
+          "allowed": ["current"],
+          "points": 2,
+          "message": "Priority project adoption reports are fully current, not merely non-stale."
+        },
+        {
+          "id": "manifests-recently-synced",
+          "type": "manifest-sync-fresh",
+          "maxAgeHours": 168,
+          "points": 1,
+          "message": "Static-adapter manifests were synced within the last 7 days."
+        }
+      ]
+    },
+    {
+      "id": "enforcement",
+      "name": "Enforcement",
+      "weight": 10,
+      "question": "Can stale design-system use fail or warn before production?",
+      "checks": [
+        {
+          "id": "adoption-audit-command",
+          "type": "package-script",
+          "name": "dashboard-kit:adoption:audit",
+          "points": 2,
+          "message": "Adoption audit command exists."
+        },
+        {
+          "id": "strict-audit-command",
+          "type": "package-script",
+          "name": "dashboard-kit:adoption:audit:strict",
+          "points": 2,
+          "message": "Strict adoption audit command exists."
+        },
+        {
+          "id": "adapter-status-command",
+          "type": "package-script",
+          "name": "dashboard:design-system:status",
+          "points": 2,
+          "message": "Static adapter sync command exists."
+        },
+        {
+          "id": "hook-installer",
+          "type": "package-script",
+          "name": "dashboard:design-system:hooks:install",
+          "points": 2,
+          "message": "Design-system hook installer exists."
+        },
+        {
+          "id": "strict-ci-documentation",
+          "type": "content",
+          "path": "docs/design/dashboard-kit-adoption.md",
+          "contains": "dashboard-kit:adoption:audit:strict",
+          "points": 2,
+          "message": "Strict adoption gate is documented."
+        },
+        {
+          "id": "adoption-report-fresh",
+          "type": "fresh-report",
+          "report": "adoption",
+          "maxAgeHours": 24,
+          "points": 2,
+          "message": "Adoption report is fresh enough to govern readiness."
+        }
+      ]
+    },
+    {
+      "id": "migration",
+      "name": "Migration",
+      "weight": 10,
+      "question": "Can an operator move one stale surface toward the kit without a blank-page rewrite?",
+      "checks": [
+        {
+          "id": "sync-command",
+          "type": "package-script",
+          "name": "dashboard-kit:adoption:sync",
+          "points": 2,
+          "message": "Project sync command exists."
+        },
+        {
+          "id": "migrate-command",
+          "type": "package-script",
+          "name": "dashboard-kit:adoption:migrate",
+          "points": 2,
+          "message": "Surface migration-plan command exists."
+        },
+        {
+          "id": "package-native-checklist",
+          "type": "file",
+          "path": "docs/design/package-native-cutover-checklist.md",
+          "points": 2,
+          "message": "Package-native cutover checklist exists."
+        },
+        {
+          "id": "migration-backlog",
+          "type": "file",
+          "path": "docs/design/package-native-dashboard-migration-backlog.md",
+          "points": 2,
+          "message": "Package-native migration backlog exists."
+        },
+        {
+          "id": "codemod-gap",
+          "type": "package-script",
+          "name": "dashboard:migration-codemod:plan",
+          "points": 2,
+          "message": "Migration codemod candidate planner exists."
+        },
+        {
+          "id": "codemod-candidates-cleared",
+          "type": "json-array-empty",
+          "path": "docs/design/dashboard-migration-codemod-plan.json",
+          "array": "candidates",
+          "points": 2,
+          "message": "No generated migration codemod candidates remain open."
+        }
+      ]
+    },
+    {
+      "id": "runtime-proof",
+      "name": "Runtime Proof",
+      "weight": 10,
+      "question": "Can we prove production dashboards render real states and not accidental mock/prototype views?",
+      "checks": [
+        {
+          "id": "dashboard-health-validator",
+          "type": "package-script",
+          "name": "dashboard:health:validate",
+          "points": 2,
+          "message": "Dashboard health validator exists."
+        },
+        {
+          "id": "live-health-validator",
+          "type": "package-script",
+          "name": "dashboard:health:validate:live",
+          "points": 2,
+          "message": "Live dashboard health validator exists."
+        },
+        {
+          "id": "visual-check-command",
+          "type": "package-script",
+          "name": "dashboard:visual:check",
+          "points": 2,
+          "message": "Visual check command exists."
+        },
+        {
+          "id": "production-screenshot-gap",
+          "type": "package-script",
+          "name": "dashboard:production-proof:registry",
+          "points": 2,
+          "message": "Production proof registry generator exists."
+        },
+        {
+          "id": "production-screenshot-capture-command",
+          "type": "package-script",
+          "name": "dashboard:production-proof:capture",
+          "points": 2,
+          "message": "Production screenshot capture command exists."
+        },
+        {
+          "id": "proof-endpoints-declared",
+          "type": "json-array-all-truthy",
+          "path": "docs/design/dashboard-production-proof-registry.json",
+          "array": "entries",
+          "field": "proof.proofEndpointDeclared",
+          "points": 2,
+          "message": "Registered production dashboards declare readonly proof endpoints."
+        },
+        {
+          "id": "production-proof-baselines-exist",
+          "type": "json-array-all-file-exists",
+          "path": "docs/design/dashboard-production-proof-registry.json",
+          "array": "entries",
+          "field": "screenshotBaselinePath",
+          "points": 2,
+          "message": "Registered production dashboards have screenshot baselines."
+        },
+        {
+          "id": "production-proof-status-complete",
+          "type": "json-array-no-status",
+          "path": "docs/design/dashboard-production-proof-registry.json",
+          "array": "entries",
+          "disallowed": ["baseline-needed", "captured-review-needed"],
+          "points": 2,
+          "message": "Production proof registry has no baseline-needed or review-needed dashboard entries."
+        },
+        {
+          "id": "mock-state-proof-gap",
+          "type": "package-script",
+          "name": "dashboard:production-copy:check",
+          "points": 2,
+          "message": "Production mock/prototype copy gate exists."
+        },
+        {
+          "id": "declared-surfaces-do-not-say-prototype-preview",
+          "type": "no-surface-copy",
+          "contains": ["prototype preview", "mock data", "sample data", "placeholder data", "placeholder chart"],
+          "points": 2,
+          "message": "Declared dashboard surfaces do not contain production-confusing prototype-preview copy."
+        }
+      ]
+    },
+    {
+      "id": "design-quality",
+      "name": "Design Quality",
+      "weight": 10,
+      "question": "Can dashboards be judged as premium, dense, modern, and decision-ready rather than merely rendered?",
+      "checks": [
+        {
+          "id": "quality-scorecard",
+          "type": "file",
+          "path": "docs/design/dashboard-quality-scorecard.md",
+          "points": 2,
+          "message": "Dashboard quality scorecard exists."
+        },
+        {
+          "id": "recipe-score-command",
+          "type": "package-script",
+          "name": "dashboard:recipe:score:strict",
+          "points": 2,
+          "message": "Recipe compliance scorer exists."
+        },
+        {
+          "id": "operating-interface-registry",
+          "type": "file",
+          "path": "docs/design/operating-interface-system-registry.json",
+          "points": 2,
+          "message": "Operating interface component registry exists."
+        },
+        {
+          "id": "mobbin-workflow",
+          "type": "file",
+          "path": "docs/design/mobbin-reference-workflow.md",
+          "points": 2,
+          "message": "Mobbin reference workflow exists."
+        },
+        {
+          "id": "visual-quality-gap",
+          "type": "package-script",
+          "name": "dashboard:visual-quality:score",
+          "points": 2,
+          "message": "Automated heuristic visual quality scorer exists."
+        },
+        {
+          "id": "visual-quality-all-pass",
+          "type": "json-array-all-status",
+          "path": "docs/design/dashboard-visual-quality-report.json",
+          "array": "items",
+          "allowed": ["pass"],
+          "points": 3,
+          "message": "Tracked dashboard surfaces pass automated visual-quality thresholds."
+        },
+        {
+          "id": "visual-quality-min-score",
+          "type": "json-array-min-number",
+          "path": "docs/design/dashboard-visual-quality-report.json",
+          "array": "items",
+          "field": "score",
+          "min": 90,
+          "points": 2,
+          "message": "Tracked dashboard surfaces score at least 90 on visual-quality heuristics."
+        }
+      ]
+    },
+    {
+      "id": "data-contract",
+      "name": "Data Contract",
+      "weight": 10,
+      "question": "Do dashboards have enough normalized data to explain freshness, confidence, action, owner, and business impact?",
+      "checks": [
+        {
+          "id": "data-contracts-doc",
+          "type": "file",
+          "path": "docs/design/dashboard-data-contracts.md",
+          "points": 2,
+          "message": "Dashboard data contracts doc exists."
+        },
+        {
+          "id": "contract-types",
+          "type": "file",
+          "path": "packages/hermes-dashboard-kit/src/contracts.ts",
+          "points": 2,
+          "message": "Dashboard contract types exist in the kit."
+        },
+        {
+          "id": "validation-types",
+          "type": "file",
+          "path": "packages/hermes-dashboard-kit/src/validation.ts",
+          "points": 2,
+          "message": "Dashboard contract validation helpers exist."
+        },
+        {
+          "id": "downstream-feed",
+          "type": "file",
+          "path": "docs/design/dashboard-downstream-snapshot-feed.json",
+          "points": 2,
+          "message": "Downstream snapshot feed exists."
+        },
+        {
+          "id": "real-endpoint-gap",
+          "type": "package-script",
+          "name": "dashboard:telemetry-contract:report",
+          "points": 2,
+          "message": "Dashboard telemetry contract coverage report exists."
+        },
+        {
+          "id": "telemetry-contracts-complete",
+          "type": "json-number-zero",
+          "path": "docs/design/dashboard-telemetry-contract-report.json",
+          "field": "partialCount",
+          "points": 3,
+          "message": "Registered dashboards have complete telemetry contracts."
+        }
+      ]
+    },
+    {
+      "id": "governance",
+      "name": "Governance",
+      "weight": 10,
+      "question": "Can Hermes OS explain readiness, ownership, exceptions, and promotion criteria?",
+      "checks": [
+        {
+          "id": "ownership-doc-governance",
+          "type": "content",
+          "path": "docs/design/design-system-ownership.md",
+          "contains": "Hermes OS is the governance and enforcement layer",
+          "points": 2,
+          "message": "Hermes OS governance role is explicit."
+        },
+        {
+          "id": "release-checklist",
+          "type": "file",
+          "path": "docs/design/dashboard-release-review-checklist.md",
+          "points": 2,
+          "message": "Dashboard release review checklist exists."
+        },
+        {
+          "id": "spine-validator",
+          "type": "package-script",
+          "name": "dashboard:spine:validate",
+          "points": 2,
+          "message": "Dashboard spine validator exists."
+        },
+        {
+          "id": "adoption-report",
+          "type": "file",
+          "path": "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
+          "points": 2,
+          "message": "Latest adoption report exists for governance consumers."
+        },
+        {
+          "id": "readiness-gate-gap",
+          "type": "package-script",
+          "name": "dashboard:readiness-impact:report",
+          "points": 2,
+          "message": "Dashboard adoption readiness-impact report exists."
+        },
+        {
+          "id": "readiness-impact-no-penalty",
+          "type": "json-array-max-number",
+          "path": "docs/design/dashboard-readiness-impact.json",
+          "array": "impacts",
+          "field": "dashboardPenaltyPercent",
+          "max": 0,
+          "points": 2,
+          "message": "Dashboard adoption creates no readiness penalties."
+        },
+        {
+          "id": "readiness-impact-no-cap",
+          "type": "json-array-min-number",
+          "path": "docs/design/dashboard-readiness-impact.json",
+          "array": "impacts",
+          "field": "readinessCapPercent",
+          "min": 100,
+          "points": 2,
+          "message": "Dashboard adoption does not cap readiness below 100%."
+        }
+      ]
+    },
+    {
+      "id": "observability",
+      "name": "Observability",
+      "weight": 10,
+      "question": "Can the system tell which projects are stale, costly, broken, or missing data without opening every dashboard?",
+      "checks": [
+        {
+          "id": "dashboard-registry",
+          "type": "file",
+          "path": "hermes.dashboards.json",
+          "points": 2,
+          "message": "Dashboard launcher registry exists."
+        },
+        {
+          "id": "downstream-snapshot-feed",
+          "type": "file",
+          "path": "docs/design/dashboard-downstream-snapshot-feed.json",
+          "points": 2,
+          "message": "Downstream snapshot feed exists."
+        },
+        {
+          "id": "adoption-report-command",
+          "type": "package-script",
+          "name": "dashboard-kit:adoption:report",
+          "points": 2,
+          "message": "Adoption report command exists."
+        },
+        {
+          "id": "executive-reports",
+          "type": "file",
+          "path": "packages/hermes-dashboard-kit/src/executive-reports.ts",
+          "points": 2,
+          "message": "Executive reporting helpers exist."
+        },
+        {
+          "id": "universal-telemetry-gap",
+          "type": "file",
+          "path": "docs/design/dashboard-telemetry-contract-report.json",
+          "points": 2,
+          "message": "Latest dashboard telemetry contract report exists."
+        },
+        {
+          "id": "maturity-levels-reach-registered-current",
+          "type": "json-array-min-number",
+          "path": "docs/design/dashboard-maturity-report.json",
+          "array": "items",
+          "field": "level",
+          "min": 5,
+          "points": 2,
+          "message": "Registered dashboard projects have reached at least adoption-current maturity."
+        },
+        {
+          "id": "maturity-levels-reach-world-class",
+          "type": "json-array-min-number",
+          "path": "docs/design/dashboard-maturity-report.json",
+          "array": "items",
+          "field": "level",
+          "min": 10,
+          "points": 2,
+          "message": "Registered dashboard projects have reached telemetry-normalized world-class maturity."
+        }
+      ]
+    },
+    {
+      "id": "operator-experience",
+      "name": "Operator Experience",
+      "weight": 10,
+      "question": "Can a human operator understand, select, drill down, and act without tab chaos or raw-code guessing?",
+      "checks": [
+        {
+          "id": "visual-selection-bridge-doc",
+          "type": "file",
+          "path": "docs/design/visual-selection-bridge.md",
+          "points": 2,
+          "message": "Visual selection bridge is documented."
+        },
+        {
+          "id": "visual-selection-bridge-runtime",
+          "type": "file",
+          "path": "docs/design/prototype-gallery/visual-selection-bridge.js",
+          "points": 2,
+          "message": "Visual selection bridge runtime exists."
+        },
+        {
+          "id": "information-architecture",
+          "type": "file",
+          "path": "docs/design/dashboard-information-architecture.md",
+          "points": 2,
+          "message": "Dashboard information architecture exists."
+        },
+        {
+          "id": "product-interface-components",
+          "type": "file",
+          "path": "packages/hermes-dashboard-kit/src/product-interface.tsx",
+          "points": 2,
+          "message": "Product-interface primitives exist."
+        },
+        {
+          "id": "project-wide-bridge-gap",
+          "type": "package-script",
+          "name": "dashboard:bridge:coverage",
+          "points": 2,
+          "message": "Visual selection bridge coverage gate exists."
+        },
+        {
+          "id": "bridge-coverage-clean",
+          "type": "json-number-zero",
+          "path": "docs/design/dashboard-bridge-coverage-report.json",
+          "field": "missingCount",
+          "points": 2,
+          "message": "Tracked prototype/active surfaces have visual-selection bridge coverage."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "version": "V12",
+  "title": "Governance And CI Gates",
+  "status": "ready",
+  "gateLevels": [
+    {
+      "id": "advisory",
+      "description": "Warns humans and agents but does not block local development."
+    },
+    {
+      "id": "blocking",
+      "description": "Blocks promotion, release, or deploy until resolved or excepted."
+    },
+    {
+      "id": "human-approval",
+      "description": "Requires explicit reviewer approval even when automation passes."
+    }
+  ],
+  "gates": [
+    {
+      "id": "standards-summary-fast",
+      "command": "npm run dashboard:standards:summary:fast",
+      "level": "blocking",
+      "appliesTo": ["all dashboard PRs"]
+    },
+    {
+      "id": "standards-summary-full",
+      "command": "npm run dashboard:standards:summary",
+      "level": "blocking",
+      "appliesTo": ["promotion", "release", "deploy"]
+    },
+    {
+      "id": "visual-proof",
+      "command": "npm run dashboard:visual:check",
+      "level": "blocking",
+      "appliesTo": ["Tier 3 visual surface changes"]
+    },
+    {
+      "id": "accessibility-proof",
+      "command": "npm run dashboard:a11y:check",
+      "level": "blocking",
+      "appliesTo": ["governed dashboard routes", "Tier 3 promotion"]
+    },
+    {
+      "id": "token-scan",
+      "command": "npm run dashboard:token-scan:strict",
+      "level": "blocking",
+      "appliesTo": ["dashboard source changes", "shared component source changes"]
+    },
+    {
+      "id": "local-visual-overrides",
+      "command": "npm run dashboard:local-overrides:validate",
+      "level": "blocking",
+      "appliesTo": ["Tier 3 promotion", "project dashboard CSS changes", "package-native adoption"]
+    },
+    {
+      "id": "package-native-adoption",
+      "command": "npm run dashboard-kit:adoption:audit:strict",
+      "level": "blocking",
+      "appliesTo": ["promotion", "release", "deploy", "registered dashboard projects"]
+    },
+    {
+      "id": "review-packet",
+      "command": "npm run dashboard:review-packet:validate",
+      "level": "human-approval",
+      "appliesTo": ["new pages", "major redesigns", "Tier 3 promotion"]
+    },
+    {
+      "id": "mobbin-reference-map",
+      "command": "npm run dashboard:mobbin-reference-map:validate",
+      "level": "human-approval",
+      "appliesTo": ["material redesigns"]
+    },
+    {
+      "id": "governance-exceptions",
+      "command": "npm run dashboard:governance-exceptions:validate",
+      "level": "blocking",
+      "appliesTo": ["promotion", "release", "deploy"]
+    },
+    {
+      "id": "maturity-reports",
+      "command": "npm run dashboard:maturity-reports:validate",
+      "level": "blocking",
+      "appliesTo": ["dashboard evidence changes", "promotion", "release", "deploy"]
+    },
+    {
+      "id": "branch-protection",
+      "command": "npm run dashboard:branch-protection:verify",
+      "level": "advisory",
+      "appliesTo": ["release manager review"]
+    }
+  ],
+  "promotionRules": [
+    "T0/T1 surfaces may merge with advisory visual evidence when they do not claim Tier 2 or Tier 3 readiness.",
+    "T2 surfaces require package or shared-component evidence plus state coverage.",
+    "T3A promotion requires local visual evidence and a repair backlog.",
+    "T3B promotion requires production screenshot evidence and human design review.",
+    "T3C promotion requires package-native evidence, visual proof, accessibility proof, and clean adoption audit."
+  ],
+  "exceptionRules": [
+    "Every exception needs an owner, reviewer, expiry date, blocked gate, and replacement plan.",
+    "Exceptions cannot promote a project to T3C.",
+    "Expired exceptions are treated as blocking."
+  ]
+}
