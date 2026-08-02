@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-02T00:20:16.515Z",
+  "sourceHash": "88b35fb58682c358",
+  "scope": "project",
+  "project": "media-engine",
+  "standardVersion": "V10",
+  "requiredSections": [
+    "project-tier",
+    "page-classification",
+    "selected-pattern",
+    "component-map",
+    "state-map",
+    "data-contract",
+    "mobbin-reference-map",
+    "visual-evidence",
+    "accessibility-evidence",
+    "responsive-evidence",
+    "implementation-risks",
+    "approval-checklist"
+  ],
+  "projectCount": 1,
+  "backlogCount": 1,
+  "referenceCount": 5,
+  "componentCount": 7,
+  "visualViewportCount": 5,
+  "projects": [
+    {
+      "project": "media-engine",
+      "name": "Media Engine",
+      "auditStatus": "needs-review",
+      "coarseTier": {
+        "current": 3,
+        "target": 3
+      },
+      "currentBand": "T3B",
+      "currentBandLabel": "Current static/hybrid product cockpit (T3B)",
+      "targetBand": "T3C",
+      "targetBandLabel": "Package-native product cockpit (T3C)",
+      "implementationMode": "static-adapter",
+      "warnings": [
+        "packageNative.bridge"
+      ],
+      "errors": [],
+      "nextMove": "Preserve the current cockpit while planning the package-native migration in the owning project.",
+      "externalWorkItems": [
+        {
+          "ownerProject": "media-engine",
+          "scope": "external-project",
+          "priority": "P1",
+          "action": "Plan package-native dashboard-kit adoption in the owning project.",
+          "reason": "Static/hybrid bridges are acceptable current delivery for some projects, but not the highest maturity target."
+        }
+      ]
+    }
+  ],
+  "backlogItems": [
+    {
+      "project": "media-engine",
+      "projectName": "Media Engine",
+      "currentBand": "T3B",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "ownerProject": "media-engine",
+      "scope": "external-project",
+      "priority": "P1",
+      "action": "Plan package-native dashboard-kit adoption in the owning project.",
+      "reason": "Static/hybrid bridges are acceptable current delivery for some projects, but not the highest maturity target."
+    }
+  ],
+  "approvalChecklist": [
+    "The page pattern fits the primary user task.",
+    "Existing Kaoshi/Hermes components are reused before new ones are proposed.",
+    "Loading, empty, error, stale, permission, and mobile states are specified.",
+    "Mobbin references are pattern-specific and include do-not-copy notes.",
+    "Data source, freshness, schema, and transform ownership are explicit.",
+    "Responsive and accessibility evidence is attached or explicitly blocked.",
+    "Implementation risks have owners and validation commands."
+  ]
+}

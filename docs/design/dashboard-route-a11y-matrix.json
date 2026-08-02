@@ -1,0 +1,616 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-02T01:21:37.147Z",
+  "source": "tests/dashboard/design-system.spec.ts",
+  "routeCount": 76,
+  "items": [
+    {
+      "route": "/agent-eval-lab",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/agent-workbench",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/autonomy-readiness",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/billing-provider-adapter",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/billing-provider-integrations",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/breaker-middleware",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/breaker-middleware-rollout",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/business-command",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/business-os",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/central-command",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/circuit-breakers",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/command-gate-coverage",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/command-gates",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/cost-attribution-engine",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/cost-governor",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/cost-reconciliation",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/dashboard-marketplace",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/dashboard-migrations",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/data-source-catalog",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/decision-ledger",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/deployment-promotion",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/design-intelligence",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/design-system",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/durable-artifact-backend",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/durable-memory",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/evaluation-gates",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/evidence-artifact-store",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/executive-cockpit",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/executive-summary",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/finance-attribution",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/golden-eval-execution",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/hard-breaker-enforcement",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/hermes-os",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/hetzner-promotion-execution",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/hetzner-promotion-transport",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/hetzner-ssh-adapter",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/incident-automation",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/incident-command",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/incident-ingestion",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/incident-notification-fanout",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/incident-subscriptions",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/learning-engine",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/learning-ingestion",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/live-secret-scan",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/live-signals",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/loop-runner",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/model-eval-harness",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/model-routing",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/network-runner-adapter",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/operating-loops",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/outcome-learning-feeds",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/package-native/khashi-vc",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/package-native/media-engine",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/permission-runtime",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/permission-security",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/production-screenshot-runner",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/production-sweep",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/production-verification",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/project-adapter-rollout",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/project-outcome-emitter",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/project-registry",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/project-snapshots",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/promotion-runner",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/provider-eval-execution",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/provider-eval-runner",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/release-train-execution",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/release-train-orchestrator",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/remaining-project-outcome-adapters",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/secret-provider-adapter",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/secret-scanner",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/secrets-posture",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/server-secret-posture-scanner",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/task-routing",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/telemetry-adapters",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/telemetry-fabric",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    },
+    {
+      "route": "/theme-system",
+      "horizontalOverflow": true,
+      "keyboardFocus": true,
+      "axe": true,
+      "screenshot": true,
+      "status": "covered"
+    }
+  ]
+}

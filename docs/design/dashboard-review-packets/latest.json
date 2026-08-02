@@ -1,0 +1,442 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-02T00:20:16.515Z",
+  "sourceHash": "81c5101e602b0bea",
+  "scope": "global",
+  "project": null,
+  "standardVersion": "V10",
+  "requiredSections": [
+    "project-tier",
+    "page-classification",
+    "selected-pattern",
+    "component-map",
+    "state-map",
+    "data-contract",
+    "mobbin-reference-map",
+    "visual-evidence",
+    "accessibility-evidence",
+    "responsive-evidence",
+    "implementation-risks",
+    "approval-checklist"
+  ],
+  "projectCount": 7,
+  "backlogCount": 13,
+  "referenceCount": 5,
+  "componentCount": 7,
+  "visualViewportCount": 5,
+  "projects": [
+    {
+      "project": "khashi-vc",
+      "name": "Kashi VC",
+      "auditStatus": "needs-review",
+      "coarseTier": {
+        "current": 3,
+        "target": 3
+      },
+      "currentBand": "T3A",
+      "currentBandLabel": "Cockpit candidate with review gaps (T3A)",
+      "targetBand": "T3C",
+      "targetBandLabel": "Package-native product cockpit (T3C)",
+      "implementationMode": "static-adapter",
+      "warnings": [
+        "packageNative.bridge",
+        "tier3.sidebarRailMissing",
+        "tier3.commandHeaderMissing",
+        "tier3.chartPanelMissing"
+      ],
+      "errors": [],
+      "nextMove": "Repair Tier 3 shell, command-header, chart, overflow, table, and proof evidence in the audited surface.",
+      "externalWorkItems": [
+        {
+          "ownerProject": "khashi-vc",
+          "scope": "external-project",
+          "priority": "P0",
+          "action": "Repair audited Tier 3 surface markers for shell rail, command header, chart panels, semantic chart contracts, and overflow protection.",
+          "reason": "A Tier 3 cockpit with review warnings must remain a candidate rather than current."
+        },
+        {
+          "ownerProject": "khashi-vc",
+          "scope": "external-project",
+          "priority": "P1",
+          "action": "Plan package-native dashboard-kit adoption in the owning project.",
+          "reason": "Static/hybrid bridges are acceptable current delivery for some projects, but not the highest maturity target."
+        }
+      ]
+    },
+    {
+      "project": "media-engine",
+      "name": "Media Engine",
+      "auditStatus": "needs-review",
+      "coarseTier": {
+        "current": 3,
+        "target": 3
+      },
+      "currentBand": "T3B",
+      "currentBandLabel": "Current static/hybrid product cockpit (T3B)",
+      "targetBand": "T3C",
+      "targetBandLabel": "Package-native product cockpit (T3C)",
+      "implementationMode": "static-adapter",
+      "warnings": [
+        "packageNative.bridge"
+      ],
+      "errors": [],
+      "nextMove": "Preserve the current cockpit while planning the package-native migration in the owning project.",
+      "externalWorkItems": [
+        {
+          "ownerProject": "media-engine",
+          "scope": "external-project",
+          "priority": "P1",
+          "action": "Plan package-native dashboard-kit adoption in the owning project.",
+          "reason": "Static/hybrid bridges are acceptable current delivery for some projects, but not the highest maturity target."
+        }
+      ]
+    },
+    {
+      "project": "media-business-os",
+      "name": "Media Business OS",
+      "auditStatus": "needs-review",
+      "coarseTier": {
+        "current": 1,
+        "target": 3
+      },
+      "currentBand": "T1A",
+      "currentBandLabel": "Adapter-aligned shell (T1A)",
+      "targetBand": "T3C",
+      "targetBandLabel": "Package-native product cockpit (T3C)",
+      "implementationMode": "static-adapter",
+      "warnings": [
+        "experienceTier.migrationRequired",
+        "packageNative.bridge"
+      ],
+      "errors": [],
+      "nextMove": "Add surface inventory, pick a primary recipe, declare state/data contracts, and make the primary dashboard path enforceable.",
+      "externalWorkItems": [
+        {
+          "ownerProject": "media-business-os",
+          "scope": "external-project",
+          "priority": "P1",
+          "action": "Add `.hermes-dashboard.json` surfaces with required components, markers, owner/reviewer, proof route, and migration note.",
+          "reason": "Adapter sync proves CSS availability but not dashboard quality."
+        },
+        {
+          "ownerProject": "media-business-os",
+          "scope": "external-project",
+          "priority": "P1",
+          "action": "Plan package-native dashboard-kit adoption in the owning project.",
+          "reason": "Static/hybrid bridges are acceptable current delivery for some projects, but not the highest maturity target."
+        }
+      ]
+    },
+    {
+      "project": "business-mapper",
+      "name": "Business Mapper",
+      "auditStatus": "needs-review",
+      "coarseTier": {
+        "current": 1,
+        "target": 2
+      },
+      "currentBand": "T1A",
+      "currentBandLabel": "Adapter-aligned shell (T1A)",
+      "targetBand": "T2B",
+      "targetBandLabel": "Package-native shared-component dashboard (T2B)",
+      "implementationMode": "static-adapter",
+      "warnings": [
+        "experienceTier.migrationRequired"
+      ],
+      "errors": [],
+      "nextMove": "Add surface inventory, pick a primary recipe, declare state/data contracts, and make the primary dashboard path enforceable.",
+      "externalWorkItems": [
+        {
+          "ownerProject": "business-mapper",
+          "scope": "external-project",
+          "priority": "P2",
+          "action": "Add `.hermes-dashboard.json` surfaces with required components, markers, owner/reviewer, proof route, and migration note.",
+          "reason": "Adapter sync proves CSS availability but not dashboard quality."
+        },
+        {
+          "ownerProject": "business-mapper",
+          "scope": "external-project",
+          "priority": "P2",
+          "action": "Plan package-native dashboard-kit adoption in the owning project.",
+          "reason": "Static/hybrid bridges are acceptable current delivery for some projects, but not the highest maturity target."
+        }
+      ]
+    },
+    {
+      "project": "meal-assistant",
+      "name": "Meal Assistant",
+      "auditStatus": "needs-review",
+      "coarseTier": {
+        "current": 1,
+        "target": 3
+      },
+      "currentBand": "T1A",
+      "currentBandLabel": "Adapter-aligned shell (T1A)",
+      "targetBand": "T3C",
+      "targetBandLabel": "Package-native product cockpit (T3C)",
+      "implementationMode": "server-rendered-legacy",
+      "warnings": [
+        "experienceTier.migrationRequired",
+        "packageNative.bridge",
+        "implementationMode.serverRenderedLegacy"
+      ],
+      "errors": [],
+      "nextMove": "Add surface inventory, pick a primary recipe, declare state/data contracts, and make the primary dashboard path enforceable.",
+      "externalWorkItems": [
+        {
+          "ownerProject": "meal-assistant",
+          "scope": "external-project",
+          "priority": "P1",
+          "action": "Add `.hermes-dashboard.json` surfaces with required components, markers, owner/reviewer, proof route, and migration note.",
+          "reason": "Adapter sync proves CSS availability but not dashboard quality."
+        },
+        {
+          "ownerProject": "meal-assistant",
+          "scope": "external-project",
+          "priority": "P1",
+          "action": "Plan package-native dashboard-kit adoption in the owning project.",
+          "reason": "Static/hybrid bridges are acceptable current delivery for some projects, but not the highest maturity target."
+        }
+      ]
+    },
+    {
+      "project": "hermes-os",
+      "name": "Hermes OS",
+      "auditStatus": "needs-review",
+      "coarseTier": {
+        "current": 0,
+        "target": 3
+      },
+      "currentBand": "T0P",
+      "currentBandLabel": "Planned or governance-only (T0P)",
+      "targetBand": "T3C",
+      "targetBandLabel": "Package-native product cockpit (T3C)",
+      "implementationMode": "planned",
+      "warnings": [
+        "experienceTier.migrationRequired",
+        "packageNative.bridge"
+      ],
+      "errors": [],
+      "nextMove": "Decide whether this project owns an operator dashboard; if yes, add surface inventory and package-native cockpit scaffolding.",
+      "externalWorkItems": [
+        {
+          "ownerProject": "hermes-os",
+          "scope": "external-project",
+          "priority": "P1",
+          "action": "Create or confirm the production dashboard surface inventory in the owning project.",
+          "reason": "Central registry can track planned readiness, but implementation surfaces must live in the owning project."
+        },
+        {
+          "ownerProject": "hermes-os",
+          "scope": "external-project",
+          "priority": "P1",
+          "action": "Plan package-native dashboard-kit adoption in the owning project.",
+          "reason": "Static/hybrid bridges are acceptable current delivery for some projects, but not the highest maturity target."
+        }
+      ]
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "name": "TLC Capital Group OS",
+      "auditStatus": "needs-review",
+      "coarseTier": {
+        "current": 0,
+        "target": 3
+      },
+      "currentBand": "T0P",
+      "currentBandLabel": "Planned or governance-only (T0P)",
+      "targetBand": "T3C",
+      "targetBandLabel": "Package-native product cockpit (T3C)",
+      "implementationMode": "planned",
+      "warnings": [
+        "experienceTier.migrationRequired",
+        "packageNative.bridge"
+      ],
+      "errors": [],
+      "nextMove": "Decide whether this project owns an operator dashboard; if yes, add surface inventory and package-native cockpit scaffolding.",
+      "externalWorkItems": [
+        {
+          "ownerProject": "tlc-capital-group-os",
+          "scope": "external-project",
+          "priority": "P1",
+          "action": "Create or confirm the production dashboard surface inventory in the owning project.",
+          "reason": "Central registry can track planned readiness, but implementation surfaces must live in the owning project."
+        },
+        {
+          "ownerProject": "tlc-capital-group-os",
+          "scope": "external-project",
+          "priority": "P1",
+          "action": "Plan package-native dashboard-kit adoption in the owning project.",
+          "reason": "Static/hybrid bridges are acceptable current delivery for some projects, but not the highest maturity target."
+        }
+      ]
+    }
+  ],
+  "backlogItems": [
+    {
+      "project": "khashi-vc",
+      "projectName": "Kashi VC",
+      "currentBand": "T3A",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "ownerProject": "khashi-vc",
+      "scope": "external-project",
+      "priority": "P0",
+      "action": "Repair audited Tier 3 surface markers for shell rail, command header, chart panels, semantic chart contracts, and overflow protection.",
+      "reason": "A Tier 3 cockpit with review warnings must remain a candidate rather than current."
+    },
+    {
+      "project": "khashi-vc",
+      "projectName": "Kashi VC",
+      "currentBand": "T3A",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "ownerProject": "khashi-vc",
+      "scope": "external-project",
+      "priority": "P1",
+      "action": "Plan package-native dashboard-kit adoption in the owning project.",
+      "reason": "Static/hybrid bridges are acceptable current delivery for some projects, but not the highest maturity target."
+    },
+    {
+      "project": "media-engine",
+      "projectName": "Media Engine",
+      "currentBand": "T3B",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "ownerProject": "media-engine",
+      "scope": "external-project",
+      "priority": "P1",
+      "action": "Plan package-native dashboard-kit adoption in the owning project.",
+      "reason": "Static/hybrid bridges are acceptable current delivery for some projects, but not the highest maturity target."
+    },
+    {
+      "project": "media-business-os",
+      "projectName": "Media Business OS",
+      "currentBand": "T1A",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "ownerProject": "media-business-os",
+      "scope": "external-project",
+      "priority": "P1",
+      "action": "Add `.hermes-dashboard.json` surfaces with required components, markers, owner/reviewer, proof route, and migration note.",
+      "reason": "Adapter sync proves CSS availability but not dashboard quality."
+    },
+    {
+      "project": "media-business-os",
+      "projectName": "Media Business OS",
+      "currentBand": "T1A",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "ownerProject": "media-business-os",
+      "scope": "external-project",
+      "priority": "P1",
+      "action": "Plan package-native dashboard-kit adoption in the owning project.",
+      "reason": "Static/hybrid bridges are acceptable current delivery for some projects, but not the highest maturity target."
+    },
+    {
+      "project": "business-mapper",
+      "projectName": "Business Mapper",
+      "currentBand": "T1A",
+      "targetBand": "T2B",
+      "auditStatus": "needs-review",
+      "ownerProject": "business-mapper",
+      "scope": "external-project",
+      "priority": "P2",
+      "action": "Add `.hermes-dashboard.json` surfaces with required components, markers, owner/reviewer, proof route, and migration note.",
+      "reason": "Adapter sync proves CSS availability but not dashboard quality."
+    },
+    {
+      "project": "business-mapper",
+      "projectName": "Business Mapper",
+      "currentBand": "T1A",
+      "targetBand": "T2B",
+      "auditStatus": "needs-review",
+      "ownerProject": "business-mapper",
+      "scope": "external-project",
+      "priority": "P2",
+      "action": "Plan package-native dashboard-kit adoption in the owning project.",
+      "reason": "Static/hybrid bridges are acceptable current delivery for some projects, but not the highest maturity target."
+    },
+    {
+      "project": "meal-assistant",
+      "projectName": "Meal Assistant",
+      "currentBand": "T1A",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "ownerProject": "meal-assistant",
+      "scope": "external-project",
+      "priority": "P1",
+      "action": "Add `.hermes-dashboard.json` surfaces with required components, markers, owner/reviewer, proof route, and migration note.",
+      "reason": "Adapter sync proves CSS availability but not dashboard quality."
+    },
+    {
+      "project": "meal-assistant",
+      "projectName": "Meal Assistant",
+      "currentBand": "T1A",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "ownerProject": "meal-assistant",
+      "scope": "external-project",
+      "priority": "P1",
+      "action": "Plan package-native dashboard-kit adoption in the owning project.",
+      "reason": "Static/hybrid bridges are acceptable current delivery for some projects, but not the highest maturity target."
+    },
+    {
+      "project": "hermes-os",
+      "projectName": "Hermes OS",
+      "currentBand": "T0P",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "ownerProject": "hermes-os",
+      "scope": "external-project",
+      "priority": "P1",
+      "action": "Create or confirm the production dashboard surface inventory in the owning project.",
+      "reason": "Central registry can track planned readiness, but implementation surfaces must live in the owning project."
+    },
+    {
+      "project": "hermes-os",
+      "projectName": "Hermes OS",
+      "currentBand": "T0P",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "ownerProject": "hermes-os",
+      "scope": "external-project",
+      "priority": "P1",
+      "action": "Plan package-native dashboard-kit adoption in the owning project.",
+      "reason": "Static/hybrid bridges are acceptable current delivery for some projects, but not the highest maturity target."
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "projectName": "TLC Capital Group OS",
+      "currentBand": "T0P",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "ownerProject": "tlc-capital-group-os",
+      "scope": "external-project",
+      "priority": "P1",
+      "action": "Create or confirm the production dashboard surface inventory in the owning project.",
+      "reason": "Central registry can track planned readiness, but implementation surfaces must live in the owning project."
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "projectName": "TLC Capital Group OS",
+      "currentBand": "T0P",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "ownerProject": "tlc-capital-group-os",
+      "scope": "external-project",
+      "priority": "P1",
+      "action": "Plan package-native dashboard-kit adoption in the owning project.",
+      "reason": "Static/hybrid bridges are acceptable current delivery for some projects, but not the highest maturity target."
+    }
+  ],
+  "approvalChecklist": [
+    "The page pattern fits the primary user task.",
+    "Existing Kaoshi/Hermes components are reused before new ones are proposed.",
+    "Loading, empty, error, stale, permission, and mobile states are specified.",
+    "Mobbin references are pattern-specific and include do-not-copy notes.",
+    "Data source, freshness, schema, and transform ownership are explicit.",
+    "Responsive and accessibility evidence is attached or explicitly blocked.",
+    "Implementation risks have owners and validation commands."
+  ]
+}

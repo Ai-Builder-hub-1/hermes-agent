@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "version": "V11",
+  "title": "Mobbin Reference Map Runtime",
+  "status": "ready",
+  "refreshMetadata": {
+    "lastSearchedAt": "2026-08-01",
+    "reviewer": "human-review-required",
+    "nextRefreshAt": "2026-09-01",
+    "refreshCommand": "npm run dashboard:mobbin-intake:generate"
+  },
+  "sourceArtifacts": [
+    "docs/design/mobbin-reference-automation-seed.json",
+    "docs/design/mobbin-reference-workflow.md",
+    "docs/design/operating-interface-reference-library.json"
+  ],
+  "references": [
+    {
+      "id": "mixpanel-analytics-dashboard",
+      "lastSearchedAt": "2026-08-01",
+      "query": "analytics dashboard with sidebar dense charts tables filters and drilldown drawer",
+      "patterns": ["analytics-drilldown", "executive-dashboard"],
+      "usefulFor": ["dense metric grouping", "filter-to-result proximity", "chart/table hierarchy"],
+      "doNotCopy": ["brand palette", "exact spacing scale", "screen composition wholesale"],
+      "kaoshiAdaptation": "Translate hierarchy into DashboardShell, MetricGrid, ChartPanel, FilterBar, and DataTable using Hermes tokens."
+    },
+    {
+      "id": "attio-analytics-dashboard",
+      "lastSearchedAt": "2026-08-01",
+      "query": "analytics dashboard with sidebar dense charts tables filters and drilldown drawer",
+      "patterns": ["table-first-operations", "master-detail-explorer"],
+      "usefulFor": ["CRM-style row scanning", "detail context beside lists", "compact operational density"],
+      "doNotCopy": ["Attio visual identity", "CRM-specific language"],
+      "kaoshiAdaptation": "Use as structure guidance for DataTable plus DetailDrawerShell, not as a full-screen template."
+    },
+    {
+      "id": "dub-analytics-dashboard",
+      "lastSearchedAt": "2026-08-01",
+      "query": "analytics dashboard with sidebar dense charts tables filters and drilldown drawer",
+      "patterns": ["historical-trend-page", "analytics-drilldown"],
+      "usefulFor": ["simple time-series hierarchy", "compact summary metrics", "clear empty-state affordances"],
+      "doNotCopy": ["marketing analytics wording", "product-specific color accents"],
+      "kaoshiAdaptation": "Map to ChartPanel and TrendDelta where time-series proof is required."
+    },
+    {
+      "id": "kraken-trading-dashboard",
+      "lastSearchedAt": "2026-08-01",
+      "query": "trading market dashboard table chart sidebar filters asset detail panel",
+      "patterns": ["market-intelligence-workspace"],
+      "usefulFor": ["market-depth scanning", "selected instrument context", "high-density live data treatment"],
+      "doNotCopy": ["trading brand visuals", "order-entry affordances unless required"],
+      "kaoshiAdaptation": "Use only for live tape, market depth, and detail inspector behavior in Kaoshi market intelligence."
+    },
+    {
+      "id": "fey-market-dashboard",
+      "lastSearchedAt": "2026-08-01",
+      "query": "trading market dashboard table chart sidebar filters asset detail panel",
+      "patterns": ["market-intelligence-workspace", "analytics-drilldown"],
+      "usefulFor": ["watchlist plus chart hierarchy", "research-oriented drilldown", "compact supporting insights"],
+      "doNotCopy": ["consumer investing brand style", "full layout as a single source"],
+      "kaoshiAdaptation": "Compose with separate Hermes patterns: KPI ribbon, ranked table, chart panel, and inspector."
+    }
+  ],
+  "rules": [
+    "Search by pattern and task, not broad category.",
+    "Use at least two references for material redesigns unless a human grants an exception.",
+    "Every reference must include usefulFor, doNotCopy, and kaoshiAdaptation.",
+    "References are evidence, not source-of-truth design."
+  ]
+}

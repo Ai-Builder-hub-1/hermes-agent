@@ -13,7 +13,7 @@ export function SimpleBarChart({ data, valueLabel = "value", }) {
     return (_jsx("div", { className: "h-56 min-w-0 rounded-md border border-border bg-background p-3", role: "img", "aria-label": `bar chart by ${valueLabel}`, children: _jsx(ResponsiveContainer, { height: "100%", width: "100%", children: _jsxs(BarChart, { data: data, margin: { bottom: 0, left: -18, right: 8, top: 8 }, children: [_jsx(CartesianGrid, { stroke: "hsl(var(--border))", strokeDasharray: "3 3", vertical: false }), _jsx(XAxis, { dataKey: "label", fontSize: 12, stroke: "hsl(var(--muted-foreground))", tickLine: false }), _jsx(YAxis, { fontSize: 12, stroke: "hsl(var(--muted-foreground))", tickLine: false }), _jsx(Tooltip, { contentStyle: {
                             background: "hsl(var(--card))",
                             border: "1px solid hsl(var(--border))",
-                            borderRadius: "8px",
+                            borderRadius: "var(--hdk-radius, 8px)",
                             color: "hsl(var(--foreground))",
                         }, labelStyle: { color: "hsl(var(--foreground))" } }), _jsx(Bar, { dataKey: "value", fill: "hsl(var(--primary))", name: valueLabel, radius: [6, 6, 0, 0] })] }) }) }));
 }
@@ -23,7 +23,7 @@ export function SimpleLineChart({ data, height = 180, }) {
     return (_jsx("div", { className: "min-w-0 rounded-md border border-border bg-background p-3", style: { height }, role: "img", "aria-label": "line chart", children: _jsx(ResponsiveContainer, { height: "100%", width: "100%", children: _jsxs(LineChart, { data: data, margin: { bottom: 0, left: -18, right: 8, top: 8 }, children: [_jsx(CartesianGrid, { stroke: "hsl(var(--border))", strokeDasharray: "3 3", vertical: false }), _jsx(XAxis, { dataKey: "label", fontSize: 12, stroke: "hsl(var(--muted-foreground))", tickLine: false }), _jsx(YAxis, { fontSize: 12, stroke: "hsl(var(--muted-foreground))", tickLine: false }), _jsx(Tooltip, { contentStyle: {
                             background: "hsl(var(--card))",
                             border: "1px solid hsl(var(--border))",
-                            borderRadius: "8px",
+                            borderRadius: "var(--hdk-radius, 8px)",
                             color: "hsl(var(--foreground))",
                         }, labelStyle: { color: "hsl(var(--foreground))" } }), _jsx(Line, { activeDot: { r: 5 }, dataKey: "value", dot: { r: 3 }, stroke: "hsl(var(--primary))", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 3, type: "monotone" })] }) }) }));
 }
@@ -33,7 +33,7 @@ export function HeatmapGrid({ rows, columns, values, }) {
                             const key = `${row}:${column}`;
                             const value = values[key] ?? 0;
                             const opacity = value > 0 ? 0.15 + (value / max) * 0.55 : 0.06;
-                            return (_jsx("div", { className: "rounded-md border border-border px-2 py-2 text-center font-mono-ui text-sm text-foreground", style: { backgroundColor: `rgb(20 184 166 / ${opacity})` }, children: value }, key));
+                            return (_jsx("div", { className: "rounded-md border border-border px-2 py-2 text-center font-mono-ui text-sm text-foreground", style: { backgroundColor: `hsl(var(--primary) / ${opacity})` }, children: value }, key));
                         })] }, row)))] }) }));
 }
 export function InsightPanel({ title, children, tone = "info", }) {

@@ -62,7 +62,7 @@ export function SimpleBarChart({
             contentStyle={{
               background: "hsl(var(--card))",
               border: "1px solid hsl(var(--border))",
-              borderRadius: "8px",
+              borderRadius: "var(--hdk-radius, 8px)",
               color: "hsl(var(--foreground))",
             }}
             labelStyle={{ color: "hsl(var(--foreground))" }}
@@ -93,7 +93,7 @@ export function SimpleLineChart({
             contentStyle={{
               background: "hsl(var(--card))",
               border: "1px solid hsl(var(--border))",
-              borderRadius: "8px",
+              borderRadius: "var(--hdk-radius, 8px)",
               color: "hsl(var(--foreground))",
             }}
             labelStyle={{ color: "hsl(var(--foreground))" }}
@@ -140,7 +140,7 @@ export function HeatmapGrid({
                 <div
                   key={key}
                   className="rounded-md border border-border px-2 py-2 text-center font-mono-ui text-sm text-foreground"
-                  style={{ backgroundColor: `rgb(20 184 166 / ${opacity})` }}
+                  style={{ backgroundColor: `hsl(var(--primary) / ${opacity})` }}
                 >
                   {value}
                 </div>

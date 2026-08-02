@@ -24,6 +24,9 @@ on:
       - "scripts/validate-package-native-surface.mjs"
       - "scripts/validate-v8-dashboard-migrations.mjs"
       - "scripts/validate-dashboard-registry.mjs"
+      - "scripts/summarize-dashboard-standards.mjs"
+      - "scripts/scan-dashboard-tokens.mjs"
+      - "scripts/validate-dashboard-*.mjs"
       - "tests/dashboard/**"
       - "web/**"
   pull_request:
@@ -48,6 +51,9 @@ on:
       - "scripts/validate-package-native-surface.mjs"
       - "scripts/validate-v8-dashboard-migrations.mjs"
       - "scripts/validate-dashboard-registry.mjs"
+      - "scripts/summarize-dashboard-standards.mjs"
+      - "scripts/scan-dashboard-tokens.mjs"
+      - "scripts/validate-dashboard-*.mjs"
       - "tests/dashboard/**"
       - "web/**"
 
@@ -84,6 +90,24 @@ jobs:
       - name: Validate package-native starter standard
         run: npm run dashboard:package-native:validate
 
+      - name: Run fast dashboard standards summary
+        run: npm run dashboard:standards:summary:fast
+
+      - name: Generate dashboard maturity reports
+        run: |
+          npm run dashboard:component-evidence:backlog
+          npm run dashboard:component-certification:generate
+          npm run dashboard:visual-coverage:report
+          npm run dashboard:visual-evidence:tasks
+          npm run dashboard:promotion-history:generate
+          npm run dashboard:promotion-readiness:generate
+          npm run dashboard:a11y:matrix
+          npm run dashboard:token-scan:report
+          npm run dashboard:token-debt:backlog
+          npm run dashboard:review-packet:generate:changed
+          npm run dashboard:pr-artifacts:generate
+          npm run dashboard:maturity-web-data:sync
+
       - name: Validate canonical design-system registry
         run: npm run dashboard:design-system:status -- --allow-missing-external
 
@@ -107,6 +131,12 @@ jobs:
 
       - name: Run visual dashboard checks
         run: npm run dashboard:visual:check
+
+      - name: Run focused dashboard accessibility check
+        run: npm run dashboard:a11y:check
+
+      - name: Run full dashboard standards summary
+        run: npm run dashboard:standards:summary
 
       - name: Run V8 production cutover check
         run: npm run dashboard:v8:production:check

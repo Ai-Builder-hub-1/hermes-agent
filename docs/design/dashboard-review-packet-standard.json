@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "version": "V10",
+  "title": "Design Review Packet Generator",
+  "status": "ready",
+  "requiredSections": [
+    "project-tier",
+    "page-classification",
+    "selected-pattern",
+    "component-map",
+    "state-map",
+    "data-contract",
+    "mobbin-reference-map",
+    "visual-evidence",
+    "accessibility-evidence",
+    "responsive-evidence",
+    "implementation-risks",
+    "approval-checklist"
+  ],
+  "approvalChecklist": [
+    "The page pattern fits the primary user task.",
+    "Existing Kaoshi/Hermes components are reused before new ones are proposed.",
+    "Loading, empty, error, stale, permission, and mobile states are specified.",
+    "Mobbin references are pattern-specific and include do-not-copy notes.",
+    "Data source, freshness, schema, and transform ownership are explicit.",
+    "Responsive and accessibility evidence is attached or explicitly blocked.",
+    "Implementation risks have owners and validation commands."
+  ],
+  "generatedArtifacts": [
+    "docs/design/dashboard-review-packets/latest.json",
+    "docs/design/dashboard-review-packets/latest.md"
+  ]
+}

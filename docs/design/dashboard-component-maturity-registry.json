@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "version": "V8",
+  "title": "Component Maturity Registry",
+  "status": "ready",
+  "levels": [
+    {
+      "id": "missing",
+      "description": "Needed by a pattern but not implemented."
+    },
+    {
+      "id": "experimental",
+      "description": "Exists locally or in prototype form; API and visual behavior may change."
+    },
+    {
+      "id": "reusable",
+      "description": "Shared across multiple routes with stable props and state handling."
+    },
+    {
+      "id": "package-native",
+      "description": "Exported from an approved package and used by downstream dashboards."
+    },
+    {
+      "id": "documented",
+      "description": "Documented with variants, states, accessibility notes, and examples."
+    },
+    {
+      "id": "certified",
+      "description": "Documented, tested, accessible, responsive, and visually reviewed."
+    }
+  ],
+  "components": [
+    {
+      "name": "DashboardShell",
+      "owner": "@hermes/dashboard-kit",
+      "layer": "dashboard-pattern",
+      "maturity": "certified",
+      "requiredForTier": "T1A",
+      "evidence": ["packages/hermes-dashboard-kit/src/shell.tsx", "docs/design/dashboard-component-catalog.md", "docs/design/dashboard-component-certification-evidence.md", "tests/dashboard/design-system.spec.ts"],
+      "missingEvidence": []
+    },
+    {
+      "name": "DashboardHeader",
+      "owner": "@hermes/dashboard-kit",
+      "layer": "dashboard-pattern",
+      "maturity": "certified",
+      "requiredForTier": "T1A",
+      "evidence": ["packages/hermes-dashboard-kit/src/shell.tsx", "docs/design/dashboard-governance-and-enforcement.md", "docs/design/dashboard-component-certification-evidence.md", "tests/dashboard/design-system.spec.ts"],
+      "missingEvidence": []
+    },
+    {
+      "name": "DataTable",
+      "owner": "@hermes/dashboard-kit",
+      "layer": "dashboard-pattern",
+      "maturity": "certified",
+      "requiredForTier": "T2A",
+      "evidence": ["packages/hermes-dashboard-kit/src/data-table.tsx", "docs/design/dashboard-component-catalog.md", "docs/design/dashboard-component-certification-evidence.md"],
+      "missingEvidence": []
+    },
+    {
+      "name": "ChartPanel",
+      "owner": "@hermes/dashboard-kit",
+      "layer": "dashboard-pattern",
+      "maturity": "certified",
+      "requiredForTier": "T2A",
+      "evidence": ["packages/hermes-dashboard-kit/src/charts.tsx", "docs/design/dashboard-component-catalog.md", "docs/design/dashboard-component-certification-evidence.md"],
+      "missingEvidence": []
+    },
+    {
+      "name": "FilterBar",
+      "owner": "@hermes/dashboard-kit",
+      "layer": "dashboard-pattern",
+      "maturity": "certified",
+      "requiredForTier": "T2A",
+      "evidence": ["packages/hermes-dashboard-kit/src/shell.tsx", "docs/design/dashboard-component-catalog.md", "docs/design/dashboard-component-certification-evidence.md"],
+      "missingEvidence": []
+    },
+    {
+      "name": "DetailDrawerShell",
+      "owner": "@hermes/dashboard-kit",
+      "layer": "dashboard-pattern",
+      "maturity": "certified",
+      "requiredForTier": "T3A",
+      "evidence": ["packages/hermes-dashboard-kit/src/product-interface.tsx", "docs/design/dashboard-component-catalog.md", "docs/design/dashboard-component-certification-evidence.md", "tests/dashboard/design-system.spec.ts"],
+      "missingEvidence": []
+    },
+    {
+      "name": "CommandBar",
+      "owner": "@hermes/dashboard-kit",
+      "layer": "dashboard-pattern",
+      "maturity": "certified",
+      "requiredForTier": "T3A",
+      "evidence": ["packages/hermes-dashboard-kit/src/operations.tsx", "docs/design/dashboard-component-catalog.md", "docs/design/dashboard-component-certification-evidence.md"],
+      "missingEvidence": []
+    }
+  ],
+  "promotionRules": [
+    "New shared dashboard components start as experimental until used by at least two routes or one downstream project.",
+    "Tier 3 pages may use experimental domain components, but shell, header, table, chart, drawer, command, loading, empty, and error primitives must be reusable or package-native.",
+    "Certified status requires visual, responsive, accessibility, state, and documentation evidence."
+  ]
+}

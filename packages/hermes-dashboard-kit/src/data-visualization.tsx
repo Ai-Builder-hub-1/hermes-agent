@@ -87,16 +87,16 @@ export type WaterfallStep = {
 const tooltipStyle = {
   background: "hsl(var(--card))",
   border: "1px solid hsl(var(--border))",
-  borderRadius: "8px",
+  borderRadius: "var(--hdk-radius, 8px)",
   color: "hsl(var(--foreground))",
 };
 
 const toneToAccent: Record<DashboardTone, string> = {
   neutral: "hsl(var(--muted-foreground))",
-  success: "#237a4b",
-  warning: "#9b6b18",
-  critical: "#ad3d32",
-  info: "#256f8d",
+  success: "var(--hdk-status-success, hsl(var(--primary)))",
+  warning: "var(--hdk-status-warning, hsl(var(--primary)))",
+  critical: "var(--hdk-status-error, hsl(var(--destructive, var(--primary))))",
+  info: "var(--hdk-status-info, hsl(var(--primary)))",
   unknown: "hsl(var(--muted-foreground))",
 };
 
@@ -154,15 +154,15 @@ export function PriceMovementChart({
           <AreaChart data={data} margin={{ bottom: 4, left: -18, right: 10, top: 14 }}>
             <defs>
               <linearGradient id="hdk-mid-price-fill" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0%" stopColor="#237a4b" stopOpacity={0.32} />
-                <stop offset="100%" stopColor="#237a4b" stopOpacity={0.02} />
+                <stop offset="0%" stopColor="var(--hdk-status-success, hsl(var(--primary)))" stopOpacity={0.32} />
+                <stop offset="100%" stopColor="var(--hdk-status-success, hsl(var(--primary)))" stopOpacity={0.02} />
               </linearGradient>
             </defs>
             <CartesianGrid stroke="hsl(var(--border))" strokeDasharray="2 6" vertical={false} />
             <XAxis dataKey="label" fontSize={11} stroke="hsl(var(--muted-foreground))" tickLine={false} />
             <YAxis fontSize={11} stroke="hsl(var(--muted-foreground))" tickFormatter={(value) => `${value}c`} tickLine={false} />
             <Tooltip contentStyle={tooltipStyle} formatter={(value) => [`${Number(value).toFixed(1)}c`, "mid price"]} />
-            <Area dataKey="midPrice" fill="url(#hdk-mid-price-fill)" name="mid price" stroke="#237a4b" strokeWidth={3} type="monotone" />
+            <Area dataKey="midPrice" fill="url(#hdk-mid-price-fill)" name="mid price" stroke="var(--hdk-status-success, hsl(var(--primary)))" strokeWidth={3} type="monotone" />
           </AreaChart>
         </ResponsiveContainer>
       </div>
@@ -189,7 +189,7 @@ export function SpreadBandChart({
             <XAxis dataKey="label" fontSize={11} stroke="hsl(var(--muted-foreground))" tickLine={false} />
             <YAxis fontSize={11} stroke="hsl(var(--muted-foreground))" tickFormatter={(value) => `${value}c`} tickLine={false} />
             <Tooltip contentStyle={tooltipStyle} formatter={(value) => [`${Number(value).toFixed(1)}c`, "spread"]} />
-            <Bar dataKey="spreadCents" fill="#9b6b18" name="spread" radius={[6, 6, 0, 0]} />
+            <Bar dataKey="spreadCents" fill="var(--hdk-status-warning, hsl(var(--primary)))" name="spread" radius={[6, 6, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -220,8 +220,8 @@ export function LiquidityDepthChart({
             <XAxis dataKey="label" fontSize={11} stroke="hsl(var(--muted-foreground))" tickLine={false} />
             <YAxis fontSize={11} stroke="hsl(var(--muted-foreground))" tickFormatter={(value) => compactNumber(Number(value))} tickLine={false} />
             <Tooltip contentStyle={tooltipStyle} formatter={(value, name) => [compactNumber(Number(value)), name === "bidDepth" ? "bid depth" : "ask depth"]} />
-            <Bar dataKey="bidDepth" fill="#237a4b" name="bidDepth" radius={[6, 6, 0, 0]} stackId="depth" />
-            <Bar dataKey="askDepth" fill="#256f8d" name="askDepth" radius={[6, 6, 0, 0]} stackId="depth" />
+            <Bar dataKey="bidDepth" fill="var(--hdk-status-success, hsl(var(--primary)))" name="bidDepth" radius={[6, 6, 0, 0]} stackId="depth" />
+            <Bar dataKey="askDepth" fill="var(--hdk-status-info, hsl(var(--primary)))" name="askDepth" radius={[6, 6, 0, 0]} stackId="depth" />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -247,8 +247,8 @@ export function VolumePulseChart({
             <XAxis dataKey="label" fontSize={11} stroke="hsl(var(--muted-foreground))" tickLine={false} />
             <YAxis fontSize={11} stroke="hsl(var(--muted-foreground))" tickFormatter={(value) => compactNumber(Number(value))} tickLine={false} />
             <Tooltip contentStyle={tooltipStyle} formatter={(value) => [compactNumber(Number(value)), "volume"]} />
-            <Bar dataKey="volume" fill="#256f8d" name="volume" radius={[5, 5, 0, 0]} />
-            <Line dataKey="volume" dot={false} stroke="#172026" strokeWidth={2} type="monotone" />
+            <Bar dataKey="volume" fill="var(--hdk-status-info, hsl(var(--primary)))" name="volume" radius={[5, 5, 0, 0]} />
+            <Line dataKey="volume" dot={false} stroke="hsl(var(--foreground))" strokeWidth={2} type="monotone" />
           </ComposedChart>
         </ResponsiveContainer>
       </div>
@@ -427,8 +427,8 @@ export function ProviderSpendTimeline({
             <XAxis dataKey="label" fontSize={11} stroke="hsl(var(--muted-foreground))" tickLine={false} />
             <YAxis fontSize={11} stroke="hsl(var(--muted-foreground))" tickFormatter={(value) => `$${Number(value).toFixed(0)}`} tickLine={false} />
             <Tooltip contentStyle={tooltipStyle} formatter={(value, name) => [name === "cost" ? `$${Number(value).toFixed(2)}` : compactNumber(Number(value)), name]} />
-            <Bar dataKey="cost" fill="#256f8d" name="cost" radius={[6, 6, 0, 0]} />
-            <Line dataKey="tokens" dot={false} stroke="#237a4b" strokeWidth={2} type="monotone" />
+            <Bar dataKey="cost" fill="var(--hdk-status-info, hsl(var(--primary)))" name="cost" radius={[6, 6, 0, 0]} />
+            <Line dataKey="tokens" dot={false} stroke="var(--hdk-status-success, hsl(var(--primary)))" strokeWidth={2} type="monotone" />
           </ComposedChart>
         </ResponsiveContainer>
       </div>
@@ -525,10 +525,10 @@ export function ForecastConeChart({
             <XAxis dataKey="label" fontSize={11} stroke="hsl(var(--muted-foreground))" tickLine={false} />
             <YAxis fontSize={11} stroke="hsl(var(--muted-foreground))" tickFormatter={(value) => `${Number(value).toFixed(0)}c`} tickLine={false} />
             <Tooltip contentStyle={tooltipStyle} formatter={(value, name) => [`${Number(value).toFixed(1)}c`, name]} />
-            <Area dataKey="high" fill="#256f8d" fillOpacity={0.12} name="high" stroke="#256f8d" strokeOpacity={0.24} type="monotone" />
-            <Area dataKey="low" fill="#ffffff" fillOpacity={1} name="low" stroke="#256f8d" strokeOpacity={0.24} type="monotone" />
-            <Line dataKey="expected" dot={false} name="expected" stroke="#172026" strokeWidth={2.5} type="monotone" />
-            <Line dataKey="actual" dot={false} name="actual" stroke="#237a4b" strokeDasharray="4 4" strokeWidth={2} type="monotone" />
+            <Area dataKey="high" fill="var(--hdk-status-info, hsl(var(--primary)))" fillOpacity={0.12} name="high" stroke="var(--hdk-status-info, hsl(var(--primary)))" strokeOpacity={0.24} type="monotone" />
+            <Area dataKey="low" fill="hsl(var(--card))" fillOpacity={1} name="low" stroke="var(--hdk-status-info, hsl(var(--primary)))" strokeOpacity={0.24} type="monotone" />
+            <Line dataKey="expected" dot={false} name="expected" stroke="hsl(var(--foreground))" strokeWidth={2.5} type="monotone" />
+            <Line dataKey="actual" dot={false} name="actual" stroke="var(--hdk-status-success, hsl(var(--primary)))" strokeDasharray="4 4" strokeWidth={2} type="monotone" />
           </ComposedChart>
         </ResponsiveContainer>
       </div>
@@ -564,7 +564,7 @@ export function WaterfallChart({
             <Tooltip contentStyle={tooltipStyle} formatter={(value, name) => [compactNumber(Number(value)), name === "value" ? "change" : name]} />
             <Bar dataKey="value" name="value" radius={[6, 6, 0, 0]}>
               {normalized.map((step) => (
-                <Cell key={step.id} fill={step.value >= 0 ? "#237a4b" : "#ad3d32"} opacity={step.tone === "unknown" ? 0.45 : 0.88} />
+                <Cell key={step.id} fill={step.value >= 0 ? "var(--hdk-status-success, hsl(var(--primary)))" : "var(--hdk-status-error, hsl(var(--destructive, var(--primary))))"} opacity={step.tone === "unknown" ? 0.45 : 0.88} />
               ))}
             </Bar>
           </BarChart>
@@ -713,11 +713,5 @@ function formatCents(value?: number): string {
 }
 
 function colorWithOpacity(color: string, opacity: number): string {
-  if (color.startsWith("#")) {
-    const r = Number.parseInt(color.slice(1, 3), 16);
-    const g = Number.parseInt(color.slice(3, 5), 16);
-    const b = Number.parseInt(color.slice(5, 7), 16);
-    return `rgb(${r} ${g} ${b} / ${opacity})`;
-  }
-  return color;
+  return `color-mix(in srgb, ${color} ${Math.round(opacity * 100)}%, transparent)`;
 }

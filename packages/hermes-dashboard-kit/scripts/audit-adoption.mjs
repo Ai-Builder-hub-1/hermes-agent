@@ -52,6 +52,112 @@ function experienceTierLabel(registry, tier) {
   return match ? `${match.label} (Tier ${match.tier})` : `Tier ${tier}`;
 }
 
+function tierBandLabel(registry, band) {
+  const match = (registry.experienceTierBands ?? []).find((item) => item.band === band);
+  return match ? `${match.label} (${match.band})` : band;
+}
+
+function computeCurrentBand({ currentExperienceTier, implementationMode, manifest, issues }) {
+  const tier = currentExperienceTier === null ? null : Number(currentExperienceTier);
+  const surfaces = manifest?.surfaces ?? [];
+  const issueCodes = new Set((issues ?? []).map((item) => item.code));
+  const hasTier3ReviewWarnings = [...issueCodes].some((code) => code.startsWith("tier3."));
+
+  if (implementationMode === "planned") return "T0P";
+  if (tier === null) return "T0L";
+  if (tier <= 0) return surfaces.length ? "T0L" : "T0P";
+
+  if (tier === 1) {
+    return surfaces.length ? "T1B" : "T1A";
+  }
+
+  if (tier === 2) {
+    return implementationMode === "package-native" ? "T2B" : "T2A";
+  }
+
+  if (tier >= 3) {
+    if (hasTier3ReviewWarnings || issueCodes.has("packageNative.required")) return "T3A";
+    return implementationMode === "package-native" ? "T3C" : "T3B";
+  }
+
+  return "T0L";
+}
+
+function nextActionForBand({ project, currentBand, targetBand, issues }) {
+  const issueCodes = new Set((issues ?? []).map((item) => item.code));
+  if (issueCodes.has("packageNative.required")) {
+    return "Move this dashboard to package-native @hermes/dashboard-kit components before treating the target as complete.";
+  }
+  if ([...issueCodes].some((code) => code.startsWith("tier3."))) {
+    return "Repair Tier 3 shell, command-header, chart, overflow, table, and proof evidence in the audited surface.";
+  }
+  if (currentBand === "T1A") {
+    return "Add surface inventory, pick a primary recipe, declare state/data contracts, and make the primary dashboard path enforceable.";
+  }
+  if (currentBand === "T1B") {
+    return "Replace report sections with shared dashboard-kit components and required operational states.";
+  }
+  if (currentBand === "T2A") {
+    return "Move from static/hybrid shared-component delivery to package-native shared components when the project owns a frontend surface.";
+  }
+  if (currentBand === "T3B" && targetBand === "T3C") {
+    return "Preserve the current cockpit while planning the package-native migration in the owning project.";
+  }
+  if (currentBand === "T0P") {
+    return "Decide whether this project owns an operator dashboard; if yes, add surface inventory and package-native cockpit scaffolding.";
+  }
+  return project.tierMigrationNote || "Keep current band evidence fresh and rerun adoption audit after project changes.";
+}
+
+function externalWorkItemsFor({ result, project }) {
+  const items = [];
+  const issueCodes = new Set((result.issues ?? []).map((item) => item.code));
+  const currentBand = result.experienceTier?.currentBand;
+  const targetBand = result.experienceTier?.targetBand;
+
+  if (currentBand === "T0P") {
+    items.push({
+      ownerProject: project.id,
+      scope: "external-project",
+      priority: targetBand === "T3C" ? "P1" : "P2",
+      action: "Create or confirm the production dashboard surface inventory in the owning project.",
+      reason: "Central registry can track planned readiness, but implementation surfaces must live in the owning project."
+    });
+  }
+
+  if (currentBand === "T1A") {
+    items.push({
+      ownerProject: project.id,
+      scope: "external-project",
+      priority: Number(result.experienceTier?.target ?? 0) >= 3 ? "P1" : "P2",
+      action: "Add `.hermes-dashboard.json` surfaces with required components, markers, owner/reviewer, proof route, and migration note.",
+      reason: "Adapter sync proves CSS availability but not dashboard quality."
+    });
+  }
+
+  if ([...issueCodes].some((code) => code.startsWith("tier3."))) {
+    items.push({
+      ownerProject: project.id,
+      scope: "external-project",
+      priority: "P0",
+      action: "Repair audited Tier 3 surface markers for shell rail, command header, chart panels, semantic chart contracts, and overflow protection.",
+      reason: "A Tier 3 cockpit with review warnings must remain a candidate rather than current."
+    });
+  }
+
+  if (issueCodes.has("packageNative.bridge") || project.packageNativeRequired === true) {
+    items.push({
+      ownerProject: project.id,
+      scope: "external-project",
+      priority: targetBand === "T3C" ? "P1" : "P2",
+      action: "Plan package-native dashboard-kit adoption in the owning project.",
+      reason: "Static/hybrid bridges are acceptable current delivery for some projects, but not the highest maturity target."
+    });
+  }
+
+  return items;
+}
+
 function evaluateProject(registry, project, sourceHash) {
   const projectRoot = path.resolve(root, project.path);
   const manifestPath = path.resolve(root, project.manifest);
@@ -366,7 +472,13 @@ function evaluateProject(registry, project, sourceHash) {
   const errorCount = issues.filter((item) => item.severity === "error").length;
   const warningCount = issues.filter((item) => item.severity === "warning").length;
   const status = errorCount ? "stale" : warningCount ? "needs-review" : "current";
-  return {
+  const currentBand = computeCurrentBand({
+    currentExperienceTier,
+    implementationMode,
+    manifest,
+    issues
+  });
+  const result = {
     project:
       project.id,
     name:
@@ -377,15 +489,27 @@ function evaluateProject(registry, project, sourceHash) {
         currentExperienceTier === null ? null : Number(currentExperienceTier),
       target:
         targetExperienceTier === null ? null : Number(targetExperienceTier),
+      currentBand,
+      currentBandLabel:
+        tierBandLabel(registry, currentBand),
       targetBand:
         targetExperienceBand,
+      targetBandLabel:
+        targetExperienceBand ? tierBandLabel(registry, targetExperienceBand) : null,
       implementationMode,
       migrationRequired:
         Boolean(tierMigrationRequired),
+      nextAction:
+        nextActionForBand({ project, currentBand, targetBand: targetExperienceBand, issues }),
       note:
         project.tierMigrationNote || manifest?.dashboardKit?.tierMigrationNote || ""
     },
     issues
+  };
+  return {
+    ...result,
+    externalWorkItems:
+      externalWorkItemsFor({ result, project })
   };
 }
 
@@ -587,6 +711,7 @@ const report = {
   schemaVersion: 1,
   generatedAt: new Date().toISOString(),
   source: registry.source,
+  experienceTierBands: registry.experienceTierBands ?? [],
   sourceHash,
   results: projects.map((project) => evaluateProject(registry, project, sourceHash))
 };
@@ -605,7 +730,9 @@ if (json) {
     tier: result.experienceTier?.current === null
       ? "unset"
       : `${result.experienceTier.current}->${result.experienceTier.target}${result.experienceTier.targetBand ? ` ${result.experienceTier.targetBand}` : ""}`,
+    band: result.experienceTier?.currentBand || "unset",
     mode: result.experienceTier?.implementationMode || "unset",
+    actions: result.externalWorkItems?.length ?? 0,
     errors: result.issues.filter((item) => item.severity === "error").length,
     warnings: result.issues.filter((item) => item.severity === "warning").length
   })));

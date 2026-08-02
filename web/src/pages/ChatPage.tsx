@@ -76,10 +76,10 @@ function generateChannelId(): string {
 // `background` is omitted here — it's supplied dynamically from the active
 // theme's `terminalBackground` field so users can control it via YAML themes.
 const TERMINAL_THEME_STATIC = {
-  foreground: "#f0e6d2",
-  cursor: "#f0e6d2",
-  cursorAccent: "#0d2626",
-  selectionBackground: "#f0e6d244",
+  foreground: "hsl(var(--foreground))",
+  cursor: "hsl(var(--foreground))",
+  cursorAccent: "hsl(var(--background))",
+  selectionBackground: "hsl(var(--primary) / 0.25)",
 };
 
 /**
@@ -166,7 +166,7 @@ export default function ChatPage({ isActive = true }: { isActive?: boolean }) {
   );
 
   const { theme } = useTheme();
-  const terminalBg = theme.terminalBackground ?? "#000000";
+  const terminalBg = theme.terminalBackground ?? "hsl(var(--background))";
   const terminalTheme = useMemo(
     () => ({ ...TERMINAL_THEME_STATIC, background: terminalBg }),
     [terminalBg],
@@ -887,7 +887,7 @@ export default function ChatPage({ isActive = true }: { isActive?: boolean }) {
           )}
           style={{
             backgroundColor: terminalBg,
-            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.4)",
+            boxShadow: "var(--hdk-shadow-overlay, 0 8px 32px hsl(var(--background) / 0.4))",
           }}
         >
           <div

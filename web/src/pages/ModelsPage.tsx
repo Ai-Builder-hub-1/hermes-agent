@@ -95,15 +95,15 @@ function TokenBar({
   const total = input + output + cacheRead + reasoning;
   if (total === 0) return null;
 
-  // Segments carry a CSS color value (hex or `var(--token)`) rather than
+  // Segments carry a CSS color value (`var(--token)`) rather than
   // a Tailwind class so the input/output series can pick up the active
   // theme's `--series-*-token` vars — see `themes/types.ts`
   // `ThemeSeriesColors`. The /60–/70 fade on the bar is applied via
   // color-mix on the same value so themes don't need to ship two
   // separate hex literals.
   const segments: Array<{ color: string; label: string; value: number }> = [
-    { value: cacheRead, color: "#60a5fa", label: "Cache Read" }, // tailwind blue-400
-    { value: reasoning, color: "#c084fc", label: "Reasoning" }, // tailwind purple-400
+    { value: cacheRead, color: "var(--hdk-status-info, hsl(var(--primary)))", label: "Cache Read" },
+    { value: reasoning, color: "var(--hdk-status-accent, hsl(var(--accent)))", label: "Reasoning" },
     { value: input, color: "var(--series-input-token)", label: "Input" },
     { value: output, color: "var(--series-output-token)", label: "Output" },
   ].filter((s) => s.value > 0);

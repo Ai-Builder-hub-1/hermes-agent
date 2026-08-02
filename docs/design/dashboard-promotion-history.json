@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-02T01:21:37.150Z",
+  "source": "docs/design/project-dashboard-tier-assessment.json",
+  "eventCount": 7,
+  "events": [
+    {
+      "recordedAt": "2026-08-02T00:35:49.943Z",
+      "sourceHash": "f5e3fab4da9eb442891f381c5abb497e932e9af8749c985c753168bf6590795a",
+      "project": "khashi-vc",
+      "projectName": "Kashi VC",
+      "currentBand": "T3A",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "warnings": [
+        "packageNative.bridge",
+        "tier3.sidebarRailMissing",
+        "tier3.commandHeaderMissing",
+        "tier3.chartPanelMissing"
+      ],
+      "errors": []
+    },
+    {
+      "recordedAt": "2026-08-02T00:35:49.943Z",
+      "sourceHash": "f5e3fab4da9eb442891f381c5abb497e932e9af8749c985c753168bf6590795a",
+      "project": "media-engine",
+      "projectName": "Media Engine",
+      "currentBand": "T3B",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "warnings": [
+        "packageNative.bridge"
+      ],
+      "errors": []
+    },
+    {
+      "recordedAt": "2026-08-02T00:35:49.943Z",
+      "sourceHash": "f5e3fab4da9eb442891f381c5abb497e932e9af8749c985c753168bf6590795a",
+      "project": "media-business-os",
+      "projectName": "Media Business OS",
+      "currentBand": "T1A",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "warnings": [
+        "experienceTier.migrationRequired",
+        "packageNative.bridge"
+      ],
+      "errors": []
+    },
+    {
+      "recordedAt": "2026-08-02T00:35:49.943Z",
+      "sourceHash": "f5e3fab4da9eb442891f381c5abb497e932e9af8749c985c753168bf6590795a",
+      "project": "business-mapper",
+      "projectName": "Business Mapper",
+      "currentBand": "T1A",
+      "targetBand": "T2B",
+      "auditStatus": "needs-review",
+      "warnings": [
+        "experienceTier.migrationRequired"
+      ],
+      "errors": []
+    },
+    {
+      "recordedAt": "2026-08-02T00:35:49.943Z",
+      "sourceHash": "f5e3fab4da9eb442891f381c5abb497e932e9af8749c985c753168bf6590795a",
+      "project": "meal-assistant",
+      "projectName": "Meal Assistant",
+      "currentBand": "T1A",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "warnings": [
+        "experienceTier.migrationRequired",
+        "packageNative.bridge",
+        "implementationMode.serverRenderedLegacy"
+      ],
+      "errors": []
+    },
+    {
+      "recordedAt": "2026-08-02T00:35:49.943Z",
+      "sourceHash": "f5e3fab4da9eb442891f381c5abb497e932e9af8749c985c753168bf6590795a",
+      "project": "hermes-os",
+      "projectName": "Hermes OS",
+      "currentBand": "T0P",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "warnings": [
+        "experienceTier.migrationRequired",
+        "packageNative.bridge"
+      ],
+      "errors": []
+    },
+    {
+      "recordedAt": "2026-08-02T00:35:49.943Z",
+      "sourceHash": "f5e3fab4da9eb442891f381c5abb497e932e9af8749c985c753168bf6590795a",
+      "project": "tlc-capital-group-os",
+      "projectName": "TLC Capital Group OS",
+      "currentBand": "T0P",
+      "targetBand": "T3C",
+      "auditStatus": "needs-review",
+      "warnings": [
+        "experienceTier.migrationRequired",
+        "packageNative.bridge"
+      ],
+      "errors": []
+    }
+  ]
+}

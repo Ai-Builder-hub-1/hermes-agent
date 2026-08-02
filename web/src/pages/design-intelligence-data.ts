@@ -1,7 +1,7 @@
 export type BuildVersionStatus = "ready" | "in-progress" | "planned";
 
 export interface BuildVersion {
-  id: "V1" | "V2" | "V3" | "V4" | "V5" | "V6";
+  id: "V1" | "V2" | "V3" | "V4" | "V5" | "V6" | "V7" | "V8" | "V9" | "V10" | "V11" | "V12";
   title: string;
   goal: string;
   status: BuildVersionStatus;
@@ -43,108 +43,27 @@ export interface ValidationCommand {
   expectedSignal: string;
 }
 
-export interface TierBand {
-  band: string;
-  tier: 0 | 1 | 2 | 3;
-  label: string;
-  meaning: string;
+export interface CentralMaturityGap {
+  id: string;
+  version: string;
+  area: string;
+  gap: string;
+  enhancement: string;
+  status: "built" | "tracked" | "external";
+  validation: string;
 }
 
-export interface ProjectTierAssessment {
-  project: string;
-  name: string;
-  auditStatus: "current" | "needs-review" | "stale" | "missing" | "unregistered";
-  coarseTier: string;
-  currentBand: string;
-  targetBand: string;
-  warnings: string[];
-  nextMove: string;
+export interface GovernanceException {
+  id: string;
+  owner: string;
+  reviewer: string;
+  blockedGate: string;
+  reason: string;
+  replacementPlan: string;
+  expiresAt: string;
 }
 
-export const tierBands: TierBand[] = [
-  { band: "T0P", tier: 0, label: "Planned or governance-only", meaning: "Project is registered for governance/readiness but has no audited operator surface yet." },
-  { band: "T0L", tier: 0, label: "Raw legacy surface", meaning: "Dashboard exists as a raw report, debug table, prototype, or ungoverned screen." },
-  { band: "T1A", tier: 1, label: "Adapter-aligned shell", meaning: "Canonical CSS/static adapter is synced, but no surface-level component inventory is enforceable." },
-  { band: "T1B", tier: 1, label: "Inventoried one-shell report", meaning: "One-shell route and surfaces are inventoried, but the main operator path still reads as a report." },
-  { band: "T2A", tier: 2, label: "Hybrid shared-component dashboard", meaning: "Primary surface uses shared-kit contracts through a static or hybrid implementation, but is not fully package-native." },
-  { band: "T2B", tier: 2, label: "Package-native shared-component dashboard", meaning: "Primary surface imports shared components directly and covers required states, but is not yet a product-grade cockpit." },
-  { band: "T3A", tier: 3, label: "Cockpit candidate with review gaps", meaning: "Dashboard targets product-grade cockpit behavior but still has Tier 3 visual, shell, chart, proof, or interaction warnings." },
-  { band: "T3B", tier: 3, label: "Current static/hybrid product cockpit", meaning: "Audited product-grade cockpit is current, but delivery still depends on static or hybrid adapter infrastructure." },
-  { band: "T3C", tier: 3, label: "Package-native product cockpit", meaning: "Highest maturity: audited Tier 3 cockpit implemented directly with shared package components and complete proof/validation." },
-];
-
-export const projectTierAssessments: ProjectTierAssessment[] = [
-  {
-    project: "khashi-vc",
-    name: "Kashi VC",
-    auditStatus: "needs-review",
-    coarseTier: "3->3",
-    currentBand: "T3A",
-    targetBand: "T3C",
-    warnings: ["packageNative.bridge", "tier3.sidebarRailMissing", "tier3.commandHeaderMissing", "tier3.chartPanelMissing"],
-    nextMove: "Repair Tier 3 visual/shell/chart markers in the live command surface; then plan package-native route migration.",
-  },
-  {
-    project: "media-engine",
-    name: "Media Engine",
-    auditStatus: "needs-review",
-    coarseTier: "3->3",
-    currentBand: "T3B",
-    targetBand: "T3C",
-    warnings: ["packageNative.bridge"],
-    nextMove: "Preserve as the current static/hybrid Tier 3 reference; next maturity step is package-native implementation.",
-  },
-  {
-    project: "media-business-os",
-    name: "Media Business OS",
-    auditStatus: "needs-review",
-    coarseTier: "1->3",
-    currentBand: "T1A",
-    targetBand: "T3C",
-    warnings: ["experienceTier.migrationRequired", "packageNative.bridge"],
-    nextMove: "Add surface inventory, pick primary recipe, define data/state contracts, then build shared-component cockpit.",
-  },
-  {
-    project: "business-mapper",
-    name: "Business Mapper",
-    auditStatus: "needs-review",
-    coarseTier: "1->2",
-    currentBand: "T1A",
-    targetBand: "T2B",
-    warnings: ["experienceTier.migrationRequired"],
-    nextMove: "Add surface inventory and migrate primary dashboard path to shared components.",
-  },
-  {
-    project: "meal-assistant",
-    name: "Meal Assistant",
-    auditStatus: "needs-review",
-    coarseTier: "1->3",
-    currentBand: "T1A",
-    targetBand: "T3C",
-    warnings: ["experienceTier.migrationRequired", "packageNative.bridge", "implementationMode.serverRenderedLegacy"],
-    nextMove: "Add surface inventory, define the product cockpit routes, and migrate away from hand-authored server-rendered dashboard HTML/CSS.",
-  },
-  {
-    project: "hermes-os",
-    name: "Hermes OS",
-    auditStatus: "needs-review",
-    coarseTier: "0->3",
-    currentBand: "T0P",
-    targetBand: "T3C",
-    warnings: ["experienceTier.migrationRequired", "packageNative.bridge"],
-    nextMove: "Decide whether Hermes OS owns a production operator dashboard or remains governance-only; if dashboard-owned, add surfaces and target package-native cockpit.",
-  },
-  {
-    project: "tlc-capital-group-os",
-    name: "TLC Capital Group OS",
-    auditStatus: "needs-review",
-    coarseTier: "0->3",
-    currentBand: "T0P",
-    targetBand: "T3C",
-    warnings: ["experienceTier.migrationRequired", "packageNative.bridge"],
-    nextMove: "Inventory executive/operator surfaces and define whether this becomes a package-native cockpit or remains a readiness consumer.",
-  },
-];
+export const governanceExceptions: GovernanceException[] = [];
 
 export const buildVersions: BuildVersion[] = [
   {
@@ -317,6 +236,165 @@ export const buildVersions: BuildVersion[] = [
       "Governance output is concise enough for CI and agent workflows.",
     ],
   },
+  {
+    id: "V7",
+    title: "Visual Evidence Layer",
+    goal: "Make screenshots, viewport coverage, and visual proof explicit before promotion.",
+    status: "ready",
+    priority: "P0",
+    gaps: [
+      "Project tiers can classify structure without proving visual quality",
+      "Responsive proof needs a stable viewport matrix",
+      "Production screenshot evidence needs a reusable registry",
+    ],
+    artifacts: [
+      "docs/design/dashboard-visual-evidence-layer.json",
+      "scripts/validate-dashboard-visual-evidence.mjs",
+      "production screenshot evidence contract",
+    ],
+    validation: [
+      "npm run dashboard:visual-evidence:validate",
+      "npm run dashboard:visual:check",
+      "npm run dashboard:visual-quality:score",
+    ],
+    exitCriteria: [
+      "Tier 3 promotion requires screenshot or visual-quality evidence.",
+      "Desktop, tablet, mobile, and embedded panel viewports are part of the standard.",
+      "Visual proof includes nonblank render, text containment, overlap, and state coverage signals.",
+    ],
+  },
+  {
+    id: "V8",
+    title: "Component Maturity Registry",
+    goal: "Grade shared components independently from project tiers.",
+    status: "ready",
+    priority: "P0",
+    gaps: [
+      "Project maturity can hide weak component evidence",
+      "Component documentation and accessibility proof are uneven",
+      "New primitives need promotion rules",
+    ],
+    artifacts: [
+      "docs/design/dashboard-component-maturity-registry.json",
+      "scripts/validate-dashboard-component-maturity.mjs",
+      "component maturity levels and promotion rules",
+    ],
+    validation: [
+      "npm run dashboard:component-maturity:validate",
+      "npm run dashboard:usage:audit:strict",
+    ],
+    exitCriteria: [
+      "Core shell, table, chart, filter, drawer, and command components have ownership and evidence.",
+      "Missing component evidence is visible as maturity backlog.",
+      "Certified components cannot list unresolved evidence gaps.",
+    ],
+  },
+  {
+    id: "V9",
+    title: "Token and Styling Enforcement",
+    goal: "Prevent drift from Hermes/Kaoshi visual identity.",
+    status: "ready",
+    priority: "P1",
+    gaps: [
+      "Hard-coded colors, radii, and shadows can bypass tokens",
+      "Token families need a centralized enforcement contract",
+      "Dark-mode and density rules need explicit source artifacts",
+    ],
+    artifacts: [
+      "docs/design/dashboard-token-enforcement.json",
+      "scripts/validate-dashboard-token-enforcement.mjs",
+      "forbidden styling pattern registry",
+    ],
+    validation: [
+      "npm run dashboard:token-enforcement:validate",
+      "npm run dashboard:theme-contract:validate",
+    ],
+    exitCriteria: [
+      "Token families and forbidden raw-style patterns are declared.",
+      "Token source artifacts exist and are enforceable.",
+      "New visual values require token mapping rather than page-local styling drift.",
+    ],
+  },
+  {
+    id: "V10",
+    title: "Review Packet Generator",
+    goal: "Produce one human-review artifact from tier, backlog, visual, component, and reference data.",
+    status: "ready",
+    priority: "P1",
+    gaps: [
+      "Review evidence is spread across many docs",
+      "Human approval needs a consistent packet",
+      "Agents need a Codex-ready packet before implementation",
+    ],
+    artifacts: [
+      "docs/design/dashboard-review-packet-standard.json",
+      "docs/design/dashboard-review-packets/latest.json",
+      "docs/design/dashboard-review-packets/latest.md",
+      "scripts/generate-dashboard-review-packet.mjs",
+      "scripts/validate-dashboard-review-packet.mjs",
+    ],
+    validation: [
+      "npm run dashboard:review-packet:generate",
+      "npm run dashboard:review-packet:validate",
+    ],
+    exitCriteria: [
+      "Review packets include project tiers, external backlog, Mobbin references, visual evidence, and component maturity.",
+      "Packets include approval checklist and source hash.",
+      "Major redesigns have a single handoff artifact before implementation.",
+    ],
+  },
+  {
+    id: "V11",
+    title: "Mobbin Reference Map Runtime",
+    goal: "Operationalize Mobbin as pattern evidence without copying full screens.",
+    status: "ready",
+    priority: "P1",
+    gaps: [
+      "Mobbin references exist but need structured extraction",
+      "References must map to patterns and Kaoshi adaptations",
+      "Do-not-copy guidance must be explicit",
+    ],
+    artifacts: [
+      "docs/design/dashboard-mobbin-reference-map.json",
+      "scripts/validate-dashboard-mobbin-reference-map.mjs",
+      "Mobbin usefulFor/doNotCopy/kaoshiAdaptation fields",
+    ],
+    validation: [
+      "npm run dashboard:mobbin-reference-map:validate",
+      "npm run dashboard:mobbin-intake:generate",
+    ],
+    exitCriteria: [
+      "Every reference maps to one or more patterns.",
+      "Every reference includes extraction notes and do-not-copy notes.",
+      "Kaoshi adaptation rules keep Hermes tokens and components as source of truth.",
+    ],
+  },
+  {
+    id: "V12",
+    title: "Governance and CI Gates",
+    goal: "Define advisory, blocking, and human-approval gates for dashboard promotion.",
+    status: "ready",
+    priority: "P0",
+    gaps: [
+      "Standards need explicit promotion rules",
+      "CI needs clear advisory vs blocking responsibilities",
+      "Exceptions need owner, expiry, and replacement plans",
+    ],
+    artifacts: [
+      "docs/design/dashboard-governance-ci-gates.json",
+      "scripts/validate-dashboard-governance-ci.mjs",
+      "promotion and exception rules",
+    ],
+    validation: [
+      "npm run dashboard:governance-ci:validate",
+      "npm run dashboard:standards:summary",
+    ],
+    exitCriteria: [
+      "Registered governance commands exist in package.json.",
+      "Tier promotion rules are explicit from T0/T1 through T3C.",
+      "Expired or incomplete exceptions block promotion.",
+    ],
+  },
 ];
 
 export const componentOwnershipRules: ComponentOwnershipRule[] = [
@@ -458,5 +536,167 @@ export const validationCommands: ValidationCommand[] = [
     version: "V6",
     purpose: "Runs high-signal validators and emits concise pass/fail lines for agents and CI.",
     expectedSignal: "Concise summary with non-zero exit on failed required checks.",
+  },
+  {
+    id: "visual-evidence",
+    command: "npm run dashboard:visual-evidence:validate",
+    version: "V7",
+    purpose: "Validates viewport matrix, visual proof signals, screenshot evidence, and quality report linkage.",
+    expectedSignal: "Zero errors; warnings identify thin or low-scoring visual evidence.",
+  },
+  {
+    id: "component-maturity",
+    command: "npm run dashboard:component-maturity:validate",
+    version: "V8",
+    purpose: "Validates shared component ownership, maturity, tier requirement, and evidence paths.",
+    expectedSignal: "Zero errors; warnings identify missing maturity evidence.",
+  },
+  {
+    id: "token-enforcement",
+    command: "npm run dashboard:token-enforcement:validate",
+    version: "V9",
+    purpose: "Validates token families, source artifacts, and forbidden styling-pattern rules.",
+    expectedSignal: "Zero errors.",
+  },
+  {
+    id: "review-packet",
+    command: "npm run dashboard:review-packet:validate",
+    version: "V10",
+    purpose: "Validates the generated human-review packet and required design approval sections.",
+    expectedSignal: "Zero errors after dashboard:review-packet:generate.",
+  },
+  {
+    id: "mobbin-reference-map",
+    command: "npm run dashboard:mobbin-reference-map:validate",
+    version: "V11",
+    purpose: "Validates pattern-specific Mobbin extraction and Kaoshi adaptation notes.",
+    expectedSignal: "Zero errors.",
+  },
+  {
+    id: "governance-ci",
+    command: "npm run dashboard:governance-ci:validate",
+    version: "V12",
+    purpose: "Validates advisory, blocking, human-review, promotion, and exception gates.",
+    expectedSignal: "Zero errors and all commands registered.",
+  },
+];
+
+export const centralMaturityGaps: CentralMaturityGap[] = [
+  {
+    id: "component-evidence",
+    version: "V8",
+    area: "Component maturity",
+    gap: "Core components still need Storybook/state, accessibility, mobile, and behavior evidence.",
+    enhancement: "Track evidence per component in the maturity registry and block certified status until resolved.",
+    status: "tracked",
+    validation: "npm run dashboard:component-maturity:validate",
+  },
+  {
+    id: "visual-regression",
+    version: "V7",
+    area: "Visual proof",
+    gap: "Visual quality uses screenshots and heuristics, but approved baselines are not complete for every governed route.",
+    enhancement: "Use visual baseline capture/compare and production screenshots as promotion evidence.",
+    status: "tracked",
+    validation: "npm run dashboard:visual-evidence:validate",
+  },
+  {
+    id: "token-scanner",
+    version: "V9",
+    area: "Styling enforcement",
+    gap: "Raw colors, radii, shadows, and viewport-scaled type need changed-file scanning.",
+    enhancement: "Run the dashboard token scanner in strict mode through the standards summary.",
+    status: "built",
+    validation: "npm run dashboard:token-scan:strict",
+  },
+  {
+    id: "live-mobbin-refresh",
+    version: "V11",
+    area: "Mobbin workflow",
+    gap: "References are structured, but live MCP refresh remains a human or agent action.",
+    enhancement: "Keep the reference map validated and refresh it through Mobbin intake when material redesigns start.",
+    status: "tracked",
+    validation: "npm run dashboard:mobbin-reference-map:validate",
+  },
+  {
+    id: "per-project-packets",
+    version: "V10",
+    area: "Review packets",
+    gap: "Review packets were global only.",
+    enhancement: "Generate project-specific packets with `--project <id>` for targeted approval.",
+    status: "built",
+    validation: "npm run dashboard:review-packet:validate",
+  },
+  {
+    id: "ci-governance",
+    version: "V12",
+    area: "CI gates",
+    gap: "Governance rules needed actual workflow coverage.",
+    enhancement: "Run fast and full standards summaries, token scan, visual, and accessibility checks in dashboard CI.",
+    status: "built",
+    validation: "npm run dashboard:governance-ci:validate",
+  },
+  {
+    id: "accessibility-route-check",
+    version: "V7",
+    area: "Accessibility",
+    gap: "Accessibility proof needed a focused Design Intelligence route check.",
+    enhancement: "Add an `@a11y` Playwright/axe check for the central standards console.",
+    status: "built",
+    validation: "npm run dashboard:a11y:check",
+  },
+  {
+    id: "exception-expiry",
+    version: "V12",
+    area: "Promotion governance",
+    gap: "Exceptions needed owner/reviewer/expiry enforcement.",
+    enhancement: "Validate the governance exception registry and block expired exceptions.",
+    status: "built",
+    validation: "npm run dashboard:governance-exceptions:validate",
+  },
+  {
+    id: "downstream-migrations",
+    version: "V6",
+    area: "External projects",
+    gap: "Project-local package-native migrations and T0/T1 uplift remain outside this repo.",
+    enhancement: "Keep those items in the external work backlog until implemented inside each project.",
+    status: "external",
+    validation: "npm run dashboard:tier-assessment:validate",
+  },
+  {
+    id: "visual-freshness",
+    version: "V7",
+    area: "Visual coverage",
+    gap: "Visual evidence needs freshness metadata and an SLA, not only screenshot existence.",
+    enhancement: "Track screenshot age and a 30-day freshness SLA in the visual coverage report.",
+    status: "built",
+    validation: "npm run dashboard:visual-coverage:report",
+  },
+  {
+    id: "promotion-readiness-score",
+    version: "V12",
+    area: "Promotion readiness",
+    gap: "Tier, visual coverage, external backlog, component debt, and token debt needed one combined readiness signal.",
+    enhancement: "Generate project-level promotion readiness scores from maturity reports.",
+    status: "built",
+    validation: "npm run dashboard:promotion-readiness:generate",
+  },
+  {
+    id: "token-baseline",
+    version: "V9",
+    area: "Token debt",
+    gap: "Legacy token findings needed explicit suppressions so new debt can be blocked.",
+    enhancement: "Baseline token findings by file/rule count and fail strict scans when counts increase.",
+    status: "built",
+    validation: "npm run dashboard:token-suppressions:generate",
+  },
+  {
+    id: "branch-protection-verification",
+    version: "V12",
+    area: "Release governance",
+    gap: "Branch protection requirements were documented but not machine-checkable.",
+    enhancement: "Verify configured GitHub branch protection when gh API access is available.",
+    status: "built",
+    validation: "npm run dashboard:branch-protection:verify",
   },
 ];

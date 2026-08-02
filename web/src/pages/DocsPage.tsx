@@ -12,7 +12,7 @@ const DS_BUTTON_OUTLINED_LINK_CN = cn(
   "px-[.9em_.75em] py-[1.25em] gap-2",
   "leading-0 font-bold tracking-[0.2em] uppercase",
   "text-midground bg-transparent shadow-midground",
-  "shadow-[inset_-1px_-1px_0_0_#00000080,inset_1px_1px_0_0_#ffffff80]",
+  "shadow-[inset_-1px_-1px_0_0_hsl(var(--background)/0.5),inset_1px_1px_0_0_hsl(var(--foreground)/0.5)]",
 );
 
 export default function DocsPage() {

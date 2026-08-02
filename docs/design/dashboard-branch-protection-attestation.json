@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "status": "pending",
+  "attestedAt": null,
+  "attestedBy": null,
+  "requiredChecks": [
+    "Dashboard Design System / dashboard-quality",
+    "npm run dashboard:standards:summary:fast",
+    "npm run dashboard:token-scan:strict",
+    "npm run dashboard:governance-exceptions:validate",
+    "npm run dashboard:maturity-reports:validate"
+  ],
+  "note": "Use this file when GitHub branch protection cannot be read through gh api. Set status to manually-verified with attestedAt and attestedBy after checking repository settings."
+}

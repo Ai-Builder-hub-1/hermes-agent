@@ -161,6 +161,17 @@ test.describe("Hermes dashboard design system", () => {
     await expectNoAxeViolations(page);
   });
 
+  test("design intelligence route keeps central standards accessible @a11y", async ({ page }, testInfo) => {
+    await page.goto("/design-intelligence");
+    await expect(page.getByRole("heading", { name: /Hermes Design Intelligence Command Center/i }).first()).toBeVisible();
+    await expect(page.getByText("V1-V12 execution system")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Validation", exact: true })).toBeVisible();
+    await expectNoHorizontalOverflow(page);
+    await expectKeyboardFocus(page);
+    await expectNoAxeViolations(page);
+    await captureDashboardScreenshot(page, testInfo, "design-intelligence-dashboard");
+  });
+
   test("Hermes OS dashboard route keeps shell responsive", async ({ page }, testInfo) => {
     await page.goto("/hermes-os");
     await expect(page.getByRole("heading", { name: /Hermes OS/i }).first()).toBeVisible();
