@@ -22,6 +22,9 @@ const summary = {
   deployedCommit: registry.deployedCommit,
   productionUrl: registry.productionUrl,
   healthUrl: registry.healthUrl,
+  productionProvider: registry.productionProvider,
+  deployAutomationStatus: registry.deployAutomationStatus,
+  deploymentSourceOfTruth: registry.deploymentSourceOfTruth,
   sliceCount: slices.length,
   completedCount: completed.length,
   pendingCount: pending.length,
@@ -29,7 +32,8 @@ const summary = {
   externalWorkCount: externalWork.length,
   nextCanonicalActions: [
     "Keep new work branched from ai-builder/main.",
-    "Port lightweight maturity reports before dashboard-kit or web UI.",
+    "Treat Hetzner as the production provider and deploy-site.yml as docs-only automation.",
+    "Document the Hetzner host/service/restart/rollback contract before attempting automated production deploys.",
     "Decide whether dashboard-kit is a canonical workspace package, external package, or legacy-only artifact.",
     "Capture project-owned visual evidence outside this canonical repo cleanup."
   ],
@@ -55,6 +59,9 @@ Generated: ${summary.generatedAt}
 | Legacy branch | ${summary.legacyBranch} |
 | Deployed legacy ref | ${summary.deployedLegacyRef} |
 | Production URL | ${summary.productionUrl} |
+| Production provider | ${summary.productionProvider} |
+| Deploy automation | ${summary.deployAutomationStatus} |
+| Deployment source of truth | ${summary.deploymentSourceOfTruth} |
 | Completed slices | ${summary.completedCount}/${summary.sliceCount} |
 | Pending slices | ${summary.pendingCount} |
 | Blocked or decision slices | ${summary.blockedCount} |

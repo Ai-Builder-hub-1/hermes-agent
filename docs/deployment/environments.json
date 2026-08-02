@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "status": "active",
+  "environments": [
+    {
+      "id": "nous-hermes-agent-production",
+      "name": "Nous Hermes Agent Production",
+      "provider": "hetzner",
+      "productionUrl": "https://agent.tlccapitalgroup.com",
+      "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
+      "canonicalRemote": "ai-builder/main",
+      "canonicalBranch": "main",
+      "deploySourceOfTruth": "docs/deployment/production.md",
+      "deployAutomationStatus": "not-configured",
+      "runtime": {
+        "hostAlias": "unknown",
+        "serviceManager": "unknown",
+        "serviceName": "unknown",
+        "reverseProxy": "unknown",
+        "processRuntime": "unknown"
+      },
+      "knownInvalidDeployPaths": [
+        {
+          "path": ".github/workflows/deploy-site.yml",
+          "reason": "Docs-site workflow only; not production automation for agent.tlccapitalgroup.com."
+        }
+      ],
+      "requiredBeforeAutomatedDeploy": [
+        "Confirm Hetzner host alias or GitHub environment secret names.",
+        "Confirm service manager and service name.",
+        "Confirm deploy strategy: git pull on host, rsync artifact, container image, or release bundle.",
+        "Confirm restart command and rollback command.",
+        "Add GitHub Actions environment protection for production.",
+        "Record health-check and post-deploy evidence requirements."
+      ]
+    }
+  ]
+}

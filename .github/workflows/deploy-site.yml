@@ -1,4 +1,4 @@
-name: Deploy Site
+name: Deploy Docs Site
 
 on:
   release:
@@ -33,25 +33,18 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy-vercel:
-    # Triggered automatically on release publish (production cuts) and
-    # manually via `gh workflow run deploy-site.yml` when an out-of-band
-    # main commit needs to ship live before the next release tag — e.g.
-    # a skills-index PR that doesn't touch website/** paths and so
-    # doesn't auto-deploy via the deploy-docs path.
-    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+  production-deploy-not-configured:
+    # Ai-Builder production is Hetzner-backed. This workflow only publishes the
+    # upstream Hermes docs site and must not be treated as production deploy
+    # automation for agent.tlccapitalgroup.com.
+    if: github.repository != 'NousResearch/hermes-agent'
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 5
     steps:
-      - name: Trigger Vercel Deploy
-        env:
-          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+      - name: Stop non-docs production deploy
         run: |
-          if [ -z "$VERCEL_DEPLOY_HOOK" ]; then
-            echo "::error::Missing VERCEL_DEPLOY_HOOK secret; cannot trigger Vercel deployment."
-            exit 1
-          fi
-          curl -fsS --retry 3 --retry-delay 10 -X POST "$VERCEL_DEPLOY_HOOK"
+          echo "::error::This workflow is docs-site automation only. Ai-Builder production deploys to Hetzner, but no Hetzner deploy workflow is configured in this repo. See docs/deployment/production.md."
+          exit 1
 
   deploy-docs:
     if: github.repository == 'NousResearch/hermes-agent'

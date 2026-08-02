@@ -8,6 +8,9 @@
   "deployedCommit": "a28b50cdc685dd4f4512415859c3e9309dfb8ef4",
   "productionUrl": "https://agent.tlccapitalgroup.com",
   "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
+  "deploymentSourceOfTruth": "docs/deployment/environments.json",
+  "productionProvider": "hetzner",
+  "deployAutomationStatus": "not-configured",
   "policy": [
     "Do not force-push local legacy dashboard history onto ai-builder/main.",
     "New deployable work must branch from ai-builder/main unless explicitly marked legacy-only.",
@@ -84,17 +87,24 @@
     {
       "id": "S6",
       "name": "Make canonical production deploy come from main",
-      "status": "pending",
+      "status": "blocked",
       "canonicalMainRequired": true,
       "scope": [
         "merge approved slices to main",
-        "deploy from main or signed release ref",
+        "replace stale docs/Vercel deploy assumptions with Hetzner deployment source of truth",
+        "configure Hetzner deploy automation from main or signed release ref",
         "record health evidence"
       ],
-      "blocks": ["S1", "S2", "S3"]
+      "blocks": ["D1"]
     }
   ],
   "externalWork": [
+    {
+      "id": "D1",
+      "name": "Document and wire Hetzner production deploy contract",
+      "status": "blocked",
+      "owner": "project"
+    },
     {
       "id": "E1",
       "name": "Capture Nous Hermes Agent production visual evidence",
