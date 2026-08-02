@@ -12909,6 +12909,7 @@ def start_server(
     open_browser: bool = True,
     allow_public: bool = False,
     initial_profile: str = "",
+    headless: bool = False,
 ):
     """Start the web UI server.
 
@@ -12916,6 +12917,10 @@ def start_server(
     URL as ``?profile=<name>`` so the SPA's profile switcher preselects it
     — used when a profile alias (``<profile> dashboard``) routes to the
     machine dashboard.
+
+    ``headless`` is accepted for compatibility with the shared dashboard/serve
+    launch path. The actual SPA-disable switch is set before this module is
+    imported via ``HERMES_SERVE_HEADLESS``.
     """
     import uvicorn
 
