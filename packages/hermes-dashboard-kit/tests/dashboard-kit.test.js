@@ -16,12 +16,19 @@ import {
   renderHeatmap,
   renderLineChart,
   renderApprovalQueue,
+  renderDashboardLoadingShell,
+  renderDashboardQueryBoundary,
+  renderDataFreshnessStrip,
   renderMarketBrowserLayout,
   renderMarketTape,
+  renderPartialDataBanner,
   renderProofStrip,
   renderQaReviewPanel,
+  renderSkeletonChart,
+  renderSkeletonTable,
   renderStateChecklist,
   renderStatePanel,
+  renderStaleDataBadge,
   renderTimeWindowSelector
 } from "../src/index.js";
 
@@ -207,6 +214,39 @@ test("renders table pagination, proof, and state components", () => {
   );
 });
 
+test("renders loading performance and freshness primitives", () => {
+  assert.match(renderDashboardLoadingShell({ title: "Loading command center" }), /data-hdk-component="DashboardLoadingShell"/);
+  assert.match(renderSkeletonChart(), /data-hdk-component="SkeletonChart"/);
+  assert.match(renderSkeletonTable({ rows: 3 }), /data-hdk-component="SkeletonTable"/);
+  assert.match(
+    renderDataFreshnessStrip({
+      items:
+        [
+          {
+            label:
+              "Snapshots",
+            state:
+              "stale",
+            value:
+              "8m old"
+          }
+        ]
+    }),
+    /data-hdk-component="DataFreshnessStrip"/
+  );
+  assert.match(renderStaleDataBadge({ age: "8m" }), /data-hdk-component="StaleDataBadge"/);
+  assert.match(renderPartialDataBanner({ title: "Partial stream" }), /data-hdk-component="PartialDataBanner"/);
+  assert.match(
+    renderDashboardQueryBoundary({
+      state:
+        "stale",
+      children:
+        "<section>Cached view</section>"
+    }),
+    /data-data-state="stale"/
+  );
+});
+
 test("renders production cockpit components for package-native migrations", () => {
   assert.match(
     renderDataTableTabs({
@@ -351,6 +391,38 @@ test("surface validator rejects chart-like tier 3 surfaces without kit charts", 
   assert.notEqual(result.status, 0);
   assert.match(result.stdout, /chart_without_approved_component/);
   assert.match(result.stdout, /tier3_without_dashboard_kit/);
+});
+
+test("surface validator rejects unbounded dashboard tables without pagination", () => {
+  const dir =
+    fs.mkdtempSync(path.join(os.tmpdir(), "hdk-validator-table-"));
+  const badSurface =
+    path.join(dir, "operations-dashboard.html");
+  const rows =
+    Array.from({ length: 105 }).map((_, index) => `<tr><td>Row ${index}</td></tr>`).join("");
+  fs.writeFileSync(
+    badSurface,
+    `<main data-experience-tier="tier-3" data-hdk-component="DashboardShell"><h1>Operations</h1><table>${rows}</table></main>`,
+    "utf8"
+  );
+
+  const result =
+    spawnSync(
+      process.execPath,
+      [
+        path.resolve("packages/hermes-dashboard-kit/src/validate-surface.js"),
+        badSurface
+      ],
+      {
+        cwd:
+          path.resolve("."),
+        encoding:
+          "utf8"
+      }
+    );
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stdout, /unbounded_table_without_pagination/);
 });
 
 test("local override scanner blocks protected dashboard CSS without a manifest exception", () => {

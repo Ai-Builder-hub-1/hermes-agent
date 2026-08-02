@@ -16,6 +16,7 @@
     "requiresMobbinReferenceIntake": true,
     "requiresDesignReviewArtifact": true,
     "requiresThemeModeContract": true,
+    "requiresLoadingPerformanceContract": true,
     "requiresProofScreenshots": true,
     "requiresPackageNativeSurfaceValidation": true,
     "blocksUnreviewedLocalDashboardCss": true,

@@ -55,6 +55,7 @@ tokens:
     table: "DataTable / .hdk-table"
     data_visualization: "MarketTape, MarketVolatilityDrawer, PriceMovementChart, SpreadBandChart, LiquidityDepthChart, VolumePulseChart, CategoryHeatmap, OpportunityMatrix, ProviderSpendTimeline, BusinessUnitCostCard, AlertRail, DrilldownPanel, TimeWindowSelector, CrosshairTooltipFrame, OrderBookLadder, ForecastConeChart, WaterfallChart"
     product_interface: "WorkspaceSwitcher, BreadcrumbTrail, SplitWorkspaceLayout, DetailDrawerShell, EntitySummaryCard, EvidenceStack, RecommendationStack, SavedFilterChips, CommandPalette, GlobalSearchOverlay, SavedViewsManager, ExpandableDataList, AiAssistantPanel, StateChecklist, PermissionLimitedPanel, GeneratedInsightCallout"
+    loading_performance: "DashboardLoadingShell, SkeletonMetricCard, SkeletonChart, SkeletonTable, SkeletonDashboardGrid, DataFreshnessStrip, StaleDataBadge, PartialDataBanner, DashboardQueryBoundary"
     button: "Command buttons / .hdk-button"
     status: "StatusPill / .hdk-pill"
 ---
@@ -159,6 +160,19 @@ Charts are decision surfaces, not decoration. A chart is not production-grade un
 - Empty, partial, stale, loading, error, and mock-preview chart states must be visibly different from live chart states.
 - Mobbin reference passes should inspect analytics/trading/reporting screens for chart density, legend placement, axis treatment, compact cards, and table/chart pairing before creating new chart patterns.
 
+## Loading And Data Performance Contract
+
+Dashboards must load like products, not scripts dumping a full report into the browser. The canonical implementation and review checklist live in `docs/design/dashboard-loading-performance-standard.md`.
+
+- Render the single app shell first, then hydrate proof/freshness/KPI data, then hydrate bounded tables and charts, then defer raw logs and expensive drilldowns.
+- Every route must tell the operator whether data is `loading`, `ready`, `partial`, `stale`, `error`, or `empty`.
+- Use `DashboardLoadingShell`, `SkeletonMetricCard`, `SkeletonChart`, `SkeletonTable`, `SkeletonDashboardGrid`, `DataFreshnessStrip`, `StaleDataBadge`, `PartialDataBanner`, and `DashboardQueryBoundary` before creating local loading UI.
+- Tables must be paginated by default. Default page size is 25; initial route payloads should not ship more than 100 visible rows without an approved exception.
+- Charts should hydrate from pre-shaped series or rollups, not from raw event logs recomputed in the browser.
+- Dashboard APIs should use stale-while-revalidate behavior: fast cached response, visible stale badge, partial state for module-level failure, and error state only when the primary view cannot be trusted.
+- Tier 3 dashboard proof must include visible loading/skeleton, stale, partial, empty, and error states for at least one primary route or state lab.
+- Raw event/log payloads, large JSON blobs, and export data must be deferred behind explicit user intent or idle hydration.
+
 ## Experience Tier Standard
 
 The one-shell rule is a checkpoint, not the finish line. A dashboard can be structurally correct and still fail the product experience bar.
@@ -210,14 +224,15 @@ Before building or changing a dashboard, agents should:
 3. Check `docs/design/dashboard-kit-adoption.md`.
 4. Define or update the dashboard data contracts in `docs/design/dashboard-data-contracts.md`.
 5. Read `docs/design/dashboard-theme-mode-standard.md` before changing color, chart, shell, card, table, drawer, or form styling.
-6. For every production dashboard, read `docs/design/package-native-dashboard-starter-standard.md` and use package-native scaffolding instead of static adapters.
-7. Map the dashboard into the six-workspace information architecture.
-8. Declare the canonical route and confirm there is one production app shell.
-9. Use Mobbin references only after the data model and operating questions are understood.
-10. Prefer package primitives. Use the static adapter only for legacy bridge work.
-11. Update adoption status when a dashboard imports `@hermes/dashboard-kit` directly and moves closer to package-native usage.
-12. Run `npm run dashboard:spine:validate` from the Hermes agent project after changing adoption metadata or dashboard spine docs.
-13. Run `npm run dashboard-kit:adoption:audit` when a downstream dashboard claims it has adopted the kit.
+6. Read `docs/design/dashboard-loading-performance-standard.md` before changing route data loading, tables, charts, proof states, cache behavior, or dashboard APIs.
+7. For every production dashboard, read `docs/design/package-native-dashboard-starter-standard.md` and use package-native scaffolding instead of static adapters.
+8. Map the dashboard into the six-workspace information architecture.
+9. Declare the canonical route and confirm there is one production app shell.
+10. Use Mobbin references only after the data model and operating questions are understood.
+11. Prefer package primitives. Use the static adapter only for legacy bridge work.
+12. Update adoption status when a dashboard imports `@hermes/dashboard-kit` directly and moves closer to package-native usage.
+13. Run `npm run dashboard:spine:validate` from the Hermes agent project after changing adoption metadata or dashboard spine docs.
+14. Run `npm run dashboard-kit:adoption:audit` when a downstream dashboard claims it has adopted the kit.
 14. Run `npm run dashboard:package-native:validate` after changing package-native dashboard starter standards.
 15. Run `npm run dashboard:package-native:surface:validate -- --project-dir <project>` before calling a Tier 3 package-native dashboard complete.
 16. Capture a visual baseline with `npm run dashboard:visual-baseline:capture -- --url <local-or-proof-url>` before production approval.

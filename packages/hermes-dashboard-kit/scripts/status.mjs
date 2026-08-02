@@ -35,7 +35,12 @@ console.log(JSON.stringify({
       "DonutChart",
       "Heatmap",
       "Drawer",
-      "TimeWindowSelector"
+      "TimeWindowSelector",
+      "DashboardLoadingShell",
+      "DataFreshnessStrip",
+      "StaleDataBadge",
+      "PartialDataBanner",
+      "DashboardQueryBoundary"
     ],
   enforcement:
     [
@@ -45,7 +50,15 @@ console.log(JSON.stringify({
       "visual_selector_not_dev_gated",
       "raw_svg_chart_candidate",
       "axisless_micro_chart",
-      "crowded_table_layout"
+      "crowded_table_layout",
+      "loading_without_dashboard_loading_shell",
+      "missing_data_freshness_state",
+      "unbounded_table_without_pagination",
+      "large_inline_payload_without_deferred_loading",
+      "tier3_without_loading_performance_contract",
+      "tier3.loadingPerformanceContractMissing",
+      "tier3.dataFreshnessMissing",
+      "tier3.paginationEvidenceMissing"
     ]
 }, null, 2));
 

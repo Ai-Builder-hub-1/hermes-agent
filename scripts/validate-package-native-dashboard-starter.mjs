@@ -87,6 +87,9 @@ check("adoption registry enforces new dashboard policy", () => {
   if (registry.newDashboardPolicy?.requiresDesignReviewArtifact !== true) {
     throw new Error("newDashboardPolicy.requiresDesignReviewArtifact must be true");
   }
+  if (registry.newDashboardPolicy?.requiresLoadingPerformanceContract !== true) {
+    throw new Error("newDashboardPolicy.requiresLoadingPerformanceContract must be true");
+  }
   if (registry.newDashboardPolicy?.requiresPackageNativeSurfaceValidation !== true) {
     throw new Error("newDashboardPolicy.requiresPackageNativeSurfaceValidation must be true");
   }
@@ -101,7 +104,10 @@ check("adoption audit has enforcement gates", () => {
     "proof.playwrightConfigMissing",
     "proof.captureScriptMissing",
     "theme.modeMissing",
-    "packageNative.importMissing"
+    "packageNative.importMissing",
+    "tier3.loadingPerformanceContractMissing",
+    "tier3.dataFreshnessMissing",
+    "tier3.paginationEvidenceMissing"
   ]) {
     requireIncludes(audit, phrase, phrase);
   }
@@ -113,12 +119,26 @@ check("adoption schema accepts package-native fields", () => {
     "implementationMode",
     "staticAdapterAllowed",
     "mobbinReferenceRequired",
+    "loadingPerformanceContractRequired",
     "referenceIntake",
     "designReview",
     "captureScript",
     "proof"
   ]) {
     requireIncludes(schema, phrase, phrase);
+  }
+});
+
+check("dashboard loading performance standard exists", () => {
+  const standard = read("docs/design/dashboard-loading-performance-standard.md");
+  for (const phrase of [
+    "Dashboard Loading And Data Performance Standard",
+    "Render the single app shell first",
+    "DataFreshnessStrip",
+    "stale-while-revalidate",
+    "Performance Budgets"
+  ]) {
+    requireIncludes(standard, phrase, phrase);
   }
 });
 
@@ -214,6 +234,23 @@ check("project creation gate and CI template exist", () => {
     "dashboard-tier3-proof"
   ]) {
     requireIncludes(ci, phrase, phrase);
+  }
+});
+
+check("tier approval request command exists", () => {
+  const pkg = JSON.parse(read("package.json"));
+  if (pkg.scripts?.["dashboard:tier-approval:request"] !== "node scripts/request-dashboard-tier-approval.mjs") {
+    throw new Error("package.json must expose dashboard:tier-approval:request");
+  }
+  const approval = read("scripts/request-dashboard-tier-approval.mjs");
+  for (const phrase of [
+    "Dashboard Tier Approval Packet",
+    "approvalStatus",
+    "requiredEvidence",
+    "latest-tier-approval.md",
+    "loading performance contract"
+  ]) {
+    requireIncludes(approval, phrase, phrase);
   }
 });
 

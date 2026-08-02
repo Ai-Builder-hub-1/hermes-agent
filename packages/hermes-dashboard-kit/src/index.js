@@ -100,6 +100,159 @@ export function renderProofStrip({
   `;
 }
 
+export function renderDataFreshnessStrip({
+  items = [],
+  reviewId = "hdk.data-freshness"
+}) {
+  return `
+    <section class="hdk-data-freshness-strip" data-hdk-component="DataFreshnessStrip" data-review-id="${escapeAttr(reviewId)}">
+      ${items.map((item) => `
+        <article class="hdk-freshness hdk-state-${escapeAttr(item.state || "unknown")} hdk-tone-${escapeAttr(item.tone || statusTone(item.state))}">
+          <span>${escapeHtml(item.label)}</span>
+          <strong>${escapeHtml(item.value || item.state || "unknown")}</strong>
+          ${item.detail ? `<p>${escapeHtml(item.detail)}</p>` : ""}
+        </article>
+      `).join("")}
+    </section>
+  `;
+}
+
+export function renderStaleDataBadge({
+  label = "Stale",
+  age = "",
+  reviewId = ""
+}) {
+  return `<span class="hdk-stale-badge" data-hdk-component="StaleDataBadge"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>${escapeHtml(label)}${age ? ` · ${escapeHtml(age)}` : ""}</span>`;
+}
+
+export function renderPartialDataBanner({
+  title = "Partial data",
+  message = "Some data is still loading or unavailable. Visible metrics are safe to inspect but not complete.",
+  action = "",
+  reviewId = ""
+}) {
+  return `
+    <section class="hdk-partial-banner" data-hdk-component="PartialDataBanner"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      <strong>${escapeHtml(title)}</strong>
+      <p>${escapeHtml(message)}</p>
+      ${action ? `<div>${action}</div>` : ""}
+    </section>
+  `;
+}
+
+export function renderDashboardLoadingShell({
+  title = "Loading dashboard",
+  description = "Preparing the shell while data hydrates.",
+  children = "",
+  reviewId = "hdk.loading-shell"
+}) {
+  return `
+    <section class="hdk-loading-shell" data-hdk-component="DashboardLoadingShell" data-review-id="${escapeAttr(reviewId)}">
+      <header class="hdk-loading-shell__header">
+        <span class="hdk-loading-shell__spinner" aria-hidden="true"></span>
+        <div>
+          <h2>${escapeHtml(title)}</h2>
+          <p>${escapeHtml(description)}</p>
+        </div>
+      </header>
+      <div class="hdk-loading-shell__body">${children || renderSkeletonDashboardGrid()}</div>
+    </section>
+  `;
+}
+
+export function renderSkeletonMetricCard({
+  reviewId = ""
+} = {}) {
+  return `
+    <article class="hdk-skeleton-card hdk-skeleton-metric" data-hdk-component="SkeletonMetricCard"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      <span></span><strong></strong><p></p>
+    </article>
+  `;
+}
+
+export function renderSkeletonChart({
+  reviewId = ""
+} = {}) {
+  return `
+    <article class="hdk-skeleton-card hdk-skeleton-chart" data-hdk-component="SkeletonChart"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      <span></span><div></div>
+    </article>
+  `;
+}
+
+export function renderSkeletonTable({
+  rows = 5,
+  reviewId = ""
+} = {}) {
+  return `
+    <article class="hdk-skeleton-card hdk-skeleton-table" data-hdk-component="SkeletonTable"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      ${Array.from({ length: rows }).map(() => "<span></span>").join("")}
+    </article>
+  `;
+}
+
+export function renderSkeletonDashboardGrid({
+  reviewId = ""
+} = {}) {
+  return `
+    <div class="hdk-skeleton-dashboard-grid" data-hdk-component="SkeletonDashboardGrid"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      ${renderSkeletonMetricCard()}
+      ${renderSkeletonMetricCard()}
+      ${renderSkeletonMetricCard()}
+      ${renderSkeletonChart()}
+      ${renderSkeletonTable()}
+    </div>
+  `;
+}
+
+export function renderDashboardQueryBoundary({
+  state = "ready",
+  loadingLabel = "Loading data",
+  emptyTitle = "No data yet",
+  emptyDescription = "The system has not produced records for this view yet.",
+  staleMessage = "Showing cached data while a refresh runs.",
+  error = "",
+  children = "",
+  reviewId = ""
+}) {
+  if (state === "loading") {
+    return renderDashboardLoadingShell({
+      title:
+        loadingLabel,
+      reviewId
+    });
+  }
+  if (state === "error") {
+    return renderStatePanel({
+      state:
+        "error",
+      title:
+        "Unable to load data",
+      message:
+        error || "The data request failed.",
+      reviewId
+    });
+  }
+  if (state === "empty") {
+    return renderStatePanel({
+      state:
+        "empty",
+      title:
+        emptyTitle,
+      message:
+        emptyDescription,
+      reviewId
+    });
+  }
+  return `
+    <div class="hdk-query-boundary" data-hdk-component="DashboardQueryBoundary" data-data-state="${escapeAttr(state)}"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      ${state === "partial" ? renderPartialDataBanner() : ""}
+      ${state === "stale" ? `<div class="hdk-stale-inline">${escapeHtml(staleMessage)}</div>` : ""}
+      ${children}
+    </div>
+  `;
+}
+
 export function renderDataTable({
   columns = [],
   rows = [],

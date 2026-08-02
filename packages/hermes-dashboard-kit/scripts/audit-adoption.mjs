@@ -639,6 +639,56 @@ function evaluateTier3ShellQuality(content, surface) {
   const partToWholeContractEvidence =
     lower.includes("data-dimension=") &&
     lower.includes("data-measure=");
+  const loadingPerformanceEvidence = [
+    "dashboardloadingshell",
+    "skeletonmetriccard",
+    "skeletonchart",
+    "skeletontable",
+    "skeletondashboardgrid",
+    "dashboardqueryboundary",
+    "datafreshnessstrip",
+    "staledatabadge",
+    "partialdatabanner",
+    "data-hdk-component=\"dashboardloadingshell\"",
+    "data-hdk-component=\"dashboardqueryboundary\"",
+    "data-hdk-component=\"datafreshnessstrip\"",
+    "data-hdk-component=\"staledatabadge\"",
+    "data-hdk-component=\"partialdatabanner\"",
+    "hdk-loading-shell",
+    "hdk-skeleton",
+    "hdk-data-freshness-strip",
+    "hdk-stale-badge",
+    "hdk-partial-banner",
+    "data-data-state="
+  ];
+  const freshnessEvidence = [
+    "freshness",
+    "updatedat",
+    "lastupdated",
+    "ageseconds",
+    "stale",
+    "partial",
+    "empty",
+    "error"
+  ];
+  const paginatedEvidence = [
+    "hdk-pagination",
+    "data-hdk-component=\"pagination\"",
+    "pagesize",
+    "page-size",
+    "pagination"
+  ];
+  const heavyDataLanguage =
+    lower.includes("live") ||
+    lower.includes("usage") ||
+    lower.includes("issues") ||
+    lower.includes("errors") ||
+    lower.includes("orders") ||
+    lower.includes("snapshots") ||
+    lower.includes("markets") ||
+    lower.includes("stories") ||
+    lower.includes("approval") ||
+    lower.includes("qa");
 
   if (!sidebarEvidence.some((marker) => lower.includes(marker))) {
     issues.push(issue(
@@ -747,6 +797,48 @@ function evaluateTier3ShellQuality(content, surface) {
       "warning",
       "tier3.partToWholeContractMissing",
       "Donut/ring/pie charts must declare their dimension and measure contract.",
+      {
+        surface:
+          surface.id,
+        path:
+          surface.path
+      }
+    ));
+  }
+
+  if (heavyDataLanguage && !loadingPerformanceEvidence.some((marker) => lower.includes(marker))) {
+    issues.push(issue(
+      "warning",
+      "tier3.loadingPerformanceContractMissing",
+      "Tier 3 operational routes must use dashboard-kit loading, freshness, stale, partial, and error state primitives.",
+      {
+        surface:
+          surface.id,
+        path:
+          surface.path
+      }
+    ));
+  }
+
+  if ((lower.includes("chart") || lower.includes("table") || heavyDataLanguage) && !freshnessEvidence.some((marker) => lower.includes(marker))) {
+    issues.push(issue(
+      "warning",
+      "tier3.dataFreshnessMissing",
+      "Tier 3 data surfaces should expose last-updated/freshness evidence and honest stale, partial, empty, and error states.",
+      {
+        surface:
+          surface.id,
+        path:
+          surface.path
+      }
+    ));
+  }
+
+  if ((lower.includes("<table") || lower.includes("hdk-table")) && !paginatedEvidence.some((marker) => lower.includes(marker))) {
+    issues.push(issue(
+      "warning",
+      "tier3.paginationEvidenceMissing",
+      "Tier 3 table surfaces should show pagination, bounded page size, or table-window evidence.",
       {
         surface:
           surface.id,

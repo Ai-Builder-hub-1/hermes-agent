@@ -54,6 +54,20 @@ function validateFile(filePath, text) {
     /chart|sparkline|timeline|heatmap|donut|bar|line|area|axis|trend/i.test(text);
   const hasApprovedChart =
     /data-hdk-component=["'](?:LineChart|AreaChart|BarChart|DonutChart|Heatmap)|hdk-chart|hdk-donut|hdk-heatmap/.test(text);
+  const hasTableLanguage =
+    /<table|DataTable|market tape|queue|log|rows|records|events/i.test(text);
+  const hasApprovedPagination =
+    /data-hdk-component=["']Pagination|hdk-pagination|pageSize|page-size|pagination/i.test(text);
+  const hasLoadingLanguage =
+    /loading|hydrating|skeleton|spinner|please wait/i.test(text);
+  const hasApprovedLoading =
+    /data-hdk-component=["'](?:DashboardLoadingShell|SkeletonMetricCard|SkeletonChart|SkeletonTable|SkeletonDashboardGrid|DashboardQueryBoundary)|hdk-loading-shell|hdk-skeleton|DashboardLoadingShell|DashboardQueryBoundary/.test(text);
+  const hasFreshnessState =
+    /data-hdk-component=["'](?:DataFreshnessStrip|StaleDataBadge|PartialDataBanner|ProofStrip|StatePanel|DashboardQueryBoundary)|hdk-data-freshness-strip|hdk-stale-badge|hdk-partial-banner|data-data-state|updatedAt|lastUpdated|ageSeconds|freshness|stale|partial|empty|error/i.test(text);
+  const hardCodedRows =
+    (text.match(/<tr\b/gi) || []).length;
+  const inlinePayloadSize =
+    Math.max(...(text.match(/\[[\s\S]{12000,}?\]|\{[\s\S]{12000,}?\}/g) || [""]).map((match) => match.length));
 
   if (claimsTier3 && !hasKit) {
     add("error", filePath, "tier3_without_dashboard_kit", "Tier 3 surfaces must use @hermes/dashboard-kit components or CSS.");
@@ -81,6 +95,26 @@ function validateFile(filePath, text) {
 
   if (/display:\s*grid[\s\S]{0,500}grid-template-columns:\s*repeat\([^)]*,\s*1fr\)[\s\S]{0,900}<table/i.test(text) && !/hdk-table-wrap|tablist|tabs/i.test(text)) {
     add("warn", filePath, "crowded_table_layout", "Multiple tables should use tabs or full-width stacked layouts instead of cramped side-by-side cards.");
+  }
+
+  if (hasLoadingLanguage && !hasApprovedLoading) {
+    add("warn", filePath, "loading_without_dashboard_loading_shell", "Dashboard loading states should use DashboardLoadingShell, skeletons, or DashboardQueryBoundary.");
+  }
+
+  if ((claimsTier3 || hasChartLanguage || hasTableLanguage) && !hasFreshnessState) {
+    add("warn", filePath, "missing_data_freshness_state", "Dashboard data surfaces should expose freshness, stale, partial, empty, and error state evidence.");
+  }
+
+  if (hasTableLanguage && hardCodedRows > 100 && !hasApprovedPagination) {
+    add("error", filePath, "unbounded_table_without_pagination", "Dashboard tables with large row counts must use pagination or a bounded table component.");
+  }
+
+  if (inlinePayloadSize > 12000 && !/deferred|lazy|hydrate|cache|rollup|snapshot/i.test(text)) {
+    add("warn", filePath, "large_inline_payload_without_deferred_loading", "Large inline dashboard payloads should be cached, rolled up, or deferred instead of blocking the route.");
+  }
+
+  if (claimsTier3 && /(live|usage|issues|errors|orders|snapshots|markets|stories|approval|qa)/i.test(text) && !/DataFreshnessStrip|DashboardQueryBoundary|StaleDataBadge|PartialDataBanner|hdk-data-freshness-strip|data-data-state/i.test(text)) {
+    add("warn", filePath, "tier3_without_loading_performance_contract", "Tier 3 operational routes must use dashboard-kit loading, freshness, stale, partial, and error state primitives.");
   }
 }
 

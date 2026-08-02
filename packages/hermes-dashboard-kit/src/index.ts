@@ -21,3 +21,4 @@ export * from "./executive-reports";
 export * from "./readiness-completion";
 export * from "./data-visualization";
 export * from "./product-interface";
+export * from "./dashboard-performance";

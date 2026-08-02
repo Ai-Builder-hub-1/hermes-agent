@@ -49,6 +49,7 @@
     "dashboard:recipe:score": "node scripts/score-dashboard-recipe-compliance.mjs",
     "dashboard:tier-assessment:sync": "node scripts/sync-dashboard-tier-assessment.mjs",
     "dashboard:tier-assessment:validate": "node scripts/validate-dashboard-tier-assessment.mjs",
+    "dashboard:tier-approval:request": "node scripts/request-dashboard-tier-approval.mjs",
     "dashboard:visual-evidence:validate": "node scripts/validate-dashboard-visual-evidence.mjs",
     "dashboard:component-maturity:validate": "node scripts/validate-dashboard-component-maturity.mjs",
     "dashboard:token-enforcement:validate": "node scripts/validate-dashboard-token-enforcement.mjs",

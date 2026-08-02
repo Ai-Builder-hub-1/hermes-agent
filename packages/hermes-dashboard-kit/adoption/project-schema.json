@@ -30,6 +30,7 @@
         "packageNativeRequired": { "type": "boolean" },
         "staticAdapterAllowed": { "type": "boolean" },
         "mobbinReferenceRequired": { "type": "boolean" },
+        "loadingPerformanceContractRequired": { "type": "boolean" },
         "blockUnreviewedLocalDashboardCss": { "type": "boolean" },
         "localVisualOverridePolicy": {
           "enum": ["declared-exceptions-only", "allow-composition-only", "allow-local-overrides"]

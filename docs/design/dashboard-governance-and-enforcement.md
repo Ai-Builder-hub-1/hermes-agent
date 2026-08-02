@@ -46,6 +46,51 @@ Every new or materially redesigned dashboard surface must pass these gates in or
 | `adoption-reporting` | dashboard-kit adoption report includes the surface | project claims standards without evidence |
 | `exception-review` | any missing gate has an owner, expiry date, and migration plan | exceptions become permanent |
 
+## Tier Promotion Approval Flow
+
+Tier movement is an evidence-backed approval, not a manual label change.
+
+When a project asks to move up a tier or band, run the central approval request from `projects/nous-hermes-agent`:
+
+```bash
+npm run dashboard-kit:adoption:report
+npm run dashboard:tier-approval:request -- --project <project-id> --target-band <band>
+```
+
+Use `--strict` in CI or before release:
+
+```bash
+npm run dashboard:tier-approval:request -- --project media-engine --target-band T3C --strict
+```
+
+The command writes:
+
+- `docs/design/dashboard-review-packets/<project-id>-tier-approval.json`
+- `docs/design/dashboard-review-packets/<project-id>-tier-approval.md`
+- `docs/design/dashboard-review-packets/latest-tier-approval.json`
+- `docs/design/dashboard-review-packets/latest-tier-approval.md`
+
+Promotion status is interpreted as:
+
+| Status | Meaning | Approval Action |
+| --- | --- | --- |
+| `approved` | Current band/tier satisfies the requested target, audit is current, and no external work items remain. | Approve the tier movement and update project/adoption records. |
+| `needs-review` | No audit errors, but warnings or review gaps remain. | Hold approval unless a human reviewer records an explicit temporary exception. |
+| `blocked` | Audit errors, lower current band/tier, missing package-native evidence, missing proof, or external work remains. | Deny approval until blockers are fixed. |
+
+Required evidence for Tier 3 promotion includes:
+
+- adoption audit result is `current`
+- one shell with sidebar/header contract
+- package-native `@hermes/dashboard-kit` import for T3C
+- Mobbin/reference intake and design-review artifact
+- visual proof screenshots for desktop/mobile and relevant states
+- loading-performance contract: loading, freshness, stale, partial, empty, and error states
+- bounded tables, pagination, or explicit data windows
+- approved chart/table/drawer/state components
+
+The project manifest should not be promoted by hand before this packet says `approved`.
+
 ## Build Order Rule
 
 Dashboard work must start with the system path, not a quick page patch:
