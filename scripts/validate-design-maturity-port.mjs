@@ -12,6 +12,7 @@ const requiredDocs = [
 ];
 const summaryJsonPath = "docs/design/canonical-main-design-maturity-summary.json";
 const summaryMarkdownPath = "docs/design/canonical-main-design-maturity-summary.md";
+const deploymentRegistryPath = "docs/deployment/environments.json";
 const errors = [];
 const warnings = [];
 
@@ -46,6 +47,10 @@ if (registry) {
   if (!/^https:\/\/agent\.tlccapitalgroup\.com/.test(registry.productionUrl ?? "")) {
     fail("productionUrl must point at the Nous Hermes Agent production host.");
   }
+  if (registry.productionProvider !== "hetzner") fail("productionProvider must be hetzner.");
+  if (registry.deploymentSourceOfTruth !== deploymentRegistryPath) {
+    fail(`deploymentSourceOfTruth must be ${deploymentRegistryPath}.`);
+  }
   if ((registry.slices ?? []).length < 6) fail("Expected at least six port slices.");
 
   const slices = new Map((registry.slices ?? []).map((slice) => [slice.id, slice]));
@@ -69,6 +74,26 @@ if (registry) {
   }
   if (!(registry.externalWork ?? []).some((item) => item.name?.includes("Meal Assistant"))) {
     fail("External project evidence work must include Meal Assistant.");
+  }
+}
+
+const deploymentRegistry = readJson(deploymentRegistryPath);
+if (deploymentRegistry) {
+  const production = (deploymentRegistry.environments ?? []).find((environment) => environment.id === "nous-hermes-agent-production");
+  if (!production) {
+    fail("Deployment registry must include nous-hermes-agent-production.");
+  } else {
+    if (production.provider !== "hetzner") fail("Production provider must be hetzner.");
+    if (production.productionUrl !== "https://agent.tlccapitalgroup.com") {
+      fail("Deployment registry productionUrl must match agent.tlccapitalgroup.com.");
+    }
+    if (production.deployAutomationStatus !== "not-configured") {
+      warn("Update validation when Hetzner deploy automation is actually configured.");
+    }
+    const invalidPaths = production.knownInvalidDeployPaths ?? [];
+    if (!invalidPaths.some((item) => item.path === ".github/workflows/deploy-site.yml")) {
+      fail("Deployment registry must mark deploy-site.yml as non-production automation.");
+    }
   }
 }
 

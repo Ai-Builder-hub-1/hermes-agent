@@ -12,6 +12,15 @@ Current `main` tracks `ai-builder/main` and must stay aligned with the productio
 - Deployed ref: `codex/dashboard-design-maturity-system`
 - Production URL: `https://agent.tlccapitalgroup.com`
 - Health URL: `https://agent.tlccapitalgroup.com/api/status`
+- Production provider: Hetzner
+- Deployment source of truth: `docs/deployment/environments.json`
+- Deploy automation status: not configured in this repository
+
+## Deployment Correction
+
+`.github/workflows/deploy-site.yml` is docs-site automation, not production deployment automation for `agent.tlccapitalgroup.com`.
+
+Production deploys must not assume Vercel. The current production target is Hetzner, but the repo does not yet contain the host/service/restart/rollback contract required to automate a Hetzner deploy safely.
 
 ## Port Rules
 
@@ -30,10 +39,11 @@ Current `main` tracks `ai-builder/main` and must stay aligned with the productio
 | S3 | Port lightweight maturity reports and generators | Pending | Bring over tier assessment, gap matrix, visual evidence tasks, and promotion readiness summaries. |
 | S4 | Decide dashboard-kit package fate | Pending decision | Decide whether dashboard-kit returns as a workspace package, external package, or legacy-only artifact. |
 | S5 | Port web design intelligence UI | Blocked | Depends on S3 and S4 because current `main` does not carry the old dashboard route/component stack. |
-| S6 | Make canonical production deploy come from main | Pending | Merge approved slices and deploy from `main` or a signed release ref. |
+| S6 | Make canonical production deploy come from main | Blocked | Replace stale docs/Vercel deploy assumptions with a Hetzner deploy contract, then deploy from `main` or a signed release ref. |
 
 ## External Work
 
+- Document and wire the Hetzner production deploy contract.
 - Capture production visual evidence for Nous Hermes Agent.
 - Capture production visual evidence for Meal Assistant.
 - Capture production visual evidence for Hermes Workspace.
