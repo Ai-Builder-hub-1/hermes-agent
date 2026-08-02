@@ -66,11 +66,12 @@ runs:
           #
           # Retried: a rate-limit blip or eventual-consistency 404 on a
           # freshly-pushed HEAD would otherwise silently fall open (all lanes
-          # run — safe, but wasteful and it masks the API failure).
+          # run — safe, but wasteful and it masks the API failure). The
+          # command timeout keeps the CI classifier from blocking the entire
+          # workflow when the GitHub API call or gh process hangs on a runner.
           CHANGED=""
           for i in 1 2 3; do
-            if CHANGED="$(gh api \
-              --paginate \
+            if CHANGED="$(timeout 30s gh api \
               "repos/${REPO}/compare/${BASE_SHA}...${HEAD_SHA}" \
               --jq '.files[].filename')"; then
               break

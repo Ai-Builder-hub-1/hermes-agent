@@ -87,8 +87,20 @@ if (deploymentRegistry) {
     if (production.productionUrl !== "https://agent.tlccapitalgroup.com") {
       fail("Deployment registry productionUrl must match agent.tlccapitalgroup.com.");
     }
+    const deployAutomationStatuses = new Set(["not-configured", "contract-partially-documented", "configured"]);
+    if (!deployAutomationStatuses.has(production.deployAutomationStatus)) {
+      fail("Deployment registry deployAutomationStatus is not recognized.");
+    }
+    if (production.deployAutomationStatus === "configured") {
+      warn("Update validation to require production environment protection and deploy evidence before configured status is accepted.");
+    }
+    const runtime = production.runtime ?? {};
     if (production.deployAutomationStatus !== "not-configured") {
-      warn("Update validation when Hetzner deploy automation is actually configured.");
+      if (runtime.hostAlias !== "hermes-os") fail("Documented Hetzner host alias must be hermes-os.");
+      if (runtime.serviceManager !== "docker compose") fail("Production service manager must be docker compose.");
+      if (runtime.composeProjectPath !== "/root/apps/deploy") fail("Production compose project path must be /root/apps/deploy.");
+      if (runtime.serviceName !== "nous-hermes-agent") fail("Production compose service must be nous-hermes-agent.");
+      if (runtime.reverseProxy !== "caddy") fail("Production reverse proxy must be caddy.");
     }
     const invalidPaths = production.knownInvalidDeployPaths ?? [];
     if (!invalidPaths.some((item) => item.path === ".github/workflows/deploy-site.yml")) {

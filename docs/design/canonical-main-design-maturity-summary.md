@@ -1,6 +1,6 @@
 # Canonical Main Design Maturity Summary
 
-Generated: 2026-08-02T02:44:44.799Z
+Generated: 2026-08-02T02:57:38.022Z
 
 | Metric | Value |
 | --- | --- |
@@ -10,7 +10,7 @@ Generated: 2026-08-02T02:44:44.799Z
 | Deployed legacy ref | codex/dashboard-design-maturity-system |
 | Production URL | https://agent.tlccapitalgroup.com |
 | Production provider | hetzner |
-| Deploy automation | not-configured |
+| Deploy automation | contract-partially-documented |
 | Deployment source of truth | docs/deployment/environments.json |
 | Completed slices | 3/6 |
 | Pending slices | 0 |
@@ -32,7 +32,7 @@ Generated: 2026-08-02T02:44:44.799Z
 
 - Keep new work branched from ai-builder/main.
 - Treat Hetzner as the production provider and deploy-site.yml as docs-only automation.
-- Document the Hetzner host/service/restart/rollback contract before attempting automated production deploys.
+- Complete the Hetzner artifact/restart/rollback contract for /root/apps/deploy before attempting automated production deploys.
 - Decide whether dashboard-kit is a canonical workspace package, external package, or legacy-only artifact.
 - Capture project-owned visual evidence outside this canonical repo cleanup.
 
@@ -40,7 +40,7 @@ Generated: 2026-08-02T02:44:44.799Z
 
 | ID | Work | Status | Owner |
 | --- | --- | --- | --- |
-| D1 | Document and wire Hetzner production deploy contract | blocked | project |
+| D1 | Document and wire Hetzner production deploy contract | in-progress | project |
 | E1 | Capture Nous Hermes Agent production visual evidence | pending | project |
 | E2 | Capture Meal Assistant production visual evidence | pending | project |
 | E3 | Capture Hermes Workspace production visual evidence | pending | project |

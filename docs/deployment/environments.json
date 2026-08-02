@@ -11,14 +11,34 @@
       "canonicalRemote": "ai-builder/main",
       "canonicalBranch": "main",
       "deploySourceOfTruth": "docs/deployment/production.md",
-      "deployAutomationStatus": "not-configured",
+      "deployAutomationStatus": "contract-partially-documented",
       "runtime": {
-        "hostAlias": "unknown",
-        "serviceManager": "unknown",
-        "serviceName": "unknown",
-        "reverseProxy": "unknown",
-        "processRuntime": "unknown"
+        "hostAlias": "hermes-os",
+        "serviceManager": "docker compose",
+        "composeProjectPath": "/root/apps/deploy",
+        "composeFile": "/root/apps/deploy/docker-compose.yml",
+        "composeProject": "deploy",
+        "serviceName": "nous-hermes-agent",
+        "containerName": "deploy-nous-hermes-agent-1",
+        "reverseProxy": "caddy",
+        "reverseProxyConfig": "/root/apps/deploy/Caddyfile",
+        "internalPort": 9119,
+        "processRuntime": "Hermes dashboard inside Docker container"
       },
+      "verifiedFacts": [
+        {
+          "fact": "SSH host alias resolves and returns hostname hermes-os.",
+          "verifiedBy": "ssh hermes-os hostname"
+        },
+        {
+          "fact": "Production agent runs as Docker Compose service nous-hermes-agent in project deploy.",
+          "verifiedBy": "ssh hermes-os docker compose -f /root/apps/deploy/docker-compose.yml ps"
+        },
+        {
+          "fact": "agent.tlccapitalgroup.com reverse proxies to nous-hermes-agent:9119 through Caddy.",
+          "verifiedBy": "ssh hermes-os sed -n '1,220p' /root/apps/deploy/Caddyfile"
+        }
+      ],
       "knownInvalidDeployPaths": [
         {
           "path": ".github/workflows/deploy-site.yml",
@@ -26,10 +46,10 @@
         }
       ],
       "requiredBeforeAutomatedDeploy": [
-        "Confirm Hetzner host alias or GitHub environment secret names.",
-        "Confirm service manager and service name.",
-        "Confirm deploy strategy: git pull on host, rsync artifact, container image, or release bundle.",
-        "Confirm restart command and rollback command.",
+        "Confirm artifact source and deploy strategy for /root/apps/deploy because that directory is not a git checkout.",
+        "Confirm whether automation should rebuild only nous-hermes-agent or the full deploy compose project.",
+        "Confirm restart command and rollback command for the compose service.",
+        "Confirm environment-file and secret ownership without committing secret values.",
         "Add GitHub Actions environment protection for production.",
         "Record health-check and post-deploy evidence requirements."
       ]
