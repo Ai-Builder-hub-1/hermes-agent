@@ -33,7 +33,7 @@ const summary = {
   nextCanonicalActions: [
     "Keep new work branched from ai-builder/main.",
     "Treat Hetzner as the production provider and deploy-site.yml as docs-only automation.",
-    "Complete the Hetzner artifact/restart/rollback contract for /root/apps/deploy before attempting automated production deploys.",
+    "Treat production main promotion as a controlled cutover because Hetzner currently builds from codex/dashboard-design-maturity-system.",
     "Decide whether dashboard-kit is a canonical workspace package, external package, or legacy-only artifact.",
     "Capture project-owned visual evidence outside this canonical repo cleanup."
   ],

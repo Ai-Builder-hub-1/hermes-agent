@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-02T02:57:38.022Z",
+  "generatedAt": "2026-08-02T03:27:42.916Z",
   "canonicalBranch": "main",
   "canonicalRemote": "ai-builder/main",
   "legacyBranch": "legacy/dashboard-line",
@@ -15,11 +15,11 @@
   "completedCount": 3,
   "pendingCount": 0,
   "blockedCount": 3,
-  "externalWorkCount": 5,
+  "externalWorkCount": 6,
   "nextCanonicalActions": [
     "Keep new work branched from ai-builder/main.",
     "Treat Hetzner as the production provider and deploy-site.yml as docs-only automation.",
-    "Complete the Hetzner artifact/restart/rollback contract for /root/apps/deploy before attempting automated production deploys.",
+    "Treat production main promotion as a controlled cutover because Hetzner currently builds from codex/dashboard-design-maturity-system.",
     "Decide whether dashboard-kit is a canonical workspace package, external package, or legacy-only artifact.",
     "Capture project-owned visual evidence outside this canonical repo cleanup."
   ],
@@ -106,11 +106,13 @@
         "merge approved slices to main",
         "keep stale docs/Vercel deploy assumptions out of production runbooks",
         "maintain the Hetzner host, Docker Compose service, and Caddy route source of truth",
+        "resolve the current production build context on codex/dashboard-design-maturity-system",
         "configure Hetzner deploy automation from main or signed release ref",
         "record health evidence"
       ],
       "blocks": [
-        "D1"
+        "D1",
+        "D2"
       ]
     }
   ],
@@ -119,6 +121,13 @@
       "id": "D1",
       "name": "Document and wire Hetzner production deploy contract",
       "status": "in-progress",
+      "owner": "project",
+      "note": "Restart, rebuild, rollback shape, build context, host branch, and host commit are documented; automation remains blocked by main cutover approval and source revision labeling."
+    },
+    {
+      "id": "D2",
+      "name": "Approve production cutover from legacy dashboard branch to main",
+      "status": "blocked",
       "owner": "project"
     },
     {

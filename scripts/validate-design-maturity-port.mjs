@@ -100,7 +100,24 @@ if (deploymentRegistry) {
       if (runtime.serviceManager !== "docker compose") fail("Production service manager must be docker compose.");
       if (runtime.composeProjectPath !== "/root/apps/deploy") fail("Production compose project path must be /root/apps/deploy.");
       if (runtime.serviceName !== "nous-hermes-agent") fail("Production compose service must be nous-hermes-agent.");
+      if (runtime.buildContext !== "/root/apps/nous-hermes-agent") fail("Production build context must be /root/apps/nous-hermes-agent.");
+      if (runtime.hostCheckoutBranch !== "codex/dashboard-design-maturity-system") {
+        fail("Production host checkout branch must be recorded as codex/dashboard-design-maturity-system until main cutover is approved.");
+      }
+      if (runtime.hostCheckoutCommit !== "a28b50cdc685dd4f4512415859c3e9309dfb8ef4") {
+        fail("Production host checkout commit must match the recorded deployed legacy commit.");
+      }
       if (runtime.reverseProxy !== "caddy") fail("Production reverse proxy must be caddy.");
+      const contract = production.deploymentContract ?? {};
+      if (!contract.rebuildServiceCommand?.includes("up -d --build --no-deps nous-hermes-agent")) {
+        fail("Deployment contract must record the service rebuild command.");
+      }
+      if (!contract.routineRestartCommand?.includes("restart nous-hermes-agent")) {
+        fail("Deployment contract must record the routine restart command.");
+      }
+      if (contract.mainPromotionStatus !== "blocked") {
+        fail("Main promotion must remain blocked until product cutover is explicitly approved.");
+      }
     }
     const invalidPaths = production.knownInvalidDeployPaths ?? [];
     if (!invalidPaths.some((item) => item.path === ".github/workflows/deploy-site.yml")) {
