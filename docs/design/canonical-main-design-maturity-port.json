@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "status": "active",
+  "canonicalBranch": "main",
+  "canonicalRemote": "ai-builder/main",
+  "legacyBranch": "legacy/dashboard-line",
+  "deployedLegacyRef": "codex/dashboard-design-maturity-system",
+  "deployedCommit": "a28b50cdc685dd4f4512415859c3e9309dfb8ef4",
+  "productionUrl": "https://agent.tlccapitalgroup.com",
+  "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
+  "policy": [
+    "Do not force-push local legacy dashboard history onto ai-builder/main.",
+    "New deployable work must branch from ai-builder/main unless explicitly marked legacy-only.",
+    "Legacy dashboard maturity work must be ported in small slices with validation before it is treated as canonical.",
+    "Feature-ref production deploys are allowed only as controlled promotion events with recorded health evidence."
+  ],
+  "slices": [
+    {
+      "id": "S1",
+      "name": "Port governance and branch policy",
+      "status": "completed",
+      "canonicalMainRequired": true,
+      "scope": [
+        "canonical branch policy",
+        "legacy ref inventory",
+        "production deploy evidence",
+        "port validator"
+      ],
+      "blocks": []
+    },
+    {
+      "id": "S2",
+      "name": "Port design maturity knowledge base",
+      "status": "completed",
+      "canonicalMainRequired": true,
+      "scope": [
+        "UI vocabulary",
+        "pattern library",
+        "Mobbin workflow",
+        "design agent specification",
+        "review checklist"
+      ],
+      "blocks": []
+    },
+    {
+      "id": "S3",
+      "name": "Port lightweight maturity reports and generators",
+      "status": "completed",
+      "canonicalMainRequired": true,
+      "scope": [
+        "project tier assessment",
+        "gap matrix",
+        "visual evidence tasks",
+        "promotion readiness summaries"
+      ],
+      "blocks": ["S2"]
+    },
+    {
+      "id": "S4",
+      "name": "Decide dashboard-kit package fate",
+      "status": "pending-decision",
+      "canonicalMainRequired": false,
+      "scope": [
+        "package workspace decision",
+        "shared component package ownership",
+        "dependency and lockfile impact",
+        "compatibility with upstream Hermes web app"
+      ],
+      "blocks": ["S1"]
+    },
+    {
+      "id": "S5",
+      "name": "Port web design intelligence UI",
+      "status": "blocked",
+      "canonicalMainRequired": false,
+      "scope": [
+        "route registration",
+        "data views",
+        "dashboard-kit or local component dependency",
+        "visual and accessibility coverage"
+      ],
+      "blocks": ["S3", "S4"]
+    },
+    {
+      "id": "S6",
+      "name": "Make canonical production deploy come from main",
+      "status": "pending",
+      "canonicalMainRequired": true,
+      "scope": [
+        "merge approved slices to main",
+        "deploy from main or signed release ref",
+        "record health evidence"
+      ],
+      "blocks": ["S1", "S2", "S3"]
+    }
+  ],
+  "externalWork": [
+    {
+      "id": "E1",
+      "name": "Capture Nous Hermes Agent production visual evidence",
+      "status": "pending",
+      "owner": "project"
+    },
+    {
+      "id": "E2",
+      "name": "Capture Meal Assistant production visual evidence",
+      "status": "pending",
+      "owner": "project"
+    },
+    {
+      "id": "E3",
+      "name": "Capture Hermes Workspace production visual evidence",
+      "status": "pending",
+      "owner": "project"
+    },
+    {
+      "id": "E4",
+      "name": "Migrate individual project dashboard surfaces to their target tier",
+      "status": "pending",
+      "owner": "project"
+    }
+  ]
+}
