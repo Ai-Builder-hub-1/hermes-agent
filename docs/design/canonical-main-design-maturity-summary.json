@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-02T02:44:44.799Z",
+  "generatedAt": "2026-08-02T02:57:38.022Z",
   "canonicalBranch": "main",
   "canonicalRemote": "ai-builder/main",
   "legacyBranch": "legacy/dashboard-line",
@@ -9,7 +9,7 @@
   "productionUrl": "https://agent.tlccapitalgroup.com",
   "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
   "productionProvider": "hetzner",
-  "deployAutomationStatus": "not-configured",
+  "deployAutomationStatus": "contract-partially-documented",
   "deploymentSourceOfTruth": "docs/deployment/environments.json",
   "sliceCount": 6,
   "completedCount": 3,
@@ -19,7 +19,7 @@
   "nextCanonicalActions": [
     "Keep new work branched from ai-builder/main.",
     "Treat Hetzner as the production provider and deploy-site.yml as docs-only automation.",
-    "Document the Hetzner host/service/restart/rollback contract before attempting automated production deploys.",
+    "Complete the Hetzner artifact/restart/rollback contract for /root/apps/deploy before attempting automated production deploys.",
     "Decide whether dashboard-kit is a canonical workspace package, external package, or legacy-only artifact.",
     "Capture project-owned visual evidence outside this canonical repo cleanup."
   ],
@@ -104,7 +104,8 @@
       "canonicalMainRequired": true,
       "scope": [
         "merge approved slices to main",
-        "replace stale docs/Vercel deploy assumptions with Hetzner deployment source of truth",
+        "keep stale docs/Vercel deploy assumptions out of production runbooks",
+        "maintain the Hetzner host, Docker Compose service, and Caddy route source of truth",
         "configure Hetzner deploy automation from main or signed release ref",
         "record health evidence"
       ],
@@ -117,7 +118,7 @@
     {
       "id": "D1",
       "name": "Document and wire Hetzner production deploy contract",
-      "status": "blocked",
+      "status": "in-progress",
       "owner": "project"
     },
     {

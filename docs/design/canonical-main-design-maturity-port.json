@@ -10,7 +10,7 @@
   "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
   "deploymentSourceOfTruth": "docs/deployment/environments.json",
   "productionProvider": "hetzner",
-  "deployAutomationStatus": "not-configured",
+  "deployAutomationStatus": "contract-partially-documented",
   "policy": [
     "Do not force-push local legacy dashboard history onto ai-builder/main.",
     "New deployable work must branch from ai-builder/main unless explicitly marked legacy-only.",
@@ -91,7 +91,8 @@
       "canonicalMainRequired": true,
       "scope": [
         "merge approved slices to main",
-        "replace stale docs/Vercel deploy assumptions with Hetzner deployment source of truth",
+        "keep stale docs/Vercel deploy assumptions out of production runbooks",
+        "maintain the Hetzner host, Docker Compose service, and Caddy route source of truth",
         "configure Hetzner deploy automation from main or signed release ref",
         "record health evidence"
       ],
@@ -102,7 +103,7 @@
     {
       "id": "D1",
       "name": "Document and wire Hetzner production deploy contract",
-      "status": "blocked",
+      "status": "in-progress",
       "owner": "project"
     },
     {
