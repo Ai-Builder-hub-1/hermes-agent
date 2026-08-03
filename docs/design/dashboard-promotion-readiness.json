@@ -1,166 +1,140 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-02T01:35:06.136Z",
+  "generatedAt": "2026-08-03T22:21:19.087Z",
   "itemCount": 7,
   "items": [
     {
       "project": "khashi-vc",
       "name": "Kashi VC",
-      "currentBand": "T3A",
+      "currentBand": "T3C",
       "targetBand": "T3C",
-      "auditStatus": "needs-review",
+      "auditStatus": "current",
+      "maturityLevel": 10,
+      "maturityLabel": "telemetry-normalized and world-class",
       "visualStatus": "covered",
-      "externalWorkItems": 2,
-      "score": 51,
-      "status": "blocked",
+      "externalWorkItems": 0,
+      "score": 100,
+      "status": "promotion-ready",
       "blockers": {
         "project": [],
         "central": [],
-        "external": [
-          "external-work"
-        ]
+        "external": []
       },
-      "flatBlockers": [
-        "external-work"
-      ]
+      "flatBlockers": []
     },
     {
       "project": "media-engine",
       "name": "Media Engine",
-      "currentBand": "T3B",
+      "currentBand": "T3C",
       "targetBand": "T3C",
-      "auditStatus": "needs-review",
+      "auditStatus": "current",
+      "maturityLevel": 10,
+      "maturityLabel": "telemetry-normalized and world-class",
       "visualStatus": "covered",
-      "externalWorkItems": 1,
-      "score": 62,
-      "status": "needs-work",
+      "externalWorkItems": 0,
+      "score": 100,
+      "status": "promotion-ready",
       "blockers": {
         "project": [],
         "central": [],
-        "external": [
-          "external-work"
-        ]
+        "external": []
       },
-      "flatBlockers": [
-        "external-work"
-      ]
+      "flatBlockers": []
     },
     {
       "project": "media-business-os",
       "name": "Media Business OS",
-      "currentBand": "T1A",
+      "currentBand": "T3C",
       "targetBand": "T3C",
-      "auditStatus": "needs-review",
-      "visualStatus": "unknown",
-      "externalWorkItems": 2,
-      "score": 20,
-      "status": "blocked",
+      "auditStatus": "current",
+      "maturityLevel": 10,
+      "maturityLabel": "telemetry-normalized and world-class",
+      "visualStatus": "covered",
+      "externalWorkItems": 0,
+      "score": 100,
+      "status": "promotion-ready",
       "blockers": {
-        "project": [
-          "visual-coverage"
-        ],
+        "project": [],
         "central": [],
-        "external": [
-          "external-work"
-        ]
+        "external": []
       },
-      "flatBlockers": [
-        "visual-coverage",
-        "external-work"
-      ]
+      "flatBlockers": []
     },
     {
       "project": "business-mapper",
       "name": "Business Mapper",
-      "currentBand": "T1A",
+      "currentBand": "T2B",
       "targetBand": "T2B",
-      "auditStatus": "needs-review",
+      "auditStatus": "current",
+      "maturityLevel": 10,
+      "maturityLabel": "telemetry-normalized and world-class",
       "visualStatus": "covered",
-      "externalWorkItems": 2,
-      "score": 37,
-      "status": "blocked",
+      "externalWorkItems": 0,
+      "score": 100,
+      "status": "promotion-ready",
       "blockers": {
         "project": [],
         "central": [],
-        "external": [
-          "external-work"
-        ]
+        "external": []
       },
-      "flatBlockers": [
-        "external-work"
-      ]
+      "flatBlockers": []
     },
     {
       "project": "meal-assistant",
       "name": "Meal Assistant",
-      "currentBand": "T1A",
+      "currentBand": "T3C",
       "targetBand": "T3C",
-      "auditStatus": "needs-review",
-      "visualStatus": "needs-evidence",
-      "externalWorkItems": 2,
-      "score": 20,
-      "status": "blocked",
+      "auditStatus": "current",
+      "maturityLevel": 10,
+      "maturityLabel": "telemetry-normalized and world-class",
+      "visualStatus": "covered",
+      "externalWorkItems": 0,
+      "score": 100,
+      "status": "promotion-ready",
       "blockers": {
-        "project": [
-          "visual-coverage"
-        ],
+        "project": [],
         "central": [],
-        "external": [
-          "external-work"
-        ]
+        "external": []
       },
-      "flatBlockers": [
-        "visual-coverage",
-        "external-work"
-      ]
+      "flatBlockers": []
     },
     {
       "project": "hermes-os",
       "name": "Hermes OS",
-      "currentBand": "T0P",
+      "currentBand": "T3C",
       "targetBand": "T3C",
-      "auditStatus": "needs-review",
-      "visualStatus": "unknown",
-      "externalWorkItems": 2,
-      "score": 12,
-      "status": "blocked",
+      "auditStatus": "current",
+      "maturityLevel": 10,
+      "maturityLabel": "telemetry-normalized and world-class",
+      "visualStatus": "covered",
+      "externalWorkItems": 0,
+      "score": 100,
+      "status": "promotion-ready",
       "blockers": {
-        "project": [
-          "visual-coverage"
-        ],
+        "project": [],
         "central": [],
-        "external": [
-          "external-work"
-        ]
+        "external": []
       },
-      "flatBlockers": [
-        "visual-coverage",
-        "external-work"
-      ]
+      "flatBlockers": []
     },
     {
       "project": "tlc-capital-group-os",
       "name": "TLC Capital Group OS",
-      "currentBand": "T0P",
+      "currentBand": "T3C",
       "targetBand": "T3C",
-      "auditStatus": "needs-review",
-      "visualStatus": "unknown",
-      "externalWorkItems": 2,
-      "score": 12,
-      "status": "blocked",
+      "auditStatus": "current",
+      "maturityLevel": 10,
+      "maturityLabel": "telemetry-normalized and world-class",
+      "visualStatus": "covered",
+      "externalWorkItems": 0,
+      "score": 100,
+      "status": "promotion-ready",
       "blockers": {
-        "project": [
-          "visual-coverage"
-        ],
+        "project": [],
         "central": [],
-        "external": [
-          "external-work"
-        ]
+        "external": []
       },
-      "flatBlockers": [
-        "visual-coverage",
-        "external-work"
-      ]
+      "flatBlockers": []
     }
   ]
 }

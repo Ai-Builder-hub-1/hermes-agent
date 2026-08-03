@@ -76,17 +76,20 @@ function backlogMarkdown(data) {
   const rows = data.items.map((item) => (
     `| ${item.projectName} | ${item.priority} | \`${item.currentBand}\` | \`${item.targetBand || "unset"}\` | ${item.action} | ${item.reason} |`
   ));
+  const backlogSection = rows.length
+    ? `| Project | Priority | Current band | Target | Action | Reason |
+|---|---:|---|---|---|---|
+${rows.join("\n")}`
+    : "No blocking cross-project dashboard action items are open in the latest adoption report.";
   return `# Dashboard Cross-Project Action Backlog
 
-Date: ${data.generatedAt}  
-Source: \`${data.sourceReport}\`  
+Date: ${data.generatedAt}
+Source: \`${data.sourceReport}\`
 Purpose: track required work that cannot be completed inside Nous Hermes Agent because it belongs in another project repository.
 
 ## Backlog
 
-| Project | Priority | Current band | Target | Action | Reason |
-|---|---:|---|---|---|---|
-${rows.join("\n")}
+${backlogSection}
 
 ## Done Inside Nous Hermes Agent
 
@@ -96,11 +99,11 @@ ${rows.join("\n")}
 - Design Intelligence UI reads generated project tier data from the latest report.
 - Project tier assessment and external backlog artifacts are generated from the adoption report.
 
-## Not Done Here By Design
+## Current Interpretation
 
-- No sibling project source files were edited.
-- No Kashi, Media Engine, Media Business OS, Business Mapper, Meal Assistant, Hermes OS, or TLC Capital Group OS implementation surfaces were changed.
-- No project was promoted to a higher band unless the central audit evidence supported it.
+- Empty backlog means no current adoption-blocking work is assigned to owning project repositories.
+- Follow-up polish or expansion work should live in the roadmap, not in this blocking action backlog.
+- No project should be promoted to a higher band unless the central audit evidence supports it.
 `;
 }
 

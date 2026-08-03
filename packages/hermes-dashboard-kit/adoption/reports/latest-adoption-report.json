@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-03T20:44:50.627Z",
+  "generatedAt": "2026-08-03T22:20:08.542Z",
   "source": {
     "package": "@hermes/dashboard-kit",
     "version": "0.1.0",
@@ -88,15 +88,7 @@
         "packageJson": "../khashi-vc/package.json"
       },
       "issues": [],
-      "externalWorkItems": [
-        {
-          "ownerProject": "khashi-vc",
-          "scope": "external-project",
-          "priority": "P1",
-          "action": "Implement package-native @hermes/dashboard-kit adoption in the owning project.",
-          "reason": "Static/hybrid adapters are migration bridges only; dashboard completion requires production surfaces to import and render @hermes/dashboard-kit components."
-        }
-      ]
+      "externalWorkItems": []
     },
     {
       "project": "media-engine",
@@ -120,15 +112,7 @@
         "packageJson": "../media-engine/package.json"
       },
       "issues": [],
-      "externalWorkItems": [
-        {
-          "ownerProject": "media-engine",
-          "scope": "external-project",
-          "priority": "P1",
-          "action": "Implement package-native @hermes/dashboard-kit adoption in the owning project.",
-          "reason": "Static/hybrid adapters are migration bridges only; dashboard completion requires production surfaces to import and render @hermes/dashboard-kit components."
-        }
-      ]
+      "externalWorkItems": []
     },
     {
       "project": "media-business-os",
@@ -152,15 +136,7 @@
         "packageJson": "../media-business-operations/package.json"
       },
       "issues": [],
-      "externalWorkItems": [
-        {
-          "ownerProject": "media-business-os",
-          "scope": "external-project",
-          "priority": "P1",
-          "action": "Implement package-native @hermes/dashboard-kit adoption in the owning project.",
-          "reason": "Static/hybrid adapters are migration bridges only; dashboard completion requires production surfaces to import and render @hermes/dashboard-kit components."
-        }
-      ]
+      "externalWorkItems": []
     },
     {
       "project": "business-mapper",
@@ -184,15 +160,7 @@
         "packageJson": "../business-mapper/package.json"
       },
       "issues": [],
-      "externalWorkItems": [
-        {
-          "ownerProject": "business-mapper",
-          "scope": "external-project",
-          "priority": "P2",
-          "action": "Implement package-native @hermes/dashboard-kit adoption in the owning project.",
-          "reason": "Static/hybrid adapters are migration bridges only; dashboard completion requires production surfaces to import and render @hermes/dashboard-kit components."
-        }
-      ]
+      "externalWorkItems": []
     },
     {
       "project": "meal-assistant",
@@ -216,15 +184,7 @@
         "packageJson": "../Meal-assistant/package.json"
       },
       "issues": [],
-      "externalWorkItems": [
-        {
-          "ownerProject": "meal-assistant",
-          "scope": "external-project",
-          "priority": "P1",
-          "action": "Implement package-native @hermes/dashboard-kit adoption in the owning project.",
-          "reason": "Static/hybrid adapters are migration bridges only; dashboard completion requires production surfaces to import and render @hermes/dashboard-kit components."
-        }
-      ]
+      "externalWorkItems": []
     },
     {
       "project": "hermes-os",
@@ -248,15 +208,7 @@
         "packageJson": "../hermes/package.json"
       },
       "issues": [],
-      "externalWorkItems": [
-        {
-          "ownerProject": "hermes-os",
-          "scope": "external-project",
-          "priority": "P1",
-          "action": "Implement package-native @hermes/dashboard-kit adoption in the owning project.",
-          "reason": "Static/hybrid adapters are migration bridges only; dashboard completion requires production surfaces to import and render @hermes/dashboard-kit components."
-        }
-      ]
+      "externalWorkItems": []
     },
     {
       "project": "tlc-capital-group-os",
@@ -280,15 +232,7 @@
         "packageJson": "../tlc-capital-group-os/package.json"
       },
       "issues": [],
-      "externalWorkItems": [
-        {
-          "ownerProject": "tlc-capital-group-os",
-          "scope": "external-project",
-          "priority": "P1",
-          "action": "Implement package-native @hermes/dashboard-kit adoption in the owning project.",
-          "reason": "Static/hybrid adapters are migration bridges only; dashboard completion requires production surfaces to import and render @hermes/dashboard-kit components."
-        }
-      ]
+      "externalWorkItems": []
     }
   ]
 }

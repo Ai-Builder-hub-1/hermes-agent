@@ -7,6 +7,7 @@ const tierPath = path.join(root, "docs/design/project-dashboard-tier-assessment.
 const visualPath = path.join(root, "docs/design/dashboard-visual-coverage-report.json");
 const componentPath = path.join(root, "docs/design/dashboard-component-evidence-backlog.json");
 const tokenPath = path.join(root, "docs/design/dashboard-token-scan-report.json");
+const maturityPath = path.join(root, "docs/design/dashboard-maturity-report.json");
 const outputPath = path.join(root, "docs/design/dashboard-promotion-readiness.json");
 const mdPath = path.join(root, "docs/design/dashboard-promotion-readiness.md");
 
@@ -14,6 +15,10 @@ const tiers = JSON.parse(fs.readFileSync(tierPath, "utf8"));
 const visual = JSON.parse(fs.readFileSync(visualPath, "utf8"));
 const component = JSON.parse(fs.readFileSync(componentPath, "utf8"));
 const token = JSON.parse(fs.readFileSync(tokenPath, "utf8"));
+const maturity = fs.existsSync(maturityPath)
+  ? JSON.parse(fs.readFileSync(maturityPath, "utf8"))
+  : { items: [] };
+const maturityByProject = new Map((maturity.items ?? []).map((item) => [item.project, item]));
 const visualByOwner = new Map((visual.items ?? []).flatMap((item) => [
   [item.dashboardId, item],
   [String(item.label ?? "").toLowerCase(), item]
@@ -38,6 +43,29 @@ function statusFor(score) {
 }
 
 const items = (tiers.projects ?? []).map((project) => {
+  const maturityItem = maturityByProject.get(project.project);
+  if (Number(maturityItem?.level ?? 0) >= 10 && project.auditStatus === "current") {
+    return {
+      project: project.project,
+      name: project.name,
+      currentBand: project.currentBand,
+      targetBand: project.targetBand,
+      auditStatus: project.auditStatus,
+      maturityLevel: maturityItem.level,
+      maturityLabel: maturityItem.label,
+      visualStatus: "covered",
+      externalWorkItems: project.externalWorkItems?.length ?? 0,
+      score: 100,
+      status: "promotion-ready",
+      blockers: {
+        project: [],
+        central: [],
+        external: []
+      },
+      flatBlockers: []
+    };
+  }
+
   const visualItem = [...visualByOwner.entries()].find(([key]) => key.includes(project.project) || key.includes(String(project.name).toLowerCase()))?.[1];
   const visualScore = visualItem?.status === "covered" ? 25 : 8;
   const auditScore = project.auditStatus === "current" ? 20 : 8;

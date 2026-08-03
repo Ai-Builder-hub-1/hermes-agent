@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-03T20:44:35.896Z",
+  "generatedAt": "2026-08-03T22:20:20.928Z",
   "sourceReports": {
     "adoption": "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
     "telemetry": "docs/design/dashboard-telemetry-contract-report.json",

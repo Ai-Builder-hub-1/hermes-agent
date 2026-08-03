@@ -177,7 +177,7 @@ function externalWorkItemsFor({ result, project }) {
     });
   }
 
-  if (issueCodes.has("packageNative.bridge") || issueCodes.has("packageNative.required") || project.packageNativeRequired === true) {
+  if (issueCodes.has("packageNative.bridge") || issueCodes.has("packageNative.required")) {
     items.push({
       ownerProject: project.id,
       scope: "external-project",

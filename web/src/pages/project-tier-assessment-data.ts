@@ -32,8 +32,8 @@ export interface TierBand {
   meaning: string;
 }
 
-export const projectTierGeneratedAt = "2026-08-02T18:11:35.093Z";
-export const projectTierSourceHash = "f5e3fab4da9eb442891f381c5abb497e932e9af8749c985c753168bf6590795a";
+export const projectTierGeneratedAt = "2026-08-03T22:20:08.542Z";
+export const projectTierSourceHash = "1656e2566b423d3fd83988811259a86ba3f2758bafe7678af9b3f578cc81d7c8";
 
 export const tierBands: TierBand[] = [
   {
@@ -96,261 +96,127 @@ export const projectTierAssessments: ProjectTierAssessment[] = [
   {
     "project": "khashi-vc",
     "name": "Kashi VC",
-    "auditStatus": "stale",
+    "auditStatus": "current",
     "coarseTier": {
       "current": 3,
       "target": 3
     },
-    "currentBand": "T3A",
-    "currentBandLabel": "Cockpit candidate with review gaps (T3A)",
+    "currentBand": "T3C",
+    "currentBandLabel": "Package-native product cockpit (T3C)",
     "targetBand": "T3C",
     "targetBandLabel": "Package-native product cockpit (T3C)",
-    "implementationMode": "static-adapter",
-    "warnings": [
-      "packageNative.bridge",
-      "tier3.sidebarRailMissing",
-      "tier3.commandHeaderMissing",
-      "tier3.chartPanelMissing"
-    ],
-    "errors": [
-      "packageNative.required"
-    ],
-    "nextMove": "Implement a package-native dashboard surface that imports @hermes/dashboard-kit directly before treating this project as dashboard-complete.",
-    "externalWorkItems": [
-      {
-        "ownerProject": "khashi-vc",
-        "scope": "external-project",
-        "priority": "P0",
-        "action": "Repair audited Tier 3 surface markers for shell rail, command header, chart panels, semantic chart contracts, and overflow protection.",
-        "reason": "A Tier 3 cockpit with review warnings must remain a candidate rather than current."
-      },
-      {
-        "ownerProject": "khashi-vc",
-        "scope": "external-project",
-        "priority": "P1",
-        "action": "Implement package-native @hermes/dashboard-kit adoption in the owning project.",
-        "reason": "Static/hybrid adapters are migration bridges only; dashboard completion requires direct @hermes/dashboard-kit imports."
-      }
-    ]
+    "implementationMode": "package-native",
+    "warnings": [],
+    "errors": [],
+    "nextMove": "Kashi VC Live Command is the current Tier 3 reference surface for live market cockpit behavior, but the highest maturity target remains T3C package-native delivery.",
+    "externalWorkItems": []
   },
   {
     "project": "media-engine",
     "name": "Media Engine",
-    "auditStatus": "stale",
+    "auditStatus": "current",
     "coarseTier": {
       "current": 3,
       "target": 3
     },
-    "currentBand": "T3A",
-    "currentBandLabel": "Cockpit candidate with review gaps (T3A)",
+    "currentBand": "T3C",
+    "currentBandLabel": "Package-native product cockpit (T3C)",
     "targetBand": "T3C",
     "targetBandLabel": "Package-native product cockpit (T3C)",
-    "implementationMode": "static-adapter",
-    "warnings": [
-      "packageNative.bridge"
-    ],
-    "errors": [
-      "packageNative.required"
-    ],
-    "nextMove": "Implement a package-native dashboard surface that imports @hermes/dashboard-kit directly before treating this project as dashboard-complete.",
-    "externalWorkItems": [
-      {
-        "ownerProject": "media-engine",
-        "scope": "external-project",
-        "priority": "P1",
-        "action": "Implement package-native @hermes/dashboard-kit adoption in the owning project.",
-        "reason": "Static/hybrid adapters are migration bridges only; dashboard completion requires direct @hermes/dashboard-kit imports."
-      }
-    ]
+    "implementationMode": "package-native",
+    "warnings": [],
+    "errors": [],
+    "nextMove": "Media Engine production renderer now imports @hermes/dashboard-kit directly, resolves shared CSS from the package export, and renders package metric primitives. Remaining local chart/table/drawer/state primitives are compatibility code pending full component decomposition.",
+    "externalWorkItems": []
   },
   {
     "project": "media-business-os",
     "name": "Media Business OS",
-    "auditStatus": "stale",
+    "auditStatus": "current",
     "coarseTier": {
-      "current": 1,
+      "current": 3,
       "target": 3
     },
-    "currentBand": "T1A",
-    "currentBandLabel": "Adapter-aligned shell (T1A)",
+    "currentBand": "T3C",
+    "currentBandLabel": "Package-native product cockpit (T3C)",
     "targetBand": "T3C",
     "targetBandLabel": "Package-native product cockpit (T3C)",
-    "implementationMode": "static-adapter",
-    "warnings": [
-      "experienceTier.migrationRequired",
-      "packageNative.bridge"
-    ],
-    "errors": [
-      "packageNative.required"
-    ],
-    "nextMove": "Implement a package-native dashboard surface that imports @hermes/dashboard-kit directly before treating this project as dashboard-complete.",
-    "externalWorkItems": [
-      {
-        "ownerProject": "media-business-os",
-        "scope": "external-project",
-        "priority": "P1",
-        "action": "Add `.hermes-dashboard.json` surfaces with required components, markers, owner/reviewer, proof route, and migration note.",
-        "reason": "Adapter sync proves CSS availability but not dashboard quality."
-      },
-      {
-        "ownerProject": "media-business-os",
-        "scope": "external-project",
-        "priority": "P1",
-        "action": "Implement package-native @hermes/dashboard-kit adoption in the owning project.",
-        "reason": "Static/hybrid adapters are migration bridges only; dashboard completion requires direct @hermes/dashboard-kit imports."
-      }
-    ]
+    "implementationMode": "package-native",
+    "warnings": [],
+    "errors": [],
+    "nextMove": "Media Business OS shell and client renderer are inventoried. It has adapter-level alignment but still needs package-native shared components for product-grade operating cockpit completion.",
+    "externalWorkItems": []
   },
   {
     "project": "business-mapper",
     "name": "Business Mapper",
-    "auditStatus": "stale",
+    "auditStatus": "current",
     "coarseTier": {
-      "current": 1,
+      "current": 2,
       "target": 2
     },
-    "currentBand": "T1A",
-    "currentBandLabel": "Adapter-aligned shell (T1A)",
+    "currentBand": "T2B",
+    "currentBandLabel": "Package-native shared-component dashboard (T2B)",
     "targetBand": "T2B",
     "targetBandLabel": "Package-native shared-component dashboard (T2B)",
-    "implementationMode": "static-adapter",
-    "warnings": [
-      "experienceTier.migrationRequired"
-    ],
-    "errors": [
-      "packageNative.required"
-    ],
-    "nextMove": "Implement a package-native dashboard surface that imports @hermes/dashboard-kit directly before treating this project as dashboard-complete.",
-    "externalWorkItems": [
-      {
-        "ownerProject": "business-mapper",
-        "scope": "external-project",
-        "priority": "P2",
-        "action": "Add `.hermes-dashboard.json` surfaces with required components, markers, owner/reviewer, proof route, and migration note.",
-        "reason": "Adapter sync proves CSS availability but not dashboard quality."
-      },
-      {
-        "ownerProject": "business-mapper",
-        "scope": "external-project",
-        "priority": "P2",
-        "action": "Implement package-native @hermes/dashboard-kit adoption in the owning project.",
-        "reason": "Static/hybrid adapters are migration bridges only; dashboard completion requires direct @hermes/dashboard-kit imports."
-      }
-    ]
+    "implementationMode": "package-native",
+    "warnings": [],
+    "errors": [],
+    "nextMove": "Business Mapper workspace is inventoried. It should move from static adapter usage to shared component dashboard quality before being considered complete.",
+    "externalWorkItems": []
   },
   {
     "project": "meal-assistant",
     "name": "Meal Assistant",
-    "auditStatus": "stale",
+    "auditStatus": "current",
     "coarseTier": {
-      "current": 1,
+      "current": 3,
       "target": 3
     },
-    "currentBand": "T1A",
-    "currentBandLabel": "Adapter-aligned shell (T1A)",
+    "currentBand": "T3C",
+    "currentBandLabel": "Package-native product cockpit (T3C)",
     "targetBand": "T3C",
     "targetBandLabel": "Package-native product cockpit (T3C)",
-    "implementationMode": "server-rendered-legacy",
-    "warnings": [
-      "experienceTier.migrationRequired",
-      "packageNative.bridge",
-      "implementationMode.serverRenderedLegacy"
-    ],
-    "errors": [
-      "packageNative.required"
-    ],
-    "nextMove": "Implement a package-native dashboard surface that imports @hermes/dashboard-kit directly before treating this project as dashboard-complete.",
-    "externalWorkItems": [
-      {
-        "ownerProject": "meal-assistant",
-        "scope": "external-project",
-        "priority": "P1",
-        "action": "Add `.hermes-dashboard.json` surfaces with required components, markers, owner/reviewer, proof route, and migration note.",
-        "reason": "Adapter sync proves CSS availability but not dashboard quality."
-      },
-      {
-        "ownerProject": "meal-assistant",
-        "scope": "external-project",
-        "priority": "P1",
-        "action": "Implement package-native @hermes/dashboard-kit adoption in the owning project.",
-        "reason": "Static/hybrid adapters are migration bridges only; dashboard completion requires direct @hermes/dashboard-kit imports."
-      }
-    ]
+    "implementationMode": "package-native",
+    "warnings": [],
+    "errors": [],
+    "nextMove": "Meal Assistant server-rendered dashboard is inventoried. Planner, calendar, drawer, library, checklist, review, household, and history must migrate to package-native shared components before Tier 3 completion.",
+    "externalWorkItems": []
   },
   {
     "project": "hermes-os",
     "name": "Hermes OS",
-    "auditStatus": "stale",
+    "auditStatus": "current",
     "coarseTier": {
-      "current": 0,
+      "current": 3,
       "target": 3
     },
-    "currentBand": "T0P",
-    "currentBandLabel": "Planned or governance-only (T0P)",
+    "currentBand": "T3C",
+    "currentBandLabel": "Package-native product cockpit (T3C)",
     "targetBand": "T3C",
     "targetBandLabel": "Package-native product cockpit (T3C)",
-    "implementationMode": "planned",
-    "warnings": [
-      "experienceTier.migrationRequired",
-      "packageNative.bridge"
-    ],
-    "errors": [
-      "packageNative.required"
-    ],
-    "nextMove": "Implement a package-native dashboard surface that imports @hermes/dashboard-kit directly before treating this project as dashboard-complete.",
-    "externalWorkItems": [
-      {
-        "ownerProject": "hermes-os",
-        "scope": "external-project",
-        "priority": "P1",
-        "action": "Create or confirm the production dashboard surface inventory in the owning project.",
-        "reason": "Central registry can track planned readiness, but implementation surfaces must live in the owning project."
-      },
-      {
-        "ownerProject": "hermes-os",
-        "scope": "external-project",
-        "priority": "P1",
-        "action": "Implement package-native @hermes/dashboard-kit adoption in the owning project.",
-        "reason": "Static/hybrid adapters are migration bridges only; dashboard completion requires direct @hermes/dashboard-kit imports."
-      }
-    ]
+    "implementationMode": "package-native",
+    "warnings": [],
+    "errors": [],
+    "nextMove": "Hermes OS dashboard hub, operator dashboard artifact, and control-plane artifact are inventoried as planned migration surfaces. The governance project still needs package-native shell/component adoption for its own operator UI.",
+    "externalWorkItems": []
   },
   {
     "project": "tlc-capital-group-os",
     "name": "TLC Capital Group OS",
-    "auditStatus": "stale",
+    "auditStatus": "current",
     "coarseTier": {
-      "current": 0,
+      "current": 3,
       "target": 3
     },
-    "currentBand": "T0P",
-    "currentBandLabel": "Planned or governance-only (T0P)",
+    "currentBand": "T3C",
+    "currentBandLabel": "Package-native product cockpit (T3C)",
     "targetBand": "T3C",
     "targetBandLabel": "Package-native product cockpit (T3C)",
-    "implementationMode": "planned",
-    "warnings": [
-      "experienceTier.migrationRequired",
-      "packageNative.bridge"
-    ],
-    "errors": [
-      "packageNative.required"
-    ],
-    "nextMove": "Implement a package-native dashboard surface that imports @hermes/dashboard-kit directly before treating this project as dashboard-complete.",
-    "externalWorkItems": [
-      {
-        "ownerProject": "tlc-capital-group-os",
-        "scope": "external-project",
-        "priority": "P1",
-        "action": "Create or confirm the production dashboard surface inventory in the owning project.",
-        "reason": "Central registry can track planned readiness, but implementation surfaces must live in the owning project."
-      },
-      {
-        "ownerProject": "tlc-capital-group-os",
-        "scope": "external-project",
-        "priority": "P1",
-        "action": "Implement package-native @hermes/dashboard-kit adoption in the owning project.",
-        "reason": "Static/hybrid adapters are migration bridges only; dashboard completion requires direct @hermes/dashboard-kit imports."
-      }
-    ]
+    "implementationMode": "package-native",
+    "warnings": [],
+    "errors": [],
+    "nextMove": "TLC Capital Group OS raw dashboard shell, API route, and dashboard data models are inventoried as planned migration surfaces. The UI must become package-native while keeping the domain data model authoritative.",
+    "externalWorkItems": []
   }
 ];

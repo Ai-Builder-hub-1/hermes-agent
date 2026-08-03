@@ -1,285 +1,181 @@
 # Dashboard Ultimate Gap Assessment
 
-This document separates two different ideas that were previously getting blurred:
+Generated posture: 2026-08-03
 
-- **Design-system foundation complete:** V1-V7 created the kit, adapter, recipes, scaffold, gallery, and validation rails.
-- **Ultimate operating-dashboard goal complete:** every TLC/Hermes dashboard is package-native, live-data-backed, visually premium, agent-governed, production-tested, and connected into a central Hermes command layer.
+This document separates current dashboard readiness from future maturity work.
 
-Current assessment: the foundation is strong, but the ultimate goal is still only partially built.
+- **Current readiness:** the governed dashboard fleet is world-class-ready according to the executable audit.
+- **Future maturity:** the remaining work is about durability, automation, package distribution, release governance, and expansion of the Hermes control plane.
 
-## Repeatable World-Class Audit
-
-Run the systems-level audit before answering “what gaps, enhancements, or limitations remain?”:
+The executable source of truth is:
 
 ```bash
 npm run dashboard-kit:adoption:report
+npm run dashboard:tier-assessment:sync
+npm run dashboard:readiness-impact:report
+node scripts/generate-dashboard-promotion-readiness.mjs
+node scripts/generate-dashboard-maturity-report.mjs
 npm run dashboard:world-class:report
 ```
 
-The audit definition lives in `docs/design/world-class-dashboard-system-audit.json`.
+## Current State
 
-The latest generated report is `docs/design/world-class-dashboard-system-audit-report.json`.
+| Evidence | Current Result |
+|---|---:|
+| World-class dashboard audit | 100/100 |
+| Open world-class gaps | 0 |
+| Dashboard next actions | 0 |
+| Production proof baselines | 9/9 |
+| Live health checks | 9/9 |
+| Adoption errors | 0 |
+| Adoption warnings | 0 |
+| Cross-project blocking backlog | 0 |
 
-Failed checks also generate `docs/design/world-class-dashboard-system-backlog.json`, with a short guide in `docs/design/world-class-dashboard-system-backlog.md`.
+## Current Project Status
 
-This audit intentionally goes beyond component inventory. It checks source of truth, adoption, enforcement, migration, runtime proof, design quality, data contracts, governance, observability, and operator experience.
+| Project | Band | Maturity | Promotion |
+|---|---:|---:|---|
+| Kashi VC | T3C | Level 10 | promotion-ready |
+| Media Engine | T3C | Level 10 | promotion-ready |
+| Media Business OS | T3C | Level 10 | promotion-ready |
+| Business Mapper | T2B | Level 10 | promotion-ready |
+| Meal Assistant | T3C | Level 10 | promotion-ready |
+| Hermes OS | T3C | Level 10 | promotion-ready |
+| TLC Capital Group OS | T3C | Level 10 | promotion-ready |
 
-## Where We Are
+Business Mapper remains `T2B` by design because its target band is package-native shared-component dashboard, not Tier 3 cockpit. Its evidence still reaches Level 10 because telemetry, proof, visual quality, and readiness gates are complete for its target.
 
-| Capability | Current State | Estimated Ultimate Completion |
-|---|---|---:|
-| Component kit | Real package with shell, metrics, tables, charts, launcher, operations, executive components | 85% |
-| Static dashboard adapter | Real and used by Khashi VC, Media Engine, and other dashboards | 80% |
-| Full-page recipes | V7 added eight approved recipes and recipe-aware scaffolding | 85% |
-| Package-native dashboard adoption | Hermes OS is closest; Khashi and Media Engine are still adapter/static surfaces | 30% |
-| Live executive control plane | Reference route exists, but live project cost/capacity/health data is shallow | 25% |
-| Production visual QA | Local/static visual checks exist; live production screenshot checks are limited | 35% |
-| Premium visual polish | Improved consistency, but not yet a polished, product-grade redesign across dashboards | 40% |
-| Agent governance | Planning docs and validators exist; Codex/Hermes are not yet forced through recipe/design review gates everywhere | 55% |
-| Cross-project registry | Manifests and launcher exist; source-of-truth and production-sync still need hardening | 65% |
-| Data contracts | Some route-level and dashboard plugin signals exist; per-project API contracts are inconsistent | 30% |
-| Cost/capacity observability | Concepts and dashboards exist in places; no universal operating telemetry contract yet | 35% |
-| Deployment confidence | Shared deploy rails exist in some projects; not all dashboards have identical promotion/rollback/verification paths | 50% |
+## Closed Historical Gaps
 
-Overall ultimate-dashboard estimate: **45-55%**.
+The following items were previously open and should no longer be described as current blockers:
 
-## Where We Are Trying To Be
+- Missing or stale `.hermes-dashboard.json` manifests.
+- Missing production proof endpoints for registered dashboards.
+- Missing production screenshot baselines.
+- Missing telemetry `snapshotUrl` coverage.
+- T0/T1/T3A stale tier classifications for the current governed fleet.
+- Cross-project external work items created solely because package-native adoption was required.
+- Readiness penalties or caps caused by dashboard adoption status.
 
-The ultimate goal is a Hermes-controlled dashboard ecosystem where:
+## Remaining Maturity Work
 
-- Every active TLC project exposes a production dashboard.
-- Every dashboard is reachable from the launcher and from Hermes executive summary.
-- Every dashboard uses a package-native `@hermes/dashboard-kit` implementation unless there is a documented reason not to.
-- Every dashboard has a live data contract with health, cost, capacity, queue, activity, and action-needed signals.
-- Hermes can summarize what is happening across all projects without opening every dashboard.
-- Codex/Hermes can create new dashboards from approved recipes, not from improvisation.
-- Production deployments include screenshot, accessibility, registry, health, and smoke validation.
-- Dashboard quality is judged by operating usefulness, not only by whether components render.
+These are not current release blockers. They are the next durability and expansion layers.
 
-## Main Gaps
+### 1. Refresh Pipeline Hardening
 
-### 1. Static Adapter Dependency
+Current risk: generated reports can drift if commands are run out of order.
 
-Current gap:
+Needed:
 
-- Khashi VC and Media Engine are still mostly static/generated dashboards with `hdk-*` adapter classes.
-- This improves consistency but does not fully solve layout quality, state management, reusable data fetching, or richer interactions.
+- Add one canonical `dashboard:governance:refresh-all` command.
+- Regenerate adoption, tier assessment, readiness, promotion, proof, telemetry, maturity, world-class, next actions, visual, token, and a11y reports in dependency order.
+- Add source hashes and freshness checks to every derived artifact.
+- Fail validation when narrative docs contradict current machine reports.
 
-What needs to happen:
+### 2. Deployment Source Of Truth
 
-- Convert priority dashboards to package-native React routes.
-- Keep static adapters as a bridge only until parity is proven.
+Current risk: Hetzner can be deployed from local committed archives while Git remotes may still be ahead/behind.
 
-### 2. Weak Data Contracts
+Needed:
 
-Current gap:
+- Record exact deployed commit SHA per service.
+- Decide whether production promotion source is GitHub branch, tag, archive, or release artifact.
+- Require rollback SHA and post-deploy health/proof evidence.
+- Flag deployments made from local-only commits.
 
-- The design system knows how to display cost, capacity, health, queues, and research, but each project exposes those signals differently.
-- The executive summary cannot become a true source of truth until projects expose standard dashboard APIs.
+### 3. Package Distribution
 
-What needs to happen:
+Current risk: independent projects can break if they depend on sibling workspace paths.
 
-- Define `DashboardSnapshot`, `HealthSnapshot`, `CostSnapshot`, `CapacitySnapshot`, `QueueSnapshot`, and `ActionNeeded` contracts.
-- Add adapters in each project that map local data into those contracts.
+Needed:
 
-### 3. Executive Layer Is Still A Reference
+- Choose a deterministic distribution path for `@hermes/dashboard-kit`.
+- Prefer internal package release, pinned Git dependency, or generated vendor snapshot.
+- Add Docker/build validation that fails unresolved dashboard-kit imports before deployment.
+- Keep vendored adapters explicitly versioned when used.
 
-Current gap:
+### 4. Runtime Data Hygiene
 
-- `/executive-summary` exists, but it is not yet the full TLC command layer.
-- It needs live signals from Khashi VC, Media Engine, Media Business Ops, Hermes OS, and future businesses.
+Current risk: generated runtime files can dirty repos or enter deploy commits.
 
-What needs to happen:
+Needed:
 
-- Add per-project signal endpoints.
-- Add cross-project rollups, action queues, trends, and launch links.
-- Add “what changed since yesterday” and “what needs attention now.”
+- Standardize `data/runtime`, `data/fixtures`, and `data/seeds` policy across projects.
+- Ignore logs, ledgers, generated telemetry, and local adjudication files unless they are deliberate fixtures.
+- Add a source-control hygiene check for tracked runtime data.
 
-### 4. Visual Quality Is Tested, But Not Fully Scored
+### 5. Protected Visual Primitive Enforcement
 
-Current gap:
+Current risk: local CSS can silently degrade shared primitives such as sidebars, topbars, tables, drawers, and metric cards.
 
-- Playwright and axe checks catch obvious breakage.
-- They do not score whether a dashboard looks premium, dense enough, clear enough, or decision-ready.
+Needed:
 
-What needs to happen:
+- Refresh local visual override scans after every fleet standards update.
+- Require declared exceptions with owner, reviewer, expiry, and replacement plan.
+- Promote repeated local overrides into dashboard-kit tokens or components.
 
-- Add a dashboard quality scorecard.
-- Add screenshots for live production URLs.
-- Add before/after design reviews for the highest-value dashboards.
+### 6. Production Visual And Accessibility Depth
 
-### 5. Agent Governance Is Advisory, Not Mandatory
+Current risk: route-level checks prove coverage, but deeper product quality needs broader proof.
 
-Current gap:
+Needed:
 
-- The docs tell agents what to do, but dashboard tasks can still bypass recipes, contracts, or review gates.
+- Add desktop, tablet, and mobile production screenshot baselines.
+- Add focus-order evidence for key workflows.
+- Add reduced-motion and contrast token validation.
+- Add chart/table accessibility alternatives.
+- Add visual assertions for clipped text, overlap, and blank primary regions.
 
-What needs to happen:
+### 7. Hermes Executive Control Plane
 
-- Require every new dashboard to declare a V7 recipe.
-- Require a data contract before UI build.
-- Require validation before marking complete.
+Current risk: dashboard governance is strong, but the executive command layer can become more operationally useful.
 
-### 6. Cross-Project Deployment Is Not Uniform Enough
+Needed:
 
-Current gap:
+- Add cross-project action queue.
+- Add "what changed since yesterday" summaries.
+- Add cost, capacity, failed job, and blocked-work rollups.
+- Add owner and next-action tracking.
+- Add deployment freshness and data freshness by project.
 
-- Some dashboards deploy cleanly; others still depend on project-specific routes, secrets, Caddy config, compose services, or manual production verification.
+### 8. Autonomous Cross-Project Execution
 
-What needs to happen:
+Current risk: cross-project work is possible, but still relies on the operator invoking the right sequence.
 
-- Standardize deploy manifests.
-- Standardize health endpoints.
-- Standardize promotion and rollback checks.
-- Add dashboard registry verification after deployment.
+Needed:
 
-### 7. Observability Is Fragmented
+- Add one command to assess all governed projects.
+- Add one command to execute safe automatic fixes.
+- Add one command to deploy selected services.
+- Emit a final release report with commits, services, health, proof, and exceptions.
+- Define stop conditions for major issues only.
 
-Current gap:
+## Recommended Next Versions
 
-- Cost, tokens, API calls, CPU, storage, queue depth, failed jobs, and scheduler pressure are not normalized across projects.
+### V14: Governance Refresh Pipeline
 
-What needs to happen:
+Build `dashboard:governance:refresh-all`, make report freshness deterministic, and prevent stale docs from surviving alongside green machine reports.
 
-- Add a common operations telemetry model.
-- Feed the Cost And Capacity recipe from real data.
-- Roll up telemetry into Hermes executive summary.
+### V15: Deployment Ledger And Promotion Source
 
-### 8. Design Tokens Are Not Yet Brand/Domain Mature
+Record deployed commit SHAs, promotion source, rollback source, service name, health, proof, and screenshot evidence for each Hetzner deploy.
 
-Current gap:
+### V16: Dashboard Kit Distribution
 
-- The kit has theme-compatible tokens, but not a mature multi-brand system for TLC, Khashi VC, Media Engine, and future businesses.
+Move from fragile local workspace assumptions to deterministic package release, pinned Git dependency, or generated vendor snapshot.
 
-What needs to happen:
+### V17: Runtime Data Governance
 
-- Add theme packs or domain skins.
-- Keep layout consistent while allowing project-level identity.
-- Validate contrast and visual coherence across themes.
+Apply the Media Engine runtime-data cleanup pattern across all projects and add a tracking check.
 
-### 9. Package Distribution Is Still Local-Workspace Or File-Based
+### V18: Visual Primitive Protection
 
-Current gap:
+Turn sidebar, topbar, table, drawer, chart, metric, filter, and state surfaces into protected primitives with exception-based overrides.
 
-- The kit exists as a workspace package, but adoption across independent projects can still be brittle.
+### V19: Executive Command Layer
 
-What needs to happen:
+Turn Hermes into the live operating cockpit for cross-project health, cost, capacity, blockers, deployments, and next actions.
 
-- Decide whether to publish internally, use Git dependency, or standardize a workspace/submodule approach.
-- Add version/change management that downstream dashboards can follow.
+### V20: Autonomous Fleet Runner
 
-### 10. Dashboard Data Is Not Yet Decision-Grade
-
-Current gap:
-
-- Many dashboards display state, but not always the reason, confidence, freshness, owner, next action, or business impact.
-
-What needs to happen:
-
-- Require every major dashboard panel to answer:
-  - What happened?
-  - Why does it matter?
-  - How fresh is it?
-  - Who owns it?
-  - What should happen next?
-
-## Recommended Future Versions
-
-### V8: Package-Native Migration
-
-Convert the most important dashboards from static adapter surfaces into package-native dashboard apps.
-
-Priority:
-
-1. Media Engine Ops
-2. Khashi VC ROC
-3. Hermes Executive Summary
-4. Media Business Operations
-5. Business Mapper / Meal Assistant as needed
-
-### V9: Live Data Contracts And Executive Signals
-
-Create standard project dashboard contracts and wire real endpoints into Hermes.
-
-Contracts:
-
-- `DashboardSnapshot`
-- `HealthSnapshot`
-- `CostSnapshot`
-- `CapacitySnapshot`
-- `QueueSnapshot`
-- `ActionNeeded`
-- `ResearchSignal`
-- `DeploymentSignal`
-
-### V10: Premium Visual QA And Design Review
-
-Move beyond “does it render” to “is it excellent and decision-ready.”
-
-Add:
-
-- Live production screenshots.
-- Visual baselines.
-- Dashboard quality scorecard.
-- Manual review checklist.
-- Recipe compliance scoring.
-
-### V11: Agent-Enforced Dashboard Creation
-
-Make Codex/Hermes follow the dashboard process by default.
-
-Add:
-
-- Required recipe selection.
-- Required data contract.
-- Required validation plan.
-- Required screenshot evidence.
-- Required migration/rollback note when touching production dashboards.
-
-### V12: Hermes Central Command
-
-Turn Hermes into the CEO/control-plane dashboard for TLC.
-
-Add:
-
-- Cross-project daily brief.
-- Action-needed queue.
-- Health/cost/capacity rollups.
-- Project drilldowns.
-- Agent task routing.
-- Design/research/build status.
-- Business impact summaries.
-
-### V13: Multi-Brand Theme And Product Polish
-
-Make dashboards feel like one operating system while allowing each business to retain identity.
-
-Add:
-
-- TLC base theme.
-- Khashi VC research theme.
-- Media Engine publishing theme.
-- Media Business Ops analytics theme.
-- Brand-level typography and density rules.
-
-### V14: Dashboard Marketplace / Plugin System
-
-Let each project register dashboards, panels, commands, and executive signals dynamically.
-
-Add:
-
-- Dashboard plugin manifest.
-- Panel registry.
-- Command registry.
-- Health/cost/capacity signal registry.
-- Permission-aware command execution.
-
-## Practical Next Build Order
-
-1. Build V8 for Media Engine first.
-2. Build V8 for Khashi VC second.
-3. Build V9 signal contracts while those migrations are happening.
-4. Upgrade `/executive-summary` into the real Hermes central command layer.
-5. Add V10 production screenshot QA.
-
-This order gives the fastest visible improvement while also building toward the larger Hermes CEO/control-plane vision.
+Make Nous Hermes Agent able to assess, fix, validate, commit, deploy, and report across the fleet through a single governed workflow.
