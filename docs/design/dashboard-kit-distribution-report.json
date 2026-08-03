@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-03T22:36:03.235Z",
+  "purpose": "Tracks how registered dashboard projects consume @hermes/dashboard-kit.",
+  "checkedCount": 9,
+  "blockingGapCount": 1,
+  "warningCount": 6,
+  "entries": [
+    {
+      "id": "nous-hermes-agent.dashboard",
+      "label": "Nous Hermes Agent",
+      "projectPath": ".",
+      "status": "ready",
+      "dependency": "source-package",
+      "mode": "source-package",
+      "severity": "none",
+      "recommendation": "Nous owns the canonical package source; downstream projects consume a package artifact or approved local copy."
+    },
+    {
+      "id": "khashi-vc.roc",
+      "label": "Khashi VC ROC",
+      "projectPath": "../khashi-vc",
+      "status": "advisory",
+      "dependency": "file:../nous-hermes-agent/packages/hermes-dashboard-kit",
+      "mode": "sibling-file",
+      "severity": "warning",
+      "recommendation": "Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy."
+    },
+    {
+      "id": "media-engine.ops",
+      "label": "Media Engine Ops",
+      "projectPath": "../media-engine",
+      "status": "ready",
+      "dependency": "file:vendor/hermes-dashboard-kit",
+      "mode": "vendored-file",
+      "severity": "none",
+      "recommendation": "Keep vendor copy refreshed from Nous before promotion."
+    },
+    {
+      "id": "media-business-operations.main",
+      "label": "Media Business Operations",
+      "projectPath": "../media-business-operations",
+      "status": "advisory",
+      "dependency": "file:../nous-hermes-agent/packages/hermes-dashboard-kit",
+      "mode": "sibling-file",
+      "severity": "warning",
+      "recommendation": "Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy."
+    },
+    {
+      "id": "business-mapper.workspace",
+      "label": "Business Mapper Workspace",
+      "projectPath": "../business-mapper",
+      "status": "advisory",
+      "dependency": "file:../nous-hermes-agent/packages/hermes-dashboard-kit",
+      "mode": "sibling-file",
+      "severity": "warning",
+      "recommendation": "Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy."
+    },
+    {
+      "id": "meal-assistant.main",
+      "label": "Meal Assistant",
+      "projectPath": "../Meal-assistant",
+      "status": "advisory",
+      "dependency": "file:../nous-hermes-agent/packages/hermes-dashboard-kit",
+      "mode": "sibling-file",
+      "severity": "warning",
+      "recommendation": "Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy."
+    },
+    {
+      "id": "investing-system.roc",
+      "label": "Investing System ROC",
+      "projectPath": "../investing-system",
+      "status": "blocked",
+      "dependency": null,
+      "mode": "missing",
+      "severity": "blocking",
+      "recommendation": "Add @hermes/dashboard-kit from an approved package source."
+    },
+    {
+      "id": "hermes.workspace",
+      "label": "Hermes Workspace",
+      "projectPath": "../hermes",
+      "status": "advisory",
+      "dependency": "file:../nous-hermes-agent/packages/hermes-dashboard-kit",
+      "mode": "sibling-file",
+      "severity": "warning",
+      "recommendation": "Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy."
+    },
+    {
+      "id": "tlc-capital-group-os.main",
+      "label": "TLC Capital Group OS",
+      "projectPath": "../tlc-capital-group-os",
+      "status": "advisory",
+      "dependency": "file:../nous-hermes-agent/packages/hermes-dashboard-kit",
+      "mode": "sibling-file",
+      "severity": "warning",
+      "recommendation": "Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy."
+    }
+  ]
+}

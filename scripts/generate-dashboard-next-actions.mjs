@@ -31,7 +31,10 @@ function priorityFor(category) {
     visual: "P1",
     bridge: "P1",
     migration: "P1",
-    readiness: "P0"
+    readiness: "P0",
+    "deployment-source": "P0",
+    distribution: "P1",
+    "runtime-data": "P1"
   }[category] ?? "P2";
 }
 
@@ -41,6 +44,9 @@ const telemetry = readJson("docs/design/dashboard-telemetry-contract-report.json
 const visual = readJson("docs/design/dashboard-visual-quality-report.json", { items: [] });
 const bridge = readJson("docs/design/dashboard-bridge-coverage-report.json", { items: [] });
 const deployment = readJson("docs/design/dashboard-deployment-metadata-report.json", { items: [] });
+const deploymentLedger = readJson("docs/design/dashboard-deployment-ledger.json", { entries: [] });
+const kitDistribution = readJson("docs/design/dashboard-kit-distribution-report.json", { entries: [] });
+const runtimeData = readJson("docs/design/dashboard-runtime-data-report.json", { entries: [] });
 const migration = readJson("docs/design/dashboard-migration-codemod-plan.json", { candidates: [] });
 const readiness = readJson("docs/design/dashboard-readiness-impact.json", { impacts: [] });
 
@@ -101,6 +107,43 @@ for (const item of deployment.items ?? []) {
   add(projectKey(item.id), "deployment", "Complete Hetzner deployment metadata or remove from production registry.", `Missing: ${(item.missing ?? []).join(", ")}`, "npm run dashboard:deployment-metadata:validate");
 }
 
+for (const entry of deploymentLedger.entries ?? []) {
+  const risks = (entry.risks ?? []).filter((risk) => /source|commit|unpushed|behind|uncommitted/i.test(risk));
+  if (!risks.length) continue;
+  add(
+    projectKey(entry.id),
+    "deployment-source",
+    "Record deploy source and clear repo-state risks before the next production promotion.",
+    risks.join("; "),
+    "npm run dashboard:deployment-ledger:report",
+    false
+  );
+}
+
+for (const entry of kitDistribution.entries ?? []) {
+  if (entry.status === "ready") continue;
+  add(
+    projectKey(entry.id),
+    "distribution",
+    "Move dashboard-kit consumption to an approved distribution path.",
+    `${entry.mode}: ${entry.recommendation}`,
+    "npm run dashboard:kit-distribution:report",
+    entry.severity === "blocking"
+  );
+}
+
+for (const entry of runtimeData.entries ?? []) {
+  if (entry.status === "clean") continue;
+  add(
+    projectKey(entry.id),
+    "runtime-data",
+    "Classify tracked data as fixture/config or move generated runtime data out of git.",
+    `${entry.runtimeTrackedCount} tracked runtime-like file(s), ${entry.dirtyGeneratedCount} dirty generated file(s).`,
+    "npm run dashboard:runtime-data:report",
+    false
+  );
+}
+
 for (const candidate of migration.candidates ?? []) {
   if (candidate.status === "closed") continue;
   add(candidate.project, "migration", "Clear package-native migration codemod candidate.", `${candidate.issueCode}: ${candidate.path}`, "npm run dashboard:migration-codemod:plan");
@@ -130,6 +173,9 @@ const report = {
     "docs/design/dashboard-visual-quality-report.json",
     "docs/design/dashboard-bridge-coverage-report.json",
     "docs/design/dashboard-deployment-metadata-report.json",
+    "docs/design/dashboard-deployment-ledger.json",
+    "docs/design/dashboard-kit-distribution-report.json",
+    "docs/design/dashboard-runtime-data-report.json",
     "docs/design/dashboard-migration-codemod-plan.json",
     "docs/design/dashboard-readiness-impact.json"
   ],

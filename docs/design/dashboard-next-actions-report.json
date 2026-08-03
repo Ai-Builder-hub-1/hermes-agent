@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-03T20:44:42.221Z",
+  "generatedAt": "2026-08-03T22:35:59.188Z",
   "sourceReports": [
     "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
     "docs/design/dashboard-production-proof-registry.json",
@@ -8,10 +8,357 @@
     "docs/design/dashboard-visual-quality-report.json",
     "docs/design/dashboard-bridge-coverage-report.json",
     "docs/design/dashboard-deployment-metadata-report.json",
+    "docs/design/dashboard-deployment-ledger.json",
+    "docs/design/dashboard-kit-distribution-report.json",
+    "docs/design/dashboard-runtime-data-report.json",
     "docs/design/dashboard-migration-codemod-plan.json",
     "docs/design/dashboard-readiness-impact.json"
   ],
-  "actionCount": 0,
-  "p0Count": 0,
-  "projects": []
+  "actionCount": 19,
+  "p0Count": 9,
+  "projects": [
+    {
+      "project": "business-mapper",
+      "actionCount": 3,
+      "p0Count": 1,
+      "nextAction": {
+        "id": "business-mapper.deployment-source.5",
+        "project": "business-mapper",
+        "priority": "P0",
+        "category": "deployment-source",
+        "title": "Record deploy source and clear repo-state risks before the next production promotion.",
+        "evidence": "deployment source note missing; production commit not recorded; local branch has unpushed commits",
+        "command": "npm run dashboard:deployment-ledger:report",
+        "blocksWorldClass": false
+      },
+      "actions": [
+        {
+          "id": "business-mapper.deployment-source.5",
+          "project": "business-mapper",
+          "priority": "P0",
+          "category": "deployment-source",
+          "title": "Record deploy source and clear repo-state risks before the next production promotion.",
+          "evidence": "deployment source note missing; production commit not recorded; local branch has unpushed commits",
+          "command": "npm run dashboard:deployment-ledger:report",
+          "blocksWorldClass": false
+        },
+        {
+          "id": "business-mapper.distribution.12",
+          "project": "business-mapper",
+          "priority": "P1",
+          "category": "distribution",
+          "title": "Move dashboard-kit consumption to an approved distribution path.",
+          "evidence": "sibling-file: Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy.",
+          "command": "npm run dashboard:kit-distribution:report",
+          "blocksWorldClass": false
+        },
+        {
+          "id": "business-mapper.runtime-data.19",
+          "project": "business-mapper",
+          "priority": "P1",
+          "category": "runtime-data",
+          "title": "Classify tracked data as fixture/config or move generated runtime data out of git.",
+          "evidence": "2 tracked runtime-like file(s), 0 dirty generated file(s).",
+          "command": "npm run dashboard:runtime-data:report",
+          "blocksWorldClass": false
+        }
+      ]
+    },
+    {
+      "project": "hermes-os",
+      "actionCount": 2,
+      "p0Count": 1,
+      "nextAction": {
+        "id": "hermes-os.deployment-source.8",
+        "project": "hermes-os",
+        "priority": "P0",
+        "category": "deployment-source",
+        "title": "Record deploy source and clear repo-state risks before the next production promotion.",
+        "evidence": "deployment source note missing; production commit not recorded; local branch has unpushed commits",
+        "command": "npm run dashboard:deployment-ledger:report",
+        "blocksWorldClass": false
+      },
+      "actions": [
+        {
+          "id": "hermes-os.deployment-source.8",
+          "project": "hermes-os",
+          "priority": "P0",
+          "category": "deployment-source",
+          "title": "Record deploy source and clear repo-state risks before the next production promotion.",
+          "evidence": "deployment source note missing; production commit not recorded; local branch has unpushed commits",
+          "command": "npm run dashboard:deployment-ledger:report",
+          "blocksWorldClass": false
+        },
+        {
+          "id": "hermes-os.distribution.15",
+          "project": "hermes-os",
+          "priority": "P1",
+          "category": "distribution",
+          "title": "Move dashboard-kit consumption to an approved distribution path.",
+          "evidence": "sibling-file: Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy.",
+          "command": "npm run dashboard:kit-distribution:report",
+          "blocksWorldClass": false
+        }
+      ]
+    },
+    {
+      "project": "investing-system",
+      "actionCount": 2,
+      "p0Count": 1,
+      "nextAction": {
+        "id": "investing-system.deployment-source.7",
+        "project": "investing-system",
+        "priority": "P0",
+        "category": "deployment-source",
+        "title": "Record deploy source and clear repo-state risks before the next production promotion.",
+        "evidence": "deployment source note missing; production commit not recorded; local repo has uncommitted changes",
+        "command": "npm run dashboard:deployment-ledger:report",
+        "blocksWorldClass": false
+      },
+      "actions": [
+        {
+          "id": "investing-system.deployment-source.7",
+          "project": "investing-system",
+          "priority": "P0",
+          "category": "deployment-source",
+          "title": "Record deploy source and clear repo-state risks before the next production promotion.",
+          "evidence": "deployment source note missing; production commit not recorded; local repo has uncommitted changes",
+          "command": "npm run dashboard:deployment-ledger:report",
+          "blocksWorldClass": false
+        },
+        {
+          "id": "investing-system.distribution.14",
+          "project": "investing-system",
+          "priority": "P1",
+          "category": "distribution",
+          "title": "Move dashboard-kit consumption to an approved distribution path.",
+          "evidence": "missing: Add @hermes/dashboard-kit from an approved package source.",
+          "command": "npm run dashboard:kit-distribution:report",
+          "blocksWorldClass": true
+        }
+      ]
+    },
+    {
+      "project": "khashi-vc",
+      "actionCount": 2,
+      "p0Count": 1,
+      "nextAction": {
+        "id": "khashi-vc.deployment-source.2",
+        "project": "khashi-vc",
+        "priority": "P0",
+        "category": "deployment-source",
+        "title": "Record deploy source and clear repo-state risks before the next production promotion.",
+        "evidence": "deployment source note missing; production commit not recorded; local branch has unpushed commits",
+        "command": "npm run dashboard:deployment-ledger:report",
+        "blocksWorldClass": false
+      },
+      "actions": [
+        {
+          "id": "khashi-vc.deployment-source.2",
+          "project": "khashi-vc",
+          "priority": "P0",
+          "category": "deployment-source",
+          "title": "Record deploy source and clear repo-state risks before the next production promotion.",
+          "evidence": "deployment source note missing; production commit not recorded; local branch has unpushed commits",
+          "command": "npm run dashboard:deployment-ledger:report",
+          "blocksWorldClass": false
+        },
+        {
+          "id": "khashi-vc.distribution.10",
+          "project": "khashi-vc",
+          "priority": "P1",
+          "category": "distribution",
+          "title": "Move dashboard-kit consumption to an approved distribution path.",
+          "evidence": "sibling-file: Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy.",
+          "command": "npm run dashboard:kit-distribution:report",
+          "blocksWorldClass": false
+        }
+      ]
+    },
+    {
+      "project": "meal-assistant",
+      "actionCount": 2,
+      "p0Count": 1,
+      "nextAction": {
+        "id": "meal-assistant.deployment-source.6",
+        "project": "meal-assistant",
+        "priority": "P0",
+        "category": "deployment-source",
+        "title": "Record deploy source and clear repo-state risks before the next production promotion.",
+        "evidence": "production commit not recorded; local branch has unpushed commits",
+        "command": "npm run dashboard:deployment-ledger:report",
+        "blocksWorldClass": false
+      },
+      "actions": [
+        {
+          "id": "meal-assistant.deployment-source.6",
+          "project": "meal-assistant",
+          "priority": "P0",
+          "category": "deployment-source",
+          "title": "Record deploy source and clear repo-state risks before the next production promotion.",
+          "evidence": "production commit not recorded; local branch has unpushed commits",
+          "command": "npm run dashboard:deployment-ledger:report",
+          "blocksWorldClass": false
+        },
+        {
+          "id": "meal-assistant.distribution.13",
+          "project": "meal-assistant",
+          "priority": "P1",
+          "category": "distribution",
+          "title": "Move dashboard-kit consumption to an approved distribution path.",
+          "evidence": "sibling-file: Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy.",
+          "command": "npm run dashboard:kit-distribution:report",
+          "blocksWorldClass": false
+        }
+      ]
+    },
+    {
+      "project": "media-business-os",
+      "actionCount": 3,
+      "p0Count": 1,
+      "nextAction": {
+        "id": "media-business-os.deployment-source.4",
+        "project": "media-business-os",
+        "priority": "P0",
+        "category": "deployment-source",
+        "title": "Record deploy source and clear repo-state risks before the next production promotion.",
+        "evidence": "deployment source note missing; production commit not recorded; local branch has unpushed commits",
+        "command": "npm run dashboard:deployment-ledger:report",
+        "blocksWorldClass": false
+      },
+      "actions": [
+        {
+          "id": "media-business-os.deployment-source.4",
+          "project": "media-business-os",
+          "priority": "P0",
+          "category": "deployment-source",
+          "title": "Record deploy source and clear repo-state risks before the next production promotion.",
+          "evidence": "deployment source note missing; production commit not recorded; local branch has unpushed commits",
+          "command": "npm run dashboard:deployment-ledger:report",
+          "blocksWorldClass": false
+        },
+        {
+          "id": "media-business-os.distribution.11",
+          "project": "media-business-os",
+          "priority": "P1",
+          "category": "distribution",
+          "title": "Move dashboard-kit consumption to an approved distribution path.",
+          "evidence": "sibling-file: Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy.",
+          "command": "npm run dashboard:kit-distribution:report",
+          "blocksWorldClass": false
+        },
+        {
+          "id": "media-business-os.runtime-data.18",
+          "project": "media-business-os",
+          "priority": "P1",
+          "category": "runtime-data",
+          "title": "Classify tracked data as fixture/config or move generated runtime data out of git.",
+          "evidence": "1 tracked runtime-like file(s), 0 dirty generated file(s).",
+          "command": "npm run dashboard:runtime-data:report",
+          "blocksWorldClass": false
+        }
+      ]
+    },
+    {
+      "project": "media-engine",
+      "actionCount": 2,
+      "p0Count": 1,
+      "nextAction": {
+        "id": "media-engine.deployment-source.3",
+        "project": "media-engine",
+        "priority": "P0",
+        "category": "deployment-source",
+        "title": "Record deploy source and clear repo-state risks before the next production promotion.",
+        "evidence": "deployment source note missing; production commit not recorded; local branch has unpushed commits",
+        "command": "npm run dashboard:deployment-ledger:report",
+        "blocksWorldClass": false
+      },
+      "actions": [
+        {
+          "id": "media-engine.deployment-source.3",
+          "project": "media-engine",
+          "priority": "P0",
+          "category": "deployment-source",
+          "title": "Record deploy source and clear repo-state risks before the next production promotion.",
+          "evidence": "deployment source note missing; production commit not recorded; local branch has unpushed commits",
+          "command": "npm run dashboard:deployment-ledger:report",
+          "blocksWorldClass": false
+        },
+        {
+          "id": "media-engine.runtime-data.17",
+          "project": "media-engine",
+          "priority": "P1",
+          "category": "runtime-data",
+          "title": "Classify tracked data as fixture/config or move generated runtime data out of git.",
+          "evidence": "9 tracked runtime-like file(s), 0 dirty generated file(s).",
+          "command": "npm run dashboard:runtime-data:report",
+          "blocksWorldClass": false
+        }
+      ]
+    },
+    {
+      "project": "nous-hermes-agent",
+      "actionCount": 1,
+      "p0Count": 1,
+      "nextAction": {
+        "id": "nous-hermes-agent.deployment-source.1",
+        "project": "nous-hermes-agent",
+        "priority": "P0",
+        "category": "deployment-source",
+        "title": "Record deploy source and clear repo-state risks before the next production promotion.",
+        "evidence": "deployment source note missing; production commit not recorded; local repo has uncommitted changes; local branch has unpushed commits",
+        "command": "npm run dashboard:deployment-ledger:report",
+        "blocksWorldClass": false
+      },
+      "actions": [
+        {
+          "id": "nous-hermes-agent.deployment-source.1",
+          "project": "nous-hermes-agent",
+          "priority": "P0",
+          "category": "deployment-source",
+          "title": "Record deploy source and clear repo-state risks before the next production promotion.",
+          "evidence": "deployment source note missing; production commit not recorded; local repo has uncommitted changes; local branch has unpushed commits",
+          "command": "npm run dashboard:deployment-ledger:report",
+          "blocksWorldClass": false
+        }
+      ]
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "actionCount": 2,
+      "p0Count": 1,
+      "nextAction": {
+        "id": "tlc-capital-group-os.deployment-source.9",
+        "project": "tlc-capital-group-os",
+        "priority": "P0",
+        "category": "deployment-source",
+        "title": "Record deploy source and clear repo-state risks before the next production promotion.",
+        "evidence": "deployment source note missing; production commit not recorded; local branch has unpushed commits",
+        "command": "npm run dashboard:deployment-ledger:report",
+        "blocksWorldClass": false
+      },
+      "actions": [
+        {
+          "id": "tlc-capital-group-os.deployment-source.9",
+          "project": "tlc-capital-group-os",
+          "priority": "P0",
+          "category": "deployment-source",
+          "title": "Record deploy source and clear repo-state risks before the next production promotion.",
+          "evidence": "deployment source note missing; production commit not recorded; local branch has unpushed commits",
+          "command": "npm run dashboard:deployment-ledger:report",
+          "blocksWorldClass": false
+        },
+        {
+          "id": "tlc-capital-group-os.distribution.16",
+          "project": "tlc-capital-group-os",
+          "priority": "P1",
+          "category": "distribution",
+          "title": "Move dashboard-kit consumption to an approved distribution path.",
+          "evidence": "sibling-file: Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy.",
+          "command": "npm run dashboard:kit-distribution:report",
+          "blocksWorldClass": false
+        }
+      ]
+    }
+  ]
 }

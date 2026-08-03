@@ -1,0 +1,420 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-03T22:35:57.950Z",
+  "purpose": "Cross-project deployment source ledger for Hetzner dashboard promotion and rollback review.",
+  "checkedCount": 9,
+  "missingSourceCount": 0,
+  "trackedWithRisksCount": 9,
+  "entries": [
+    {
+      "id": "nous-hermes-agent.dashboard",
+      "label": "Nous Hermes Agent",
+      "projectPath": ".",
+      "projectRoot": ".",
+      "url": "https://agent.tlccapitalgroup.com",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "nous-hermes-agent",
+        "buildContext": "/root/apps/nous-hermes-agent",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
+        "source": null,
+        "sourceCommit": null
+      },
+      "repo": {
+        "branch": "main",
+        "commit": "d34605cf492818d876a321001ed05a162b503399",
+        "shortCommit": "d34605cf4928",
+        "statusBranch": "## main...ai-builder/main [ahead 1]",
+        "clean": false,
+        "dirtyCount": 40,
+        "sourceDirtyCount": 10,
+        "evidenceDirtyCount": 30,
+        "dirtyFiles": [
+          "M docs/design/dashboard-bridge-coverage-report.json",
+          " M docs/design/dashboard-cross-project-action-backlog.json",
+          " M docs/design/dashboard-cross-project-action-backlog.md",
+          " M docs/design/dashboard-deployment-metadata-report.json",
+          " M docs/design/dashboard-governance-ci-gates.json",
+          " M docs/design/dashboard-health-report.json",
+          " M docs/design/dashboard-maturity-report.json",
+          " M docs/design/dashboard-next-actions-report.json",
+          " M docs/design/dashboard-next-actions-report.md",
+          " M docs/design/dashboard-production-dns-report.json",
+          " M docs/design/dashboard-production-proof-registry.json",
+          " M docs/design/dashboard-project-validation-profiles-report.json",
+          " M docs/design/dashboard-promotion-readiness.json",
+          " M docs/design/dashboard-promotion-readiness.md",
+          " M docs/design/dashboard-readiness-impact.json",
+          " M docs/design/dashboard-telemetry-contract-report.json",
+          " M docs/design/dashboard-visual-quality-report.json",
+          " M docs/design/project-dashboard-tier-assessment.json",
+          " M docs/design/world-class-dashboard-system-audit-report.json",
+          " M docs/design/world-class-dashboard-system-backlog.json"
+        ],
+        "sourceDirtyFiles": [
+          " M package.json",
+          " M scripts/generate-dashboard-next-actions.mjs",
+          " M scripts/summarize-dashboard-standards.mjs",
+          " M scripts/validate-dashboard-maturity-reports.mjs",
+          "?? scripts/dashboard-report-utils.mjs",
+          "?? scripts/generate-dashboard-deployment-ledger.mjs",
+          "?? scripts/refresh-dashboard-governance.mjs",
+          "?? scripts/scan-dashboard-kit-distribution.mjs",
+          "?? scripts/scan-dashboard-runtime-data.mjs",
+          "?? scripts/validate-dashboard-deployment-ledger.mjs"
+        ],
+        "evidenceDirtyFiles": [
+          "M docs/design/dashboard-bridge-coverage-report.json",
+          " M docs/design/dashboard-cross-project-action-backlog.json",
+          " M docs/design/dashboard-cross-project-action-backlog.md",
+          " M docs/design/dashboard-deployment-metadata-report.json",
+          " M docs/design/dashboard-governance-ci-gates.json",
+          " M docs/design/dashboard-health-report.json",
+          " M docs/design/dashboard-maturity-report.json",
+          " M docs/design/dashboard-next-actions-report.json",
+          " M docs/design/dashboard-next-actions-report.md",
+          " M docs/design/dashboard-production-dns-report.json",
+          " M docs/design/dashboard-production-proof-registry.json",
+          " M docs/design/dashboard-project-validation-profiles-report.json",
+          " M docs/design/dashboard-promotion-readiness.json",
+          " M docs/design/dashboard-promotion-readiness.md",
+          " M docs/design/dashboard-readiness-impact.json",
+          " M docs/design/dashboard-telemetry-contract-report.json",
+          " M docs/design/dashboard-visual-quality-report.json",
+          " M docs/design/project-dashboard-tier-assessment.json",
+          " M docs/design/world-class-dashboard-system-audit-report.json",
+          " M docs/design/world-class-dashboard-system-backlog.json"
+        ],
+        "ahead": 1,
+        "behind": 0
+      },
+      "status": "tracked-with-risks",
+      "missing": [],
+      "risks": [
+        "deployment source note missing",
+        "production commit not recorded",
+        "local repo has uncommitted changes",
+        "local branch has unpushed commits"
+      ]
+    },
+    {
+      "id": "khashi-vc.roc",
+      "label": "Khashi VC ROC",
+      "projectPath": "../khashi-vc",
+      "projectRoot": "../khashi-vc",
+      "url": "https://roc.tlccapitalgroup.com/",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "khashi",
+        "buildContext": "/root/apps/khashi-vc",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
+        "source": null,
+        "sourceCommit": null
+      },
+      "repo": {
+        "branch": "main",
+        "commit": "c4fedfb803406c77f0c28cf29e1a6f325195ac01",
+        "shortCommit": "c4fedfb80340",
+        "statusBranch": "## main...origin/main [ahead 1]",
+        "clean": true,
+        "dirtyCount": 0,
+        "sourceDirtyCount": 0,
+        "evidenceDirtyCount": 0,
+        "dirtyFiles": [],
+        "sourceDirtyFiles": [],
+        "evidenceDirtyFiles": [],
+        "ahead": 1,
+        "behind": 0
+      },
+      "status": "tracked-with-risks",
+      "missing": [],
+      "risks": [
+        "deployment source note missing",
+        "production commit not recorded",
+        "local branch has unpushed commits"
+      ]
+    },
+    {
+      "id": "media-engine.ops",
+      "label": "Media Engine Ops",
+      "projectPath": "../media-engine",
+      "projectRoot": "../media-engine",
+      "url": "https://media.tlccapitalgroup.com/dashboard",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "media-engine-dashboard",
+        "buildContext": "/root/apps/media-engine",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
+        "source": null,
+        "sourceCommit": null
+      },
+      "repo": {
+        "branch": "main",
+        "commit": "1f756615b8b16a1782e70056ec4e04050aa21166",
+        "shortCommit": "1f756615b8b1",
+        "statusBranch": "## main...origin/main [ahead 4]",
+        "clean": true,
+        "dirtyCount": 0,
+        "sourceDirtyCount": 0,
+        "evidenceDirtyCount": 0,
+        "dirtyFiles": [],
+        "sourceDirtyFiles": [],
+        "evidenceDirtyFiles": [],
+        "ahead": 4,
+        "behind": 0
+      },
+      "status": "tracked-with-risks",
+      "missing": [],
+      "risks": [
+        "deployment source note missing",
+        "production commit not recorded",
+        "local branch has unpushed commits"
+      ]
+    },
+    {
+      "id": "media-business-operations.main",
+      "label": "Media Business Operations",
+      "projectPath": "../media-business-operations",
+      "projectRoot": "../media-business-operations",
+      "url": "https://media-business-operations.tlccapitalgroup.com/dashboard",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "media-business-operations",
+        "buildContext": "/root/apps/media-business-operations",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
+        "source": null,
+        "sourceCommit": null
+      },
+      "repo": {
+        "branch": "main",
+        "commit": "ce981f47113743cdc1990e184ec1c8bd3d88adc0",
+        "shortCommit": "ce981f471137",
+        "statusBranch": "## main...origin/main [ahead 2]",
+        "clean": true,
+        "dirtyCount": 0,
+        "sourceDirtyCount": 0,
+        "evidenceDirtyCount": 0,
+        "dirtyFiles": [],
+        "sourceDirtyFiles": [],
+        "evidenceDirtyFiles": [],
+        "ahead": 2,
+        "behind": 0
+      },
+      "status": "tracked-with-risks",
+      "missing": [],
+      "risks": [
+        "deployment source note missing",
+        "production commit not recorded",
+        "local branch has unpushed commits"
+      ]
+    },
+    {
+      "id": "business-mapper.workspace",
+      "label": "Business Mapper Workspace",
+      "projectPath": "../business-mapper",
+      "projectRoot": "../business-mapper",
+      "url": "https://business-mapper.tlccapitalgroup.com/dashboard",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "business-mapper",
+        "buildContext": "/root/apps/business-mapper",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
+        "source": null,
+        "sourceCommit": null
+      },
+      "repo": {
+        "branch": "main",
+        "commit": "b34b118b1f9066dbc9a841c8016bebb9f8e7e5a3",
+        "shortCommit": "b34b118b1f90",
+        "statusBranch": "## main...origin/main [ahead 1]",
+        "clean": true,
+        "dirtyCount": 0,
+        "sourceDirtyCount": 0,
+        "evidenceDirtyCount": 0,
+        "dirtyFiles": [],
+        "sourceDirtyFiles": [],
+        "evidenceDirtyFiles": [],
+        "ahead": 1,
+        "behind": 0
+      },
+      "status": "tracked-with-risks",
+      "missing": [],
+      "risks": [
+        "deployment source note missing",
+        "production commit not recorded",
+        "local branch has unpushed commits"
+      ]
+    },
+    {
+      "id": "meal-assistant.main",
+      "label": "Meal Assistant",
+      "projectPath": "../Meal-assistant",
+      "projectRoot": "../Meal-assistant",
+      "url": "https://meal.tlccapitalgroup.com/",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "meal-assistant",
+        "buildContext": "/root/apps/Meal-assistant",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
+        "source": "hetzner-deploy-verified-2026-08-03",
+        "sourceCommit": null
+      },
+      "repo": {
+        "branch": "main",
+        "commit": "33049524b2f1292461e1b1a97491f07351154be7",
+        "shortCommit": "33049524b2f1",
+        "statusBranch": "## main...origin/main [ahead 1]",
+        "clean": true,
+        "dirtyCount": 0,
+        "sourceDirtyCount": 0,
+        "evidenceDirtyCount": 0,
+        "dirtyFiles": [],
+        "sourceDirtyFiles": [],
+        "evidenceDirtyFiles": [],
+        "ahead": 1,
+        "behind": 0
+      },
+      "status": "tracked-with-risks",
+      "missing": [],
+      "risks": [
+        "production commit not recorded",
+        "local branch has unpushed commits"
+      ]
+    },
+    {
+      "id": "investing-system.roc",
+      "label": "Investing System ROC",
+      "projectPath": "../investing-system",
+      "projectRoot": "../investing-system",
+      "url": "https://investing.tlccapitalgroup.com/roc",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "investing-system",
+        "buildContext": "/root/apps/investing-system",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
+        "source": null,
+        "sourceCommit": null
+      },
+      "repo": {
+        "branch": "main",
+        "commit": "4a6db7a83f8a7e4dfb5672e021b1d060ab1c27a1",
+        "shortCommit": "4a6db7a83f8a",
+        "statusBranch": "## main...origin/main",
+        "clean": false,
+        "dirtyCount": 2,
+        "sourceDirtyCount": 2,
+        "evidenceDirtyCount": 0,
+        "dirtyFiles": [
+          "M docs/strategic-vision.md",
+          " M src/api/server.ts"
+        ],
+        "sourceDirtyFiles": [
+          "M docs/strategic-vision.md",
+          " M src/api/server.ts"
+        ],
+        "evidenceDirtyFiles": [],
+        "ahead": 0,
+        "behind": 0
+      },
+      "status": "tracked-with-risks",
+      "missing": [],
+      "risks": [
+        "deployment source note missing",
+        "production commit not recorded",
+        "local repo has uncommitted changes"
+      ]
+    },
+    {
+      "id": "hermes.workspace",
+      "label": "Hermes Workspace",
+      "projectPath": "../hermes",
+      "projectRoot": "../hermes",
+      "url": "https://hermes.tlccapitalgroup.com/",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "hermes",
+        "buildContext": "/root/apps/hermes",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
+        "source": null,
+        "sourceCommit": null
+      },
+      "repo": {
+        "branch": "deploy/hermes-workspace-hetzner",
+        "commit": "aa83c52a6e5bb5bda61966a8efcf17d4970c1ca5",
+        "shortCommit": "aa83c52a6e5b",
+        "statusBranch": "## deploy/hermes-workspace-hetzner...origin/deploy/hermes-workspace-hetzner [ahead 1]",
+        "clean": true,
+        "dirtyCount": 0,
+        "sourceDirtyCount": 0,
+        "evidenceDirtyCount": 0,
+        "dirtyFiles": [],
+        "sourceDirtyFiles": [],
+        "evidenceDirtyFiles": [],
+        "ahead": 1,
+        "behind": 0
+      },
+      "status": "tracked-with-risks",
+      "missing": [],
+      "risks": [
+        "deployment source note missing",
+        "production commit not recorded",
+        "local branch has unpushed commits"
+      ]
+    },
+    {
+      "id": "tlc-capital-group-os.main",
+      "label": "TLC Capital Group OS",
+      "projectPath": "../tlc-capital-group-os",
+      "projectRoot": "../tlc-capital-group-os",
+      "url": "https://tlc.tlccapitalgroup.com/dashboard",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "tlc-capital-group-os",
+        "buildContext": "/root/apps/tlc-capital-group-os",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
+        "source": null,
+        "sourceCommit": null
+      },
+      "repo": {
+        "branch": "main",
+        "commit": "c66123fe4647861c6af260374efccb5e8b15d13b",
+        "shortCommit": "c66123fe4647",
+        "statusBranch": "## main...origin/main [ahead 2]",
+        "clean": true,
+        "dirtyCount": 0,
+        "sourceDirtyCount": 0,
+        "evidenceDirtyCount": 0,
+        "dirtyFiles": [],
+        "sourceDirtyFiles": [],
+        "evidenceDirtyFiles": [],
+        "ahead": 2,
+        "behind": 0
+      },
+      "status": "tracked-with-risks",
+      "missing": [],
+      "risks": [
+        "deployment source note missing",
+        "production commit not recorded",
+        "local branch has unpushed commits"
+      ]
+    }
+  ]
+}

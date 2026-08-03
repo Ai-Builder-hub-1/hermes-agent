@@ -85,6 +85,30 @@
       "appliesTo": ["dashboard evidence changes", "promotion", "release", "deploy"]
     },
     {
+      "id": "deployment-ledger",
+      "command": "npm run dashboard:deployment-ledger:validate",
+      "level": "blocking",
+      "appliesTo": ["promotion", "release", "deploy"]
+    },
+    {
+      "id": "dashboard-kit-distribution",
+      "command": "npm run dashboard:kit-distribution:report",
+      "level": "advisory",
+      "appliesTo": ["registered dashboard projects", "package-native adoption", "release manager review"]
+    },
+    {
+      "id": "runtime-data-governance",
+      "command": "npm run dashboard:runtime-data:report",
+      "level": "advisory",
+      "appliesTo": ["registered dashboard projects", "release manager review"]
+    },
+    {
+      "id": "governance-refresh-all",
+      "command": "npm run dashboard:governance:refresh-all",
+      "level": "advisory",
+      "appliesTo": ["weekly governance refresh", "cross-project maturity review"]
+    },
+    {
       "id": "branch-protection",
       "command": "npm run dashboard:branch-protection:verify",
       "level": "advisory",

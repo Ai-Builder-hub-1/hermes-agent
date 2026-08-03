@@ -15,6 +15,10 @@ const required = [
   "docs/design/dashboard-token-scan-report.json",
   "docs/design/dashboard-token-suppressions.json",
   "docs/design/dashboard-token-debt-backlog.json",
+  "docs/design/dashboard-governance-refresh-report.json",
+  "docs/design/dashboard-deployment-ledger.json",
+  "docs/design/dashboard-kit-distribution-report.json",
+  "docs/design/dashboard-runtime-data-report.json",
   "docs/design/project-status-ledger.json",
   "docs/design/dashboard-pr-artifacts/latest.json",
   "web/src/pages/dashboard-maturity-data.ts"
@@ -48,7 +52,11 @@ if (!issues.some((item) => item.severity === "error")) {
   const tokenReport = JSON.parse(fs.readFileSync(path.join(root, required[7]), "utf8"));
   const tokenSuppressions = JSON.parse(fs.readFileSync(path.join(root, required[8]), "utf8"));
   const tokenDebt = JSON.parse(fs.readFileSync(path.join(root, required[9]), "utf8"));
-  const projectStatusLedger = JSON.parse(fs.readFileSync(path.join(root, required[10]), "utf8"));
+  const governanceRefresh = JSON.parse(fs.readFileSync(path.join(root, required[10]), "utf8"));
+  const deploymentLedger = JSON.parse(fs.readFileSync(path.join(root, required[11]), "utf8"));
+  const kitDistribution = JSON.parse(fs.readFileSync(path.join(root, required[12]), "utf8"));
+  const runtimeData = JSON.parse(fs.readFileSync(path.join(root, required[13]), "utf8"));
+  const projectStatusLedger = JSON.parse(fs.readFileSync(path.join(root, required[14]), "utf8"));
   if (!Array.isArray(componentBacklog.items)) issue("error", "Component evidence backlog must include items.");
   if ((certification.itemCount ?? 0) < 1) issue("error", "Component certification checklist must include components.");
   if ((visualCoverage.dashboardCount ?? 0) < 1) issue("error", "Visual coverage report must include dashboards.");
@@ -60,6 +68,10 @@ if (!issues.some((item) => item.severity === "error")) {
   if (tokenReport.advisory !== true) issue("error", "Full token scan report must be advisory.");
   if (!Array.isArray(tokenSuppressions.suppressions)) issue("error", "Token suppressions must include suppressions.");
   if (!Array.isArray(tokenDebt.items)) issue("error", "Token debt backlog must include items.");
+  if ((governanceRefresh.checkedCount ?? 0) < 1) issue("error", "Governance refresh report must include checks.");
+  if ((deploymentLedger.checkedCount ?? 0) < 1) issue("error", "Deployment ledger must include projects.");
+  if ((kitDistribution.checkedCount ?? 0) < 1) issue("error", "Kit distribution report must include projects.");
+  if ((runtimeData.checkedCount ?? 0) < 1) issue("error", "Runtime data report must include projects.");
   if (!Array.isArray(projectStatusLedger.projects) || projectStatusLedger.projects.length < 1) issue("error", "Project status ledger must include projects.");
   if (!projectStatusLedger.crossProject) issue("error", "Project status ledger must include crossProject summary.");
 }

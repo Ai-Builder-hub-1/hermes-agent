@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-03T22:35:59.301Z",
+  "status": "passed",
+  "includedLiveChecks": false,
+  "includedScreenshotCapture": false,
+  "checkedCount": 18,
+  "failedCount": 0,
+  "results": [
+    {
+      "id": "dashboard-kit:adoption:report",
+      "command": "npm run dashboard-kit:adoption:report",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 139,
+      "summary": [
+        "│ (index) │ project                │ status    │ tier       │ band  │ mode             │ actions │ errors │ warnings │",
+        "Wrote adoption report: packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json"
+      ]
+    },
+    {
+      "id": "dashboard:tier-assessment:sync",
+      "command": "npm run dashboard:tier-assessment:sync",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 94,
+      "summary": [
+        "Wrote docs/design/project-dashboard-tier-assessment.json",
+        "Wrote docs/design/dashboard-cross-project-action-backlog.json",
+        "Wrote docs/design/dashboard-cross-project-action-backlog.md",
+        "Wrote web/src/pages/project-tier-assessment-data.ts"
+      ]
+    },
+    {
+      "id": "dashboard:readiness-impact:report",
+      "command": "npm run dashboard:readiness-impact:report",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 93,
+      "summary": [
+        "Wrote docs/design/dashboard-readiness-impact.json"
+      ]
+    },
+    {
+      "id": "dashboard:deployment-metadata:validate",
+      "command": "npm run dashboard:deployment-metadata:validate",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 96,
+      "summary": [
+        "Dashboard deployment metadata validation passed (9)."
+      ]
+    },
+    {
+      "id": "dashboard:deployment-ledger:report",
+      "command": "npm run dashboard:deployment-ledger:report",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 588,
+      "summary": [
+        "Wrote docs/design/dashboard-deployment-ledger.json and docs/design/dashboard-deployment-ledger.md"
+      ]
+    },
+    {
+      "id": "dashboard:kit-distribution:report",
+      "command": "npm run dashboard:kit-distribution:report",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 111,
+      "summary": [
+        "Dashboard kit distribution: 1 blocking gap(s), 6 warning(s).",
+        "Wrote docs/design/dashboard-kit-distribution-report.json and docs/design/dashboard-kit-distribution-report.md"
+      ]
+    },
+    {
+      "id": "dashboard:runtime-data:report",
+      "command": "npm run dashboard:runtime-data:report",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 282,
+      "summary": [
+        "Dashboard runtime data scan: 3 project(s) need review.",
+        "Wrote docs/design/dashboard-runtime-data-report.json and docs/design/dashboard-runtime-data-report.md"
+      ]
+    },
+    {
+      "id": "dashboard:telemetry-contract:report",
+      "command": "npm run dashboard:telemetry-contract:report",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 92,
+      "summary": [
+        "Wrote docs/design/dashboard-telemetry-contract-report.json"
+      ]
+    },
+    {
+      "id": "dashboard:production-dns:validate",
+      "command": "npm run dashboard:production-dns:validate",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 104,
+      "summary": [
+        "\"localDnsOk\": 9,",
+        "\"captureFallbackOk\": 0,",
+        "\"dnsGap\": 0",
+        "}"
+      ]
+    },
+    {
+      "id": "dashboard:production-proof:registry",
+      "command": "npm run dashboard:production-proof:registry",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 101,
+      "summary": [
+        "Wrote docs/design/dashboard-production-proof-registry.json"
+      ]
+    },
+    {
+      "id": "dashboard:visual-quality:score",
+      "command": "npm run dashboard:visual-quality:score",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 109,
+      "summary": [
+        "> hermes-agent@1.0.0 dashboard:visual-quality:score",
+        "> node scripts/score-dashboard-visual-quality.mjs",
+        "Wrote docs/design/dashboard-visual-quality-report.json"
+      ]
+    },
+    {
+      "id": "dashboard:bridge:coverage",
+      "command": "npm run dashboard:bridge:coverage",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 94,
+      "summary": [
+        "Dashboard visual-selection bridge coverage passed.",
+        "Wrote report: docs/design/dashboard-bridge-coverage-report.json"
+      ]
+    },
+    {
+      "id": "dashboard:project-profiles:validate",
+      "command": "npm run dashboard:project-profiles:validate",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 101,
+      "summary": [
+        "Dashboard project validation profiles passed (9)."
+      ]
+    },
+    {
+      "id": "dashboard:health:validate",
+      "command": "npm run dashboard:health:validate",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 97,
+      "summary": [
+        "Dashboard health validation passed (9)."
+      ]
+    },
+    {
+      "id": "dashboard-promotion-readiness",
+      "command": "node scripts/generate-dashboard-promotion-readiness.mjs",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 24,
+      "summary": [
+        "Dashboard promotion readiness generated: 7 project(s)."
+      ]
+    },
+    {
+      "id": "dashboard-maturity-report",
+      "command": "node scripts/generate-dashboard-maturity-report.mjs",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 22,
+      "summary": [
+        "Wrote docs/design/dashboard-maturity-report.json"
+      ]
+    },
+    {
+      "id": "dashboard:next-actions:report",
+      "command": "npm run dashboard:next-actions:report",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 100,
+      "summary": [
+        "> hermes-agent@1.0.0 dashboard:next-actions:report",
+        "> node scripts/generate-dashboard-next-actions.mjs",
+        "Dashboard next actions generated: docs/design/dashboard-next-actions-report.json"
+      ]
+    },
+    {
+      "id": "dashboard:world-class:report",
+      "command": "npm run dashboard:world-class:report",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 107,
+      "summary": [
+        "Score: 100/100 (world-class-ready)",
+        "│ (index) │ layer                 │ score   │ gaps │",
+        "Wrote report: docs/design/world-class-dashboard-system-audit-report.json",
+        "Wrote backlog: docs/design/world-class-dashboard-system-backlog.json",
+        "Wrote backlog summary: docs/design/world-class-dashboard-system-backlog.md"
+      ]
+    }
+  ]
+}

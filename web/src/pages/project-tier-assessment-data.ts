@@ -32,7 +32,7 @@ export interface TierBand {
   meaning: string;
 }
 
-export const projectTierGeneratedAt = "2026-08-03T22:20:08.542Z";
+export const projectTierGeneratedAt = "2026-08-03T22:35:57.046Z";
 export const projectTierSourceHash = "1656e2566b423d3fd83988811259a86ba3f2758bafe7678af9b3f578cc81d7c8";
 
 export const tierBands: TierBand[] = [

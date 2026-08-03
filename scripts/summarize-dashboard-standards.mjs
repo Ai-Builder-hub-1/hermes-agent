@@ -98,6 +98,24 @@ const checks = [
     required: true,
   },
   {
+    id: "deployment-ledger",
+    script: "dashboard:deployment-ledger:validate",
+    version: "V13",
+    required: true,
+  },
+  {
+    id: "kit-distribution",
+    script: "dashboard:kit-distribution:report",
+    version: "V13",
+    required: true,
+  },
+  {
+    id: "runtime-data",
+    script: "dashboard:runtime-data:report",
+    version: "V13",
+    required: true,
+  },
+  {
     id: "branch-protection",
     script: "dashboard:branch-protection:verify",
     version: "V12",
