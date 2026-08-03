@@ -15,6 +15,7 @@ const required = [
   "docs/design/dashboard-token-scan-report.json",
   "docs/design/dashboard-token-suppressions.json",
   "docs/design/dashboard-token-debt-backlog.json",
+  "docs/design/project-status-ledger.json",
   "docs/design/dashboard-pr-artifacts/latest.json",
   "web/src/pages/dashboard-maturity-data.ts"
 ];
@@ -47,6 +48,7 @@ if (!issues.some((item) => item.severity === "error")) {
   const tokenReport = JSON.parse(fs.readFileSync(path.join(root, required[7]), "utf8"));
   const tokenSuppressions = JSON.parse(fs.readFileSync(path.join(root, required[8]), "utf8"));
   const tokenDebt = JSON.parse(fs.readFileSync(path.join(root, required[9]), "utf8"));
+  const projectStatusLedger = JSON.parse(fs.readFileSync(path.join(root, required[10]), "utf8"));
   if (!Array.isArray(componentBacklog.items)) issue("error", "Component evidence backlog must include items.");
   if ((certification.itemCount ?? 0) < 1) issue("error", "Component certification checklist must include components.");
   if ((visualCoverage.dashboardCount ?? 0) < 1) issue("error", "Visual coverage report must include dashboards.");
@@ -58,6 +60,8 @@ if (!issues.some((item) => item.severity === "error")) {
   if (tokenReport.advisory !== true) issue("error", "Full token scan report must be advisory.");
   if (!Array.isArray(tokenSuppressions.suppressions)) issue("error", "Token suppressions must include suppressions.");
   if (!Array.isArray(tokenDebt.items)) issue("error", "Token debt backlog must include items.");
+  if (!Array.isArray(projectStatusLedger.projects) || projectStatusLedger.projects.length < 1) issue("error", "Project status ledger must include projects.");
+  if (!projectStatusLedger.crossProject) issue("error", "Project status ledger must include crossProject summary.");
 }
 
 const errors = issues.filter((item) => item.severity === "error");
