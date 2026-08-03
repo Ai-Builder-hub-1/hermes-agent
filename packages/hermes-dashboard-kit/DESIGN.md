@@ -114,6 +114,7 @@ project.
 - Use dense metric grids, tables, charts, and insight panels.
 - Do not use marketing heroes, oversized card stacks, or decorative page backgrounds in dashboard views.
 - Tier 3 dashboards must use a real app-navigation rail, not a loose card stack. The sidebar should be visually persistent, width-bounded, text-safe, scroll-safe, and collapse to an explicit top navigation or drawer on small screens.
+- Tier 3 dashboards must satisfy `docs/design/dashboard-operational-navigation-standard.md`: brand block, grouped navigation, active state, collapsed labels, footer/status area, text safety, keyboard states, mobile behavior, and expanded/collapsed/mobile proof.
 - Tier 3 dashboards must use a compact command header, not a fat hero/banner. The header should answer the current page question, expose a small number of actions/filters, and keep summary metrics in a constrained grid below or beside the title.
 - Global decision/output banners belong only on the canonical command center, overview, or home route. They must not repeat above every page in a routed dashboard. Secondary pages should use compact page headings and page-specific controls instead.
 - Command/overview banners must align to the same content width and inset as the page components below them. Do not use a narrower shell-level banner that floats out of line with cockpit cards, tables, charts, or proof panels.
@@ -131,7 +132,7 @@ project.
 
 The shell standard has two visible quality gates:
 
-1. Navigation rail quality: a production sidebar must use `DashboardSidebar`, `.hdk-sidebar`, or `.hdk-sidebar-rail`; constrain labels with truncation/wrapping rules; keep footer/status content from overflowing; and show the active route clearly.
+1. Navigation rail quality: a production sidebar must use `DashboardSidebar`, `.hdk-sidebar`, or `.hdk-sidebar-rail`; include a brand mark/block, grouped navigation, active route state, collapsed labels, footer/status context, mobile behavior, and text-safe labels. A plain list of buttons is not Tier 3.
 2. Viewport shell quality: a desktop dashboard must have exactly one vertical scroll owner inside the app shell. The shell should be `100dvh`, the sidebar should not visually stop before the content, and raw body/page scrolling should not expose blank shell edges.
 3. Table layout quality: large data tables must use `.hdk-table-wrap` inside full-width table sections, tabs, or stacked table groups. Avoid putting two raw tables next to each other.
 4. Text containment quality: cards, tables, pills, buttons, and nav items must include overflow-safe wrapping or truncation so screenshots do not show content leaking outside containers.

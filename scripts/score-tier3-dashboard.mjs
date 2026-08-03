@@ -8,6 +8,8 @@ const projectDir = path.resolve(process.cwd(), args.projectDir || ".");
 const out = path.resolve(projectDir, args.out || "proof/tier3-dashboard-score.json");
 const manifest = readJson(path.join(projectDir, ".hermes-dashboard.json"));
 const checks = [];
+const navigationQuality =
+  operationalNavigationQuality();
 
 score("package-native implementation", 16, manifest.dashboardKit?.adoptionMode === "package-native" || manifest.dashboardKit?.implementationMode === "package-native");
 score("Tier 3 target and current", 10, Number(manifest.dashboardKit?.targetExperienceTier) >= 3 && Number(manifest.dashboardKit?.currentExperienceTier) >= 3);
@@ -18,6 +20,7 @@ score("proof config present", 8, fileExists(manifest.proof?.playwrightConfig));
 score("proof capture script present", 6, fileExists(manifest.proof?.captureScript));
 score("surface imports dashboard kit", 10, surfacesContain("@hermes/dashboard-kit"));
 score("one-shell primitives present", 8, surfacesContain("DashboardShell") && surfacesContain("DashboardSidebar") && surfacesContain("DashboardHeader"));
+score("operational navigation quality", 10, navigationQuality.passed, navigationQuality.note);
 score("state coverage declared", 6, surfacesContain("DashboardEmptyState") || surfacesContain("VisualizationStateFrame"));
 score("chart/table coverage", 5, surfacesContain("ChartPanel") && surfacesContain("DataTable"));
 score("theme mode present", 5, surfacesContain("data-theme=") || surfacesContain("hdk-theme-scope"));
@@ -64,6 +67,40 @@ function surfacesContain(needle) {
     const file = path.join(projectDir, surface.path || "");
     return fs.existsSync(file) && fs.readFileSync(file, "utf8").includes(needle);
   });
+}
+
+function operationalNavigationQuality() {
+  const source =
+    (manifest.surfaces ?? [])
+      .map((surface) => {
+        const file = path.join(projectDir, surface.path || "");
+        return fs.existsSync(file) ? fs.readFileSync(file, "utf8") : "";
+      })
+      .join("\n");
+  const checks = {
+    brand:
+      /hdk-brand|hdk-sidebar-brand|\bbrand\b|data-sidebar-brand|data-nav-brand|\bmark\b/i.test(source),
+    groups:
+      /nav-group|data-nav-group|<section[^>]*class=["'][^"']*nav|Command|Production|Business|Control|Operations/i.test(source),
+    active:
+      /aria-current=["']page|\.active\b|is-active|data-active|activeId|item\.active|active:\s*true/i.test(source),
+    collapsedLabels:
+      /data-short|data-short-label|shortLabel|collapsed|aria-label/i.test(source),
+    footer:
+      /hdk-sidebar-footer|sidebar-note|dashboard-switcher|data-sidebar-footer|data-dashboard-list|readiness|status/i.test(source),
+    mobile:
+      /max-width|matchMedia|mobile|drawer|top navigation|sidebar-collapsed/i.test(source)
+  };
+  const missing =
+    Object.entries(checks)
+      .filter(([, passed]) => !passed)
+      .map(([key]) => key);
+  return {
+    passed:
+      missing.length === 0,
+    note:
+      missing.length ? `Missing sidebar evidence: ${missing.join(", ")}` : "Brand, groups, active state, collapsed labels, footer/status, and mobile behavior found."
+  };
 }
 
 function fileExists(relativePath) {

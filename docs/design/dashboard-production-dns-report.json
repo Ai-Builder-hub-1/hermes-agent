@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-03T19:48:31.797Z",
+  "summary": {
+    "total": 8,
+    "localDnsOk": 8,
+    "captureFallbackOk": 0,
+    "dnsGap": 0
+  },
+  "items": [
+    {
+      "id": "nous-hermes-agent.dashboard",
+      "hostname": "agent.tlccapitalgroup.com",
+      "provider": "hetzner",
+      "localResolved": true,
+      "addresses": [
+        "178.156.240.1"
+      ],
+      "resolverFallbackConfigured": true,
+      "fallback": {
+        "provider": "hetzner",
+        "edgeIp": "178.156.240.1",
+        "chromiumRule": "MAP agent.tlccapitalgroup.com 178.156.240.1"
+      },
+      "status": "local-dns-ok",
+      "error": null
+    },
+    {
+      "id": "khashi-vc.roc",
+      "hostname": "roc.tlccapitalgroup.com",
+      "provider": "hetzner",
+      "localResolved": true,
+      "addresses": [
+        "178.156.240.1"
+      ],
+      "resolverFallbackConfigured": true,
+      "fallback": {
+        "provider": "hetzner",
+        "edgeIp": "178.156.240.1",
+        "chromiumRule": "MAP roc.tlccapitalgroup.com 178.156.240.1"
+      },
+      "status": "local-dns-ok",
+      "error": null
+    },
+    {
+      "id": "media-engine.ops",
+      "hostname": "media.tlccapitalgroup.com",
+      "provider": "hetzner",
+      "localResolved": true,
+      "addresses": [
+        "178.156.240.1"
+      ],
+      "resolverFallbackConfigured": true,
+      "fallback": {
+        "provider": "hetzner",
+        "edgeIp": "178.156.240.1",
+        "chromiumRule": "MAP media.tlccapitalgroup.com 178.156.240.1"
+      },
+      "status": "local-dns-ok",
+      "error": null
+    },
+    {
+      "id": "media-business-operations.main",
+      "hostname": "media-business-operations.tlccapitalgroup.com",
+      "provider": "hetzner",
+      "localResolved": true,
+      "addresses": [
+        "178.156.240.1"
+      ],
+      "resolverFallbackConfigured": true,
+      "fallback": {
+        "provider": "hetzner",
+        "edgeIp": "178.156.240.1",
+        "chromiumRule": "MAP media-business-operations.tlccapitalgroup.com 178.156.240.1"
+      },
+      "status": "local-dns-ok",
+      "error": null
+    },
+    {
+      "id": "business-mapper.workspace",
+      "hostname": "business-mapper.tlccapitalgroup.com",
+      "provider": "hetzner",
+      "localResolved": true,
+      "addresses": [
+        "178.156.240.1"
+      ],
+      "resolverFallbackConfigured": true,
+      "fallback": {
+        "provider": "hetzner",
+        "edgeIp": "178.156.240.1",
+        "chromiumRule": "MAP business-mapper.tlccapitalgroup.com 178.156.240.1"
+      },
+      "status": "local-dns-ok",
+      "error": null
+    },
+    {
+      "id": "meal-assistant.main",
+      "hostname": "meal.tlccapitalgroup.com",
+      "provider": "hetzner",
+      "localResolved": true,
+      "addresses": [
+        "178.156.240.1"
+      ],
+      "resolverFallbackConfigured": true,
+      "fallback": {
+        "provider": "hetzner",
+        "edgeIp": "178.156.240.1",
+        "chromiumRule": "MAP meal.tlccapitalgroup.com 178.156.240.1"
+      },
+      "status": "local-dns-ok",
+      "error": null
+    },
+    {
+      "id": "investing-system.roc",
+      "hostname": "investing.tlccapitalgroup.com",
+      "provider": "hetzner",
+      "localResolved": true,
+      "addresses": [
+        "178.156.240.1"
+      ],
+      "resolverFallbackConfigured": true,
+      "fallback": {
+        "provider": "hetzner",
+        "edgeIp": "178.156.240.1",
+        "chromiumRule": "MAP investing.tlccapitalgroup.com 178.156.240.1"
+      },
+      "status": "local-dns-ok",
+      "error": null
+    },
+    {
+      "id": "hermes.workspace",
+      "hostname": "hermes.tlccapitalgroup.com",
+      "provider": "hetzner",
+      "localResolved": true,
+      "addresses": [
+        "178.156.240.1"
+      ],
+      "resolverFallbackConfigured": true,
+      "fallback": {
+        "provider": "hetzner",
+        "edgeIp": "178.156.240.1",
+        "chromiumRule": "MAP hermes.tlccapitalgroup.com 178.156.240.1"
+      },
+      "status": "local-dns-ok",
+      "error": null
+    }
+  ]
+}

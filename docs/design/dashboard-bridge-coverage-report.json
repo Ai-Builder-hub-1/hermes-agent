@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-03T19:57:16.057Z",
+  "checkedCount": 12,
+  "missingCount": 0,
+  "items": [
+    {
+      "project": "khashi-vc",
+      "surface": "market-intelligence-live",
+      "path": "public/roc/market-intelligence-live.html",
+      "status": "pass",
+      "missing": []
+    },
+    {
+      "project": "media-engine",
+      "surface": "media-engine-ops-active",
+      "path": "core/operations/unified-publishing-dashboard.js",
+      "status": "pass",
+      "missing": []
+    },
+    {
+      "project": "media-business-os",
+      "surface": "media-business-main",
+      "path": "public/dashboard/index.html",
+      "status": "pass",
+      "missing": []
+    },
+    {
+      "project": "media-business-os",
+      "surface": "media-business-renderer",
+      "path": "public/dashboard/app.js",
+      "status": "pass",
+      "missing": []
+    },
+    {
+      "project": "business-mapper",
+      "surface": "business-mapper-workspace",
+      "path": "business_mapper/static/index.html",
+      "status": "pass",
+      "missing": []
+    },
+    {
+      "project": "meal-assistant",
+      "surface": "meal-dashboard-shell",
+      "path": "src/server.js",
+      "status": "pass",
+      "missing": []
+    },
+    {
+      "project": "hermes-os",
+      "surface": "hermes-dashboard-hub",
+      "path": "src/workspace/workspace-server.ts",
+      "status": "pass",
+      "missing": []
+    },
+    {
+      "project": "hermes-os",
+      "surface": "hermes-operator-dashboard-artifact",
+      "path": "src/operator/operator-state.ts",
+      "status": "pass",
+      "missing": []
+    },
+    {
+      "project": "hermes-os",
+      "surface": "hermes-control-plane-artifact",
+      "path": "src/operator/control-plane.ts",
+      "status": "pass",
+      "missing": []
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "surface": "tlc-dashboard-shell",
+      "path": "public/dashboard/index.html",
+      "status": "pass",
+      "missing": []
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "surface": "tlc-dashboard-api",
+      "path": "src/api.js",
+      "status": "pass",
+      "missing": []
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "surface": "tlc-dashboard-models",
+      "path": "src/dashboards.js",
+      "status": "pass",
+      "missing": []
+    }
+  ]
+}

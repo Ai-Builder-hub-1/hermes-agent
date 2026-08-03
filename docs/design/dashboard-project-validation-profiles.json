@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-03T00:00:00.000Z",
+  "profiles": [
+    {
+      "project": "nous-hermes-agent",
+      "projectPath": ".",
+      "validationCommands": [
+        "npm run dashboard:design-system:test",
+        "npm run dashboard:starter:validate",
+        "./packages/hermes-dashboard-kit/node_modules/.bin/tsc -p packages/hermes-dashboard-kit/tsconfig.json --noEmit"
+      ],
+      "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
+      "deploymentService": "nous-hermes-agent"
+    },
+    {
+      "project": "khashi-vc",
+      "projectPath": "../khashi-vc",
+      "validationCommands": ["npm run build"],
+      "healthUrl": "https://roc.tlccapitalgroup.com/readyz",
+      "deploymentService": "khashi"
+    },
+    {
+      "project": "media-engine",
+      "projectPath": "../media-engine",
+      "validationCommands": ["node --check tasks/ops-dashboard-server.js"],
+      "healthUrl": "https://media.tlccapitalgroup.com/health",
+      "deploymentService": "media-engine-dashboard"
+    },
+    {
+      "project": "media-business-os",
+      "projectPath": "../media-business-operations",
+      "validationCommands": ["npm test"],
+      "healthUrl": "https://media-business-operations.tlccapitalgroup.com/health",
+      "deploymentService": "media-business-operations"
+    },
+    {
+      "project": "business-mapper",
+      "projectPath": "../business-mapper",
+      "validationCommands": ["python -m py_compile business_mapper/web.py business_mapper/core.py"],
+      "healthUrl": "https://business-mapper.tlccapitalgroup.com/health",
+      "deploymentService": "business-mapper"
+    },
+    {
+      "project": "investing-system",
+      "projectPath": "../investing-system",
+      "validationCommands": ["npm run build"],
+      "healthUrl": "https://investing.tlccapitalgroup.com/health",
+      "deploymentService": "investing-system"
+    },
+    {
+      "project": "hermes-os",
+      "projectPath": "../hermes",
+      "validationCommands": ["npm run build"],
+      "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+      "deploymentService": "hermes"
+    },
+    {
+      "project": "meal-assistant",
+      "projectPath": "../Meal-assistant",
+      "validationCommands": ["node --check src/server.js"],
+      "healthUrl": "https://meal.tlccapitalgroup.com/health",
+      "deploymentService": null,
+      "deploymentGap": "Not registered in the Hetzner deployment spine."
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "projectPath": "../tlc-capital-group-os",
+      "validationCommands": ["npm run build"],
+      "healthUrl": "https://tlc.tlccapitalgroup.com/health",
+      "deploymentService": "tlc-capital-group-os"
+    }
+  ]
+}

@@ -14,26 +14,30 @@ export function renderDashboardShell({
   title,
   subtitle = "",
   nav = [],
+  navGroups = [],
+  sidebarFooter = "",
+  sidebarStatus = "",
   activeId = "",
   actions = "",
   children = "",
   reviewId = "hermes.dashboard-shell",
   tier = EXPERIENCE_TIERS.productCockpit
 }) {
+  const sidebar =
+    renderOperationalSidebar({
+      title,
+      subtitle,
+      nav,
+      navGroups,
+      activeId,
+      footer:
+        sidebarFooter,
+      status:
+        sidebarStatus
+    });
   return `
     <div class="hdk-shell" data-hdk-component="DashboardShell" data-experience-tier="${escapeAttr(tier)}" data-review-id="${escapeAttr(reviewId)}">
-      <aside class="hdk-sidebar" data-hdk-component="Sidebar">
-        <div class="hdk-brand">
-          <span class="hdk-brand__mark">H</span>
-          <span>
-            <strong>${escapeHtml(title)}</strong>
-            ${subtitle ? `<small>${escapeHtml(subtitle)}</small>` : ""}
-          </span>
-        </div>
-        <nav class="hdk-nav" aria-label="Dashboard navigation">
-          ${nav.map((item) => renderNavItem(item, activeId)).join("")}
-        </nav>
-      </aside>
+      ${sidebar}
       <main class="hdk-main">
         <header class="hdk-header" data-hdk-component="Header">
           <div>
@@ -47,6 +51,57 @@ export function renderDashboardShell({
       </main>
     </div>
   `;
+}
+
+export function renderOperationalSidebar({
+  title,
+  subtitle = "",
+  mark = "H",
+  nav = [],
+  navGroups = [],
+  activeId = "",
+  status = "",
+  footer = "",
+  ariaLabel = "Dashboard navigation"
+}) {
+  const groups =
+    navGroups.length
+      ? navGroups
+      : [
+          {
+            id:
+              "main",
+            label:
+              "Navigation",
+            items:
+              nav
+          }
+        ];
+
+  return `
+      <aside class="hdk-sidebar hdk-sidebar-rail" data-hdk-component="Sidebar" data-component="DashboardSidebar">
+        <div class="hdk-brand hdk-sidebar-brand" data-sidebar-brand>
+          <span class="hdk-brand__mark">${escapeHtml(mark)}</span>
+          <span>
+            <strong>${escapeHtml(title)}</strong>
+            ${subtitle ? `<small>${escapeHtml(subtitle)}</small>` : ""}
+          </span>
+        </div>
+        <nav class="hdk-nav" aria-label="${escapeAttr(ariaLabel)}">
+          ${groups.map((group) => `
+            <section class="hdk-nav-group" data-nav-group="${escapeAttr(group.id || group.label || "group")}">
+              <p class="hdk-nav-group-title">${escapeHtml(group.label || "Navigation")}</p>
+              ${(group.items || []).map((item) => renderNavItem(item, activeId)).join("")}
+            </section>
+          `).join("")}
+        </nav>
+        ${(status || footer) ? `
+          <div class="hdk-sidebar-footer" data-sidebar-footer>
+            ${status ? `<div class="hdk-sidebar-status">${escapeHtml(status)}</div>` : ""}
+            ${footer}
+          </div>
+        ` : ""}
+      </aside>`;
 }
 
 export function renderMetricCard({
@@ -1595,7 +1650,9 @@ function renderChartHeader(title, subtitle) {
 function renderNavItem(item, activeId) {
   const active =
     item.id === activeId ? "is-active" : "";
-  return `<a class="${active}" href="${escapeAttr(item.href || `#${item.id}`)}">${escapeHtml(item.label)}${item.badge ? `<span>${escapeHtml(item.badge)}</span>` : ""}</a>`;
+  const ariaCurrent =
+    item.id === activeId ? ` aria-current="page"` : "";
+  return `<a class="${active}" href="${escapeAttr(item.href || `#${item.id}`)}" data-short="${escapeAttr(item.shortLabel || item.short || String(item.label || item.id).slice(0, 4))}"${ariaCurrent}>${escapeHtml(item.label)}${item.badge ? `<span>${escapeHtml(item.badge)}</span>` : ""}</a>`;
 }
 
 function normalizePoints(data, width, height, padding = 0) {

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-03T19:50:39.163Z",
+  "sourceReports": [
+    "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
+    "docs/design/dashboard-production-proof-registry.json",
+    "docs/design/dashboard-telemetry-contract-report.json",
+    "docs/design/dashboard-visual-quality-report.json",
+    "docs/design/dashboard-bridge-coverage-report.json",
+    "docs/design/dashboard-deployment-metadata-report.json",
+    "docs/design/dashboard-migration-codemod-plan.json",
+    "docs/design/dashboard-readiness-impact.json"
+  ],
+  "actionCount": 0,
+  "p0Count": 0,
+  "projects": []
+}

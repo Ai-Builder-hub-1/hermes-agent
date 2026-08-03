@@ -263,6 +263,7 @@ function appTemplate({ title, description, theme, template }) {
   const navItems = template.nav.map((label, index) => ({
     id: kebab(label),
     label,
+    shortLabel: label.split(/\s+/).map((part) => part[0]).join("").slice(0, 4).toUpperCase() || `N${index + 1}`,
     icon: ["BarChart3", "Database", "ShieldCheck"][index] ?? "Database",
     active: index === 0,
   }));
@@ -318,14 +319,30 @@ const columns: DataTableColumn<EvidenceRow>[] = [
 
 export default function App() {
   return (
-    <div className="hdk-theme-scope dashboard-app" data-theme="${theme}">
+    <div className="hdk-theme-scope dashboard-app mobile-navigation-ready" data-theme="${theme}">
       <DashboardShell
         sidebar={(
           <DashboardSidebar
             title="${escapeTemplate(title)}"
             description="${escapeTemplate(template.label)}"
-            items={[
-              ${navItems.map((item) => `{ id: "${item.id}", label: "${escapeTemplate(item.label)}", href: "#${item.id}", active: ${item.active}, icon: ${item.icon} }`).join(",\n              ")}
+            mark="${escapeTemplate(title.split(/\s+/).map((part) => part[0]).join("").slice(0, 3).toUpperCase() || "HD")}"
+            status="Package-native Tier 3 starter. Replace sample data before production."
+            footer={<div data-dashboard-list="true">Dashboard registry pending.</div>}
+            groups={[
+              {
+                id: "command",
+                label: "Command",
+                items: [
+                  ${navItems.slice(0, 1).map((item) => `{ id: "${item.id}", label: "${escapeTemplate(item.label)}", shortLabel: "${item.shortLabel}", href: "#${item.id}", active: ${item.active}, icon: ${item.icon} }`).join(",\n                  ")}
+                ]
+              },
+              {
+                id: "evidence",
+                label: "Evidence",
+                items: [
+                  ${navItems.slice(1).map((item) => `{ id: "${item.id}", label: "${escapeTemplate(item.label)}", shortLabel: "${item.shortLabel}", href: "#${item.id}", active: ${item.active}, icon: ${item.icon} }`).join(",\n                  ")}
+                ]
+              }
             ]}
           />
         )}
@@ -379,6 +396,16 @@ function themeCssTemplate() {
 @media (min-width: 1180px) {
   .dashboard-grid {
     grid-template-columns: minmax(0, 1.35fr) minmax(22rem, 0.8fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .dashboard-app [data-hdk-component="DashboardSidebar"] {
+    position: static;
+  }
+
+  .dashboard-app [data-nav-group] {
+    margin-bottom: 0.75rem;
   }
 }
 `;
@@ -491,6 +518,7 @@ Add Mobbin links here before implementation.
 ## Extracted Layout Patterns
 
 - One app shell with one sidebar and one command header.
+- Sidebar includes brand mark, grouped navigation, active route, collapsed labels, footer/status context, and mobile behavior.
 - Metric strip above evidence tables and charts.
 - Full-width table sections or tabbed tables when records are dense.
 
@@ -521,6 +549,7 @@ Default: system mode with validated light and dark tokens.
 - Package-native imports from @hermes/dashboard-kit.
 - No primary static adapter runtime.
 - One shell and one route model.
+- Operational navigation satisfies \`dashboard-operational-navigation-standard.md\`.
 - Light and dark screenshots pass visual QA.
 - Proof route or proof capture exists before production completion.
 `;
@@ -539,6 +568,7 @@ function designReviewTemplate({ title, template }) {
 
 - [ ] Mobbin references reviewed and linked in \`mobbin-reference-intake.md\`.
 - [ ] One app shell only: one sidebar, one header, one route model.
+- [ ] Sidebar includes brand mark, grouped nav, active route state, collapsed labels, footer/status context, and mobile behavior.
 - [ ] Package-native imports from \`@hermes/dashboard-kit\`.
 - [ ] No static adapter as the primary runtime.
 - [ ] No production visual-selection bridge.

@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-03T19:48:41.263Z",
+  "requiredFields": [
+    "healthUrl",
+    "snapshotUrl",
+    "projectPath",
+    "projectName"
+  ],
+  "readyCount": 8,
+  "partialCount": 0,
+  "items": [
+    {
+      "id": "nous-hermes-agent.dashboard",
+      "label": "Nous Hermes Agent",
+      "owner": "Hermes",
+      "status": "ready",
+      "missing": [],
+      "telemetryContract": {
+        "health": true,
+        "dashboardSnapshot": true,
+        "localProject": true,
+        "projectIdentity": true
+      }
+    },
+    {
+      "id": "khashi-vc.roc",
+      "label": "Khashi VC ROC",
+      "owner": "Khashi VC",
+      "status": "ready",
+      "missing": [],
+      "telemetryContract": {
+        "health": true,
+        "dashboardSnapshot": true,
+        "localProject": true,
+        "projectIdentity": true
+      }
+    },
+    {
+      "id": "media-engine.ops",
+      "label": "Media Engine Ops",
+      "owner": "Media Engine",
+      "status": "ready",
+      "missing": [],
+      "telemetryContract": {
+        "health": true,
+        "dashboardSnapshot": true,
+        "localProject": true,
+        "projectIdentity": true
+      }
+    },
+    {
+      "id": "media-business-operations.main",
+      "label": "Media Business Operations",
+      "owner": "Media Business Operations",
+      "status": "ready",
+      "missing": [],
+      "telemetryContract": {
+        "health": true,
+        "dashboardSnapshot": true,
+        "localProject": true,
+        "projectIdentity": true
+      }
+    },
+    {
+      "id": "business-mapper.workspace",
+      "label": "Business Mapper Workspace",
+      "owner": "Business Mapper",
+      "status": "ready",
+      "missing": [],
+      "telemetryContract": {
+        "health": true,
+        "dashboardSnapshot": true,
+        "localProject": true,
+        "projectIdentity": true
+      }
+    },
+    {
+      "id": "meal-assistant.main",
+      "label": "Meal Assistant",
+      "owner": "Meal Assistant",
+      "status": "ready",
+      "missing": [],
+      "telemetryContract": {
+        "health": true,
+        "dashboardSnapshot": true,
+        "localProject": true,
+        "projectIdentity": true
+      }
+    },
+    {
+      "id": "investing-system.roc",
+      "label": "Investing System ROC",
+      "owner": "Investing System",
+      "status": "ready",
+      "missing": [],
+      "telemetryContract": {
+        "health": true,
+        "dashboardSnapshot": true,
+        "localProject": true,
+        "projectIdentity": true
+      }
+    },
+    {
+      "id": "hermes.workspace",
+      "label": "Hermes Workspace",
+      "owner": "Hermes",
+      "status": "ready",
+      "missing": [],
+      "telemetryContract": {
+        "health": true,
+        "dashboardSnapshot": true,
+        "localProject": true,
+        "projectIdentity": true
+      }
+    }
+  ]
+}

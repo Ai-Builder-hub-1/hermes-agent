@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-03T19:48:41.272Z",
+  "checkedCount": 9,
+  "failedCount": 0,
+  "items": [
+    {
+      "project": "nous-hermes-agent",
+      "projectPath": ".",
+      "status": "ready",
+      "missing": []
+    },
+    {
+      "project": "khashi-vc",
+      "projectPath": "../khashi-vc",
+      "status": "ready",
+      "missing": []
+    },
+    {
+      "project": "media-engine",
+      "projectPath": "../media-engine",
+      "status": "ready",
+      "missing": []
+    },
+    {
+      "project": "media-business-os",
+      "projectPath": "../media-business-operations",
+      "status": "ready",
+      "missing": []
+    },
+    {
+      "project": "business-mapper",
+      "projectPath": "../business-mapper",
+      "status": "ready",
+      "missing": []
+    },
+    {
+      "project": "investing-system",
+      "projectPath": "../investing-system",
+      "status": "ready",
+      "missing": []
+    },
+    {
+      "project": "hermes-os",
+      "projectPath": "../hermes",
+      "status": "ready",
+      "missing": []
+    },
+    {
+      "project": "meal-assistant",
+      "projectPath": "../Meal-assistant",
+      "status": "ready",
+      "missing": []
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "projectPath": "../tlc-capital-group-os",
+      "status": "ready",
+      "missing": []
+    }
+  ]
+}

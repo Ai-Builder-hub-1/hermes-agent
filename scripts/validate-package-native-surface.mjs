@@ -38,6 +38,7 @@ for (const surface of surfaces) {
   for (const marker of ["@hermes/dashboard-kit", "DashboardShell", "DashboardSidebar", "DashboardHeader"]) {
     if (!source.includes(marker)) fail(`${surface.path} missing ${marker}`);
   }
+  validateOperationalNavigation(source, surface.path);
   if (!source.includes("data-theme=") && !source.includes("hdk-theme-scope")) {
     fail(`${surface.path} missing theme scope`);
   }
@@ -84,6 +85,24 @@ function requireFile(relativePath, label) {
     return;
   }
   if (!fs.existsSync(path.join(projectDir, relativePath))) fail(`${label} missing: ${relativePath}`);
+}
+
+function validateOperationalNavigation(source, surfacePath) {
+  const checks =
+    [
+      ["brand mark/block", /hdk-brand|hdk-sidebar-brand|\bbrand\b|data-sidebar-brand|data-nav-brand|\bmark\b/i],
+      ["grouped navigation", /nav-group|data-nav-group|<section[^>]*class=["'][^"']*nav|Command|Production|Business|Control|Operations/i],
+      ["active route state", /aria-current=["']page|\.active\b|is-active|data-active|activeId|item\.active|active:\s*true/i],
+      ["collapsed labels", /data-short|data-short-label|shortLabel|collapsed|aria-label/i],
+      ["footer/status context", /hdk-sidebar-footer|sidebar-note|dashboard-switcher|data-sidebar-footer|data-dashboard-list|readiness|status/i],
+      ["mobile navigation behavior", /max-width|matchMedia|mobile|drawer|top navigation|sidebar-collapsed/i]
+    ];
+
+  for (const [label, pattern] of checks) {
+    if (!pattern.test(source)) {
+      fail(`${surfacePath} missing Tier 3 operational sidebar evidence: ${label}`);
+    }
+  }
 }
 
 function readJson(file) {

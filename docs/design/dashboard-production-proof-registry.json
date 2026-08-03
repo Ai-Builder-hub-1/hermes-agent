@@ -1,13 +1,25 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-30T18:41:24.074Z",
+  "generatedAt": "2026-08-03T19:19:59.491Z",
   "entries": [
     {
       "id": "nous-hermes-agent.dashboard",
       "label": "Nous Hermes Agent",
       "owner": "Hermes",
-      "url": "http://127.0.0.1:9119/",
-      "healthUrl": "http://127.0.0.1:9119/api/status",
+      "url": "https://agent.tlccapitalgroup.com",
+      "proofUrl": "https://agent.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
+      "snapshotUrl": "https://agent.tlccapitalgroup.com/api/dashboard-snapshot",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "nous-hermes-agent",
+        "containerName": "deploy-nous-hermes-agent-1",
+        "buildContext": "/root/apps/nous-hermes-agent",
+        "reverseProxy": "Caddy -> nous-hermes-agent:9119",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh"
+      },
       "screenshotBaselinePath": "docs/design/production-screenshots/nous-hermes-agent.dashboard.png",
       "requiredProof": [
         "health-url-reachable",
@@ -18,14 +30,18 @@
         "primary-data-freshness-visible"
       ],
       "proof": {
-        "screenshotCaptured": false,
+        "screenshotCaptured": true,
         "screenshotBaselinePath": "docs/design/production-screenshots/nous-hermes-agent.dashboard.png",
-        "lastError": "page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:9119/\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:9119/\", waiting until \"domcontentloaded\"\u001b[22m\n",
         "authWallDetected": false,
         "blankPrimaryDetected": false,
-        "proofEndpointDeclared": false
+        "proofEndpointDeclared": true,
+        "capturedAt": "2026-08-03T19:12:52.261Z",
+        "proofEndpointUsed": true,
+        "proofAuthMissing": false,
+        "textLength": 1114,
+        "httpStatus": 200
       },
-      "status": "baseline-needed"
+      "status": "baseline-present"
     },
     {
       "id": "khashi-vc.roc",
@@ -33,13 +49,20 @@
       "owner": "Khashi VC",
       "url": "https://roc.tlccapitalgroup.com/",
       "proofUrl": "https://roc.tlccapitalgroup.com/dashboard/proof?view=live-market-intelligence",
-      "localProofUrl": "http://127.0.0.1:3000/dashboard/proof?view=live-market-intelligence",
       "proofAuth": {
         "type": "bearer-env",
         "env": "HERMES_DASHBOARD_PROOF_TOKEN"
       },
       "healthUrl": "https://roc.tlccapitalgroup.com/readyz",
       "snapshotUrl": "https://roc.tlccapitalgroup.com/api/dashboard-snapshot",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "khashi",
+        "buildContext": "/root/apps/khashi-vc",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh"
+      },
       "screenshotBaselinePath": "docs/design/production-screenshots/khashi-vc.roc.png",
       "requiredProof": [
         "health-url-reachable",
@@ -70,8 +93,17 @@
       "label": "Media Engine Ops",
       "owner": "Media Engine",
       "url": "https://media.tlccapitalgroup.com/dashboard",
+      "proofUrl": "https://media.tlccapitalgroup.com/dashboard/proof",
       "healthUrl": "https://media.tlccapitalgroup.com/health",
       "snapshotUrl": "https://media.tlccapitalgroup.com/dashboard-snapshot",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "media-engine-dashboard",
+        "buildContext": "/root/apps/media-engine",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh"
+      },
       "screenshotBaselinePath": "docs/design/production-screenshots/media-engine.ops.png",
       "requiredProof": [
         "health-url-reachable",
@@ -88,7 +120,7 @@
         "authWallDetected": false,
         "blankPrimaryDetected": false,
         "textLength": 155010,
-        "proofEndpointDeclared": false
+        "proofEndpointDeclared": true
       },
       "status": "baseline-present"
     },
@@ -97,7 +129,17 @@
       "label": "Media Business Operations",
       "owner": "Media Business Operations",
       "url": "https://media-business-operations.tlccapitalgroup.com/dashboard",
+      "proofUrl": "https://media-business-operations.tlccapitalgroup.com/dashboard/proof",
       "healthUrl": "https://media-business-operations.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://media-business-operations.tlccapitalgroup.com/api/dashboard-summary",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "media-business-operations",
+        "buildContext": "/root/apps/media-business-operations",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh"
+      },
       "screenshotBaselinePath": "docs/design/production-screenshots/media-business-operations.main.png",
       "requiredProof": [
         "health-url-reachable",
@@ -114,7 +156,7 @@
         "authWallDetected": false,
         "blankPrimaryDetected": false,
         "textLength": 533,
-        "proofEndpointDeclared": false
+        "proofEndpointDeclared": true
       },
       "status": "baseline-present"
     },
@@ -123,7 +165,17 @@
       "label": "Business Mapper Workspace",
       "owner": "Business Mapper",
       "url": "https://business-mapper.tlccapitalgroup.com/dashboard",
+      "proofUrl": "https://business-mapper.tlccapitalgroup.com/dashboard/proof",
       "healthUrl": "https://business-mapper.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://business-mapper.tlccapitalgroup.com/api/dashboard-snapshot",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "business-mapper",
+        "buildContext": "/root/apps/business-mapper",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh"
+      },
       "screenshotBaselinePath": "docs/design/production-screenshots/business-mapper.workspace.png",
       "requiredProof": [
         "health-url-reachable",
@@ -140,7 +192,7 @@
         "authWallDetected": false,
         "blankPrimaryDetected": false,
         "textLength": 4090,
-        "proofEndpointDeclared": false
+        "proofEndpointDeclared": true
       },
       "status": "baseline-present"
     },
@@ -149,7 +201,27 @@
       "label": "Meal Assistant",
       "owner": "Meal Assistant",
       "url": "https://meal.tlccapitalgroup.com/",
+      "proofUrl": "https://meal.tlccapitalgroup.com/dashboard/proof",
       "healthUrl": "https://meal.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://meal.tlccapitalgroup.com/api/dashboard-snapshot",
+      "deployment": {
+        "status": "active",
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "meal-assistant",
+        "containerName": "deploy-meal-assistant-1",
+        "buildContext": "/root/apps/Meal-assistant",
+        "publicUrl": "https://meal.tlccapitalgroup.com/",
+        "healthUrl": "https://meal.tlccapitalgroup.com/health",
+        "caddyHost": "meal.tlccapitalgroup.com",
+        "ports": [
+          4184
+        ],
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
+        "source": "hetzner-deploy-verified-2026-08-03",
+        "note": "Live on Hetzner via deploy compose, Caddy route, and project-owned readonly proof endpoints."
+      },
       "screenshotBaselinePath": "docs/design/production-screenshots/meal-assistant.main.png",
       "requiredProof": [
         "health-url-reachable",
@@ -160,14 +232,18 @@
         "primary-data-freshness-visible"
       ],
       "proof": {
-        "screenshotCaptured": false,
+        "screenshotCaptured": true,
         "screenshotBaselinePath": "docs/design/production-screenshots/meal-assistant.main.png",
-        "lastError": "page.goto: net::ERR_NAME_NOT_RESOLVED at https://meal.tlccapitalgroup.com/\nCall log:\n\u001b[2m  - navigating to \"https://meal.tlccapitalgroup.com/\", waiting until \"domcontentloaded\"\u001b[22m\n",
         "authWallDetected": false,
         "blankPrimaryDetected": false,
-        "proofEndpointDeclared": false
+        "proofEndpointDeclared": true,
+        "proofEndpointUsed": true,
+        "proofAuthMissing": false,
+        "capturedAt": "2026-08-03T19:19:58.683Z",
+        "httpStatus": 200,
+        "textLength": 1163
       },
-      "status": "baseline-needed"
+      "status": "baseline-present"
     },
     {
       "id": "investing-system.roc",
@@ -180,6 +256,15 @@
         "env": "HERMES_DASHBOARD_PROOF_TOKEN"
       },
       "healthUrl": "https://investing.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://investing.tlccapitalgroup.com/api/dashboard-snapshot",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "investing-system",
+        "buildContext": "/root/apps/investing-system",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh"
+      },
       "screenshotBaselinePath": "docs/design/production-screenshots/investing-system.roc.png",
       "requiredProof": [
         "health-url-reachable",
@@ -192,20 +277,33 @@
       "proof": {
         "screenshotCaptured": true,
         "screenshotBaselinePath": "docs/design/production-screenshots/investing-system.roc.png",
-        "capturedAt": "2026-07-30T15:06:14.369Z",
-        "authWallDetected": true,
+        "capturedAt": "2026-08-03T19:16:31.291Z",
+        "authWallDetected": false,
         "blankPrimaryDetected": false,
-        "textLength": 210,
-        "proofEndpointDeclared": true
+        "textLength": 7878,
+        "proofEndpointDeclared": true,
+        "proofEndpointUsed": true,
+        "proofAuthMissing": false,
+        "httpStatus": 200
       },
-      "status": "captured-review-needed"
+      "status": "baseline-present"
     },
     {
       "id": "hermes.workspace",
       "label": "Hermes Workspace",
       "owner": "Hermes",
       "url": "https://hermes.tlccapitalgroup.com/",
+      "proofUrl": "https://hermes.tlccapitalgroup.com/dashboard/proof",
       "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+      "snapshotUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "hermes",
+        "buildContext": "/root/apps/hermes",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh"
+      },
       "screenshotBaselinePath": "docs/design/production-screenshots/hermes.workspace.png",
       "requiredProof": [
         "health-url-reachable",
@@ -218,35 +316,37 @@
       "proof": {
         "screenshotCaptured": true,
         "screenshotBaselinePath": "docs/design/production-screenshots/hermes.workspace.png",
-        "capturedAt": "2026-07-30T15:06:15.213Z",
-        "authWallDetected": true,
+        "capturedAt": "2026-08-03T19:12:53.428Z",
+        "authWallDetected": false,
         "blankPrimaryDetected": false,
-        "textLength": 544,
-        "proofEndpointDeclared": false
+        "textLength": 936,
+        "proofEndpointDeclared": true,
+        "proofEndpointUsed": true,
+        "proofAuthMissing": false,
+        "httpStatus": 200
       },
-      "status": "captured-review-needed"
+      "status": "baseline-present"
     }
   ],
   "lastCapture": {
-    "generatedAt": "2026-07-30T18:41:24.074Z",
-    "requestedId": "khashi-vc.roc",
+    "generatedAt": "2026-08-03T19:19:59.491Z",
+    "requestedId": "meal-assistant.main",
     "capturedCount": 1,
     "reviewNeededCount": 0,
     "failedCount": 0,
     "results": [
       {
-        "id": "khashi-vc.roc",
-        "url": "https://roc.tlccapitalgroup.com/",
+        "id": "meal-assistant.main",
+        "url": "https://meal.tlccapitalgroup.com/",
         "status": "captured",
-        "screenshotBaselinePath": "docs/design/production-screenshots/khashi-vc.roc.png",
-        "capturedAt": "2026-07-30T18:41:22.451Z",
-        "httpStatus": 200,
-        "localProofUsed": false,
+        "screenshotBaselinePath": "docs/design/production-screenshots/meal-assistant.main.png",
+        "capturedAt": "2026-08-03T19:19:58.683Z",
         "proofEndpointUsed": true,
         "proofAuthMissing": false,
+        "httpStatus": 200,
         "authWallDetected": false,
         "blankPrimaryDetected": false,
-        "textLength": 13361
+        "textLength": 1163
       }
     ]
   }

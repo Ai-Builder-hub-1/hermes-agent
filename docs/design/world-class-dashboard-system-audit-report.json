@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-02T18:04:51.276Z",
+  "generatedAt": "2026-08-03T19:50:39.243Z",
   "minimumWorldClassScore": 90,
-  "score": 40.3,
-  "openGapCount": 41,
+  "score": 98.9,
+  "openGapCount": 1,
   "status": "not-world-class-yet",
   "layers": [
     {
       "id": "source-of-truth",
       "name": "Source Of Truth",
       "question": "Can every project identify the canonical dashboard system, version, contracts, and owner without guessing?",
-      "score": 8,
+      "score": 10,
       "weight": 10,
-      "earned": 8,
+      "earned": 10,
       "possible": 10,
       "checks": [
         {
@@ -31,8 +31,8 @@
         },
         {
           "id": "ownership-doc",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Ownership split is documented."
         },
@@ -51,17 +51,15 @@
           "message": "Dashboard kit has a changelog."
         }
       ],
-      "gaps": [
-        "Ownership split is documented."
-      ]
+      "gaps": []
     },
     {
       "id": "adoption",
       "name": "Adoption",
       "question": "Can we prove which downstream dashboards are current, stale, planned, or still local?",
-      "score": 8.5,
+      "score": 10,
       "weight": 10,
-      "earned": 11,
+      "earned": 13,
       "possible": 13,
       "checks": [
         {
@@ -94,8 +92,8 @@
         },
         {
           "id": "all-priority-projects-adoption-current",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Priority project adoption reports are fully current, not merely non-stale."
         },
@@ -107,17 +105,15 @@
           "message": "Static-adapter manifests were synced within the last 7 days."
         }
       ],
-      "gaps": [
-        "Priority project adoption reports are fully current, not merely non-stale."
-      ]
+      "gaps": []
     },
     {
       "id": "enforcement",
       "name": "Enforcement",
       "question": "Can stale design-system use fail or warn before production?",
-      "score": 6.7,
+      "score": 10,
       "weight": 10,
-      "earned": 8,
+      "earned": 12,
       "possible": 12,
       "checks": [
         {
@@ -143,15 +139,15 @@
         },
         {
           "id": "hook-installer",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Design-system hook installer exists."
         },
         {
           "id": "strict-ci-documentation",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Strict adoption gate is documented."
         },
@@ -163,18 +159,15 @@
           "message": "Adoption report is fresh enough to govern readiness."
         }
       ],
-      "gaps": [
-        "Design-system hook installer exists.",
-        "Strict adoption gate is documented."
-      ]
+      "gaps": []
     },
     {
       "id": "migration",
       "name": "Migration",
       "question": "Can an operator move one stale surface toward the kit without a blank-page rewrite?",
-      "score": 3.3,
+      "score": 10,
       "weight": 10,
-      "earned": 4,
+      "earned": 12,
       "possible": 12,
       "checks": [
         {
@@ -193,60 +186,55 @@
         },
         {
           "id": "package-native-checklist",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Package-native cutover checklist exists."
         },
         {
           "id": "migration-backlog",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Package-native migration backlog exists."
         },
         {
           "id": "codemod-gap",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Migration codemod candidate planner exists."
         },
         {
           "id": "codemod-candidates-cleared",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "No generated migration codemod candidates remain open."
         }
       ],
-      "gaps": [
-        "Package-native cutover checklist exists.",
-        "Package-native migration backlog exists.",
-        "Migration codemod candidate planner exists.",
-        "No generated migration codemod candidates remain open."
-      ]
+      "gaps": []
     },
     {
       "id": "runtime-proof",
       "name": "Runtime Proof",
       "question": "Can we prove production dashboards render real states and not accidental mock/prototype views?",
-      "score": 2,
+      "score": 10,
       "weight": 10,
-      "earned": 4,
+      "earned": 20,
       "possible": 20,
       "checks": [
         {
           "id": "dashboard-health-validator",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Dashboard health validator exists."
         },
         {
           "id": "live-health-validator",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Live dashboard health validator exists."
         },
@@ -259,43 +247,43 @@
         },
         {
           "id": "production-screenshot-gap",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Production proof registry generator exists."
         },
         {
           "id": "production-screenshot-capture-command",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Production screenshot capture command exists."
         },
         {
           "id": "proof-endpoints-declared",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Registered production dashboards declare readonly proof endpoints."
         },
         {
           "id": "production-proof-baselines-exist",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Registered production dashboards have screenshot baselines."
         },
         {
           "id": "production-proof-status-complete",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Production proof registry has no baseline-needed or review-needed dashboard entries."
         },
         {
           "id": "mock-state-proof-gap",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Production mock/prototype copy gate exists."
         },
@@ -307,37 +295,28 @@
           "message": "Declared dashboard surfaces do not contain production-confusing prototype-preview copy."
         }
       ],
-      "gaps": [
-        "Dashboard health validator exists.",
-        "Live dashboard health validator exists.",
-        "Production proof registry generator exists.",
-        "Production screenshot capture command exists.",
-        "Registered production dashboards declare readonly proof endpoints.",
-        "Registered production dashboards have screenshot baselines.",
-        "Production proof registry has no baseline-needed or review-needed dashboard entries.",
-        "Production mock/prototype copy gate exists."
-      ]
+      "gaps": []
     },
     {
       "id": "design-quality",
       "name": "Design Quality",
       "question": "Can dashboards be judged as premium, dense, modern, and decision-ready rather than merely rendered?",
-      "score": 2.7,
+      "score": 10,
       "weight": 10,
-      "earned": 4,
+      "earned": 15,
       "possible": 15,
       "checks": [
         {
           "id": "quality-scorecard",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Dashboard quality scorecard exists."
         },
         {
           "id": "recipe-score-command",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Recipe compliance scorer exists."
         },
@@ -357,47 +336,41 @@
         },
         {
           "id": "visual-quality-gap",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Automated heuristic visual quality scorer exists."
         },
         {
           "id": "visual-quality-all-pass",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 3,
           "possiblePoints": 3,
           "message": "Tracked dashboard surfaces pass automated visual-quality thresholds."
         },
         {
           "id": "visual-quality-min-score",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Tracked dashboard surfaces score at least 90 on visual-quality heuristics."
         }
       ],
-      "gaps": [
-        "Dashboard quality scorecard exists.",
-        "Recipe compliance scorer exists.",
-        "Automated heuristic visual quality scorer exists.",
-        "Tracked dashboard surfaces pass automated visual-quality thresholds.",
-        "Tracked dashboard surfaces score at least 90 on visual-quality heuristics."
-      ]
+      "gaps": []
     },
     {
       "id": "data-contract",
       "name": "Data Contract",
       "question": "Do dashboards have enough normalized data to explain freshness, confidence, action, owner, and business impact?",
-      "score": 3.1,
+      "score": 10,
       "weight": 10,
-      "earned": 4,
+      "earned": 13,
       "possible": 13,
       "checks": [
         {
           "id": "data-contracts-doc",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Dashboard data contracts doc exists."
         },
@@ -417,60 +390,55 @@
         },
         {
           "id": "downstream-feed",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Downstream snapshot feed exists."
         },
         {
           "id": "real-endpoint-gap",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Dashboard telemetry contract coverage report exists."
         },
         {
           "id": "telemetry-contracts-complete",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 3,
           "possiblePoints": 3,
           "message": "Registered dashboards have complete telemetry contracts."
         }
       ],
-      "gaps": [
-        "Dashboard data contracts doc exists.",
-        "Downstream snapshot feed exists.",
-        "Dashboard telemetry contract coverage report exists.",
-        "Registered dashboards have complete telemetry contracts."
-      ]
+      "gaps": []
     },
     {
       "id": "governance",
       "name": "Governance",
       "question": "Can Hermes OS explain readiness, ownership, exceptions, and promotion criteria?",
-      "score": 1.4,
+      "score": 10,
       "weight": 10,
-      "earned": 2,
+      "earned": 14,
       "possible": 14,
       "checks": [
         {
           "id": "ownership-doc-governance",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Hermes OS governance role is explicit."
         },
         {
           "id": "release-checklist",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Dashboard release review checklist exists."
         },
         {
           "id": "spine-validator",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Dashboard spine validator exists."
         },
@@ -483,55 +451,62 @@
         },
         {
           "id": "readiness-gate-gap",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Dashboard adoption readiness-impact report exists."
         },
         {
           "id": "readiness-impact-no-penalty",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Dashboard adoption creates no readiness penalties."
         },
         {
           "id": "readiness-impact-no-cap",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Dashboard adoption does not cap readiness below 100%."
         }
       ],
-      "gaps": [
-        "Hermes OS governance role is explicit.",
-        "Dashboard release review checklist exists.",
-        "Dashboard spine validator exists.",
-        "Dashboard adoption readiness-impact report exists.",
-        "Dashboard adoption creates no readiness penalties.",
-        "Dashboard adoption does not cap readiness below 100%."
-      ]
+      "gaps": []
     },
     {
       "id": "observability",
       "name": "Observability",
       "question": "Can the system tell which projects are stale, costly, broken, or missing data without opening every dashboard?",
-      "score": 2.9,
+      "score": 8.9,
       "weight": 10,
-      "earned": 4,
-      "possible": 14,
+      "earned": 16,
+      "possible": 18,
       "checks": [
         {
           "id": "dashboard-registry",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Dashboard launcher registry exists."
         },
         {
+          "id": "deployment-metadata-validator",
+          "passed": true,
+          "points": 2,
+          "possiblePoints": 2,
+          "message": "Dashboard deployment metadata validator exists."
+        },
+        {
+          "id": "deployment-metadata-complete",
+          "passed": true,
+          "points": 2,
+          "possiblePoints": 2,
+          "message": "Registered dashboards declare complete Hetzner deployment metadata."
+        },
+        {
           "id": "downstream-snapshot-feed",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Downstream snapshot feed exists."
         },
@@ -551,15 +526,15 @@
         },
         {
           "id": "universal-telemetry-gap",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Latest dashboard telemetry contract report exists."
         },
         {
           "id": "maturity-levels-reach-registered-current",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Registered dashboard projects have reached at least adoption-current maturity."
         },
@@ -572,10 +547,6 @@
         }
       ],
       "gaps": [
-        "Dashboard launcher registry exists.",
-        "Downstream snapshot feed exists.",
-        "Latest dashboard telemetry contract report exists.",
-        "Registered dashboard projects have reached at least adoption-current maturity.",
         "Registered dashboard projects have reached telemetry-normalized world-class maturity."
       ]
     },
@@ -583,31 +554,73 @@
       "id": "operator-experience",
       "name": "Operator Experience",
       "question": "Can a human operator understand, select, drill down, and act without tab chaos or raw-code guessing?",
-      "score": 1.7,
+      "score": 10,
       "weight": 10,
-      "earned": 2,
-      "possible": 12,
+      "earned": 24,
+      "possible": 24,
       "checks": [
         {
           "id": "visual-selection-bridge-doc",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Visual selection bridge is documented."
         },
         {
           "id": "visual-selection-bridge-runtime",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Visual selection bridge runtime exists."
         },
         {
           "id": "information-architecture",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Dashboard information architecture exists."
+        },
+        {
+          "id": "next-actions-report",
+          "passed": true,
+          "points": 2,
+          "possiblePoints": 2,
+          "message": "Dashboard next-actions report command exists."
+        },
+        {
+          "id": "next-actions-artifact",
+          "passed": true,
+          "points": 2,
+          "possiblePoints": 2,
+          "message": "Dashboard next-actions report artifact exists."
+        },
+        {
+          "id": "next-actions-executor",
+          "passed": true,
+          "points": 2,
+          "possiblePoints": 2,
+          "message": "Cross-project dashboard next-actions executor exists."
+        },
+        {
+          "id": "next-actions-execution-artifact",
+          "passed": true,
+          "points": 2,
+          "possiblePoints": 2,
+          "message": "Cross-project next-actions execution report artifact exists."
+        },
+        {
+          "id": "project-validation-profiles",
+          "passed": true,
+          "points": 2,
+          "possiblePoints": 2,
+          "message": "Project validation profile validator exists."
+        },
+        {
+          "id": "project-validation-profiles-clean",
+          "passed": true,
+          "points": 2,
+          "possiblePoints": 2,
+          "message": "Project validation profiles are complete."
         },
         {
           "id": "product-interface-components",
@@ -618,26 +631,20 @@
         },
         {
           "id": "project-wide-bridge-gap",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Visual selection bridge coverage gate exists."
         },
         {
           "id": "bridge-coverage-clean",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Tracked prototype/active surfaces have visual-selection bridge coverage."
         }
       ],
-      "gaps": [
-        "Visual selection bridge is documented.",
-        "Visual selection bridge runtime exists.",
-        "Dashboard information architecture exists.",
-        "Visual selection bridge coverage gate exists.",
-        "Tracked prototype/active surfaces have visual-selection bridge coverage."
-      ]
+      "gaps": []
     }
   ]
 }

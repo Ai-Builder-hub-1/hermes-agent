@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-01T22:25:12.603Z",
+  "generatedAt": "2026-08-03T19:57:16.066Z",
   "note": "This is a heuristic quality gate. Human/Mobbin review is still required for premium visual taste.",
   "items": [
     {
       "project": "khashi-vc",
       "surface": "market-intelligence-live",
       "path": "public/roc/market-intelligence-live.html",
-      "score": 83,
-      "status": "needs-review",
+      "score": 100,
+      "status": "pass",
       "checks": [
         {
           "id": "review-handles",
@@ -32,7 +32,7 @@
         },
         {
           "id": "not-placeholder",
-          "passed": false
+          "passed": true
         }
       ]
     },
@@ -40,6 +40,336 @@
       "project": "media-engine",
       "surface": "media-engine-ops-active",
       "path": "core/operations/unified-publishing-dashboard.js",
+      "score": 100,
+      "status": "pass",
+      "checks": [
+        {
+          "id": "review-handles",
+          "passed": true
+        },
+        {
+          "id": "selection-bridge",
+          "passed": true
+        },
+        {
+          "id": "states",
+          "passed": true
+        },
+        {
+          "id": "responsive",
+          "passed": true
+        },
+        {
+          "id": "chart-language",
+          "passed": true
+        },
+        {
+          "id": "not-placeholder",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "project": "media-business-os",
+      "surface": "media-business-main",
+      "path": "public/dashboard/index.html",
+      "score": 100,
+      "status": "pass",
+      "checks": [
+        {
+          "id": "review-handles",
+          "passed": true
+        },
+        {
+          "id": "selection-bridge",
+          "passed": true
+        },
+        {
+          "id": "states",
+          "passed": true
+        },
+        {
+          "id": "responsive",
+          "passed": true
+        },
+        {
+          "id": "chart-language",
+          "passed": true
+        },
+        {
+          "id": "not-placeholder",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "project": "media-business-os",
+      "surface": "media-business-renderer",
+      "path": "public/dashboard/app.js",
+      "score": 100,
+      "status": "pass",
+      "checks": [
+        {
+          "id": "review-handles",
+          "passed": true
+        },
+        {
+          "id": "selection-bridge",
+          "passed": true
+        },
+        {
+          "id": "states",
+          "passed": true
+        },
+        {
+          "id": "responsive",
+          "passed": true
+        },
+        {
+          "id": "chart-language",
+          "passed": true
+        },
+        {
+          "id": "not-placeholder",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "project": "business-mapper",
+      "surface": "business-mapper-workspace",
+      "path": "business_mapper/static/index.html",
+      "score": 100,
+      "status": "pass",
+      "checks": [
+        {
+          "id": "review-handles",
+          "passed": true
+        },
+        {
+          "id": "selection-bridge",
+          "passed": true
+        },
+        {
+          "id": "states",
+          "passed": true
+        },
+        {
+          "id": "responsive",
+          "passed": true
+        },
+        {
+          "id": "chart-language",
+          "passed": true
+        },
+        {
+          "id": "not-placeholder",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "project": "meal-assistant",
+      "surface": "meal-dashboard-shell",
+      "path": "src/server.js",
+      "score": 100,
+      "status": "pass",
+      "checks": [
+        {
+          "id": "review-handles",
+          "passed": true
+        },
+        {
+          "id": "selection-bridge",
+          "passed": true
+        },
+        {
+          "id": "states",
+          "passed": true
+        },
+        {
+          "id": "responsive",
+          "passed": true
+        },
+        {
+          "id": "chart-language",
+          "passed": true
+        },
+        {
+          "id": "not-placeholder",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "project": "hermes-os",
+      "surface": "hermes-dashboard-hub",
+      "path": "src/workspace/workspace-server.ts",
+      "score": 100,
+      "status": "pass",
+      "checks": [
+        {
+          "id": "review-handles",
+          "passed": true
+        },
+        {
+          "id": "selection-bridge",
+          "passed": true
+        },
+        {
+          "id": "states",
+          "passed": true
+        },
+        {
+          "id": "responsive",
+          "passed": true
+        },
+        {
+          "id": "chart-language",
+          "passed": true
+        },
+        {
+          "id": "not-placeholder",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "project": "hermes-os",
+      "surface": "hermes-operator-dashboard-artifact",
+      "path": "src/operator/operator-state.ts",
+      "score": 100,
+      "status": "pass",
+      "checks": [
+        {
+          "id": "review-handles",
+          "passed": true
+        },
+        {
+          "id": "selection-bridge",
+          "passed": true
+        },
+        {
+          "id": "states",
+          "passed": true
+        },
+        {
+          "id": "responsive",
+          "passed": true
+        },
+        {
+          "id": "chart-language",
+          "passed": true
+        },
+        {
+          "id": "not-placeholder",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "project": "hermes-os",
+      "surface": "hermes-control-plane-artifact",
+      "path": "src/operator/control-plane.ts",
+      "score": 100,
+      "status": "pass",
+      "checks": [
+        {
+          "id": "review-handles",
+          "passed": true
+        },
+        {
+          "id": "selection-bridge",
+          "passed": true
+        },
+        {
+          "id": "states",
+          "passed": true
+        },
+        {
+          "id": "responsive",
+          "passed": true
+        },
+        {
+          "id": "chart-language",
+          "passed": true
+        },
+        {
+          "id": "not-placeholder",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "surface": "tlc-dashboard-shell",
+      "path": "public/dashboard/index.html",
+      "score": 100,
+      "status": "pass",
+      "checks": [
+        {
+          "id": "review-handles",
+          "passed": true
+        },
+        {
+          "id": "selection-bridge",
+          "passed": true
+        },
+        {
+          "id": "states",
+          "passed": true
+        },
+        {
+          "id": "responsive",
+          "passed": true
+        },
+        {
+          "id": "chart-language",
+          "passed": true
+        },
+        {
+          "id": "not-placeholder",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "surface": "tlc-dashboard-api",
+      "path": "src/api.js",
+      "score": 100,
+      "status": "pass",
+      "checks": [
+        {
+          "id": "review-handles",
+          "passed": true
+        },
+        {
+          "id": "selection-bridge",
+          "passed": true
+        },
+        {
+          "id": "states",
+          "passed": true
+        },
+        {
+          "id": "responsive",
+          "passed": true
+        },
+        {
+          "id": "chart-language",
+          "passed": true
+        },
+        {
+          "id": "not-placeholder",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "surface": "tlc-dashboard-models",
+      "path": "src/dashboards.js",
       "score": 100,
       "status": "pass",
       "checks": [

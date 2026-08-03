@@ -10,23 +10,13 @@ The machine-readable backlog is `docs/design/world-class-dashboard-system-backlo
 
 Each item is produced from a failed audit check in `docs/design/world-class-dashboard-system-audit.json`. This keeps world-class readiness from staying as a vague design ambition; every failed layer becomes trackable work with a severity, source layer, and suggested next action.
 
-Do not edit the generated JSON by hand. Update the audit, close the underlying gap, and regenerate the report.
+Do not edit the generated JSON or this markdown summary by hand. Update the audit, close the underlying gap, and regenerate the report.
 
 ## Current Open Items
 
-As of the latest report, the central system scores `82.4/100` and is `not-world-class-yet`. It is no longer missing the core architecture for adoption, governance, sync, migration planning, bridge coverage, production proof generation, proof endpoint capture support, or report generation. The remaining items are proof/adoption/data-quality gates that downstream projects must satisfy before they can be called world-class:
+As of the latest report, the central system scores `98.9/100` and is `not-world-class-yet`.
 
-- Adoption: priority project adoption reports must be fully current, not merely non-stale.
-- Migration: generated migration codemod candidates must be cleared.
-- Runtime Proof: registered production dashboards must declare readonly proof endpoints.
-- Runtime Proof: registered production dashboards need screenshot baselines.
-- Runtime Proof: the production proof registry must have no `baseline-needed` dashboard entries.
-- Design Quality: tracked dashboard surfaces must pass visual-quality thresholds.
-- Design Quality: tracked dashboard surfaces must score at least 90 on visual-quality heuristics.
-- Data Contract: registered dashboards must expose complete telemetry contracts.
-- Governance: dashboard adoption must create no readiness penalties.
-- Governance: dashboard adoption must not cap readiness below 100%.
-- Observability: registered dashboard projects must reach at least adoption-current maturity.
-- Observability: registered dashboard projects must reach telemetry-normalized world-class maturity.
+Open items: `1`.
 
-This distinction matters: the kit can now detect and report the gaps, provide screenshot capture tooling, support token-protected proof endpoints, and penalize readiness when adoption is not clean. Individual dashboards still have to adopt the kit, expose live telemetry, implement proof endpoints, prove production screenshots, and pass visual review.
+- Observability: Registered dashboard projects have reached telemetry-normalized world-class maturity.
+

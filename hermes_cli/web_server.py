@@ -16,6 +16,7 @@ import base64
 import binascii
 from dataclasses import dataclass
 from datetime import datetime, timezone
+import html
 import hmac
 import importlib.util
 import json
@@ -1684,6 +1685,119 @@ async def get_status():
         })
 
     return status
+
+
+def _dashboard_status_class(value: Any) -> str:
+    text = str(value or "").lower()
+    if text in {"running", "true", "healthy", "ok"}:
+        return "ready"
+    if text in {"stopped", "startup_failed", "false", "error"}:
+        return "error"
+    return "watch"
+
+
+def _dashboard_snapshot_payload(status: Dict[str, Any]) -> Dict[str, Any]:
+    gateway_platforms = status.get("gateway_platforms") or {}
+    configured_platforms = len(gateway_platforms) if isinstance(gateway_platforms, dict) else 0
+    gateway_state = status.get("gateway_state") or ("running" if status.get("gateway_running") else "unknown")
+    generated_at = datetime.now(timezone.utc).isoformat()
+    return {
+        "schema": "hermes.dashboard-snapshot.v1",
+        "project": {
+            "id": "nous-hermes-agent.dashboard",
+            "name": "Nous Hermes Agent",
+            "category": "hermes-governance",
+        },
+        "generatedAt": generated_at,
+        "freshness": {
+            "source": "runtime-status",
+            "gatewayUpdatedAt": status.get("gateway_updated_at"),
+        },
+        "status": {
+            "overall": "degraded" if not status.get("gateway_running") else "healthy",
+            "gateway": gateway_state,
+            "authRequired": bool(status.get("auth_required")),
+        },
+        "metrics": [
+            {"label": "Gateway", "value": gateway_state, "status": _dashboard_status_class(gateway_state)},
+            {"label": "Platforms", "value": configured_platforms, "status": "ready" if configured_platforms else "watch"},
+            {"label": "Active sessions", "value": status.get("active_sessions", 0), "status": "ready"},
+            {"label": "Auth providers", "value": len(status.get("auth_providers") or []), "status": "ready" if status.get("auth_required") else "watch"},
+        ],
+        "links": {
+            "health": "/api/status",
+            "proof": "/dashboard/proof",
+        },
+    }
+
+
+@app.get("/api/dashboard-snapshot")
+async def get_dashboard_snapshot():
+    status = await get_status()
+    return _dashboard_snapshot_payload(status)
+
+
+@app.get("/dashboard/proof")
+async def get_dashboard_proof():
+    status = await get_status()
+    snapshot = _dashboard_snapshot_payload(status)
+    metrics = snapshot["metrics"]
+    metric_cards = "\n".join(
+        (
+            "<article class='card'>"
+            f"<span>{html.escape(str(metric['label']))}</span>"
+            f"<strong class='{html.escape(str(metric.get('status', 'watch')))}'>{html.escape(str(metric['value']))}</strong>"
+            f"<small>{html.escape(str(metric.get('status', 'watch')))}</small>"
+            "</article>"
+        )
+        for metric in metrics
+    )
+    body = f"""<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>Nous Hermes Agent Proof</title>
+  <style>
+    :root {{ color-scheme: light; --bg:#f6f8fb; --panel:#fff; --ink:#151b23; --muted:#617084; --line:#dce4ec; --good:#0b6b4b; --warn:#8a5a00; --bad:#a13a31; }}
+    * {{ box-sizing:border-box; }}
+    body {{ margin:0; background:var(--bg); color:var(--ink); font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }}
+    main {{ min-height:100vh; padding:28px; display:grid; gap:16px; }}
+    header {{ display:flex; justify-content:space-between; align-items:flex-start; gap:16px; }}
+    h1 {{ margin:0; font-size:30px; line-height:1.05; letter-spacing:0; }}
+    p, small {{ color:var(--muted); }}
+    p {{ margin:8px 0 0; max-width:760px; }}
+    .pill {{ border:1px solid var(--line); border-radius:999px; background:#fff; padding:7px 11px; color:var(--muted); font-size:13px; white-space:nowrap; }}
+    .grid {{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }}
+    .card {{ background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:16px; min-height:112px; display:grid; align-content:start; gap:8px; }}
+    .card span {{ font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); font-weight:760; }}
+    .card strong {{ font-size:28px; line-height:1; overflow-wrap:anywhere; }}
+    .ready {{ color:var(--good); }}
+    .watch {{ color:var(--warn); }}
+    .error {{ color:var(--bad); }}
+    pre {{ overflow:auto; max-height:420px; margin:0; padding:14px; border-radius:8px; background:#101923; color:#dff2ff; font-size:12px; line-height:1.45; }}
+    @media (max-width: 980px) {{ header {{ flex-direction:column; }} .grid {{ grid-template-columns:1fr 1fr; }} }}
+    @media (max-width: 620px) {{ main {{ padding:18px; }} .grid {{ grid-template-columns:1fr; }} }}
+  </style>
+</head>
+<body>
+  <main data-dashboard-proof="nous-hermes-agent.dashboard">
+    <header>
+      <div>
+        <h1>Nous Hermes Agent Proof</h1>
+        <p>Readonly production proof view for screenshot capture, telemetry baselines, and dashboard governance.</p>
+      </div>
+      <div class="pill">Generated {html.escape(snapshot["generatedAt"])}</div>
+    </header>
+    <section class="grid" aria-label="Dashboard proof metrics">
+      {metric_cards}
+    </section>
+    <pre aria-label="Dashboard snapshot JSON">{html.escape(json.dumps(snapshot, indent=2))}</pre>
+  </main>
+</body>
+</html>"""
+    return HTMLResponse(body, headers={"cache-control": "no-store", "x-robots-tag": "noindex"})
 
 
 @app.get("/api/hermes-os/summary")

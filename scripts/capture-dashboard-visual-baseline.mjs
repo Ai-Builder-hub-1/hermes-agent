@@ -13,8 +13,9 @@ if (!url) {
 
 const outDir = path.resolve(process.cwd(), args.out || "proof/dashboard-baseline");
 const viewports = [
-  { id: "desktop", width: 1440, height: 1000 },
-  { id: "mobile", width: 390, height: 844 }
+  { id: "desktop-expanded", width: 1440, height: 1000, sidebar: "expanded" },
+  { id: "desktop-collapsed", width: 1440, height: 1000, sidebar: "collapsed" },
+  { id: "mobile", width: 390, height: 844, sidebar: "mobile" }
 ];
 const themes = ["light", "dark", "system"];
 fs.mkdirSync(outDir, { recursive: true });
@@ -32,6 +33,19 @@ for (const viewport of viewports) {
   for (const theme of themes) {
     await page.goto(url, { waitUntil: "networkidle" });
     await page.evaluate((value) => document.documentElement.setAttribute("data-theme", value), theme);
+    await page.evaluate((sidebarState) => {
+      const shell =
+        document.querySelector(".hdk-shell, .shell, [data-hdk-shell], [data-component='DashboardShell']");
+      if (sidebarState === "collapsed") {
+        shell?.classList.add("sidebar-collapsed");
+        shell?.setAttribute("data-sidebar-state", "collapsed");
+      } else if (sidebarState === "expanded") {
+        shell?.classList.remove("sidebar-collapsed");
+        shell?.setAttribute("data-sidebar-state", "expanded");
+      } else {
+        shell?.setAttribute("data-sidebar-state", "mobile");
+      }
+    }, viewport.sidebar);
     const horizontalOverflow = await page.evaluate(() => Math.max(0, document.documentElement.scrollWidth - document.documentElement.clientWidth));
     const filename = `${viewport.id}-${theme}.png`;
     await page.screenshot({ path: path.join(outDir, filename), fullPage: true });
@@ -40,6 +54,7 @@ for (const viewport of viewports) {
       theme,
       width: viewport.width,
       height: viewport.height,
+      sidebar: viewport.sidebar,
       file: filename,
       horizontalOverflow
     });
