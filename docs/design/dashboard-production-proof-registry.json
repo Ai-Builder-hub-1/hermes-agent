@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-03T19:19:59.491Z",
+  "generatedAt": "2026-08-03T20:44:08.965Z",
   "entries": [
     {
       "id": "nous-hermes-agent.dashboard",
@@ -35,7 +35,7 @@
         "authWallDetected": false,
         "blankPrimaryDetected": false,
         "proofEndpointDeclared": true,
-        "capturedAt": "2026-08-03T19:12:52.261Z",
+        "capturedAt": "2026-08-03T20:43:29.659Z",
         "proofEndpointUsed": true,
         "proofAuthMissing": false,
         "textLength": 1114,
@@ -75,10 +75,10 @@
       "proof": {
         "screenshotCaptured": true,
         "screenshotBaselinePath": "docs/design/production-screenshots/khashi-vc.roc.png",
-        "capturedAt": "2026-07-30T18:41:22.451Z",
+        "capturedAt": "2026-08-03T20:43:30.445Z",
         "authWallDetected": false,
         "blankPrimaryDetected": false,
-        "textLength": 13361,
+        "textLength": 16392,
         "proofEndpointDeclared": true,
         "proofEndpointUsed": true,
         "localProofUsed": false,
@@ -116,11 +116,14 @@
       "proof": {
         "screenshotCaptured": true,
         "screenshotBaselinePath": "docs/design/production-screenshots/media-engine.ops.png",
-        "capturedAt": "2026-07-30T15:06:07.182Z",
+        "capturedAt": "2026-08-03T20:43:55.934Z",
         "authWallDetected": false,
         "blankPrimaryDetected": false,
-        "textLength": 155010,
-        "proofEndpointDeclared": true
+        "textLength": 1846,
+        "proofEndpointDeclared": true,
+        "proofEndpointUsed": true,
+        "proofAuthMissing": false,
+        "httpStatus": 200
       },
       "status": "baseline-present"
     },
@@ -152,11 +155,14 @@
       "proof": {
         "screenshotCaptured": true,
         "screenshotBaselinePath": "docs/design/production-screenshots/media-business-operations.main.png",
-        "capturedAt": "2026-07-30T15:06:12.028Z",
+        "capturedAt": "2026-08-03T20:43:58.656Z",
         "authWallDetected": false,
         "blankPrimaryDetected": false,
-        "textLength": 533,
-        "proofEndpointDeclared": true
+        "textLength": 1241,
+        "proofEndpointDeclared": true,
+        "proofEndpointUsed": true,
+        "proofAuthMissing": false,
+        "httpStatus": 200
       },
       "status": "baseline-present"
     },
@@ -188,11 +194,14 @@
       "proof": {
         "screenshotCaptured": true,
         "screenshotBaselinePath": "docs/design/production-screenshots/business-mapper.workspace.png",
-        "capturedAt": "2026-07-30T15:06:13.415Z",
+        "capturedAt": "2026-08-03T20:43:59.513Z",
         "authWallDetected": false,
         "blankPrimaryDetected": false,
-        "textLength": 4090,
-        "proofEndpointDeclared": true
+        "textLength": 1020,
+        "proofEndpointDeclared": true,
+        "proofEndpointUsed": true,
+        "proofAuthMissing": false,
+        "httpStatus": 200
       },
       "status": "baseline-present"
     },
@@ -239,7 +248,7 @@
         "proofEndpointDeclared": true,
         "proofEndpointUsed": true,
         "proofAuthMissing": false,
-        "capturedAt": "2026-08-03T19:19:58.683Z",
+        "capturedAt": "2026-08-03T20:44:00.270Z",
         "httpStatus": 200,
         "textLength": 1163
       },
@@ -277,7 +286,7 @@
       "proof": {
         "screenshotCaptured": true,
         "screenshotBaselinePath": "docs/design/production-screenshots/investing-system.roc.png",
-        "capturedAt": "2026-08-03T19:16:31.291Z",
+        "capturedAt": "2026-08-03T20:44:01.030Z",
         "authWallDetected": false,
         "blankPrimaryDetected": false,
         "textLength": 7878,
@@ -316,38 +325,57 @@
       "proof": {
         "screenshotCaptured": true,
         "screenshotBaselinePath": "docs/design/production-screenshots/hermes.workspace.png",
-        "capturedAt": "2026-08-03T19:12:53.428Z",
+        "capturedAt": "2026-08-03T20:44:01.865Z",
         "authWallDetected": false,
         "blankPrimaryDetected": false,
-        "textLength": 936,
+        "textLength": 939,
         "proofEndpointDeclared": true,
         "proofEndpointUsed": true,
         "proofAuthMissing": false,
         "httpStatus": 200
       },
       "status": "baseline-present"
-    }
-  ],
-  "lastCapture": {
-    "generatedAt": "2026-08-03T19:19:59.491Z",
-    "requestedId": "meal-assistant.main",
-    "capturedCount": 1,
-    "reviewNeededCount": 0,
-    "failedCount": 0,
-    "results": [
-      {
-        "id": "meal-assistant.main",
-        "url": "https://meal.tlccapitalgroup.com/",
-        "status": "captured",
-        "screenshotBaselinePath": "docs/design/production-screenshots/meal-assistant.main.png",
-        "capturedAt": "2026-08-03T19:19:58.683Z",
+    },
+    {
+      "id": "tlc-capital-group-os.main",
+      "label": "TLC Capital Group OS",
+      "owner": "TLC Capital Group",
+      "url": "https://tlc.tlccapitalgroup.com/dashboard",
+      "proofUrl": "https://tlc.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://tlc.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://tlc.tlccapitalgroup.com/dashboard-snapshot",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "tlc-capital-group-os",
+        "containerName": "deploy-tlc-capital-group-os-1",
+        "buildContext": "/root/apps/tlc-capital-group-os",
+        "reverseProxy": "Caddy -> tlc-capital-group-os:3100",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh"
+      },
+      "screenshotBaselinePath": "docs/design/production-screenshots/tlc-capital-group-os.main.png",
+      "requiredProof": [
+        "health-url-reachable",
+        "screenshot-captured",
+        "proof-endpoint-declared",
+        "no-production-mock-copy",
+        "no-blank-primary-region",
+        "primary-data-freshness-visible"
+      ],
+      "proof": {
+        "proofEndpointDeclared": true,
+        "screenshotCaptured": true,
+        "screenshotBaselinePath": "docs/design/production-screenshots/tlc-capital-group-os.main.png",
+        "authWallDetected": false,
+        "blankPrimaryDetected": false,
+        "capturedAt": "2026-08-03T20:44:02.605Z",
         "proofEndpointUsed": true,
         "proofAuthMissing": false,
         "httpStatus": 200,
-        "authWallDetected": false,
-        "blankPrimaryDetected": false,
-        "textLength": 1163
-      }
-    ]
-  }
+        "textLength": 2959
+      },
+      "status": "baseline-present"
+    }
+  ]
 }

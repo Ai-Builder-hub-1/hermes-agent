@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-03T19:50:39.243Z",
+  "generatedAt": "2026-08-03T20:44:42.231Z",
   "minimumWorldClassScore": 90,
-  "score": 98.9,
-  "openGapCount": 1,
-  "status": "not-world-class-yet",
+  "score": 100,
+  "openGapCount": 0,
+  "status": "world-class-ready",
   "layers": [
     {
       "id": "source-of-truth",
@@ -477,9 +477,9 @@
       "id": "observability",
       "name": "Observability",
       "question": "Can the system tell which projects are stale, costly, broken, or missing data without opening every dashboard?",
-      "score": 8.9,
+      "score": 10,
       "weight": 10,
-      "earned": 16,
+      "earned": 18,
       "possible": 18,
       "checks": [
         {
@@ -540,15 +540,13 @@
         },
         {
           "id": "maturity-levels-reach-world-class",
-          "passed": false,
-          "points": 0,
+          "passed": true,
+          "points": 2,
           "possiblePoints": 2,
           "message": "Registered dashboard projects have reached telemetry-normalized world-class maturity."
         }
       ],
-      "gaps": [
-        "Registered dashboard projects have reached telemetry-normalized world-class maturity."
-      ]
+      "gaps": []
     },
     {
       "id": "operator-experience",

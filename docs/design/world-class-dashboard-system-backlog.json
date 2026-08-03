@@ -1,19 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-03T19:50:39.243Z",
+  "generatedAt": "2026-08-03T20:44:42.231Z",
   "sourceReport": "docs/design/world-class-dashboard-system-audit-report.json",
-  "openItems": 1,
-  "items": [
-    {
-      "id": "dashboard-world-class-observability-maturity-levels-reach-world-class",
-      "title": "Registered dashboard projects have reached telemetry-normalized world-class maturity.",
-      "layer": "observability",
-      "layerName": "Observability",
-      "severity": "medium",
-      "status": "open",
-      "source": "world-class-dashboard-system-audit",
-      "suggestedAction": "Normalize cost, token, provider, health, queue, storage, and stale-data telemetry across registered projects.",
-      "createdAt": "2026-08-03T19:50:39.243Z"
-    }
-  ]
+  "openItems": 0,
+  "items": []
 }

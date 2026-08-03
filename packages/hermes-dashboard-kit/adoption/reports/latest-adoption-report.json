@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-03T19:56:46.979Z",
+  "generatedAt": "2026-08-03T20:44:50.627Z",
   "source": {
     "package": "@hermes/dashboard-kit",
     "version": "0.1.0",
@@ -116,7 +116,7 @@
       },
       "packageNative": {
         "dependencyDeclared": true,
-        "dependencyVersion": "file:../nous-hermes-agent/packages/hermes-dashboard-kit",
+        "dependencyVersion": "file:vendor/hermes-dashboard-kit",
         "packageJson": "../media-engine/package.json"
       },
       "issues": [],
