@@ -116,7 +116,7 @@ Avoid:
 
 ## Commands And Queues
 
-Use `CommandBar`, `ActionButtonGroup`, `ActivityTimeline`, `QueuePanel`, `RunStatusPanel`, and `AuditEventList`.
+Use `CommandBar`, `ActionButtonGroup`, `ActivityTimeline`, `QueuePanel`, `RunStatusPanel`, `AuditEventList`, `ActionQueue`, and `AlertQueue`.
 
 Use these when:
 
@@ -129,6 +129,94 @@ Avoid:
 - Placing destructive actions beside read-only analytics without visual separation.
 - Disabled buttons without a reason.
 - Command surfaces without audit or queue feedback.
+
+## Media And Business Operations
+
+Use `ContentPackageWorkspace`, `BrandPortfolioGrid`, `ChannelPostabilityMatrix`, `OperationsFunnel`, `BriefingPanel`, `NarrativeBriefing`, `ScheduleTimeline`, `CalendarQueue`, `BenchmarkPanel`, `PostPerformanceTable`, `CampaignEconomicsPanel`, `AttributionMatrix`, `CampaignRiskRail`, `ProspectBoard`, `OutreachDraftPanel`, `CoverageGapMatrix`, `ResponseLogPanel`, `ReadinessDomainMatrix`, `KpiContractTable`, `GovernanceChecklist`, `AutomationReadinessMatrix`, `WorkOrderQueue`, `GateRunTimeline`, `StageBlockerMatrix`, `RunDrilldownPanel`, `RecommendationReviewPanel`, `LearningEvidenceStack`, `SignalClusterPanel`, `InsightGapPanel`, `PartnerRankingTable`, `PublishingProofPanel`, `SourceContractHealthTable`, `CostAttributionTable`, and `WasteCostPanel`.
+
+Use these when:
+
+- A dashboard needs to review a video/social package with thumbnail, transcript, SEO, upload copy, links, and readiness checks.
+- A dashboard needs to compare brands, business units, or pages by audience, production, spend, readiness, blockers, and status.
+- A dashboard needs to show which brands/pages/accounts are postable, manual-only, blocked, or unknown per platform.
+- A dashboard needs to show generated → approved → scheduled → published lifecycle conversion.
+- A dashboard needs to attribute cost by provider, model, purpose, owner, brand, or work package.
+- A dashboard needs briefings, schedules, campaign economics, prospect/outreach work, readiness matrices, ROC gate evidence, learning recommendations, or source-contract health.
+
+Avoid:
+
+- Building brand cards, postability matrices, lifecycle funnels, content package reviews, or cost tables locally when these shared components fit.
+- Building campaign, readiness, learning, prospect, ROC, source health, or schedule panels locally before checking the kit.
+- Showing platform availability without clear `postable`, `manual`, `blocked`, or `unknown` status.
+- Showing cost totals without a row-level attribution table and share of total.
+
+## Project-Specific Deep Kits
+
+Use these when a project needs a deeper product-native dashboard kit beyond generic shell/table/chart primitives.
+
+Meal and household planning:
+
+- `MealPlannerCalendar`
+- `MealWeekDrawer`
+- `MealLibrary`
+- `IngredientChecklist`
+- `HouseholdPreferencePanel`
+- `MealGenerationRulesPanel`
+- `PantryInventoryPanel`
+- `ShoppingListExportPanel`
+
+Mapping, graph, and spatial workspaces:
+
+- `MapWorkspace`
+- `CoverageMap`
+- `EntityRelationshipGraph`
+- `TerritoryMatrix`
+- `LocationDetailDrawer`
+- `NetworkGraph`
+
+Enterprise portfolio and governance:
+
+- `PortfolioCompanyGrid`
+- `OperatingCompanyScorecard`
+- `OwnerAccountabilityMatrix`
+- `ContractReadinessPanel`
+- `BoardDecisionQueue`
+- `StrategicInitiativeTimeline`
+
+Hermes OS control plane:
+
+- `ServiceTopologyMap`
+- `DeploymentPromotionPanel`
+- `PermissionAuditPanel`
+- `IncidentCommandPanel`
+- `RunbookPanel`
+- `EnvironmentHealthMatrix`
+
+Advanced analytics and visualization:
+
+- `CandlestickChart`
+- `SankeyFlow`
+- `Treemap`
+- `Sunburst`
+- `CorrelationMatrix`
+- `DistributionPlot`
+- `BoxPlot`
+- `ViolinPlot`
+- `ScatterQuadrantChart`
+- `AnomalyBandChart`
+
+Mobile-first operator surfaces:
+
+- `MobileDashboardShell`
+- `BottomSheetDrawer`
+- `MobileFilterSheet`
+- `CompactActionRail`
+- `SwipeableQueue`
+
+Avoid:
+
+- Treating these deep-kit components as permission to skip project data contracts.
+- Calling a project Tier 3 complete until it uses the relevant deep-kit components and passes visual proof.
 
 ## Required State Coverage
 
@@ -161,3 +249,4 @@ Before calling a dashboard complete:
 - Run `npm run dashboard:registry:validate`.
 - Run `npm run dashboard:visual:check` when visual surfaces changed.
 - Confirm the `/design-system` gallery still renders the components used by the dashboard.
+- Run `npm run dashboard-kit:component-gaps:report` before starting a cross-project dashboard migration.

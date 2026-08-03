@@ -99,6 +99,107 @@ export type ProofEvidenceRecord = {
   tone?: DashboardTone;
 };
 
+export type ActionQueueItem = {
+  id: string;
+  title: string;
+  detail?: string;
+  status?: string;
+  priority?: "critical" | "high" | "medium" | "low" | string;
+  owner?: string;
+  dueLabel?: string;
+  sourceLabel?: string;
+  actionLabel?: string;
+};
+
+export type AlertQueueItem = {
+  id: string;
+  title: string;
+  detail?: string;
+  severity?: "critical" | "warning" | "info" | string;
+  status?: string;
+  sourceLabel?: string;
+  ageLabel?: string;
+  recurrenceLabel?: string;
+  actions?: string[];
+};
+
+export type ContentPackageAsset = {
+  id: string;
+  label: string;
+  href?: string;
+  type?: string;
+};
+
+export type ContentPackageRecord = {
+  id: string;
+  title: string;
+  brand?: string;
+  platform?: string;
+  status?: string;
+  seoScore?: string | number;
+  transcriptStatus?: string;
+  description?: string;
+  thumbnailUrl?: string;
+  thumbnailAlt?: string;
+  videoUrl?: string;
+  uploadCopy?: string;
+};
+
+export type BrandPortfolioItem = {
+  id: string;
+  name: string;
+  subtitle?: string;
+  status?: string;
+  tone?: DashboardTone;
+  metrics?: { label: string; value: ReactNode }[];
+  blocker?: string;
+};
+
+export type ChannelPostabilityItem = {
+  id: string;
+  label: string;
+  detail?: string;
+  platforms: Record<string, { status: string; detail?: string; tone?: DashboardTone }>;
+};
+
+export type OperationsFunnelStage = {
+  id: string;
+  label: string;
+  value: number;
+  detail?: string;
+  tone?: DashboardTone;
+};
+
+export type CostAttributionRow = {
+  id: string;
+  source: string;
+  provider?: string;
+  purpose?: string;
+  owner?: string;
+  cost: number;
+};
+
+export type OperatingPanelItem = {
+  id: string;
+  title: string;
+  detail?: string;
+  status?: string;
+  value?: ReactNode;
+  tone?: DashboardTone;
+};
+
+export type OperatingMetric = {
+  label: string;
+  value: ReactNode;
+};
+
+export type MatrixRow = {
+  id: string;
+  label: string;
+  detail?: string;
+  values: Record<string, { value?: ReactNode; status?: string; detail?: string; tone?: DashboardTone }>;
+};
+
 export function WorkspaceSwitcher({
   label = "Workspace",
   value,
@@ -238,6 +339,652 @@ export function EntitySummaryCard({
       {children ? <div className="mt-4">{children}</div> : null}
     </article>
   );
+}
+
+function toneForStatus(status?: string): DashboardTone {
+  const normalized = String(status ?? "").toLowerCase();
+  if (["ready", "approved", "posted", "complete", "healthy", "pass", "low"].includes(normalized)) return "success";
+  if (["critical", "error", "failed", "blocked", "rejected", "p0"].includes(normalized)) return "critical";
+  if (["warning", "needs-review", "stale", "partial", "high", "medium", "p1"].includes(normalized)) return "warning";
+  if (["running", "info", "draft"].includes(normalized)) return "info";
+  return "neutral";
+}
+
+export function ActionQueue({
+  title = "Action queue",
+  items,
+  empty = "The action queue is clear.",
+}: {
+  title?: string;
+  items: ActionQueueItem[];
+  empty?: string;
+}) {
+  return (
+    <section className="rounded-lg border border-border bg-card p-4">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-base font-semibold text-foreground">{title}</h2>
+        <StatusPill tone="info">{items.length} items</StatusPill>
+      </div>
+      <div className="grid gap-2">
+        {items.length ? items.map((item) => (
+          <article key={item.id} className="grid gap-3 rounded-md border border-border bg-background p-3 sm:grid-cols-[minmax(0,1fr)_auto]">
+            <div className="min-w-0">
+              <StatusPill tone={toneForStatus(item.priority ?? item.status)}>{item.priority ?? item.status ?? "open"}</StatusPill>
+              <h3 className="mt-2 text-sm font-semibold text-foreground">{item.title}</h3>
+              {item.detail ? <p className="mt-1 text-sm text-muted-foreground">{item.detail}</p> : null}
+              <div className="mt-2 flex flex-wrap gap-2 text-xs text-muted-foreground">
+                {item.owner ? <span>Owner: {item.owner}</span> : null}
+                {item.dueLabel ? <span>Due: {item.dueLabel}</span> : null}
+                {item.sourceLabel ? <span>{item.sourceLabel}</span> : null}
+              </div>
+            </div>
+            <div className="flex flex-wrap items-start gap-2 sm:justify-end">
+              {item.status ? <StatusPill tone={toneForStatus(item.status)}>{item.status}</StatusPill> : null}
+              {item.actionLabel ? <button className="h-8 rounded-md border border-border px-3 text-xs font-medium text-foreground" type="button">{item.actionLabel}</button> : null}
+            </div>
+          </article>
+        )) : <div className="rounded-md border border-dashed border-border p-4 text-sm text-muted-foreground">{empty}</div>}
+      </div>
+    </section>
+  );
+}
+
+export function AlertQueue({
+  title = "Alert queue",
+  alerts,
+  empty = "No active alerts match this view.",
+}: {
+  title?: string;
+  alerts: AlertQueueItem[];
+  empty?: string;
+}) {
+  return (
+    <section className="rounded-lg border border-border bg-card p-4">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-base font-semibold text-foreground">{title}</h2>
+        <StatusPill tone="warning">{alerts.length} alerts</StatusPill>
+      </div>
+      <div className="grid gap-2">
+        {alerts.length ? alerts.map((alert) => (
+          <article key={alert.id} className="grid gap-3 rounded-md border border-border bg-background p-3 sm:grid-cols-[minmax(0,1fr)_auto]">
+            <div className="min-w-0">
+              <StatusPill tone={toneForStatus(alert.severity)}>{alert.severity ?? "info"}</StatusPill>
+              <h3 className="mt-2 text-sm font-semibold text-foreground">{alert.title}</h3>
+              {alert.detail ? <p className="mt-1 text-sm text-muted-foreground">{alert.detail}</p> : null}
+              <div className="mt-2 flex flex-wrap gap-2 text-xs text-muted-foreground">
+                {alert.sourceLabel ? <span>{alert.sourceLabel}</span> : null}
+                {alert.ageLabel ? <span>{alert.ageLabel}</span> : null}
+                {alert.recurrenceLabel ? <span>{alert.recurrenceLabel}</span> : null}
+              </div>
+            </div>
+            <div className="flex flex-wrap items-start gap-2 sm:justify-end">
+              {alert.status ? <StatusPill tone={toneForStatus(alert.status)}>{alert.status}</StatusPill> : null}
+              {(alert.actions ?? ["Acknowledge"]).map((action) => <button key={action} className="h-8 rounded-md border border-border px-3 text-xs font-medium text-foreground" type="button">{action}</button>)}
+            </div>
+          </article>
+        )) : <div className="rounded-md border border-dashed border-border p-4 text-sm text-muted-foreground">{empty}</div>}
+      </div>
+    </section>
+  );
+}
+
+export function ContentPackageWorkspace({
+  record,
+  assets = [],
+  checklist,
+  title = "Content package workspace",
+}: {
+  record: ContentPackageRecord;
+  assets?: ContentPackageAsset[];
+  checklist?: { id: InterfaceStateStatus; label?: string; supported: boolean; detail?: string }[];
+  title?: string;
+}) {
+  const facts = [
+    ["Brand", record.brand],
+    ["Platform", record.platform],
+    ["Status", record.status],
+    ["SEO", record.seoScore],
+    ["Transcript", record.transcriptStatus],
+  ].filter(([, value]) => value !== undefined && value !== null && value !== "");
+
+  return (
+    <section className="rounded-lg border border-border bg-card p-4">
+      <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h2 className="text-base font-semibold text-foreground">{title}</h2>
+          <p className="mt-1 text-sm text-muted-foreground">{record.description ?? record.title}</p>
+        </div>
+        {record.status ? <StatusPill tone={toneForStatus(record.status)}>{record.status}</StatusPill> : null}
+      </div>
+      <div className="grid gap-4 lg:grid-cols-[minmax(16rem,0.75fr)_minmax(0,1fr)]">
+        <div className="overflow-hidden rounded-lg border border-border bg-muted">
+          {record.thumbnailUrl ? <img className="aspect-video w-full object-cover" src={record.thumbnailUrl} alt={record.thumbnailAlt ?? "Thumbnail preview"} /> : <div className="grid aspect-video place-items-center text-sm text-muted-foreground">No thumbnail yet</div>}
+        </div>
+        <div className="grid content-start gap-3">
+          <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+            {facts.map(([label, value]) => (
+              <div key={label} className="rounded-md border border-border bg-background p-3">
+                <div className="text-xs font-medium uppercase text-muted-foreground">{label}</div>
+                <div className="mt-1 text-sm font-semibold text-foreground">{value}</div>
+              </div>
+            ))}
+          </div>
+          {record.videoUrl ? <a className="text-sm font-medium text-primary" href={record.videoUrl}>Video asset</a> : null}
+          {record.uploadCopy ? <div className="rounded-md border border-border bg-background p-3 text-sm text-muted-foreground">{record.uploadCopy}</div> : null}
+          {assets.length ? <div className="flex flex-wrap gap-2">{assets.map((asset) => <a key={asset.id} className="rounded-full border border-border px-3 py-1 text-xs font-medium text-primary" href={asset.href ?? "#"}>{asset.label}</a>)}</div> : null}
+        </div>
+      </div>
+      {checklist?.length ? <div className="mt-4"><StateChecklist states={checklist} /></div> : null}
+    </section>
+  );
+}
+
+export function BrandPortfolioGrid({
+  title = "Brand portfolio",
+  brands,
+}: {
+  title?: string;
+  brands: BrandPortfolioItem[];
+}) {
+  return (
+    <section className="rounded-lg border border-border bg-card p-4">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-base font-semibold text-foreground">{title}</h2>
+        <StatusPill tone="info">{brands.length} brands</StatusPill>
+      </div>
+      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+        {brands.map((brand) => (
+          <EntitySummaryCard key={brand.id} title={brand.name} subtitle={brand.subtitle} tone={brand.tone ?? toneForStatus(brand.status)} meta={brand.status ? <span>{brand.status}</span> : undefined}>
+            {brand.metrics?.length ? <div className="grid gap-2 sm:grid-cols-2">{brand.metrics.map((metric) => <div key={metric.label} className="rounded-md border border-border bg-background p-2"><div className="text-xs text-muted-foreground">{metric.label}</div><div className="text-sm font-semibold text-foreground">{metric.value}</div></div>)}</div> : null}
+            {brand.blocker ? <p className="mt-3 rounded-md bg-warning/10 p-2 text-sm text-muted-foreground">{brand.blocker}</p> : null}
+          </EntitySummaryCard>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export function ChannelPostabilityMatrix({
+  title = "Channel postability",
+  channels,
+  platforms,
+}: {
+  title?: string;
+  channels: ChannelPostabilityItem[];
+  platforms?: string[];
+}) {
+  const resolvedPlatforms = platforms?.length ? platforms : Array.from(new Set(channels.flatMap((channel) => Object.keys(channel.platforms))));
+  return (
+    <section className="overflow-hidden rounded-lg border border-border bg-card">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3">
+        <h2 className="text-base font-semibold text-foreground">{title}</h2>
+        <StatusPill tone="info">{channels.length} channels</StatusPill>
+      </div>
+      <div className="overflow-x-auto p-4">
+        <table className="w-full min-w-[42rem] text-sm">
+          <thead className="text-left text-xs uppercase text-muted-foreground">
+            <tr><th className="pb-2">Brand / account</th>{resolvedPlatforms.map((platform) => <th key={platform} className="pb-2">{platform}</th>)}</tr>
+          </thead>
+          <tbody>
+            {channels.map((channel) => (
+              <tr key={channel.id} className="border-t border-border">
+                <td className="py-3 pr-3"><div className="font-medium text-foreground">{channel.label}</div>{channel.detail ? <div className="text-xs text-muted-foreground">{channel.detail}</div> : null}</td>
+                {resolvedPlatforms.map((platform) => {
+                  const state = channel.platforms[platform];
+                  return <td key={platform} className="py-3 pr-3"><StatusPill tone={state?.tone ?? toneForStatus(state?.status)}>{state?.status ?? "unknown"}</StatusPill>{state?.detail ? <div className="mt-1 text-xs text-muted-foreground">{state.detail}</div> : null}</td>;
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
+export function OperationsFunnel({
+  title = "Operations funnel",
+  stages,
+}: {
+  title?: string;
+  stages: OperationsFunnelStage[];
+}) {
+  const max = Math.max(1, ...stages.map((stage) => stage.value));
+  return (
+    <section className="rounded-lg border border-border bg-card p-4">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-base font-semibold text-foreground">{title}</h2>
+        <StatusPill tone="info">{stages.length} stages</StatusPill>
+      </div>
+      <div className="grid gap-3">
+        {stages.map((stage, index) => {
+          const width = Math.max(18, Math.round((stage.value / max) * 100));
+          const previous = index > 0 ? stages[index - 1].value : stage.value;
+          const rate = previous ? Math.round((stage.value / previous) * 100) : 0;
+          return (
+            <div key={stage.id} className="grid gap-1.5">
+              <div className="flex min-h-11 items-center justify-between gap-3 rounded-md border border-border bg-background px-3" style={{ width: `${width}%`, minWidth: "12rem" }}>
+                <span className="text-sm font-medium text-muted-foreground">{stage.label}</span>
+                <span className="text-lg font-semibold text-foreground">{stage.value}</span>
+              </div>
+              <p className="text-xs text-muted-foreground">{stage.detail ?? (index ? `${rate}% from prior stage` : "entry stage")}</p>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+export function CostAttributionTable({
+  rows,
+  title = "Cost attribution",
+}: {
+  rows: CostAttributionRow[];
+  title?: string;
+}) {
+  const total = rows.reduce((sum, row) => sum + row.cost, 0);
+  return (
+    <section className="overflow-hidden rounded-lg border border-border bg-card">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3">
+        <h2 className="text-base font-semibold text-foreground">{title}</h2>
+        <StatusPill tone="info">${Math.round(total).toLocaleString()}</StatusPill>
+      </div>
+      <div className="overflow-x-auto p-4">
+        <table className="w-full min-w-[42rem] text-sm">
+          <thead className="text-left text-xs uppercase text-muted-foreground">
+            <tr><th className="pb-2">Source</th><th className="pb-2">Provider</th><th className="pb-2">Purpose</th><th className="pb-2">Owner</th><th className="pb-2">Cost</th><th className="pb-2">Share</th></tr>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr key={row.id} className="border-t border-border">
+                <td className="py-3 pr-3 font-medium text-foreground">{row.source}</td>
+                <td className="py-3 pr-3 text-muted-foreground">{row.provider ?? "unknown"}</td>
+                <td className="py-3 pr-3 text-muted-foreground">{row.purpose ?? "unknown"}</td>
+                <td className="py-3 pr-3 text-muted-foreground">{row.owner ?? "unassigned"}</td>
+                <td className="py-3 pr-3 font-semibold text-foreground">${row.cost.toLocaleString()}</td>
+                <td className="py-3 pr-3 text-muted-foreground">{total ? `${Math.round((row.cost / total) * 100)}%` : "0%"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
+function OperatingPanel({
+  title,
+  items = [],
+  metrics = [],
+}: {
+  title: string;
+  items?: OperatingPanelItem[];
+  metrics?: OperatingMetric[];
+}) {
+  return (
+    <section className="rounded-lg border border-border bg-card p-4">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-base font-semibold text-foreground">{title}</h2>
+        <StatusPill tone="info">{items.length} records</StatusPill>
+      </div>
+      {metrics.length ? (
+        <div className="mb-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+          {metrics.map((metric) => (
+            <div key={metric.label} className="rounded-md border border-border bg-background p-3">
+              <div className="text-xs font-medium uppercase text-muted-foreground">{metric.label}</div>
+              <div className="mt-1 text-sm font-semibold text-foreground">{metric.value}</div>
+            </div>
+          ))}
+        </div>
+      ) : null}
+      <div className="grid gap-2">
+        {items.length ? items.map((item) => (
+          <article key={item.id} className="flex items-start justify-between gap-3 rounded-md border border-border bg-background p-3">
+            <div className="min-w-0">
+              <StatusPill tone={item.tone ?? toneForStatus(item.status)}>{item.status ?? "item"}</StatusPill>
+              <h3 className="mt-2 text-sm font-semibold text-foreground">{item.title}</h3>
+              {item.detail ? <p className="mt-1 text-sm text-muted-foreground">{item.detail}</p> : null}
+            </div>
+            {item.value ? <div className="shrink-0 text-sm font-semibold text-foreground">{item.value}</div> : null}
+          </article>
+        )) : <div className="rounded-md border border-dashed border-border p-4 text-sm text-muted-foreground">No records for this view.</div>}
+      </div>
+    </section>
+  );
+}
+
+function OperatingMatrix({
+  title,
+  rows,
+  columns,
+}: {
+  title: string;
+  rows: MatrixRow[];
+  columns?: string[];
+}) {
+  const resolvedColumns = columns?.length ? columns : Array.from(new Set(rows.flatMap((row) => Object.keys(row.values))));
+  return (
+    <section className="overflow-hidden rounded-lg border border-border bg-card">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3">
+        <h2 className="text-base font-semibold text-foreground">{title}</h2>
+        <StatusPill tone="info">{rows.length} rows</StatusPill>
+      </div>
+      <div className="overflow-x-auto p-4">
+        <table className="w-full min-w-[42rem] text-sm">
+          <thead className="text-left text-xs uppercase text-muted-foreground">
+            <tr><th className="pb-2">Dimension</th>{resolvedColumns.map((column) => <th key={column} className="pb-2">{column}</th>)}</tr>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr key={row.id} className="border-t border-border">
+                <td className="py-3 pr-3"><div className="font-medium text-foreground">{row.label}</div>{row.detail ? <div className="text-xs text-muted-foreground">{row.detail}</div> : null}</td>
+                {resolvedColumns.map((column) => {
+                  const cell = row.values[column];
+                  return <td key={column} className="py-3 pr-3"><StatusPill tone={cell?.tone ?? toneForStatus(cell?.status)}>{cell?.value ?? cell?.status ?? "unknown"}</StatusPill>{cell?.detail ? <div className="mt-1 text-xs text-muted-foreground">{cell.detail}</div> : null}</td>;
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
+export function BriefingPanel(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Briefing"} items={props.items} metrics={props.metrics} />;
+}
+
+export function NarrativeBriefing(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Narrative briefing"} items={props.items} metrics={props.metrics} />;
+}
+
+export function ScheduleTimeline(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Schedule timeline"} items={props.items} metrics={props.metrics} />;
+}
+
+export function CalendarQueue(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Calendar queue"} items={props.items} metrics={props.metrics} />;
+}
+
+export function BenchmarkPanel(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Benchmark panel"} items={props.items} metrics={props.metrics} />;
+}
+
+export function CampaignEconomicsPanel(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Campaign economics"} items={props.items} metrics={props.metrics} />;
+}
+
+export function CampaignRiskRail(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Campaign risk rail"} items={props.items} metrics={props.metrics} />;
+}
+
+export function ProspectBoard(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Prospect board"} items={props.items} metrics={props.metrics} />;
+}
+
+export function OutreachDraftPanel(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Outreach draft"} items={props.items} metrics={props.metrics} />;
+}
+
+export function ResponseLogPanel(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Response log"} items={props.items} metrics={props.metrics} />;
+}
+
+export function GovernanceChecklist(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Governance checklist"} items={props.items} metrics={props.metrics} />;
+}
+
+export function WorkOrderQueue(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Work order queue"} items={props.items} metrics={props.metrics} />;
+}
+
+export function GateRunTimeline(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Gate run timeline"} items={props.items} metrics={props.metrics} />;
+}
+
+export function RunDrilldownPanel(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Run drilldown"} items={props.items} metrics={props.metrics} />;
+}
+
+export function RecommendationReviewPanel(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Recommendation review"} items={props.items} metrics={props.metrics} />;
+}
+
+export function LearningEvidenceStack(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Learning evidence"} items={props.items} metrics={props.metrics} />;
+}
+
+export function SignalClusterPanel(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Signal clusters"} items={props.items} metrics={props.metrics} />;
+}
+
+export function InsightGapPanel(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Insight gaps"} items={props.items} metrics={props.metrics} />;
+}
+
+export function PublishingProofPanel(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Publishing proof"} items={props.items} metrics={props.metrics} />;
+}
+
+export function WasteCostPanel(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Waste cost"} items={props.items} metrics={props.metrics} />;
+}
+
+export function AttributionMatrix(props: { rows: MatrixRow[]; columns?: string[]; title?: string }) {
+  return <OperatingMatrix title={props.title ?? "Attribution matrix"} rows={props.rows} columns={props.columns} />;
+}
+
+export function CoverageGapMatrix(props: { rows: MatrixRow[]; columns?: string[]; title?: string }) {
+  return <OperatingMatrix title={props.title ?? "Coverage gap matrix"} rows={props.rows} columns={props.columns} />;
+}
+
+export function ReadinessDomainMatrix(props: { rows: MatrixRow[]; columns?: string[]; title?: string }) {
+  return <OperatingMatrix title={props.title ?? "Readiness domain matrix"} rows={props.rows} columns={props.columns} />;
+}
+
+export function AutomationReadinessMatrix(props: { rows: MatrixRow[]; columns?: string[]; title?: string }) {
+  return <OperatingMatrix title={props.title ?? "Automation readiness matrix"} rows={props.rows} columns={props.columns} />;
+}
+
+export function StageBlockerMatrix(props: { rows: MatrixRow[]; columns?: string[]; title?: string }) {
+  return <OperatingMatrix title={props.title ?? "Stage blocker matrix"} rows={props.rows} columns={props.columns} />;
+}
+
+export function MealPlannerCalendar(props: { rows: MatrixRow[]; columns?: string[]; title?: string }) {
+  return <OperatingMatrix title={props.title ?? "Meal planner calendar"} rows={props.rows} columns={props.columns} />;
+}
+
+export function MealWeekDrawer(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Meal week drawer"} items={props.items} metrics={props.metrics} />;
+}
+
+export function MealLibrary(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Meal library"} items={props.items} metrics={props.metrics} />;
+}
+
+export function IngredientChecklist(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Ingredient checklist"} items={props.items} metrics={props.metrics} />;
+}
+
+export function HouseholdPreferencePanel(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Household preferences"} items={props.items} metrics={props.metrics} />;
+}
+
+export function MealGenerationRulesPanel(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Meal generation rules"} items={props.items} metrics={props.metrics} />;
+}
+
+export function PantryInventoryPanel(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Pantry inventory"} items={props.items} metrics={props.metrics} />;
+}
+
+export function ShoppingListExportPanel(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Shopping list export"} items={props.items} metrics={props.metrics} />;
+}
+
+export function MapWorkspace(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Map workspace"} items={props.items} metrics={props.metrics} />;
+}
+
+export function CoverageMap(props: { rows: MatrixRow[]; columns?: string[]; title?: string }) {
+  return <OperatingMatrix title={props.title ?? "Coverage map"} rows={props.rows} columns={props.columns} />;
+}
+
+export function EntityRelationshipGraph(props: { rows: MatrixRow[]; columns?: string[]; title?: string }) {
+  return <OperatingMatrix title={props.title ?? "Entity relationship graph"} rows={props.rows} columns={props.columns} />;
+}
+
+export function TerritoryMatrix(props: { rows: MatrixRow[]; columns?: string[]; title?: string }) {
+  return <OperatingMatrix title={props.title ?? "Territory matrix"} rows={props.rows} columns={props.columns} />;
+}
+
+export function LocationDetailDrawer(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Location detail"} items={props.items} metrics={props.metrics} />;
+}
+
+export function NetworkGraph(props: { rows: MatrixRow[]; columns?: string[]; title?: string }) {
+  return <OperatingMatrix title={props.title ?? "Network graph"} rows={props.rows} columns={props.columns} />;
+}
+
+export function PortfolioCompanyGrid(props: { brands: BrandPortfolioItem[]; title?: string }) {
+  return <BrandPortfolioGrid title={props.title ?? "Portfolio companies"} brands={props.brands} />;
+}
+
+export function OperatingCompanyScorecard(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Operating company scorecard"} items={props.items} metrics={props.metrics} />;
+}
+
+export function OwnerAccountabilityMatrix(props: { rows: MatrixRow[]; columns?: string[]; title?: string }) {
+  return <OperatingMatrix title={props.title ?? "Owner accountability"} rows={props.rows} columns={props.columns} />;
+}
+
+export function ContractReadinessPanel(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Contract readiness"} items={props.items} metrics={props.metrics} />;
+}
+
+export function BoardDecisionQueue(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Board decision queue"} items={props.items} metrics={props.metrics} />;
+}
+
+export function StrategicInitiativeTimeline(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Strategic initiative timeline"} items={props.items} metrics={props.metrics} />;
+}
+
+export function ServiceTopologyMap(props: { rows: MatrixRow[]; columns?: string[]; title?: string }) {
+  return <OperatingMatrix title={props.title ?? "Service topology"} rows={props.rows} columns={props.columns} />;
+}
+
+export function DeploymentPromotionPanel(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Deployment promotion"} items={props.items} metrics={props.metrics} />;
+}
+
+export function PermissionAuditPanel(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Permission audit"} items={props.items} metrics={props.metrics} />;
+}
+
+export function IncidentCommandPanel(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Incident command"} items={props.items} metrics={props.metrics} />;
+}
+
+export function RunbookPanel(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Runbook"} items={props.items} metrics={props.metrics} />;
+}
+
+export function EnvironmentHealthMatrix(props: { rows: MatrixRow[]; columns?: string[]; title?: string }) {
+  return <OperatingMatrix title={props.title ?? "Environment health"} rows={props.rows} columns={props.columns} />;
+}
+
+function AdvancedVisualizationPanel({
+  title,
+  kind,
+  data = [],
+}: {
+  title: string;
+  kind: string;
+  data?: { label: string; value: number | string }[];
+}) {
+  const rows = data.length ? data : [{ label: "P25", value: 25 }, { label: "Median", value: 50 }, { label: "P75", value: 75 }];
+  return (
+    <section className="rounded-lg border border-border bg-card p-4">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-base font-semibold text-foreground">{title}</h2>
+        <StatusPill tone="info">{kind}</StatusPill>
+      </div>
+      <div className="grid min-h-48 content-end gap-2 rounded-md border border-border bg-background p-3" style={{ gridTemplateColumns: `repeat(${rows.length}, minmax(0, 1fr))` }}>
+        {rows.map((row) => {
+          const value = Math.max(4, Math.min(100, Number(row.value) || 0));
+          return (
+            <div key={row.label} className="grid content-end gap-2">
+              <div className="rounded-t-md bg-primary/70" style={{ height: `${value}%`, minHeight: "1.5rem" }} />
+              <div className="truncate text-center text-xs text-muted-foreground">{row.label}</div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+export function CandlestickChart(props: { data?: { label: string; value: number | string }[]; title?: string }) {
+  return <AdvancedVisualizationPanel title={props.title ?? "Candlestick chart"} kind="candlestick" data={props.data} />;
+}
+
+export function SankeyFlow(props: { rows: MatrixRow[]; columns?: string[]; title?: string }) {
+  return <OperatingMatrix title={props.title ?? "Sankey flow"} rows={props.rows} columns={props.columns} />;
+}
+
+export function Treemap(props: { rows: MatrixRow[]; columns?: string[]; title?: string }) {
+  return <OperatingMatrix title={props.title ?? "Treemap"} rows={props.rows} columns={props.columns} />;
+}
+
+export function Sunburst(props: { rows: MatrixRow[]; columns?: string[]; title?: string }) {
+  return <OperatingMatrix title={props.title ?? "Sunburst"} rows={props.rows} columns={props.columns} />;
+}
+
+export function CorrelationMatrix(props: { rows: MatrixRow[]; columns?: string[]; title?: string }) {
+  return <OperatingMatrix title={props.title ?? "Correlation matrix"} rows={props.rows} columns={props.columns} />;
+}
+
+export function DistributionPlot(props: { data?: { label: string; value: number | string }[]; title?: string }) {
+  return <AdvancedVisualizationPanel title={props.title ?? "Distribution plot"} kind="distribution" data={props.data} />;
+}
+
+export function BoxPlot(props: { data?: { label: string; value: number | string }[]; title?: string }) {
+  return <AdvancedVisualizationPanel title={props.title ?? "Box plot"} kind="box" data={props.data} />;
+}
+
+export function ViolinPlot(props: { data?: { label: string; value: number | string }[]; title?: string }) {
+  return <AdvancedVisualizationPanel title={props.title ?? "Violin plot"} kind="violin" data={props.data} />;
+}
+
+export function ScatterQuadrantChart(props: { data?: { label: string; value: number | string }[]; title?: string }) {
+  return <AdvancedVisualizationPanel title={props.title ?? "Scatter quadrant"} kind="scatter-quadrant" data={props.data} />;
+}
+
+export function AnomalyBandChart(props: { data?: { label: string; value: number | string }[]; title?: string }) {
+  return <AdvancedVisualizationPanel title={props.title ?? "Anomaly band"} kind="anomaly-band" data={props.data} />;
+}
+
+export function MobileDashboardShell(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Mobile dashboard"} items={props.items} metrics={props.metrics} />;
+}
+
+export function BottomSheetDrawer(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Bottom sheet"} items={props.items} metrics={props.metrics} />;
+}
+
+export function MobileFilterSheet(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Mobile filters"} items={props.items} metrics={props.metrics} />;
+}
+
+export function CompactActionRail(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Compact action rail"} items={props.items} metrics={props.metrics} />;
+}
+
+export function SwipeableQueue(props: { items?: OperatingPanelItem[]; metrics?: OperatingMetric[]; title?: string }) {
+  return <OperatingPanel title={props.title ?? "Swipeable queue"} items={props.items} metrics={props.metrics} />;
 }
 
 export function EvidenceStack({

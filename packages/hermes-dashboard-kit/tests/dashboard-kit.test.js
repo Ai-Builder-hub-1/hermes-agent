@@ -6,30 +6,107 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import {
   renderAreaChart,
+  renderActionQueue,
+  renderAlertQueue,
   renderBarChart,
+  renderBenchmarkPanel,
+  renderBriefingPanel,
+  renderBrandPortfolioGrid,
+  renderCalendarQueue,
+  renderCampaignEconomicsPanel,
+  renderCampaignRiskRail,
   renderChartPanel,
+  renderChannelPostabilityMatrix,
+  renderContentPackageWorkspace,
+  renderCostAttributionTable,
+  renderCoverageGapMatrix,
   renderDashboardShell,
   renderDataTable,
   renderDataTableTabs,
   renderDetailDrawer,
   renderDonutChart,
+  renderGateRunTimeline,
+  renderGovernanceChecklist,
   renderHeatmap,
+  renderInsightGapPanel,
+  renderKpiContractTable,
+  renderLearningEvidenceStack,
   renderLineChart,
   renderApprovalQueue,
+  renderAttributionMatrix,
+  renderAutomationReadinessMatrix,
+  renderAnomalyBandChart,
   renderDashboardLoadingShell,
   renderDashboardQueryBoundary,
   renderDataFreshnessStrip,
+  renderBoardDecisionQueue,
+  renderBottomSheetDrawer,
+  renderBoxPlot,
+  renderCandlestickChart,
+  renderCompactActionRail,
+  renderContractReadinessPanel,
+  renderCorrelationMatrix,
   renderMarketBrowserLayout,
   renderMarketTape,
+  renderCoverageMap,
+  renderDeploymentPromotionPanel,
+  renderDistributionPlot,
+  renderEntityRelationshipGraph,
+  renderEnvironmentHealthMatrix,
+  renderHouseholdPreferencePanel,
+  renderIncidentCommandPanel,
+  renderIngredientChecklist,
+  renderLocationDetailDrawer,
+  renderMapWorkspace,
+  renderMealGenerationRulesPanel,
+  renderMealLibrary,
+  renderMealPlannerCalendar,
+  renderMealWeekDrawer,
+  renderMobileDashboardShell,
+  renderMobileFilterSheet,
+  renderNarrativeBriefing,
+  renderNetworkGraph,
+  renderOperationsFunnel,
+  renderOperatingCompanyScorecard,
+  renderOwnerAccountabilityMatrix,
+  renderOutreachDraftPanel,
+  renderPartnerRankingTable,
+  renderPantryInventoryPanel,
+  renderPermissionAuditPanel,
+  renderPortfolioCompanyGrid,
   renderPartialDataBanner,
+  renderPostPerformanceTable,
+  renderProspectBoard,
   renderProofStrip,
+  renderPublishingProofPanel,
   renderQaReviewPanel,
+  renderReadinessDomainMatrix,
+  renderRecommendationReviewPanel,
+  renderResponseLogPanel,
+  renderRunDrilldownPanel,
+  renderRunbookPanel,
+  renderSankeyFlow,
+  renderScheduleTimeline,
+  renderScatterQuadrantChart,
+  renderSignalClusterPanel,
   renderSkeletonChart,
   renderSkeletonTable,
+  renderSourceContractHealthTable,
+  renderStageBlockerMatrix,
+  renderStrategicInitiativeTimeline,
   renderStateChecklist,
   renderStatePanel,
   renderStaleDataBadge,
-  renderTimeWindowSelector
+  renderServiceTopologyMap,
+  renderShoppingListExportPanel,
+  renderSunburst,
+  renderSwipeableQueue,
+  renderTerritoryMatrix,
+  renderTimeWindowSelector,
+  renderTreemap,
+  renderViolinPlot,
+  renderWasteCostPanel,
+  renderWorkOrderQueue
 } from "../src/index.js";
 
 test("renders a tier 3 dashboard shell with one shell marker", () => {
@@ -360,6 +437,317 @@ test("renders production cockpit components for package-native migrations", () =
   assert.match(renderApprovalQueue({ items: [{ title: "Package", status: "needs_review" }] }), /data-hdk-component="ApprovalQueue"/);
   assert.match(renderQaReviewPanel({ checks: [{ label: "Caption", status: "pass" }] }), /data-hdk-component="QaReviewPanel"/);
   assert.match(renderStateChecklist({ items: [{ label: "Proof", status: "ready" }] }), /data-hdk-component="StateChecklist"/);
+});
+
+test("renders media business shared component batch", () => {
+  assert.match(
+    renderActionQueue({
+      items:
+        [
+          {
+            title:
+              "Review failed upload",
+            priority:
+              "high",
+            status:
+              "open",
+            owner:
+              "ops",
+            due:
+              "today"
+          }
+        ]
+    }),
+    /data-hdk-component="ActionQueue"/
+  );
+  assert.match(
+    renderAlertQueue({
+      alerts:
+        [
+          {
+            title:
+              "Publishing failed",
+            severity:
+              "critical",
+            status:
+              "open"
+          }
+        ]
+    }),
+    /data-hdk-component="AlertQueue"/
+  );
+  assert.match(
+    renderContentPackageWorkspace({
+      package:
+        {
+          brand:
+            "Unimportant News",
+          platform:
+            "YouTube",
+          status:
+            "ready",
+          copy:
+            "Upload description"
+        },
+      assets:
+        [
+          {
+            label:
+              "Thumbnail",
+            href:
+              "#"
+          }
+        ]
+    }),
+    /data-hdk-component="ContentPackageWorkspace"/
+  );
+  assert.match(
+    renderBrandPortfolioGrid({
+      brands:
+        [
+          {
+            name:
+              "Finance for Thought",
+            status:
+              "healthy",
+            metrics:
+              [
+                {
+                  label:
+                    "Audience",
+                  value:
+                    "12K"
+                }
+              ]
+          }
+        ]
+    }),
+    /data-hdk-component="BrandPortfolioGrid"/
+  );
+  assert.match(
+    renderChannelPostabilityMatrix({
+      channels:
+        [
+          {
+            label:
+              "Finance for Thought",
+            platforms:
+              {
+                YouTube:
+                  {
+                    status:
+                      "postable"
+                  },
+                Instagram:
+                  {
+                    status:
+                      "manual"
+                  }
+              }
+          }
+        ]
+    }),
+    /data-hdk-component="ChannelPostabilityMatrix"/
+  );
+  assert.match(
+    renderOperationsFunnel({
+      stages:
+        [
+          {
+            label:
+              "Generated",
+            value:
+              120
+          },
+          {
+            label:
+              "Approved",
+            value:
+              74
+          }
+        ]
+    }),
+    /data-hdk-component="OperationsFunnel"/
+  );
+  assert.match(
+    renderCostAttributionTable({
+      rows:
+        [
+          {
+            source:
+              "thumbnail",
+            provider:
+              "openai",
+            purpose:
+              "image",
+            owner:
+              "media",
+            cost:
+              12.42
+          }
+        ]
+    }),
+    /data-hdk-component="CostAttributionTable"/
+  );
+});
+
+test("renders expanded operating component kit batch", () => {
+  const panelItem =
+    {
+      title:
+        "Needs review",
+      status:
+        "warning",
+      detail:
+        "Operator should inspect this row.",
+      value:
+        "3"
+    };
+  const matrixRows =
+    [
+      {
+        label:
+          "Finance",
+        values:
+          {
+            YouTube:
+              {
+                status:
+                  "ready",
+                value:
+                  "ready"
+              }
+          }
+      }
+    ];
+  const tableRows =
+    [
+      {
+        post:
+          "Video one",
+        platform:
+          "YouTube",
+        format:
+          "video",
+        score:
+          "82",
+        result:
+          "watch"
+      }
+    ];
+  const renderers =
+    [
+      ["BriefingPanel", () => renderBriefingPanel({ items: [panelItem] })],
+      ["NarrativeBriefing", () => renderNarrativeBriefing({ items: [panelItem] })],
+      ["ScheduleTimeline", () => renderScheduleTimeline({ items: [panelItem] })],
+      ["CalendarQueue", () => renderCalendarQueue({ items: [panelItem] })],
+      ["BenchmarkPanel", () => renderBenchmarkPanel({ items: [panelItem] })],
+      ["PostPerformanceTable", () => renderPostPerformanceTable({ rows: tableRows })],
+      ["CampaignEconomicsPanel", () => renderCampaignEconomicsPanel({ items: [panelItem] })],
+      ["AttributionMatrix", () => renderAttributionMatrix({ rows: matrixRows })],
+      ["CampaignRiskRail", () => renderCampaignRiskRail({ items: [panelItem] })],
+      ["ProspectBoard", () => renderProspectBoard({ items: [panelItem] })],
+      ["OutreachDraftPanel", () => renderOutreachDraftPanel({ items: [panelItem] })],
+      ["CoverageGapMatrix", () => renderCoverageGapMatrix({ rows: matrixRows })],
+      ["ResponseLogPanel", () => renderResponseLogPanel({ items: [panelItem] })],
+      ["ReadinessDomainMatrix", () => renderReadinessDomainMatrix({ rows: matrixRows })],
+      ["KpiContractTable", () => renderKpiContractTable({ rows: [{ kpi: "Reach", source: "registry", cadence: "daily", owner: "ops", status: "ready" }] })],
+      ["GovernanceChecklist", () => renderGovernanceChecklist({ items: [panelItem] })],
+      ["AutomationReadinessMatrix", () => renderAutomationReadinessMatrix({ rows: matrixRows })],
+      ["WorkOrderQueue", () => renderWorkOrderQueue({ items: [panelItem] })],
+      ["GateRunTimeline", () => renderGateRunTimeline({ items: [panelItem] })],
+      ["StageBlockerMatrix", () => renderStageBlockerMatrix({ rows: matrixRows })],
+      ["RunDrilldownPanel", () => renderRunDrilldownPanel({ items: [panelItem] })],
+      ["RecommendationReviewPanel", () => renderRecommendationReviewPanel({ items: [panelItem] })],
+      ["LearningEvidenceStack", () => renderLearningEvidenceStack({ items: [panelItem] })],
+      ["SignalClusterPanel", () => renderSignalClusterPanel({ items: [panelItem] })],
+      ["InsightGapPanel", () => renderInsightGapPanel({ items: [panelItem] })],
+      ["PartnerRankingTable", () => renderPartnerRankingTable({ rows: [{ partner: "Creator", score: "91", margin: "32%", risk: "low", action: "expand" }] })],
+      ["PublishingProofPanel", () => renderPublishingProofPanel({ items: [panelItem] })],
+      ["SourceContractHealthTable", () => renderSourceContractHealthTable({ rows: [{ source: "meta", freshness: "fresh", contract: "ready", status: "ready", owner: "ops" }] })],
+      ["WasteCostPanel", () => renderWasteCostPanel({ items: [panelItem] })]
+    ];
+
+  for (const [component, render] of renderers) {
+    assert.match(render(), new RegExp(`data-hdk-component="${component}"`));
+  }
+});
+
+test("renders deep project-type component kits", () => {
+  const item =
+    {
+      title:
+        "Review item",
+      status:
+        "ready",
+      detail:
+        "Shared deep-kit record."
+    };
+  const matrixRows =
+    [
+      {
+        label:
+          "Primary",
+        values:
+          {
+            A:
+              {
+                value:
+                  "ready",
+                status:
+                  "ready"
+              }
+          }
+      }
+    ];
+  const renderers =
+    [
+      ["MealPlannerCalendar", () => renderMealPlannerCalendar({ rows: matrixRows })],
+      ["MealWeekDrawer", () => renderMealWeekDrawer({ items: [item] })],
+      ["MealLibrary", () => renderMealLibrary({ rows: [{ meal: "Chicken bowl", protein: "Chicken", side: "Rice", tags: "quick", status: "ready" }] })],
+      ["IngredientChecklist", () => renderIngredientChecklist({ items: [item] })],
+      ["HouseholdPreferencePanel", () => renderHouseholdPreferencePanel({ items: [item] })],
+      ["MealGenerationRulesPanel", () => renderMealGenerationRulesPanel({ items: [item] })],
+      ["PantryInventoryPanel", () => renderPantryInventoryPanel({ items: [item] })],
+      ["ShoppingListExportPanel", () => renderShoppingListExportPanel({ items: [item] })],
+      ["MapWorkspace", () => renderMapWorkspace({ items: [item] })],
+      ["CoverageMap", () => renderCoverageMap({ rows: matrixRows })],
+      ["EntityRelationshipGraph", () => renderEntityRelationshipGraph({ rows: matrixRows })],
+      ["TerritoryMatrix", () => renderTerritoryMatrix({ rows: matrixRows })],
+      ["LocationDetailDrawer", () => renderLocationDetailDrawer({ items: [item] })],
+      ["NetworkGraph", () => renderNetworkGraph({ rows: matrixRows })],
+      ["PortfolioCompanyGrid", () => renderPortfolioCompanyGrid({ companies: [{ name: "TLC Ops", status: "healthy" }] })],
+      ["OperatingCompanyScorecard", () => renderOperatingCompanyScorecard({ items: [item] })],
+      ["OwnerAccountabilityMatrix", () => renderOwnerAccountabilityMatrix({ rows: matrixRows })],
+      ["ContractReadinessPanel", () => renderContractReadinessPanel({ items: [item] })],
+      ["BoardDecisionQueue", () => renderBoardDecisionQueue({ items: [item] })],
+      ["StrategicInitiativeTimeline", () => renderStrategicInitiativeTimeline({ items: [item] })],
+      ["ServiceTopologyMap", () => renderServiceTopologyMap({ rows: matrixRows })],
+      ["DeploymentPromotionPanel", () => renderDeploymentPromotionPanel({ items: [item] })],
+      ["PermissionAuditPanel", () => renderPermissionAuditPanel({ items: [item] })],
+      ["IncidentCommandPanel", () => renderIncidentCommandPanel({ items: [item] })],
+      ["RunbookPanel", () => renderRunbookPanel({ items: [item] })],
+      ["EnvironmentHealthMatrix", () => renderEnvironmentHealthMatrix({ rows: matrixRows })],
+      ["CandlestickChart", () => renderCandlestickChart({ data: [{ label: "Open", value: 45 }, { label: "Close", value: 61 }] })],
+      ["SankeyFlow", () => renderSankeyFlow({ rows: matrixRows })],
+      ["Treemap", () => renderTreemap({ rows: matrixRows })],
+      ["Sunburst", () => renderSunburst({ rows: matrixRows })],
+      ["CorrelationMatrix", () => renderCorrelationMatrix({ rows: matrixRows })],
+      ["DistributionPlot", () => renderDistributionPlot({ data: [{ label: "P50", value: 50 }] })],
+      ["BoxPlot", () => renderBoxPlot({ data: [{ label: "Median", value: 50 }] })],
+      ["ViolinPlot", () => renderViolinPlot({ data: [{ label: "Dense", value: 64 }] })],
+      ["ScatterQuadrantChart", () => renderScatterQuadrantChart({ data: [{ label: "High impact", value: 78 }] })],
+      ["AnomalyBandChart", () => renderAnomalyBandChart({ data: [{ label: "Spike", value: 88 }] })],
+      ["MobileDashboardShell", () => renderMobileDashboardShell({ items: [item] })],
+      ["BottomSheetDrawer", () => renderBottomSheetDrawer({ items: [item] })],
+      ["MobileFilterSheet", () => renderMobileFilterSheet({ items: [item] })],
+      ["CompactActionRail", () => renderCompactActionRail({ items: [item] })],
+      ["SwipeableQueue", () => renderSwipeableQueue({ items: [item] })]
+    ];
+
+  for (const [component, render] of renderers) {
+    assert.match(render(), new RegExp(`data-hdk-component="${component}"`));
+  }
 });
 
 test("surface validator rejects chart-like tier 3 surfaces without kit charts", () => {

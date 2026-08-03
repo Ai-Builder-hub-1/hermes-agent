@@ -28,6 +28,8 @@
     "dashboard-kit:adoption:audit": "node packages/hermes-dashboard-kit/scripts/audit-adoption.mjs",
     "dashboard-kit:adoption:audit:strict": "node packages/hermes-dashboard-kit/scripts/audit-adoption.mjs --strict",
     "dashboard-kit:adoption:report": "node packages/hermes-dashboard-kit/scripts/audit-adoption.mjs --write-report",
+    "dashboard-kit:component-gaps:audit": "node scripts/audit-dashboard-component-gaps.mjs",
+    "dashboard-kit:component-gaps:report": "node scripts/audit-dashboard-component-gaps.mjs --write",
     "dashboard-kit:adoption:sync": "node packages/hermes-dashboard-kit/scripts/sync-project.mjs",
     "dashboard-kit:adoption:migrate": "node packages/hermes-dashboard-kit/scripts/migrate-surface.mjs",
     "dashboard:package-native:create": "node scripts/create-package-native-dashboard.mjs",

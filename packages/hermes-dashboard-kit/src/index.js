@@ -544,6 +544,633 @@ export function renderApprovalQueue({
   `;
 }
 
+export function renderActionQueue({
+  title = "Action queue",
+  items = [],
+  reviewId = ""
+}) {
+  const rows =
+    items.length
+      ? items.map((item) => `
+        <article class="hdk-action-row hdk-tone-${escapeAttr(item.tone || priorityTone(item.priority) || statusTone(item.status))}">
+          <div class="hdk-action-row__main">
+            <span class="hdk-action-row__priority">${escapeHtml(item.priority || item.status || "open")}</span>
+            <h3>${escapeHtml(item.title || item.label || "Untitled action")}</h3>
+            ${item.detail ? `<p>${escapeHtml(item.detail)}</p>` : ""}
+            <div class="hdk-action-row__meta">
+              ${item.owner ? `<span>Owner: ${escapeHtml(item.owner)}</span>` : ""}
+              ${item.due ? `<span>Due: ${escapeHtml(item.due)}</span>` : ""}
+              ${item.source ? `<span>Source: ${escapeHtml(item.source)}</span>` : ""}
+            </div>
+          </div>
+          <div class="hdk-action-row__status">
+            <strong>${escapeHtml(item.status || "open")}</strong>
+            ${item.action ? `<button type="button">${escapeHtml(item.action)}</button>` : ""}
+          </div>
+        </article>
+      `).join("")
+      : renderStatePanel({
+          state:
+            "empty",
+          title:
+            "No actions waiting",
+          message:
+            "The action queue is clear."
+        });
+
+  return `
+    <section class="hdk-action-queue" data-hdk-component="ActionQueue"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      <header class="hdk-card__header"><h2>${escapeHtml(title)}</h2><p>${escapeHtml(items.length)} item(s)</p></header>
+      <div class="hdk-action-list">${rows}</div>
+    </section>
+  `;
+}
+
+export function renderAlertQueue({
+  title = "Alert queue",
+  alerts = [],
+  reviewId = ""
+}) {
+  const rows =
+    alerts.length
+      ? alerts.map((alert) => `
+        <article class="hdk-alert-row hdk-tone-${escapeAttr(alert.tone || severityTone(alert.severity) || statusTone(alert.status))}">
+          <div>
+            <span class="hdk-alert-row__severity">${escapeHtml(alert.severity || alert.status || "info")}</span>
+            <h3>${escapeHtml(alert.title || "Untitled alert")}</h3>
+            ${alert.detail ? `<p>${escapeHtml(alert.detail)}</p>` : ""}
+            <div class="hdk-action-row__meta">
+              ${alert.source ? `<span>${escapeHtml(alert.source)}</span>` : ""}
+              ${alert.age ? `<span>${escapeHtml(alert.age)}</span>` : ""}
+              ${alert.recurrence ? `<span>${escapeHtml(alert.recurrence)}</span>` : ""}
+            </div>
+          </div>
+          <div class="hdk-alert-row__actions">
+            <strong>${escapeHtml(alert.status || "open")}</strong>
+            ${(alert.actions || ["Acknowledge"]).map((action) => `<button type="button">${escapeHtml(action)}</button>`).join("")}
+          </div>
+        </article>
+      `).join("")
+      : renderStatePanel({
+          state:
+            "empty",
+          title:
+            "No open alerts",
+          message:
+            "No active alerts match this view."
+        });
+
+  return `
+    <section class="hdk-alert-queue" data-hdk-component="AlertQueue"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      <header class="hdk-card__header"><h2>${escapeHtml(title)}</h2><p>${escapeHtml(alerts.length)} alert(s)</p></header>
+      <div class="hdk-alert-list">${rows}</div>
+    </section>
+  `;
+}
+
+export function renderContentPackageWorkspace({
+  title = "Content package workspace",
+  package: contentPackage = {},
+  assets = [],
+  checklist = [],
+  reviewId = ""
+}) {
+  const facts =
+    [
+      ["Brand", contentPackage.brand],
+      ["Platform", contentPackage.platform],
+      ["Status", contentPackage.status],
+      ["SEO", contentPackage.seoScore],
+      ["Transcript", contentPackage.transcriptStatus]
+    ].filter(([, value]) => value !== undefined && value !== null && value !== "");
+
+  return `
+    <section class="hdk-content-package" data-hdk-component="ContentPackageWorkspace"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      <header class="hdk-card__header">
+        <div>
+          <h2>${escapeHtml(title)}</h2>
+          ${contentPackage.description ? `<p>${escapeHtml(contentPackage.description)}</p>` : ""}
+        </div>
+        ${contentPackage.status ? `<span class="hdk-package-status hdk-tone-${escapeAttr(statusTone(contentPackage.status))}">${escapeHtml(contentPackage.status)}</span>` : ""}
+      </header>
+      <div class="hdk-content-package__grid">
+        <div class="hdk-package-preview">
+          ${contentPackage.thumbnailUrl ? `<img src="${escapeAttr(contentPackage.thumbnailUrl)}" alt="${escapeAttr(contentPackage.thumbnailAlt || "Thumbnail preview")}">` : renderStatePanel({ state: "empty", title: "No thumbnail yet", message: "Thumbnail output has not been attached." })}
+        </div>
+        <div class="hdk-package-detail">
+          ${facts.length ? `<dl class="hdk-fact-grid">${facts.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("")}</dl>` : ""}
+          ${contentPackage.videoUrl ? `<a class="hdk-package-link" href="${escapeAttr(contentPackage.videoUrl)}">Video asset</a>` : ""}
+          ${contentPackage.copy ? `<article class="hdk-package-copy"><h3>Upload copy</h3><p>${escapeHtml(contentPackage.copy)}</p></article>` : ""}
+          ${assets.length ? `<div class="hdk-package-assets">${assets.map((asset) => `<a href="${escapeAttr(asset.href || "#")}">${escapeHtml(asset.label || asset.type || "Asset")}</a>`).join("")}</div>` : ""}
+        </div>
+      </div>
+      ${checklist.length ? renderStateChecklist({ title: "Package readiness", items: checklist }) : ""}
+    </section>
+  `;
+}
+
+export function renderBrandPortfolioGrid({
+  title = "Brand portfolio",
+  brands = [],
+  reviewId = ""
+}) {
+  return `
+    <section class="hdk-brand-portfolio" data-hdk-component="BrandPortfolioGrid"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      <header class="hdk-card__header"><h2>${escapeHtml(title)}</h2><p>${escapeHtml(brands.length)} brand(s)</p></header>
+      <div class="hdk-brand-grid">
+        ${brands.length ? brands.map((brand) => `
+          <article class="hdk-brand-card hdk-tone-${escapeAttr(brand.tone || statusTone(brand.status))}">
+            <div class="hdk-brand-card__head">
+              <div>
+                <h3>${escapeHtml(brand.name || brand.title || "Untitled brand")}</h3>
+                ${brand.subtitle ? `<p>${escapeHtml(brand.subtitle)}</p>` : ""}
+              </div>
+              <strong>${escapeHtml(brand.status || "unknown")}</strong>
+            </div>
+            <dl class="hdk-mini-metrics">
+              ${(brand.metrics || []).map((metric) => `<div><dt>${escapeHtml(metric.label)}</dt><dd>${escapeHtml(metric.value)}</dd></div>`).join("")}
+            </dl>
+            ${brand.blocker ? `<p class="hdk-brand-card__blocker">${escapeHtml(brand.blocker)}</p>` : ""}
+          </article>
+        `).join("") : renderStatePanel({ state: "empty", title: "No brands", message: "No brand records are available." })}
+      </div>
+    </section>
+  `;
+}
+
+export function renderChannelPostabilityMatrix({
+  title = "Channel postability",
+  channels = [],
+  platforms = [],
+  reviewId = ""
+}) {
+  const resolvedPlatforms =
+    platforms.length
+      ? platforms
+      : Array.from(new Set(channels.flatMap((channel) => Object.keys(channel.platforms || {}))));
+
+  return `
+    <section class="hdk-channel-matrix" data-hdk-component="ChannelPostabilityMatrix"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      <header class="hdk-card__header"><h2>${escapeHtml(title)}</h2><p>${escapeHtml(channels.length)} channel(s)</p></header>
+      <div class="hdk-channel-matrix__scroll">
+        <table class="hdk-table hdk-channel-table">
+          <thead><tr><th scope="col">Brand / account</th>${resolvedPlatforms.map((platform) => `<th scope="col">${escapeHtml(platform)}</th>`).join("")}</tr></thead>
+          <tbody>
+            ${channels.map((channel) => `
+              <tr>
+                <td><strong>${escapeHtml(channel.label || channel.brand || "Untitled")}</strong>${channel.detail ? `<small>${escapeHtml(channel.detail)}</small>` : ""}</td>
+                ${resolvedPlatforms.map((platform) => {
+                  const state = channel.platforms?.[platform] || {};
+                  return `<td><span class="hdk-postability hdk-tone-${escapeAttr(statusTone(state.status))}">${escapeHtml(state.status || "unknown")}</span>${state.detail ? `<small>${escapeHtml(state.detail)}</small>` : ""}</td>`;
+                }).join("")}
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  `;
+}
+
+export function renderOperationsFunnel({
+  title = "Operations funnel",
+  stages = [],
+  reviewId = ""
+}) {
+  const max =
+    Math.max(1, ...stages.map((stage) => Number(stage.value || 0)));
+  return `
+    <section class="hdk-operations-funnel" data-hdk-component="OperationsFunnel"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      <header class="hdk-card__header"><h2>${escapeHtml(title)}</h2><p>${escapeHtml(stages.length)} stage(s)</p></header>
+      <div class="hdk-funnel">
+        ${stages.map((stage, index) => {
+          const value =
+            Number(stage.value || 0);
+          const width =
+            Math.max(18, Math.round((value / max) * 100));
+          const previous =
+            index > 0 ? Number(stages[index - 1].value || 0) : value;
+          const rate =
+            previous ? Math.round((value / previous) * 100) : 0;
+          return `
+            <article class="hdk-funnel-stage hdk-tone-${escapeAttr(stage.tone || statusTone(stage.status))}" style="--hdk-funnel-width:${width}%">
+              <div>
+                <span>${escapeHtml(stage.label || `Stage ${index + 1}`)}</span>
+                <strong>${escapeHtml(stage.value ?? 0)}</strong>
+              </div>
+              <p>${escapeHtml(stage.detail || (index ? `${rate}% from prior stage` : "entry stage"))}</p>
+              <i></i>
+            </article>
+          `;
+        }).join("")}
+      </div>
+    </section>
+  `;
+}
+
+export function renderCostAttributionTable({
+  title = "Cost attribution",
+  rows = [],
+  reviewId = ""
+}) {
+  const total =
+    rows.reduce((sum, row) => sum + Number(row.cost || row.amount || 0), 0);
+  return renderDataTable({
+    caption:
+      title,
+    reviewId,
+    columns:
+      [
+        { key: "source", label: "Source" },
+        { key: "provider", label: "Provider" },
+        { key: "purpose", label: "Purpose" },
+        { key: "owner", label: "Owner" },
+        { key: "cost", label: "Cost", format: "currency" },
+        { key: "share", label: "Share" }
+      ],
+    rows:
+      rows.map((row) => ({
+        ...row,
+        cost:
+          Number(row.cost || row.amount || 0),
+        share:
+          total ? `${Math.round((Number(row.cost || row.amount || 0) / total) * 100)}%` : "0%"
+      })),
+    total:
+      rows.length,
+    pageSize:
+      25
+  }).replace('data-hdk-component="DataTable"', 'data-hdk-component="CostAttributionTable" data-hdk-table-kind="DataTable"');
+}
+
+export function renderBriefingPanel(options = {}) {
+  return renderOperationalPanel({ component: "BriefingPanel", title: "Briefing", ...options });
+}
+
+export function renderNarrativeBriefing(options = {}) {
+  return renderOperationalPanel({ component: "NarrativeBriefing", title: "Narrative briefing", ...options });
+}
+
+export function renderScheduleTimeline(options = {}) {
+  return renderOperationalPanel({ component: "ScheduleTimeline", title: "Schedule timeline", ...options });
+}
+
+export function renderCalendarQueue(options = {}) {
+  return renderOperationalPanel({ component: "CalendarQueue", title: "Calendar queue", ...options });
+}
+
+export function renderBenchmarkPanel(options = {}) {
+  return renderOperationalPanel({ component: "BenchmarkPanel", title: "Benchmark panel", ...options });
+}
+
+export function renderPostPerformanceTable({ rows = [], title = "Post performance", reviewId = "" } = {}) {
+  return renderDataTable({
+    caption:
+      title,
+    reviewId,
+    columns:
+      [
+        { key: "post", label: "Post" },
+        { key: "platform", label: "Platform" },
+        { key: "format", label: "Format" },
+        { key: "score", label: "Score" },
+        { key: "result", label: "Result" }
+      ],
+    rows,
+    pageSize:
+      25,
+    total:
+      rows.length
+  }).replace('data-hdk-component="DataTable"', 'data-hdk-component="PostPerformanceTable" data-hdk-table-kind="DataTable"');
+}
+
+export function renderCampaignEconomicsPanel(options = {}) {
+  return renderOperationalPanel({ component: "CampaignEconomicsPanel", title: "Campaign economics", ...options });
+}
+
+export function renderAttributionMatrix(options = {}) {
+  return renderOperationalMatrix({ component: "AttributionMatrix", title: "Attribution matrix", ...options });
+}
+
+export function renderCampaignRiskRail(options = {}) {
+  return renderOperationalPanel({ component: "CampaignRiskRail", title: "Campaign risk rail", ...options });
+}
+
+export function renderProspectBoard(options = {}) {
+  return renderOperationalPanel({ component: "ProspectBoard", title: "Prospect board", ...options });
+}
+
+export function renderOutreachDraftPanel(options = {}) {
+  return renderOperationalPanel({ component: "OutreachDraftPanel", title: "Outreach draft", ...options });
+}
+
+export function renderCoverageGapMatrix(options = {}) {
+  return renderOperationalMatrix({ component: "CoverageGapMatrix", title: "Coverage gap matrix", ...options });
+}
+
+export function renderResponseLogPanel(options = {}) {
+  return renderOperationalPanel({ component: "ResponseLogPanel", title: "Response log", ...options });
+}
+
+export function renderReadinessDomainMatrix(options = {}) {
+  return renderOperationalMatrix({ component: "ReadinessDomainMatrix", title: "Readiness domain matrix", ...options });
+}
+
+export function renderKpiContractTable({ rows = [], title = "KPI contract table", reviewId = "" } = {}) {
+  return renderDataTable({
+    caption:
+      title,
+    reviewId,
+    columns:
+      [
+        { key: "kpi", label: "KPI" },
+        { key: "source", label: "Source" },
+        { key: "cadence", label: "Cadence" },
+        { key: "owner", label: "Owner" },
+        { key: "status", label: "Status" }
+      ],
+    rows,
+    pageSize:
+      25,
+    total:
+      rows.length
+  }).replace('data-hdk-component="DataTable"', 'data-hdk-component="KpiContractTable" data-hdk-table-kind="DataTable"');
+}
+
+export function renderGovernanceChecklist(options = {}) {
+  return renderOperationalPanel({ component: "GovernanceChecklist", title: "Governance checklist", ...options });
+}
+
+export function renderAutomationReadinessMatrix(options = {}) {
+  return renderOperationalMatrix({ component: "AutomationReadinessMatrix", title: "Automation readiness", ...options });
+}
+
+export function renderWorkOrderQueue(options = {}) {
+  return renderOperationalPanel({ component: "WorkOrderQueue", title: "Work order queue", ...options });
+}
+
+export function renderGateRunTimeline(options = {}) {
+  return renderOperationalPanel({ component: "GateRunTimeline", title: "Gate run timeline", ...options });
+}
+
+export function renderStageBlockerMatrix(options = {}) {
+  return renderOperationalMatrix({ component: "StageBlockerMatrix", title: "Stage blocker matrix", ...options });
+}
+
+export function renderRunDrilldownPanel(options = {}) {
+  return renderOperationalPanel({ component: "RunDrilldownPanel", title: "Run drilldown", ...options });
+}
+
+export function renderRecommendationReviewPanel(options = {}) {
+  return renderOperationalPanel({ component: "RecommendationReviewPanel", title: "Recommendation review", ...options });
+}
+
+export function renderLearningEvidenceStack(options = {}) {
+  return renderOperationalPanel({ component: "LearningEvidenceStack", title: "Learning evidence", ...options });
+}
+
+export function renderSignalClusterPanel(options = {}) {
+  return renderOperationalPanel({ component: "SignalClusterPanel", title: "Signal clusters", ...options });
+}
+
+export function renderInsightGapPanel(options = {}) {
+  return renderOperationalPanel({ component: "InsightGapPanel", title: "Insight gaps", ...options });
+}
+
+export function renderPartnerRankingTable({ rows = [], title = "Partner ranking", reviewId = "" } = {}) {
+  return renderDataTable({
+    caption:
+      title,
+    reviewId,
+    columns:
+      [
+        { key: "partner", label: "Partner" },
+        { key: "score", label: "Score" },
+        { key: "margin", label: "Margin" },
+        { key: "risk", label: "Risk" },
+        { key: "action", label: "Action" }
+      ],
+    rows,
+    pageSize:
+      25,
+    total:
+      rows.length
+  }).replace('data-hdk-component="DataTable"', 'data-hdk-component="PartnerRankingTable" data-hdk-table-kind="DataTable"');
+}
+
+export function renderPublishingProofPanel(options = {}) {
+  return renderOperationalPanel({ component: "PublishingProofPanel", title: "Publishing proof", ...options });
+}
+
+export function renderSourceContractHealthTable({ rows = [], title = "Source contract health", reviewId = "" } = {}) {
+  return renderDataTable({
+    caption:
+      title,
+    reviewId,
+    columns:
+      [
+        { key: "source", label: "Source" },
+        { key: "freshness", label: "Freshness" },
+        { key: "contract", label: "Contract" },
+        { key: "status", label: "Status" },
+        { key: "owner", label: "Owner" }
+      ],
+    rows,
+    pageSize:
+      25,
+    total:
+      rows.length
+  }).replace('data-hdk-component="DataTable"', 'data-hdk-component="SourceContractHealthTable" data-hdk-table-kind="DataTable"');
+}
+
+export function renderWasteCostPanel(options = {}) {
+  return renderOperationalPanel({ component: "WasteCostPanel", title: "Waste cost", ...options });
+}
+
+export function renderMealPlannerCalendar(options = {}) {
+  return renderOperationalMatrix({ component: "MealPlannerCalendar", title: "Meal planner calendar", ...options });
+}
+
+export function renderMealWeekDrawer(options = {}) {
+  return renderOperationalPanel({ component: "MealWeekDrawer", title: "Meal week drawer", ...options });
+}
+
+export function renderMealLibrary({ rows = [], title = "Meal library", reviewId = "" } = {}) {
+  return renderDataTable({
+    caption: title,
+    reviewId,
+    columns: [
+      { key: "meal", label: "Meal" },
+      { key: "protein", label: "Protein" },
+      { key: "side", label: "Side" },
+      { key: "tags", label: "Tags" },
+      { key: "status", label: "Status" }
+    ],
+    rows,
+    pageSize: 25,
+    total: rows.length
+  }).replace('data-hdk-component="DataTable"', 'data-hdk-component="MealLibrary" data-hdk-table-kind="DataTable"');
+}
+
+export function renderIngredientChecklist(options = {}) {
+  return renderOperationalPanel({ component: "IngredientChecklist", title: "Ingredient checklist", ...options });
+}
+
+export function renderHouseholdPreferencePanel(options = {}) {
+  return renderOperationalPanel({ component: "HouseholdPreferencePanel", title: "Household preferences", ...options });
+}
+
+export function renderMealGenerationRulesPanel(options = {}) {
+  return renderOperationalPanel({ component: "MealGenerationRulesPanel", title: "Meal generation rules", ...options });
+}
+
+export function renderPantryInventoryPanel(options = {}) {
+  return renderOperationalPanel({ component: "PantryInventoryPanel", title: "Pantry inventory", ...options });
+}
+
+export function renderShoppingListExportPanel(options = {}) {
+  return renderOperationalPanel({ component: "ShoppingListExportPanel", title: "Shopping list export", ...options });
+}
+
+export function renderMapWorkspace(options = {}) {
+  return renderOperationalPanel({ component: "MapWorkspace", title: "Map workspace", ...options });
+}
+
+export function renderCoverageMap(options = {}) {
+  return renderOperationalMatrix({ component: "CoverageMap", title: "Coverage map", ...options });
+}
+
+export function renderEntityRelationshipGraph(options = {}) {
+  return renderOperationalMatrix({ component: "EntityRelationshipGraph", title: "Entity relationship graph", ...options });
+}
+
+export function renderTerritoryMatrix(options = {}) {
+  return renderOperationalMatrix({ component: "TerritoryMatrix", title: "Territory matrix", ...options });
+}
+
+export function renderLocationDetailDrawer(options = {}) {
+  return renderOperationalPanel({ component: "LocationDetailDrawer", title: "Location detail", ...options });
+}
+
+export function renderNetworkGraph(options = {}) {
+  return renderOperationalMatrix({ component: "NetworkGraph", title: "Network graph", ...options });
+}
+
+export function renderPortfolioCompanyGrid(options = {}) {
+  return renderBrandPortfolioGrid({
+    title:
+      "Portfolio companies",
+    brands:
+      options.companies || options.brands || [],
+    reviewId:
+      options.reviewId
+  }).replace('data-hdk-component="BrandPortfolioGrid"', 'data-hdk-component="PortfolioCompanyGrid" data-hdk-grid-kind="BrandPortfolioGrid"');
+}
+
+export function renderOperatingCompanyScorecard(options = {}) {
+  return renderOperationalPanel({ component: "OperatingCompanyScorecard", title: "Operating company scorecard", ...options });
+}
+
+export function renderOwnerAccountabilityMatrix(options = {}) {
+  return renderOperationalMatrix({ component: "OwnerAccountabilityMatrix", title: "Owner accountability", ...options });
+}
+
+export function renderContractReadinessPanel(options = {}) {
+  return renderOperationalPanel({ component: "ContractReadinessPanel", title: "Contract readiness", ...options });
+}
+
+export function renderBoardDecisionQueue(options = {}) {
+  return renderOperationalPanel({ component: "BoardDecisionQueue", title: "Board decision queue", ...options });
+}
+
+export function renderStrategicInitiativeTimeline(options = {}) {
+  return renderOperationalPanel({ component: "StrategicInitiativeTimeline", title: "Strategic initiative timeline", ...options });
+}
+
+export function renderServiceTopologyMap(options = {}) {
+  return renderOperationalMatrix({ component: "ServiceTopologyMap", title: "Service topology", ...options });
+}
+
+export function renderDeploymentPromotionPanel(options = {}) {
+  return renderOperationalPanel({ component: "DeploymentPromotionPanel", title: "Deployment promotion", ...options });
+}
+
+export function renderPermissionAuditPanel(options = {}) {
+  return renderOperationalPanel({ component: "PermissionAuditPanel", title: "Permission audit", ...options });
+}
+
+export function renderIncidentCommandPanel(options = {}) {
+  return renderOperationalPanel({ component: "IncidentCommandPanel", title: "Incident command", ...options });
+}
+
+export function renderRunbookPanel(options = {}) {
+  return renderOperationalPanel({ component: "RunbookPanel", title: "Runbook", ...options });
+}
+
+export function renderEnvironmentHealthMatrix(options = {}) {
+  return renderOperationalMatrix({ component: "EnvironmentHealthMatrix", title: "Environment health", ...options });
+}
+
+export function renderCandlestickChart(options = {}) {
+  return renderAdvancedViz({ component: "CandlestickChart", title: "Candlestick chart", ...options });
+}
+
+export function renderSankeyFlow(options = {}) {
+  return renderOperationalMatrix({ component: "SankeyFlow", title: "Sankey flow", ...options });
+}
+
+export function renderTreemap(options = {}) {
+  return renderOperationalMatrix({ component: "Treemap", title: "Treemap", ...options });
+}
+
+export function renderSunburst(options = {}) {
+  return renderOperationalMatrix({ component: "Sunburst", title: "Sunburst", ...options });
+}
+
+export function renderCorrelationMatrix(options = {}) {
+  return renderOperationalMatrix({ component: "CorrelationMatrix", title: "Correlation matrix", ...options });
+}
+
+export function renderDistributionPlot(options = {}) {
+  return renderAdvancedViz({ component: "DistributionPlot", title: "Distribution plot", ...options });
+}
+
+export function renderBoxPlot(options = {}) {
+  return renderAdvancedViz({ component: "BoxPlot", title: "Box plot", ...options });
+}
+
+export function renderViolinPlot(options = {}) {
+  return renderAdvancedViz({ component: "ViolinPlot", title: "Violin plot", ...options });
+}
+
+export function renderScatterQuadrantChart(options = {}) {
+  return renderAdvancedViz({ component: "ScatterQuadrantChart", title: "Scatter quadrant", ...options });
+}
+
+export function renderAnomalyBandChart(options = {}) {
+  return renderAdvancedViz({ component: "AnomalyBandChart", title: "Anomaly band", ...options });
+}
+
+export function renderMobileDashboardShell(options = {}) {
+  return renderOperationalPanel({ component: "MobileDashboardShell", title: "Mobile dashboard", ...options });
+}
+
+export function renderBottomSheetDrawer(options = {}) {
+  return renderOperationalPanel({ component: "BottomSheetDrawer", title: "Bottom sheet", ...options });
+}
+
+export function renderMobileFilterSheet(options = {}) {
+  return renderOperationalPanel({ component: "MobileFilterSheet", title: "Mobile filters", ...options });
+}
+
+export function renderCompactActionRail(options = {}) {
+  return renderOperationalPanel({ component: "CompactActionRail", title: "Compact action rail", ...options });
+}
+
+export function renderSwipeableQueue(options = {}) {
+  return renderOperationalPanel({ component: "SwipeableQueue", title: "Swipeable queue", ...options });
+}
+
 export function renderQaReviewPanel({
   title = "QA review",
   checks = [],
@@ -834,6 +1461,114 @@ function renderMarketCell(market, column) {
   return escapeHtml(value ?? "");
 }
 
+function renderOperationalPanel({
+  component,
+  title,
+  subtitle = "",
+  items = [],
+  metrics = [],
+  actions = [],
+  reviewId = ""
+}) {
+  return `
+    <section class="hdk-operational-panel" data-hdk-component="${escapeAttr(component)}"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      <header class="hdk-card__header">
+        <div>
+          <h2>${escapeHtml(title || component)}</h2>
+          ${subtitle ? `<p>${escapeHtml(subtitle)}</p>` : ""}
+        </div>
+        ${actions.length ? `<div class="hdk-panel-actions">${actions.map((action) => `<button type="button">${escapeHtml(action.label || action)}</button>`).join("")}</div>` : ""}
+      </header>
+      ${metrics.length ? `<dl class="hdk-mini-metrics hdk-panel-metrics">${metrics.map((metric) => `<div><dt>${escapeHtml(metric.label)}</dt><dd>${escapeHtml(metric.value)}</dd></div>`).join("")}</dl>` : ""}
+      <div class="hdk-operational-list">
+        ${items.length ? items.map((item) => `
+          <article class="hdk-operational-row hdk-tone-${escapeAttr(item.tone || statusTone(item.status))}">
+            <div>
+              <span>${escapeHtml(item.status || item.type || "item")}</span>
+              <h3>${escapeHtml(item.title || item.label || "Untitled")}</h3>
+              ${item.detail ? `<p>${escapeHtml(item.detail)}</p>` : ""}
+            </div>
+            ${item.value ? `<strong>${escapeHtml(item.value)}</strong>` : ""}
+          </article>
+        `).join("") : renderStatePanel({ state: "empty", title: "No records", message: "This component has no records for the selected view." })}
+      </div>
+    </section>
+  `;
+}
+
+function renderOperationalMatrix({
+  component,
+  title,
+  rows = [],
+  columns = [],
+  reviewId = ""
+}) {
+  const resolvedColumns =
+    columns.length
+      ? columns
+      : Array.from(new Set(rows.flatMap((row) => Object.keys(row.values || {}))));
+  return `
+    <section class="hdk-operational-panel hdk-operational-matrix" data-hdk-component="${escapeAttr(component)}"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      <header class="hdk-card__header"><h2>${escapeHtml(title || component)}</h2><p>${escapeHtml(rows.length)} row(s)</p></header>
+      <div class="hdk-channel-matrix__scroll">
+        <table class="hdk-table">
+          <thead><tr><th scope="col">Dimension</th>${resolvedColumns.map((column) => `<th scope="col">${escapeHtml(column.label || column.key || column)}</th>`).join("")}</tr></thead>
+          <tbody>
+            ${rows.map((row) => `
+              <tr>
+                <td><strong>${escapeHtml(row.label || row.name || "Untitled")}</strong>${row.detail ? `<small>${escapeHtml(row.detail)}</small>` : ""}</td>
+                ${resolvedColumns.map((column) => {
+                  const key = column.key || column;
+                  const cell = row.values?.[key] || {};
+                  return `<td><span class="hdk-postability hdk-tone-${escapeAttr(cell.tone || statusTone(cell.status))}">${escapeHtml(cell.value || cell.status || "unknown")}</span>${cell.detail ? `<small>${escapeHtml(cell.detail)}</small>` : ""}</td>`;
+                }).join("")}
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  `;
+}
+
+function renderAdvancedViz({
+  component,
+  title,
+  data = [],
+  xLabel = "X",
+  yLabel = "Y",
+  reviewId = ""
+}) {
+  const values =
+    data.length
+      ? data
+      : [
+          { label: "P25", value: 25 },
+          { label: "Median", value: 50 },
+          { label: "P75", value: 75 }
+        ];
+  return renderChartPanel({
+    title,
+    type:
+      component,
+    xAxis:
+      "dimension",
+    xAxisLabel:
+      xLabel,
+    yAxis:
+      "measure",
+    yAxisLabel:
+      yLabel,
+    reviewId,
+    children:
+      `
+        <div class="hdk-advanced-viz" data-hdk-viz-kind="${escapeAttr(component)}">
+          ${values.map((item, index) => `<span style="--hdk-viz-value:${Math.max(4, Math.min(100, Number(item.value || 0)))}%; --hdk-viz-index:${index};"><b>${escapeHtml(item.label || index + 1)}</b><i></i><strong>${escapeHtml(item.value ?? "")}</strong></span>`).join("")}
+        </div>
+      `
+  }).replace('data-hdk-component="ChartPanel"', `data-hdk-component="${escapeAttr(component)}" data-hdk-chart-kind="ChartPanel"`);
+}
+
 function chartContractSummary({
   xAxisLabel,
   yAxisLabel,
@@ -921,6 +1656,32 @@ function statusTone(status) {
   }
   if (["partial", "stale", "warning"].includes(status)) {
     return "warning";
+  }
+  return "neutral";
+}
+
+function priorityTone(priority) {
+  if (["p0", "critical", "urgent", "high"].includes(String(priority || "").toLowerCase())) {
+    return "danger";
+  }
+  if (["p1", "medium", "soon"].includes(String(priority || "").toLowerCase())) {
+    return "warning";
+  }
+  if (["low", "p3", "done"].includes(String(priority || "").toLowerCase())) {
+    return "success";
+  }
+  return "neutral";
+}
+
+function severityTone(severity) {
+  if (["critical", "error", "p0", "blocker"].includes(String(severity || "").toLowerCase())) {
+    return "danger";
+  }
+  if (["warning", "warn", "p1", "degraded"].includes(String(severity || "").toLowerCase())) {
+    return "warning";
+  }
+  if (["info", "notice", "healthy"].includes(String(severity || "").toLowerCase())) {
+    return "info";
   }
   return "neutral";
 }
