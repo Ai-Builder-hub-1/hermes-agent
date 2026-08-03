@@ -8,6 +8,7 @@ import { chromium } from "@playwright/test";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const registryPath = path.join(root, "docs/design/dashboard-production-proof-registry.json");
+const resolverConfigPath = path.join(root, "docs/design/dashboard-production-resolver.json");
 const outputDir = path.join(root, "docs/design/production-screenshots");
 const args = process.argv.slice(2);
 const idArg = args.find((arg) => arg.startsWith("--id="));
@@ -16,6 +17,23 @@ const timeoutMs = Number(args.find((arg) => arg.startsWith("--timeout="))?.slice
 
 function readJson(file) {
   return JSON.parse(fs.readFileSync(file, "utf8"));
+}
+
+function readJsonIfExists(file, fallback) {
+  if (!fs.existsSync(file)) return fallback;
+  return readJson(file);
+}
+
+function hostnameFromEntry(entry) {
+  const configuredHost = entry.deployment?.caddyHost;
+  if (configuredHost) return configuredHost;
+  const targetUrl = entry.proofUrl || entry.url;
+  if (!targetUrl) return null;
+  try {
+    return new URL(targetUrl).hostname;
+  } catch {
+    return null;
+  }
 }
 
 function proofCaptureTarget(entry) {
@@ -56,7 +74,34 @@ if (!entries.length) {
 
 fs.mkdirSync(outputDir, { recursive: true });
 
-const browser = await chromium.launch();
+function providerResolverRules(captureEntries) {
+  const config = readJsonIfExists(resolverConfigPath, {});
+  if (config.enabledForProductionProofCapture === false) return [];
+  const providers = config.providers ?? {};
+  const rules = [];
+  for (const entry of captureEntries) {
+    const provider = entry.deployment?.provider;
+    const providerConfig = provider ? providers[provider] : null;
+    if (!providerConfig?.edgeIp) continue;
+    const hostname = hostnameFromEntry(entry);
+    if (!hostname) continue;
+    const allowedDomains = providerConfig.domains ?? [];
+    if (allowedDomains.length && !allowedDomains.some((domain) => hostname === domain || hostname.endsWith(`.${domain}`))) continue;
+    rules.push(`MAP ${hostname} ${providerConfig.edgeIp}`);
+  }
+  return [...new Set(rules)];
+}
+
+const launchArgs = [];
+const resolverRules = [
+  ...providerResolverRules(entries),
+  ...(process.env.HERMES_DASHBOARD_HOST_RESOLVER_RULES ? [process.env.HERMES_DASHBOARD_HOST_RESOLVER_RULES] : [])
+].filter(Boolean);
+if (resolverRules.length) {
+  launchArgs.push(`--host-resolver-rules=${resolverRules.join(",")}`);
+}
+
+const browser = await chromium.launch({ args: launchArgs });
 const context = await browser.newContext({
   viewport: { width: 1440, height: 1000 },
   deviceScaleFactor: 1,
@@ -73,7 +118,8 @@ for (const entry of entries) {
     if (Object.keys(target.headers).length) {
       await page.setExtraHTTPHeaders(target.headers);
     }
-    await page.goto(target.targetUrl, { waitUntil: "domcontentloaded", timeout: timeoutMs });
+    const response = await page.goto(target.targetUrl, { waitUntil: "domcontentloaded", timeout: timeoutMs });
+    const httpStatus = response?.status() ?? null;
     await page.waitForLoadState("networkidle", { timeout: Math.min(timeoutMs, 10000) }).catch(() => {});
     const bodyText = await page.locator("body").innerText({ timeout: 5000 }).catch(() => "");
     const lowerText = bodyText.toLowerCase();
@@ -84,6 +130,22 @@ for (const entry of entries) {
     );
     const blankPrimaryDetected = bodyText.trim().length < 120;
     await page.screenshot({ path: screenshotPath, fullPage: true });
+    if (httpStatus && httpStatus >= 400) {
+      results.push({
+        id: entry.id,
+        url: entry.url,
+        status: "failed",
+        screenshotBaselinePath: entry.screenshotBaselinePath,
+        proofEndpointUsed: target.proofEndpointUsed,
+        proofAuthMissing: target.authMissing ?? false,
+        httpStatus,
+        authWallDetected,
+        blankPrimaryDetected,
+        textLength: bodyText.trim().length,
+        error: `Proof endpoint returned HTTP ${httpStatus}`
+      });
+      continue;
+    }
     results.push({
       id: entry.id,
       url: entry.url,
@@ -92,6 +154,7 @@ for (const entry of entries) {
       capturedAt: startedAt,
       proofEndpointUsed: target.proofEndpointUsed,
       proofAuthMissing: target.authMissing ?? false,
+      httpStatus,
       authWallDetected,
       blankPrimaryDetected,
       textLength: bodyText.trim().length
@@ -128,6 +191,7 @@ const updatedEntries = (registry.entries ?? []).map((entry) => {
       proofEndpointDeclared: Boolean(entry.proofUrl),
       proofEndpointUsed: result.proofEndpointUsed ?? entry.proof?.proofEndpointUsed ?? false,
       proofAuthMissing: result.proofAuthMissing ?? entry.proof?.proofAuthMissing ?? false,
+      httpStatus: result.httpStatus ?? entry.proof?.httpStatus,
       authWallDetected: result.authWallDetected ?? entry.proof?.authWallDetected ?? false,
       blankPrimaryDetected: result.blankPrimaryDetected ?? entry.proof?.blankPrimaryDetected ?? false,
       textLength: result.textLength ?? entry.proof?.textLength,

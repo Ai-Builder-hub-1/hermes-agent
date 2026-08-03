@@ -1,0 +1,1876 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-03T16:44:24.080Z",
+  "mode": "dry-run",
+  "filters": {
+    "project": null,
+    "category": null,
+    "strategy": null,
+    "cleanOnly": false,
+    "skipDirty": false,
+    "safeAutoOnly": false,
+    "regenerate": false,
+    "maxActions": null
+  },
+  "actionCount": 45,
+  "blockedCount": 0,
+  "skippedCount": 0,
+  "summary": {
+    "gitStatusCounts": {
+      "dirty": 33,
+      "clean": 12
+    },
+    "strategyCounts": {
+      "project-implementation": 34,
+      "derived": 7,
+      "patch-with-review": 4
+    },
+    "statusCounts": {
+      "planned": 45
+    },
+    "recommendedCleanBatch": [
+      {
+        "project": "media-business-os",
+        "priority": "P0",
+        "category": "adoption",
+        "title": "Move adoption status from stale to current.",
+        "strategy": "project-implementation"
+      },
+      {
+        "project": "media-business-os",
+        "priority": "P0",
+        "category": "proof",
+        "title": "Declare a readonly production proof endpoint.",
+        "strategy": "project-implementation"
+      },
+      {
+        "project": "media-business-os",
+        "priority": "P0",
+        "category": "readiness",
+        "title": "Remove dashboard readiness penalty/cap.",
+        "strategy": "derived"
+      },
+      {
+        "project": "media-business-os",
+        "priority": "P1",
+        "category": "bridge",
+        "title": "Add visual-selection bridge and stable review handles.",
+        "strategy": "patch-with-review"
+      },
+      {
+        "project": "media-business-os",
+        "priority": "P1",
+        "category": "bridge",
+        "title": "Add visual-selection bridge and stable review handles.",
+        "strategy": "patch-with-review"
+      },
+      {
+        "project": "media-business-os",
+        "priority": "P1",
+        "category": "visual",
+        "title": "Raise visual quality score to at least 90 and pass all checks.",
+        "strategy": "project-implementation"
+      },
+      {
+        "project": "media-business-os",
+        "priority": "P1",
+        "category": "visual",
+        "title": "Raise visual quality score to at least 90 and pass all checks.",
+        "strategy": "project-implementation"
+      },
+      {
+        "project": "tlc-capital-group-os",
+        "priority": "P0",
+        "category": "adoption",
+        "title": "Move adoption status from stale to current.",
+        "strategy": "project-implementation"
+      },
+      {
+        "project": "tlc-capital-group-os",
+        "priority": "P0",
+        "category": "readiness",
+        "title": "Remove dashboard readiness penalty/cap.",
+        "strategy": "derived"
+      },
+      {
+        "project": "tlc-capital-group-os",
+        "priority": "P1",
+        "category": "visual",
+        "title": "Raise visual quality score to at least 90 and pass all checks.",
+        "strategy": "project-implementation"
+      }
+    ]
+  },
+  "results": [
+    {
+      "action": {
+        "id": "business-mapper.adoption.4",
+        "project": "business-mapper",
+        "priority": "P0",
+        "category": "adoption",
+        "title": "Move adoption status from stale to current.",
+        "evidence": "2 error(s), 4 total issue(s).",
+        "command": "npm run dashboard-kit:adoption:report",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "business-mapper",
+        "label": "Business Mapper Workspace",
+        "path": "../business-mapper",
+        "absolutePath": "/Users/hq/Workspace/projects/business-mapper",
+        "validationProfile": {
+          "project": "business-mapper",
+          "projectPath": "../business-mapper",
+          "validationCommands": [
+            "python -m py_compile business_mapper/web.py business_mapper/core.py"
+          ],
+          "healthUrl": "https://business-mapper.tlccapitalgroup.com/health",
+          "deploymentService": "business-mapper"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .gitignore\n M .hermes-dashboard.json\n M business_mapper/static/hermes-dashboard-kit.css\n?? docs/package-native-dashboard-migration.md\n?? package-lock.json\n?? package.json\n?? scripts/"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "low",
+        "reason": "Adoption fixes require package-native surface changes in the owning project."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "business-mapper.proof.12",
+        "project": "business-mapper",
+        "priority": "P0",
+        "category": "proof",
+        "title": "Declare a readonly production proof endpoint.",
+        "evidence": "business-mapper.workspace",
+        "command": "npm run dashboard:production-proof:registry",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "business-mapper",
+        "label": "Business Mapper Workspace",
+        "path": "../business-mapper",
+        "absolutePath": "/Users/hq/Workspace/projects/business-mapper",
+        "validationProfile": {
+          "project": "business-mapper",
+          "projectPath": "../business-mapper",
+          "validationCommands": [
+            "python -m py_compile business_mapper/web.py business_mapper/core.py"
+          ],
+          "healthUrl": "https://business-mapper.tlccapitalgroup.com/health",
+          "deploymentService": "business-mapper"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .gitignore\n M .hermes-dashboard.json\n M business_mapper/static/hermes-dashboard-kit.css\n?? docs/package-native-dashboard-migration.md\n?? package-lock.json\n?? package.json\n?? scripts/"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "medium",
+        "reason": "Proof endpoints must be implemented in the owning app, not declared centrally without a route."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "business-mapper.readiness.42",
+        "project": "business-mapper",
+        "priority": "P0",
+        "category": "readiness",
+        "title": "Remove dashboard readiness penalty/cap.",
+        "evidence": "5% penalty, cap 85%",
+        "command": "npm run dashboard:readiness-impact:report",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "business-mapper",
+        "label": "Business Mapper Workspace",
+        "path": "../business-mapper",
+        "absolutePath": "/Users/hq/Workspace/projects/business-mapper",
+        "validationProfile": {
+          "project": "business-mapper",
+          "projectPath": "../business-mapper",
+          "validationCommands": [
+            "python -m py_compile business_mapper/web.py business_mapper/core.py"
+          ],
+          "healthUrl": "https://business-mapper.tlccapitalgroup.com/health",
+          "deploymentService": "business-mapper"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .gitignore\n M .hermes-dashboard.json\n M business_mapper/static/hermes-dashboard-kit.css\n?? docs/package-native-dashboard-migration.md\n?? package-lock.json\n?? package.json\n?? scripts/"
+      },
+      "strategy": {
+        "mode": "derived",
+        "confidence": "high",
+        "reason": "Readiness clears automatically after adoption/proof/telemetry blockers clear."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "business-mapper.bridge.35",
+        "project": "business-mapper",
+        "priority": "P1",
+        "category": "bridge",
+        "title": "Add visual-selection bridge and stable review handles.",
+        "evidence": "business-mapper-workspace: missing visual-selection-bridge.js, data-review-id",
+        "command": "npm run dashboard:bridge:coverage",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "business-mapper",
+        "label": "Business Mapper Workspace",
+        "path": "../business-mapper",
+        "absolutePath": "/Users/hq/Workspace/projects/business-mapper",
+        "validationProfile": {
+          "project": "business-mapper",
+          "projectPath": "../business-mapper",
+          "validationCommands": [
+            "python -m py_compile business_mapper/web.py business_mapper/core.py"
+          ],
+          "healthUrl": "https://business-mapper.tlccapitalgroup.com/health",
+          "deploymentService": "business-mapper"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .gitignore\n M .hermes-dashboard.json\n M business_mapper/static/hermes-dashboard-kit.css\n?? docs/package-native-dashboard-migration.md\n?? package-lock.json\n?? package.json\n?? scripts/"
+      },
+      "strategy": {
+        "mode": "patch-with-review",
+        "confidence": "medium",
+        "reason": "Bridge fixes can touch runtime paths and review hooks; generate a targeted patch after inspecting the owning project."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "business-mapper.telemetry.19",
+        "project": "business-mapper",
+        "priority": "P1",
+        "category": "telemetry",
+        "title": "Complete dashboard telemetry contract.",
+        "evidence": "Missing: snapshotUrl",
+        "command": "npm run dashboard:telemetry-contract:report",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "business-mapper",
+        "label": "Business Mapper Workspace",
+        "path": "../business-mapper",
+        "absolutePath": "/Users/hq/Workspace/projects/business-mapper",
+        "validationProfile": {
+          "project": "business-mapper",
+          "projectPath": "../business-mapper",
+          "validationCommands": [
+            "python -m py_compile business_mapper/web.py business_mapper/core.py"
+          ],
+          "healthUrl": "https://business-mapper.tlccapitalgroup.com/health",
+          "deploymentService": "business-mapper"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .gitignore\n M .hermes-dashboard.json\n M business_mapper/static/hermes-dashboard-kit.css\n?? docs/package-native-dashboard-migration.md\n?? package-lock.json\n?? package.json\n?? scripts/"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "medium",
+        "reason": "Snapshot endpoints require project-owned API/data adapters."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "business-mapper.visual.25",
+        "project": "business-mapper",
+        "priority": "P1",
+        "category": "visual",
+        "title": "Raise visual quality score to at least 90 and pass all checks.",
+        "evidence": "business-mapper-workspace: 17",
+        "command": "npm run dashboard:visual-quality:score",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "business-mapper",
+        "label": "Business Mapper Workspace",
+        "path": "../business-mapper",
+        "absolutePath": "/Users/hq/Workspace/projects/business-mapper",
+        "validationProfile": {
+          "project": "business-mapper",
+          "projectPath": "../business-mapper",
+          "validationCommands": [
+            "python -m py_compile business_mapper/web.py business_mapper/core.py"
+          ],
+          "healthUrl": "https://business-mapper.tlccapitalgroup.com/health",
+          "deploymentService": "business-mapper"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .gitignore\n M .hermes-dashboard.json\n M business_mapper/static/hermes-dashboard-kit.css\n?? docs/package-native-dashboard-migration.md\n?? package-lock.json\n?? package.json\n?? scripts/"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "low",
+        "reason": "Visual quality fixes require page-specific UI work and screenshot review."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "hermes-os.adoption.6",
+        "project": "hermes-os",
+        "priority": "P0",
+        "category": "adoption",
+        "title": "Move adoption status from stale to current.",
+        "evidence": "1 error(s), 4 total issue(s).",
+        "command": "npm run dashboard-kit:adoption:report",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "hermes-os",
+        "label": "Hermes Workspace",
+        "path": "../hermes",
+        "absolutePath": "/Users/hq/Workspace/projects/hermes",
+        "validationProfile": {
+          "project": "hermes-os",
+          "projectPath": "../hermes",
+          "validationCommands": [
+            "npm run build"
+          ],
+          "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+          "deploymentService": "hermes"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .hermes-dashboard.json\n M package-lock.json\n M package.json\n?? docs/package-native-dashboard-migration.md\n?? scripts/check-dashboard-kit-import.mjs"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "low",
+        "reason": "Adoption fixes require package-native surface changes in the owning project."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "hermes-os.proof.16",
+        "project": "hermes-os",
+        "priority": "P0",
+        "category": "proof",
+        "title": "Declare a readonly production proof endpoint.",
+        "evidence": "hermes.workspace",
+        "command": "npm run dashboard:production-proof:registry",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "hermes-os",
+        "label": "Hermes Workspace",
+        "path": "../hermes",
+        "absolutePath": "/Users/hq/Workspace/projects/hermes",
+        "validationProfile": {
+          "project": "hermes-os",
+          "projectPath": "../hermes",
+          "validationCommands": [
+            "npm run build"
+          ],
+          "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+          "deploymentService": "hermes"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .hermes-dashboard.json\n M package-lock.json\n M package.json\n?? docs/package-native-dashboard-migration.md\n?? scripts/check-dashboard-kit-import.mjs"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "medium",
+        "reason": "Proof endpoints must be implemented in the owning app, not declared centrally without a route."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "hermes-os.proof.17",
+        "project": "hermes-os",
+        "priority": "P0",
+        "category": "proof",
+        "title": "Capture and review a clean production screenshot baseline.",
+        "evidence": "hermes.workspace: captured-review-needed",
+        "command": "npm run dashboard:production-proof:capture",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "hermes-os",
+        "label": "Hermes Workspace",
+        "path": "../hermes",
+        "absolutePath": "/Users/hq/Workspace/projects/hermes",
+        "validationProfile": {
+          "project": "hermes-os",
+          "projectPath": "../hermes",
+          "validationCommands": [
+            "npm run build"
+          ],
+          "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+          "deploymentService": "hermes"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .hermes-dashboard.json\n M package-lock.json\n M package.json\n?? docs/package-native-dashboard-migration.md\n?? scripts/check-dashboard-kit-import.mjs"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "medium",
+        "reason": "Proof endpoints must be implemented in the owning app, not declared centrally without a route."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "hermes-os.readiness.44",
+        "project": "hermes-os",
+        "priority": "P0",
+        "category": "readiness",
+        "title": "Remove dashboard readiness penalty/cap.",
+        "evidence": "5% penalty, cap 85%",
+        "command": "npm run dashboard:readiness-impact:report",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "hermes-os",
+        "label": "Hermes Workspace",
+        "path": "../hermes",
+        "absolutePath": "/Users/hq/Workspace/projects/hermes",
+        "validationProfile": {
+          "project": "hermes-os",
+          "projectPath": "../hermes",
+          "validationCommands": [
+            "npm run build"
+          ],
+          "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+          "deploymentService": "hermes"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .hermes-dashboard.json\n M package-lock.json\n M package.json\n?? docs/package-native-dashboard-migration.md\n?? scripts/check-dashboard-kit-import.mjs"
+      },
+      "strategy": {
+        "mode": "derived",
+        "confidence": "high",
+        "reason": "Readiness clears automatically after adoption/proof/telemetry blockers clear."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "hermes-os.migration.38",
+        "project": "hermes-os",
+        "priority": "P1",
+        "category": "migration",
+        "title": "Clear package-native migration codemod candidate.",
+        "evidence": "legacy.iframe-dashboard-shell: src/workspace/workspace-server.ts",
+        "command": "npm run dashboard:migration-codemod:plan",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "hermes-os",
+        "label": "Hermes Workspace",
+        "path": "../hermes",
+        "absolutePath": "/Users/hq/Workspace/projects/hermes",
+        "validationProfile": {
+          "project": "hermes-os",
+          "projectPath": "../hermes",
+          "validationCommands": [
+            "npm run build"
+          ],
+          "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+          "deploymentService": "hermes"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .hermes-dashboard.json\n M package-lock.json\n M package.json\n?? docs/package-native-dashboard-migration.md\n?? scripts/check-dashboard-kit-import.mjs"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "medium",
+        "reason": "Migration candidates require explicit package-native cutover work."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "hermes-os.visual.27",
+        "project": "hermes-os",
+        "priority": "P1",
+        "category": "visual",
+        "title": "Raise visual quality score to at least 90 and pass all checks.",
+        "evidence": "hermes-dashboard-hub: 33",
+        "command": "npm run dashboard:visual-quality:score",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "hermes-os",
+        "label": "Hermes Workspace",
+        "path": "../hermes",
+        "absolutePath": "/Users/hq/Workspace/projects/hermes",
+        "validationProfile": {
+          "project": "hermes-os",
+          "projectPath": "../hermes",
+          "validationCommands": [
+            "npm run build"
+          ],
+          "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+          "deploymentService": "hermes"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .hermes-dashboard.json\n M package-lock.json\n M package.json\n?? docs/package-native-dashboard-migration.md\n?? scripts/check-dashboard-kit-import.mjs"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "low",
+        "reason": "Visual quality fixes require page-specific UI work and screenshot review."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "hermes-os.visual.28",
+        "project": "hermes-os",
+        "priority": "P1",
+        "category": "visual",
+        "title": "Raise visual quality score to at least 90 and pass all checks.",
+        "evidence": "hermes-operator-dashboard-artifact: 50",
+        "command": "npm run dashboard:visual-quality:score",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "hermes-os",
+        "label": "Hermes Workspace",
+        "path": "../hermes",
+        "absolutePath": "/Users/hq/Workspace/projects/hermes",
+        "validationProfile": {
+          "project": "hermes-os",
+          "projectPath": "../hermes",
+          "validationCommands": [
+            "npm run build"
+          ],
+          "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+          "deploymentService": "hermes"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .hermes-dashboard.json\n M package-lock.json\n M package.json\n?? docs/package-native-dashboard-migration.md\n?? scripts/check-dashboard-kit-import.mjs"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "low",
+        "reason": "Visual quality fixes require page-specific UI work and screenshot review."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "hermes-os.visual.29",
+        "project": "hermes-os",
+        "priority": "P1",
+        "category": "visual",
+        "title": "Raise visual quality score to at least 90 and pass all checks.",
+        "evidence": "hermes-control-plane-artifact: 33",
+        "command": "npm run dashboard:visual-quality:score",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "hermes-os",
+        "label": "Hermes Workspace",
+        "path": "../hermes",
+        "absolutePath": "/Users/hq/Workspace/projects/hermes",
+        "validationProfile": {
+          "project": "hermes-os",
+          "projectPath": "../hermes",
+          "validationCommands": [
+            "npm run build"
+          ],
+          "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+          "deploymentService": "hermes"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .hermes-dashboard.json\n M package-lock.json\n M package.json\n?? docs/package-native-dashboard-migration.md\n?? scripts/check-dashboard-kit-import.mjs"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "low",
+        "reason": "Visual quality fixes require page-specific UI work and screenshot review."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "investing-system.proof.15",
+        "project": "investing-system",
+        "priority": "P0",
+        "category": "proof",
+        "title": "Capture and review a clean production screenshot baseline.",
+        "evidence": "investing-system.roc: captured-review-needed",
+        "command": "npm run dashboard:production-proof:capture",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "investing-system",
+        "label": "Investing System ROC",
+        "path": "../investing-system",
+        "absolutePath": "/Users/hq/Workspace/projects/investing-system",
+        "validationProfile": {
+          "project": "investing-system",
+          "projectPath": "../investing-system",
+          "validationCommands": [
+            "npm run build"
+          ],
+          "healthUrl": "https://investing.tlccapitalgroup.com/health",
+          "deploymentService": "investing-system"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M docs/strategic-vision.md"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "medium",
+        "reason": "Proof endpoints must be implemented in the owning app, not declared centrally without a route."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "investing-system.telemetry.21",
+        "project": "investing-system",
+        "priority": "P1",
+        "category": "telemetry",
+        "title": "Complete dashboard telemetry contract.",
+        "evidence": "Missing: snapshotUrl",
+        "command": "npm run dashboard:telemetry-contract:report",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "investing-system",
+        "label": "Investing System ROC",
+        "path": "../investing-system",
+        "absolutePath": "/Users/hq/Workspace/projects/investing-system",
+        "validationProfile": {
+          "project": "investing-system",
+          "projectPath": "../investing-system",
+          "validationCommands": [
+            "npm run build"
+          ],
+          "healthUrl": "https://investing.tlccapitalgroup.com/health",
+          "deploymentService": "investing-system"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M docs/strategic-vision.md"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "medium",
+        "reason": "Snapshot endpoints require project-owned API/data adapters."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "khashi-vc.adoption.1",
+        "project": "khashi-vc",
+        "priority": "P0",
+        "category": "adoption",
+        "title": "Move adoption status from stale to current.",
+        "evidence": "2 error(s), 8 total issue(s).",
+        "command": "npm run dashboard-kit:adoption:report",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "khashi-vc",
+        "label": "Khashi VC ROC",
+        "path": "../khashi-vc",
+        "absolutePath": "/Users/hq/Workspace/projects/khashi-vc",
+        "validationProfile": {
+          "project": "khashi-vc",
+          "projectPath": "../khashi-vc",
+          "validationCommands": [
+            "npm run build"
+          ],
+          "healthUrl": "https://roc.tlccapitalgroup.com/readyz",
+          "deploymentService": "khashi"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .hermes-dashboard.json\n M package-lock.json\n M package.json\n M public/roc/hermes-dashboard-kit.css\n?? docs/design/KHASHI_PACKAGE_NATIVE_ROC_MIGRATION.md\n?? scripts/check-dashboard-kit-import.mjs"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "low",
+        "reason": "Adoption fixes require package-native surface changes in the owning project."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "khashi-vc.readiness.39",
+        "project": "khashi-vc",
+        "priority": "P0",
+        "category": "readiness",
+        "title": "Remove dashboard readiness penalty/cap.",
+        "evidence": "5% penalty, cap 85%",
+        "command": "npm run dashboard:readiness-impact:report",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "khashi-vc",
+        "label": "Khashi VC ROC",
+        "path": "../khashi-vc",
+        "absolutePath": "/Users/hq/Workspace/projects/khashi-vc",
+        "validationProfile": {
+          "project": "khashi-vc",
+          "projectPath": "../khashi-vc",
+          "validationCommands": [
+            "npm run build"
+          ],
+          "healthUrl": "https://roc.tlccapitalgroup.com/readyz",
+          "deploymentService": "khashi"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .hermes-dashboard.json\n M package-lock.json\n M package.json\n M public/roc/hermes-dashboard-kit.css\n?? docs/design/KHASHI_PACKAGE_NATIVE_ROC_MIGRATION.md\n?? scripts/check-dashboard-kit-import.mjs"
+      },
+      "strategy": {
+        "mode": "derived",
+        "confidence": "high",
+        "reason": "Readiness clears automatically after adoption/proof/telemetry blockers clear."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "khashi-vc.visual.22",
+        "project": "khashi-vc",
+        "priority": "P1",
+        "category": "visual",
+        "title": "Raise visual quality score to at least 90 and pass all checks.",
+        "evidence": "market-intelligence-live: 83",
+        "command": "npm run dashboard:visual-quality:score",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "khashi-vc",
+        "label": "Khashi VC ROC",
+        "path": "../khashi-vc",
+        "absolutePath": "/Users/hq/Workspace/projects/khashi-vc",
+        "validationProfile": {
+          "project": "khashi-vc",
+          "projectPath": "../khashi-vc",
+          "validationCommands": [
+            "npm run build"
+          ],
+          "healthUrl": "https://roc.tlccapitalgroup.com/readyz",
+          "deploymentService": "khashi"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .hermes-dashboard.json\n M package-lock.json\n M package.json\n M public/roc/hermes-dashboard-kit.css\n?? docs/design/KHASHI_PACKAGE_NATIVE_ROC_MIGRATION.md\n?? scripts/check-dashboard-kit-import.mjs"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "low",
+        "reason": "Visual quality fixes require page-specific UI work and screenshot review."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "meal-assistant.adoption.5",
+        "project": "meal-assistant",
+        "priority": "P0",
+        "category": "adoption",
+        "title": "Move adoption status from stale to current.",
+        "evidence": "2 error(s), 8 total issue(s).",
+        "command": "npm run dashboard-kit:adoption:report",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "meal-assistant",
+        "label": "meal-assistant",
+        "path": "../Meal-assistant",
+        "absolutePath": "/Users/hq/Workspace/projects/Meal-assistant",
+        "validationProfile": {
+          "project": "meal-assistant",
+          "projectPath": "../Meal-assistant",
+          "validationCommands": [
+            "node --check src/server.js"
+          ],
+          "healthUrl": "https://meal.tlccapitalgroup.com/health",
+          "deploymentService": null,
+          "deploymentGap": "Not registered in the Hetzner deployment spine."
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .hermes-dashboard.json\n M package.json\n M src/domain.js\n M src/hermes-dashboard-kit.css\n M src/server.js\n M tests/domain.test.js\n?? docs/package-native-dashboard-migration.md\n?? package-lock.json\n?? scripts/"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "low",
+        "reason": "Adoption fixes require package-native surface changes in the owning project."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "meal-assistant.deployment.36",
+        "project": "meal-assistant",
+        "priority": "P0",
+        "category": "deployment",
+        "title": "Complete Hetzner deployment metadata or remove from production registry.",
+        "evidence": "Missing: provider, sshHost, composeProject, composeService, buildContext, promotionScript",
+        "command": "npm run dashboard:deployment-metadata:validate",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "meal-assistant",
+        "label": "meal-assistant",
+        "path": "../Meal-assistant",
+        "absolutePath": "/Users/hq/Workspace/projects/Meal-assistant",
+        "validationProfile": {
+          "project": "meal-assistant",
+          "projectPath": "../Meal-assistant",
+          "validationCommands": [
+            "node --check src/server.js"
+          ],
+          "healthUrl": "https://meal.tlccapitalgroup.com/health",
+          "deploymentService": null,
+          "deploymentGap": "Not registered in the Hetzner deployment spine."
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .hermes-dashboard.json\n M package.json\n M src/domain.js\n M src/hermes-dashboard-kit.css\n M src/server.js\n M tests/domain.test.js\n?? docs/package-native-dashboard-migration.md\n?? package-lock.json\n?? scripts/"
+      },
+      "strategy": {
+        "mode": "patch-with-review",
+        "confidence": "medium",
+        "reason": "Deployment metadata must match the Hetzner deployment spine or the project must be removed from production registry."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "meal-assistant.proof.13",
+        "project": "meal-assistant",
+        "priority": "P0",
+        "category": "proof",
+        "title": "Declare a readonly production proof endpoint.",
+        "evidence": "meal-assistant.main",
+        "command": "npm run dashboard:production-proof:registry",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "meal-assistant",
+        "label": "meal-assistant",
+        "path": "../Meal-assistant",
+        "absolutePath": "/Users/hq/Workspace/projects/Meal-assistant",
+        "validationProfile": {
+          "project": "meal-assistant",
+          "projectPath": "../Meal-assistant",
+          "validationCommands": [
+            "node --check src/server.js"
+          ],
+          "healthUrl": "https://meal.tlccapitalgroup.com/health",
+          "deploymentService": null,
+          "deploymentGap": "Not registered in the Hetzner deployment spine."
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .hermes-dashboard.json\n M package.json\n M src/domain.js\n M src/hermes-dashboard-kit.css\n M src/server.js\n M tests/domain.test.js\n?? docs/package-native-dashboard-migration.md\n?? package-lock.json\n?? scripts/"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "medium",
+        "reason": "Proof endpoints must be implemented in the owning app, not declared centrally without a route."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "meal-assistant.proof.14",
+        "project": "meal-assistant",
+        "priority": "P0",
+        "category": "proof",
+        "title": "Capture and review a clean production screenshot baseline.",
+        "evidence": "meal-assistant.main: baseline-needed",
+        "command": "npm run dashboard:production-proof:capture",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "meal-assistant",
+        "label": "meal-assistant",
+        "path": "../Meal-assistant",
+        "absolutePath": "/Users/hq/Workspace/projects/Meal-assistant",
+        "validationProfile": {
+          "project": "meal-assistant",
+          "projectPath": "../Meal-assistant",
+          "validationCommands": [
+            "node --check src/server.js"
+          ],
+          "healthUrl": "https://meal.tlccapitalgroup.com/health",
+          "deploymentService": null,
+          "deploymentGap": "Not registered in the Hetzner deployment spine."
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .hermes-dashboard.json\n M package.json\n M src/domain.js\n M src/hermes-dashboard-kit.css\n M src/server.js\n M tests/domain.test.js\n?? docs/package-native-dashboard-migration.md\n?? package-lock.json\n?? scripts/"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "medium",
+        "reason": "Proof endpoints must be implemented in the owning app, not declared centrally without a route."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "meal-assistant.readiness.43",
+        "project": "meal-assistant",
+        "priority": "P0",
+        "category": "readiness",
+        "title": "Remove dashboard readiness penalty/cap.",
+        "evidence": "5% penalty, cap 85%",
+        "command": "npm run dashboard:readiness-impact:report",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "meal-assistant",
+        "label": "meal-assistant",
+        "path": "../Meal-assistant",
+        "absolutePath": "/Users/hq/Workspace/projects/Meal-assistant",
+        "validationProfile": {
+          "project": "meal-assistant",
+          "projectPath": "../Meal-assistant",
+          "validationCommands": [
+            "node --check src/server.js"
+          ],
+          "healthUrl": "https://meal.tlccapitalgroup.com/health",
+          "deploymentService": null,
+          "deploymentGap": "Not registered in the Hetzner deployment spine."
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .hermes-dashboard.json\n M package.json\n M src/domain.js\n M src/hermes-dashboard-kit.css\n M src/server.js\n M tests/domain.test.js\n?? docs/package-native-dashboard-migration.md\n?? package-lock.json\n?? scripts/"
+      },
+      "strategy": {
+        "mode": "derived",
+        "confidence": "high",
+        "reason": "Readiness clears automatically after adoption/proof/telemetry blockers clear."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "meal-assistant.migration.37",
+        "project": "meal-assistant",
+        "priority": "P1",
+        "category": "migration",
+        "title": "Clear package-native migration codemod candidate.",
+        "evidence": "legacy.visual-selection-bridge-production-load: src/server.js",
+        "command": "npm run dashboard:migration-codemod:plan",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "meal-assistant",
+        "label": "meal-assistant",
+        "path": "../Meal-assistant",
+        "absolutePath": "/Users/hq/Workspace/projects/Meal-assistant",
+        "validationProfile": {
+          "project": "meal-assistant",
+          "projectPath": "../Meal-assistant",
+          "validationCommands": [
+            "node --check src/server.js"
+          ],
+          "healthUrl": "https://meal.tlccapitalgroup.com/health",
+          "deploymentService": null,
+          "deploymentGap": "Not registered in the Hetzner deployment spine."
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .hermes-dashboard.json\n M package.json\n M src/domain.js\n M src/hermes-dashboard-kit.css\n M src/server.js\n M tests/domain.test.js\n?? docs/package-native-dashboard-migration.md\n?? package-lock.json\n?? scripts/"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "medium",
+        "reason": "Migration candidates require explicit package-native cutover work."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "meal-assistant.telemetry.20",
+        "project": "meal-assistant",
+        "priority": "P1",
+        "category": "telemetry",
+        "title": "Complete dashboard telemetry contract.",
+        "evidence": "Missing: snapshotUrl",
+        "command": "npm run dashboard:telemetry-contract:report",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "meal-assistant",
+        "label": "meal-assistant",
+        "path": "../Meal-assistant",
+        "absolutePath": "/Users/hq/Workspace/projects/Meal-assistant",
+        "validationProfile": {
+          "project": "meal-assistant",
+          "projectPath": "../Meal-assistant",
+          "validationCommands": [
+            "node --check src/server.js"
+          ],
+          "healthUrl": "https://meal.tlccapitalgroup.com/health",
+          "deploymentService": null,
+          "deploymentGap": "Not registered in the Hetzner deployment spine."
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .hermes-dashboard.json\n M package.json\n M src/domain.js\n M src/hermes-dashboard-kit.css\n M src/server.js\n M tests/domain.test.js\n?? docs/package-native-dashboard-migration.md\n?? package-lock.json\n?? scripts/"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "medium",
+        "reason": "Snapshot endpoints require project-owned API/data adapters."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "meal-assistant.visual.26",
+        "project": "meal-assistant",
+        "priority": "P1",
+        "category": "visual",
+        "title": "Raise visual quality score to at least 90 and pass all checks.",
+        "evidence": "meal-dashboard-shell: 83",
+        "command": "npm run dashboard:visual-quality:score",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "meal-assistant",
+        "label": "meal-assistant",
+        "path": "../Meal-assistant",
+        "absolutePath": "/Users/hq/Workspace/projects/Meal-assistant",
+        "validationProfile": {
+          "project": "meal-assistant",
+          "projectPath": "../Meal-assistant",
+          "validationCommands": [
+            "node --check src/server.js"
+          ],
+          "healthUrl": "https://meal.tlccapitalgroup.com/health",
+          "deploymentService": null,
+          "deploymentGap": "Not registered in the Hetzner deployment spine."
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M .hermes-dashboard.json\n M package.json\n M src/domain.js\n M src/hermes-dashboard-kit.css\n M src/server.js\n M tests/domain.test.js\n?? docs/package-native-dashboard-migration.md\n?? package-lock.json\n?? scripts/"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "low",
+        "reason": "Visual quality fixes require page-specific UI work and screenshot review."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "media-business-os.adoption.3",
+        "project": "media-business-os",
+        "priority": "P0",
+        "category": "adoption",
+        "title": "Move adoption status from stale to current.",
+        "evidence": "5 error(s), 12 total issue(s).",
+        "command": "npm run dashboard-kit:adoption:report",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "media-business-os",
+        "label": "Media Business Operations",
+        "path": "../media-business-operations",
+        "absolutePath": "/Users/hq/Workspace/projects/media-business-operations",
+        "validationProfile": {
+          "project": "media-business-os",
+          "projectPath": "../media-business-operations",
+          "validationCommands": [
+            "npm test"
+          ],
+          "healthUrl": "https://media-business-operations.tlccapitalgroup.com/health",
+          "deploymentService": "media-business-operations"
+        }
+      },
+      "git": {
+        "status": "clean",
+        "dirty": false,
+        "details": ""
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "low",
+        "reason": "Adoption fixes require package-native surface changes in the owning project."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "media-business-os.proof.11",
+        "project": "media-business-os",
+        "priority": "P0",
+        "category": "proof",
+        "title": "Declare a readonly production proof endpoint.",
+        "evidence": "media-business-operations.main",
+        "command": "npm run dashboard:production-proof:registry",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "media-business-os",
+        "label": "Media Business Operations",
+        "path": "../media-business-operations",
+        "absolutePath": "/Users/hq/Workspace/projects/media-business-operations",
+        "validationProfile": {
+          "project": "media-business-os",
+          "projectPath": "../media-business-operations",
+          "validationCommands": [
+            "npm test"
+          ],
+          "healthUrl": "https://media-business-operations.tlccapitalgroup.com/health",
+          "deploymentService": "media-business-operations"
+        }
+      },
+      "git": {
+        "status": "clean",
+        "dirty": false,
+        "details": ""
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "medium",
+        "reason": "Proof endpoints must be implemented in the owning app, not declared centrally without a route."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "media-business-os.readiness.41",
+        "project": "media-business-os",
+        "priority": "P0",
+        "category": "readiness",
+        "title": "Remove dashboard readiness penalty/cap.",
+        "evidence": "10% penalty, cap 85%",
+        "command": "npm run dashboard:readiness-impact:report",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "media-business-os",
+        "label": "Media Business Operations",
+        "path": "../media-business-operations",
+        "absolutePath": "/Users/hq/Workspace/projects/media-business-operations",
+        "validationProfile": {
+          "project": "media-business-os",
+          "projectPath": "../media-business-operations",
+          "validationCommands": [
+            "npm test"
+          ],
+          "healthUrl": "https://media-business-operations.tlccapitalgroup.com/health",
+          "deploymentService": "media-business-operations"
+        }
+      },
+      "git": {
+        "status": "clean",
+        "dirty": false,
+        "details": ""
+      },
+      "strategy": {
+        "mode": "derived",
+        "confidence": "high",
+        "reason": "Readiness clears automatically after adoption/proof/telemetry blockers clear."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "media-business-os.bridge.33",
+        "project": "media-business-os",
+        "priority": "P1",
+        "category": "bridge",
+        "title": "Add visual-selection bridge and stable review handles.",
+        "evidence": "media-business-main: missing visual-selection-bridge.js, data-review-id",
+        "command": "npm run dashboard:bridge:coverage",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "media-business-os",
+        "label": "Media Business Operations",
+        "path": "../media-business-operations",
+        "absolutePath": "/Users/hq/Workspace/projects/media-business-operations",
+        "validationProfile": {
+          "project": "media-business-os",
+          "projectPath": "../media-business-operations",
+          "validationCommands": [
+            "npm test"
+          ],
+          "healthUrl": "https://media-business-operations.tlccapitalgroup.com/health",
+          "deploymentService": "media-business-operations"
+        }
+      },
+      "git": {
+        "status": "clean",
+        "dirty": false,
+        "details": ""
+      },
+      "strategy": {
+        "mode": "patch-with-review",
+        "confidence": "medium",
+        "reason": "Bridge fixes can touch runtime paths and review hooks; generate a targeted patch after inspecting the owning project."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "media-business-os.bridge.34",
+        "project": "media-business-os",
+        "priority": "P1",
+        "category": "bridge",
+        "title": "Add visual-selection bridge and stable review handles.",
+        "evidence": "media-business-renderer: missing visual-selection-bridge.js",
+        "command": "npm run dashboard:bridge:coverage",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "media-business-os",
+        "label": "Media Business Operations",
+        "path": "../media-business-operations",
+        "absolutePath": "/Users/hq/Workspace/projects/media-business-operations",
+        "validationProfile": {
+          "project": "media-business-os",
+          "projectPath": "../media-business-operations",
+          "validationCommands": [
+            "npm test"
+          ],
+          "healthUrl": "https://media-business-operations.tlccapitalgroup.com/health",
+          "deploymentService": "media-business-operations"
+        }
+      },
+      "git": {
+        "status": "clean",
+        "dirty": false,
+        "details": ""
+      },
+      "strategy": {
+        "mode": "patch-with-review",
+        "confidence": "medium",
+        "reason": "Bridge fixes can touch runtime paths and review hooks; generate a targeted patch after inspecting the owning project."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "media-business-os.visual.23",
+        "project": "media-business-os",
+        "priority": "P1",
+        "category": "visual",
+        "title": "Raise visual quality score to at least 90 and pass all checks.",
+        "evidence": "media-business-main: 33",
+        "command": "npm run dashboard:visual-quality:score",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "media-business-os",
+        "label": "Media Business Operations",
+        "path": "../media-business-operations",
+        "absolutePath": "/Users/hq/Workspace/projects/media-business-operations",
+        "validationProfile": {
+          "project": "media-business-os",
+          "projectPath": "../media-business-operations",
+          "validationCommands": [
+            "npm test"
+          ],
+          "healthUrl": "https://media-business-operations.tlccapitalgroup.com/health",
+          "deploymentService": "media-business-operations"
+        }
+      },
+      "git": {
+        "status": "clean",
+        "dirty": false,
+        "details": ""
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "low",
+        "reason": "Visual quality fixes require page-specific UI work and screenshot review."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "media-business-os.visual.24",
+        "project": "media-business-os",
+        "priority": "P1",
+        "category": "visual",
+        "title": "Raise visual quality score to at least 90 and pass all checks.",
+        "evidence": "media-business-renderer: 67",
+        "command": "npm run dashboard:visual-quality:score",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "media-business-os",
+        "label": "Media Business Operations",
+        "path": "../media-business-operations",
+        "absolutePath": "/Users/hq/Workspace/projects/media-business-operations",
+        "validationProfile": {
+          "project": "media-business-os",
+          "projectPath": "../media-business-operations",
+          "validationCommands": [
+            "npm test"
+          ],
+          "healthUrl": "https://media-business-operations.tlccapitalgroup.com/health",
+          "deploymentService": "media-business-operations"
+        }
+      },
+      "git": {
+        "status": "clean",
+        "dirty": false,
+        "details": ""
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "low",
+        "reason": "Visual quality fixes require page-specific UI work and screenshot review."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "media-engine.adoption.2",
+        "project": "media-engine",
+        "priority": "P0",
+        "category": "adoption",
+        "title": "Move adoption status from needs-review to current.",
+        "evidence": "0 error(s), 1 total issue(s).",
+        "command": "npm run dashboard-kit:adoption:report",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "media-engine",
+        "label": "Media Engine Ops",
+        "path": "../media-engine",
+        "absolutePath": "/Users/hq/Workspace/projects/media-engine",
+        "validationProfile": {
+          "project": "media-engine",
+          "projectPath": "../media-engine",
+          "validationCommands": [
+            "node --check tasks/ops-dashboard-server.js"
+          ],
+          "healthUrl": "https://media.tlccapitalgroup.com/health",
+          "deploymentService": "media-engine-dashboard"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M core/operations/unified-publishing-dashboard.js\n M data/operation-cost-events.jsonl\n M data/operations-events.jsonl\n M docs/design/dashboard-design-review.md\n M tests/operations/unified-publishing-dashboard.test.js\n?? data/candidate-adjudications.json"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "low",
+        "reason": "Adoption fixes require package-native surface changes in the owning project."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "media-engine.proof.10",
+        "project": "media-engine",
+        "priority": "P0",
+        "category": "proof",
+        "title": "Declare a readonly production proof endpoint.",
+        "evidence": "media-engine.ops",
+        "command": "npm run dashboard:production-proof:registry",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "media-engine",
+        "label": "Media Engine Ops",
+        "path": "../media-engine",
+        "absolutePath": "/Users/hq/Workspace/projects/media-engine",
+        "validationProfile": {
+          "project": "media-engine",
+          "projectPath": "../media-engine",
+          "validationCommands": [
+            "node --check tasks/ops-dashboard-server.js"
+          ],
+          "healthUrl": "https://media.tlccapitalgroup.com/health",
+          "deploymentService": "media-engine-dashboard"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M core/operations/unified-publishing-dashboard.js\n M data/operation-cost-events.jsonl\n M data/operations-events.jsonl\n M docs/design/dashboard-design-review.md\n M tests/operations/unified-publishing-dashboard.test.js\n?? data/candidate-adjudications.json"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "medium",
+        "reason": "Proof endpoints must be implemented in the owning app, not declared centrally without a route."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "media-engine.readiness.40",
+        "project": "media-engine",
+        "priority": "P0",
+        "category": "readiness",
+        "title": "Remove dashboard readiness penalty/cap.",
+        "evidence": "1% penalty, cap 95%",
+        "command": "npm run dashboard:readiness-impact:report",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "media-engine",
+        "label": "Media Engine Ops",
+        "path": "../media-engine",
+        "absolutePath": "/Users/hq/Workspace/projects/media-engine",
+        "validationProfile": {
+          "project": "media-engine",
+          "projectPath": "../media-engine",
+          "validationCommands": [
+            "node --check tasks/ops-dashboard-server.js"
+          ],
+          "healthUrl": "https://media.tlccapitalgroup.com/health",
+          "deploymentService": "media-engine-dashboard"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M core/operations/unified-publishing-dashboard.js\n M data/operation-cost-events.jsonl\n M data/operations-events.jsonl\n M docs/design/dashboard-design-review.md\n M tests/operations/unified-publishing-dashboard.test.js\n?? data/candidate-adjudications.json"
+      },
+      "strategy": {
+        "mode": "derived",
+        "confidence": "high",
+        "reason": "Readiness clears automatically after adoption/proof/telemetry blockers clear."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "nous-hermes-agent.proof.8",
+        "project": "nous-hermes-agent",
+        "priority": "P0",
+        "category": "proof",
+        "title": "Declare a readonly production proof endpoint.",
+        "evidence": "nous-hermes-agent.dashboard",
+        "command": "npm run dashboard:production-proof:registry",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "nous-hermes-agent",
+        "label": "Nous Hermes Agent",
+        "path": ".",
+        "absolutePath": "/Users/hq/Workspace/projects/nous-hermes-agent",
+        "validationProfile": {
+          "project": "nous-hermes-agent",
+          "projectPath": ".",
+          "validationCommands": [
+            "npm run dashboard:design-system:test",
+            "npm run dashboard:starter:validate",
+            "./packages/hermes-dashboard-kit/node_modules/.bin/tsc -p packages/hermes-dashboard-kit/tsconfig.json --noEmit"
+          ],
+          "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
+          "deploymentService": "nous-hermes-agent"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M docs/design/dashboard-maturity-report.json\n M docs/design/dashboard-production-proof-registry.json\n M docs/design/dashboard-visual-quality-report.json\n M docs/design/package-native-dashboard-starter-standard.md\n M docs/design/world-class-dashboard-system-audit-report.json\n M docs/design/world-class-dashboard-system-audit.json\n M docs/design/world-class-dashboard-system-backlog.json\n M docs/design/world-class-dashboard-system-backlog.md\n M package.json\n M packages/hermes-dashboard-kit/DESIGN.md\n M packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json\n M packages/hermes-dashboard-kit/src/dashboard-kit.css\n M packages/hermes-dashboard-kit/src/index.js\n M packages/hermes-dashboard-kit/src/shell.tsx\n M packages/hermes-dashboard-kit/static/hermes-dashboard-kit.css\n M packages/hermes-dashboard-kit/tests/dashboard-kit.test.js\n M scripts/audit-rendered-dashboard.mjs\n M scripts/audit-world-class-dashboard-system.mjs\n M scripts/capture-dashboard-visual-baseline.mjs\n M scripts/create-package-native-dashboard.mjs\n M scripts/score-tier3-dashboard.mjs\n M scripts/validate-package-native-dashboard-starter.mjs\n M scripts/validate-package-native-surface.mjs\n?? docs/design/dashboard-bridge-coverage-report.json\n?? docs/design/dashboard-data-contracts.md\n?? docs/design/dashboard-deployment-metadata-report.json\n?? docs/design/dashboard-downstream-snapshot-feed.json\n?? docs/design/dashboard-health-report.json\n?? docs/design/dashboard-information-architecture.md\n?? docs/design/dashboard-kit-adoption.md\n?? docs/design/dashboard-migration-codemod-plan.json\n?? docs/design/dashboard-next-actions-execution-report.json\n?? docs/design/dashboard-next-actions-execution-report.md\n?? docs/design/dashboard-next-actions-report.json\n?? docs/design/dashboard-next-actions-report.md\n?? docs/design/dashboard-operational-navigation-standard.md\n?? docs/design/dashboard-project-validation-profiles-report.json\n?? docs/design/dashboard-project-validation-profiles.json\n?? docs/design/dashboard-quality-scorecard.md\n?? docs/design/dashboard-readiness-impact.json\n?? docs/design/dashboard-release-review-checklist.md\n?? docs/design/dashboard-telemetry-contract-report.json\n?? docs/design/design-system-ownership.md\n?? docs/design/package-native-cutover-checklist.md\n?? docs/design/package-native-dashboard-migration-backlog.md\n?? docs/design/prototype-gallery/\n?? docs/design/visual-selection-bridge.md\n?? hermes.dashboards.json\n?? scripts/execute-dashboard-next-actions.mjs\n?? scripts/generate-dashboard-next-actions.mjs\n?? scripts/install-dashboard-design-system-hooks.mjs\n?? scripts/validate-dashboard-deployment-metadata.mjs\n?? scripts/validate-dashboard-health.mjs\n?? scripts/validate-dashboard-project-profiles.mjs"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "medium",
+        "reason": "Proof endpoints must be implemented in the owning app, not declared centrally without a route."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "nous-hermes-agent.proof.9",
+        "project": "nous-hermes-agent",
+        "priority": "P0",
+        "category": "proof",
+        "title": "Capture and review a clean production screenshot baseline.",
+        "evidence": "nous-hermes-agent.dashboard: baseline-needed",
+        "command": "npm run dashboard:production-proof:capture",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "nous-hermes-agent",
+        "label": "Nous Hermes Agent",
+        "path": ".",
+        "absolutePath": "/Users/hq/Workspace/projects/nous-hermes-agent",
+        "validationProfile": {
+          "project": "nous-hermes-agent",
+          "projectPath": ".",
+          "validationCommands": [
+            "npm run dashboard:design-system:test",
+            "npm run dashboard:starter:validate",
+            "./packages/hermes-dashboard-kit/node_modules/.bin/tsc -p packages/hermes-dashboard-kit/tsconfig.json --noEmit"
+          ],
+          "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
+          "deploymentService": "nous-hermes-agent"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M docs/design/dashboard-maturity-report.json\n M docs/design/dashboard-production-proof-registry.json\n M docs/design/dashboard-visual-quality-report.json\n M docs/design/package-native-dashboard-starter-standard.md\n M docs/design/world-class-dashboard-system-audit-report.json\n M docs/design/world-class-dashboard-system-audit.json\n M docs/design/world-class-dashboard-system-backlog.json\n M docs/design/world-class-dashboard-system-backlog.md\n M package.json\n M packages/hermes-dashboard-kit/DESIGN.md\n M packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json\n M packages/hermes-dashboard-kit/src/dashboard-kit.css\n M packages/hermes-dashboard-kit/src/index.js\n M packages/hermes-dashboard-kit/src/shell.tsx\n M packages/hermes-dashboard-kit/static/hermes-dashboard-kit.css\n M packages/hermes-dashboard-kit/tests/dashboard-kit.test.js\n M scripts/audit-rendered-dashboard.mjs\n M scripts/audit-world-class-dashboard-system.mjs\n M scripts/capture-dashboard-visual-baseline.mjs\n M scripts/create-package-native-dashboard.mjs\n M scripts/score-tier3-dashboard.mjs\n M scripts/validate-package-native-dashboard-starter.mjs\n M scripts/validate-package-native-surface.mjs\n?? docs/design/dashboard-bridge-coverage-report.json\n?? docs/design/dashboard-data-contracts.md\n?? docs/design/dashboard-deployment-metadata-report.json\n?? docs/design/dashboard-downstream-snapshot-feed.json\n?? docs/design/dashboard-health-report.json\n?? docs/design/dashboard-information-architecture.md\n?? docs/design/dashboard-kit-adoption.md\n?? docs/design/dashboard-migration-codemod-plan.json\n?? docs/design/dashboard-next-actions-execution-report.json\n?? docs/design/dashboard-next-actions-execution-report.md\n?? docs/design/dashboard-next-actions-report.json\n?? docs/design/dashboard-next-actions-report.md\n?? docs/design/dashboard-operational-navigation-standard.md\n?? docs/design/dashboard-project-validation-profiles-report.json\n?? docs/design/dashboard-project-validation-profiles.json\n?? docs/design/dashboard-quality-scorecard.md\n?? docs/design/dashboard-readiness-impact.json\n?? docs/design/dashboard-release-review-checklist.md\n?? docs/design/dashboard-telemetry-contract-report.json\n?? docs/design/design-system-ownership.md\n?? docs/design/package-native-cutover-checklist.md\n?? docs/design/package-native-dashboard-migration-backlog.md\n?? docs/design/prototype-gallery/\n?? docs/design/visual-selection-bridge.md\n?? hermes.dashboards.json\n?? scripts/execute-dashboard-next-actions.mjs\n?? scripts/generate-dashboard-next-actions.mjs\n?? scripts/install-dashboard-design-system-hooks.mjs\n?? scripts/validate-dashboard-deployment-metadata.mjs\n?? scripts/validate-dashboard-health.mjs\n?? scripts/validate-dashboard-project-profiles.mjs"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "medium",
+        "reason": "Proof endpoints must be implemented in the owning app, not declared centrally without a route."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "nous-hermes-agent.telemetry.18",
+        "project": "nous-hermes-agent",
+        "priority": "P1",
+        "category": "telemetry",
+        "title": "Complete dashboard telemetry contract.",
+        "evidence": "Missing: snapshotUrl",
+        "command": "npm run dashboard:telemetry-contract:report",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "nous-hermes-agent",
+        "label": "Nous Hermes Agent",
+        "path": ".",
+        "absolutePath": "/Users/hq/Workspace/projects/nous-hermes-agent",
+        "validationProfile": {
+          "project": "nous-hermes-agent",
+          "projectPath": ".",
+          "validationCommands": [
+            "npm run dashboard:design-system:test",
+            "npm run dashboard:starter:validate",
+            "./packages/hermes-dashboard-kit/node_modules/.bin/tsc -p packages/hermes-dashboard-kit/tsconfig.json --noEmit"
+          ],
+          "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
+          "deploymentService": "nous-hermes-agent"
+        }
+      },
+      "git": {
+        "status": "dirty",
+        "dirty": true,
+        "details": "M docs/design/dashboard-maturity-report.json\n M docs/design/dashboard-production-proof-registry.json\n M docs/design/dashboard-visual-quality-report.json\n M docs/design/package-native-dashboard-starter-standard.md\n M docs/design/world-class-dashboard-system-audit-report.json\n M docs/design/world-class-dashboard-system-audit.json\n M docs/design/world-class-dashboard-system-backlog.json\n M docs/design/world-class-dashboard-system-backlog.md\n M package.json\n M packages/hermes-dashboard-kit/DESIGN.md\n M packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json\n M packages/hermes-dashboard-kit/src/dashboard-kit.css\n M packages/hermes-dashboard-kit/src/index.js\n M packages/hermes-dashboard-kit/src/shell.tsx\n M packages/hermes-dashboard-kit/static/hermes-dashboard-kit.css\n M packages/hermes-dashboard-kit/tests/dashboard-kit.test.js\n M scripts/audit-rendered-dashboard.mjs\n M scripts/audit-world-class-dashboard-system.mjs\n M scripts/capture-dashboard-visual-baseline.mjs\n M scripts/create-package-native-dashboard.mjs\n M scripts/score-tier3-dashboard.mjs\n M scripts/validate-package-native-dashboard-starter.mjs\n M scripts/validate-package-native-surface.mjs\n?? docs/design/dashboard-bridge-coverage-report.json\n?? docs/design/dashboard-data-contracts.md\n?? docs/design/dashboard-deployment-metadata-report.json\n?? docs/design/dashboard-downstream-snapshot-feed.json\n?? docs/design/dashboard-health-report.json\n?? docs/design/dashboard-information-architecture.md\n?? docs/design/dashboard-kit-adoption.md\n?? docs/design/dashboard-migration-codemod-plan.json\n?? docs/design/dashboard-next-actions-execution-report.json\n?? docs/design/dashboard-next-actions-execution-report.md\n?? docs/design/dashboard-next-actions-report.json\n?? docs/design/dashboard-next-actions-report.md\n?? docs/design/dashboard-operational-navigation-standard.md\n?? docs/design/dashboard-project-validation-profiles-report.json\n?? docs/design/dashboard-project-validation-profiles.json\n?? docs/design/dashboard-quality-scorecard.md\n?? docs/design/dashboard-readiness-impact.json\n?? docs/design/dashboard-release-review-checklist.md\n?? docs/design/dashboard-telemetry-contract-report.json\n?? docs/design/design-system-ownership.md\n?? docs/design/package-native-cutover-checklist.md\n?? docs/design/package-native-dashboard-migration-backlog.md\n?? docs/design/prototype-gallery/\n?? docs/design/visual-selection-bridge.md\n?? hermes.dashboards.json\n?? scripts/execute-dashboard-next-actions.mjs\n?? scripts/generate-dashboard-next-actions.mjs\n?? scripts/install-dashboard-design-system-hooks.mjs\n?? scripts/validate-dashboard-deployment-metadata.mjs\n?? scripts/validate-dashboard-health.mjs\n?? scripts/validate-dashboard-project-profiles.mjs"
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "medium",
+        "reason": "Snapshot endpoints require project-owned API/data adapters."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "tlc-capital-group-os.adoption.7",
+        "project": "tlc-capital-group-os",
+        "priority": "P0",
+        "category": "adoption",
+        "title": "Move adoption status from stale to current.",
+        "evidence": "1 error(s), 3 total issue(s).",
+        "command": "npm run dashboard-kit:adoption:report",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "tlc-capital-group-os",
+        "label": "TLC Capital Group OS",
+        "path": "../tlc-capital-group-os",
+        "absolutePath": "/Users/hq/Workspace/projects/tlc-capital-group-os",
+        "validationProfile": {
+          "project": "tlc-capital-group-os",
+          "projectPath": "../tlc-capital-group-os",
+          "validationCommands": [
+            "npm run build"
+          ],
+          "healthUrl": "https://tlc.tlccapitalgroup.com/health",
+          "deploymentService": "tlc-capital-group-os"
+        }
+      },
+      "git": {
+        "status": "clean",
+        "dirty": false,
+        "details": ""
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "low",
+        "reason": "Adoption fixes require package-native surface changes in the owning project."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "tlc-capital-group-os.readiness.45",
+        "project": "tlc-capital-group-os",
+        "priority": "P0",
+        "category": "readiness",
+        "title": "Remove dashboard readiness penalty/cap.",
+        "evidence": "5% penalty, cap 85%",
+        "command": "npm run dashboard:readiness-impact:report",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "tlc-capital-group-os",
+        "label": "TLC Capital Group OS",
+        "path": "../tlc-capital-group-os",
+        "absolutePath": "/Users/hq/Workspace/projects/tlc-capital-group-os",
+        "validationProfile": {
+          "project": "tlc-capital-group-os",
+          "projectPath": "../tlc-capital-group-os",
+          "validationCommands": [
+            "npm run build"
+          ],
+          "healthUrl": "https://tlc.tlccapitalgroup.com/health",
+          "deploymentService": "tlc-capital-group-os"
+        }
+      },
+      "git": {
+        "status": "clean",
+        "dirty": false,
+        "details": ""
+      },
+      "strategy": {
+        "mode": "derived",
+        "confidence": "high",
+        "reason": "Readiness clears automatically after adoption/proof/telemetry blockers clear."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "tlc-capital-group-os.visual.30",
+        "project": "tlc-capital-group-os",
+        "priority": "P1",
+        "category": "visual",
+        "title": "Raise visual quality score to at least 90 and pass all checks.",
+        "evidence": "tlc-dashboard-shell: 17",
+        "command": "npm run dashboard:visual-quality:score",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "tlc-capital-group-os",
+        "label": "TLC Capital Group OS",
+        "path": "../tlc-capital-group-os",
+        "absolutePath": "/Users/hq/Workspace/projects/tlc-capital-group-os",
+        "validationProfile": {
+          "project": "tlc-capital-group-os",
+          "projectPath": "../tlc-capital-group-os",
+          "validationCommands": [
+            "npm run build"
+          ],
+          "healthUrl": "https://tlc.tlccapitalgroup.com/health",
+          "deploymentService": "tlc-capital-group-os"
+        }
+      },
+      "git": {
+        "status": "clean",
+        "dirty": false,
+        "details": ""
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "low",
+        "reason": "Visual quality fixes require page-specific UI work and screenshot review."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "tlc-capital-group-os.visual.31",
+        "project": "tlc-capital-group-os",
+        "priority": "P1",
+        "category": "visual",
+        "title": "Raise visual quality score to at least 90 and pass all checks.",
+        "evidence": "tlc-dashboard-api: 33",
+        "command": "npm run dashboard:visual-quality:score",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "tlc-capital-group-os",
+        "label": "TLC Capital Group OS",
+        "path": "../tlc-capital-group-os",
+        "absolutePath": "/Users/hq/Workspace/projects/tlc-capital-group-os",
+        "validationProfile": {
+          "project": "tlc-capital-group-os",
+          "projectPath": "../tlc-capital-group-os",
+          "validationCommands": [
+            "npm run build"
+          ],
+          "healthUrl": "https://tlc.tlccapitalgroup.com/health",
+          "deploymentService": "tlc-capital-group-os"
+        }
+      },
+      "git": {
+        "status": "clean",
+        "dirty": false,
+        "details": ""
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "low",
+        "reason": "Visual quality fixes require page-specific UI work and screenshot review."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    },
+    {
+      "action": {
+        "id": "tlc-capital-group-os.visual.32",
+        "project": "tlc-capital-group-os",
+        "priority": "P1",
+        "category": "visual",
+        "title": "Raise visual quality score to at least 90 and pass all checks.",
+        "evidence": "tlc-dashboard-models: 33",
+        "command": "npm run dashboard:visual-quality:score",
+        "blocksWorldClass": true
+      },
+      "project": {
+        "project": "tlc-capital-group-os",
+        "label": "TLC Capital Group OS",
+        "path": "../tlc-capital-group-os",
+        "absolutePath": "/Users/hq/Workspace/projects/tlc-capital-group-os",
+        "validationProfile": {
+          "project": "tlc-capital-group-os",
+          "projectPath": "../tlc-capital-group-os",
+          "validationCommands": [
+            "npm run build"
+          ],
+          "healthUrl": "https://tlc.tlccapitalgroup.com/health",
+          "deploymentService": "tlc-capital-group-os"
+        }
+      },
+      "git": {
+        "status": "clean",
+        "dirty": false,
+        "details": ""
+      },
+      "strategy": {
+        "mode": "project-implementation",
+        "confidence": "low",
+        "reason": "Visual quality fixes require page-specific UI work and screenshot review."
+      },
+      "mode": "dry-run",
+      "status": "planned"
+    }
+  ],
+  "validation": []
+}

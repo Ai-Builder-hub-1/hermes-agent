@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-03T19:47:37.434Z",
+  "sourceReport": "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
+  "impacts": [
+    {
+      "project": "khashi-vc",
+      "dashboardAdoptionStatus": "current",
+      "readinessCapPercent": 100,
+      "dashboardPenaltyPercent": 0,
+      "reason": "No dashboard adoption penalty."
+    },
+    {
+      "project": "media-engine",
+      "dashboardAdoptionStatus": "current",
+      "readinessCapPercent": 100,
+      "dashboardPenaltyPercent": 0,
+      "reason": "No dashboard adoption penalty."
+    },
+    {
+      "project": "media-business-os",
+      "dashboardAdoptionStatus": "current",
+      "readinessCapPercent": 100,
+      "dashboardPenaltyPercent": 0,
+      "reason": "No dashboard adoption penalty."
+    },
+    {
+      "project": "business-mapper",
+      "dashboardAdoptionStatus": "current",
+      "readinessCapPercent": 100,
+      "dashboardPenaltyPercent": 0,
+      "reason": "No dashboard adoption penalty."
+    },
+    {
+      "project": "meal-assistant",
+      "dashboardAdoptionStatus": "current",
+      "readinessCapPercent": 100,
+      "dashboardPenaltyPercent": 0,
+      "reason": "No dashboard adoption penalty."
+    },
+    {
+      "project": "hermes-os",
+      "dashboardAdoptionStatus": "current",
+      "readinessCapPercent": 100,
+      "dashboardPenaltyPercent": 0,
+      "reason": "No dashboard adoption penalty."
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "dashboardAdoptionStatus": "current",
+      "readinessCapPercent": 100,
+      "dashboardPenaltyPercent": 0,
+      "reason": "No dashboard adoption penalty."
+    }
+  ]
+}

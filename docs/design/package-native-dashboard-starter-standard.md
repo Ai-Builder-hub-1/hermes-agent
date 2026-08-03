@@ -14,6 +14,8 @@ Any dashboard surface moving toward production completion must:
 - import `@hermes/dashboard-kit` directly in the production dashboard route
 - render `DashboardShell`, `DashboardSidebar`, `DashboardHeader`, and
   dashboard-kit page primitives directly
+- satisfy `docs/design/dashboard-operational-navigation-standard.md` for the
+  primary navigation rail
 - declare `data-theme="light"`, `data-theme="dark"`, or `data-theme="system"`
 - include a Mobbin/reference intake before implementation
 - include a design-review checklist before production approval
@@ -98,9 +100,12 @@ The checklist must capture:
 
 Every package-native dashboard must be able to capture:
 
-- desktop light
-- desktop dark
-- desktop system
+- desktop expanded light
+- desktop expanded dark
+- desktop expanded system
+- desktop collapsed light
+- desktop collapsed dark
+- desktop collapsed system
 - mobile light
 - mobile dark
 - mobile system
@@ -197,6 +202,8 @@ A new Tier 3 dashboard is not complete until:
 - current and target tiers are both `3`
 - Mobbin intake is present and references are recorded
 - one-shell route is proven
+- operational navigation proof exists for brand block, grouped nav, active
+  state, collapsed labels, footer/status context, and mobile behavior
 - design-review checklist is present
 - light/dark theme mode contract passes
 - screenshot proof exists for primary routes

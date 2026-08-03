@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-03T20:45:29.066Z",
+  "mode": "live",
+  "checkedCount": 9,
+  "failedCount": 0,
+  "items": [
+    {
+      "id": "nous-hermes-agent.dashboard",
+      "label": "Nous Hermes Agent",
+      "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
+      "status": "ok",
+      "httpStatus": 200
+    },
+    {
+      "id": "khashi-vc.roc",
+      "label": "Khashi VC ROC",
+      "healthUrl": "https://roc.tlccapitalgroup.com/readyz",
+      "status": "ok",
+      "httpStatus": 200
+    },
+    {
+      "id": "media-engine.ops",
+      "label": "Media Engine Ops",
+      "healthUrl": "https://media.tlccapitalgroup.com/health",
+      "status": "ok",
+      "httpStatus": 200
+    },
+    {
+      "id": "media-business-operations.main",
+      "label": "Media Business Operations",
+      "healthUrl": "https://media-business-operations.tlccapitalgroup.com/health",
+      "status": "ok",
+      "httpStatus": 200
+    },
+    {
+      "id": "business-mapper.workspace",
+      "label": "Business Mapper Workspace",
+      "healthUrl": "https://business-mapper.tlccapitalgroup.com/health",
+      "status": "ok",
+      "httpStatus": 200
+    },
+    {
+      "id": "meal-assistant.main",
+      "label": "Meal Assistant",
+      "healthUrl": "https://meal.tlccapitalgroup.com/health",
+      "status": "ok",
+      "httpStatus": 200
+    },
+    {
+      "id": "investing-system.roc",
+      "label": "Investing System ROC",
+      "healthUrl": "https://investing.tlccapitalgroup.com/health",
+      "status": "ok",
+      "httpStatus": 200
+    },
+    {
+      "id": "hermes.workspace",
+      "label": "Hermes Workspace",
+      "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+      "status": "ok",
+      "httpStatus": 200
+    },
+    {
+      "id": "tlc-capital-group-os.main",
+      "label": "TLC Capital Group OS",
+      "healthUrl": "https://tlc.tlccapitalgroup.com/health",
+      "status": "ok",
+      "httpStatus": 200
+    }
+  ]
+}

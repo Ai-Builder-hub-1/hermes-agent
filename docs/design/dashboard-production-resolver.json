@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "enabledForProductionProofCapture": true,
+  "providers": {
+    "hetzner": {
+      "edgeIp": "178.156.240.1",
+      "domains": ["tlccapitalgroup.com"],
+      "reason": "Production dashboard proof capture should not fail while local DNS caches lag behind the Hetzner/Caddy deployment source of truth."
+    }
+  }
+}

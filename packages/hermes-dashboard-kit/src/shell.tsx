@@ -4,12 +4,19 @@ import { cn } from "./utils";
 export interface DashboardNavItem {
   id: string;
   label: string;
+  shortLabel?: string;
   href?: string;
   active?: boolean;
   icon?: ComponentType<{ className?: string }>;
   badge?: ReactNode;
   description?: string;
   onClick?: () => void;
+}
+
+export interface DashboardNavGroup {
+  id: string;
+  label: string;
+  items: DashboardNavItem[];
 }
 
 export function DashboardShell({
@@ -108,51 +115,83 @@ export function DashboardHeader({
 export function DashboardSidebar({
   title,
   description,
+  mark,
   items,
+  groups,
   footer,
+  status,
   className,
 }: {
   title: string;
   description?: string;
-  items: DashboardNavItem[];
+  mark?: ReactNode;
+  items?: DashboardNavItem[];
+  groups?: DashboardNavGroup[];
   footer?: ReactNode;
+  status?: ReactNode;
   className?: string;
 }) {
-  return (
-    <nav className={cn("rounded-lg border border-border bg-card p-3", className)} aria-label={title}>
-      <div className="border-b border-border pb-3">
-        <div className="text-sm font-semibold text-foreground">{title}</div>
-        {description ? <div className="mt-1 text-xs text-muted-foreground">{description}</div> : null}
-      </div>
-      <div className="mt-3 space-y-1">
-        {items.map((item) => {
-          const Icon = item.icon;
-          const content = (
-            <>
-              {Icon ? <Icon className="h-4 w-4 shrink-0" aria-hidden="true" /> : null}
-              <span className="min-w-0 flex-1 truncate">{item.label}</span>
-              {item.badge}
-            </>
-          );
-          const classes = cn(
-            "flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm transition",
-            item.active
-              ? "bg-primary text-primary-foreground"
-              : "text-muted-foreground hover:bg-muted hover:text-foreground",
-          );
+  const resolvedGroups =
+    groups?.length
+      ? groups
+      : [
+          {
+            id: "main",
+            label: "Navigation",
+            items: items ?? [],
+          },
+        ];
 
-          return item.href ? (
-            <a key={item.id} className={classes} href={item.href} title={item.description ?? item.label}>
-              {content}
-            </a>
-          ) : (
-            <button key={item.id} className={classes} onClick={item.onClick} title={item.description ?? item.label} type="button">
-              {content}
-            </button>
-          );
-        })}
+  return (
+    <nav className={cn("rounded-lg border border-border bg-card p-3", className)} aria-label={title} data-hdk-component="DashboardSidebar">
+      <div className="flex min-w-0 items-center gap-3 border-b border-border pb-3" data-sidebar-brand>
+        {mark ? <div className="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-primary text-xs font-semibold text-primary-foreground">{mark}</div> : null}
+        <div className="min-w-0">
+          <div className="truncate text-sm font-semibold text-foreground">{title}</div>
+          {description ? <div className="mt-1 truncate text-xs text-muted-foreground">{description}</div> : null}
+        </div>
       </div>
-      {footer ? <div className="mt-4 border-t border-border pt-3">{footer}</div> : null}
+      <div className="mt-3 space-y-4">
+        {resolvedGroups.map((group) => (
+          <section key={group.id} className="space-y-1" data-nav-group={group.id}>
+            <div className="px-2 text-[0.68rem] font-semibold uppercase tracking-wide text-muted-foreground">{group.label}</div>
+            {group.items.map((item) => {
+              const Icon = item.icon;
+              const content = (
+                <>
+                  {Icon ? <Icon className="h-4 w-4 shrink-0" aria-hidden="true" /> : null}
+                  <span className="min-w-0 flex-1 truncate">{item.label}</span>
+                  {item.badge}
+                </>
+              );
+              const classes = cn(
+                "flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
+                item.active
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground",
+              );
+              const shortLabel =
+                item.shortLabel ?? item.label.slice(0, 4);
+
+              return item.href ? (
+                <a key={item.id} aria-current={item.active ? "page" : undefined} className={classes} data-short={shortLabel} href={item.href} title={item.description ?? item.label}>
+                  {content}
+                </a>
+              ) : (
+                <button key={item.id} aria-current={item.active ? "page" : undefined} className={classes} data-short={shortLabel} onClick={item.onClick} title={item.description ?? item.label} type="button">
+                  {content}
+                </button>
+              );
+            })}
+          </section>
+        ))}
+      </div>
+      {(status || footer) ? (
+        <div className="mt-4 border-t border-border pt-3" data-sidebar-footer>
+          {status ? <div className="mb-3 rounded-md border border-border bg-muted/50 p-2 text-xs text-muted-foreground">{status}</div> : null}
+          {footer}
+        </div>
+      ) : null}
     </nav>
   );
 }

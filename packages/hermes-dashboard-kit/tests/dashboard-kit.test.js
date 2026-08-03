@@ -67,6 +67,7 @@ import {
   renderNarrativeBriefing,
   renderNetworkGraph,
   renderOperationsFunnel,
+  renderOperationalSidebar,
   renderOperatingCompanyScorecard,
   renderOwnerAccountabilityMatrix,
   renderOutreachDraftPanel,
@@ -134,6 +135,75 @@ test("renders a tier 3 dashboard shell with one shell marker", () => {
   assert.match(html, /data-hdk-component="DashboardShell"/);
   assert.match(html, /data-experience-tier="tier-3"/);
   assert.equal((html.match(/data-hdk-component="DashboardShell"/g) || []).length, 1);
+  assert.match(html, /data-component="DashboardSidebar"/);
+  assert.match(html, /data-sidebar-brand/);
+  assert.match(html, /data-nav-group="main"/);
+  assert.match(html, /data-short="Live"/);
+  assert.match(html, /aria-current="page"/);
+});
+
+test("renders product-grade operational sidebar contract", () => {
+  const html =
+    renderOperationalSidebar({
+      title:
+        "Media Business",
+      subtitle:
+        "Operations",
+      mark:
+        "MBO",
+      activeId:
+        "overview",
+      status:
+        "Discord remains primary.",
+      footer:
+        "<div data-dashboard-list></div>",
+      navGroups:
+        [
+          {
+            id:
+              "command",
+            label:
+              "Command",
+            items:
+              [
+                {
+                  id:
+                    "overview",
+                  label:
+                    "CEO Overview",
+                  shortLabel:
+                    "CEO"
+                }
+              ]
+          },
+          {
+            id:
+              "production",
+            label:
+              "Production",
+            items:
+              [
+                {
+                  id:
+                    "runs",
+                  label:
+                    "Runs",
+                  shortLabel:
+                    "Runs"
+                }
+              ]
+          }
+        ]
+    });
+
+  assert.match(html, /data-component="DashboardSidebar"/);
+  assert.match(html, /data-sidebar-brand/);
+  assert.match(html, /MBO/);
+  assert.equal((html.match(/data-nav-group=/g) || []).length, 2);
+  assert.match(html, /aria-current="page"/);
+  assert.match(html, /data-short="CEO"/);
+  assert.match(html, /data-sidebar-footer/);
+  assert.match(html, /hdk-sidebar-status/);
 });
 
 test("renders approved charts with axes and component markers", () => {

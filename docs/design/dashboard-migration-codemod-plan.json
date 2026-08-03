@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-03T19:47:37.445Z",
+  "note": "This is a codemod candidate plan. Actual source rewriting remains gated by per-surface review. Package-native migrations must move standalone/static surfaces into shared kit components before production cutover.",
+  "defaultPackageNativeStages": [
+    "inventory-current-shell-routes-and-production-links",
+    "create-package-native-dashboard-shell",
+    "map-static-selectors-to-dashboard-kit-components",
+    "replace-local-cards-tables-charts-forms-drawers",
+    "add-mobbin-reference-intake-and-design-review-artifact",
+    "add-light-dark-system-proof-screenshots",
+    "cutover-canonical-route-and-retire-static-adapter"
+  ],
+  "candidates": []
+}

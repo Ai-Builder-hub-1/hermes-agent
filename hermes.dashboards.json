@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "source": "Hermes central production dashboard registry",
+  "dashboards": [
+    {
+      "id": "nous-hermes-agent.dashboard",
+      "label": "Nous Hermes Agent",
+      "description": "Central Hermes agent and dashboard governance workspace.",
+      "category": "hermes-governance",
+      "owner": "Hermes",
+      "projectName": "Nous Hermes Agent",
+      "projectPath": ".",
+      "url": "https://agent.tlccapitalgroup.com",
+      "proofUrl": "https://agent.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
+      "snapshotUrl": "https://agent.tlccapitalgroup.com/api/dashboard-snapshot",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "nous-hermes-agent",
+        "containerName": "deploy-nous-hermes-agent-1",
+        "buildContext": "/root/apps/nous-hermes-agent",
+        "reverseProxy": "Caddy -> nous-hermes-agent:9119",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh"
+      }
+    },
+    {
+      "id": "khashi-vc.roc",
+      "label": "Khashi VC ROC",
+      "description": "Research operations center for live market intelligence and experiment operations.",
+      "category": "research-operations",
+      "owner": "Khashi VC",
+      "projectName": "Khashi VC",
+      "projectPath": "../khashi-vc",
+      "url": "https://roc.tlccapitalgroup.com/",
+      "proofUrl": "https://roc.tlccapitalgroup.com/dashboard/proof?view=live-market-intelligence",
+      "localProofUrl": "http://127.0.0.1:3000/dashboard/proof?view=live-market-intelligence",
+      "healthUrl": "https://roc.tlccapitalgroup.com/readyz",
+      "snapshotUrl": "https://roc.tlccapitalgroup.com/api/dashboard-snapshot",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "khashi",
+        "buildContext": "/root/apps/khashi-vc",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh"
+      },
+      "proofAuth": {
+        "type": "bearer-env",
+        "env": "HERMES_DASHBOARD_PROOF_TOKEN"
+      }
+    },
+    {
+      "id": "media-engine.ops",
+      "label": "Media Engine Ops",
+      "description": "Publishing, approval, production-run, and cross-channel operations.",
+      "category": "media-operations",
+      "owner": "Media Engine",
+      "projectName": "Media Engine",
+      "projectPath": "../media-engine",
+      "url": "https://media.tlccapitalgroup.com/dashboard",
+      "proofUrl": "https://media.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://media.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://media.tlccapitalgroup.com/dashboard-snapshot",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "media-engine-dashboard",
+        "buildContext": "/root/apps/media-engine",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh"
+      }
+    },
+    {
+      "id": "media-business-operations.main",
+      "label": "Media Business Operations",
+      "description": "Business operations dashboard for media workflows and operating status.",
+      "category": "business-operations",
+      "owner": "Media Business Operations",
+      "projectName": "Media Business Operations",
+      "projectPath": "../media-business-operations",
+      "url": "https://media-business-operations.tlccapitalgroup.com/dashboard",
+      "proofUrl": "https://media-business-operations.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://media-business-operations.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://media-business-operations.tlccapitalgroup.com/api/dashboard-summary",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "media-business-operations",
+        "buildContext": "/root/apps/media-business-operations",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh"
+      }
+    },
+    {
+      "id": "business-mapper.workspace",
+      "label": "Business Mapper Workspace",
+      "description": "Business mapping dashboard and workspace.",
+      "category": "business-intelligence",
+      "owner": "Business Mapper",
+      "projectName": "Business Mapper",
+      "projectPath": "../business-mapper",
+      "url": "https://business-mapper.tlccapitalgroup.com/dashboard",
+      "proofUrl": "https://business-mapper.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://business-mapper.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://business-mapper.tlccapitalgroup.com/api/dashboard-snapshot",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "business-mapper",
+        "buildContext": "/root/apps/business-mapper",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh"
+      }
+    },
+    {
+      "id": "meal-assistant.main",
+      "label": "Meal Assistant",
+      "description": "Meal Assistant operating dashboard.",
+      "category": "consumer-operations",
+      "owner": "Meal Assistant",
+      "projectName": "Meal Assistant",
+      "projectPath": "../Meal-assistant",
+      "url": "https://meal.tlccapitalgroup.com/",
+      "proofUrl": "https://meal.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://meal.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://meal.tlccapitalgroup.com/api/dashboard-snapshot",
+      "deployment": {
+        "status": "active",
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "meal-assistant",
+        "containerName": "deploy-meal-assistant-1",
+        "buildContext": "/root/apps/Meal-assistant",
+        "publicUrl": "https://meal.tlccapitalgroup.com/",
+        "healthUrl": "https://meal.tlccapitalgroup.com/health",
+        "caddyHost": "meal.tlccapitalgroup.com",
+        "ports": [4184],
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
+        "source": "hetzner-deploy-verified-2026-08-03",
+        "note": "Live on Hetzner via deploy compose, Caddy route, and project-owned readonly proof endpoints."
+      }
+    },
+    {
+      "id": "investing-system.roc",
+      "label": "Investing System ROC",
+      "description": "Investing operations and research dashboard.",
+      "category": "research-operations",
+      "owner": "Investing System",
+      "projectName": "Investing System",
+      "projectPath": "../investing-system",
+      "url": "https://investing.tlccapitalgroup.com/roc",
+      "proofUrl": "https://investing.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://investing.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://investing.tlccapitalgroup.com/api/dashboard-snapshot",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "investing-system",
+        "buildContext": "/root/apps/investing-system",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh"
+      },
+      "proofAuth": {
+        "type": "bearer-env",
+        "env": "HERMES_DASHBOARD_PROOF_TOKEN"
+      }
+    },
+    {
+      "id": "hermes.workspace",
+      "label": "Hermes Workspace",
+      "description": "Hermes cross-project operating workspace.",
+      "category": "hermes-governance",
+      "owner": "Hermes",
+      "projectName": "Hermes Workspace",
+      "projectPath": "../hermes",
+      "url": "https://hermes.tlccapitalgroup.com/",
+      "proofUrl": "https://hermes.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+      "snapshotUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "hermes",
+        "buildContext": "/root/apps/hermes",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh"
+      }
+    },
+    {
+      "id": "tlc-capital-group-os.main",
+      "label": "TLC Capital Group OS",
+      "description": "Enterprise governance, portfolio readiness, project feeds, approvals, outcomes, and operating cockpit.",
+      "category": "enterprise-operations",
+      "owner": "TLC Capital Group",
+      "projectName": "TLC Capital Group OS",
+      "projectPath": "../tlc-capital-group-os",
+      "url": "https://tlc.tlccapitalgroup.com/dashboard",
+      "proofUrl": "https://tlc.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://tlc.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://tlc.tlccapitalgroup.com/dashboard-snapshot",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "tlc-capital-group-os",
+        "containerName": "deploy-tlc-capital-group-os-1",
+        "buildContext": "/root/apps/tlc-capital-group-os",
+        "reverseProxy": "Caddy -> tlc-capital-group-os:3100",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh"
+      }
+    }
+  ]
+}

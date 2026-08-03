@@ -30,6 +30,27 @@ for (const theme of ["light", "dark"]) {
     const overflowX = Math.max(0, document.documentElement.scrollWidth - document.documentElement.clientWidth);
     const shellCount = document.querySelectorAll(".hdk-shell, [data-hdk-shell], .dashboard-shell, .app-shell").length;
     const sidebarCount = document.querySelectorAll(".hdk-sidebar, .hdk-sidebar-rail, .sidebar, [data-hdk-sidebar]").length;
+    const sidebar =
+      document.querySelector("[data-component='DashboardSidebar'], [data-hdk-component='Sidebar'], .hdk-sidebar-rail, .hdk-sidebar, .sidebar");
+    const sidebarControls =
+      sidebar ? Array.from(sidebar.querySelectorAll("a, button, [role='link'], [role='button']")) : [];
+    const sidebarGroups =
+      sidebar ? sidebar.querySelectorAll("section, [data-nav-group], .nav-group, fieldset").length : 0;
+    const sidebarActive =
+      sidebar ? sidebar.querySelectorAll(".active, .is-active, [aria-current='page'], [data-active='true']").length : 0;
+    const sidebarShortLabels =
+      sidebarControls.filter((element) =>
+        element.hasAttribute("data-short") ||
+        element.hasAttribute("data-short-label") ||
+        element.querySelector("[aria-hidden='true']") ||
+        element.getAttribute("aria-label")
+      ).length;
+    const sidebarBrand =
+      sidebar ? sidebar.querySelector(".hdk-brand, .hdk-sidebar-brand, .brand, [data-sidebar-brand], [data-nav-brand], .mark, .hdk-brand__mark") : null;
+    const sidebarFooter =
+      sidebar ? sidebar.querySelector(".hdk-sidebar-footer, .sidebar-note, .dashboard-switcher, [data-sidebar-footer], [data-dashboard-list]") : null;
+    const sidebarToggle =
+      sidebar ? sidebar.querySelector("[data-sidebar-toggle], [aria-label*='Collapse'], [aria-label*='Expand']") : null;
     const clipped = visible
       .filter((element) => element.scrollWidth > element.clientWidth + 3 || element.scrollHeight > element.clientHeight + 3)
       .slice(0, 30)
@@ -51,6 +72,24 @@ for (const theme of ["light", "dark"]) {
       clipped,
       chartPanels: document.querySelectorAll(".hdk-chart-panel, [data-chart-panel], svg[role='img'], canvas").length,
       tables: document.querySelectorAll(".hdk-table-wrap, table, [role='table'], [role='grid']").length,
+      sidebarQuality: {
+        hasBrand:
+          Boolean(sidebarBrand),
+        groups:
+          sidebarGroups,
+        active:
+          sidebarActive,
+        controls:
+          sidebarControls.length,
+        shortLabels:
+          sidebarShortLabels,
+        hasFooter:
+          Boolean(sidebarFooter),
+        hasToggle:
+          Boolean(sidebarToggle),
+        mobileMode:
+          window.innerWidth <= 640 ? "mobile" : "desktop"
+      },
       stateCoverage: stateTerms.filter((term) => visibleText.includes(term)),
       darkCardsInLightShell: document.documentElement.getAttribute("data-theme") === "light"
         ? Array.from(document.querySelectorAll("*")).filter((element) => {
@@ -66,7 +105,16 @@ for (const theme of ["light", "dark"]) {
 
   if (audit.overflowX > 2) findings.push(finding("error", "render.overflowX", `${theme} mode has horizontal document overflow ${audit.overflowX}px`));
   if (audit.shellCount > 1) findings.push(finding("error", "render.duplicateShell", `${theme} mode has ${audit.shellCount} shell candidates`));
-  if (audit.sidebarCount > 1) findings.push(finding("warning", "render.duplicateSidebar", `${theme} mode has ${audit.sidebarCount} sidebar candidates`));
+  if (audit.sidebarCount === 0) findings.push(finding("error", "render.sidebarMissing", `${theme} mode has no sidebar/navigation rail evidence`));
+  if (audit.sidebarCount > 2) findings.push(finding("warning", "render.duplicateSidebar", `${theme} mode has ${audit.sidebarCount} sidebar candidates`));
+  if (!audit.sidebarQuality.hasBrand) findings.push(finding("error", "render.sidebarBrandMissing", `${theme} mode sidebar is missing a brand mark/block`));
+  if (audit.sidebarQuality.groups < 2 && audit.sidebarQuality.controls >= 5) findings.push(finding("error", "render.sidebarGroupsMissing", `${theme} mode sidebar has ${audit.sidebarQuality.controls} controls but fewer than two nav groups`));
+  if (audit.sidebarQuality.active < 1) findings.push(finding("error", "render.sidebarActiveMissing", `${theme} mode sidebar has no active route state`));
+  if (audit.sidebarQuality.controls >= 5 && audit.sidebarQuality.shortLabels < Math.ceil(audit.sidebarQuality.controls * 0.6)) {
+    findings.push(finding("warning", "render.sidebarCollapsedLabelsMissing", `${theme} mode sidebar lacks collapsed-label evidence on enough nav controls`, audit.sidebarQuality));
+  }
+  if (!audit.sidebarQuality.hasFooter) findings.push(finding("warning", "render.sidebarFooterMissing", `${theme} mode sidebar lacks footer/status/dashboard-switcher context`));
+  if (!audit.sidebarQuality.hasToggle && audit.sidebarQuality.controls >= 5) findings.push(finding("warning", "render.sidebarToggleMissing", `${theme} mode sidebar lacks collapse/drawer toggle evidence`));
   if (audit.clipped.length > 8) findings.push(finding("warning", "render.clippedText", `${theme} mode has ${audit.clipped.length} clipped/overflowing visible elements`, { examples: audit.clipped.slice(0, 5) }));
   if (audit.chartPanels === 0) findings.push(finding("warning", "render.chartPanelsMissing", `${theme} mode has no chart/canvas/chart panel evidence`));
   if (audit.tables === 0) findings.push(finding("warning", "render.tablesMissing", `${theme} mode has no table/grid evidence`));

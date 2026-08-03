@@ -473,6 +473,21 @@
           "message": "Dashboard launcher registry exists."
         },
         {
+          "id": "deployment-metadata-validator",
+          "type": "package-script",
+          "name": "dashboard:deployment-metadata:validate",
+          "points": 2,
+          "message": "Dashboard deployment metadata validator exists."
+        },
+        {
+          "id": "deployment-metadata-complete",
+          "type": "json-number-zero",
+          "path": "docs/design/dashboard-deployment-metadata-report.json",
+          "field": "failedCount",
+          "points": 2,
+          "message": "Registered dashboards declare complete Hetzner deployment metadata."
+        },
+        {
           "id": "downstream-snapshot-feed",
           "type": "file",
           "path": "docs/design/dashboard-downstream-snapshot-feed.json",
@@ -548,6 +563,49 @@
           "path": "docs/design/dashboard-information-architecture.md",
           "points": 2,
           "message": "Dashboard information architecture exists."
+        },
+        {
+          "id": "next-actions-report",
+          "type": "package-script",
+          "name": "dashboard:next-actions:report",
+          "points": 2,
+          "message": "Dashboard next-actions report command exists."
+        },
+        {
+          "id": "next-actions-artifact",
+          "type": "file",
+          "path": "docs/design/dashboard-next-actions-report.json",
+          "points": 2,
+          "message": "Dashboard next-actions report artifact exists."
+        },
+        {
+          "id": "next-actions-executor",
+          "type": "package-script",
+          "name": "dashboard:next-actions:execute",
+          "points": 2,
+          "message": "Cross-project dashboard next-actions executor exists."
+        },
+        {
+          "id": "next-actions-execution-artifact",
+          "type": "file",
+          "path": "docs/design/dashboard-next-actions-execution-report.json",
+          "points": 2,
+          "message": "Cross-project next-actions execution report artifact exists."
+        },
+        {
+          "id": "project-validation-profiles",
+          "type": "package-script",
+          "name": "dashboard:project-profiles:validate",
+          "points": 2,
+          "message": "Project validation profile validator exists."
+        },
+        {
+          "id": "project-validation-profiles-clean",
+          "type": "json-number-zero",
+          "path": "docs/design/dashboard-project-validation-profiles-report.json",
+          "field": "failedCount",
+          "points": 2,
+          "message": "Project validation profiles are complete."
         },
         {
           "id": "product-interface-components",

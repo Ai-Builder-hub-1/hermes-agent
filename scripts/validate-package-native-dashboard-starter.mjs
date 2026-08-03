@@ -59,6 +59,7 @@ check("starter standard is documented", () => {
     "Dashboard products must be package-native",
     "Every registered dashboard project",
     "import `@hermes/dashboard-kit` directly",
+    "dashboard-operational-navigation-standard.md",
     "Static adapters are allowed only",
     "Mobbin Intake",
     "Design Review",
@@ -149,7 +150,9 @@ check("surface validator and visual baseline commands exist", () => {
     "design review checklist",
     "proof screenshot capture script",
     "DashboardShell",
-    "hardcoded color"
+    "hardcoded color",
+    "Tier 3 operational sidebar evidence",
+    "collapsed labels"
   ]) {
     requireIncludes(surfaceValidator, phrase, phrase);
   }
@@ -157,6 +160,7 @@ check("surface validator and visual baseline commands exist", () => {
   const visualBaseline = read("scripts/capture-dashboard-visual-baseline.mjs");
   for (const phrase of [
     "desktop",
+    "desktop-collapsed",
     "mobile",
     "light",
     "dark",
@@ -182,6 +186,10 @@ check("surface validator and visual baseline commands exist", () => {
     "Rendered dashboard audit",
     "render.overflowX",
     "render.duplicateShell",
+    "render.sidebarBrandMissing",
+    "render.sidebarGroupsMissing",
+    "render.sidebarActiveMissing",
+    "render.sidebarCollapsedLabelsMissing",
     "render.clippedText",
     "render.darkPanelInLightShell"
   ]) {
@@ -207,7 +215,8 @@ check("Mobbin intake and Tier 3 score automation exist", () => {
     "rendered audit passing",
     "visual regression passing",
     "Mobbin intake present",
-    "design review present"
+    "design review present",
+    "operational navigation quality"
   ]) {
     requireIncludes(score, phrase, phrase);
   }

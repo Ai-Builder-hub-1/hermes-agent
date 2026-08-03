@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-03T20:41:35.529Z",
+  "requiredFields": [
+    "deployment.provider",
+    "deployment.sshHost",
+    "deployment.composeProject",
+    "deployment.composeService",
+    "deployment.buildContext",
+    "deployment.promotionScript"
+  ],
+  "checkedCount": 9,
+  "failedCount": 0,
+  "plannedCount": 0,
+  "items": [
+    {
+      "id": "nous-hermes-agent.dashboard",
+      "label": "Nous Hermes Agent",
+      "status": "ready",
+      "provider": "hetzner",
+      "composeService": "nous-hermes-agent",
+      "missing": []
+    },
+    {
+      "id": "khashi-vc.roc",
+      "label": "Khashi VC ROC",
+      "status": "ready",
+      "provider": "hetzner",
+      "composeService": "khashi",
+      "missing": []
+    },
+    {
+      "id": "media-engine.ops",
+      "label": "Media Engine Ops",
+      "status": "ready",
+      "provider": "hetzner",
+      "composeService": "media-engine-dashboard",
+      "missing": []
+    },
+    {
+      "id": "media-business-operations.main",
+      "label": "Media Business Operations",
+      "status": "ready",
+      "provider": "hetzner",
+      "composeService": "media-business-operations",
+      "missing": []
+    },
+    {
+      "id": "business-mapper.workspace",
+      "label": "Business Mapper Workspace",
+      "status": "ready",
+      "provider": "hetzner",
+      "composeService": "business-mapper",
+      "missing": []
+    },
+    {
+      "id": "meal-assistant.main",
+      "label": "Meal Assistant",
+      "status": "ready",
+      "provider": "hetzner",
+      "composeService": "meal-assistant",
+      "missing": [],
+      "note": "Live on Hetzner via deploy compose, Caddy route, and project-owned readonly proof endpoints."
+    },
+    {
+      "id": "investing-system.roc",
+      "label": "Investing System ROC",
+      "status": "ready",
+      "provider": "hetzner",
+      "composeService": "investing-system",
+      "missing": []
+    },
+    {
+      "id": "hermes.workspace",
+      "label": "Hermes Workspace",
+      "status": "ready",
+      "provider": "hetzner",
+      "composeService": "hermes",
+      "missing": []
+    },
+    {
+      "id": "tlc-capital-group-os.main",
+      "label": "TLC Capital Group OS",
+      "status": "ready",
+      "provider": "hetzner",
+      "composeService": "tlc-capital-group-os",
+      "missing": []
+    }
+  ]
+}
