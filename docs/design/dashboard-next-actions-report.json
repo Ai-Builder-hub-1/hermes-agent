@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-03T22:35:59.188Z",
+  "generatedAt": "2026-08-04T00:01:34.010Z",
   "sourceReports": [
     "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
     "docs/design/dashboard-production-proof-registry.json",
@@ -74,7 +74,7 @@
         "priority": "P0",
         "category": "deployment-source",
         "title": "Record deploy source and clear repo-state risks before the next production promotion.",
-        "evidence": "deployment source note missing; production commit not recorded; local branch has unpushed commits",
+        "evidence": "deployment source note missing; production commit not recorded",
         "command": "npm run dashboard:deployment-ledger:report",
         "blocksWorldClass": false
       },
@@ -85,7 +85,7 @@
           "priority": "P0",
           "category": "deployment-source",
           "title": "Record deploy source and clear repo-state risks before the next production promotion.",
-          "evidence": "deployment source note missing; production commit not recorded; local branch has unpushed commits",
+          "evidence": "deployment source note missing; production commit not recorded",
           "command": "npm run dashboard:deployment-ledger:report",
           "blocksWorldClass": false
         },
@@ -306,7 +306,7 @@
         "priority": "P0",
         "category": "deployment-source",
         "title": "Record deploy source and clear repo-state risks before the next production promotion.",
-        "evidence": "deployment source note missing; production commit not recorded; local repo has uncommitted changes; local branch has unpushed commits",
+        "evidence": "deployment source note missing; production commit not recorded",
         "command": "npm run dashboard:deployment-ledger:report",
         "blocksWorldClass": false
       },
@@ -317,7 +317,7 @@
           "priority": "P0",
           "category": "deployment-source",
           "title": "Record deploy source and clear repo-state risks before the next production promotion.",
-          "evidence": "deployment source note missing; production commit not recorded; local repo has uncommitted changes; local branch has unpushed commits",
+          "evidence": "deployment source note missing; production commit not recorded",
           "command": "npm run dashboard:deployment-ledger:report",
           "blocksWorldClass": false
         }

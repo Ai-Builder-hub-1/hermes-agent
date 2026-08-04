@@ -1,6 +1,6 @@
 # Dashboard Governance Refresh Report
 
-Generated: 2026-08-03T22:35:59.301Z
+Generated: 2026-08-04T00:01:34.119Z
 
 Status: **passed**
 

@@ -1,6 +1,6 @@
 # Dashboard Next Actions Report
 
-Generated: 2026-08-03T22:35:59.188Z
+Generated: 2026-08-04T00:01:34.010Z
 Open actions: 19
 P0 actions: 9
 
@@ -25,7 +25,7 @@ Next: P0 Record deploy source and clear repo-state risks before the next product
 Next: P0 Record deploy source and clear repo-state risks before the next production promotion.
 
 - P0 [deployment-source] Record deploy source and clear repo-state risks before the next production promotion.
-  Evidence: deployment source note missing; production commit not recorded; local branch has unpushed commits
+  Evidence: deployment source note missing; production commit not recorded
   Command: `npm run dashboard:deployment-ledger:report`
 - P1 [distribution] Move dashboard-kit consumption to an approved distribution path.
   Evidence: sibling-file: Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy.
@@ -94,7 +94,7 @@ Next: P0 Record deploy source and clear repo-state risks before the next product
 Next: P0 Record deploy source and clear repo-state risks before the next production promotion.
 
 - P0 [deployment-source] Record deploy source and clear repo-state risks before the next production promotion.
-  Evidence: deployment source note missing; production commit not recorded; local repo has uncommitted changes; local branch has unpushed commits
+  Evidence: deployment source note missing; production commit not recorded
   Command: `npm run dashboard:deployment-ledger:report`
 
 ### tlc-capital-group-os

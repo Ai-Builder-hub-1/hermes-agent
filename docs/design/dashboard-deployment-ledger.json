@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-03T22:35:57.950Z",
+  "generatedAt": "2026-08-04T00:01:32.712Z",
   "purpose": "Cross-project deployment source ledger for Hetzner dashboard promotion and rollback review.",
   "checkedCount": 9,
   "missingSourceCount": 0,
@@ -24,79 +24,40 @@
       },
       "repo": {
         "branch": "main",
-        "commit": "d34605cf492818d876a321001ed05a162b503399",
-        "shortCommit": "d34605cf4928",
-        "statusBranch": "## main...ai-builder/main [ahead 1]",
-        "clean": false,
-        "dirtyCount": 40,
-        "sourceDirtyCount": 10,
-        "evidenceDirtyCount": 30,
+        "commit": "ae5671814bce45ad8aca5b2abb008600dd3f42c4",
+        "shortCommit": "ae5671814bce",
+        "statusBranch": "## main...ai-builder/main",
+        "clean": true,
+        "dirtyCount": 7,
+        "sourceDirtyCount": 0,
+        "evidenceDirtyCount": 7,
         "dirtyFiles": [
-          "M docs/design/dashboard-bridge-coverage-report.json",
-          " M docs/design/dashboard-cross-project-action-backlog.json",
+          "M docs/design/dashboard-cross-project-action-backlog.json",
           " M docs/design/dashboard-cross-project-action-backlog.md",
           " M docs/design/dashboard-deployment-metadata-report.json",
-          " M docs/design/dashboard-governance-ci-gates.json",
-          " M docs/design/dashboard-health-report.json",
-          " M docs/design/dashboard-maturity-report.json",
-          " M docs/design/dashboard-next-actions-report.json",
-          " M docs/design/dashboard-next-actions-report.md",
-          " M docs/design/dashboard-production-dns-report.json",
-          " M docs/design/dashboard-production-proof-registry.json",
-          " M docs/design/dashboard-project-validation-profiles-report.json",
-          " M docs/design/dashboard-promotion-readiness.json",
-          " M docs/design/dashboard-promotion-readiness.md",
           " M docs/design/dashboard-readiness-impact.json",
-          " M docs/design/dashboard-telemetry-contract-report.json",
-          " M docs/design/dashboard-visual-quality-report.json",
           " M docs/design/project-dashboard-tier-assessment.json",
-          " M docs/design/world-class-dashboard-system-audit-report.json",
-          " M docs/design/world-class-dashboard-system-backlog.json"
+          " M packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
+          " M web/src/pages/project-tier-assessment-data.ts"
         ],
-        "sourceDirtyFiles": [
-          " M package.json",
-          " M scripts/generate-dashboard-next-actions.mjs",
-          " M scripts/summarize-dashboard-standards.mjs",
-          " M scripts/validate-dashboard-maturity-reports.mjs",
-          "?? scripts/dashboard-report-utils.mjs",
-          "?? scripts/generate-dashboard-deployment-ledger.mjs",
-          "?? scripts/refresh-dashboard-governance.mjs",
-          "?? scripts/scan-dashboard-kit-distribution.mjs",
-          "?? scripts/scan-dashboard-runtime-data.mjs",
-          "?? scripts/validate-dashboard-deployment-ledger.mjs"
-        ],
+        "sourceDirtyFiles": [],
         "evidenceDirtyFiles": [
-          "M docs/design/dashboard-bridge-coverage-report.json",
-          " M docs/design/dashboard-cross-project-action-backlog.json",
+          "M docs/design/dashboard-cross-project-action-backlog.json",
           " M docs/design/dashboard-cross-project-action-backlog.md",
           " M docs/design/dashboard-deployment-metadata-report.json",
-          " M docs/design/dashboard-governance-ci-gates.json",
-          " M docs/design/dashboard-health-report.json",
-          " M docs/design/dashboard-maturity-report.json",
-          " M docs/design/dashboard-next-actions-report.json",
-          " M docs/design/dashboard-next-actions-report.md",
-          " M docs/design/dashboard-production-dns-report.json",
-          " M docs/design/dashboard-production-proof-registry.json",
-          " M docs/design/dashboard-project-validation-profiles-report.json",
-          " M docs/design/dashboard-promotion-readiness.json",
-          " M docs/design/dashboard-promotion-readiness.md",
           " M docs/design/dashboard-readiness-impact.json",
-          " M docs/design/dashboard-telemetry-contract-report.json",
-          " M docs/design/dashboard-visual-quality-report.json",
           " M docs/design/project-dashboard-tier-assessment.json",
-          " M docs/design/world-class-dashboard-system-audit-report.json",
-          " M docs/design/world-class-dashboard-system-backlog.json"
+          " M packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
+          " M web/src/pages/project-tier-assessment-data.ts"
         ],
-        "ahead": 1,
+        "ahead": 0,
         "behind": 0
       },
       "status": "tracked-with-risks",
       "missing": [],
       "risks": [
         "deployment source note missing",
-        "production commit not recorded",
-        "local repo has uncommitted changes",
-        "local branch has unpushed commits"
+        "production commit not recorded"
       ]
     },
     {
@@ -356,9 +317,9 @@
       },
       "repo": {
         "branch": "deploy/hermes-workspace-hetzner",
-        "commit": "aa83c52a6e5bb5bda61966a8efcf17d4970c1ca5",
-        "shortCommit": "aa83c52a6e5b",
-        "statusBranch": "## deploy/hermes-workspace-hetzner...origin/deploy/hermes-workspace-hetzner [ahead 1]",
+        "commit": "9ede741a20f0ccead2da6d64618e257f7c381caa",
+        "shortCommit": "9ede741a20f0",
+        "statusBranch": "## deploy/hermes-workspace-hetzner...origin/deploy/hermes-workspace-hetzner",
         "clean": true,
         "dirtyCount": 0,
         "sourceDirtyCount": 0,
@@ -366,15 +327,14 @@
         "dirtyFiles": [],
         "sourceDirtyFiles": [],
         "evidenceDirtyFiles": [],
-        "ahead": 1,
+        "ahead": 0,
         "behind": 0
       },
       "status": "tracked-with-risks",
       "missing": [],
       "risks": [
         "deployment source note missing",
-        "production commit not recorded",
-        "local branch has unpushed commits"
+        "production commit not recorded"
       ]
     },
     {
