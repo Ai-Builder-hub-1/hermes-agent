@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { dashboardRegistry, designDir, markdownTable, resolveProjectPath, root, runGit, statusLines, writeJson, writeMarkdown } from "./dashboard-report-utils.mjs";
 
@@ -32,9 +33,34 @@ function repoState(projectRoot) {
   };
 }
 
+function latestPromotionEvidence(deployment) {
+  if (process.env.HERMES_DASHBOARD_DEPLOYMENT_EVIDENCE === "0") return { evidence: null, error: "disabled" };
+  if (!deployment.sshHost || !deployment.composeService) return { evidence: null, error: "missing sshHost or composeService" };
+  const remotePath = deployment.evidencePath ?? `/root/apps/deploy/deployment-evidence/latest/${deployment.composeService}.json`;
+  try {
+    const output = execFileSync("ssh", [deployment.sshHost, "cat", remotePath], {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"],
+      timeout: 7000
+    });
+    return { evidence: JSON.parse(output), error: null, remotePath };
+  } catch (error) {
+    return {
+      evidence: null,
+      error: error instanceof Error ? error.message.split("\n")[0] : String(error),
+      remotePath
+    };
+  }
+}
+
 const entries = dashboardRegistry().map((dashboard) => {
   const projectRoot = resolveProjectPath(dashboard.projectPath);
   const deployment = dashboard.deployment ?? {};
+  const promotionEvidence = latestPromotionEvidence(deployment);
+  const deployedCommit = promotionEvidence.evidence?.source?.resolvedCommit ?? deployment.sourceCommit ?? deployment.commitSha ?? null;
+  const deploymentSource = promotionEvidence.evidence
+    ? `promotion-evidence:${promotionEvidence.evidence.eventId}`
+    : deployment.source ?? null;
   const state = repoState(projectRoot);
   const missing = [];
   if (!state.commit) missing.push("local git commit");
@@ -42,8 +68,10 @@ const entries = dashboardRegistry().map((dashboard) => {
     if (!deployment[field]) missing.push(`deployment.${field}`);
   }
   const risks = [];
-  if (!deployment.source) risks.push("deployment source note missing");
-  if (!deployment.sourceCommit && !deployment.commitSha) risks.push("production commit not recorded");
+  if (!deploymentSource) risks.push("deployment source note missing");
+  if (!deployedCommit) risks.push("production commit not recorded");
+  if (promotionEvidence.error && promotionEvidence.error !== "disabled") risks.push("promotion evidence unavailable");
+  if (promotionEvidence.evidence?.status && promotionEvidence.evidence.status !== "succeeded") risks.push(`latest promotion status is ${promotionEvidence.evidence.status}`);
   if (!state.clean) risks.push("local repo has uncommitted changes");
   if (state.ahead > 0) risks.push("local branch has unpushed commits");
   if (state.behind > 0) risks.push("local branch is behind upstream");
@@ -60,8 +88,22 @@ const entries = dashboardRegistry().map((dashboard) => {
       composeService: deployment.composeService,
       buildContext: deployment.buildContext,
       promotionScript: deployment.promotionScript,
-      source: deployment.source ?? null,
-      sourceCommit: deployment.sourceCommit ?? deployment.commitSha ?? null
+      source: deploymentSource,
+      sourceCommit: deployedCommit
+    },
+    promotionEvidence: {
+      available: Boolean(promotionEvidence.evidence),
+      remotePath: promotionEvidence.remotePath ?? null,
+      error: promotionEvidence.error,
+      eventId: promotionEvidence.evidence?.eventId ?? null,
+      status: promotionEvidence.evidence?.status ?? null,
+      startedAt: promotionEvidence.evidence?.startedAt ?? null,
+      finishedAt: promotionEvidence.evidence?.finishedAt ?? null,
+      previousCommit: promotionEvidence.evidence?.source?.previousCommit ?? null,
+      resolvedCommit: promotionEvidence.evidence?.source?.resolvedCommit ?? null,
+      imageId: promotionEvidence.evidence?.runtime?.imageId ?? null,
+      containerImageId: promotionEvidence.evidence?.runtime?.containerImageId ?? null,
+      rollbackCommand: promotionEvidence.evidence?.rollback?.command ?? null
     },
     repo: state,
     status: missing.length ? "missing-source" : risks.length ? "tracked-with-risks" : "tracked",
@@ -86,15 +128,17 @@ writeMarkdown(mdPath, `# Dashboard Deployment Ledger
 Generated: ${report.generatedAt}
 
 This ledger connects each registered dashboard to its local repo state and Hetzner deployment metadata. It does not prove what commit is currently running in production unless a project records \`deployment.sourceCommit\` or \`deployment.commitSha\`.
+When promotion evidence exists on Hetzner, this report uses the latest service evidence file as the production source of truth.
 
 ${markdownTable(
-  ["Project", "Status", "Branch", "Commit", "Service", "Risks"],
+  ["Project", "Status", "Local commit", "Deployed commit", "Service", "Evidence", "Risks"],
   entries.map((entry) => [
     entry.label,
     entry.status,
-    entry.repo.branch || "unknown",
     entry.repo.shortCommit || "unknown",
+    entry.deployment.sourceCommit ? entry.deployment.sourceCommit.slice(0, 12) : "unknown",
     entry.deployment.composeService || "missing",
+    entry.promotionEvidence.available ? entry.promotionEvidence.eventId : "missing",
     entry.risks.length ? entry.risks.join("; ") : "none"
   ])
 )}

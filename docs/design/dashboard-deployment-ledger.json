@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-04T00:01:32.712Z",
+  "generatedAt": "2026-08-04T02:06:09.809Z",
   "purpose": "Cross-project deployment source ledger for Hetzner dashboard promotion and rollback review.",
   "checkedCount": 9,
   "missingSourceCount": 0,
@@ -22,34 +22,36 @@
         "source": null,
         "sourceCommit": null
       },
+      "promotionEvidence": {
+        "available": false,
+        "remotePath": "/root/apps/deploy/deployment-evidence/latest/nous-hermes-agent.json",
+        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/nous-hermes-agent.json",
+        "eventId": null,
+        "status": null,
+        "startedAt": null,
+        "finishedAt": null,
+        "previousCommit": null,
+        "resolvedCommit": null,
+        "imageId": null,
+        "containerImageId": null,
+        "rollbackCommand": null
+      },
       "repo": {
         "branch": "main",
-        "commit": "ae5671814bce45ad8aca5b2abb008600dd3f42c4",
-        "shortCommit": "ae5671814bce",
+        "commit": "8a28d28f56421ec1a143c178e68fbf2471bbbb74",
+        "shortCommit": "8a28d28f5642",
         "statusBranch": "## main...ai-builder/main",
-        "clean": true,
-        "dirtyCount": 7,
-        "sourceDirtyCount": 0,
-        "evidenceDirtyCount": 7,
+        "clean": false,
+        "dirtyCount": 1,
+        "sourceDirtyCount": 1,
+        "evidenceDirtyCount": 0,
         "dirtyFiles": [
-          "M docs/design/dashboard-cross-project-action-backlog.json",
-          " M docs/design/dashboard-cross-project-action-backlog.md",
-          " M docs/design/dashboard-deployment-metadata-report.json",
-          " M docs/design/dashboard-readiness-impact.json",
-          " M docs/design/project-dashboard-tier-assessment.json",
-          " M packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
-          " M web/src/pages/project-tier-assessment-data.ts"
+          "M scripts/generate-dashboard-deployment-ledger.mjs"
         ],
-        "sourceDirtyFiles": [],
-        "evidenceDirtyFiles": [
-          "M docs/design/dashboard-cross-project-action-backlog.json",
-          " M docs/design/dashboard-cross-project-action-backlog.md",
-          " M docs/design/dashboard-deployment-metadata-report.json",
-          " M docs/design/dashboard-readiness-impact.json",
-          " M docs/design/project-dashboard-tier-assessment.json",
-          " M packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
-          " M web/src/pages/project-tier-assessment-data.ts"
+        "sourceDirtyFiles": [
+          "M scripts/generate-dashboard-deployment-ledger.mjs"
         ],
+        "evidenceDirtyFiles": [],
         "ahead": 0,
         "behind": 0
       },
@@ -57,7 +59,9 @@
       "missing": [],
       "risks": [
         "deployment source note missing",
-        "production commit not recorded"
+        "production commit not recorded",
+        "promotion evidence unavailable",
+        "local repo has uncommitted changes"
       ]
     },
     {
@@ -75,6 +79,20 @@
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
         "source": null,
         "sourceCommit": null
+      },
+      "promotionEvidence": {
+        "available": false,
+        "remotePath": "/root/apps/deploy/deployment-evidence/latest/khashi.json",
+        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/khashi.json",
+        "eventId": null,
+        "status": null,
+        "startedAt": null,
+        "finishedAt": null,
+        "previousCommit": null,
+        "resolvedCommit": null,
+        "imageId": null,
+        "containerImageId": null,
+        "rollbackCommand": null
       },
       "repo": {
         "branch": "main",
@@ -96,6 +114,7 @@
       "risks": [
         "deployment source note missing",
         "production commit not recorded",
+        "promotion evidence unavailable",
         "local branch has unpushed commits"
       ]
     },
@@ -114,6 +133,20 @@
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
         "source": null,
         "sourceCommit": null
+      },
+      "promotionEvidence": {
+        "available": false,
+        "remotePath": "/root/apps/deploy/deployment-evidence/latest/media-engine-dashboard.json",
+        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/media-engine-dashboard.json",
+        "eventId": null,
+        "status": null,
+        "startedAt": null,
+        "finishedAt": null,
+        "previousCommit": null,
+        "resolvedCommit": null,
+        "imageId": null,
+        "containerImageId": null,
+        "rollbackCommand": null
       },
       "repo": {
         "branch": "main",
@@ -135,6 +168,7 @@
       "risks": [
         "deployment source note missing",
         "production commit not recorded",
+        "promotion evidence unavailable",
         "local branch has unpushed commits"
       ]
     },
@@ -153,6 +187,20 @@
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
         "source": null,
         "sourceCommit": null
+      },
+      "promotionEvidence": {
+        "available": false,
+        "remotePath": "/root/apps/deploy/deployment-evidence/latest/media-business-operations.json",
+        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/media-business-operations.json",
+        "eventId": null,
+        "status": null,
+        "startedAt": null,
+        "finishedAt": null,
+        "previousCommit": null,
+        "resolvedCommit": null,
+        "imageId": null,
+        "containerImageId": null,
+        "rollbackCommand": null
       },
       "repo": {
         "branch": "main",
@@ -174,6 +222,7 @@
       "risks": [
         "deployment source note missing",
         "production commit not recorded",
+        "promotion evidence unavailable",
         "local branch has unpushed commits"
       ]
     },
@@ -192,6 +241,20 @@
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
         "source": null,
         "sourceCommit": null
+      },
+      "promotionEvidence": {
+        "available": false,
+        "remotePath": "/root/apps/deploy/deployment-evidence/latest/business-mapper.json",
+        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/business-mapper.json",
+        "eventId": null,
+        "status": null,
+        "startedAt": null,
+        "finishedAt": null,
+        "previousCommit": null,
+        "resolvedCommit": null,
+        "imageId": null,
+        "containerImageId": null,
+        "rollbackCommand": null
       },
       "repo": {
         "branch": "main",
@@ -213,6 +276,7 @@
       "risks": [
         "deployment source note missing",
         "production commit not recorded",
+        "promotion evidence unavailable",
         "local branch has unpushed commits"
       ]
     },
@@ -231,6 +295,20 @@
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
         "source": "hetzner-deploy-verified-2026-08-03",
         "sourceCommit": null
+      },
+      "promotionEvidence": {
+        "available": false,
+        "remotePath": "/root/apps/deploy/deployment-evidence/latest/meal-assistant.json",
+        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/meal-assistant.json",
+        "eventId": null,
+        "status": null,
+        "startedAt": null,
+        "finishedAt": null,
+        "previousCommit": null,
+        "resolvedCommit": null,
+        "imageId": null,
+        "containerImageId": null,
+        "rollbackCommand": null
       },
       "repo": {
         "branch": "main",
@@ -251,6 +329,7 @@
       "missing": [],
       "risks": [
         "production commit not recorded",
+        "promotion evidence unavailable",
         "local branch has unpushed commits"
       ]
     },
@@ -269,6 +348,20 @@
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
         "source": null,
         "sourceCommit": null
+      },
+      "promotionEvidence": {
+        "available": false,
+        "remotePath": "/root/apps/deploy/deployment-evidence/latest/investing-system.json",
+        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/investing-system.json",
+        "eventId": null,
+        "status": null,
+        "startedAt": null,
+        "finishedAt": null,
+        "previousCommit": null,
+        "resolvedCommit": null,
+        "imageId": null,
+        "containerImageId": null,
+        "rollbackCommand": null
       },
       "repo": {
         "branch": "main",
@@ -296,6 +389,7 @@
       "risks": [
         "deployment source note missing",
         "production commit not recorded",
+        "promotion evidence unavailable",
         "local repo has uncommitted changes"
       ]
     },
@@ -315,17 +409,37 @@
         "source": null,
         "sourceCommit": null
       },
+      "promotionEvidence": {
+        "available": false,
+        "remotePath": "/root/apps/deploy/deployment-evidence/latest/hermes.json",
+        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/hermes.json",
+        "eventId": null,
+        "status": null,
+        "startedAt": null,
+        "finishedAt": null,
+        "previousCommit": null,
+        "resolvedCommit": null,
+        "imageId": null,
+        "containerImageId": null,
+        "rollbackCommand": null
+      },
       "repo": {
         "branch": "deploy/hermes-workspace-hetzner",
         "commit": "9ede741a20f0ccead2da6d64618e257f7c381caa",
         "shortCommit": "9ede741a20f0",
         "statusBranch": "## deploy/hermes-workspace-hetzner...origin/deploy/hermes-workspace-hetzner",
-        "clean": true,
-        "dirtyCount": 0,
-        "sourceDirtyCount": 0,
+        "clean": false,
+        "dirtyCount": 2,
+        "sourceDirtyCount": 2,
         "evidenceDirtyCount": 0,
-        "dirtyFiles": [],
-        "sourceDirtyFiles": [],
+        "dirtyFiles": [
+          "M deploy/hetzner/README.md",
+          " M deploy/hetzner/scripts/promote-service.sh"
+        ],
+        "sourceDirtyFiles": [
+          "M deploy/hetzner/README.md",
+          " M deploy/hetzner/scripts/promote-service.sh"
+        ],
         "evidenceDirtyFiles": [],
         "ahead": 0,
         "behind": 0
@@ -334,7 +448,9 @@
       "missing": [],
       "risks": [
         "deployment source note missing",
-        "production commit not recorded"
+        "production commit not recorded",
+        "promotion evidence unavailable",
+        "local repo has uncommitted changes"
       ]
     },
     {
@@ -352,6 +468,20 @@
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
         "source": null,
         "sourceCommit": null
+      },
+      "promotionEvidence": {
+        "available": false,
+        "remotePath": "/root/apps/deploy/deployment-evidence/latest/tlc-capital-group-os.json",
+        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/tlc-capital-group-os.json",
+        "eventId": null,
+        "status": null,
+        "startedAt": null,
+        "finishedAt": null,
+        "previousCommit": null,
+        "resolvedCommit": null,
+        "imageId": null,
+        "containerImageId": null,
+        "rollbackCommand": null
       },
       "repo": {
         "branch": "main",
@@ -373,6 +503,7 @@
       "risks": [
         "deployment source note missing",
         "production commit not recorded",
+        "promotion evidence unavailable",
         "local branch has unpushed commits"
       ]
     }
