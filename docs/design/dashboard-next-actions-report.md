@@ -1,8 +1,8 @@
 # Dashboard Next Actions Report
 
-Generated: 2026-08-04T00:01:34.010Z
-Open actions: 19
-P0 actions: 9
+Generated: 2026-08-04T02:09:45.543Z
+Open actions: 18
+P0 actions: 8
 
 ## By Project
 
@@ -88,14 +88,6 @@ Next: P0 Record deploy source and clear repo-state risks before the next product
 - P1 [runtime-data] Classify tracked data as fixture/config or move generated runtime data out of git.
   Evidence: 9 tracked runtime-like file(s), 0 dirty generated file(s).
   Command: `npm run dashboard:runtime-data:report`
-
-### nous-hermes-agent
-
-Next: P0 Record deploy source and clear repo-state risks before the next production promotion.
-
-- P0 [deployment-source] Record deploy source and clear repo-state risks before the next production promotion.
-  Evidence: deployment source note missing; production commit not recorded
-  Command: `npm run dashboard:deployment-ledger:report`
 
 ### tlc-capital-group-os
 

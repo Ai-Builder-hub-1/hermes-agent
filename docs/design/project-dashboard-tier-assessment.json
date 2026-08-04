@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-04T00:01:31.645Z",
+  "generatedAt": "2026-08-04T02:09:37.873Z",
   "sourceCommand": "npm run dashboard-kit:adoption:report",
   "sourceHash": "1656e2566b423d3fd83988811259a86ba3f2758bafe7678af9b3f578cc81d7c8",
   "tierBands": [

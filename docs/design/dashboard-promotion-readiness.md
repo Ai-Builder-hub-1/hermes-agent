@@ -1,6 +1,6 @@
 # Dashboard Promotion Readiness
 
-Generated: 2026-08-04T00:01:33.883Z
+Generated: 2026-08-04T02:09:45.425Z
 
 - promotion-ready Kashi VC: 100/100 (T3C -> T3C) blockers=none
 - promotion-ready Media Engine: 100/100 (T3C -> T3C) blockers=none

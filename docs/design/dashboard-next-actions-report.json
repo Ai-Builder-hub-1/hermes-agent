@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-04T00:01:34.010Z",
+  "generatedAt": "2026-08-04T02:09:45.543Z",
   "sourceReports": [
     "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
     "docs/design/dashboard-production-proof-registry.json",
@@ -14,15 +14,15 @@
     "docs/design/dashboard-migration-codemod-plan.json",
     "docs/design/dashboard-readiness-impact.json"
   ],
-  "actionCount": 19,
-  "p0Count": 9,
+  "actionCount": 18,
+  "p0Count": 8,
   "projects": [
     {
       "project": "business-mapper",
       "actionCount": 3,
       "p0Count": 1,
       "nextAction": {
-        "id": "business-mapper.deployment-source.5",
+        "id": "business-mapper.deployment-source.4",
         "project": "business-mapper",
         "priority": "P0",
         "category": "deployment-source",
@@ -33,7 +33,7 @@
       },
       "actions": [
         {
-          "id": "business-mapper.deployment-source.5",
+          "id": "business-mapper.deployment-source.4",
           "project": "business-mapper",
           "priority": "P0",
           "category": "deployment-source",
@@ -43,7 +43,7 @@
           "blocksWorldClass": false
         },
         {
-          "id": "business-mapper.distribution.12",
+          "id": "business-mapper.distribution.11",
           "project": "business-mapper",
           "priority": "P1",
           "category": "distribution",
@@ -53,7 +53,7 @@
           "blocksWorldClass": false
         },
         {
-          "id": "business-mapper.runtime-data.19",
+          "id": "business-mapper.runtime-data.18",
           "project": "business-mapper",
           "priority": "P1",
           "category": "runtime-data",
@@ -69,7 +69,7 @@
       "actionCount": 2,
       "p0Count": 1,
       "nextAction": {
-        "id": "hermes-os.deployment-source.8",
+        "id": "hermes-os.deployment-source.7",
         "project": "hermes-os",
         "priority": "P0",
         "category": "deployment-source",
@@ -80,7 +80,7 @@
       },
       "actions": [
         {
-          "id": "hermes-os.deployment-source.8",
+          "id": "hermes-os.deployment-source.7",
           "project": "hermes-os",
           "priority": "P0",
           "category": "deployment-source",
@@ -90,7 +90,7 @@
           "blocksWorldClass": false
         },
         {
-          "id": "hermes-os.distribution.15",
+          "id": "hermes-os.distribution.14",
           "project": "hermes-os",
           "priority": "P1",
           "category": "distribution",
@@ -106,7 +106,7 @@
       "actionCount": 2,
       "p0Count": 1,
       "nextAction": {
-        "id": "investing-system.deployment-source.7",
+        "id": "investing-system.deployment-source.6",
         "project": "investing-system",
         "priority": "P0",
         "category": "deployment-source",
@@ -117,7 +117,7 @@
       },
       "actions": [
         {
-          "id": "investing-system.deployment-source.7",
+          "id": "investing-system.deployment-source.6",
           "project": "investing-system",
           "priority": "P0",
           "category": "deployment-source",
@@ -127,7 +127,7 @@
           "blocksWorldClass": false
         },
         {
-          "id": "investing-system.distribution.14",
+          "id": "investing-system.distribution.13",
           "project": "investing-system",
           "priority": "P1",
           "category": "distribution",
@@ -143,7 +143,7 @@
       "actionCount": 2,
       "p0Count": 1,
       "nextAction": {
-        "id": "khashi-vc.deployment-source.2",
+        "id": "khashi-vc.deployment-source.1",
         "project": "khashi-vc",
         "priority": "P0",
         "category": "deployment-source",
@@ -154,7 +154,7 @@
       },
       "actions": [
         {
-          "id": "khashi-vc.deployment-source.2",
+          "id": "khashi-vc.deployment-source.1",
           "project": "khashi-vc",
           "priority": "P0",
           "category": "deployment-source",
@@ -164,7 +164,7 @@
           "blocksWorldClass": false
         },
         {
-          "id": "khashi-vc.distribution.10",
+          "id": "khashi-vc.distribution.9",
           "project": "khashi-vc",
           "priority": "P1",
           "category": "distribution",
@@ -180,7 +180,7 @@
       "actionCount": 2,
       "p0Count": 1,
       "nextAction": {
-        "id": "meal-assistant.deployment-source.6",
+        "id": "meal-assistant.deployment-source.5",
         "project": "meal-assistant",
         "priority": "P0",
         "category": "deployment-source",
@@ -191,7 +191,7 @@
       },
       "actions": [
         {
-          "id": "meal-assistant.deployment-source.6",
+          "id": "meal-assistant.deployment-source.5",
           "project": "meal-assistant",
           "priority": "P0",
           "category": "deployment-source",
@@ -201,7 +201,7 @@
           "blocksWorldClass": false
         },
         {
-          "id": "meal-assistant.distribution.13",
+          "id": "meal-assistant.distribution.12",
           "project": "meal-assistant",
           "priority": "P1",
           "category": "distribution",
@@ -217,7 +217,7 @@
       "actionCount": 3,
       "p0Count": 1,
       "nextAction": {
-        "id": "media-business-os.deployment-source.4",
+        "id": "media-business-os.deployment-source.3",
         "project": "media-business-os",
         "priority": "P0",
         "category": "deployment-source",
@@ -228,7 +228,7 @@
       },
       "actions": [
         {
-          "id": "media-business-os.deployment-source.4",
+          "id": "media-business-os.deployment-source.3",
           "project": "media-business-os",
           "priority": "P0",
           "category": "deployment-source",
@@ -238,7 +238,7 @@
           "blocksWorldClass": false
         },
         {
-          "id": "media-business-os.distribution.11",
+          "id": "media-business-os.distribution.10",
           "project": "media-business-os",
           "priority": "P1",
           "category": "distribution",
@@ -248,7 +248,7 @@
           "blocksWorldClass": false
         },
         {
-          "id": "media-business-os.runtime-data.18",
+          "id": "media-business-os.runtime-data.17",
           "project": "media-business-os",
           "priority": "P1",
           "category": "runtime-data",
@@ -264,7 +264,7 @@
       "actionCount": 2,
       "p0Count": 1,
       "nextAction": {
-        "id": "media-engine.deployment-source.3",
+        "id": "media-engine.deployment-source.2",
         "project": "media-engine",
         "priority": "P0",
         "category": "deployment-source",
@@ -275,7 +275,7 @@
       },
       "actions": [
         {
-          "id": "media-engine.deployment-source.3",
+          "id": "media-engine.deployment-source.2",
           "project": "media-engine",
           "priority": "P0",
           "category": "deployment-source",
@@ -285,7 +285,7 @@
           "blocksWorldClass": false
         },
         {
-          "id": "media-engine.runtime-data.17",
+          "id": "media-engine.runtime-data.16",
           "project": "media-engine",
           "priority": "P1",
           "category": "runtime-data",
@@ -297,38 +297,11 @@
       ]
     },
     {
-      "project": "nous-hermes-agent",
-      "actionCount": 1,
-      "p0Count": 1,
-      "nextAction": {
-        "id": "nous-hermes-agent.deployment-source.1",
-        "project": "nous-hermes-agent",
-        "priority": "P0",
-        "category": "deployment-source",
-        "title": "Record deploy source and clear repo-state risks before the next production promotion.",
-        "evidence": "deployment source note missing; production commit not recorded",
-        "command": "npm run dashboard:deployment-ledger:report",
-        "blocksWorldClass": false
-      },
-      "actions": [
-        {
-          "id": "nous-hermes-agent.deployment-source.1",
-          "project": "nous-hermes-agent",
-          "priority": "P0",
-          "category": "deployment-source",
-          "title": "Record deploy source and clear repo-state risks before the next production promotion.",
-          "evidence": "deployment source note missing; production commit not recorded",
-          "command": "npm run dashboard:deployment-ledger:report",
-          "blocksWorldClass": false
-        }
-      ]
-    },
-    {
       "project": "tlc-capital-group-os",
       "actionCount": 2,
       "p0Count": 1,
       "nextAction": {
-        "id": "tlc-capital-group-os.deployment-source.9",
+        "id": "tlc-capital-group-os.deployment-source.8",
         "project": "tlc-capital-group-os",
         "priority": "P0",
         "category": "deployment-source",
@@ -339,7 +312,7 @@
       },
       "actions": [
         {
-          "id": "tlc-capital-group-os.deployment-source.9",
+          "id": "tlc-capital-group-os.deployment-source.8",
           "project": "tlc-capital-group-os",
           "priority": "P0",
           "category": "deployment-source",
@@ -349,7 +322,7 @@
           "blocksWorldClass": false
         },
         {
-          "id": "tlc-capital-group-os.distribution.16",
+          "id": "tlc-capital-group-os.distribution.15",
           "project": "tlc-capital-group-os",
           "priority": "P1",
           "category": "distribution",

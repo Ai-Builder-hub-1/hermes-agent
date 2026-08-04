@@ -127,8 +127,7 @@ writeMarkdown(mdPath, `# Dashboard Deployment Ledger
 
 Generated: ${report.generatedAt}
 
-This ledger connects each registered dashboard to its local repo state and Hetzner deployment metadata. It does not prove what commit is currently running in production unless a project records \`deployment.sourceCommit\` or \`deployment.commitSha\`.
-When promotion evidence exists on Hetzner, this report uses the latest service evidence file as the production source of truth.
+This ledger connects each registered dashboard to local repo state, Hetzner deployment metadata, and the latest promotion evidence when available. Services without promotion evidence still need a recorded deployed commit before their production source can be treated as proven.
 
 ${markdownTable(
   ["Project", "Status", "Local commit", "Deployed commit", "Service", "Evidence", "Risks"],

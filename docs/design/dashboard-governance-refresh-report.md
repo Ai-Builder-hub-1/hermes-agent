@@ -1,6 +1,6 @@
 # Dashboard Governance Refresh Report
 
-Generated: 2026-08-04T00:01:34.119Z
+Generated: 2026-08-04T02:09:45.652Z
 
 Status: **passed**
 
@@ -10,7 +10,7 @@ Status: **passed**
 | dashboard:tier-assessment:sync | passed | 0s | Wrote docs/design/project-dashboard-tier-assessment.json; Wrote docs/design/dashboard-cross-project-action-backlog.json; Wrote docs/design/dashboard-cross-project-action-backlog.md; Wrote web/src/pages/project-tier-assessment-data.ts |
 | dashboard:readiness-impact:report | passed | 0s | Wrote docs/design/dashboard-readiness-impact.json |
 | dashboard:deployment-metadata:validate | passed | 0s | Dashboard deployment metadata validation passed (9). |
-| dashboard:deployment-ledger:report | passed | 1s | Wrote docs/design/dashboard-deployment-ledger.json and docs/design/dashboard-deployment-ledger.md |
+| dashboard:deployment-ledger:report | passed | 6s | Wrote docs/design/dashboard-deployment-ledger.json and docs/design/dashboard-deployment-ledger.md |
 | dashboard:kit-distribution:report | passed | 0s | Dashboard kit distribution: 1 blocking gap(s), 6 warning(s).; Wrote docs/design/dashboard-kit-distribution-report.json and docs/design/dashboard-kit-distribution-report.md |
 | dashboard:runtime-data:report | passed | 0s | Dashboard runtime data scan: 3 project(s) need review.; Wrote docs/design/dashboard-runtime-data-report.json and docs/design/dashboard-runtime-data-report.md |
 | dashboard:telemetry-contract:report | passed | 0s | Wrote docs/design/dashboard-telemetry-contract-report.json |

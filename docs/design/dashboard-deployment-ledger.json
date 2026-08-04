@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-04T02:06:09.809Z",
+  "generatedAt": "2026-08-04T02:10:19.151Z",
   "purpose": "Cross-project deployment source ledger for Hetzner dashboard promotion and rollback review.",
   "checkedCount": 9,
   "missingSourceCount": 0,
@@ -19,48 +19,85 @@
         "composeService": "nous-hermes-agent",
         "buildContext": "/root/apps/nous-hermes-agent",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": null,
-        "sourceCommit": null
+        "source": "promotion-evidence:nous-hermes-agent-2026-08-04T02-08-57Z",
+        "sourceCommit": "0954bc1e97d0f539961eeca78e28d5e0e05646e8"
       },
       "promotionEvidence": {
-        "available": false,
+        "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/nous-hermes-agent.json",
-        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/nous-hermes-agent.json",
-        "eventId": null,
-        "status": null,
-        "startedAt": null,
-        "finishedAt": null,
-        "previousCommit": null,
-        "resolvedCommit": null,
-        "imageId": null,
-        "containerImageId": null,
-        "rollbackCommand": null
+        "error": null,
+        "eventId": "nous-hermes-agent-2026-08-04T02-08-57Z",
+        "status": "succeeded",
+        "startedAt": "2026-08-04T02:08:18Z",
+        "finishedAt": "2026-08-04T02:08:57Z",
+        "previousCommit": "ae5671814bce45ad8aca5b2abb008600dd3f42c4",
+        "resolvedCommit": "0954bc1e97d0f539961eeca78e28d5e0e05646e8",
+        "imageId": "sha256:f9c313c985b714c046ec438dfe7bb3fb2a90a97f6b7ab41cfa98dd33ade170bc",
+        "containerImageId": "sha256:f9c313c985b714c046ec438dfe7bb3fb2a90a97f6b7ab41cfa98dd33ade170bc",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh nous-hermes-agent ae5671814bce45ad8aca5b2abb008600dd3f42c4"
       },
       "repo": {
         "branch": "main",
-        "commit": "8a28d28f56421ec1a143c178e68fbf2471bbbb74",
-        "shortCommit": "8a28d28f5642",
+        "commit": "0954bc1e97d0f539961eeca78e28d5e0e05646e8",
+        "shortCommit": "0954bc1e97d0",
         "statusBranch": "## main...ai-builder/main",
         "clean": false,
-        "dirtyCount": 1,
+        "dirtyCount": 30,
         "sourceDirtyCount": 1,
-        "evidenceDirtyCount": 0,
+        "evidenceDirtyCount": 29,
         "dirtyFiles": [
-          "M scripts/generate-dashboard-deployment-ledger.mjs"
+          "M docs/design/dashboard-bridge-coverage-report.json",
+          " M docs/design/dashboard-cross-project-action-backlog.json",
+          " M docs/design/dashboard-cross-project-action-backlog.md",
+          " M docs/design/dashboard-deployment-ledger.json",
+          " M docs/design/dashboard-deployment-ledger.md",
+          " M docs/design/dashboard-deployment-metadata-report.json",
+          " M docs/design/dashboard-governance-refresh-report.json",
+          " M docs/design/dashboard-governance-refresh-report.md",
+          " M docs/design/dashboard-health-report.json",
+          " M docs/design/dashboard-kit-distribution-report.json",
+          " M docs/design/dashboard-kit-distribution-report.md",
+          " M docs/design/dashboard-maturity-report.json",
+          " M docs/design/dashboard-next-actions-report.json",
+          " M docs/design/dashboard-next-actions-report.md",
+          " M docs/design/dashboard-production-dns-report.json",
+          " M docs/design/dashboard-production-proof-registry.json",
+          " M docs/design/dashboard-project-validation-profiles-report.json",
+          " M docs/design/dashboard-promotion-readiness.json",
+          " M docs/design/dashboard-promotion-readiness.md",
+          " M docs/design/dashboard-readiness-impact.json"
         ],
         "sourceDirtyFiles": [
-          "M scripts/generate-dashboard-deployment-ledger.mjs"
+          " M scripts/generate-dashboard-deployment-ledger.mjs"
         ],
-        "evidenceDirtyFiles": [],
+        "evidenceDirtyFiles": [
+          "M docs/design/dashboard-bridge-coverage-report.json",
+          " M docs/design/dashboard-cross-project-action-backlog.json",
+          " M docs/design/dashboard-cross-project-action-backlog.md",
+          " M docs/design/dashboard-deployment-ledger.json",
+          " M docs/design/dashboard-deployment-ledger.md",
+          " M docs/design/dashboard-deployment-metadata-report.json",
+          " M docs/design/dashboard-governance-refresh-report.json",
+          " M docs/design/dashboard-governance-refresh-report.md",
+          " M docs/design/dashboard-health-report.json",
+          " M docs/design/dashboard-kit-distribution-report.json",
+          " M docs/design/dashboard-kit-distribution-report.md",
+          " M docs/design/dashboard-maturity-report.json",
+          " M docs/design/dashboard-next-actions-report.json",
+          " M docs/design/dashboard-next-actions-report.md",
+          " M docs/design/dashboard-production-dns-report.json",
+          " M docs/design/dashboard-production-proof-registry.json",
+          " M docs/design/dashboard-project-validation-profiles-report.json",
+          " M docs/design/dashboard-promotion-readiness.json",
+          " M docs/design/dashboard-promotion-readiness.md",
+          " M docs/design/dashboard-readiness-impact.json"
+        ],
         "ahead": 0,
         "behind": 0
       },
       "status": "tracked-with-risks",
       "missing": [],
       "risks": [
-        "deployment source note missing",
-        "production commit not recorded",
-        "promotion evidence unavailable",
         "local repo has uncommitted changes"
       ]
     },
@@ -425,21 +462,15 @@
       },
       "repo": {
         "branch": "deploy/hermes-workspace-hetzner",
-        "commit": "9ede741a20f0ccead2da6d64618e257f7c381caa",
-        "shortCommit": "9ede741a20f0",
+        "commit": "e8ceb5101c9301389792ab7bc8f4aaeb35c7c216",
+        "shortCommit": "e8ceb5101c93",
         "statusBranch": "## deploy/hermes-workspace-hetzner...origin/deploy/hermes-workspace-hetzner",
-        "clean": false,
-        "dirtyCount": 2,
-        "sourceDirtyCount": 2,
+        "clean": true,
+        "dirtyCount": 0,
+        "sourceDirtyCount": 0,
         "evidenceDirtyCount": 0,
-        "dirtyFiles": [
-          "M deploy/hetzner/README.md",
-          " M deploy/hetzner/scripts/promote-service.sh"
-        ],
-        "sourceDirtyFiles": [
-          "M deploy/hetzner/README.md",
-          " M deploy/hetzner/scripts/promote-service.sh"
-        ],
+        "dirtyFiles": [],
+        "sourceDirtyFiles": [],
         "evidenceDirtyFiles": [],
         "ahead": 0,
         "behind": 0
@@ -449,8 +480,7 @@
       "risks": [
         "deployment source note missing",
         "production commit not recorded",
-        "promotion evidence unavailable",
-        "local repo has uncommitted changes"
+        "promotion evidence unavailable"
       ]
     },
     {
