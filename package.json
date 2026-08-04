@@ -64,6 +64,7 @@
     "dashboard:deployment-metadata:validate": "node scripts/validate-dashboard-deployment-metadata.mjs",
     "dashboard:deployment-ledger:report": "node scripts/generate-dashboard-deployment-ledger.mjs",
     "dashboard:deployment-ledger:validate": "node scripts/validate-dashboard-deployment-ledger.mjs",
+    "dashboard:deploy-anti-loop:check": "node scripts/check-dashboard-deploy-anti-loop.mjs",
     "dashboard:kit-distribution:report": "node scripts/scan-dashboard-kit-distribution.mjs",
     "dashboard:kit-distribution:strict": "node scripts/scan-dashboard-kit-distribution.mjs --strict",
     "dashboard:runtime-data:report": "node scripts/scan-dashboard-runtime-data.mjs",

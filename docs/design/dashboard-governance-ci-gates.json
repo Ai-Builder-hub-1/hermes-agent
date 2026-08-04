@@ -91,6 +91,12 @@
       "appliesTo": ["promotion", "release", "deploy"]
     },
     {
+      "id": "deploy-anti-loop",
+      "command": "npm run dashboard:deploy-anti-loop:check",
+      "level": "blocking",
+      "appliesTo": ["promotion", "release", "deploy", "agent-driven deploy"]
+    },
+    {
       "id": "dashboard-kit-distribution",
       "command": "npm run dashboard:kit-distribution:report",
       "level": "advisory",
