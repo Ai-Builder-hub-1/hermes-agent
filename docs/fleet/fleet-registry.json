@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-05T15:04:36.203Z",
+  "generatedAt": "2026-08-05T15:31:00.851Z",
   "purpose": "Fleet-wide project, production, dashboard, and relationship registry for Nous Hermes Agent.",
   "projects": [
     {
@@ -126,8 +126,8 @@
       "repoState": {
         "path": "",
         "branch": "## main...ai-builder/main",
-        "commit": "3a43482e80c8da8909a173df9fedfb8bdf1ab935",
-        "shortCommit": "3a43482e80c8",
+        "commit": "4ad9da0d39ec34a17a9bd55649c60a8c1bd8c667",
+        "shortCommit": "4ad9da0d39ec",
         "clean": true,
         "dirtyCount": 0,
         "ahead": 0,
@@ -136,10 +136,10 @@
       "latestPromotion": {
         "available": true,
         "status": "succeeded",
-        "target": "3a43482e8",
-        "eventId": "nous-hermes-agent-2026-08-05T15-04-15Z",
-        "resolvedCommit": "3a43482e80c8da8909a173df9fedfb8bdf1ab935",
-        "finishedAt": "2026-08-05T15:04:15Z",
+        "target": "4ad9da0d3",
+        "eventId": "nous-hermes-agent-2026-08-05T15-30-40Z",
+        "resolvedCommit": "4ad9da0d39ec34a17a9bd55649c60a8c1bd8c667",
+        "finishedAt": "2026-08-05T15:30:40Z",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/nous-hermes-agent.json"
       },
       "proof": {

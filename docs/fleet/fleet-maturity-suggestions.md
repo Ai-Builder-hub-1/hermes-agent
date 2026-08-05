@@ -1,6 +1,6 @@
 # Fleet Maturity Suggestions
 
-Generated: 2026-08-05T15:04:36.203Z
+Generated: 2026-08-05T15:31:00.851Z
 
 | Suggestion | Owner | Affected Projects | Status | Priority | Reason | Next Action |
 | --- | --- | --- | --- | --- | --- | --- |
