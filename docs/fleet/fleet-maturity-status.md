@@ -1,6 +1,6 @@
 # Fleet Maturity Status
 
-Generated: 2026-08-05T14:22:45.316Z
+Generated: 2026-08-05T14:33:21.128Z
 
 Purpose: one fleet-wide tracker for production proof, deployment evidence, monitoring, credentials, live E2E evidence, outcome feeds, business/product maturity, and cross-project maturity triggers.
 
@@ -21,7 +21,7 @@ Purpose: one fleet-wide tracker for production proof, deployment evidence, monit
 | Project | Service | Dashboard Band | Deploy Evidence | Proof | Repo | Relationships |
 | --- | --- | --- | --- | --- | --- | --- |
 | TLC Capital Group OS | tlc-capital-group-os | T3C | current | baseline-present | clean | rolls-up:hermes-os; rolls-up:media-business-operations; rolls-up:media-engine; rolls-up:rinseables-os; rolls-up:business-mapper; rolls-up:investing-system |
-| Nous Hermes Agent | nous-hermes-agent | unknown | current | baseline-present | 4 dirty | governs-dashboard-standards-for:*; tracks-maturity-for:*; feeds:hermes-os; feeds:tlc-capital-group-os |
+| Nous Hermes Agent | nous-hermes-agent | unknown | current | baseline-present | clean | governs-dashboard-standards-for:*; tracks-maturity-for:*; feeds:hermes-os; feeds:tlc-capital-group-os |
 | Hermes OS | hermes | T3C | current | baseline-present | clean | deploys:*; reports-to:tlc-capital-group-os; is-controlled-by:nous-hermes-agent |
 | Media Engine | media-engine-dashboard | T3C | current | baseline-present | clean | feeds-output-status-to:media-business-operations; feeds-cost-telemetry-to:media-business-operations; uses-business-priorities-from:tlc-capital-group-os; may-produce-for:rinseables-os |
 | Media Business Operations | media-business-operations | T3C | current | baseline-present | clean | consumes-output-status-from:media-engine; reports-brand-readiness-to:tlc-capital-group-os; may-operate-audience-layer-for:rinseables-os |
