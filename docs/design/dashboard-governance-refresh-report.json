@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-04T02:09:45.652Z",
+  "generatedAt": "2026-08-05T13:23:38.027Z",
   "status": "passed",
   "includedLiveChecks": false,
   "includedScreenshotCapture": false,
@@ -13,7 +13,7 @@
       "status": "passed",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 128,
+      "durationMs": 133,
       "summary": [
         "│ (index) │ project                │ status    │ tier       │ band  │ mode             │ actions │ errors │ warnings │",
         "Wrote adoption report: packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json"
@@ -25,7 +25,7 @@
       "status": "passed",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 92,
+      "durationMs": 100,
       "summary": [
         "Wrote docs/design/project-dashboard-tier-assessment.json",
         "Wrote docs/design/dashboard-cross-project-action-backlog.json",
@@ -39,7 +39,7 @@
       "status": "passed",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 91,
+      "durationMs": 99,
       "summary": [
         "Wrote docs/design/dashboard-readiness-impact.json"
       ]
@@ -50,7 +50,7 @@
       "status": "passed",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 92,
+      "durationMs": 96,
       "summary": [
         "Dashboard deployment metadata validation passed (9)."
       ]
@@ -61,7 +61,7 @@
       "status": "passed",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 6175,
+      "durationMs": 6514,
       "summary": [
         "Wrote docs/design/dashboard-deployment-ledger.json and docs/design/dashboard-deployment-ledger.md"
       ]
@@ -74,7 +74,7 @@
       "signal": null,
       "durationMs": 96,
       "summary": [
-        "Dashboard kit distribution: 1 blocking gap(s), 6 warning(s).",
+        "Dashboard kit distribution: 0 blocking gap(s), 7 warning(s).",
         "Wrote docs/design/dashboard-kit-distribution-report.json and docs/design/dashboard-kit-distribution-report.md"
       ]
     },
@@ -84,7 +84,7 @@
       "status": "passed",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 277,
+      "durationMs": 282,
       "summary": [
         "Dashboard runtime data scan: 3 project(s) need review.",
         "Wrote docs/design/dashboard-runtime-data-report.json and docs/design/dashboard-runtime-data-report.md"
@@ -96,7 +96,7 @@
       "status": "passed",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 94,
+      "durationMs": 88,
       "summary": [
         "Wrote docs/design/dashboard-telemetry-contract-report.json"
       ]
@@ -107,7 +107,7 @@
       "status": "passed",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 105,
+      "durationMs": 104,
       "summary": [
         "\"localDnsOk\": 9,",
         "\"captureFallbackOk\": 0,",
@@ -121,7 +121,7 @@
       "status": "passed",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 89,
+      "durationMs": 90,
       "summary": [
         "Wrote docs/design/dashboard-production-proof-registry.json"
       ]
@@ -132,7 +132,7 @@
       "status": "passed",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 107,
+      "durationMs": 106,
       "summary": [
         "> hermes-agent@1.0.0 dashboard:visual-quality:score",
         "> node scripts/score-dashboard-visual-quality.mjs",
@@ -145,7 +145,7 @@
       "status": "passed",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 95,
+      "durationMs": 92,
       "summary": [
         "Dashboard visual-selection bridge coverage passed.",
         "Wrote report: docs/design/dashboard-bridge-coverage-report.json"
@@ -157,7 +157,7 @@
       "status": "passed",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 91,
+      "durationMs": 94,
       "summary": [
         "Dashboard project validation profiles passed (9)."
       ]
@@ -168,7 +168,7 @@
       "status": "passed",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 92,
+      "durationMs": 90,
       "summary": [
         "Dashboard health validation passed (9)."
       ]
@@ -201,7 +201,7 @@
       "status": "passed",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 98,
+      "durationMs": 99,
       "summary": [
         "> hermes-agent@1.0.0 dashboard:next-actions:report",
         "> node scripts/generate-dashboard-next-actions.mjs",

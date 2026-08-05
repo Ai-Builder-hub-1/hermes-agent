@@ -32,8 +32,8 @@ export interface TierBand {
   meaning: string;
 }
 
-export const projectTierGeneratedAt = "2026-08-04T02:09:37.873Z";
-export const projectTierSourceHash = "1656e2566b423d3fd83988811259a86ba3f2758bafe7678af9b3f578cc81d7c8";
+export const projectTierGeneratedAt = "2026-08-05T13:23:29.890Z";
+export const projectTierSourceHash = "47d216e4494116d6d4c13013d713a5d0f4307d6e1b2f0c03d09c6b57c3c8eb05";
 
 export const tierBands: TierBand[] = [
   {

@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-04T02:10:19.151Z",
+  "generatedAt": "2026-08-05T13:23:36.729Z",
   "purpose": "Cross-project deployment source ledger for Hetzner dashboard promotion and rollback review.",
   "checkedCount": 9,
   "missingSourceCount": 0,
-  "trackedWithRisksCount": 9,
+  "trackedWithRisksCount": 5,
   "entries": [
     {
       "id": "nous-hermes-agent.dashboard",
@@ -19,32 +19,32 @@
         "composeService": "nous-hermes-agent",
         "buildContext": "/root/apps/nous-hermes-agent",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": "promotion-evidence:nous-hermes-agent-2026-08-04T02-08-57Z",
-        "sourceCommit": "0954bc1e97d0f539961eeca78e28d5e0e05646e8"
+        "source": "promotion-evidence:nous-hermes-agent-2026-08-05T02-58-05Z",
+        "sourceCommit": "353243782ef023985605e332ca6c3e6d10619555"
       },
       "promotionEvidence": {
         "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/nous-hermes-agent.json",
         "error": null,
-        "eventId": "nous-hermes-agent-2026-08-04T02-08-57Z",
+        "eventId": "nous-hermes-agent-2026-08-05T02-58-05Z",
         "status": "succeeded",
-        "startedAt": "2026-08-04T02:08:18Z",
-        "finishedAt": "2026-08-04T02:08:57Z",
-        "previousCommit": "ae5671814bce45ad8aca5b2abb008600dd3f42c4",
-        "resolvedCommit": "0954bc1e97d0f539961eeca78e28d5e0e05646e8",
-        "imageId": "sha256:f9c313c985b714c046ec438dfe7bb3fb2a90a97f6b7ab41cfa98dd33ade170bc",
-        "containerImageId": "sha256:f9c313c985b714c046ec438dfe7bb3fb2a90a97f6b7ab41cfa98dd33ade170bc",
-        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh nous-hermes-agent ae5671814bce45ad8aca5b2abb008600dd3f42c4"
+        "startedAt": "2026-08-05T02:54:41Z",
+        "finishedAt": "2026-08-05T02:58:05Z",
+        "previousCommit": "0954bc1e97d0f539961eeca78e28d5e0e05646e8",
+        "resolvedCommit": "353243782ef023985605e332ca6c3e6d10619555",
+        "imageId": "sha256:17fc05255e1d316ae41bc520f931c1c8cd36e1370ead88043c9661f304f37db7",
+        "containerImageId": "sha256:17fc05255e1d316ae41bc520f931c1c8cd36e1370ead88043c9661f304f37db7",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh nous-hermes-agent 0954bc1e97d0f539961eeca78e28d5e0e05646e8"
       },
       "repo": {
         "branch": "main",
-        "commit": "0954bc1e97d0f539961eeca78e28d5e0e05646e8",
-        "shortCommit": "0954bc1e97d0",
+        "commit": "353243782ef023985605e332ca6c3e6d10619555",
+        "shortCommit": "353243782ef0",
         "statusBranch": "## main...ai-builder/main",
-        "clean": false,
-        "dirtyCount": 30,
-        "sourceDirtyCount": 1,
-        "evidenceDirtyCount": 29,
+        "clean": true,
+        "dirtyCount": 32,
+        "sourceDirtyCount": 0,
+        "evidenceDirtyCount": 32,
         "dirtyFiles": [
           "M docs/design/dashboard-bridge-coverage-report.json",
           " M docs/design/dashboard-cross-project-action-backlog.json",
@@ -67,9 +67,7 @@
           " M docs/design/dashboard-promotion-readiness.md",
           " M docs/design/dashboard-readiness-impact.json"
         ],
-        "sourceDirtyFiles": [
-          " M scripts/generate-dashboard-deployment-ledger.mjs"
-        ],
+        "sourceDirtyFiles": [],
         "evidenceDirtyFiles": [
           "M docs/design/dashboard-bridge-coverage-report.json",
           " M docs/design/dashboard-cross-project-action-backlog.json",
@@ -95,11 +93,9 @@
         "ahead": 0,
         "behind": 0
       },
-      "status": "tracked-with-risks",
+      "status": "tracked",
       "missing": [],
-      "risks": [
-        "local repo has uncommitted changes"
-      ]
+      "risks": []
     },
     {
       "id": "khashi-vc.roc",
@@ -133,17 +129,21 @@
       },
       "repo": {
         "branch": "main",
-        "commit": "c4fedfb803406c77f0c28cf29e1a6f325195ac01",
-        "shortCommit": "c4fedfb80340",
-        "statusBranch": "## main...origin/main [ahead 1]",
-        "clean": true,
-        "dirtyCount": 0,
-        "sourceDirtyCount": 0,
+        "commit": "5104d391c74db4ee7ecf3321cba166b26fc96ec9",
+        "shortCommit": "5104d391c74d",
+        "statusBranch": "## main...origin/main",
+        "clean": false,
+        "dirtyCount": 1,
+        "sourceDirtyCount": 1,
         "evidenceDirtyCount": 0,
-        "dirtyFiles": [],
-        "sourceDirtyFiles": [],
+        "dirtyFiles": [
+          "M public/roc/index.html"
+        ],
+        "sourceDirtyFiles": [
+          "M public/roc/index.html"
+        ],
         "evidenceDirtyFiles": [],
-        "ahead": 1,
+        "ahead": 0,
         "behind": 0
       },
       "status": "tracked-with-risks",
@@ -152,7 +152,7 @@
         "deployment source note missing",
         "production commit not recorded",
         "promotion evidence unavailable",
-        "local branch has unpushed commits"
+        "local repo has uncommitted changes"
       ]
     },
     {
@@ -168,28 +168,28 @@
         "composeService": "media-engine-dashboard",
         "buildContext": "/root/apps/media-engine",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": null,
-        "sourceCommit": null
+        "source": "promotion-evidence:media-engine-dashboard-2026-08-05T02-52-39Z",
+        "sourceCommit": "42b1ce1953935d2c4237471f8a4513629652b7fb"
       },
       "promotionEvidence": {
-        "available": false,
+        "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/media-engine-dashboard.json",
-        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/media-engine-dashboard.json",
-        "eventId": null,
-        "status": null,
-        "startedAt": null,
-        "finishedAt": null,
-        "previousCommit": null,
-        "resolvedCommit": null,
-        "imageId": null,
-        "containerImageId": null,
-        "rollbackCommand": null
+        "error": null,
+        "eventId": "media-engine-dashboard-2026-08-05T02-52-39Z",
+        "status": "succeeded",
+        "startedAt": "2026-08-05T02:51:31Z",
+        "finishedAt": "2026-08-05T02:52:39Z",
+        "previousCommit": "11a556474fbc9de1d13c338d5a04c133ee959637",
+        "resolvedCommit": "42b1ce1953935d2c4237471f8a4513629652b7fb",
+        "imageId": "sha256:f42edb648500810e71293a3571065c0ca6038c300547e038c036c9f5eb311f58",
+        "containerImageId": "sha256:f42edb648500810e71293a3571065c0ca6038c300547e038c036c9f5eb311f58",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh media-engine 11a556474fbc9de1d13c338d5a04c133ee959637"
       },
       "repo": {
         "branch": "main",
-        "commit": "1f756615b8b16a1782e70056ec4e04050aa21166",
-        "shortCommit": "1f756615b8b1",
-        "statusBranch": "## main...origin/main [ahead 4]",
+        "commit": "42b1ce1953935d2c4237471f8a4513629652b7fb",
+        "shortCommit": "42b1ce195393",
+        "statusBranch": "## main...origin/main",
         "clean": true,
         "dirtyCount": 0,
         "sourceDirtyCount": 0,
@@ -197,17 +197,12 @@
         "dirtyFiles": [],
         "sourceDirtyFiles": [],
         "evidenceDirtyFiles": [],
-        "ahead": 4,
+        "ahead": 0,
         "behind": 0
       },
-      "status": "tracked-with-risks",
+      "status": "tracked",
       "missing": [],
-      "risks": [
-        "deployment source note missing",
-        "production commit not recorded",
-        "promotion evidence unavailable",
-        "local branch has unpushed commits"
-      ]
+      "risks": []
     },
     {
       "id": "media-business-operations.main",
@@ -222,45 +217,46 @@
         "composeService": "media-business-operations",
         "buildContext": "/root/apps/media-business-operations",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": null,
-        "sourceCommit": null
+        "source": "promotion-evidence:media-business-operations-2026-08-05T02-51-26Z",
+        "sourceCommit": "49ae37cf0abe681ae7fad68893d5893456bf34d1"
       },
       "promotionEvidence": {
-        "available": false,
+        "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/media-business-operations.json",
-        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/media-business-operations.json",
-        "eventId": null,
-        "status": null,
-        "startedAt": null,
-        "finishedAt": null,
-        "previousCommit": null,
-        "resolvedCommit": null,
-        "imageId": null,
-        "containerImageId": null,
-        "rollbackCommand": null
+        "error": null,
+        "eventId": "media-business-operations-2026-08-05T02-51-26Z",
+        "status": "succeeded",
+        "startedAt": "2026-08-05T02:51:10Z",
+        "finishedAt": "2026-08-05T02:51:26Z",
+        "previousCommit": "1bb63646a8984376c30fa0f0031b1c2a0b9c1f92",
+        "resolvedCommit": "49ae37cf0abe681ae7fad68893d5893456bf34d1",
+        "imageId": "sha256:19973a54cc712058c4d10b82d9da607ba63de00e7669be2fe45cb761dd1b41c5",
+        "containerImageId": "sha256:19973a54cc712058c4d10b82d9da607ba63de00e7669be2fe45cb761dd1b41c5",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh media-business-operations 1bb63646a8984376c30fa0f0031b1c2a0b9c1f92"
       },
       "repo": {
         "branch": "main",
-        "commit": "ce981f47113743cdc1990e184ec1c8bd3d88adc0",
-        "shortCommit": "ce981f471137",
-        "statusBranch": "## main...origin/main [ahead 2]",
-        "clean": true,
-        "dirtyCount": 0,
-        "sourceDirtyCount": 0,
+        "commit": "49ae37cf0abe681ae7fad68893d5893456bf34d1",
+        "shortCommit": "49ae37cf0abe",
+        "statusBranch": "## main...origin/main",
+        "clean": false,
+        "dirtyCount": 1,
+        "sourceDirtyCount": 1,
         "evidenceDirtyCount": 0,
-        "dirtyFiles": [],
-        "sourceDirtyFiles": [],
+        "dirtyFiles": [
+          "M docs/business-unit-readiness-plan.md"
+        ],
+        "sourceDirtyFiles": [
+          "M docs/business-unit-readiness-plan.md"
+        ],
         "evidenceDirtyFiles": [],
-        "ahead": 2,
+        "ahead": 0,
         "behind": 0
       },
       "status": "tracked-with-risks",
       "missing": [],
       "risks": [
-        "deployment source note missing",
-        "production commit not recorded",
-        "promotion evidence unavailable",
-        "local branch has unpushed commits"
+        "local repo has uncommitted changes"
       ]
     },
     {
@@ -276,45 +272,46 @@
         "composeService": "business-mapper",
         "buildContext": "/root/apps/business-mapper",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": null,
-        "sourceCommit": null
+        "source": "promotion-evidence:business-mapper-2026-08-05T02-51-05Z",
+        "sourceCommit": "a2ff9504a7269600310afce4037de3ebb2a39de2"
       },
       "promotionEvidence": {
-        "available": false,
+        "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/business-mapper.json",
-        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/business-mapper.json",
-        "eventId": null,
-        "status": null,
-        "startedAt": null,
-        "finishedAt": null,
-        "previousCommit": null,
-        "resolvedCommit": null,
-        "imageId": null,
-        "containerImageId": null,
-        "rollbackCommand": null
+        "error": null,
+        "eventId": "business-mapper-2026-08-05T02-51-05Z",
+        "status": "succeeded",
+        "startedAt": "2026-08-05T02:50:45Z",
+        "finishedAt": "2026-08-05T02:51:05Z",
+        "previousCommit": "a2ff9504a7269600310afce4037de3ebb2a39de2",
+        "resolvedCommit": "a2ff9504a7269600310afce4037de3ebb2a39de2",
+        "imageId": "sha256:37f1eb6130781e027e0b20993b1237f1f384f8053158f07ca18a73b54c3b0b15",
+        "containerImageId": "sha256:37f1eb6130781e027e0b20993b1237f1f384f8053158f07ca18a73b54c3b0b15",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh business-mapper a2ff9504a7269600310afce4037de3ebb2a39de2"
       },
       "repo": {
         "branch": "main",
-        "commit": "b34b118b1f9066dbc9a841c8016bebb9f8e7e5a3",
-        "shortCommit": "b34b118b1f90",
-        "statusBranch": "## main...origin/main [ahead 1]",
-        "clean": true,
-        "dirtyCount": 0,
-        "sourceDirtyCount": 0,
+        "commit": "a2ff9504a7269600310afce4037de3ebb2a39de2",
+        "shortCommit": "a2ff9504a726",
+        "statusBranch": "## main...origin/main",
+        "clean": false,
+        "dirtyCount": 1,
+        "sourceDirtyCount": 1,
         "evidenceDirtyCount": 0,
-        "dirtyFiles": [],
-        "sourceDirtyFiles": [],
+        "dirtyFiles": [
+          "M docs/business-unit-readiness-plan.md"
+        ],
+        "sourceDirtyFiles": [
+          "M docs/business-unit-readiness-plan.md"
+        ],
         "evidenceDirtyFiles": [],
-        "ahead": 1,
+        "ahead": 0,
         "behind": 0
       },
       "status": "tracked-with-risks",
       "missing": [],
       "risks": [
-        "deployment source note missing",
-        "production commit not recorded",
-        "promotion evidence unavailable",
-        "local branch has unpushed commits"
+        "local repo has uncommitted changes"
       ]
     },
     {
@@ -349,17 +346,24 @@
       },
       "repo": {
         "branch": "main",
-        "commit": "33049524b2f1292461e1b1a97491f07351154be7",
-        "shortCommit": "33049524b2f1",
-        "statusBranch": "## main...origin/main [ahead 1]",
-        "clean": true,
-        "dirtyCount": 0,
-        "sourceDirtyCount": 0,
-        "evidenceDirtyCount": 0,
-        "dirtyFiles": [],
-        "sourceDirtyFiles": [],
-        "evidenceDirtyFiles": [],
-        "ahead": 1,
+        "commit": "5212aa31c8d2f5adf90bbd666b64a726c7c44e82",
+        "shortCommit": "5212aa31c8d2",
+        "statusBranch": "## main...origin/main",
+        "clean": false,
+        "dirtyCount": 2,
+        "sourceDirtyCount": 1,
+        "evidenceDirtyCount": 1,
+        "dirtyFiles": [
+          "M docs/design/dashboard-reference-intake.md",
+          " M src/server.js"
+        ],
+        "sourceDirtyFiles": [
+          " M src/server.js"
+        ],
+        "evidenceDirtyFiles": [
+          "M docs/design/dashboard-reference-intake.md"
+        ],
+        "ahead": 0,
         "behind": 0
       },
       "status": "tracked-with-risks",
@@ -367,7 +371,7 @@
       "risks": [
         "production commit not recorded",
         "promotion evidence unavailable",
-        "local branch has unpushed commits"
+        "local repo has uncommitted changes"
       ]
     },
     {
@@ -383,52 +387,41 @@
         "composeService": "investing-system",
         "buildContext": "/root/apps/investing-system",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": null,
-        "sourceCommit": null
+        "source": "promotion-evidence:investing-system-2026-08-05T02-54-12Z",
+        "sourceCommit": "de5c212ed8f96f9c9dea74cc06688076f3fc35ec"
       },
       "promotionEvidence": {
-        "available": false,
+        "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/investing-system.json",
-        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/investing-system.json",
-        "eventId": null,
-        "status": null,
-        "startedAt": null,
-        "finishedAt": null,
-        "previousCommit": null,
-        "resolvedCommit": null,
-        "imageId": null,
-        "containerImageId": null,
-        "rollbackCommand": null
+        "error": null,
+        "eventId": "investing-system-2026-08-05T02-54-12Z",
+        "status": "succeeded",
+        "startedAt": "2026-08-05T02:52:46Z",
+        "finishedAt": "2026-08-05T02:54:12Z",
+        "previousCommit": "26ff0240ae251e1ea5d39eefd143d31090c2d886",
+        "resolvedCommit": "de5c212ed8f96f9c9dea74cc06688076f3fc35ec",
+        "imageId": "sha256:d587d5e09f933f030e59f57631a2352d3a7e0724d0577249d7b26eb619c4390b",
+        "containerImageId": "sha256:d587d5e09f933f030e59f57631a2352d3a7e0724d0577249d7b26eb619c4390b",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh investing-system 26ff0240ae251e1ea5d39eefd143d31090c2d886"
       },
       "repo": {
         "branch": "main",
-        "commit": "4a6db7a83f8a7e4dfb5672e021b1d060ab1c27a1",
-        "shortCommit": "4a6db7a83f8a",
+        "commit": "de5c212ed8f96f9c9dea74cc06688076f3fc35ec",
+        "shortCommit": "de5c212ed8f9",
         "statusBranch": "## main...origin/main",
-        "clean": false,
-        "dirtyCount": 2,
-        "sourceDirtyCount": 2,
+        "clean": true,
+        "dirtyCount": 0,
+        "sourceDirtyCount": 0,
         "evidenceDirtyCount": 0,
-        "dirtyFiles": [
-          "M docs/strategic-vision.md",
-          " M src/api/server.ts"
-        ],
-        "sourceDirtyFiles": [
-          "M docs/strategic-vision.md",
-          " M src/api/server.ts"
-        ],
+        "dirtyFiles": [],
+        "sourceDirtyFiles": [],
         "evidenceDirtyFiles": [],
         "ahead": 0,
         "behind": 0
       },
-      "status": "tracked-with-risks",
+      "status": "tracked",
       "missing": [],
-      "risks": [
-        "deployment source note missing",
-        "production commit not recorded",
-        "promotion evidence unavailable",
-        "local repo has uncommitted changes"
-      ]
+      "risks": []
     },
     {
       "id": "hermes.workspace",
@@ -443,34 +436,38 @@
         "composeService": "hermes",
         "buildContext": "/root/apps/hermes",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": null,
-        "sourceCommit": null
+        "source": "promotion-evidence:hermes-2026-08-05T12-58-07Z",
+        "sourceCommit": "0fa6bc3c2dd2b0b9fa4012c7a67a006d3ed9130c"
       },
       "promotionEvidence": {
-        "available": false,
+        "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/hermes.json",
-        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/hermes.json",
-        "eventId": null,
-        "status": null,
-        "startedAt": null,
-        "finishedAt": null,
-        "previousCommit": null,
-        "resolvedCommit": null,
-        "imageId": null,
-        "containerImageId": null,
-        "rollbackCommand": null
+        "error": null,
+        "eventId": "hermes-2026-08-05T12-58-07Z",
+        "status": "succeeded",
+        "startedAt": "2026-08-05T12:56:52Z",
+        "finishedAt": "2026-08-05T12:58:07Z",
+        "previousCommit": "6e0263f2815919fd4c447750470b32b3325e5a26",
+        "resolvedCommit": "0fa6bc3c2dd2b0b9fa4012c7a67a006d3ed9130c",
+        "imageId": "sha256:4c51813cd69d6087cf62d9912810e797a02fd82ada86ef3cf3ca4d2403bbfa7f",
+        "containerImageId": "sha256:4c51813cd69d6087cf62d9912810e797a02fd82ada86ef3cf3ca4d2403bbfa7f",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh hermes 6e0263f2815919fd4c447750470b32b3325e5a26"
       },
       "repo": {
         "branch": "deploy/hermes-workspace-hetzner",
-        "commit": "e8ceb5101c9301389792ab7bc8f4aaeb35c7c216",
-        "shortCommit": "e8ceb5101c93",
+        "commit": "0fa6bc3c2dd2b0b9fa4012c7a67a006d3ed9130c",
+        "shortCommit": "0fa6bc3c2dd2",
         "statusBranch": "## deploy/hermes-workspace-hetzner...origin/deploy/hermes-workspace-hetzner",
-        "clean": true,
-        "dirtyCount": 0,
-        "sourceDirtyCount": 0,
+        "clean": false,
+        "dirtyCount": 1,
+        "sourceDirtyCount": 1,
         "evidenceDirtyCount": 0,
-        "dirtyFiles": [],
-        "sourceDirtyFiles": [],
+        "dirtyFiles": [
+          "M docs/business-unit-readiness-plan.md"
+        ],
+        "sourceDirtyFiles": [
+          "M docs/business-unit-readiness-plan.md"
+        ],
         "evidenceDirtyFiles": [],
         "ahead": 0,
         "behind": 0
@@ -478,9 +475,7 @@
       "status": "tracked-with-risks",
       "missing": [],
       "risks": [
-        "deployment source note missing",
-        "production commit not recorded",
-        "promotion evidence unavailable"
+        "local repo has uncommitted changes"
       ]
     },
     {
@@ -496,28 +491,28 @@
         "composeService": "tlc-capital-group-os",
         "buildContext": "/root/apps/tlc-capital-group-os",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": null,
-        "sourceCommit": null
+        "source": "promotion-evidence:tlc-capital-group-os-2026-08-05T02-54-36Z",
+        "sourceCommit": "9d7b4f99d692a3e47546a71620d0bd13b4489743"
       },
       "promotionEvidence": {
-        "available": false,
+        "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/tlc-capital-group-os.json",
-        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/tlc-capital-group-os.json",
-        "eventId": null,
-        "status": null,
-        "startedAt": null,
-        "finishedAt": null,
-        "previousCommit": null,
-        "resolvedCommit": null,
-        "imageId": null,
-        "containerImageId": null,
-        "rollbackCommand": null
+        "error": null,
+        "eventId": "tlc-capital-group-os-2026-08-05T02-54-36Z",
+        "status": "succeeded",
+        "startedAt": "2026-08-05T02:54:18Z",
+        "finishedAt": "2026-08-05T02:54:36Z",
+        "previousCommit": "a1ab1f2fa8f3c55223a79ba774b196f8a695d516",
+        "resolvedCommit": "9d7b4f99d692a3e47546a71620d0bd13b4489743",
+        "imageId": "sha256:be17ab3933fd4059b52bcd20f57a9c9a903f0f1fe137656ad6de7e9adb58fd80",
+        "containerImageId": "sha256:be17ab3933fd4059b52bcd20f57a9c9a903f0f1fe137656ad6de7e9adb58fd80",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh tlc-capital-group-os a1ab1f2fa8f3c55223a79ba774b196f8a695d516"
       },
       "repo": {
         "branch": "main",
-        "commit": "c66123fe4647861c6af260374efccb5e8b15d13b",
-        "shortCommit": "c66123fe4647",
-        "statusBranch": "## main...origin/main [ahead 2]",
+        "commit": "9d7b4f99d692a3e47546a71620d0bd13b4489743",
+        "shortCommit": "9d7b4f99d692",
+        "statusBranch": "## main...origin/main",
         "clean": true,
         "dirtyCount": 0,
         "sourceDirtyCount": 0,
@@ -525,17 +520,12 @@
         "dirtyFiles": [],
         "sourceDirtyFiles": [],
         "evidenceDirtyFiles": [],
-        "ahead": 2,
+        "ahead": 0,
         "behind": 0
       },
-      "status": "tracked-with-risks",
+      "status": "tracked",
       "missing": [],
-      "risks": [
-        "deployment source note missing",
-        "production commit not recorded",
-        "promotion evidence unavailable",
-        "local branch has unpushed commits"
-      ]
+      "risks": []
     }
   ]
 }

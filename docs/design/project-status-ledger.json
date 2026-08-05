@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-03T21:02:28.081Z",
+  "generatedAt": "2026-08-05T13:26:30.588Z",
   "sourceReports": {
     "dashboardAdoption": "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
     "olderTierAssessment": "docs/design/project-dashboard-tier-assessment.json",
@@ -8,45 +8,11 @@
     "tlcEnterpriseBacklog": "../tlc-capital-group-os/registries/enterprise-backlog.json"
   },
   "crossProject": {
-    "sourceCaveat": "The latest dashboard adoption report is newer than the older tier assessment. Where they disagree, use this ledger interpretation and refresh the older source.",
+    "sourceCaveat": "The latest dashboard adoption report, tier assessment, and cross-project backlog are regenerated together. Dashboard-standard blockers should come from the latest adoption report and backlog; business/product maturity remains tracked separately.",
     "dirtyRepos": [
-      "nous-hermes-agent",
-      "investing-system"
+      "nous-hermes-agent"
     ],
-    "aheadRepos": [
-      {
-        "id": "tlc-capital-group-os",
-        "ahead": 2
-      },
-      {
-        "id": "nous-hermes-agent",
-        "ahead": 2
-      },
-      {
-        "id": "hermes-os",
-        "ahead": 1
-      },
-      {
-        "id": "media-engine",
-        "ahead": 4
-      },
-      {
-        "id": "media-business-os",
-        "ahead": 2
-      },
-      {
-        "id": "khashi-vc",
-        "ahead": 1
-      },
-      {
-        "id": "business-mapper",
-        "ahead": 1
-      },
-      {
-        "id": "meal-assistant",
-        "ahead": 1
-      }
-    ],
+    "aheadRepos": [],
     "enterpriseBacklogOpenItems": 6,
     "nousMaturitySummary": {
       "generatedAt": "2026-08-02T03:27:42.916Z",
@@ -55,11 +21,11 @@
       "status": null
     },
     "recommendedNextActions": [
-      "Reconcile stale status artifacts so the portfolio hub, adoption report, tier assessment, and this ledger agree.",
-      "Push or intentionally hold local commits that are ahead of remote.",
-      "Fix dirty investing-system files or decide that they are active work.",
-      "Implement project-feed.v1, /api/hermes/outcomes, and /dashboard-snapshot emitters across production dashboards.",
-      "Complete one package-native project migration at a time, with proof screenshots before calling it Tier 3 complete."
+      "No blocking cross-project dashboard-standard build items are open in the latest adoption report.",
+      "Keep production proof, deployment evidence, and dashboard governance reports refreshed after runtime-impacting releases.",
+      "Advance remaining business/product maturity: Hermes OS boundary/constitution/KPI contract, Consulting offer/pricing/templates, Rinseables product model/KPI rails, and Media Business authority/readiness history.",
+      "Implement project-feed.v1, /api/hermes/outcomes, and /dashboard-snapshot emitters where still missing or not yet promoted into production proof.",
+      "Keep external credentials, provider integrations, production cron jobs, monitoring, and live E2E evidence as the next maturity layer."
     ]
   },
   "projects": [
@@ -89,23 +55,23 @@
         "bridgeStatus": null,
         "issueCount": 0,
         "note": "TLC Capital Group OS raw dashboard shell, API route, and dashboard data models are inventoried as planned migration surfaces. The UI must become package-native while keeping the domain data model authoritative.",
-        "olderAssessmentStatus": "stale",
+        "olderAssessmentStatus": "current",
         "olderAssessmentBand": null,
-        "interpretation": "Registered/current, but narrative still shows migration or decomposition work. Treat as not fully finished."
+        "interpretation": "Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers."
       },
       "git": {
-        "branch": "## main...origin/main [ahead 2]",
+        "branch": "## main...origin/main",
         "clean": true,
         "dirtyCount": 0,
         "dirtyFiles": [],
-        "ahead": 2,
+        "ahead": 0,
         "behind": 0
       },
       "recentCommits": [
+        "9d7b4f9 Add dashboard standard enforcement",
         "c66123f Adopt package-native dashboard standards",
         "1671050 Add TLC OKR execution backbone",
-        "a1ab1f2 Build enterprise readiness governance",
-        "e6287be Build TLC portfolio command center"
+        "a1ab1f2 Build enterprise readiness governance"
       ],
       "enterpriseBacklog": [
         {
@@ -127,9 +93,8 @@
         "Package-native creation, validation, maturity, visual evidence, token, theme, and local override tooling."
       ],
       "gaps": [
-        "Some status reports still conflict: newer adoption reports are optimistic while older tier reports remain stale.",
-        "Child projects still need actual package-native migrations, not just standards.",
-        "Production visual evidence and Hetzner cutover evidence need to be kept current."
+        "Keep production visual evidence, deployment evidence, and dashboard governance reports refreshed after runtime-impacting releases.",
+        "Register Nous Hermes Agent itself as an audited operator dashboard if it should be assessed as a product surface, not just the standards/control system."
       ],
       "dashboard": {
         "latestStatus": "unregistered",
@@ -146,24 +111,31 @@
         "interpretation": "No current dashboard adoption record; needs inventory."
       },
       "git": {
-        "branch": "## main...ai-builder/main [ahead 2]",
+        "branch": "## main...ai-builder/main",
         "clean": false,
-        "dirtyCount": 5,
+        "dirtyCount": 32,
         "dirtyFiles": [
-          "M package.json",
-          " M scripts/validate-dashboard-maturity-reports.mjs",
-          "?? docs/design/project-status-ledger.json",
-          "?? docs/design/project-status-ledger.md",
-          "?? scripts/generate-project-status-ledger.mjs"
+          "M docs/design/dashboard-bridge-coverage-report.json",
+          " M docs/design/dashboard-cross-project-action-backlog.json",
+          " M docs/design/dashboard-cross-project-action-backlog.md",
+          " M docs/design/dashboard-deployment-ledger.json",
+          " M docs/design/dashboard-deployment-ledger.md",
+          " M docs/design/dashboard-deployment-metadata-report.json",
+          " M docs/design/dashboard-governance-refresh-report.json",
+          " M docs/design/dashboard-governance-refresh-report.md",
+          " M docs/design/dashboard-health-report.json",
+          " M docs/design/dashboard-kit-distribution-report.json",
+          " M docs/design/dashboard-kit-distribution-report.md",
+          " M docs/design/dashboard-maturity-report.json"
         ],
-        "ahead": 2,
+        "ahead": 0,
         "behind": 0
       },
       "recentCommits": [
-        "29ecc6219 Refresh production dashboard proof reports",
-        "3b14f0295 Complete dashboard maturity governance",
-        "ffbf76f92 Expand dashboard kit component coverage",
-        "ef2ba2ec2 Enforce dashboard loading and tier approval standards"
+        "353243782 Expand dashboard kit maturity standards",
+        "ade2ddd7a Add dashboard deploy anti-loop gate",
+        "83e26c982 Refresh deployment ledger with promotion evidence",
+        "0954bc1e9 Read promotion evidence in deployment ledger"
       ],
       "enterpriseBacklog": [
         {
@@ -184,8 +156,8 @@
         "Deployment/source-of-truth docs and shared control-plane direction exist."
       ],
       "gaps": [
-        "Boundary with TLC OS, deploy/log/health rails, KPI contract, production SSH alias, and authority matrix remain open.",
-        "Dashboard hub/control-plane surfaces still need package-native shell and component adoption."
+        "Complete the business-unit constitution, TLC OS boundary, KPI contract, and authority matrix so Hermes OS is measured as a shared platform rather than a normal business unit.",
+        "Keep deploy/log/health rails synchronized between source and the live Hetzner deployment rail."
       ],
       "dashboard": {
         "latestStatus": "current",
@@ -197,23 +169,23 @@
         "bridgeStatus": null,
         "issueCount": 0,
         "note": "Hermes OS dashboard hub, operator dashboard artifact, and control-plane artifact are inventoried as planned migration surfaces. The governance project still needs package-native shell/component adoption for its own operator UI.",
-        "olderAssessmentStatus": "stale",
+        "olderAssessmentStatus": "current",
         "olderAssessmentBand": null,
-        "interpretation": "Registered/current, but narrative still shows migration or decomposition work. Treat as not fully finished."
+        "interpretation": "Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers."
       },
       "git": {
-        "branch": "## deploy/hermes-workspace-hetzner...origin/deploy/hermes-workspace-hetzner [ahead 1]",
+        "branch": "## deploy/hermes-workspace-hetzner...origin/deploy/hermes-workspace-hetzner",
         "clean": true,
         "dirtyCount": 0,
         "dirtyFiles": [],
-        "ahead": 1,
+        "ahead": 0,
         "behind": 0
       },
       "recentCommits": [
-        "aa83c52 Adopt package-native dashboard standards",
-        "626f587 Register Hermes dashboard governance adoption",
-        "e9ba5b8 Pass dashboard proof token through deploy spine",
-        "e5ac55f Track dashboard design system governance"
+        "abe01cb Sync Hermes OS readiness plan status",
+        "0fa6bc3 Use canonical Rinseables production domain",
+        "6e0263f Require Rinseables production tokens",
+        "f69fea1 Add Rinseables to Hetzner promotion rail"
       ],
       "enterpriseBacklog": []
     },
@@ -228,8 +200,8 @@
         "Thumbnail pipeline experiments, audio/transcription package flow, YouTube SEO copy upgrades, and Discord handoff work exist."
       ],
       "gaps": [
-        "Route still needs full decomposition into dashboard-kit components for charts, tables, drawers, state panels, AI review, and approval flows.",
-        "Provider spend controls, production worker verification, cleanup/pruning, and AI executive profile remain open."
+        "Provider spend controls, production worker verification, cleanup/pruning, and AI executive profile remain open.",
+        "Optional deeper component decomposition can continue as maturity work, but it is no longer blocking the current T3C dashboard standard."
       ],
       "dashboard": {
         "latestStatus": "current",
@@ -241,23 +213,23 @@
         "bridgeStatus": null,
         "issueCount": 0,
         "note": "Media Engine production renderer now imports @hermes/dashboard-kit directly, resolves shared CSS from the package export, and renders package metric primitives. Remaining local chart/table/drawer/state primitives are compatibility code pending full component decomposition.",
-        "olderAssessmentStatus": "stale",
+        "olderAssessmentStatus": "current",
         "olderAssessmentBand": null,
-        "interpretation": "Registered/current, but narrative still shows migration or decomposition work. Treat as not fully finished."
+        "interpretation": "Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers."
       },
       "git": {
-        "branch": "## main...origin/main [ahead 4]",
+        "branch": "## main...origin/main",
         "clean": true,
         "dirtyCount": 0,
         "dirtyFiles": [],
-        "ahead": 4,
+        "ahead": 0,
         "behind": 0
       },
       "recentCommits": [
-        "1f75661 Treat media engine runtime data as generated",
-        "d61c297 Bundle dashboard kit for media engine deploys",
-        "e1bdba3 Complete dashboard maturity standards",
-        "453f940 Upgrade media engine dashboard and visual QA"
+        "42b1ce1 Add dashboard standard enforcement",
+        "11a5564 Harden publishing asset healthcheck",
+        "92f96b6 Move publishing asset service port",
+        "b06e26a Add public asset publishing service"
       ],
       "enterpriseBacklog": [
         {
@@ -285,7 +257,7 @@
       ],
       "gaps": [
         "Brand decisions, production worker handoff, brand controls, readiness history, TLC OS reporting, and postable page controls remain open.",
-        "Still needs deeper package-native shared component adoption for Tier 3 cockpit completion."
+        "Optional deeper shared-component adoption can continue as maturity work, but it is no longer blocking the current T3C dashboard standard."
       ],
       "dashboard": {
         "latestStatus": "current",
@@ -297,23 +269,23 @@
         "bridgeStatus": null,
         "issueCount": 0,
         "note": "Media Business OS shell and client renderer are inventoried. It has adapter-level alignment but still needs package-native shared components for product-grade operating cockpit completion.",
-        "olderAssessmentStatus": "stale",
+        "olderAssessmentStatus": "current",
         "olderAssessmentBand": null,
-        "interpretation": "Registered/current, but narrative still shows migration or decomposition work. Treat as not fully finished."
+        "interpretation": "Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers."
       },
       "git": {
-        "branch": "## main...origin/main [ahead 2]",
+        "branch": "## main...origin/main",
         "clean": true,
         "dirtyCount": 0,
         "dirtyFiles": [],
-        "ahead": 2,
+        "ahead": 0,
         "behind": 0
       },
       "recentCommits": [
-        "ce981f4 Adopt package-native dashboard standards",
-        "5fed997 Upgrade dashboard kit bridge and proof audit",
-        "3862a2a Fix production deployment record workflow",
-        "840e4bd Upgrade media business dashboard to kit runtime bridge"
+        "0cbaa79 Sync media business readiness plan status",
+        "49ae37c Add dashboard standard enforcement",
+        "1bb6364 Upgrade media business dashboard layouts",
+        "eff763a Handle partial dashboard metadata"
       ],
       "enterpriseBacklog": []
     },
@@ -329,7 +301,7 @@
       ],
       "gaps": [
         "Production E2E evidence, database hardening, scheduler/capacity proof, long-run strategy evidence, and chart/data reliability need more proof.",
-        "Some surfaces may still carry static/browser HTML behavior and need package-native decomposition."
+        "Optional decomposition of compatibility/static surfaces can continue as maturity work, but the primary audited cockpit is current at T3C."
       ],
       "dashboard": {
         "latestStatus": "current",
@@ -341,23 +313,23 @@
         "bridgeStatus": null,
         "issueCount": 0,
         "note": "Kashi VC Live Command is the current Tier 3 reference surface for live market cockpit behavior, but the highest maturity target remains T3C package-native delivery.",
-        "olderAssessmentStatus": "stale",
+        "olderAssessmentStatus": "current",
         "olderAssessmentBand": null,
-        "interpretation": "Registered/current by latest dashboard adoption report."
+        "interpretation": "Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers."
       },
       "git": {
-        "branch": "## main...origin/main [ahead 1]",
+        "branch": "## main...origin/main",
         "clean": true,
         "dirtyCount": 0,
         "dirtyFiles": [],
-        "ahead": 1,
+        "ahead": 0,
         "behind": 0
       },
       "recentCommits": [
-        "c4fedfb Adopt package-native dashboard standards",
-        "bf1f1cf Sync Hermes dashboard kit adapter",
-        "a6f10ce Upgrade live market command and stream governor",
-        "6890ad0 Add Kalshi stream capacity proof"
+        "12f9df4 Add ROC dashboard audit evidence",
+        "5104d39 Reframe task 111 as broad sweep monitor",
+        "c576123 Approve Khashi broad visual review tasks",
+        "5e0a535 Reconcile Khashi task backlog direction"
       ],
       "enterpriseBacklog": [
         {
@@ -390,23 +362,23 @@
         "bridgeStatus": null,
         "issueCount": 0,
         "note": "Business Mapper workspace is inventoried. It should move from static adapter usage to shared component dashboard quality before being considered complete.",
-        "olderAssessmentStatus": "stale",
+        "olderAssessmentStatus": "current",
         "olderAssessmentBand": null,
         "interpretation": "Registered/current by latest dashboard adoption report."
       },
       "git": {
-        "branch": "## main...origin/main [ahead 1]",
+        "branch": "## main...origin/main",
         "clean": true,
         "dirtyCount": 0,
         "dirtyFiles": [],
-        "ahead": 1,
+        "ahead": 0,
         "behind": 0
       },
       "recentCommits": [
+        "8308efc Sync consulting readiness plan status",
+        "a2ff950 Add dashboard standard enforcement",
         "b34b118 Adopt package-native dashboard standards",
-        "a456c2b Sync Hermes dashboard kit adapter",
-        "0c0c455 Refresh Hermes dashboard kit styles",
-        "121af7a Add dashboard registry and consulting readiness plan"
+        "a456c2b Sync Hermes dashboard kit adapter"
       ],
       "enterpriseBacklog": []
     },
@@ -421,7 +393,7 @@
       ],
       "gaps": [
         "Real Telegram deployment, recipe/search/speech providers, production DB, hosted auth, and monitoring remain open.",
-        "Server-rendered dashboard still needs full package-native calendar/planner component migration."
+        "Real household usage should drive further planner/calendar polish; the audited dashboard standard is current at T3C."
       ],
       "dashboard": {
         "latestStatus": "current",
@@ -433,23 +405,23 @@
         "bridgeStatus": null,
         "issueCount": 0,
         "note": "Meal Assistant server-rendered dashboard is inventoried. Planner, calendar, drawer, library, checklist, review, household, and history must migrate to package-native shared components before Tier 3 completion.",
-        "olderAssessmentStatus": "stale",
+        "olderAssessmentStatus": "current",
         "olderAssessmentBand": null,
-        "interpretation": "Registered/current by latest dashboard adoption report."
+        "interpretation": "Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers."
       },
       "git": {
-        "branch": "## main...origin/main [ahead 1]",
+        "branch": "## main...origin/main",
         "clean": true,
         "dirtyCount": 0,
         "dirtyFiles": [],
-        "ahead": 1,
+        "ahead": 0,
         "behind": 0
       },
       "recentCommits": [
-        "3304952 Adopt package-native dashboard standards",
-        "8008293 Sync Hermes dashboard kit adapter",
-        "45ccbc9 Refresh Hermes dashboard kit styles",
-        "4212b66 Add Hermes dashboard styling to meal assistant"
+        "f26e8e4 Add Meal dashboard audit evidence",
+        "5212aa3 Reconcile Meal Assistant plan standards status",
+        "cc4781e Complete Meal Assistant dashboard standard migration",
+        "3304952 Adopt package-native dashboard standards"
       ],
       "enterpriseBacklog": []
     },
@@ -488,10 +460,10 @@
         "behind": 0
       },
       "recentCommits": [
+        "6ec0cab Sync Rinseables readiness plan status",
+        "24ef684 Adopt dashboard standard contract",
         "5eb1a43 Export TLC readiness summary",
-        "dd67230 Add remaining closeout checklist",
-        "918ad58 Document final production setup steps",
-        "e073628 Verify Docker image in CI"
+        "dd67230 Add remaining closeout checklist"
       ],
       "enterpriseBacklog": []
     },
@@ -523,20 +495,17 @@
       },
       "git": {
         "branch": "## main...origin/main",
-        "clean": false,
-        "dirtyCount": 2,
-        "dirtyFiles": [
-          "M docs/strategic-vision.md",
-          " M src/api/server.ts"
-        ],
+        "clean": true,
+        "dirtyCount": 0,
+        "dirtyFiles": [],
         "ahead": 0,
         "behind": 0
       },
       "recentCommits": [
+        "de5c212 Adopt dashboard standard contract",
         "4a6db7a Add readonly dashboard proof endpoint",
         "eaee250 Add earnings knowledge brief agent",
-        "4b2cf96 Register Hermes dashboard manifest",
-        "26ff024 Serve ROC shell without API token"
+        "4b2cf96 Register Hermes dashboard manifest"
       ],
       "enterpriseBacklog": []
     }

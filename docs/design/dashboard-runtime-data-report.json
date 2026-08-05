@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-04T02:10:48.722Z",
+  "generatedAt": "2026-08-05T13:23:37.107Z",
   "purpose": "Finds tracked or dirty generated runtime data across registered dashboard projects.",
   "checkedCount": 9,
   "reviewNeededCount": 3,
-  "runtimeTrackedCount": 12,
+  "runtimeTrackedCount": 13,
   "dirtyGeneratedCount": 0,
   "entries": [
     {
@@ -36,12 +36,16 @@
       "label": "Media Engine Ops",
       "projectPath": "../media-engine",
       "status": "policy-review-needed",
-      "trackedDataCount": 9,
-      "runtimeTrackedCount": 9,
+      "trackedDataCount": 10,
+      "runtimeTrackedCount": 10,
       "dirtyGeneratedCount": 0,
       "tracked": [
         {
           "file": "data/audience-snapshots.json",
+          "classification": "runtime-data"
+        },
+        {
+          "file": "data/human-video-desktop-ledger.json",
           "classification": "runtime-data"
         },
         {

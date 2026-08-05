@@ -1,8 +1,41 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-04T02:09:45.122Z",
+  "generatedAt": "2026-08-05T13:23:37.497Z",
   "note": "This is a heuristic quality gate. Human/Mobbin review is still required for premium visual taste.",
   "items": [
+    {
+      "project": "khashi-vc",
+      "surface": "roc-shell",
+      "path": "public/roc/index.html",
+      "score": 100,
+      "status": "pass",
+      "checks": [
+        {
+          "id": "review-handles",
+          "passed": true
+        },
+        {
+          "id": "selection-bridge",
+          "passed": true
+        },
+        {
+          "id": "states",
+          "passed": true
+        },
+        {
+          "id": "responsive",
+          "passed": true
+        },
+        {
+          "id": "chart-language",
+          "passed": true
+        },
+        {
+          "id": "not-placeholder",
+          "passed": true
+        }
+      ]
+    },
     {
       "project": "khashi-vc",
       "surface": "market-intelligence-live",

@@ -39,9 +39,8 @@ const projects = [
       "Package-native creation, validation, maturity, visual evidence, token, theme, and local override tooling."
     ],
     gaps: [
-      "Some status reports still conflict: newer adoption reports are optimistic while older tier reports remain stale.",
-      "Child projects still need actual package-native migrations, not just standards.",
-      "Production visual evidence and Hetzner cutover evidence need to be kept current."
+      "Keep production visual evidence, deployment evidence, and dashboard governance reports refreshed after runtime-impacting releases.",
+      "Register Nous Hermes Agent itself as an audited operator dashboard if it should be assessed as a product surface, not just the standards/control system."
     ]
   },
   {
@@ -54,8 +53,8 @@ const projects = [
       "Deployment/source-of-truth docs and shared control-plane direction exist."
     ],
     gaps: [
-      "Boundary with TLC OS, deploy/log/health rails, KPI contract, production SSH alias, and authority matrix remain open.",
-      "Dashboard hub/control-plane surfaces still need package-native shell and component adoption."
+      "Complete the business-unit constitution, TLC OS boundary, KPI contract, and authority matrix so Hermes OS is measured as a shared platform rather than a normal business unit.",
+      "Keep deploy/log/health rails synchronized between source and the live Hetzner deployment rail."
     ]
   },
   {
@@ -69,8 +68,8 @@ const projects = [
       "Thumbnail pipeline experiments, audio/transcription package flow, YouTube SEO copy upgrades, and Discord handoff work exist."
     ],
     gaps: [
-      "Route still needs full decomposition into dashboard-kit components for charts, tables, drawers, state panels, AI review, and approval flows.",
-      "Provider spend controls, production worker verification, cleanup/pruning, and AI executive profile remain open."
+      "Provider spend controls, production worker verification, cleanup/pruning, and AI executive profile remain open.",
+      "Optional deeper component decomposition can continue as maturity work, but it is no longer blocking the current T3C dashboard standard."
     ]
   },
   {
@@ -84,7 +83,7 @@ const projects = [
     ],
     gaps: [
       "Brand decisions, production worker handoff, brand controls, readiness history, TLC OS reporting, and postable page controls remain open.",
-      "Still needs deeper package-native shared component adoption for Tier 3 cockpit completion."
+      "Optional deeper shared-component adoption can continue as maturity work, but it is no longer blocking the current T3C dashboard standard."
     ]
   },
   {
@@ -99,7 +98,7 @@ const projects = [
     ],
     gaps: [
       "Production E2E evidence, database hardening, scheduler/capacity proof, long-run strategy evidence, and chart/data reliability need more proof.",
-      "Some surfaces may still carry static/browser HTML behavior and need package-native decomposition."
+      "Optional decomposition of compatibility/static surfaces can continue as maturity work, but the primary audited cockpit is current at T3C."
     ]
   },
   {
@@ -126,7 +125,7 @@ const projects = [
     ],
     gaps: [
       "Real Telegram deployment, recipe/search/speech providers, production DB, hosted auth, and monitoring remain open.",
-      "Server-rendered dashboard still needs full package-native calendar/planner component migration."
+      "Real household usage should drive further planner/calendar polish; the audited dashboard standard is current at T3C."
     ]
   },
   {
@@ -215,8 +214,13 @@ function interpretation(project, adoption) {
   if (!adoption) return "No current dashboard adoption record; needs inventory.";
   const note = adoption.experienceTier?.nextAction ?? adoption.experienceTier?.note ?? adoption.tierMigrationNote ?? adoption.note ?? "";
   const unresolvedNote = /needs|pending|remaining|still|migration|decomposition/i.test(note);
+  const currentBand = adoption.experienceTier?.currentBand ?? adoption.currentExperienceBand ?? "";
+  const issueCount = adoption.issues?.length ?? 0;
+  if (adoption.status === "current" && currentBand === "T3C" && issueCount === 0) {
+    return "Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers.";
+  }
   if (adoption.status === "current" && unresolvedNote) {
-    return "Registered/current, but narrative still shows migration or decomposition work. Treat as not fully finished.";
+    return "Dashboard is registered/current, but the narrative still names follow-up maturity work.";
   }
   if (adoption.status === "current") return "Registered/current by latest dashboard adoption report.";
   return `Adoption status is ${adoption.status}; needs follow-up.`;
@@ -258,7 +262,7 @@ const rows = projects.map((project) => {
 });
 
 const crossProject = {
-  sourceCaveat: "The latest dashboard adoption report is newer than the older tier assessment. Where they disagree, use this ledger interpretation and refresh the older source.",
+  sourceCaveat: "The latest dashboard adoption report, tier assessment, and cross-project backlog are regenerated together. Dashboard-standard blockers should come from the latest adoption report and backlog; business/product maturity remains tracked separately.",
   dirtyRepos: rows.filter((row) => !row.git.clean).map((row) => row.id),
   aheadRepos: rows.filter((row) => row.git.ahead > 0).map((row) => ({ id: row.id, ahead: row.git.ahead })),
   enterpriseBacklogOpenItems: (enterpriseBacklog.items ?? []).length,
@@ -269,11 +273,11 @@ const crossProject = {
     status: maturitySummary.status ?? null
   },
   recommendedNextActions: [
-    "Reconcile stale status artifacts so the portfolio hub, adoption report, tier assessment, and this ledger agree.",
-    "Push or intentionally hold local commits that are ahead of remote.",
-    "Fix dirty investing-system files or decide that they are active work.",
-    "Implement project-feed.v1, /api/hermes/outcomes, and /dashboard-snapshot emitters across production dashboards.",
-    "Complete one package-native project migration at a time, with proof screenshots before calling it Tier 3 complete."
+    "No blocking cross-project dashboard-standard build items are open in the latest adoption report.",
+    "Keep production proof, deployment evidence, and dashboard governance reports refreshed after runtime-impacting releases.",
+    "Advance remaining business/product maturity: Hermes OS boundary/constitution/KPI contract, Consulting offer/pricing/templates, Rinseables product model/KPI rails, and Media Business authority/readiness history.",
+    "Implement project-feed.v1, /api/hermes/outcomes, and /dashboard-snapshot emitters where still missing or not yet promoted into production proof.",
+    "Keep external credentials, provider integrations, production cron jobs, monitoring, and live E2E evidence as the next maturity layer."
   ]
 };
 

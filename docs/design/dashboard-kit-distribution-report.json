@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-04T02:10:48.423Z",
+  "generatedAt": "2026-08-05T13:23:36.826Z",
   "purpose": "Tracks how registered dashboard projects consume @hermes/dashboard-kit.",
   "checkedCount": 9,
-  "blockingGapCount": 1,
-  "warningCount": 6,
+  "blockingGapCount": 0,
+  "warningCount": 7,
   "entries": [
     {
       "id": "nous-hermes-agent.dashboard",
@@ -70,11 +70,11 @@
       "id": "investing-system.roc",
       "label": "Investing System ROC",
       "projectPath": "../investing-system",
-      "status": "blocked",
-      "dependency": null,
-      "mode": "missing",
-      "severity": "blocking",
-      "recommendation": "Add @hermes/dashboard-kit from an approved package source."
+      "status": "advisory",
+      "dependency": "file:../nous-hermes-agent/packages/hermes-dashboard-kit",
+      "mode": "sibling-file",
+      "severity": "warning",
+      "recommendation": "Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy."
     },
     {
       "id": "hermes.workspace",

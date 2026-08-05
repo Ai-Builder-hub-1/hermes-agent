@@ -1,6 +1,6 @@
 # Dashboard Kit Distribution Report
 
-Generated: 2026-08-04T02:10:48.423Z
+Generated: 2026-08-05T13:23:36.826Z
 
 | Project | Status | Dependency | Mode | Recommendation |
 | --- | --- | --- | --- | --- |
@@ -10,6 +10,6 @@ Generated: 2026-08-04T02:10:48.423Z
 | Media Business Operations | advisory | file:../nous-hermes-agent/packages/hermes-dashboard-kit | sibling-file | Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy. |
 | Business Mapper Workspace | advisory | file:../nous-hermes-agent/packages/hermes-dashboard-kit | sibling-file | Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy. |
 | Meal Assistant | advisory | file:../nous-hermes-agent/packages/hermes-dashboard-kit | sibling-file | Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy. |
-| Investing System ROC | blocked | missing | missing | Add @hermes/dashboard-kit from an approved package source. |
+| Investing System ROC | advisory | file:../nous-hermes-agent/packages/hermes-dashboard-kit | sibling-file | Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy. |
 | Hermes Workspace | advisory | file:../nous-hermes-agent/packages/hermes-dashboard-kit | sibling-file | Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy. |
 | TLC Capital Group OS | advisory | file:../nous-hermes-agent/packages/hermes-dashboard-kit | sibling-file | Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy. |

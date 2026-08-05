@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-04T02:09:45.425Z",
+  "generatedAt": "2026-08-05T13:23:37.799Z",
   "itemCount": 7,
   "items": [
     {
@@ -9,12 +9,10 @@
       "currentBand": "T3C",
       "targetBand": "T3C",
       "auditStatus": "current",
-      "maturityLevel": 10,
-      "maturityLabel": "telemetry-normalized and world-class",
       "visualStatus": "covered",
       "externalWorkItems": 0,
-      "score": 100,
-      "status": "promotion-ready",
+      "score": 85,
+      "status": "near-ready",
       "blockers": {
         "project": [],
         "central": [],
@@ -85,18 +83,20 @@
       "currentBand": "T3C",
       "targetBand": "T3C",
       "auditStatus": "current",
-      "maturityLevel": 10,
-      "maturityLabel": "telemetry-normalized and world-class",
-      "visualStatus": "covered",
+      "visualStatus": "needs-evidence",
       "externalWorkItems": 0,
-      "score": 100,
-      "status": "promotion-ready",
+      "score": 68,
+      "status": "needs-work",
       "blockers": {
-        "project": [],
+        "project": [
+          "visual-coverage"
+        ],
         "central": [],
         "external": []
       },
-      "flatBlockers": []
+      "flatBlockers": [
+        "visual-coverage"
+      ]
     },
     {
       "project": "hermes-os",
