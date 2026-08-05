@@ -6,6 +6,8 @@ The fleet maturity tracker is the Nous Hermes Agent control-plane record for pro
 
 - `npm run fleet:maturity:scan` refreshes the registry, evidence ledger, maturity work graph, suggestions, and markdown summaries.
 - `npm run fleet:maturity:validate` verifies the generated tracker files, required projects, relationship targets, evidence coverage, suggestion links, and deployment-provider language.
+- `npm run fleet:maturity:check` is the scoped tracker gate. It intentionally runs only the fleet tracker validation so unrelated workspace build or package drift does not block fleet evidence checks.
+- `npm run fleet:maturity:check:full` runs the broader aggregate maturity gate, including dashboard maturity report validation and dashboard kit tests.
 - Set `HERMES_FLEET_REMOTE_EVIDENCE=0` before scanning when Hetzner SSH evidence should be skipped for an offline/local-only run.
 
 ## Generated Files
