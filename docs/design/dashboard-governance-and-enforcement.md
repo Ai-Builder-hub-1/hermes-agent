@@ -86,7 +86,11 @@ Required evidence for Tier 3 promotion includes:
 - Mobbin/reference intake and design-review artifact
 - visual proof screenshots for desktop/mobile and relevant states
 - loading-performance contract: loading, freshness, stale, partial, empty, and error states
-- bounded tables, pagination, or explicit data windows
+- table contract: full-width table surface, contained horizontal scroll, default 10-row pagination, and 10 / 25 / 50 page-size controls for tables over 10 rows
+- table toolbar contract: sortable evidence tables use a card-level toolbar for row count, `Sort by`, sort direction, filters, and exports; dense tables must not repeat noisy visible sort controls in every header cell
+- chart-before-evidence contract: operational time-series, issue, approval, activity, market, usage, or QA pages put a chart/trend decision surface above the raw queue/table when chartable history exists
+- spacing contract: page, section, card, grid, and table spacing use `--hdk-space-*` tokens instead of one-off pixel gaps or uneven gutters
+- help affordance contract: secondary explanations use `HelpTip` / `InfoPopover`; critical states remain visible and are not hidden in tooltips
 - approved chart/table/drawer/state components
 
 The project manifest should not be promoted by hand before this packet says `approved`.
@@ -201,9 +205,11 @@ Forbidden without an exception:
 - redefining `.hdk-*` selectors in project CSS
 - redefining generic shell primitives such as `.shell`, `.sidebar`, `.topbar`, `.command-header`, `.card`, `.metric`, `.table`, `.chart`, `.drawer`, `.button`, `.calendar`, or `.proof-strip`
 - redefining protected theme/component tokens such as `--hdk-*`, `--surface-*`, `--text-*`, `--chart-*`, `--status-*`, `--bg`, `--panel`, `--sidebar`, `--line`, `--muted`, or `--accent`
+- introducing one-off spacing values for dashboard grids, cards, tables, page gutters, or section rhythm instead of using the kit spacing scale
+- creating local tooltip, help icon, or popover styles instead of the shared `HelpTip` / `InfoPopover` affordance
 - shipping a Tier 3 route whose polished look depends on local CSS instead of package components and tokens
 
-Allowed local styling is limited to page composition: route grid placement, spacing between owned sections, brand data content, and narrow layout variants that do not change the kit-owned primitive contract.
+Allowed local styling is limited to page composition: route grid placement, token-based spacing between owned sections, brand data content, and narrow layout variants that do not change the kit-owned primitive contract.
 
 Any exception must be declared in the project dashboard manifest:
 

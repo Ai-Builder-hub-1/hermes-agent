@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Bot, CalendarDays, CheckCircle2, ChevronRight, CircleAlert, ClipboardCheck, Command, Filter, Lock, Search, Send, Sparkles, Star } from "lucide-react";
+import { Bot, CalendarDays, CheckCircle2, ChevronRight, CircleAlert, ClipboardCheck, Command, Filter, HelpCircle, Info, Lock, Search, Send, Sparkles, Star } from "lucide-react";
 import { cn } from "./utils";
 import { StatusPill, type DashboardTone } from "./metrics";
 
@@ -199,6 +199,51 @@ export type MatrixRow = {
   detail?: string;
   values: Record<string, { value?: ReactNode; status?: string; detail?: string; tone?: DashboardTone }>;
 };
+
+export function HelpTip({
+  label = "Help",
+  text,
+  className,
+}: {
+  label?: string;
+  text: string;
+  className?: string;
+}) {
+  return (
+    <span className={cn("hdk-help", className)} data-hdk-component="HelpTip">
+      <button className="hdk-help__trigger" type="button" aria-label={label} data-help={text}>
+        <HelpCircle className="h-3.5 w-3.5" aria-hidden="true" />
+      </button>
+      <span className="hdk-help__bubble" role="tooltip">
+        {text}
+      </span>
+    </span>
+  );
+}
+
+export function InfoPopover({
+  label = "More information",
+  title = "Details",
+  body,
+  className,
+}: {
+  label?: string;
+  title?: string;
+  body: ReactNode;
+  className?: string;
+}) {
+  return (
+    <details className={cn("hdk-info-popover", className)} data-hdk-component="InfoPopover">
+      <summary aria-label={label}>
+        <Info className="h-3.5 w-3.5" aria-hidden="true" />
+      </summary>
+      <div className="hdk-info-popover__panel">
+        <strong>{title}</strong>
+        <p>{body}</p>
+      </div>
+    </details>
+  );
+}
 
 export function WorkspaceSwitcher({
   label = "Workspace",

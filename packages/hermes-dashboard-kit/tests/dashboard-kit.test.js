@@ -27,8 +27,10 @@ import {
   renderDonutChart,
   renderGateRunTimeline,
   renderGovernanceChecklist,
+  renderHelpTip,
   renderHeatmap,
   renderInsightGapPanel,
+  renderInfoPopover,
   renderKpiContractTable,
   renderLearningEvidenceStack,
   renderLineChart,
@@ -309,7 +311,7 @@ test("renders non-cartesian chart and data controls", () => {
 });
 
 test("renders table pagination, proof, and state components", () => {
-  assert.match(
+  const tableHtml =
     renderDataTable({
       caption:
         "Markets",
@@ -323,19 +325,22 @@ test("renders table pagination, proof, and state components", () => {
           }
         ],
       rows:
-        [
-          {
-            name:
-              "Cuba policy market"
-          }
-        ],
-      pageSize:
-        25,
+        Array.from({
+          length:
+            12
+        }, (_, index) => ({
+          name:
+            `Market ${index + 1}`
+        })),
       total:
-        48
-    }),
-    /data-hdk-component="Pagination"/
-  );
+        12
+    });
+  assert.match(tableHtml, /data-hdk-component="Pagination"/);
+  assert.match(tableHtml, /data-page-size="10"/);
+  assert.match(tableHtml, /Showing 1-10 of 12/);
+  assert.match(tableHtml, /<option value="10" selected>10<\/option>/);
+  assert.match(tableHtml, /<option value="25">25<\/option>/);
+  assert.match(tableHtml, /<option value="50">50<\/option>/);
   assert.match(
     renderProofStrip({
       items:
@@ -392,6 +397,29 @@ test("renders loading performance and freshness primitives", () => {
     }),
     /data-data-state="stale"/
   );
+});
+
+test("renders standardized help affordances", () => {
+  const help =
+    renderHelpTip({
+      label:
+        "Metric help",
+      text:
+        "Explains how this metric is calculated."
+    });
+  const popover =
+    renderInfoPopover({
+      title:
+        "Table rules",
+      body:
+        "Use pagination for tables over ten rows."
+    });
+
+  assert.match(help, /data-hdk-component="HelpTip"/);
+  assert.match(help, /class="hdk-help__trigger"/);
+  assert.match(help, /role="tooltip"/);
+  assert.match(popover, /data-hdk-component="InfoPopover"/);
+  assert.match(popover, /hdk-info-popover__panel/);
 });
 
 test("renders production cockpit components for package-native migrations", () => {
@@ -851,7 +879,7 @@ test("surface validator rejects chart-like tier 3 surfaces without kit charts", 
   assert.match(result.stdout, /tier3_without_dashboard_kit/);
 });
 
-test("surface validator rejects unbounded dashboard tables without pagination", () => {
+test("surface validator rejects tier 3 tables over ten rows without pagination", () => {
   const dir =
     fs.mkdtempSync(path.join(os.tmpdir(), "hdk-validator-table-"));
   const badSurface =
@@ -880,7 +908,106 @@ test("surface validator rejects unbounded dashboard tables without pagination", 
     );
 
   assert.notEqual(result.status, 0);
-  assert.match(result.stdout, /unbounded_table_without_pagination/);
+  assert.match(result.stdout, /tier3_table_over_10_without_pagination/);
+});
+
+test("surface validator warns when sortable evidence tables miss toolbar and trend context", () => {
+  const dir =
+    fs.mkdtempSync(path.join(os.tmpdir(), "hdk-validator-sortable-table-"));
+  const badSurface =
+    path.join(dir, "brand-activity-dashboard.html");
+  fs.writeFileSync(
+    badSurface,
+    `<main data-experience-tier="tier-3" data-hdk-component="DashboardShell">
+      <section>
+        <h1>Brand activity</h1>
+        <table data-sortable-table>
+          <thead>
+            <tr>
+              <th><button data-sort-key="brand">Sort brand</button></th>
+              <th><button data-sort-key="events">Sort events</button></th>
+              <th><button data-sort-key="issues">Sort issues</button></th>
+            </tr>
+          </thead>
+          <tbody><tr><td>Finance for Thought</td><td>12</td><td>3</td></tr></tbody>
+        </table>
+      </section>
+    </main>`,
+    "utf8"
+  );
+
+  const result =
+    spawnSync(
+      process.execPath,
+      [
+        path.resolve("packages/hermes-dashboard-kit/src/validate-surface.js"),
+        badSurface
+      ],
+      {
+        cwd:
+          path.resolve("."),
+        encoding:
+          "utf8"
+      }
+    );
+
+  assert.equal(result.status, 0);
+  assert.match(result.stdout, /sortable_table_without_toolbar/);
+  assert.match(result.stdout, /noisy_column_sort_controls/);
+  assert.match(result.stdout, /sortable_table_without_row_count_context/);
+  assert.match(result.stdout, /chartable_evidence_without_trend_panel/);
+});
+
+test("surface validator accepts chart-led sortable evidence tables with toolbar context", () => {
+  const dir =
+    fs.mkdtempSync(path.join(os.tmpdir(), "hdk-validator-chart-table-"));
+  const goodSurface =
+    path.join(dir, "brand-activity-dashboard.html");
+  fs.writeFileSync(
+    goodSurface,
+    `<main data-experience-tier="tier-3" data-hdk-component="DashboardShell">
+      <section data-hdk-component="DataFreshnessStrip" data-data-state="ready">Fresh</section>
+      <section data-hdk-component="ChartPanel" class="hdk-chart-panel">
+        <div data-hdk-component="LineChart" data-chart-type="line" data-x-axis="day" data-x-axis-label="Day" data-y-axis="events" data-y-axis-label="Events"></div>
+      </section>
+      <section class="hdk-card">
+        <div class="hdk-table-toolbar" data-table-sort-toolbar>
+          <span class="hdk-pill" data-row-count>9 brands</span>
+          <label>Sort by <select data-table-sort-key><option>Events</option></select></label>
+          <label>Order <select data-sort-direction><option>Descending</option></select></label>
+        </div>
+        <div class="hdk-table-wrap">
+          <table data-sortable-table>
+            <thead><tr><th>Brand</th><th>Events</th></tr></thead>
+            <tbody><tr><td>Finance for Thought</td><td data-sort-value="12">12</td></tr></tbody>
+          </table>
+        </div>
+        <nav class="hdk-pagination" data-hdk-component="Pagination" data-page-size="10">Showing 1-10 of 12</nav>
+      </section>
+    </main>`,
+    "utf8"
+  );
+
+  const result =
+    spawnSync(
+      process.execPath,
+      [
+        path.resolve("packages/hermes-dashboard-kit/src/validate-surface.js"),
+        goodSurface
+      ],
+      {
+        cwd:
+          path.resolve("."),
+        encoding:
+          "utf8"
+      }
+    );
+
+  assert.equal(result.status, 0);
+  assert.doesNotMatch(result.stdout, /sortable_table_without_toolbar/);
+  assert.doesNotMatch(result.stdout, /noisy_column_sort_controls/);
+  assert.doesNotMatch(result.stdout, /sortable_table_without_row_count_context/);
+  assert.doesNotMatch(result.stdout, /chartable_evidence_without_trend_panel/);
 });
 
 test("local override scanner blocks protected dashboard CSS without a manifest exception", () => {

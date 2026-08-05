@@ -58,6 +58,25 @@ function validateFile(filePath, text) {
     /<table|DataTable|market tape|queue|log|rows|records|events/i.test(text);
   const hasApprovedPagination =
     /data-hdk-component=["']Pagination|hdk-pagination|pageSize|page-size|pagination/i.test(text);
+  const hasTableToolbar =
+    /data-table-sort-toolbar|data-hdk-component=["'](?:DataTable|DataTableTabs)|hdk-table-toolbar|Sort by[\s\S]{0,260}(?:Order|Ascending|Descending)|data-sort-direction/i.test(text);
+  const hasSortableTable =
+    /data-sortable-table|data-sort-key|data-table-sort-key|data-brand-sort-key|aria-sort|sortable/i.test(text);
+  const sortableHeaderControls =
+    (text.match(/<th\b[\s\S]{0,280}(?:data-sort-key|aria-sort|sort\b|Sort)/gi) || []).length +
+    (text.match(/<button\b[^>]*(?:data-sort-key|class=["'][^"']*sort|aria-label=["'][^"']*sort)/gi) || []).length;
+  const hasRowCountContext =
+    /data-row-count|hdk-row-count|data-hdk-component=["']Pagination|Showing\s+\d|(?:\d+\s+)?(?:rows|brands|items|runs|approvals|records)<\//i.test(text);
+  const hasPrimaryChartPanel =
+    /data-hdk-component=["'](?:ChartPanel|LineChart|AreaChart|BarChart|DonutChart|Heatmap|ScatterQuadrantChart|AnomalyBandChart|DistributionPlot|BoxPlot|ViolinPlot|SankeyFlow|Treemap|Sunburst|CorrelationMatrix|CandlestickChart)|hdk-chart-panel|data-chart-type|data-x-axis|data-y-axis/i.test(text);
+  const chartableEvidenceLanguage =
+    /(activity|trend|exception|issue|error|usage|qa|approval|review|brand|market|snapshot|stream|capacity|story|crawl|cost|telemetry|queue)/i.test(text);
+  const hasApprovedHelp =
+    /data-hdk-component=["'](?:HelpTip|InfoPopover)|hdk-help|hdk-info-popover|HelpTip|InfoPopover/i.test(text);
+  const hasVisibleHelperCopy =
+    /<p[^>]*class=["'][^"']*(?:helper|description|meta)[^"']*["'][^>]*>[^<]{48,}</i.test(text);
+  const hasLocalTooltip =
+    /tooltip|data-help|help-tip|popover/i.test(text) && !hasApprovedHelp;
   const hasLoadingLanguage =
     /loading|hydrating|skeleton|spinner|please wait/i.test(text);
   const hasApprovedLoading =
@@ -66,6 +85,11 @@ function validateFile(filePath, text) {
     /data-hdk-component=["'](?:DataFreshnessStrip|StaleDataBadge|PartialDataBanner|ProofStrip|StatePanel|DashboardQueryBoundary)|hdk-data-freshness-strip|hdk-stale-badge|hdk-partial-banner|data-data-state|updatedAt|lastUpdated|ageSeconds|freshness|stale|partial|empty|error/i.test(text);
   const hardCodedRows =
     (text.match(/<tr\b/gi) || []).length;
+  const hasHardcodedDefault25 =
+    /data-page-size=["']25["']|defaultPageSize\s*=\s*25|pageSize\s*=\s*25|pageSize:\s*25/i.test(text);
+  const hasLocalOneOffSpacing =
+    /(?:gap|padding|margin(?:-[a-z]+)?):\s*(?:14|15|17|18|19|21|22|23|26|27|28|29|30|31)px/i.test(text) &&
+    !/--hdk-space|var\(--hdk-space|manifest exception|spacing exception/i.test(text);
   const inlinePayloadSize =
     Math.max(...(text.match(/\[[\s\S]{12000,}?\]|\{[\s\S]{12000,}?\}/g) || [""]).map((match) => match.length));
 
@@ -105,8 +129,42 @@ function validateFile(filePath, text) {
     add("warn", filePath, "missing_data_freshness_state", "Dashboard data surfaces should expose freshness, stale, partial, empty, and error state evidence.");
   }
 
-  if (hasTableLanguage && hardCodedRows > 100 && !hasApprovedPagination) {
+  if (claimsTier3 && hasTableLanguage && hardCodedRows > 11 && !hasApprovedPagination) {
+    add("error", filePath, "tier3_table_over_10_without_pagination", "Tier 3 tables with more than 10 rows must use pagination with 10 / 25 / 50 controls.");
+  } else if (hasTableLanguage && hardCodedRows > 100 && !hasApprovedPagination) {
     add("error", filePath, "unbounded_table_without_pagination", "Dashboard tables with large row counts must use pagination or a bounded table component.");
+  }
+
+  if (claimsTier3 && hasHardcodedDefault25) {
+    add("error", filePath, "table_default_page_size_not_10", "Tier 3 table defaults must show 10 rows first, with 10 / 25 / 50 page-size controls.");
+  }
+
+  if (claimsTier3 && hasSortableTable && !hasTableToolbar) {
+    add("warn", filePath, "sortable_table_without_toolbar", "Tier 3 sortable tables should use a card-level table toolbar for row count, Sort by, order, filters, and exports.");
+  }
+
+  if (claimsTier3 && sortableHeaderControls >= 3 && !hasTableToolbar) {
+    add("warn", filePath, "noisy_column_sort_controls", "Dense Tier 3 tables should not repeat visible sort controls across every column header. Use a quiet table toolbar or accessible icon-only header sorting.");
+  }
+
+  if (claimsTier3 && hasSortableTable && !hasRowCountContext) {
+    add("warn", filePath, "sortable_table_without_row_count_context", "Sortable evidence tables should show a row-count badge or range in the table card toolbar.");
+  }
+
+  if (claimsTier3 && hasTableLanguage && chartableEvidenceLanguage && !hasPrimaryChartPanel) {
+    add("warn", filePath, "chartable_evidence_without_trend_panel", "Chartable evidence views should place an approved chart/trend panel above the raw table or queue.");
+  }
+
+  if (claimsTier3 && hasLocalOneOffSpacing) {
+    add("warn", filePath, "tier3_one_off_spacing", "Tier 3 layouts must use dashboard-kit spacing tokens instead of one-off pixel gaps, margins, or padding.");
+  }
+
+  if (claimsTier3 && hasVisibleHelperCopy && !hasApprovedHelp) {
+    add("warn", filePath, "tier3_helper_copy_without_help_component", "Tier 3 secondary helper copy should use HelpTip or InfoPopover instead of repeated visible helper paragraphs.");
+  }
+
+  if (claimsTier3 && hasLocalTooltip) {
+    add("warn", filePath, "local_help_tooltip_without_kit_component", "Dashboard help affordances must use HelpTip or InfoPopover instead of local tooltip/help CSS.");
   }
 
   if (inlinePayloadSize > 12000 && !/deferred|lazy|hydrate|cache|rollup|snapshot/i.test(text)) {

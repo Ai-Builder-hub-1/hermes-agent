@@ -313,16 +313,27 @@ export function renderDataTable({
   rows = [],
   caption = "",
   page = 1,
-  pageSize = 25,
+  pageSize = 10,
+  pageSizeOptions = [10, 25, 50],
   total = rows.length,
   reviewId = ""
 }) {
+  const normalizedPage =
+    Math.max(1, Number(page) || 1);
+  const normalizedPageSize =
+    Math.max(1, Number(pageSize) || 10);
+  const start =
+    (normalizedPage - 1) * normalizedPageSize;
   const visibleRows =
-    rows.slice(0, pageSize);
+    rows.slice(start, start + normalizedPageSize);
+  const rangeStart =
+    total ? start + 1 : 0;
+  const rangeEnd =
+    total ? Math.min(start + visibleRows.length, total) : 0;
   return `
-    <section class="hdk-card hdk-table-card" data-hdk-component="DataTable"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+    <section class="hdk-card hdk-table-card" data-hdk-component="DataTable" data-page-size="${escapeAttr(normalizedPageSize)}" data-pagination="table-window"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
       ${caption ? `<div class="hdk-card__header"><h2>${escapeHtml(caption)}</h2></div>` : ""}
-      <div class="hdk-table-wrap">
+      <div class="hdk-table-wrap" data-hdk-component="TableSurface">
         <table class="hdk-table">
           <thead><tr>${columns.map((column) => `<th scope="col">${escapeHtml(column.label || column.key)}</th>`).join("")}</tr></thead>
           <tbody>
@@ -335,8 +346,12 @@ export function renderDataTable({
         </table>
       </div>
       <footer class="hdk-pagination" data-hdk-component="Pagination">
-        <span>Page ${escapeHtml(page)} · ${escapeHtml(visibleRows.length)} of ${escapeHtml(total)}</span>
-        <div><button type="button">Previous</button><button type="button">Next</button></div>
+        <span>Showing ${escapeHtml(rangeStart)}-${escapeHtml(rangeEnd)} of ${escapeHtml(total)}</span>
+        <div>
+          <label>Rows <select aria-label="Rows per page">${pageSizeOptions.map((size) => `<option value="${escapeAttr(size)}"${Number(size) === normalizedPageSize ? " selected" : ""}>${escapeHtml(size)}</option>`).join("")}</select></label>
+          <button type="button"${normalizedPage <= 1 ? " disabled" : ""}>Previous</button>
+          <button type="button"${start + visibleRows.length >= total ? " disabled" : ""}>Next</button>
+        </div>
       </footer>
     </section>
   `;
@@ -369,7 +384,7 @@ export function renderDataTableTabs({
             page:
               tab.page || 1,
             pageSize:
-              tab.pageSize || 25,
+              tab.pageSize || 10,
             total:
               tab.total ?? tab.rows?.length ?? 0
           })}
@@ -1381,6 +1396,38 @@ export function renderChartPanel({
       ${children}
       ${legend.length ? `<div class="hdk-chart-legend">${legend.map((item) => `<span class="hdk-chart-legend-item"><i class="hdk-chart-swatch" style="--hdk-series-color:${escapeAttr(item.color || "var(--hdk-chart-series-primary)")};"></i>${escapeHtml(item.label)}</span>`).join("")}</div>` : ""}
     </article>
+  `;
+}
+
+export function renderHelpTip({
+  label = "Help",
+  text = "",
+  icon = "?",
+  reviewId = ""
+} = {}) {
+  return `
+    <span class="hdk-help" data-hdk-component="HelpTip"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      <button class="hdk-help__trigger" type="button" aria-label="${escapeAttr(label)}" data-help="${escapeAttr(text)}">${escapeHtml(icon)}</button>
+      <span class="hdk-help__bubble" role="tooltip">${escapeHtml(text)}</span>
+    </span>
+  `;
+}
+
+export function renderInfoPopover({
+  label = "More information",
+  title = "Details",
+  body = "",
+  icon = "i",
+  reviewId = ""
+} = {}) {
+  return `
+    <details class="hdk-info-popover" data-hdk-component="InfoPopover"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      <summary aria-label="${escapeAttr(label)}">${escapeHtml(icon)}</summary>
+      <div class="hdk-info-popover__panel">
+        <strong>${escapeHtml(title)}</strong>
+        <p>${escapeHtml(body)}</p>
+      </div>
+    </details>
   `;
 }
 

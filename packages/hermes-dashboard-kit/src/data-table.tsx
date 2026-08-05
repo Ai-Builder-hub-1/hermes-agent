@@ -30,6 +30,8 @@ export function DataTable<T>({
   emptyDescription,
   onRowClick,
   className,
+  defaultPageSize = 10,
+  pageSizeOptions = [10, 25, 50],
 }: {
   rows: T[];
   columns: DataTableColumn<T>[];
@@ -40,8 +42,12 @@ export function DataTable<T>({
   emptyDescription?: string;
   onRowClick?: (row: T) => void;
   className?: string;
+  defaultPageSize?: number;
+  pageSizeOptions?: number[];
 }) {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(defaultPageSize);
   const sourceColumns = useMemo(() => new Map(columns.map((column) => [column.id, column])), [columns]);
   const tableColumns = useMemo<ColumnDef<T>[]>(() => columns.map((column) => ({
     id: column.id,
@@ -65,9 +71,21 @@ export function DataTable<T>({
   if (error) return <DashboardErrorState message={error} />;
   if (!rows.length) return <DashboardEmptyState title={emptyTitle} description={emptyDescription} />;
 
+  const sortedRows = table.getRowModel().rows;
+  const pageCount = Math.max(1, Math.ceil(sortedRows.length / pageSize));
+  const normalizedPage = Math.min(page, pageCount - 1);
+  const start = normalizedPage * pageSize;
+  const end = start + pageSize;
+  const visibleRows = sortedRows.slice(start, end);
+
   return (
-    <div className={cn("overflow-hidden rounded-lg border border-border bg-card", className)}>
-      <div className="overflow-x-auto">
+    <div
+      className={cn("overflow-hidden rounded-lg border border-border bg-card", className)}
+      data-hdk-component="DataTable"
+      data-page-size={pageSize}
+      data-pagination="table-window"
+    >
+      <div className="overflow-x-auto" data-hdk-component="TableSurface">
         <table className="w-full min-w-[42rem] border-collapse text-sm">
           <thead className="bg-muted/60 text-left text-xs uppercase tracking-wide text-muted-foreground">
             {table.getHeaderGroups().map((headerGroup) => (
@@ -97,7 +115,7 @@ export function DataTable<T>({
             ))}
           </thead>
           <tbody>
-            {table.getRowModel().rows.map((row) => (
+            {visibleRows.map((row) => (
               <tr
                 key={row.id}
                 className={cn("border-b border-border last:border-b-0", onRowClick && "cursor-pointer hover:bg-muted/50")}
@@ -116,6 +134,48 @@ export function DataTable<T>({
           </tbody>
         </table>
       </div>
+      {sortedRows.length > defaultPageSize ? (
+        <footer className="flex flex-wrap items-center justify-between gap-3 border-t border-border px-3 py-3 text-xs text-muted-foreground" data-hdk-component="Pagination">
+          <span>
+            Showing {start + 1}-{Math.min(end, sortedRows.length)} of {sortedRows.length}
+          </span>
+          <div className="flex flex-wrap items-center gap-2">
+            <label className="inline-flex items-center gap-2">
+              <span>Rows</span>
+              <select
+                className="h-8 rounded-md border border-border bg-background px-2 text-xs text-foreground"
+                onChange={(event) => {
+                  setPageSize(Number(event.target.value));
+                  setPage(0);
+                }}
+                value={pageSize}
+              >
+                {pageSizeOptions.map((size) => (
+                  <option key={size} value={size}>
+                    {size}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <button
+              className="h-8 rounded-md border border-border px-3 font-medium text-foreground disabled:opacity-45"
+              disabled={normalizedPage === 0}
+              onClick={() => setPage(Math.max(0, normalizedPage - 1))}
+              type="button"
+            >
+              Previous
+            </button>
+            <button
+              className="h-8 rounded-md border border-border px-3 font-medium text-foreground disabled:opacity-45"
+              disabled={normalizedPage >= pageCount - 1}
+              onClick={() => setPage(Math.min(pageCount - 1, normalizedPage + 1))}
+              type="button"
+            >
+              Next
+            </button>
+          </div>
+        </footer>
+      ) : null}
     </div>
   );
 }

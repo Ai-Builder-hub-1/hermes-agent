@@ -42,19 +42,26 @@ tokens:
     default: "var(--hdk-radius)"
     control: "6px"
   spacing:
-    shell: "18px"
-    sidebar: "14px"
-    section: "16px"
-    card: "14px"
-    grid_gap: "12px"
+    space_1: "var(--hdk-space-1) / 4px"
+    space_2: "var(--hdk-space-2) / 8px"
+    space_3: "var(--hdk-space-3) / 12px"
+    space_4: "var(--hdk-space-4) / 16px"
+    space_5: "var(--hdk-space-5) / 20px"
+    space_6: "var(--hdk-space-6) / 24px"
+    space_8: "var(--hdk-space-8) / 32px"
+    shell: "var(--hdk-space-page-x)"
+    sidebar: "var(--hdk-space-4)"
+    section: "var(--hdk-space-section)"
+    card: "var(--hdk-space-card)"
+    grid_gap: "var(--hdk-space-grid)"
   components:
     shell: "DashboardShell / .hdk-shell"
     sidebar: "DashboardSidebar / .hdk-sidebar / .hdk-sidebar-rail"
     header: "DashboardHeader / .hdk-header / .hdk-command-header"
     card: "KpiCard, ChartPanel, DataTable / .hdk-card"
-    table: "DataTable / .hdk-table"
+    table: "DataTable, DataTableTabs, Pagination / .hdk-table / .hdk-table-wrap / .hdk-pagination"
     data_visualization: "MarketTape, MarketVolatilityDrawer, PriceMovementChart, SpreadBandChart, LiquidityDepthChart, VolumePulseChart, CategoryHeatmap, OpportunityMatrix, ProviderSpendTimeline, BusinessUnitCostCard, AlertRail, DrilldownPanel, TimeWindowSelector, CrosshairTooltipFrame, OrderBookLadder, ForecastConeChart, WaterfallChart"
-    product_interface: "WorkspaceSwitcher, BreadcrumbTrail, SplitWorkspaceLayout, DetailDrawerShell, EntitySummaryCard, EvidenceStack, RecommendationStack, SavedFilterChips, CommandPalette, GlobalSearchOverlay, SavedViewsManager, ExpandableDataList, AiAssistantPanel, StateChecklist, PermissionLimitedPanel, GeneratedInsightCallout"
+    product_interface: "WorkspaceSwitcher, BreadcrumbTrail, SplitWorkspaceLayout, DetailDrawerShell, EntitySummaryCard, EvidenceStack, RecommendationStack, SavedFilterChips, CommandPalette, GlobalSearchOverlay, SavedViewsManager, ExpandableDataList, AiAssistantPanel, StateChecklist, PermissionLimitedPanel, GeneratedInsightCallout, HelpTip, InfoPopover"
     loading_performance: "DashboardLoadingShell, SkeletonMetricCard, SkeletonChart, SkeletonTable, SkeletonDashboardGrid, DataFreshnessStrip, StaleDataBadge, PartialDataBanner, DashboardQueryBoundary"
     button: "Command buttons / .hdk-button"
     status: "StatusPill / .hdk-pill"
@@ -121,6 +128,11 @@ project.
 - Tier 3 dashboards must use a single viewport shell on desktop: the app shell owns `100dvh`, the sidebar and content column share the same visual height, the document body does not become the primary scroll surface, and the main content pane is the only vertical scroll owner. Mobile may switch back to normal document scrolling.
 - Tier 3 dashboards must not redefine kit-owned visual primitives locally. Project CSS may compose page regions, but selectors such as `.hdk-*`, `.shell`, `.sidebar`, `.topbar`, `.command-header`, `.card`, `.metric`, `.table`, `.chart`, `.drawer`, `.button`, `.calendar`, and protected theme tokens require a manifest exception with owner, reviewer, reason, and expiry.
 - Tier 3 dashboards with multiple evidence tables in one view must use a table composition pattern: table tabs, accordions, or full-width stacked sections. Do not place two large data tables side-by-side in a two-column grid. Tables should consume the page width and own their horizontal scroll inside `.hdk-table-wrap`.
+- Tier 3 tables with more than 10 rows must paginate. Default visible rows must be 10, with 10 / 25 / 50 page-size controls. Pagination controls must stay inside the table surface and use `DataTable`, `DataTableTabs`, `Pagination`, `.hdk-table-wrap`, and `.hdk-pagination` markers.
+- Tier 3 table pages must use one active table title aligned with the tab controls when switching between evidence tables. Do not add explanatory headings such as "review one table at a time" above the table when the tab labels already define the surface.
+- Tier 3 sortable tables must use a quiet table toolbar for sorting and comparison controls. Put row count, `Sort by`, order, filter, and export controls in the card/header toolbar. Do not repeat visible "sort" controls beside every column header on dense operational tables. Header sorting is allowed only when it is icon-only, accessible, and visually subordinate.
+- Tier 3 metric-comparison surfaces should convert repeated metric cards into a sortable evidence table when there are more than six comparable entities or when the operator needs to compare by a data point. The table should sit in one card, include a row-count badge, and expose deterministic sort values for each sortable metric.
+- Tier 3 layout spacing must use the dashboard-kit spacing scale: `--hdk-space-1` through `--hdk-space-8`, `--hdk-space-page-x`, `--hdk-space-section`, `--hdk-space-card`, and `--hdk-space-grid`. Page layouts own section-to-section spacing; components own their internal padding. Project CSS must not introduce one-off gutters such as `gap: 14px`, arbitrary card padding, or uneven top/side spacing without a manifest exception.
 - Banners inside dashboard pages are allowed only for alerts, proof states, or onboarding empty states. They must not become the primary layout container and must not push the real workspace below the fold.
 - Do not nest cards inside cards.
 - Cards, pills, table cells, nav labels, and action buttons must be text-safe. Long IDs, URLs, run names, titles, and recommendations must truncate or wrap inside their parent; they must not stretch cards, overflow the viewport, or cover adjacent controls.
@@ -137,6 +149,8 @@ The shell standard has two visible quality gates:
 3. Table layout quality: large data tables must use `.hdk-table-wrap` inside full-width table sections, tabs, or stacked table groups. Avoid putting two raw tables next to each other.
 4. Text containment quality: cards, tables, pills, buttons, and nav items must include overflow-safe wrapping or truncation so screenshots do not show content leaking outside containers.
 5. Command header quality: a production page header must use `DashboardHeader`, `.hdk-header`, or `.hdk-command-header`; keep heading copy concise; avoid stacked marketing copy; and place metrics/actions in a compact, responsive layout.
+6. Help affordance quality: secondary explanations must use `HelpTip` or `InfoPopover` instead of repeated visible helper paragraphs. Critical blockers, errors, statuses, and required instructions must remain visible and must not be hidden in help text.
+7. Table toolbar quality: sortable operational tables must put sort/filter/page controls in a card-level toolbar. The toolbar must keep the table title, tabs, row-count badge, sort key, and sort direction visually aligned instead of scattering controls across every header cell.
 
 If a dashboard cannot satisfy these gates, it cannot be considered Tier 3 even when it has one shell.
 
@@ -157,6 +171,9 @@ Charts are decision surfaces, not decoration. A chart is not production-grade un
 - Stacked bars or stacked areas should be used when the operator needs composition over time.
 - Waterfall charts should be used when explaining drivers of change between two totals.
 - Comparison charts must use a common scale and visible legend. Do not compare lines, bars, or rings with hidden or inconsistent units.
+- Analysis pages that include time-series or comparison decisions should place the chart or trend panel before the raw evidence table. The table is evidence; the chart is the decision surface. Raw queues, brand activity, approval evidence, market tapes, and issue logs should not be the first or only visual when the same data has a meaningful time basis.
+- Chart controls must be scoped to the chart card: time window, grouping, metric/state toggles, brand/entity selector, and comparison controls belong in the chart header or control rail. Avoid page-global controls that change unrelated tables without visible context.
+- Multi-series comparisons must provide a visible legend, bounded series count, and readable contrast. If the operator can select all brands/states/metrics, the chart must handle dense legends through wrapping, scrolling, grouping, or an explicit "top N plus selected" rule.
 - Mini sparklines are allowed only inside metric cards as secondary micro-trends. They cannot replace an axis-bearing `ChartPanel` for the main dashboard view.
 - Empty, partial, stale, loading, error, and mock-preview chart states must be visibly different from live chart states.
 - Mobbin reference passes should inspect analytics/trading/reporting screens for chart density, legend placement, axis treatment, compact cards, and table/chart pairing before creating new chart patterns.
@@ -168,7 +185,7 @@ Dashboards must load like products, not scripts dumping a full report into the b
 - Render the single app shell first, then hydrate proof/freshness/KPI data, then hydrate bounded tables and charts, then defer raw logs and expensive drilldowns.
 - Every route must tell the operator whether data is `loading`, `ready`, `partial`, `stale`, `error`, or `empty`.
 - Use `DashboardLoadingShell`, `SkeletonMetricCard`, `SkeletonChart`, `SkeletonTable`, `SkeletonDashboardGrid`, `DataFreshnessStrip`, `StaleDataBadge`, `PartialDataBanner`, and `DashboardQueryBoundary` before creating local loading UI.
-- Tables must be paginated by default. Default page size is 25; initial route payloads should not ship more than 100 visible rows without an approved exception.
+- Tables must be paginated by default. Default page size is 10 with 10 / 25 / 50 controls. Initial route payloads should not ship more than 100 visible rows without an approved exception.
 - Charts should hydrate from pre-shaped series or rollups, not from raw event logs recomputed in the browser.
 - Dashboard APIs should use stale-while-revalidate behavior: fast cached response, visible stale badge, partial state for module-level failure, and error state only when the primary view cannot be trusted.
 - Tier 3 dashboard proof must include visible loading/skeleton, stale, partial, empty, and error states for at least one primary route or state lab.
@@ -195,6 +212,7 @@ Tier 3 requires explicit sidebar rail evidence and compact command-header eviden
 - Use `DashboardShell`, `DashboardHeader`, `MetricGrid`, `KpiCard`, `DataTable`, `ChartPanel`, and status primitives before creating local UI.
 - Use the data-visualization primitives (`MarketTape`, `MarketVolatilityDrawer`, `PriceMovementChart`, `SpreadBandChart`, `LiquidityDepthChart`, `VolumePulseChart`, `CategoryHeatmap`, `OpportunityMatrix`, `ProviderSpendTimeline`, `BusinessUnitCostCard`, `AlertRail`, `DrilldownPanel`, `TimeWindowSelector`, `CrosshairTooltipFrame`, `OrderBookLadder`, `ForecastConeChart`, `WaterfallChart`, and preview/empty/error states) before creating one-off chart surfaces.
 - Use the product-interface primitives (`WorkspaceSwitcher`, `BreadcrumbTrail`, `SplitWorkspaceLayout`, `DetailDrawerShell`, `EntitySummaryCard`, `EvidenceStack`, `RecommendationStack`, `SavedFilterChips`, `CommandPalette`, `GlobalSearchOverlay`, `SavedViewsManager`, `ExpandableDataList`, `AiAssistantPanel`, `StateChecklist`, `PermissionLimitedPanel`, and `GeneratedInsightCallout`) before creating local navigation, drilldown, evidence, AI-assist, search, saved-view, expandable-list, or state-review UI.
+- Use `HelpTip` for short secondary context and `InfoPopover` for richer context. Help controls should sit beside section titles, metric labels, chart titles, table column headers, or form labels. They must be keyboard reachable, tap-safe on mobile, and use the shared `.hdk-help` / `.hdk-info-popover` styles. Do not create local `?` buttons, random tooltip CSS, or long visible helper paragraphs on Tier 3 pages.
 - Use `DashboardSnapshotContract`, `DashboardModuleContract`, `HERMES_DASHBOARD_WORKSPACES`, and `DashboardWorkspaceOverview` when a dashboard needs to report or audit its own structure.
 - Use `DashboardPrototypeSet` before production redesigns that need Mobbin references or multiple layout directions.
 - Use `validateDashboardSnapshot` before treating `/api/dashboard-architecture` output as trustworthy.
