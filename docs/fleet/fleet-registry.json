@@ -1,0 +1,762 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-05T14:22:45.316Z",
+  "purpose": "Fleet-wide project, production, dashboard, and relationship registry for Nous Hermes Agent.",
+  "projects": [
+    {
+      "schemaVersion": 1,
+      "id": "tlc-capital-group-os",
+      "name": "TLC Capital Group OS",
+      "repo": "tlc-capital-group-os",
+      "projectPath": "../tlc-capital-group-os",
+      "ownerSystem": "tlc-enterprise",
+      "maturityRole": "enterprise-source-of-truth",
+      "production": {
+        "provider": "hetzner",
+        "service": "tlc-capital-group-os",
+        "url": "https://tlc.tlccapitalgroup.com/dashboard",
+        "healthUrl": "https://tlc.tlccapitalgroup.com/health",
+        "proofUrl": "https://tlc.tlccapitalgroup.com/dashboard/proof",
+        "snapshotUrl": "https://tlc.tlccapitalgroup.com/dashboard-snapshot",
+        "promotionEvidencePath": "/root/apps/deploy/deployment-evidence/latest/tlc-capital-group-os.json"
+      },
+      "dashboard": {
+        "registered": true,
+        "dashboardId": "tlc-capital-group-os.main",
+        "status": "current",
+        "currentBand": "T3C",
+        "targetBand": "T3C",
+        "implementationMode": "package-native",
+        "issueCount": 0
+      },
+      "readiness": {
+        "text": "88 enterprise readiness in the portfolio hub.",
+        "interpretation": "Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers."
+      },
+      "repoState": {
+        "path": "../tlc-capital-group-os",
+        "branch": "## main...origin/main",
+        "commit": "9d7b4f99d692a3e47546a71620d0bd13b4489743",
+        "shortCommit": "9d7b4f99d692",
+        "clean": true,
+        "dirtyCount": 0,
+        "ahead": 0,
+        "behind": 0
+      },
+      "latestPromotion": {
+        "available": true,
+        "status": "succeeded",
+        "target": "main",
+        "eventId": "tlc-capital-group-os-2026-08-05T02-54-36Z",
+        "resolvedCommit": "9d7b4f99d692a3e47546a71620d0bd13b4489743",
+        "finishedAt": "2026-08-05T02:54:36Z",
+        "remotePath": "/root/apps/deploy/deployment-evidence/latest/tlc-capital-group-os.json"
+      },
+      "proof": {
+        "status": "baseline-present",
+        "capturedAt": "2026-08-03T20:44:02.605Z",
+        "screenshotCaptured": true,
+        "httpStatus": 200
+      },
+      "enterpriseBacklog": [
+        {
+          "id": "shared-dns-and-dashboard-manifest-audit",
+          "status": "ready_to_verify",
+          "priority": "medium",
+          "title": "Audit DNS records and dashboard manifests for all production dashboards"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "rolls-up",
+          "target": "hermes-os"
+        },
+        {
+          "type": "rolls-up",
+          "target": "media-business-operations"
+        },
+        {
+          "type": "rolls-up",
+          "target": "media-engine"
+        },
+        {
+          "type": "rolls-up",
+          "target": "rinseables-os"
+        },
+        {
+          "type": "rolls-up",
+          "target": "business-mapper"
+        },
+        {
+          "type": "rolls-up",
+          "target": "investing-system"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "nous-hermes-agent",
+      "name": "Nous Hermes Agent",
+      "repo": "nous-hermes-agent",
+      "projectPath": ".",
+      "ownerSystem": "hermes-standards",
+      "maturityRole": "standards-and-fleet-control-plane",
+      "production": {
+        "provider": "hetzner",
+        "service": "nous-hermes-agent",
+        "url": "https://agent.tlccapitalgroup.com",
+        "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
+        "proofUrl": "https://agent.tlccapitalgroup.com/dashboard/proof",
+        "snapshotUrl": "https://agent.tlccapitalgroup.com/api/dashboard-snapshot",
+        "promotionEvidencePath": "/root/apps/deploy/deployment-evidence/latest/nous-hermes-agent.json"
+      },
+      "dashboard": {
+        "registered": false,
+        "dashboardId": "nous-hermes-agent.dashboard",
+        "status": "unregistered",
+        "currentBand": "unknown",
+        "targetBand": null,
+        "implementationMode": null,
+        "issueCount": 0
+      },
+      "readiness": {
+        "text": "65 software integration in the portfolio hub; dashboard governance is much stronger than child-project adoption.",
+        "interpretation": "No current dashboard adoption record; needs inventory."
+      },
+      "repoState": {
+        "path": "",
+        "branch": "## main...ai-builder/main",
+        "commit": "0cdcabe4e37945c9f71dad7884d9db3b2f1f8863",
+        "shortCommit": "0cdcabe4e379",
+        "clean": false,
+        "dirtyCount": 4,
+        "ahead": 0,
+        "behind": 0
+      },
+      "latestPromotion": {
+        "available": true,
+        "status": "succeeded",
+        "target": "main",
+        "eventId": "nous-hermes-agent-2026-08-05T13-27-35Z",
+        "resolvedCommit": "c9da8b5f70571683d9902171d708fc4117735063",
+        "finishedAt": "2026-08-05T13:27:35Z",
+        "remotePath": "/root/apps/deploy/deployment-evidence/latest/nous-hermes-agent.json"
+      },
+      "proof": {
+        "status": "baseline-present",
+        "capturedAt": "2026-08-03T20:43:29.659Z",
+        "screenshotCaptured": true,
+        "httpStatus": 200
+      },
+      "enterpriseBacklog": [
+        {
+          "id": "hermes-agent-model-provider-credentials",
+          "status": "deferred",
+          "priority": "medium",
+          "title": "Finalize Hermes Agent model provider credentials and authority policy"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "governs-dashboard-standards-for",
+          "target": "*"
+        },
+        {
+          "type": "tracks-maturity-for",
+          "target": "*"
+        },
+        {
+          "type": "feeds",
+          "target": "hermes-os"
+        },
+        {
+          "type": "feeds",
+          "target": "tlc-capital-group-os"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "hermes-os",
+      "name": "Hermes OS",
+      "repo": "hermes",
+      "projectPath": "../hermes",
+      "ownerSystem": "hermes-runtime",
+      "maturityRole": "runtime-and-deployment-rail",
+      "production": {
+        "provider": "hetzner",
+        "service": "hermes",
+        "url": "https://hermes.tlccapitalgroup.com/",
+        "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+        "proofUrl": "https://hermes.tlccapitalgroup.com/dashboard/proof",
+        "snapshotUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+        "promotionEvidencePath": "/root/apps/deploy/deployment-evidence/latest/hermes.json"
+      },
+      "dashboard": {
+        "registered": true,
+        "dashboardId": "hermes.workspace",
+        "status": "current",
+        "currentBand": "T3C",
+        "targetBand": "T3C",
+        "implementationMode": "package-native",
+        "issueCount": 0
+      },
+      "readiness": {
+        "text": "40 business readiness in the portfolio hub.",
+        "interpretation": "Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers."
+      },
+      "repoState": {
+        "path": "../hermes",
+        "branch": "## deploy/hermes-workspace-hetzner...origin/deploy/hermes-workspace-hetzner",
+        "commit": "abe01cbcda734a0b803c91351317ba77e636df89",
+        "shortCommit": "abe01cbcda73",
+        "clean": true,
+        "dirtyCount": 0,
+        "ahead": 0,
+        "behind": 0
+      },
+      "latestPromotion": {
+        "available": true,
+        "status": "succeeded",
+        "target": "deploy/hermes-workspace-hetzner",
+        "eventId": "hermes-2026-08-05T13-50-46Z",
+        "resolvedCommit": "abe01cbcda734a0b803c91351317ba77e636df89",
+        "finishedAt": "2026-08-05T13:50:46Z",
+        "remotePath": "/root/apps/deploy/deployment-evidence/latest/hermes.json"
+      },
+      "proof": {
+        "status": "baseline-present",
+        "capturedAt": "2026-08-03T20:44:01.865Z",
+        "screenshotCaptured": true,
+        "httpStatus": 200
+      },
+      "enterpriseBacklog": [],
+      "relationships": [
+        {
+          "type": "deploys",
+          "target": "*"
+        },
+        {
+          "type": "reports-to",
+          "target": "tlc-capital-group-os"
+        },
+        {
+          "type": "is-controlled-by",
+          "target": "nous-hermes-agent"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "media-engine",
+      "name": "Media Engine",
+      "repo": "media-engine",
+      "projectPath": "../media-engine",
+      "ownerSystem": "media-production",
+      "maturityRole": "content-production-engine",
+      "production": {
+        "provider": "hetzner",
+        "service": "media-engine-dashboard",
+        "url": "https://media.tlccapitalgroup.com/dashboard",
+        "healthUrl": "https://media.tlccapitalgroup.com/health",
+        "proofUrl": "https://media.tlccapitalgroup.com/dashboard/proof",
+        "snapshotUrl": "https://media.tlccapitalgroup.com/dashboard-snapshot",
+        "promotionEvidencePath": "/root/apps/deploy/deployment-evidence/latest/media-engine-dashboard.json"
+      },
+      "dashboard": {
+        "registered": true,
+        "dashboardId": "media-engine.ops",
+        "status": "current",
+        "currentBand": "T3C",
+        "targetBand": "T3C",
+        "implementationMode": "package-native",
+        "issueCount": 0
+      },
+      "readiness": {
+        "text": "56 business readiness and 45.5 plan completion in the portfolio hub.",
+        "interpretation": "Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers."
+      },
+      "repoState": {
+        "path": "../media-engine",
+        "branch": "## main...origin/main",
+        "commit": "42b1ce1953935d2c4237471f8a4513629652b7fb",
+        "shortCommit": "42b1ce195393",
+        "clean": true,
+        "dirtyCount": 0,
+        "ahead": 0,
+        "behind": 0
+      },
+      "latestPromotion": {
+        "available": true,
+        "status": "succeeded",
+        "target": "main",
+        "eventId": "media-engine-dashboard-2026-08-05T02-52-39Z",
+        "resolvedCommit": "42b1ce1953935d2c4237471f8a4513629652b7fb",
+        "finishedAt": "2026-08-05T02:52:39Z",
+        "remotePath": "/root/apps/deploy/deployment-evidence/latest/media-engine-dashboard.json"
+      },
+      "proof": {
+        "status": "baseline-present",
+        "capturedAt": "2026-08-03T20:43:55.934Z",
+        "screenshotCaptured": true,
+        "httpStatus": 200
+      },
+      "enterpriseBacklog": [
+        {
+          "id": "media-engine-platform-credentials",
+          "status": "deferred",
+          "priority": "high",
+          "title": "Add Media Engine brand platform credentials"
+        },
+        {
+          "id": "media-engine-provider-balance-credentials",
+          "status": "deferred",
+          "priority": "medium",
+          "title": "Connect live provider balance and usage credentials"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "feeds-output-status-to",
+          "target": "media-business-operations"
+        },
+        {
+          "type": "feeds-cost-telemetry-to",
+          "target": "media-business-operations"
+        },
+        {
+          "type": "uses-business-priorities-from",
+          "target": "tlc-capital-group-os"
+        },
+        {
+          "type": "may-produce-for",
+          "target": "rinseables-os"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "media-business-operations",
+      "name": "Media Business Operations",
+      "repo": "media-business-operations",
+      "projectPath": "../media-business-operations",
+      "ownerSystem": "media-business",
+      "maturityRole": "media-business-operating-system",
+      "production": {
+        "provider": "hetzner",
+        "service": "media-business-operations",
+        "url": "https://media-business-operations.tlccapitalgroup.com/dashboard",
+        "healthUrl": "https://media-business-operations.tlccapitalgroup.com/health",
+        "proofUrl": "https://media-business-operations.tlccapitalgroup.com/dashboard/proof",
+        "snapshotUrl": "https://media-business-operations.tlccapitalgroup.com/api/dashboard-summary",
+        "promotionEvidencePath": "/root/apps/deploy/deployment-evidence/latest/media-business-operations.json"
+      },
+      "dashboard": {
+        "registered": true,
+        "dashboardId": "media-business-operations.main",
+        "status": "current",
+        "currentBand": "T3C",
+        "targetBand": "T3C",
+        "implementationMode": "package-native",
+        "issueCount": 0
+      },
+      "readiness": {
+        "text": "60 business readiness in the portfolio hub.",
+        "interpretation": "Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers."
+      },
+      "repoState": {
+        "path": "../media-business-operations",
+        "branch": "## main...origin/main",
+        "commit": "0cbaa79847d3bc32bd15be5d507bd52b3cfc0c0f",
+        "shortCommit": "0cbaa79847d3",
+        "clean": true,
+        "dirtyCount": 0,
+        "ahead": 0,
+        "behind": 0
+      },
+      "latestPromotion": {
+        "available": true,
+        "status": "succeeded",
+        "target": "main",
+        "eventId": "media-business-operations-2026-08-05T13-49-49Z",
+        "resolvedCommit": "0cbaa79847d3bc32bd15be5d507bd52b3cfc0c0f",
+        "finishedAt": "2026-08-05T13:49:49Z",
+        "remotePath": "/root/apps/deploy/deployment-evidence/latest/media-business-operations.json"
+      },
+      "proof": {
+        "status": "baseline-present",
+        "capturedAt": "2026-08-03T20:43:58.656Z",
+        "screenshotCaptured": true,
+        "httpStatus": 200
+      },
+      "enterpriseBacklog": [
+        {
+          "id": "media-business-os-readiness-summary-export",
+          "status": "ready_to_verify",
+          "priority": "high",
+          "title": "Verify Media Business OS readiness summary export into TLC OS"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "consumes-output-status-from",
+          "target": "media-engine"
+        },
+        {
+          "type": "reports-brand-readiness-to",
+          "target": "tlc-capital-group-os"
+        },
+        {
+          "type": "may-operate-audience-layer-for",
+          "target": "rinseables-os"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "khashi-vc",
+      "name": "Khashi VC",
+      "repo": "khashi-vc",
+      "projectPath": "../khashi-vc",
+      "ownerSystem": "market-intelligence",
+      "maturityRole": "live-market-intelligence",
+      "production": {
+        "provider": "hetzner",
+        "service": "khashi",
+        "url": "https://roc.tlccapitalgroup.com/",
+        "healthUrl": "https://roc.tlccapitalgroup.com/readyz",
+        "proofUrl": "https://roc.tlccapitalgroup.com/dashboard/proof?view=live-market-intelligence",
+        "snapshotUrl": "https://roc.tlccapitalgroup.com/api/dashboard-snapshot",
+        "promotionEvidencePath": "/root/apps/deploy/deployment-evidence/latest/khashi.json"
+      },
+      "dashboard": {
+        "registered": true,
+        "dashboardId": "khashi-vc.roc",
+        "status": "current",
+        "currentBand": "T3C",
+        "targetBand": "T3C",
+        "implementationMode": "package-native",
+        "issueCount": 0
+      },
+      "readiness": {
+        "text": "90 software plan completion in the portfolio hub.",
+        "interpretation": "Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers."
+      },
+      "repoState": {
+        "path": "../khashi-vc",
+        "branch": "## main...origin/main",
+        "commit": "213fb16f722ffa3d255d6f1104bd613b82c849f9",
+        "shortCommit": "213fb16f722f",
+        "clean": true,
+        "dirtyCount": 0,
+        "ahead": 0,
+        "behind": 0
+      },
+      "latestPromotion": {
+        "available": true,
+        "status": "succeeded",
+        "target": "main",
+        "eventId": "khashi-2026-08-05T13-48-40Z",
+        "resolvedCommit": "213fb16f722ffa3d255d6f1104bd613b82c849f9",
+        "finishedAt": "2026-08-05T13:48:40Z",
+        "remotePath": "/root/apps/deploy/deployment-evidence/latest/khashi.json"
+      },
+      "proof": {
+        "status": "baseline-present",
+        "capturedAt": "2026-08-03T20:43:30.445Z",
+        "screenshotCaptured": true,
+        "httpStatus": 200
+      },
+      "enterpriseBacklog": [
+        {
+          "id": "khashi-vc-production-diagnostics",
+          "status": "ready_to_verify",
+          "priority": "high",
+          "title": "Verify Khashi VC production diagnostics and live scheduler state"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "reports-diagnostics-to",
+          "target": "hermes-os"
+        },
+        {
+          "type": "reports-opportunity-readiness-to",
+          "target": "tlc-capital-group-os"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "business-mapper",
+      "name": "Business Mapper / Consulting",
+      "repo": "business-mapper",
+      "projectPath": "../business-mapper",
+      "ownerSystem": "consulting",
+      "maturityRole": "consulting-offer-and-delivery-system",
+      "production": {
+        "provider": "hetzner",
+        "service": "business-mapper",
+        "url": "https://business-mapper.tlccapitalgroup.com/dashboard",
+        "healthUrl": "https://business-mapper.tlccapitalgroup.com/health",
+        "proofUrl": "https://business-mapper.tlccapitalgroup.com/dashboard/proof",
+        "snapshotUrl": "https://business-mapper.tlccapitalgroup.com/api/dashboard-snapshot",
+        "promotionEvidencePath": "/root/apps/deploy/deployment-evidence/latest/business-mapper.json"
+      },
+      "dashboard": {
+        "registered": true,
+        "dashboardId": "business-mapper.workspace",
+        "status": "current",
+        "currentBand": "T2B",
+        "targetBand": "T2B",
+        "implementationMode": "package-native",
+        "issueCount": 0
+      },
+      "readiness": {
+        "text": "32 business readiness and 82 tool completion in the portfolio hub.",
+        "interpretation": "Registered/current by latest dashboard adoption report."
+      },
+      "repoState": {
+        "path": "../business-mapper",
+        "branch": "## main...origin/main",
+        "commit": "8308efc2866de08a33e08885a8c59aa795bb6edf",
+        "shortCommit": "8308efc2866d",
+        "clean": true,
+        "dirtyCount": 0,
+        "ahead": 0,
+        "behind": 0
+      },
+      "latestPromotion": {
+        "available": true,
+        "status": "succeeded",
+        "target": "main",
+        "eventId": "business-mapper-2026-08-05T13-49-49Z",
+        "resolvedCommit": "8308efc2866de08a33e08885a8c59aa795bb6edf",
+        "finishedAt": "2026-08-05T13:49:49Z",
+        "remotePath": "/root/apps/deploy/deployment-evidence/latest/business-mapper.json"
+      },
+      "proof": {
+        "status": "baseline-present",
+        "capturedAt": "2026-08-03T20:43:59.513Z",
+        "screenshotCaptured": true,
+        "httpStatus": 200
+      },
+      "enterpriseBacklog": [],
+      "relationships": [
+        {
+          "type": "packages-capabilities-from",
+          "target": "hermes-os"
+        },
+        {
+          "type": "reports-offer-readiness-to",
+          "target": "tlc-capital-group-os"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "meal-assistant",
+      "name": "Meal Assistant",
+      "repo": "Meal-assistant",
+      "projectPath": "../Meal-assistant",
+      "ownerSystem": "household-product",
+      "maturityRole": "household-planning-product",
+      "production": {
+        "provider": "hetzner",
+        "service": "meal-assistant",
+        "url": "https://meal.tlccapitalgroup.com/",
+        "healthUrl": "https://meal.tlccapitalgroup.com/health",
+        "proofUrl": "https://meal.tlccapitalgroup.com/dashboard/proof",
+        "snapshotUrl": "https://meal.tlccapitalgroup.com/api/dashboard-snapshot",
+        "promotionEvidencePath": "/root/apps/deploy/deployment-evidence/latest/meal-assistant.json"
+      },
+      "dashboard": {
+        "registered": true,
+        "dashboardId": "meal-assistant.main",
+        "status": "current",
+        "currentBand": "T3C",
+        "targetBand": "T3C",
+        "implementationMode": "package-native",
+        "issueCount": 0
+      },
+      "readiness": {
+        "text": "90 software plan completion in the portfolio hub.",
+        "interpretation": "Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers."
+      },
+      "repoState": {
+        "path": "../Meal-assistant",
+        "branch": "## main...origin/main",
+        "commit": "f26e8e4a67281ff9c0b911e6e9e35f872887bda5",
+        "shortCommit": "f26e8e4a6728",
+        "clean": true,
+        "dirtyCount": 0,
+        "ahead": 0,
+        "behind": 0
+      },
+      "latestPromotion": {
+        "available": true,
+        "status": "succeeded",
+        "target": "main",
+        "eventId": "meal-assistant-2026-08-05T13-29-19Z",
+        "resolvedCommit": "f26e8e4a67281ff9c0b911e6e9e35f872887bda5",
+        "finishedAt": "2026-08-05T13:29:19Z",
+        "remotePath": "/root/apps/deploy/deployment-evidence/latest/meal-assistant.json"
+      },
+      "proof": {
+        "status": "baseline-present",
+        "capturedAt": "2026-08-03T20:44:00.270Z",
+        "screenshotCaptured": true,
+        "httpStatus": 200
+      },
+      "enterpriseBacklog": [],
+      "relationships": [
+        {
+          "type": "reports-product-readiness-to",
+          "target": "tlc-capital-group-os"
+        },
+        {
+          "type": "uses-runtime-rail",
+          "target": "hermes-os"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "rinseables-os",
+      "name": "Rinseables OS",
+      "repo": "rinseables-os",
+      "projectPath": "../rinseables-os",
+      "ownerSystem": "rinseables-business",
+      "maturityRole": "saas-product-and-audience-layer",
+      "production": {
+        "provider": "hetzner",
+        "service": "rinseables-os",
+        "url": "https://rinseables.tlccapitalgroup.com",
+        "healthUrl": "https://rinseables.tlccapitalgroup.com/health",
+        "proofUrl": "https://rinseables.tlccapitalgroup.com/dashboard/proof",
+        "snapshotUrl": "https://rinseables.tlccapitalgroup.com/api/dashboard-snapshot",
+        "promotionEvidencePath": "/root/apps/deploy/deployment-evidence/latest/rinseables-os.json"
+      },
+      "dashboard": {
+        "registered": false,
+        "dashboardId": null,
+        "status": "unregistered",
+        "currentBand": "unknown",
+        "targetBand": null,
+        "implementationMode": null,
+        "issueCount": 0
+      },
+      "readiness": {
+        "text": "40 business readiness and 90 software plan completion in the portfolio hub.",
+        "interpretation": "No current dashboard adoption record; needs inventory."
+      },
+      "repoState": {
+        "path": "../rinseables-os",
+        "branch": "## main...origin/main",
+        "commit": "6ec0cabcce9af8a1fa2147962df0466c94f15e93",
+        "shortCommit": "6ec0cabcce9a",
+        "clean": true,
+        "dirtyCount": 0,
+        "ahead": 0,
+        "behind": 0
+      },
+      "latestPromotion": {
+        "available": true,
+        "status": "succeeded",
+        "target": "main",
+        "eventId": "rinseables-os-2026-08-05T13-49-36Z",
+        "resolvedCommit": "6ec0cabcce9af8a1fa2147962df0466c94f15e93",
+        "finishedAt": "2026-08-05T13:49:36Z",
+        "remotePath": "/root/apps/deploy/deployment-evidence/latest/rinseables-os.json"
+      },
+      "proof": {
+        "status": "not-in-proof-registry",
+        "capturedAt": null,
+        "screenshotCaptured": false,
+        "httpStatus": null
+      },
+      "enterpriseBacklog": [],
+      "relationships": [
+        {
+          "type": "may-consume-media-from",
+          "target": "media-engine"
+        },
+        {
+          "type": "may-report-audience-through",
+          "target": "media-business-operations"
+        },
+        {
+          "type": "reports-business-readiness-to",
+          "target": "tlc-capital-group-os"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "investing-system",
+      "name": "Investing System",
+      "repo": "investing-system",
+      "projectPath": "../investing-system",
+      "ownerSystem": "investment-operations",
+      "maturityRole": "investment-research-and-governance",
+      "production": {
+        "provider": "hetzner",
+        "service": "investing-system",
+        "url": "https://investing.tlccapitalgroup.com/roc",
+        "healthUrl": "https://investing.tlccapitalgroup.com/health",
+        "proofUrl": "https://investing.tlccapitalgroup.com/dashboard/proof",
+        "snapshotUrl": "https://investing.tlccapitalgroup.com/api/dashboard-snapshot",
+        "promotionEvidencePath": "/root/apps/deploy/deployment-evidence/latest/investing-system.json"
+      },
+      "dashboard": {
+        "registered": false,
+        "dashboardId": "investing-system.roc",
+        "status": "unregistered",
+        "currentBand": "unknown",
+        "targetBand": null,
+        "implementationMode": null,
+        "issueCount": 0
+      },
+      "readiness": {
+        "text": "90 software plan completion in the portfolio hub.",
+        "interpretation": "No current dashboard adoption record; needs inventory."
+      },
+      "repoState": {
+        "path": "../investing-system",
+        "branch": "## main...origin/main",
+        "commit": "de5c212ed8f96f9c9dea74cc06688076f3fc35ec",
+        "shortCommit": "de5c212ed8f9",
+        "clean": true,
+        "dirtyCount": 0,
+        "ahead": 0,
+        "behind": 0
+      },
+      "latestPromotion": {
+        "available": true,
+        "status": "succeeded",
+        "target": "main",
+        "eventId": "investing-system-2026-08-05T02-54-12Z",
+        "resolvedCommit": "de5c212ed8f96f9c9dea74cc06688076f3fc35ec",
+        "finishedAt": "2026-08-05T02:54:12Z",
+        "remotePath": "/root/apps/deploy/deployment-evidence/latest/investing-system.json"
+      },
+      "proof": {
+        "status": "baseline-present",
+        "capturedAt": "2026-08-03T20:44:01.030Z",
+        "screenshotCaptured": true,
+        "httpStatus": 200
+      },
+      "enterpriseBacklog": [],
+      "relationships": [
+        {
+          "type": "reports-investment-readiness-to",
+          "target": "tlc-capital-group-os"
+        },
+        {
+          "type": "uses-runtime-rail",
+          "target": "hermes-os"
+        }
+      ]
+    }
+  ]
+}

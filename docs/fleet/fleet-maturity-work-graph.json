@@ -1,0 +1,873 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-05T14:22:45.316Z",
+  "purpose": "Structured fleet maturity work graph, including cross-project triggers and closure evidence.",
+  "summary": {
+    "total": 36,
+    "open": 36,
+    "humanDecision": 2,
+    "crossProject": 5
+  },
+  "items": [
+    {
+      "id": "tlc-capital-group-os.live-e2e.maturity",
+      "title": "TLC Capital Group OS: live e2e is missing",
+      "type": "live-e2e",
+      "ownerProject": "tlc-capital-group-os",
+      "affectedProjects": [
+        "tlc-capital-group-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found live-e2e=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "live-e2e"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "tlc-capital-group-os.monitoring.maturity",
+      "title": "TLC Capital Group OS: monitoring is missing",
+      "type": "monitoring",
+      "ownerProject": "tlc-capital-group-os",
+      "affectedProjects": [
+        "tlc-capital-group-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found monitoring=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "nous-hermes-agent.dashboard-standard.maturity",
+      "title": "Nous Hermes Agent: dashboard standard is missing",
+      "type": "dashboard-standard",
+      "ownerProject": "nous-hermes-agent",
+      "affectedProjects": [
+        "nous-hermes-agent"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found dashboard-standard=missing.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "dashboard-standard"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "nous-hermes-agent.live-e2e.maturity",
+      "title": "Nous Hermes Agent: live e2e is missing",
+      "type": "live-e2e",
+      "ownerProject": "nous-hermes-agent",
+      "affectedProjects": [
+        "nous-hermes-agent"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found live-e2e=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "live-e2e"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "nous-hermes-agent.monitoring.maturity",
+      "title": "Nous Hermes Agent: monitoring is missing",
+      "type": "monitoring",
+      "ownerProject": "nous-hermes-agent",
+      "affectedProjects": [
+        "nous-hermes-agent"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found monitoring=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "nous-hermes-agent.external-credentials.maturity",
+      "title": "Nous Hermes Agent: external credentials is blocked",
+      "type": "external-credentials",
+      "ownerProject": "nous-hermes-agent",
+      "affectedProjects": [
+        "nous-hermes-agent"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found external-credentials=blocked.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": false,
+      "requiresHumanDecision": true,
+      "evidenceRequiredToClose": [
+        "external-credentials"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "nous-hermes-agent.outcome-feed.maturity",
+      "title": "Nous Hermes Agent: outcome feed is missing",
+      "type": "outcome-feed",
+      "ownerProject": "nous-hermes-agent",
+      "affectedProjects": [
+        "nous-hermes-agent"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found outcome-feed=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "outcome-feed"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "hermes-os.live-e2e.maturity",
+      "title": "Hermes OS: live e2e is missing",
+      "type": "live-e2e",
+      "ownerProject": "hermes-os",
+      "affectedProjects": [
+        "hermes-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found live-e2e=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "live-e2e"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "hermes-os.monitoring.maturity",
+      "title": "Hermes OS: monitoring is missing",
+      "type": "monitoring",
+      "ownerProject": "hermes-os",
+      "affectedProjects": [
+        "hermes-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found monitoring=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "hermes-os.outcome-feed.maturity",
+      "title": "Hermes OS: outcome feed is missing",
+      "type": "outcome-feed",
+      "ownerProject": "hermes-os",
+      "affectedProjects": [
+        "hermes-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found outcome-feed=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "outcome-feed"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "media-engine.live-e2e.maturity",
+      "title": "Media Engine: live e2e is missing",
+      "type": "live-e2e",
+      "ownerProject": "media-engine",
+      "affectedProjects": [
+        "media-engine"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found live-e2e=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "live-e2e"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "media-engine.monitoring.maturity",
+      "title": "Media Engine: monitoring is missing",
+      "type": "monitoring",
+      "ownerProject": "media-engine",
+      "affectedProjects": [
+        "media-engine"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found monitoring=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "media-engine.external-credentials.maturity",
+      "title": "Media Engine: external credentials is blocked",
+      "type": "external-credentials",
+      "ownerProject": "media-engine",
+      "affectedProjects": [
+        "media-engine"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found external-credentials=blocked.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": false,
+      "requiresHumanDecision": true,
+      "evidenceRequiredToClose": [
+        "external-credentials"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "media-business-operations.live-e2e.maturity",
+      "title": "Media Business Operations: live e2e is missing",
+      "type": "live-e2e",
+      "ownerProject": "media-business-operations",
+      "affectedProjects": [
+        "media-business-operations"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found live-e2e=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "live-e2e"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "media-business-operations.monitoring.maturity",
+      "title": "Media Business Operations: monitoring is missing",
+      "type": "monitoring",
+      "ownerProject": "media-business-operations",
+      "affectedProjects": [
+        "media-business-operations"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found monitoring=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "media-business-operations.outcome-feed.maturity",
+      "title": "Media Business Operations: outcome feed is missing",
+      "type": "outcome-feed",
+      "ownerProject": "media-business-operations",
+      "affectedProjects": [
+        "media-business-operations"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found outcome-feed=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "outcome-feed"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "khashi-vc.live-e2e.maturity",
+      "title": "Khashi VC: live e2e is missing",
+      "type": "live-e2e",
+      "ownerProject": "khashi-vc",
+      "affectedProjects": [
+        "khashi-vc"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found live-e2e=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "live-e2e"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "khashi-vc.monitoring.maturity",
+      "title": "Khashi VC: monitoring is missing",
+      "type": "monitoring",
+      "ownerProject": "khashi-vc",
+      "affectedProjects": [
+        "khashi-vc"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found monitoring=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "business-mapper.live-e2e.maturity",
+      "title": "Business Mapper / Consulting: live e2e is missing",
+      "type": "live-e2e",
+      "ownerProject": "business-mapper",
+      "affectedProjects": [
+        "business-mapper"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found live-e2e=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "live-e2e"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "business-mapper.monitoring.maturity",
+      "title": "Business Mapper / Consulting: monitoring is missing",
+      "type": "monitoring",
+      "ownerProject": "business-mapper",
+      "affectedProjects": [
+        "business-mapper"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found monitoring=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "meal-assistant.live-e2e.maturity",
+      "title": "Meal Assistant: live e2e is missing",
+      "type": "live-e2e",
+      "ownerProject": "meal-assistant",
+      "affectedProjects": [
+        "meal-assistant"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found live-e2e=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "live-e2e"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "meal-assistant.monitoring.maturity",
+      "title": "Meal Assistant: monitoring is missing",
+      "type": "monitoring",
+      "ownerProject": "meal-assistant",
+      "affectedProjects": [
+        "meal-assistant"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found monitoring=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "rinseables-os.readonly-proof.maturity",
+      "title": "Rinseables OS: readonly proof is stale",
+      "type": "readonly-proof",
+      "ownerProject": "rinseables-os",
+      "affectedProjects": [
+        "rinseables-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found readonly-proof=stale.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "readonly-proof"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "rinseables-os.screenshot-baseline.maturity",
+      "title": "Rinseables OS: screenshot baseline is missing",
+      "type": "screenshot-baseline",
+      "ownerProject": "rinseables-os",
+      "affectedProjects": [
+        "rinseables-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found screenshot-baseline=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "screenshot-baseline"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "rinseables-os.dashboard-standard.maturity",
+      "title": "Rinseables OS: dashboard standard is missing",
+      "type": "dashboard-standard",
+      "ownerProject": "rinseables-os",
+      "affectedProjects": [
+        "rinseables-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found dashboard-standard=missing.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "dashboard-standard"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "rinseables-os.live-e2e.maturity",
+      "title": "Rinseables OS: live e2e is missing",
+      "type": "live-e2e",
+      "ownerProject": "rinseables-os",
+      "affectedProjects": [
+        "rinseables-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found live-e2e=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "live-e2e"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "rinseables-os.monitoring.maturity",
+      "title": "Rinseables OS: monitoring is missing",
+      "type": "monitoring",
+      "ownerProject": "rinseables-os",
+      "affectedProjects": [
+        "rinseables-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found monitoring=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "rinseables-os.outcome-feed.maturity",
+      "title": "Rinseables OS: outcome feed is missing",
+      "type": "outcome-feed",
+      "ownerProject": "rinseables-os",
+      "affectedProjects": [
+        "rinseables-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found outcome-feed=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "outcome-feed"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "investing-system.dashboard-standard.maturity",
+      "title": "Investing System: dashboard standard is missing",
+      "type": "dashboard-standard",
+      "ownerProject": "investing-system",
+      "affectedProjects": [
+        "investing-system"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found dashboard-standard=missing.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "dashboard-standard"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "investing-system.live-e2e.maturity",
+      "title": "Investing System: live e2e is missing",
+      "type": "live-e2e",
+      "ownerProject": "investing-system",
+      "affectedProjects": [
+        "investing-system"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found live-e2e=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "live-e2e"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "investing-system.monitoring.maturity",
+      "title": "Investing System: monitoring is missing",
+      "type": "monitoring",
+      "ownerProject": "investing-system",
+      "affectedProjects": [
+        "investing-system"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found monitoring=missing.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "media-engine-output-to-media-business-readiness",
+      "title": "Propagate Media Engine output/deploy maturity into Media Business readiness and TLC rollups.",
+      "type": "cross-project-maturity",
+      "ownerProject": "media-business-operations",
+      "affectedProjects": [
+        "media-engine",
+        "media-business-operations",
+        "tlc-capital-group-os"
+      ],
+      "sourceProject": "media-engine",
+      "trigger": "Media Engine production, cost, or publishing evidence changes.",
+      "status": "recommended",
+      "priority": "low",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "media-engine.deployment-evidence",
+        "media-engine.outcome-feed"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh TLC portfolio readiness if affected.",
+        "Refresh Nous fleet maturity tracker.",
+        "Check whether another project now needs outcome-feed or monitoring work."
+      ]
+    },
+    {
+      "id": "media-business-readiness-to-tlc-portfolio",
+      "title": "Roll Media Business brand/readiness changes into TLC portfolio readiness.",
+      "type": "cross-project-maturity",
+      "ownerProject": "tlc-capital-group-os",
+      "affectedProjects": [
+        "media-business-operations",
+        "tlc-capital-group-os"
+      ],
+      "sourceProject": "media-business-operations",
+      "trigger": "Media Business authority, readiness history, or brand controls change.",
+      "status": "waiting-on-evidence",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "media-business-operations.outcome-feed"
+      ],
+      "dependencies": [
+        "media-business-operations.outcome-feed"
+      ],
+      "suggestedNextAfterClose": [
+        "Refresh TLC portfolio readiness if affected.",
+        "Refresh Nous fleet maturity tracker.",
+        "Check whether another project now needs outcome-feed or monitoring work."
+      ]
+    },
+    {
+      "id": "rinseables-product-to-media-and-tlc",
+      "title": "Connect Rinseables product/audience maturity to Media Business, Media Engine, and TLC reporting.",
+      "type": "cross-project-maturity",
+      "ownerProject": "tlc-capital-group-os",
+      "affectedProjects": [
+        "rinseables-os",
+        "media-business-operations",
+        "media-engine",
+        "tlc-capital-group-os"
+      ],
+      "sourceProject": "rinseables-os",
+      "trigger": "Rinseables product model, KPI, revenue, or audience layer changes.",
+      "status": "waiting-on-evidence",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "rinseables-os.outcome-feed",
+        "rinseables-os.dashboard-standard"
+      ],
+      "dependencies": [
+        "rinseables-os.outcome-feed",
+        "rinseables-os.dashboard-standard"
+      ],
+      "suggestedNextAfterClose": [
+        "Refresh TLC portfolio readiness if affected.",
+        "Refresh Nous fleet maturity tracker.",
+        "Check whether another project now needs outcome-feed or monitoring work."
+      ]
+    },
+    {
+      "id": "khashi-diagnostics-to-hermes-runtime",
+      "title": "Promote Khashi production diagnostics into Hermes runtime evidence and TLC readiness.",
+      "type": "cross-project-maturity",
+      "ownerProject": "hermes-os",
+      "affectedProjects": [
+        "khashi-vc",
+        "hermes-os",
+        "tlc-capital-group-os"
+      ],
+      "sourceProject": "khashi-vc",
+      "trigger": "Khashi production diagnostics, scheduler capacity, or live E2E evidence changes.",
+      "status": "waiting-on-evidence",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "khashi-vc.live-e2e",
+        "khashi-vc.deployment-evidence"
+      ],
+      "dependencies": [
+        "khashi-vc.live-e2e"
+      ],
+      "suggestedNextAfterClose": [
+        "Refresh TLC portfolio readiness if affected.",
+        "Refresh Nous fleet maturity tracker.",
+        "Check whether another project now needs outcome-feed or monitoring work."
+      ]
+    },
+    {
+      "id": "hermes-rail-change-to-fleet-evidence",
+      "title": "After Hermes deploy rail changes, refresh fleet deployment evidence and anti-loop status.",
+      "type": "cross-project-maturity",
+      "ownerProject": "nous-hermes-agent",
+      "affectedProjects": [
+        "tlc-capital-group-os",
+        "nous-hermes-agent",
+        "hermes-os",
+        "media-engine",
+        "media-business-operations",
+        "khashi-vc",
+        "business-mapper",
+        "meal-assistant",
+        "rinseables-os",
+        "investing-system"
+      ],
+      "sourceProject": "hermes-os",
+      "trigger": "Hermes promotion rail, Caddy route, deploy script, or evidence schema changes.",
+      "status": "recommended",
+      "priority": "low",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "hermes-os.deployment-evidence"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh TLC portfolio readiness if affected.",
+        "Refresh Nous fleet maturity tracker.",
+        "Check whether another project now needs outcome-feed or monitoring work."
+      ]
+    }
+  ]
+}
