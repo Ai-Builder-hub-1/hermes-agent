@@ -94,6 +94,7 @@
     "dashboard:project-status:ledger": "node scripts/generate-project-status-ledger.mjs",
     "fleet:maturity:scan": "node scripts/generate-fleet-maturity-tracker.mjs",
     "fleet:maturity:validate": "node scripts/validate-fleet-maturity-tracker.mjs",
+    "fleet:maturity:check": "npm run fleet:maturity:validate && npm run dashboard:maturity-reports:validate && npm run dashboard:design-system:test",
     "dashboard:branch-protection:verify": "node scripts/verify-dashboard-branch-protection.mjs",
     "dashboard:v80:validate": "node scripts/validate-v71-v80-operational-readiness.mjs V80",
     "dashboard:visual:check": "node scripts/validate-dashboard-visual-evidence.mjs",
