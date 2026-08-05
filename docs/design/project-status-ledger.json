@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-05T13:26:30.588Z",
+  "generatedAt": "2026-08-05T13:53:18.429Z",
   "sourceReports": {
     "dashboardAdoption": "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
     "olderTierAssessment": "docs/design/project-dashboard-tier-assessment.json",
@@ -9,9 +9,7 @@
   },
   "crossProject": {
     "sourceCaveat": "The latest dashboard adoption report, tier assessment, and cross-project backlog are regenerated together. Dashboard-standard blockers should come from the latest adoption report and backlog; business/product maturity remains tracked separately.",
-    "dirtyRepos": [
-      "nous-hermes-agent"
-    ],
+    "dirtyRepos": [],
     "aheadRepos": [],
     "enterpriseBacklogOpenItems": 6,
     "nousMaturitySummary": {
@@ -112,30 +110,17 @@
       },
       "git": {
         "branch": "## main...ai-builder/main",
-        "clean": false,
-        "dirtyCount": 32,
-        "dirtyFiles": [
-          "M docs/design/dashboard-bridge-coverage-report.json",
-          " M docs/design/dashboard-cross-project-action-backlog.json",
-          " M docs/design/dashboard-cross-project-action-backlog.md",
-          " M docs/design/dashboard-deployment-ledger.json",
-          " M docs/design/dashboard-deployment-ledger.md",
-          " M docs/design/dashboard-deployment-metadata-report.json",
-          " M docs/design/dashboard-governance-refresh-report.json",
-          " M docs/design/dashboard-governance-refresh-report.md",
-          " M docs/design/dashboard-health-report.json",
-          " M docs/design/dashboard-kit-distribution-report.json",
-          " M docs/design/dashboard-kit-distribution-report.md",
-          " M docs/design/dashboard-maturity-report.json"
-        ],
+        "clean": true,
+        "dirtyCount": 0,
+        "dirtyFiles": [],
         "ahead": 0,
         "behind": 0
       },
       "recentCommits": [
+        "c9da8b5f7 Refresh cross-project maturity status",
         "353243782 Expand dashboard kit maturity standards",
         "ade2ddd7a Add dashboard deploy anti-loop gate",
-        "83e26c982 Refresh deployment ledger with promotion evidence",
-        "0954bc1e9 Read promotion evidence in deployment ledger"
+        "83e26c982 Refresh deployment ledger with promotion evidence"
       ],
       "enterpriseBacklog": [
         {
@@ -326,10 +311,10 @@
         "behind": 0
       },
       "recentCommits": [
+        "213fb16 Make Khashi dashboard asset build Docker-safe",
+        "fb80402 Include dashboard scripts in Khashi Docker build",
         "12f9df4 Add ROC dashboard audit evidence",
-        "5104d39 Reframe task 111 as broad sweep monitor",
-        "c576123 Approve Khashi broad visual review tasks",
-        "5e0a535 Reconcile Khashi task backlog direction"
+        "5104d39 Reframe task 111 as broad sweep monitor"
       ],
       "enterpriseBacklog": [
         {

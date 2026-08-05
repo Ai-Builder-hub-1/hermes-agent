@@ -1,12 +1,12 @@
 # Project Status Ledger
 
-Generated: 2026-08-05T13:26:30.588Z
+Generated: 2026-08-05T13:53:18.429Z
 
 This is the consolidated operating ledger for the current workspace. It intentionally separates reported status from honest interpretation because several source reports are at different freshness levels.
 
 ## Cross-Project Status
 
-- Dirty repos: nous-hermes-agent
+- Dirty repos: none
 - Repos ahead of remote: none
 - Enterprise backlog items: 6
 
@@ -45,7 +45,7 @@ Still needed:
 - Readiness: 65 software integration in the portfolio hub; dashboard governance is much stronger than child-project adoption.
 - Dashboard: unregistered; reported band unknown; mode unknown
 - Interpretation: No current dashboard adoption record; needs inventory.
-- Git: ## main...ai-builder/main; 32 dirty file(s)
+- Git: ## main...ai-builder/main; clean
 - Enterprise backlog: hermes-agent-model-provider-credentials (deferred, medium)
 
 Built:
