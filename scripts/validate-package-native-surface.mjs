@@ -46,7 +46,8 @@ for (const surface of surfaces) {
   for (const pattern of duplicateShellPatterns) {
     if (pattern.test(source)) fail(`${surface.path} contains potential nested shell pattern: ${pattern}`);
   }
-  const bridgeInProd = /visual-selection|review-bridge|data-review-id/.test(source) && !/import\.meta\.env\.DEV|NODE_ENV !== ["']production/.test(source);
+  validateReviewRegions(source, surface.path);
+  const bridgeInProd = /visual-selection|review-bridge/.test(source) && !/import\.meta\.env\.DEV|NODE_ENV !== ["']production|localhost|127\.0\.0\.1/.test(source);
   if (bridgeInProd) fail(`${surface.path} appears to load visual selection/review markers without a dev-only guard`);
 }
 
@@ -103,6 +104,42 @@ function validateOperationalNavigation(source, surfacePath) {
       fail(`${surfacePath} missing Tier 3 operational sidebar evidence: ${label}`);
     }
   }
+}
+
+function validateReviewRegions(source, surfacePath) {
+  const requiredHints = [
+    ["shell/header region", /DashboardShell|DashboardHeader|hdk-shell|hdk-header|topbar/i],
+    ["sidebar/navigation region", /DashboardSidebar|hdk-sidebar|sidebar|nav-item/i],
+    ["interactive shortcut or action region", /data-view-shortcut|command-shortcuts|toolbar|actions|button/i],
+  ];
+  for (const [label, pattern] of requiredHints) {
+    if (pattern.test(source) && !/data-review-id=/.test(source)) {
+      warn(`${surfacePath} has ${label} evidence but no stable data-review-id markers for visual selection`);
+      return;
+    }
+  }
+
+  const reviewablePatterns = [
+    ["shortcut rail", /command-shortcuts|data-view-shortcut/i],
+    ["utility/admin rail", /admin-ops|operator-admin|ops-actions|utility-rail/i],
+    ["chart surface", /Chart|chart|hdk-chart/i],
+    ["table surface", /DataTable|<table\b|hdk-table/i],
+    ["drawer surface", /Drawer|drawer/i],
+    ["form surface", /<form\b|Form|form-/i],
+  ];
+  for (const [label, pattern] of reviewablePatterns) {
+    if (pattern.test(source) && !nearReviewId(source, pattern)) {
+      warn(`${surfacePath} has a ${label} pattern without nearby data-review-id instrumentation`);
+    }
+  }
+}
+
+function nearReviewId(source, pattern) {
+  const match = source.match(pattern);
+  if (!match || match.index === undefined) return false;
+  const start = Math.max(0, match.index - 500);
+  const end = Math.min(source.length, match.index + 800);
+  return source.slice(start, end).includes("data-review-id=");
 }
 
 function readJson(file) {

@@ -1352,6 +1352,103 @@ export function renderMarketBrowserLayout({
   `;
 }
 
+export function renderMarketExplorerPage({
+  note = "",
+  categories = [],
+  topics = [],
+  topMovers = [],
+  markets = [],
+  tape = "",
+  detail = "",
+  title = "All live markets",
+  visibleLabel = "0 visible",
+  countLabel = "0 rows",
+  activeCategory = "all",
+  activeTopic = "all",
+  activeId = "",
+  searchPlaceholder = "Ticker, team, asset, event...",
+  expired = "",
+  reviewId = "hdk.market-explorer-page"
+} = {}) {
+  const categoryHtml =
+    categories.length
+      ? categories.map((category) => `
+        <button class="hdk-browser-category ${category.key === activeCategory ? "is-active" : ""}" type="button" data-category-filter="${escapeAttr(category.key)}">
+          <span>${escapeHtml(category.label)}</span>
+          <strong>${escapeHtml(category.count ?? 0)}</strong>
+        </button>
+      `).join("")
+      : renderStatePanel({ state: "empty", title: "No categories yet", message: "Live categories appear after the feed returns markets." });
+  const topicHtml =
+    topics.map((topic) => `
+      <button class="hdk-topic-chip ${topic.key === activeTopic ? "is-active" : ""}" type="button" data-topic-filter="${escapeAttr(topic.key)}">
+        ${escapeHtml(topic.label)} <span>${escapeHtml(topic.count ?? 0)}</span>
+      </button>
+    `).join("");
+  const moverHtml =
+    topMovers.length
+      ? topMovers.map((market) => `
+        <button class="hdk-browser-mover" type="button" data-market-id="${escapeAttr(market.id)}">
+          <span>${escapeHtml(market.title || market.ticker || "Untitled market")}</span>
+          <strong class="${Number(market.movementCents || 0) >= 0 ? "hdk-positive" : "hdk-negative"}">${escapeHtml(market.moveLabel || market.movement || "")}</strong>
+        </button>
+      `).join("")
+      : `<p class="hdk-muted-note">Movement appears after repeated stream or orderbook points.</p>`;
+  const detailHtml =
+    detail || renderStatePanel({
+      state: "empty",
+      title: "Select a market",
+      message: "Choose a live market to inspect price movement, spread, depth, snapshots, and proof state."
+    });
+
+  return `
+    <div class="hdk-market-explorer-page" data-hdk-component="MarketExplorerPage" data-hdk-recipe="package-native-market-browser"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      ${note ? `<div class="hdk-partial-banner hdk-market-explorer-note" data-hdk-component="PartialDataBanner">${escapeHtml(note)}</div>` : ""}
+      <section class="hdk-market-explorer" data-hdk-component="MarketBrowserLayout">
+        <aside class="hdk-card hdk-browser-pane" data-hdk-component="CategoryBrowserPane" data-review-id="hdk.market-explorer.categories">
+          <div class="hdk-card__header">
+            <div>
+              <h2>Browse markets</h2>
+              <p>Start with a category, then narrow by topic or market text.</p>
+            </div>
+            <span class="hdk-status-badge" data-live="browserCount">${escapeHtml(visibleLabel)}</span>
+          </div>
+          <div class="hdk-browser-category-list" data-live="browserCategories">${categoryHtml}</div>
+          <div class="hdk-browser-movers">
+            <p class="hdk-section-kicker">Fast movers</p>
+            <div data-live="browserTopMovers">${moverHtml}</div>
+          </div>
+        </aside>
+        <section class="hdk-card hdk-browser-results" data-hdk-component="MarketTapeWorkspace" data-review-id="hdk.market-explorer.tape">
+          <div class="hdk-card__header hdk-card__header-row">
+            <div>
+              <p class="hdk-section-kicker">Live market tape</p>
+              <h2 data-live="marketTapeTitle">${escapeHtml(title)}</h2>
+            </div>
+            <span class="hdk-status-badge" data-live="marketCount">${escapeHtml(countLabel)}</span>
+          </div>
+          <label class="hdk-search">
+            <span>Search within selection</span>
+            <input type="search" data-live="marketSearch" placeholder="${escapeAttr(searchPlaceholder)}" autocomplete="off" />
+          </label>
+          <div class="hdk-topic-strip" data-live="browserTopics">${topicHtml}</div>
+          ${tape || renderMarketTape({
+            markets,
+            activeId,
+            pageSize: markets.length || 25,
+            total: markets.length,
+            reviewId: "hdk.market-explorer.market-tape"
+          })}
+        </section>
+        <aside class="hdk-market-detail-panel" data-hdk-component="MarketDetailPanel" data-review-id="hdk.market-explorer.detail" data-live="detailDrawer">
+          ${detailHtml}
+        </aside>
+      </section>
+      ${expired}
+    </div>
+  `;
+}
+
 export function renderTimeWindowSelector({
   windows = ["1D", "7D", "14D", "30D"],
   active = "7D",

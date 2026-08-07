@@ -91,6 +91,8 @@ Required evidence for Tier 3 promotion includes:
 - chart-before-evidence contract: operational time-series, issue, approval, activity, market, usage, or QA pages put a chart/trend decision surface above the raw queue/table when chartable history exists
 - spacing contract: page, section, card, grid, and table spacing use `--hdk-space-*` tokens instead of one-off pixel gaps or uneven gutters
 - help affordance contract: secondary explanations use `HelpTip` / `InfoPopover`; critical states remain visible and are not hidden in tooltips
+- selectable review-region contract: every visible operator region that a human might ask to change must expose a stable `data-review-id`, including shortcut rails, utility/admin rails, page headers, cards, tables, charts, drawers, forms, and important action buttons
+- visual-selection runtime contract: stable review markers may ship in production, but the visual-selection bridge/runtime must be loaded only in local/development or explicitly approved proof/review routes
 - approved chart/table/drawer/state components
 
 The project manifest should not be promoted by hand before this packet says `approved`.

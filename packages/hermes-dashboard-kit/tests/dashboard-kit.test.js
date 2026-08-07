@@ -49,6 +49,7 @@ import {
   renderContractReadinessPanel,
   renderCorrelationMatrix,
   renderMarketBrowserLayout,
+  renderMarketExplorerPage,
   renderMarketTape,
   renderCoverageMap,
   renderDeploymentPromotionPanel,
@@ -510,6 +511,66 @@ test("renders production cockpit components for package-native migrations", () =
         "<aside>Detail</aside>"
     }),
     /data-hdk-component="MarketBrowserLayout"/
+  );
+
+  assert.match(
+    renderMarketExplorerPage({
+      categories:
+        [
+          {
+            key:
+              "all",
+            label:
+              "All live",
+            count:
+              42
+          }
+        ],
+      topics:
+        [
+          {
+            key:
+              "sports",
+            label:
+              "Sports",
+            count:
+              12
+          }
+        ],
+      topMovers:
+        [
+          {
+            id:
+              "m1",
+            title:
+              "Will the market move?",
+            moveLabel:
+              "+4c"
+          }
+        ],
+      markets:
+        [
+          {
+            id:
+              "m1",
+            title:
+              "Will the market move?",
+            category:
+              "Sports",
+            mid:
+              "54c",
+            spread:
+              "3c",
+            volume:
+              "$12K",
+            snapshots:
+              8
+          }
+        ],
+      detail:
+        "<aside>Detail</aside>"
+    }),
+    /data-hdk-component="MarketExplorerPage"/
   );
 
   assert.match(

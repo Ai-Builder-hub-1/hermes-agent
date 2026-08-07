@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-07T19:15:44.079Z",
+  "policy": {
+    "primaryStaticDashboardRoutesAllowed": false,
+    "compatibilityStaticRoutesAllowedTemporarily": true,
+    "target": "package-native frontend entrypoints that consume @hermes/dashboard-kit"
+  },
+  "totals": {
+    "errors": 1,
+    "warnings": 5,
+    "findings": 6
+  },
+  "findings": [
+    {
+      "severity": "error",
+      "projectId": "khashi-vc",
+      "projectName": "Kashi VC",
+      "surfacePath": "public/roc/index.html",
+      "code": "primary_static_dashboard_route",
+      "message": "Primary dashboard route is still a hand-authored static/public surface. Migrate to a package-native frontend entrypoint."
+    },
+    {
+      "severity": "warning",
+      "projectId": "khashi-vc",
+      "projectName": "Kashi VC",
+      "surfacePath": "public/roc/market-intelligence-live.html",
+      "code": "static_compatibility_route",
+      "message": "Static dashboard route remains as compatibility/review debt. Keep it out of primary navigation and schedule archive/removal."
+    },
+    {
+      "severity": "warning",
+      "projectId": "media-business-os",
+      "projectName": "Media Business OS",
+      "surfacePath": "public/dashboard/index.html",
+      "code": "static_compatibility_route",
+      "message": "Static dashboard route remains as compatibility/review debt. Keep it out of primary navigation and schedule archive/removal."
+    },
+    {
+      "severity": "warning",
+      "projectId": "media-business-os",
+      "projectName": "Media Business OS",
+      "surfacePath": "public/dashboard/app.js",
+      "code": "static_compatibility_route",
+      "message": "Static dashboard route remains as compatibility/review debt. Keep it out of primary navigation and schedule archive/removal."
+    },
+    {
+      "severity": "warning",
+      "projectId": "business-mapper",
+      "projectName": "Business Mapper",
+      "surfacePath": "business_mapper/static/index.html",
+      "code": "static_compatibility_route",
+      "message": "Static dashboard route remains as compatibility/review debt. Keep it out of primary navigation and schedule archive/removal."
+    },
+    {
+      "severity": "warning",
+      "projectId": "tlc-capital-group-os",
+      "projectName": "TLC Capital Group OS",
+      "surfacePath": "public/dashboard/index.html",
+      "code": "static_compatibility_route",
+      "message": "Static dashboard route remains as compatibility/review debt. Keep it out of primary navigation and schedule archive/removal."
+    }
+  ]
+}

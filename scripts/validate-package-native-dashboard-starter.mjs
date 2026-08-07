@@ -152,7 +152,8 @@ check("surface validator and visual baseline commands exist", () => {
     "DashboardShell",
     "hardcoded color",
     "Tier 3 operational sidebar evidence",
-    "collapsed labels"
+    "collapsed labels",
+    "data-review-id instrumentation"
   ]) {
     requireIncludes(surfaceValidator, phrase, phrase);
   }
