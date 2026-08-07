@@ -24,6 +24,8 @@ const outputDir =
   path.join(root, "docs/design");
 const webOutput =
   path.join(root, "web/src/pages/dashboard-kit-gallery-data.ts");
+const webCssOutput =
+  path.join(root, "web/src/pages/dashboard-kit-gallery-kit.css");
 const css =
   fs.readFileSync(path.join(kitRoot, "src/dashboard-kit.css"), "utf8");
 const reviewRegistry =
@@ -155,6 +157,11 @@ fs.writeFileSync(
   `export const dashboardKitGalleryReport = ${JSON.stringify(report, null, 2)} as const;\n`,
   "utf8"
 );
+fs.writeFileSync(
+  webCssOutput,
+  `/* Generated from packages/hermes-dashboard-kit/src/dashboard-kit.css. Do not edit directly. */\n${css}`,
+  "utf8"
+);
 
 console.log(JSON.stringify({
   status:
@@ -167,6 +174,8 @@ console.log(JSON.stringify({
     "docs/design/dashboard-kit-gallery-report.md",
   webData:
     "web/src/pages/dashboard-kit-gallery-data.ts",
+  webCss:
+    "web/src/pages/dashboard-kit-gallery-kit.css",
   componentFamilies:
     inventory.length,
   namedComponents:

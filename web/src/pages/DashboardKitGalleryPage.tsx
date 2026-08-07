@@ -11,7 +11,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useState } from "react";
-import "../../../packages/hermes-dashboard-kit/src/dashboard-kit.css";
+import "./dashboard-kit-gallery-kit.css";
 import { dashboardKitGalleryReport } from "./dashboard-kit-gallery-data";
 
 const statusTone = {
