@@ -1,0 +1,1543 @@
+{
+  "generatedAt": "2026-08-07T20:17:27.334Z",
+  "package": "@hermes/dashboard-kit",
+  "purpose": "Visible component intake and approval status for package-native dashboard migrations.",
+  "componentFamilies": 9,
+  "namedComponents": 49,
+  "statusSummary": {
+    "approved": 4,
+    "reviewing": 3,
+    "draft": 2
+  },
+  "reviewSummary": {
+    "averageScore": 70,
+    "approved": 4,
+    "reviewing": 3,
+    "draft": 2,
+    "needsRedesign": 0,
+    "blockedProjects": 3
+  },
+  "requiredHumanReview": [
+    {
+      "id": "chart-suite",
+      "family": "Charts And Comparisons",
+      "status": "reviewing",
+      "targetTier": "tier-3",
+      "userRole": "Pick the chart density and visual language before we roll it into Kashi, Media Engine, or cost dashboards.",
+      "reviewStatus": "reviewing",
+      "reviewScore": 62,
+      "nextActions": [
+        "Build richer chart preview variants with hover, legend, comparison, and density states.",
+        "Add screenshot assertions for axis visibility and nonblank chart regions.",
+        "Migrate Media Engine brand activity and Kashi market browser charts to approved kit components."
+      ]
+    },
+    {
+      "id": "drawers-drilldowns",
+      "family": "Drawers And Drilldowns",
+      "status": "reviewing",
+      "targetTier": "tier-3",
+      "userRole": "Tell us what should be visible immediately versus tucked behind evidence/actions.",
+      "reviewStatus": "reviewing",
+      "reviewScore": 68,
+      "nextActions": [
+        "Add keyboard/focus rules for drawers and bottom sheets.",
+        "Create market-detail and approval-detail reference snapshots."
+      ]
+    },
+    {
+      "id": "market-browser",
+      "family": "Market Browser",
+      "status": "reviewing",
+      "targetTier": "tier-3",
+      "userRole": "Approve the browse model before Kashi replaces static market-browser routes.",
+      "reviewStatus": "reviewing",
+      "reviewScore": 61,
+      "nextActions": [
+        "Create a package-native market browser reference page.",
+        "Add capacity governor and stream proof components to the chart/detail contract.",
+        "Capture Kashi production proof screenshots after route migration."
+      ]
+    },
+    {
+      "id": "media-workflow",
+      "family": "Media Workflow",
+      "status": "draft",
+      "targetTier": "tier-3",
+      "userRole": "Define what must show in Discord versus the dashboard and what counts as approve-ready.",
+      "reviewStatus": "draft",
+      "reviewScore": 62,
+      "nextActions": [
+        "Add approved Discord handoff and dashboard package review examples.",
+        "Add publishing proof states for success, partial, failed, skipped, and unavailable."
+      ]
+    },
+    {
+      "id": "calendar-planning",
+      "family": "Calendar And Planning",
+      "status": "draft",
+      "targetTier": "tier-3",
+      "userRole": "Approve the calendar interaction model and form density before Meal Assistant migrates.",
+      "reviewStatus": "draft",
+      "reviewScore": 55,
+      "nextActions": [
+        "Build premium calendar and planning drawer examples.",
+        "Add Meal Assistant migration checklist for month, drawer, library, and shopping list export."
+      ]
+    }
+  ],
+  "references": [
+    {
+      "id": "market-intelligence",
+      "label": "Market Intelligence",
+      "references": [
+        "Kraken",
+        "Binance",
+        "OKX",
+        "Coinbase",
+        "Mixpanel"
+      ],
+      "extraction": "Market browsing should combine category navigation, watchlist/tape scanning, axis-bearing charts, selected-market detail, liquidity/spread context, proof state, and insufficient-data states."
+    },
+    {
+      "id": "media-operations",
+      "label": "Media Operations",
+      "references": [
+        "Sprout Social",
+        "Adobe Express",
+        "Manus",
+        "Replit",
+        "PlanetScale"
+      ],
+      "extraction": "Content operations should separate command triage, approval queues, publishable channels, QA evidence, Discord handoff, posting status, and time-series output health."
+    },
+    {
+      "id": "business-operations",
+      "label": "Business Operations",
+      "references": [
+        "Asana",
+        "Linear",
+        "Wrike",
+        "Productboard",
+        "Plane"
+      ],
+      "extraction": "Business cockpits should show executive rollups, accountability, work queues, decision logs, objective progress, and evidence behind readiness."
+    },
+    {
+      "id": "planning-calendar",
+      "label": "Planning And Calendar",
+      "references": [
+        "Amie",
+        "Motion",
+        "Jobber",
+        "Time2book",
+        "Assembly"
+      ],
+      "extraction": "Planning views should use a real calendar/work surface, selected-day or range drawers, library-to-plan flows, manual override, and clear generated-versus-human state."
+    },
+    {
+      "id": "cost-performance",
+      "label": "Cost And Performance",
+      "references": [
+        "Vercel",
+        "LangChain",
+        "Mixpanel",
+        "Employment Hero"
+      ],
+      "extraction": "Cost dashboards should pair spend timelines with provider attribution, business-unit impact, efficiency ratios, anomaly states, freshness, and drilldowns."
+    },
+    {
+      "id": "proof-governance",
+      "label": "Proof And Governance",
+      "references": [
+        "Linear",
+        "PlanetScale",
+        "Productboard",
+        "Wrike"
+      ],
+      "extraction": "Governance surfaces should make ownership, proof, blockers, exceptions, adoption status, and next action visible without dumping raw audit text."
+    }
+  ],
+  "reviewRegistry": {
+    "version": 1,
+    "updatedAt": "2026-08-07T00:00:00.000Z",
+    "purpose": "Persistent review state for Hermes Dashboard Kit component families. This file is the auditable bridge between Mobbin/reference intake, human taste review, and project adoption."
+  },
+  "visualBaselines": {
+    "version": 1,
+    "route": "/dashboard-kit-gallery",
+    "viewports": [
+      {
+        "id": "desktop",
+        "width": 1440,
+        "height": 1100
+      },
+      {
+        "id": "tablet",
+        "width": 1024,
+        "height": 1000
+      },
+      {
+        "id": "mobile",
+        "width": 390,
+        "height": 900
+      }
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "requiredStates": [
+      "default",
+      "loading",
+      "empty",
+      "stale",
+      "error",
+      "overflow"
+    ],
+    "approvalRules": [
+      "Every approved family must have desktop and mobile light-mode screenshots.",
+      "Dark mode screenshots are required before a project can ship the family in dark mode.",
+      "Primary charts must prove visible axes, labels, legends, units, and nonblank plotted regions.",
+      "Tables must prove one card wrapper, one header, one toolbar, and one pagination footer.",
+      "Shell captures must prove there is one shell and the content pane owns scrolling."
+    ],
+    "requiredCaptureCount": 45,
+    "families": [
+      {
+        "id": "shell-navigation",
+        "requiredCaptures": [
+          "expanded sidebar",
+          "collapsed sidebar",
+          "mobile drawer",
+          "proof strip"
+        ]
+      },
+      {
+        "id": "metric-proof",
+        "requiredCaptures": [
+          "metric strip",
+          "proof strip",
+          "freshness strip",
+          "overflow stress"
+        ]
+      },
+      {
+        "id": "chart-suite",
+        "requiredCaptures": [
+          "line",
+          "area",
+          "bar",
+          "donut",
+          "heatmap",
+          "loading",
+          "empty",
+          "stale",
+          "error"
+        ]
+      },
+      {
+        "id": "tables-queues",
+        "requiredCaptures": [
+          "approval queue",
+          "toolbar sorting",
+          "pagination",
+          "overflow stress"
+        ]
+      },
+      {
+        "id": "drawers-drilldowns",
+        "requiredCaptures": [
+          "right drawer",
+          "market detail",
+          "approval detail",
+          "mobile bottom sheet"
+        ]
+      },
+      {
+        "id": "market-browser",
+        "requiredCaptures": [
+          "category browser",
+          "sub-category rail",
+          "market tape",
+          "selected market",
+          "stream proof"
+        ]
+      },
+      {
+        "id": "media-workflow",
+        "requiredCaptures": [
+          "package card",
+          "approve/decline",
+          "publishable channels",
+          "posting proof",
+          "Discord handoff"
+        ]
+      },
+      {
+        "id": "calendar-planning",
+        "requiredCaptures": [
+          "month grid",
+          "selected day",
+          "multi-day range",
+          "right planning drawer",
+          "meal library"
+        ]
+      },
+      {
+        "id": "governance-adoption",
+        "requiredCaptures": [
+          "adoption status",
+          "tier score",
+          "exception expiry",
+          "proof evidence",
+          "next action"
+        ]
+      }
+    ]
+  },
+  "showroom": [
+    {
+      "id": "shell-navigation",
+      "family": "Core Shell",
+      "status": "approved",
+      "targetTier": "tier-3",
+      "components": [
+        "DashboardShell",
+        "OperationalSidebar",
+        "DashboardHeader",
+        "ProofStrip",
+        "DataFreshnessStrip"
+      ],
+      "references": [
+        "Linear",
+        "Asana",
+        "Vercel"
+      ],
+      "reviewScore": 81,
+      "reviewer": "human-operator",
+      "reviewedAt": "2026-08-07T00:00:00.000Z",
+      "approvedVariants": [
+        "expanded sidebar",
+        "collapsed sidebar",
+        "mobile drawer",
+        "command header",
+        "proof strip"
+      ],
+      "blockedVariants": [
+        "nested shell",
+        "standalone prototype shell",
+        "duplicate dashboard switcher"
+      ],
+      "notes": [
+        "Keep one global shell per dashboard product.",
+        "The main content pane owns vertical scrolling.",
+        "Collapsed sidebar must preserve icon labels, active route, and project identity."
+      ],
+      "nextActions": [
+        "Add screenshot baselines for expanded, collapsed, and mobile drawer states.",
+        "Fail project audits when a production route renders nested shell chrome."
+      ],
+      "projectReadiness": [
+        {
+          "project": "Kashi VC",
+          "status": "migrating",
+          "note": "One-shell migration in progress."
+        },
+        {
+          "project": "Media Engine",
+          "status": "migrating",
+          "note": "Sidebar and shell standard being normalized."
+        },
+        {
+          "project": "Media Business Operations",
+          "status": "adopted",
+          "note": "Runtime bridge uses one shell."
+        }
+      ],
+      "demoHtml": "\n    <div class=\"hdk-shell\" data-hdk-component=\"DashboardShell\" data-experience-tier=\"tier-3\" data-review-id=\"hdk.gallery.actual.shell\">\n      \n      <aside class=\"hdk-sidebar hdk-sidebar-rail\" data-hdk-component=\"Sidebar\" data-component=\"DashboardSidebar\">\n        <div class=\"hdk-brand hdk-sidebar-brand\" data-sidebar-brand>\n          <span class=\"hdk-brand__mark\">H</span>\n          <span>\n            <strong>Live Command</strong>\n            <small>Find the live market worth inspecting now.</small>\n          </span>\n        </div>\n        <nav class=\"hdk-nav\" aria-label=\"Dashboard navigation\">\n          \n            <section class=\"hdk-nav-group\" data-nav-group=\"command\">\n              <p class=\"hdk-nav-group-title\">Command</p>\n              <a class=\"is-active\" href=\"#live\" data-short=\"Live\" aria-current=\"page\">Live Command</a><a class=\"\" href=\"#browser\" data-short=\"Browse\">Market Browser</a><a class=\"\" href=\"#daily\" data-short=\"Daily\">Daily Intelligence</a>\n            </section>\n          \n        </nav>\n        \n          <div class=\"hdk-sidebar-footer\" data-sidebar-footer>\n            <div class=\"hdk-sidebar-status\">Proof route ready</div>\n            \n          </div>\n        \n      </aside>\n      <main class=\"hdk-main\">\n        <header class=\"hdk-header\" data-hdk-component=\"Header\">\n          <div>\n            <p class=\"hdk-eyebrow\">Operator Workspace</p>\n            <h1>Live Command</h1>\n            <p>Find the live market worth inspecting now.</p>\n          </div>\n          \n        </header>\n        <section class=\"hdk-card\"><div class=\"hdk-card__header\"><h2>Operator workspace</h2><p>Single shell, bounded page scroll, active route visible.</p></div></section>\n      </main>\n    </div>\n  ",
+      "variants": [
+        "expanded sidebar",
+        "collapsed sidebar",
+        "mobile drawer",
+        "command header",
+        "proof strip"
+      ],
+      "acceptance": [
+        "There is exactly one shell and one route model.",
+        "Navigation labels remain readable and the main pane owns scrolling."
+      ],
+      "projectUses": [
+        "Kashi VC",
+        "Media Engine",
+        "Media Business Operations",
+        "Meal Assistant"
+      ],
+      "previewKind": "shell"
+    },
+    {
+      "id": "metric-proof",
+      "family": "Metric And Proof Cards",
+      "status": "approved",
+      "targetTier": "tier-3",
+      "components": [
+        "MetricCard",
+        "StatusPill",
+        "StatePanel",
+        "StateChecklist",
+        "KpiContractTable"
+      ],
+      "references": [
+        "Mixpanel",
+        "Vercel",
+        "Wrike"
+      ],
+      "reviewScore": 80,
+      "reviewer": "human-operator",
+      "reviewedAt": "2026-08-07T00:00:00.000Z",
+      "approvedVariants": [
+        "metric strip",
+        "proof strip",
+        "state checklist",
+        "freshness strip",
+        "overflow stress"
+      ],
+      "blockedVariants": [
+        "debug telemetry cards",
+        "duplicate hero proof banners",
+        "unbounded card text"
+      ],
+      "notes": [
+        "Cards must answer an operator question, not expose implementation trivia.",
+        "Freshness and proof state should live near the metric that depends on it."
+      ],
+      "nextActions": [
+        "Add regression cases for long labels, missing values, and mixed light/dark token usage.",
+        "Add guidance for when proof state belongs in a card versus a table toolbar."
+      ],
+      "projectReadiness": [
+        {
+          "project": "Kashi VC",
+          "status": "migrating",
+          "note": "Proof state exists but needs cleaner data contracts."
+        },
+        {
+          "project": "Media Engine",
+          "status": "migrating",
+          "note": "Brand output proof cards being reduced to actionable metrics."
+        }
+      ],
+      "demoHtml": "\n    <section class=\"hdk-state-checklist\" data-hdk-component=\"StateChecklist\" data-review-id=\"hdk.gallery.actual.metric-proof\">\n      <header class=\"hdk-card__header\"><h2>Proof readiness</h2></header>\n      \n        <article class=\"hdk-state-row hdk-tone-neutral\">\n          <span>Live data loaded</span>\n          <strong>approved</strong>\n          <p>2 minutes ago</p>\n        </article>\n      \n        <article class=\"hdk-state-row hdk-tone-neutral\">\n          <span>Charts have axes</span>\n          <strong>approved</strong>\n          <p>count by day</p>\n        </article>\n      \n        <article class=\"hdk-state-row hdk-tone-neutral\">\n          <span>Production proof</span>\n          <strong>reviewing</strong>\n          <p>desktop pending</p>\n        </article>\n      \n    </section>\n  ",
+      "variants": [
+        "metric strip",
+        "proof strip",
+        "state checklist",
+        "freshness strip",
+        "overflow stress"
+      ],
+      "acceptance": [
+        "Metrics are compact, text-safe, and tied to freshness.",
+        "Debug telemetry is hidden unless it changes an operator decision."
+      ],
+      "projectUses": [
+        "Media Business Operations",
+        "Kashi VC",
+        "Hermes OS",
+        "TLC OS"
+      ],
+      "previewKind": "metrics"
+    },
+    {
+      "id": "chart-suite",
+      "family": "Charts And Comparisons",
+      "status": "reviewing",
+      "targetTier": "tier-3",
+      "components": [
+        "LineChart",
+        "AreaChart",
+        "BarChart",
+        "DonutChart",
+        "Heatmap",
+        "ScatterQuadrantChart",
+        "CandlestickChart",
+        "AnomalyBandChart"
+      ],
+      "references": [
+        "Kraken",
+        "OKX",
+        "Mixpanel",
+        "LangChain"
+      ],
+      "reviewScore": 62,
+      "reviewer": "human-operator",
+      "reviewedAt": null,
+      "approvedVariants": [
+        "line",
+        "area",
+        "bar",
+        "donut",
+        "heatmap"
+      ],
+      "blockedVariants": [
+        "hand-drawn placeholder chart",
+        "axisless primary chart",
+        "chart without unit labels"
+      ],
+      "notes": [
+        "Primary charts require axes, units, legends, and explicit time windows.",
+        "Comparison mode must support adding/removing metrics or brands without rebuilding the page.",
+        "Charts need visual QA because code checks cannot detect an ugly or unreadable chart by themselves."
+      ],
+      "nextActions": [
+        "Build richer chart preview variants with hover, legend, comparison, and density states.",
+        "Add screenshot assertions for axis visibility and nonblank chart regions.",
+        "Migrate Media Engine brand activity and Kashi market browser charts to approved kit components."
+      ],
+      "projectReadiness": [
+        {
+          "project": "Kashi VC",
+          "status": "blocked",
+          "note": "Market charts still drift into basic SVG/static route behavior."
+        },
+        {
+          "project": "Media Engine",
+          "status": "migrating",
+          "note": "Exception and brand activity trends need package-native charts."
+        },
+        {
+          "project": "Media Business Operations",
+          "status": "migrating",
+          "note": "Cards render, chart variants still need proof baselines."
+        }
+      ],
+      "demoHtml": "\n    <section class=\"hdk-card hdk-chart-card\" data-hdk-component=\"LineChart\" data-review-id=\"hdk.gallery.actual.line-chart\">\n      \n    <header class=\"hdk-card__header\">\n      <div>\n        <h2>Approval trend</h2>\n        <p>X axis: day · Y axis: approvals</p>\n      </div>\n    </header>\n  \n      \n        <svg class=\"hdk-chart\" viewBox=\"0 0 760 320\" role=\"img\" aria-label=\"Approval trend\">\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"272\" y2=\"272\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"276\" text-anchor=\"end\">0</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"210\" y2=\"210\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"214\" text-anchor=\"end\">10.5</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"148\" y2=\"148\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"152\" text-anchor=\"end\">21</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"86\" y2=\"86\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"90\" text-anchor=\"end\">31.5</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"24\" y2=\"24\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"28\" text-anchor=\"end\">42</text>\n          \n          <text class=\"hdk-chart__axis\" x=\"58\" y=\"304\" text-anchor=\"middle\">Mon</text><text class=\"hdk-chart__axis\" x=\"395\" y=\"304\" text-anchor=\"middle\">Thu</text><text class=\"hdk-chart__axis\" x=\"732\" y=\"304\" text-anchor=\"middle\">Sun</text>\n          <text class=\"hdk-chart__label\" x=\"58\" y=\"316\">Day</text>\n          <text class=\"hdk-chart__label\" x=\"14\" y=\"24\" transform=\"rotate(-90 14 24)\">Approvals</text>\n          \n          <path class=\"hdk-chart__line\" d=\"M 58.00 201.14 L 170.33 165.71 L 282.67 189.33 L 395.00 112.57 L 507.33 71.24 L 619.67 94.86 L 732.00 24.00\"></path><circle class=\"hdk-chart__point\" cx=\"58\" cy=\"201.14285714285717\" r=\"4\"><title>Mon: 12</title></circle><circle class=\"hdk-chart__point\" cx=\"170.33333333333331\" cy=\"165.71428571428572\" r=\"4\"><title>Tue: 18</title></circle><circle class=\"hdk-chart__point\" cx=\"282.66666666666663\" cy=\"189.33333333333334\" r=\"4\"><title>Wed: 14</title></circle><circle class=\"hdk-chart__point\" cx=\"395\" cy=\"112.57142857142856\" r=\"4\"><title>Thu: 27</title></circle><circle class=\"hdk-chart__point\" cx=\"507.3333333333333\" cy=\"71.23809523809524\" r=\"4\"><title>Fri: 34</title></circle><circle class=\"hdk-chart__point\" cx=\"619.6666666666667\" cy=\"94.85714285714286\" r=\"4\"><title>Sat: 30</title></circle><circle class=\"hdk-chart__point\" cx=\"732\" cy=\"24\" r=\"4\"><title>Sun: 42</title></circle>\n        </svg>\n      \n    </section>\n  \n    <section class=\"hdk-card hdk-chart-card\" data-hdk-component=\"BarChart\" data-review-id=\"hdk.gallery.actual.bar-chart\">\n      \n    <header class=\"hdk-card__header\">\n      <div>\n        <h2>Issue volume</h2>\n        <p>X axis: day · Y axis: issues</p>\n      </div>\n    </header>\n  \n      \n        <svg class=\"hdk-chart\" viewBox=\"0 0 760 320\" role=\"img\" aria-label=\"Issue volume\">\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"272\" y2=\"272\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"276\" text-anchor=\"end\">0</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"210\" y2=\"210\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"214\" text-anchor=\"end\">2.8</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"148\" y2=\"148\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"152\" text-anchor=\"end\">5.5</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"86\" y2=\"86\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"90\" text-anchor=\"end\">8.3</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"24\" y2=\"24\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"28\" text-anchor=\"end\">11</text>\n          \n          <text class=\"hdk-chart__axis\" x=\"58\" y=\"304\" text-anchor=\"middle\">Mon</text><text class=\"hdk-chart__axis\" x=\"395\" y=\"304\" text-anchor=\"middle\">Thu</text><text class=\"hdk-chart__axis\" x=\"732\" y=\"304\" text-anchor=\"middle\">Sun</text>\n          <text class=\"hdk-chart__label\" x=\"58\" y=\"316\">Day</text>\n          <text class=\"hdk-chart__label\" x=\"14\" y=\"24\" transform=\"rotate(-90 14 24)\">Issues</text>\n          \n          <rect class=\"hdk-chart__bar\" x=\"30.077142857142857\" y=\"114.18181818181819\" width=\"55.84571428571429\" height=\"157.8181818181818\"><title>Mon: 7</title></rect><rect class=\"hdk-chart__bar\" x=\"142.41047619047617\" y=\"159.27272727272728\" width=\"55.84571428571429\" height=\"112.72727272727272\"><title>Tue: 5</title></rect><rect class=\"hdk-chart__bar\" x=\"254.7438095238095\" y=\"24\" width=\"55.84571428571429\" height=\"248\"><title>Wed: 11</title></rect><rect class=\"hdk-chart__bar\" x=\"367.07714285714286\" y=\"136.72727272727275\" width=\"55.84571428571429\" height=\"135.27272727272725\"><title>Thu: 6</title></rect><rect class=\"hdk-chart__bar\" x=\"479.4104761904762\" y=\"204.36363636363637\" width=\"55.84571428571429\" height=\"67.63636363636363\"><title>Fri: 3</title></rect><rect class=\"hdk-chart__bar\" x=\"591.7438095238095\" y=\"69.09090909090907\" width=\"55.84571428571429\" height=\"202.90909090909093\"><title>Sat: 9</title></rect><rect class=\"hdk-chart__bar\" x=\"704.0771428571428\" y=\"181.8181818181818\" width=\"55.84571428571429\" height=\"90.18181818181819\"><title>Sun: 4</title></rect>\n        </svg>\n      \n    </section>\n  \n    <section class=\"hdk-card hdk-chart-card\" data-hdk-component=\"DonutChart\" data-review-id=\"hdk.gallery.actual.donut-chart\">\n      \n    <header class=\"hdk-card__header\">\n      <div>\n        <h2>Channel mix</h2>\n        <p>Share of total</p>\n      </div>\n    </header>\n  \n      <div class=\"hdk-donut-layout\">\n        <svg class=\"hdk-donut\" viewBox=\"0 0 260 260\" role=\"img\" aria-label=\"Channel mix\">\n          <circle class=\"hdk-donut__track\" cx=\"130\" cy=\"130\" r=\"113\" stroke-width=\"34\" fill=\"none\"></circle>\n          <circle class=\"hdk-donut__segment hdk-fill-0\" cx=\"130\" cy=\"130\" r=\"113\" stroke-dasharray=\"298.19997467874316 411.79996503255006\" stroke-dashoffset=\"0\" stroke-width=\"34\" fill=\"none\"></circle><circle class=\"hdk-donut__segment hdk-fill-1\" cx=\"130\" cy=\"130\" r=\"113\" stroke-dasharray=\"198.79998311916214 511.1999565921311\" stroke-dashoffset=\"-298.19997467874316\" stroke-width=\"34\" fill=\"none\"></circle><circle class=\"hdk-donut__segment hdk-fill-2\" cx=\"130\" cy=\"130\" r=\"113\" stroke-dasharray=\"212.99998191338796 496.99995779790527\" stroke-dashoffset=\"-496.99995779790527\" stroke-width=\"34\" fill=\"none\"></circle>\n        </svg>\n        <ul class=\"hdk-legend\">\n          <li><span class=\"hdk-swatch hdk-fill-0\"></span>Instagram <strong>42</strong></li><li><span class=\"hdk-swatch hdk-fill-1\"></span>Facebook <strong>28</strong></li><li><span class=\"hdk-swatch hdk-fill-2\"></span>YouTube <strong>30</strong></li>\n        </ul>\n      </div>\n    </section>\n  ",
+      "variants": [
+        "line",
+        "area",
+        "bar",
+        "donut",
+        "heatmap",
+        "scatter",
+        "candlestick",
+        "anomaly"
+      ],
+      "acceptance": [
+        "Primary charts have visible axes, units, legends, and time windows.",
+        "Charts never fall back to hand-drawn placeholder paths for Tier 3."
+      ],
+      "projectUses": [
+        "Kashi Market Browser",
+        "Media Engine Brand Activity",
+        "Cost Intelligence",
+        "Learning Ledger"
+      ],
+      "previewKind": "charts"
+    },
+    {
+      "id": "tables-queues",
+      "family": "Tables And Queues",
+      "status": "approved",
+      "targetTier": "tier-3",
+      "components": [
+        "DataTable",
+        "DataTableTabs",
+        "ApprovalQueue",
+        "ActionQueue",
+        "AlertQueue",
+        "WorkOrderQueue"
+      ],
+      "references": [
+        "Linear",
+        "Asana",
+        "Manus",
+        "PlanetScale"
+      ],
+      "reviewScore": 78,
+      "reviewer": "human-operator",
+      "reviewedAt": "2026-08-07T00:00:00.000Z",
+      "approvedVariants": [
+        "approval queue",
+        "evidence table",
+        "comparison table",
+        "toolbar sorting",
+        "pagination"
+      ],
+      "blockedVariants": [
+        "duplicate table headers",
+        "two pagination footers",
+        "large evidence tables side-by-side"
+      ],
+      "notes": [
+        "Tables sit inside one card with one header, one toolbar, and one pagination footer.",
+        "Default page size is 10 with 25 and 50 available.",
+        "Sorting belongs in a toolbar control when many metrics are sortable."
+      ],
+      "nextActions": [
+        "Add audit checks for duplicate table headers and duplicate pagination footers.",
+        "Add table-card composition examples for queues, evidence, and brand comparisons."
+      ],
+      "projectReadiness": [
+        {
+          "project": "Media Engine",
+          "status": "migrating",
+          "note": "QA and blocker tables are being standardized."
+        },
+        {
+          "project": "Kashi VC",
+          "status": "migrating",
+          "note": "Market table pagination and browser density still need package-native migration."
+        }
+      ],
+      "demoHtml": "\n    <section class=\"hdk-card hdk-table-card\" data-hdk-component=\"DataTable\" data-page-size=\"10\" data-pagination=\"table-window\" data-review-id=\"hdk.gallery.actual.data-table\">\n      <div class=\"hdk-card__header\"><h2>Approval queue</h2></div>\n      <div class=\"hdk-table-wrap\" data-hdk-component=\"TableSurface\">\n        <table class=\"hdk-table\">\n          <thead><tr><th scope=\"col\">Item</th><th scope=\"col\">Status</th><th scope=\"col\">Owner</th><th scope=\"col\">Age</th></tr></thead>\n          <tbody>\n            \n              <tr>\n                <td>Finance for Thought carousel</td><td>approved</td><td>Ops</td><td>1h</td>\n              </tr>\n            \n              <tr>\n                <td>Unimportant News video</td><td>reviewing</td><td>Human</td><td>2h</td>\n              </tr>\n            \n              <tr>\n                <td>Kashi live market</td><td>partial</td><td>Kashi</td><td>4m</td>\n              </tr>\n            \n              <tr>\n                <td>Media proof capture</td><td>blocked</td><td>Hermes</td><td>1d</td>\n              </tr>\n            \n          </tbody>\n        </table>\n      </div>\n      <footer class=\"hdk-pagination\" data-hdk-component=\"Pagination\">\n        <span>Showing 1-4 of 24</span>\n        <div>\n          <label>Rows <select aria-label=\"Rows per page\"><option value=\"10\" selected>10</option><option value=\"25\">25</option><option value=\"50\">50</option></select></label>\n          <button type=\"button\" disabled>Previous</button>\n          <button type=\"button\">Next</button>\n        </div>\n      </footer>\n    </section>\n  ",
+      "variants": [
+        "approval queue",
+        "evidence table",
+        "comparison table",
+        "toolbar sorting",
+        "pagination"
+      ],
+      "acceptance": [
+        "Tables sit inside one card, use toolbar controls, and paginate after ten rows.",
+        "Large evidence tables do not sit side-by-side."
+      ],
+      "projectUses": [
+        "Media Engine QA Review",
+        "Media Business Ops",
+        "Kashi Experiments",
+        "TLC OKRs"
+      ],
+      "previewKind": "table"
+    },
+    {
+      "id": "drawers-drilldowns",
+      "family": "Drawers And Drilldowns",
+      "status": "reviewing",
+      "targetTier": "tier-3",
+      "components": [
+        "DetailDrawer",
+        "MarketVolatilityDrawer",
+        "RunDrilldownPanel",
+        "LocationDetailDrawer",
+        "BottomSheetDrawer"
+      ],
+      "references": [
+        "Coinbase",
+        "Jobber",
+        "Productboard"
+      ],
+      "reviewScore": 68,
+      "reviewer": "human-operator",
+      "reviewedAt": null,
+      "approvedVariants": [
+        "right drawer",
+        "market detail",
+        "approval detail",
+        "issue detail",
+        "mobile bottom sheet"
+      ],
+      "blockedVariants": [
+        "page jump detail",
+        "modal that hides browse context",
+        "blank prototype drawer for real data"
+      ],
+      "notes": [
+        "A selected row should open a drilldown without losing the operator's place.",
+        "Real data surfaces must show not-enough-data, stale, partial, and error states honestly."
+      ],
+      "nextActions": [
+        "Add keyboard/focus rules for drawers and bottom sheets.",
+        "Create market-detail and approval-detail reference snapshots."
+      ],
+      "projectReadiness": [
+        {
+          "project": "Kashi VC",
+          "status": "migrating",
+          "note": "Selected-market detail exists but needs richer browsing/detail split."
+        },
+        {
+          "project": "Meal Assistant",
+          "status": "draft",
+          "note": "Planner drawer needs package-native component adoption."
+        }
+      ],
+      "demoHtml": "<section class=\"hdk-card\" data-hdk-component=\"DetailDrawerDemo\" data-review-id=\"hdk.gallery.actual.drawer\">\n      <div class=\"hdk-card__header\"><h2>Selected detail drawer</h2><p>Preserve context while showing facts, proof, charts, and actions.</p></div>\n      <div class=\"hdk-market-browser\">\n        <div class=\"hdk-market-browser__tape\">\n    <section class=\"hdk-card hdk-table-card\" data-hdk-component=\"DataTable\" data-page-size=\"10\" data-pagination=\"table-window\">\n      \n      <div class=\"hdk-table-wrap\" data-hdk-component=\"TableSurface\">\n        <table class=\"hdk-table\">\n          <thead><tr><th scope=\"col\">Item</th><th scope=\"col\">Status</th><th scope=\"col\">Age</th></tr></thead>\n          <tbody>\n            \n              <tr>\n                <td>Finance for Thought carousel</td><td>approved</td><td>1h</td>\n              </tr>\n            \n              <tr>\n                <td>Unimportant News video</td><td>reviewing</td><td>2h</td>\n              </tr>\n            \n              <tr>\n                <td>Kashi live market</td><td>partial</td><td>4m</td>\n              </tr>\n            \n              <tr>\n                <td>Media proof capture</td><td>blocked</td><td>1d</td>\n              </tr>\n            \n          </tbody>\n        </table>\n      </div>\n      <footer class=\"hdk-pagination\" data-hdk-component=\"Pagination\">\n        <span>Showing 1-4 of 4</span>\n        <div>\n          <label>Rows <select aria-label=\"Rows per page\"><option value=\"10\" selected>10</option><option value=\"25\">25</option><option value=\"50\">50</option></select></label>\n          <button type=\"button\" disabled>Previous</button>\n          <button type=\"button\" disabled>Next</button>\n        </div>\n      </footer>\n    </section>\n  </div>\n        <aside class=\"hdk-market-browser__detail\">\n    <section class=\"hdk-card hdk-chart-card\" data-hdk-component=\"LineChart\">\n      \n    <header class=\"hdk-card__header\">\n      <div>\n        <h2>Selected item history</h2>\n        \n      </div>\n    </header>\n  \n      \n        <svg class=\"hdk-chart\" viewBox=\"0 0 760 320\" role=\"img\" aria-label=\"Selected item history\">\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"272\" y2=\"272\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"276\" text-anchor=\"end\">0</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"210\" y2=\"210\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"214\" text-anchor=\"end\">10.5</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"148\" y2=\"148\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"152\" text-anchor=\"end\">21</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"86\" y2=\"86\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"90\" text-anchor=\"end\">31.5</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"24\" y2=\"24\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"28\" text-anchor=\"end\">42</text>\n          \n          <text class=\"hdk-chart__axis\" x=\"58\" y=\"304\" text-anchor=\"middle\">Mon</text><text class=\"hdk-chart__axis\" x=\"395\" y=\"304\" text-anchor=\"middle\">Thu</text><text class=\"hdk-chart__axis\" x=\"732\" y=\"304\" text-anchor=\"middle\">Sun</text>\n          <text class=\"hdk-chart__label\" x=\"58\" y=\"316\">Day</text>\n          <text class=\"hdk-chart__label\" x=\"14\" y=\"24\" transform=\"rotate(-90 14 24)\">Value</text>\n          \n          <path class=\"hdk-chart__line\" d=\"M 58.00 201.14 L 170.33 165.71 L 282.67 189.33 L 395.00 112.57 L 507.33 71.24 L 619.67 94.86 L 732.00 24.00\"></path><circle class=\"hdk-chart__point\" cx=\"58\" cy=\"201.14285714285717\" r=\"4\"><title>Mon: 12</title></circle><circle class=\"hdk-chart__point\" cx=\"170.33333333333331\" cy=\"165.71428571428572\" r=\"4\"><title>Tue: 18</title></circle><circle class=\"hdk-chart__point\" cx=\"282.66666666666663\" cy=\"189.33333333333334\" r=\"4\"><title>Wed: 14</title></circle><circle class=\"hdk-chart__point\" cx=\"395\" cy=\"112.57142857142856\" r=\"4\"><title>Thu: 27</title></circle><circle class=\"hdk-chart__point\" cx=\"507.3333333333333\" cy=\"71.23809523809524\" r=\"4\"><title>Fri: 34</title></circle><circle class=\"hdk-chart__point\" cx=\"619.6666666666667\" cy=\"94.85714285714286\" r=\"4\"><title>Sat: 30</title></circle><circle class=\"hdk-chart__point\" cx=\"732\" cy=\"24\" r=\"4\"><title>Sun: 42</title></circle>\n        </svg>\n      \n    </section>\n  </aside>\n      </div>\n    </section>",
+      "variants": [
+        "right drawer",
+        "market detail",
+        "approval detail",
+        "issue detail",
+        "mobile bottom sheet"
+      ],
+      "acceptance": [
+        "Drilldowns preserve browsing context.",
+        "Immediate facts, evidence, charts, and actions are visually separated."
+      ],
+      "projectUses": [
+        "Kashi Market Detail",
+        "Media Approval Review",
+        "Meal Day Planner"
+      ],
+      "previewKind": "drawer"
+    },
+    {
+      "id": "market-browser",
+      "family": "Market Browser",
+      "status": "reviewing",
+      "targetTier": "tier-3",
+      "components": [
+        "MarketExplorerPage",
+        "MarketBrowserLayout",
+        "MarketTape",
+        "OrderBookLadder",
+        "TimeWindowSelector"
+      ],
+      "references": [
+        "Kraken",
+        "Binance",
+        "OKX",
+        "Coinbase"
+      ],
+      "reviewScore": 61,
+      "reviewer": "human-operator",
+      "reviewedAt": null,
+      "approvedVariants": [
+        "category browser",
+        "sub-category rail",
+        "market tape",
+        "selected market",
+        "stream proof"
+      ],
+      "blockedVariants": [
+        "search-first empty browser",
+        "default blank selected chart",
+        "static market route"
+      ],
+      "notes": [
+        "Browsing should start with category/subcategory discovery, not an empty search field.",
+        "Streaming and snapshots should be distinguishable but visually connected.",
+        "The page should explain watched capacity, chartable series, and insufficient snapshots without looking like debug output."
+      ],
+      "nextActions": [
+        "Create a package-native market browser reference page.",
+        "Add capacity governor and stream proof components to the chart/detail contract.",
+        "Capture Kashi production proof screenshots after route migration."
+      ],
+      "projectReadiness": [
+        {
+          "project": "Kashi VC",
+          "status": "blocked",
+          "note": "Still depends on local/static browser patterns."
+        }
+      ],
+      "demoHtml": "\n    <div class=\"hdk-market-explorer-page\" data-hdk-component=\"MarketExplorerPage\" data-hdk-recipe=\"package-native-market-browser\" data-review-id=\"hdk.gallery.actual.market-browser\">\n      <div class=\"hdk-partial-banner hdk-market-explorer-note\" data-hdk-component=\"PartialDataBanner\">Actual kit output: browse first, then filter/search inside category.</div>\n      <section class=\"hdk-market-explorer\" data-hdk-component=\"MarketBrowserLayout\">\n        <aside class=\"hdk-card hdk-browser-pane\" data-hdk-component=\"CategoryBrowserPane\" data-review-id=\"hdk.market-explorer.categories\">\n          <div class=\"hdk-card__header\">\n            <div>\n              <h2>Browse markets</h2>\n              <p>Start with a category, then narrow by topic or market text.</p>\n            </div>\n            <span class=\"hdk-status-badge\" data-live=\"browserCount\">240 watched</span>\n          </div>\n          <div class=\"hdk-browser-category-list\" data-live=\"browserCategories\">\n        <button class=\"hdk-browser-category is-active\" type=\"button\" data-category-filter=\"all\">\n          <span>All live</span>\n          <strong>488</strong>\n        </button>\n      \n        <button class=\"hdk-browser-category \" type=\"button\" data-category-filter=\"sports\">\n          <span>Sports</span>\n          <strong>240</strong>\n        </button>\n      \n        <button class=\"hdk-browser-category \" type=\"button\" data-category-filter=\"politics\">\n          <span>Politics</span>\n          <strong>62</strong>\n        </button>\n      \n        <button class=\"hdk-browser-category \" type=\"button\" data-category-filter=\"financials\">\n          <span>Financials</span>\n          <strong>41</strong>\n        </button>\n      </div>\n          <div class=\"hdk-browser-movers\">\n            <p class=\"hdk-section-kicker\">Fast movers</p>\n            <div data-live=\"browserTopMovers\">\n        <button class=\"hdk-browser-mover\" type=\"button\" data-market-id=\"m1\">\n          <span>Will Team A win tonight?</span>\n          <strong class=\"hdk-positive\">+8c</strong>\n        </button>\n      \n        <button class=\"hdk-browser-mover\" type=\"button\" data-market-id=\"m2\">\n          <span>Rate decision this week?</span>\n          <strong class=\"hdk-negative\">-4c</strong>\n        </button>\n      </div>\n          </div>\n        </aside>\n        <section class=\"hdk-card hdk-browser-results\" data-hdk-component=\"MarketTapeWorkspace\" data-review-id=\"hdk.market-explorer.tape\">\n          <div class=\"hdk-card__header hdk-card__header-row\">\n            <div>\n              <p class=\"hdk-section-kicker\">Live market tape</p>\n              <h2 data-live=\"marketTapeTitle\">Sports live markets</h2>\n            </div>\n            <span class=\"hdk-status-badge\" data-live=\"marketCount\">488 live</span>\n          </div>\n          <label class=\"hdk-search\">\n            <span>Search within selection</span>\n            <input type=\"search\" data-live=\"marketSearch\" placeholder=\"Ticker, team, asset, event...\" autocomplete=\"off\" />\n          </label>\n          <div class=\"hdk-topic-strip\" data-live=\"browserTopics\">\n      <button class=\"hdk-topic-chip is-active\" type=\"button\" data-topic-filter=\"all\">\n        All <span>488</span>\n      </button>\n    \n      <button class=\"hdk-topic-chip \" type=\"button\" data-topic-filter=\"nba\">\n        Basketball <span>72</span>\n      </button>\n    \n      <button class=\"hdk-topic-chip \" type=\"button\" data-topic-filter=\"elections\">\n        Elections <span>62</span>\n      </button>\n    </div>\n          \n    <section class=\"hdk-market-tape\" data-hdk-component=\"MarketTape\" data-review-id=\"hdk.market-explorer.market-tape\">\n      <div class=\"hdk-market-tape-scroller\">\n        <div class=\"hdk-market-tape-header\" style=\"--hdk-market-columns:6\">\n          <span>Market</span><span>Category</span><span>Mid</span><span>Spread</span><span>Volume</span><span>Snapshots</span>\n        </div>\n        <div class=\"hdk-market-tape-body\">\n          \n            <button type=\"button\" class=\"hdk-market-tape-row \" style=\"--hdk-market-columns:6\" data-market-id=\"\">\n              <span><strong class=\"hdk-market-title\">Will Team A win tonight?</strong><small class=\"hdk-market-meta\">Sports · basketball</small></span><span></span><span>54c</span><span>3c</span><span></span><span>28</span>\n            </button>\n          \n            <button type=\"button\" class=\"hdk-market-tape-row \" style=\"--hdk-market-columns:6\" data-market-id=\"\">\n              <span><strong class=\"hdk-market-title\">Rate decision this week?</strong><small class=\"hdk-market-meta\">Financials · macro</small></span><span></span><span>47c</span><span>4c</span><span></span><span>17</span>\n            </button>\n          \n        </div>\n      </div>\n      <footer class=\"hdk-pagination\" data-hdk-component=\"Pagination\">\n        <span>Page 1 · 2 of 2</span>\n        <div><button type=\"button\">Previous</button><button type=\"button\">Next</button></div>\n      </footer>\n    </section>\n  \n        </section>\n        <aside class=\"hdk-market-detail-panel\" data-hdk-component=\"MarketDetailPanel\" data-review-id=\"hdk.market-explorer.detail\" data-live=\"detailDrawer\">\n          \n    <section class=\"hdk-card hdk-state hdk-state-empty\" data-hdk-component=\"StatePanel\">\n      <span>empty</span>\n      <h2>Select a market</h2>\n      <p>Choose a live market to inspect price movement, spread, depth, snapshots, and proof state.</p>\n      \n    </section>\n  \n        </aside>\n      </section>\n      \n    </div>\n  ",
+      "variants": [
+        "category browser",
+        "sub-category rail",
+        "market tape",
+        "selected market",
+        "stream proof"
+      ],
+      "acceptance": [
+        "Operators can browse categories without search-first behavior.",
+        "Snapshot and stream states explain whether chart data is live, partial, stale, or insufficient."
+      ],
+      "projectUses": [
+        "Kashi VC Market Browser",
+        "Kashi Live Command"
+      ],
+      "previewKind": "market"
+    },
+    {
+      "id": "media-workflow",
+      "family": "Media Workflow",
+      "status": "draft",
+      "targetTier": "tier-3",
+      "components": [
+        "ContentPackageWorkspace",
+        "BrandPortfolioGrid",
+        "ChannelPostabilityMatrix",
+        "QaReviewPanel",
+        "PublishingProofPanel"
+      ],
+      "references": [
+        "Sprout Social",
+        "Adobe Express",
+        "Manus"
+      ],
+      "reviewScore": 62,
+      "reviewer": "human-operator",
+      "reviewedAt": null,
+      "approvedVariants": [
+        "package card",
+        "approve/decline",
+        "publishable channels",
+        "posting proof",
+        "Discord handoff"
+      ],
+      "blockedVariants": [
+        "package without approval actions",
+        "missing publishable channel list",
+        "Discord payload without posting result"
+      ],
+      "notes": [
+        "The dashboard and Discord message should agree on approval state, decline reason, publishable destinations, and posting success.",
+        "Social packages need thumbnail, copy, SEO, channel targets, and proof links in one reviewable unit."
+      ],
+      "nextActions": [
+        "Add approved Discord handoff and dashboard package review examples.",
+        "Add publishing proof states for success, partial, failed, skipped, and unavailable."
+      ],
+      "projectReadiness": [
+        {
+          "project": "Media Engine",
+          "status": "migrating",
+          "note": "Pipeline and approval buttons are active but need componentized UI."
+        },
+        {
+          "project": "Media Business Operations",
+          "status": "migrating",
+          "note": "Portfolio health should share package status components."
+        }
+      ],
+      "demoHtml": "\n    <section class=\"hdk-content-package\" data-hdk-component=\"ContentPackageWorkspace\" data-review-id=\"hdk.gallery.actual.media-workflow\">\n      <header class=\"hdk-card__header\">\n        <div>\n          <h2>Content package review</h2>\n          <p>Thumbnail, transcript-derived SEO, channel destinations, and posting proof.</p>\n        </div>\n        <span class=\"hdk-package-status hdk-tone-neutral\">reviewing</span>\n      </header>\n      <div class=\"hdk-content-package__grid\">\n        <div class=\"hdk-package-preview\">\n          \n    <section class=\"hdk-card hdk-state hdk-state-empty\" data-hdk-component=\"StatePanel\">\n      <span>empty</span>\n      <h2>No thumbnail yet</h2>\n      <p>Thumbnail output has not been attached.</p>\n      \n    </section>\n  \n        </div>\n        <div class=\"hdk-package-detail\">\n          <dl class=\"hdk-fact-grid\"><div><dt>Brand</dt><dd>Unimportant News</dd></div><div><dt>Platform</dt><dd>YouTube</dd></div><div><dt>Status</dt><dd>reviewing</dd></div><div><dt>SEO</dt><dd>82</dd></div><div><dt>Transcript</dt><dd>complete</dd></div></dl>\n          \n          <article class=\"hdk-package-copy\"><h3>Upload copy</h3><p>A direct upload-ready description with title, summary, tags, and publishable channel state.</p></article>\n          <div class=\"hdk-package-assets\"><a href=\"#\">Thumbnail PNG</a><a href=\"#\">Video link</a></div>\n        </div>\n      </div>\n      \n    <section class=\"hdk-state-checklist\" data-hdk-component=\"StateChecklist\">\n      <header class=\"hdk-card__header\"><h2>Package readiness</h2></header>\n      \n        <article class=\"hdk-state-row hdk-tone-neutral\">\n          <span>Thumbnail attached</span>\n          <strong>approved</strong>\n          \n        </article>\n      \n        <article class=\"hdk-state-row hdk-tone-neutral\">\n          <span>SEO copy generated</span>\n          <strong>approved</strong>\n          \n        </article>\n      \n        <article class=\"hdk-state-row hdk-tone-neutral\">\n          <span>Posting result</span>\n          <strong>reviewing</strong>\n          \n        </article>\n      \n    </section>\n  \n    </section>\n  ",
+      "variants": [
+        "package card",
+        "approve/decline",
+        "publishable channels",
+        "posting proof",
+        "Discord handoff"
+      ],
+      "acceptance": [
+        "Approval, rejection reason, channel destination, asset readiness, and posting result are visible.",
+        "Dashboard and Discord payloads do not duplicate non-actionable banners."
+      ],
+      "projectUses": [
+        "Media Engine",
+        "Media Business Operations",
+        "Unimportant News video pipeline"
+      ],
+      "previewKind": "media"
+    },
+    {
+      "id": "calendar-planning",
+      "family": "Calendar And Planning",
+      "status": "draft",
+      "targetTier": "tier-3",
+      "components": [
+        "MealPlannerCalendar",
+        "MealWeekDrawer",
+        "ScheduleTimeline",
+        "CalendarQueue",
+        "MealLibrary"
+      ],
+      "references": [
+        "Amie",
+        "Motion",
+        "Jobber",
+        "Time2book"
+      ],
+      "reviewScore": 55,
+      "reviewer": "human-operator",
+      "reviewedAt": null,
+      "approvedVariants": [
+        "month grid",
+        "selected day",
+        "multi-day range",
+        "right planning drawer",
+        "meal library"
+      ],
+      "blockedVariants": [
+        "calendar made of disconnected cards",
+        "plan-week only interaction",
+        "form without multi-day navigation"
+      ],
+      "notes": [
+        "Calendar surfaces need a real month grid and selected day/range planning model.",
+        "Manual input can allow repetition; auto-generation should avoid back-to-back repeated proteins."
+      ],
+      "nextActions": [
+        "Build premium calendar and planning drawer examples.",
+        "Add Meal Assistant migration checklist for month, drawer, library, and shopping list export."
+      ],
+      "projectReadiness": [
+        {
+          "project": "Meal Assistant",
+          "status": "blocked",
+          "note": "Needs React/package-native dashboard migration for Tier 3."
+        }
+      ],
+      "demoHtml": "\n    <section class=\"hdk-operational-panel hdk-operational-matrix\" data-hdk-component=\"MealPlannerCalendar\" data-review-id=\"hdk.gallery.actual.calendar\">\n      <header class=\"hdk-card__header\"><h2>Meal planner calendar</h2><p>2 row(s)</p></header>\n      <div class=\"hdk-channel-matrix__scroll\">\n        <table class=\"hdk-table\">\n          <thead><tr><th scope=\"col\">Dimension</th><th scope=\"col\">Mon</th><th scope=\"col\">Tue</th><th scope=\"col\">Wed</th><th scope=\"col\">Thu</th><th scope=\"col\">Fri</th></tr></thead>\n          <tbody>\n            \n              <tr>\n                <td><strong>Dinner</strong><small>Manual plus generated planning</small></td>\n                <td><span class=\"hdk-postability hdk-tone-neutral\">Chicken</span></td><td><span class=\"hdk-postability hdk-tone-neutral\">Open</span></td><td><span class=\"hdk-postability hdk-tone-neutral\">Salmon</span></td><td><span class=\"hdk-postability hdk-tone-neutral\">Generate</span></td><td><span class=\"hdk-postability hdk-tone-neutral\">Turkey</span></td>\n              </tr>\n            \n              <tr>\n                <td><strong>Prep</strong><small>Broad checklist</small></td>\n                <td><span class=\"hdk-postability hdk-tone-neutral\">Rice</span></td><td><span class=\"hdk-postability hdk-tone-neutral\">Skip</span></td><td><span class=\"hdk-postability hdk-tone-neutral\">Greens</span></td><td><span class=\"hdk-postability hdk-tone-neutral\">TBD</span></td><td><span class=\"hdk-postability hdk-tone-neutral\">Potatoes</span></td>\n              </tr>\n            \n          </tbody>\n        </table>\n      </div>\n    </section>\n  ",
+      "variants": [
+        "month grid",
+        "selected day",
+        "multi-day range",
+        "right planning drawer",
+        "meal library"
+      ],
+      "acceptance": [
+        "Calendar views look like calendar products, not disconnected cards.",
+        "Manual and generated planning states are clear."
+      ],
+      "projectUses": [
+        "Meal Assistant",
+        "Scheduling surfaces",
+        "Media calendar"
+      ],
+      "previewKind": "calendar"
+    },
+    {
+      "id": "governance-adoption",
+      "family": "Governance And Adoption",
+      "status": "approved",
+      "targetTier": "tier-3",
+      "components": [
+        "GovernanceChecklist",
+        "ReadinessDomainMatrix",
+        "DeploymentPromotionPanel",
+        "PermissionAuditPanel",
+        "ComponentIntakeBoard"
+      ],
+      "references": [
+        "Linear",
+        "Wrike",
+        "Productboard"
+      ],
+      "reviewScore": 80,
+      "reviewer": "human-operator",
+      "reviewedAt": "2026-08-07T00:00:00.000Z",
+      "approvedVariants": [
+        "adoption status",
+        "tier score",
+        "exception expiry",
+        "proof evidence",
+        "next action"
+      ],
+      "blockedVariants": [
+        "unowned exception",
+        "tier complete without proof",
+        "static adapter marked complete"
+      ],
+      "notes": [
+        "Tier promotion should require proof, not only docs.",
+        "Static adapters are compatibility bridges, not completion."
+      ],
+      "nextActions": [
+        "Tie gallery family approval to dashboard promotion checks.",
+        "Add numeric design maturity scoring from manifest, proof, and visual baselines."
+      ],
+      "projectReadiness": [
+        {
+          "project": "Nous Hermes Agent",
+          "status": "adopted",
+          "note": "Governance source of truth lives here."
+        },
+        {
+          "project": "All dashboards",
+          "status": "migrating",
+          "note": "Projects must import the package and register production surfaces."
+        }
+      ],
+      "demoHtml": "\n    <section class=\"hdk-operational-panel\" data-hdk-component=\"GovernanceChecklist\" data-review-id=\"hdk.gallery.actual.governance\">\n      <header class=\"hdk-card__header\">\n        <div>\n          <h2>Tier 3 promotion gate</h2>\n          <p>Project cannot promote without component, proof, and visual evidence.</p>\n        </div>\n        \n      </header>\n      <dl class=\"hdk-mini-metrics hdk-panel-metrics\"><div><dt>Readiness</dt><dd>70%</dd></div><div><dt>Blocked</dt><dd>3</dd></div></dl>\n      <div class=\"hdk-operational-list\">\n        \n          <article class=\"hdk-operational-row hdk-tone-neutral\">\n            <div>\n              <span>approved</span>\n              <h3>Package-native import</h3>\n              <p>@hermes/dashboard-kit detected</p>\n            </div>\n            \n          </article>\n        \n          <article class=\"hdk-operational-row hdk-tone-neutral\">\n            <div>\n              <span>reviewing</span>\n              <h3>Visual baseline</h3>\n              <p>desktop and mobile required</p>\n            </div>\n            \n          </article>\n        \n          <article class=\"hdk-operational-row hdk-tone-danger\">\n            <div>\n              <span>blocked</span>\n              <h3>Static route drift</h3>\n              <p>no production static app routes</p>\n            </div>\n            \n          </article>\n        \n      </div>\n    </section>\n  ",
+      "variants": [
+        "adoption status",
+        "tier score",
+        "exception expiry",
+        "proof evidence",
+        "next action"
+      ],
+      "acceptance": [
+        "The route shows what is approved, blocked, stale, missing, and next.",
+        "Exceptions have owner, reviewer, reason, and expiry."
+      ],
+      "projectUses": [
+        "Nous Hermes Agent",
+        "Hermes OS",
+        "All project migrations"
+      ],
+      "previewKind": "governance"
+    }
+  ],
+  "inventory": [
+    {
+      "id": "shell-navigation",
+      "family": "Core Shell",
+      "status": "approved",
+      "targetTier": "tier-3",
+      "components": [
+        "DashboardShell",
+        "OperationalSidebar",
+        "DashboardHeader",
+        "ProofStrip",
+        "DataFreshnessStrip"
+      ],
+      "references": [
+        "Linear",
+        "Asana",
+        "Vercel"
+      ],
+      "good": "One shell, one sidebar, one route model, compact command header, bounded scroll owner, and proof/freshness visible above the primary work surface.",
+      "userRole": "Approve the navigation grouping, naming, density, collapsed behavior, and whether the page question is obvious.",
+      "reviewStatus": "approved",
+      "reviewer": "human-operator",
+      "reviewedAt": "2026-08-07T00:00:00.000Z",
+      "approvedVariants": [
+        "expanded sidebar",
+        "collapsed sidebar",
+        "mobile drawer",
+        "command header",
+        "proof strip"
+      ],
+      "blockedVariants": [
+        "nested shell",
+        "standalone prototype shell",
+        "duplicate dashboard switcher"
+      ],
+      "reviewScore": 81,
+      "score": {
+        "visualPolish": 88,
+        "interactionCompleteness": 86,
+        "stateCoverage": 84,
+        "accessibility": 82,
+        "projectAdoption": 64
+      },
+      "notes": [
+        "Keep one global shell per dashboard product.",
+        "The main content pane owns vertical scrolling.",
+        "Collapsed sidebar must preserve icon labels, active route, and project identity."
+      ],
+      "nextActions": [
+        "Add screenshot baselines for expanded, collapsed, and mobile drawer states.",
+        "Fail project audits when a production route renders nested shell chrome."
+      ],
+      "projectReadiness": [
+        {
+          "project": "Kashi VC",
+          "status": "migrating",
+          "note": "One-shell migration in progress."
+        },
+        {
+          "project": "Media Engine",
+          "status": "migrating",
+          "note": "Sidebar and shell standard being normalized."
+        },
+        {
+          "project": "Media Business Operations",
+          "status": "adopted",
+          "note": "Runtime bridge uses one shell."
+        }
+      ]
+    },
+    {
+      "id": "metric-proof",
+      "family": "Metric And Proof Cards",
+      "status": "approved",
+      "targetTier": "tier-3",
+      "components": [
+        "MetricCard",
+        "StatusPill",
+        "StatePanel",
+        "StateChecklist",
+        "KpiContractTable"
+      ],
+      "references": [
+        "Mixpanel",
+        "Vercel",
+        "Wrike"
+      ],
+      "good": "Cards are compact, equal-height where useful, text-safe, visibly tied to data freshness, and do not expose implementation telemetry unless actionable.",
+      "userRole": "Reject any metric card that feels like debug noise, duplicate summary, or non-actionable decoration.",
+      "reviewStatus": "approved",
+      "reviewer": "human-operator",
+      "reviewedAt": "2026-08-07T00:00:00.000Z",
+      "approvedVariants": [
+        "metric strip",
+        "proof strip",
+        "state checklist",
+        "freshness strip",
+        "overflow stress"
+      ],
+      "blockedVariants": [
+        "debug telemetry cards",
+        "duplicate hero proof banners",
+        "unbounded card text"
+      ],
+      "reviewScore": 80,
+      "score": {
+        "visualPolish": 84,
+        "interactionCompleteness": 78,
+        "stateCoverage": 86,
+        "accessibility": 82,
+        "projectAdoption": 68
+      },
+      "notes": [
+        "Cards must answer an operator question, not expose implementation trivia.",
+        "Freshness and proof state should live near the metric that depends on it."
+      ],
+      "nextActions": [
+        "Add regression cases for long labels, missing values, and mixed light/dark token usage.",
+        "Add guidance for when proof state belongs in a card versus a table toolbar."
+      ],
+      "projectReadiness": [
+        {
+          "project": "Kashi VC",
+          "status": "migrating",
+          "note": "Proof state exists but needs cleaner data contracts."
+        },
+        {
+          "project": "Media Engine",
+          "status": "migrating",
+          "note": "Brand output proof cards being reduced to actionable metrics."
+        }
+      ]
+    },
+    {
+      "id": "chart-suite",
+      "family": "Charts And Comparisons",
+      "status": "reviewing",
+      "targetTier": "tier-3",
+      "components": [
+        "LineChart",
+        "AreaChart",
+        "BarChart",
+        "DonutChart",
+        "Heatmap",
+        "ScatterQuadrantChart",
+        "CandlestickChart",
+        "AnomalyBandChart"
+      ],
+      "references": [
+        "Kraken",
+        "OKX",
+        "Mixpanel",
+        "LangChain"
+      ],
+      "good": "Primary charts have visible axes, units, time windows, legends, compare controls, hover/focus states, and clear loading/stale/empty/error versions.",
+      "userRole": "Pick the chart density and visual language before we roll it into Kashi, Media Engine, or cost dashboards.",
+      "reviewStatus": "reviewing",
+      "reviewer": "human-operator",
+      "reviewedAt": null,
+      "approvedVariants": [
+        "line",
+        "area",
+        "bar",
+        "donut",
+        "heatmap"
+      ],
+      "blockedVariants": [
+        "hand-drawn placeholder chart",
+        "axisless primary chart",
+        "chart without unit labels"
+      ],
+      "reviewScore": 62,
+      "score": {
+        "visualPolish": 72,
+        "interactionCompleteness": 62,
+        "stateCoverage": 70,
+        "accessibility": 66,
+        "projectAdoption": 42
+      },
+      "notes": [
+        "Primary charts require axes, units, legends, and explicit time windows.",
+        "Comparison mode must support adding/removing metrics or brands without rebuilding the page.",
+        "Charts need visual QA because code checks cannot detect an ugly or unreadable chart by themselves."
+      ],
+      "nextActions": [
+        "Build richer chart preview variants with hover, legend, comparison, and density states.",
+        "Add screenshot assertions for axis visibility and nonblank chart regions.",
+        "Migrate Media Engine brand activity and Kashi market browser charts to approved kit components."
+      ],
+      "projectReadiness": [
+        {
+          "project": "Kashi VC",
+          "status": "blocked",
+          "note": "Market charts still drift into basic SVG/static route behavior."
+        },
+        {
+          "project": "Media Engine",
+          "status": "migrating",
+          "note": "Exception and brand activity trends need package-native charts."
+        },
+        {
+          "project": "Media Business Operations",
+          "status": "migrating",
+          "note": "Cards render, chart variants still need proof baselines."
+        }
+      ]
+    },
+    {
+      "id": "tables-queues",
+      "family": "Tables And Queues",
+      "status": "approved",
+      "targetTier": "tier-3",
+      "components": [
+        "DataTable",
+        "DataTableTabs",
+        "ApprovalQueue",
+        "ActionQueue",
+        "AlertQueue",
+        "WorkOrderQueue"
+      ],
+      "references": [
+        "Linear",
+        "Asana",
+        "Manus",
+        "PlanetScale"
+      ],
+      "good": "Tables live inside one card, paginate after ten rows, use a toolbar for sort/filter/export, and pair with a trend surface when the data is time-series.",
+      "userRole": "Approve which columns are operator-facing and which details move into drawers.",
+      "reviewStatus": "approved",
+      "reviewer": "human-operator",
+      "reviewedAt": "2026-08-07T00:00:00.000Z",
+      "approvedVariants": [
+        "approval queue",
+        "evidence table",
+        "comparison table",
+        "toolbar sorting",
+        "pagination"
+      ],
+      "blockedVariants": [
+        "duplicate table headers",
+        "two pagination footers",
+        "large evidence tables side-by-side"
+      ],
+      "reviewScore": 78,
+      "score": {
+        "visualPolish": 82,
+        "interactionCompleteness": 84,
+        "stateCoverage": 80,
+        "accessibility": 80,
+        "projectAdoption": 62
+      },
+      "notes": [
+        "Tables sit inside one card with one header, one toolbar, and one pagination footer.",
+        "Default page size is 10 with 25 and 50 available.",
+        "Sorting belongs in a toolbar control when many metrics are sortable."
+      ],
+      "nextActions": [
+        "Add audit checks for duplicate table headers and duplicate pagination footers.",
+        "Add table-card composition examples for queues, evidence, and brand comparisons."
+      ],
+      "projectReadiness": [
+        {
+          "project": "Media Engine",
+          "status": "migrating",
+          "note": "QA and blocker tables are being standardized."
+        },
+        {
+          "project": "Kashi VC",
+          "status": "migrating",
+          "note": "Market table pagination and browser density still need package-native migration."
+        }
+      ]
+    },
+    {
+      "id": "drawers-drilldowns",
+      "family": "Drawers And Drilldowns",
+      "status": "reviewing",
+      "targetTier": "tier-3",
+      "components": [
+        "DetailDrawer",
+        "MarketVolatilityDrawer",
+        "RunDrilldownPanel",
+        "LocationDetailDrawer",
+        "BottomSheetDrawer"
+      ],
+      "references": [
+        "Coinbase",
+        "Jobber",
+        "Productboard"
+      ],
+      "good": "Browsing stays in context. Selecting a row opens focused detail with facts, charts, evidence, actions, and honest insufficient-data states.",
+      "userRole": "Tell us what should be visible immediately versus tucked behind evidence/actions.",
+      "reviewStatus": "reviewing",
+      "reviewer": "human-operator",
+      "reviewedAt": null,
+      "approvedVariants": [
+        "right drawer",
+        "market detail",
+        "approval detail",
+        "issue detail",
+        "mobile bottom sheet"
+      ],
+      "blockedVariants": [
+        "page jump detail",
+        "modal that hides browse context",
+        "blank prototype drawer for real data"
+      ],
+      "reviewScore": 68,
+      "score": {
+        "visualPolish": 76,
+        "interactionCompleteness": 72,
+        "stateCoverage": 74,
+        "accessibility": 70,
+        "projectAdoption": 48
+      },
+      "notes": [
+        "A selected row should open a drilldown without losing the operator's place.",
+        "Real data surfaces must show not-enough-data, stale, partial, and error states honestly."
+      ],
+      "nextActions": [
+        "Add keyboard/focus rules for drawers and bottom sheets.",
+        "Create market-detail and approval-detail reference snapshots."
+      ],
+      "projectReadiness": [
+        {
+          "project": "Kashi VC",
+          "status": "migrating",
+          "note": "Selected-market detail exists but needs richer browsing/detail split."
+        },
+        {
+          "project": "Meal Assistant",
+          "status": "draft",
+          "note": "Planner drawer needs package-native component adoption."
+        }
+      ]
+    },
+    {
+      "id": "market-browser",
+      "family": "Market Browser",
+      "status": "reviewing",
+      "targetTier": "tier-3",
+      "components": [
+        "MarketExplorerPage",
+        "MarketBrowserLayout",
+        "MarketTape",
+        "OrderBookLadder",
+        "TimeWindowSelector"
+      ],
+      "references": [
+        "Kraken",
+        "Binance",
+        "OKX",
+        "Coinbase"
+      ],
+      "good": "Categories and subcategories are navigable without search-first behavior; the tape is scannable; detail charts use real snapshot/stream data and proof states.",
+      "userRole": "Approve the browse model before Kashi replaces static market-browser routes.",
+      "reviewStatus": "reviewing",
+      "reviewer": "human-operator",
+      "reviewedAt": null,
+      "approvedVariants": [
+        "category browser",
+        "sub-category rail",
+        "market tape",
+        "selected market",
+        "stream proof"
+      ],
+      "blockedVariants": [
+        "search-first empty browser",
+        "default blank selected chart",
+        "static market route"
+      ],
+      "reviewScore": 61,
+      "score": {
+        "visualPolish": 68,
+        "interactionCompleteness": 64,
+        "stateCoverage": 72,
+        "accessibility": 64,
+        "projectAdoption": 36
+      },
+      "notes": [
+        "Browsing should start with category/subcategory discovery, not an empty search field.",
+        "Streaming and snapshots should be distinguishable but visually connected.",
+        "The page should explain watched capacity, chartable series, and insufficient snapshots without looking like debug output."
+      ],
+      "nextActions": [
+        "Create a package-native market browser reference page.",
+        "Add capacity governor and stream proof components to the chart/detail contract.",
+        "Capture Kashi production proof screenshots after route migration."
+      ],
+      "projectReadiness": [
+        {
+          "project": "Kashi VC",
+          "status": "blocked",
+          "note": "Still depends on local/static browser patterns."
+        }
+      ]
+    },
+    {
+      "id": "media-workflow",
+      "family": "Media Workflow",
+      "status": "draft",
+      "targetTier": "tier-3",
+      "components": [
+        "ContentPackageWorkspace",
+        "BrandPortfolioGrid",
+        "ChannelPostabilityMatrix",
+        "QaReviewPanel",
+        "PublishingProofPanel"
+      ],
+      "references": [
+        "Sprout Social",
+        "Adobe Express",
+        "Manus"
+      ],
+      "good": "The operator sees package readiness, approval/decline, publishable channels, QA reason, thumbnail/copy assets, and posting success without duplicate banners.",
+      "userRole": "Define what must show in Discord versus the dashboard and what counts as approve-ready.",
+      "reviewStatus": "draft",
+      "reviewer": "human-operator",
+      "reviewedAt": null,
+      "approvedVariants": [
+        "package card",
+        "approve/decline",
+        "publishable channels",
+        "posting proof",
+        "Discord handoff"
+      ],
+      "blockedVariants": [
+        "package without approval actions",
+        "missing publishable channel list",
+        "Discord payload without posting result"
+      ],
+      "reviewScore": 62,
+      "score": {
+        "visualPolish": 70,
+        "interactionCompleteness": 66,
+        "stateCoverage": 64,
+        "accessibility": 66,
+        "projectAdoption": 44
+      },
+      "notes": [
+        "The dashboard and Discord message should agree on approval state, decline reason, publishable destinations, and posting success.",
+        "Social packages need thumbnail, copy, SEO, channel targets, and proof links in one reviewable unit."
+      ],
+      "nextActions": [
+        "Add approved Discord handoff and dashboard package review examples.",
+        "Add publishing proof states for success, partial, failed, skipped, and unavailable."
+      ],
+      "projectReadiness": [
+        {
+          "project": "Media Engine",
+          "status": "migrating",
+          "note": "Pipeline and approval buttons are active but need componentized UI."
+        },
+        {
+          "project": "Media Business Operations",
+          "status": "migrating",
+          "note": "Portfolio health should share package status components."
+        }
+      ]
+    },
+    {
+      "id": "calendar-planning",
+      "family": "Calendar And Planning",
+      "status": "draft",
+      "targetTier": "tier-3",
+      "components": [
+        "MealPlannerCalendar",
+        "MealWeekDrawer",
+        "ScheduleTimeline",
+        "CalendarQueue",
+        "MealLibrary"
+      ],
+      "references": [
+        "Amie",
+        "Motion",
+        "Jobber",
+        "Time2book"
+      ],
+      "good": "Calendar views look like true calendar products, support selected day/range planning, and expose drawer-based planning forms rather than card piles.",
+      "userRole": "Approve the calendar interaction model and form density before Meal Assistant migrates.",
+      "reviewStatus": "draft",
+      "reviewer": "human-operator",
+      "reviewedAt": null,
+      "approvedVariants": [
+        "month grid",
+        "selected day",
+        "multi-day range",
+        "right planning drawer",
+        "meal library"
+      ],
+      "blockedVariants": [
+        "calendar made of disconnected cards",
+        "plan-week only interaction",
+        "form without multi-day navigation"
+      ],
+      "reviewScore": 55,
+      "score": {
+        "visualPolish": 66,
+        "interactionCompleteness": 60,
+        "stateCoverage": 58,
+        "accessibility": 62,
+        "projectAdoption": 28
+      },
+      "notes": [
+        "Calendar surfaces need a real month grid and selected day/range planning model.",
+        "Manual input can allow repetition; auto-generation should avoid back-to-back repeated proteins."
+      ],
+      "nextActions": [
+        "Build premium calendar and planning drawer examples.",
+        "Add Meal Assistant migration checklist for month, drawer, library, and shopping list export."
+      ],
+      "projectReadiness": [
+        {
+          "project": "Meal Assistant",
+          "status": "blocked",
+          "note": "Needs React/package-native dashboard migration for Tier 3."
+        }
+      ]
+    },
+    {
+      "id": "governance-adoption",
+      "family": "Governance And Adoption",
+      "status": "approved",
+      "targetTier": "tier-3",
+      "components": [
+        "GovernanceChecklist",
+        "ReadinessDomainMatrix",
+        "DeploymentPromotionPanel",
+        "PermissionAuditPanel",
+        "ComponentIntakeBoard"
+      ],
+      "references": [
+        "Linear",
+        "Wrike",
+        "Productboard"
+      ],
+      "good": "Every project can see current tier, target tier, missing components, proof evidence, owner, reviewer, exception expiry, and next migration step.",
+      "userRole": "Use this to decide what is approved, what gets rebuilt, and what project should migrate next.",
+      "reviewStatus": "approved",
+      "reviewer": "human-operator",
+      "reviewedAt": "2026-08-07T00:00:00.000Z",
+      "approvedVariants": [
+        "adoption status",
+        "tier score",
+        "exception expiry",
+        "proof evidence",
+        "next action"
+      ],
+      "blockedVariants": [
+        "unowned exception",
+        "tier complete without proof",
+        "static adapter marked complete"
+      ],
+      "reviewScore": 80,
+      "score": {
+        "visualPolish": 82,
+        "interactionCompleteness": 82,
+        "stateCoverage": 88,
+        "accessibility": 78,
+        "projectAdoption": 72
+      },
+      "notes": [
+        "Tier promotion should require proof, not only docs.",
+        "Static adapters are compatibility bridges, not completion."
+      ],
+      "nextActions": [
+        "Tie gallery family approval to dashboard promotion checks.",
+        "Add numeric design maturity scoring from manifest, proof, and visual baselines."
+      ],
+      "projectReadiness": [
+        {
+          "project": "Nous Hermes Agent",
+          "status": "adopted",
+          "note": "Governance source of truth lives here."
+        },
+        {
+          "project": "All dashboards",
+          "status": "migrating",
+          "note": "Projects must import the package and register production surfaces."
+        }
+      ]
+    }
+  ]
+}

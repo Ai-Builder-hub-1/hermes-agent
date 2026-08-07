@@ -24,6 +24,7 @@
     "audit:fix:tui": "npm audit fix --workspace ui-tui",
     "dashboard:design-system:status": "node packages/hermes-dashboard-kit/scripts/status.mjs",
     "dashboard:design-system:test": "node --test packages/hermes-dashboard-kit/tests/dashboard-kit.test.js",
+    "dashboard:design-system:gallery": "node packages/hermes-dashboard-kit/scripts/generate-gallery.mjs",
     "dashboard:design-system:hooks:install": "node scripts/install-dashboard-design-system-hooks.mjs",
     "dashboard:surface:validate": "node packages/hermes-dashboard-kit/src/validate-surface.js",
     "dashboard-kit:adoption:audit": "node packages/hermes-dashboard-kit/scripts/audit-adoption.mjs",

@@ -1,4 +1,10 @@
-:root,
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hermes Dashboard Kit Gallery</title>
+  <style>:root,
 [data-theme="light"] {
   --hdk-surface-page: #f5f7fb;
   --hdk-surface-panel: #ffffff;
@@ -1714,3 +1720,443 @@
     background-position: -100% 0;
   }
 }
+</style>
+</head>
+<body>
+  <a id="top"></a>
+  <div data-theme="light">
+    <div class="hdk-shell" data-hdk-component="DashboardShell" data-experience-tier="tier-3" data-review-id="hdk.dashboard-kit-gallery">
+      
+      <aside class="hdk-sidebar hdk-sidebar-rail" data-hdk-component="Sidebar" data-component="DashboardSidebar">
+        <div class="hdk-brand hdk-sidebar-brand" data-sidebar-brand>
+          <span class="hdk-brand__mark">H</span>
+          <span>
+            <strong>Hermes Dashboard Kit Gallery</strong>
+            <small>Shared component intake, approval status, and premium dashboard references.</small>
+          </span>
+        </div>
+        <nav class="hdk-nav" aria-label="Dashboard navigation">
+          
+            <section class="hdk-nav-group" data-nav-group="system">
+              <p class="hdk-nav-group-title">Design System</p>
+              <a class="is-active" href="#top" data-short="Kit" aria-current="page">Kit Gallery</a><a class="" href="#references" data-short="Ref">References</a><a class="" href="#component-intake" data-short="Int">Component Intake</a><a class="" href="#preview" data-short="Pre">Preview States</a>
+            </section>
+          
+        </nav>
+        
+          <div class="hdk-sidebar-footer" data-sidebar-footer>
+            <div class="hdk-sidebar-status">Source of truth for dashboard component approval and project adoption.</div>
+            
+          </div>
+        
+      </aside>
+      <main class="hdk-main">
+        <header class="hdk-header" data-hdk-component="Header">
+          <div>
+            <p class="hdk-eyebrow">Operator Workspace</p>
+            <h1>Hermes Dashboard Kit Gallery</h1>
+            <p>Shared component intake, approval status, and premium dashboard references.</p>
+          </div>
+          <div class="hdk-header__actions">
+      <a class="hdk-button hdk-button-primary" href="#component-intake">Review components</a>
+      <a class="hdk-button" href="#references">Reference families</a>
+      <a class="hdk-button" href="#preview">Preview states</a>
+    </div>
+        </header>
+        
+      <section class="hdk-gallery-hero" data-review-id="hdk.gallery.hero">
+        
+    <article class="hdk-card hdk-metric hdk-tone-info" data-hdk-component="MetricCard">
+      <span>Component families</span>
+      <strong>9</strong>
+      <p>Grouped by dashboard job-to-be-done</p>
+    </article>
+  
+        
+    <article class="hdk-card hdk-metric hdk-tone-success" data-hdk-component="MetricCard">
+      <span>Approved</span>
+      <strong>4</strong>
+      <p>Safe for project adoption</p>
+    </article>
+  
+        
+    <article class="hdk-card hdk-metric hdk-tone-warning" data-hdk-component="MetricCard">
+      <span>Reviewing</span>
+      <strong>3</strong>
+      <p>Needs visual approval before scale</p>
+    </article>
+  
+        
+    <article class="hdk-card hdk-metric hdk-tone-neutral" data-hdk-component="MetricCard">
+      <span>Draft</span>
+      <strong>2</strong>
+      <p>Known gaps to design next</p>
+    </article>
+  
+      </section>
+      <section class="hdk-gallery-section" id="references" data-review-id="hdk.gallery.references">
+        <header class="hdk-card__header">
+          <div>
+            <p class="hdk-eyebrow">Mobbin-informed Intake</p>
+            <h2>Reference families</h2>
+            <p>Mobbin is used as pattern input. We extract structure and interaction standards, not copied screens.</p>
+          </div>
+        </header>
+        <div class="hdk-reference-family-grid">
+          
+            <article class="hdk-reference-family">
+              <span>Market Intelligence</span>
+              <strong>Kraken · Binance · OKX · Coinbase · Mixpanel</strong>
+              <p>Market browsing should combine category navigation, watchlist/tape scanning, axis-bearing charts, selected-market detail, liquidity/spread context, proof state, and insufficient-data states.</p>
+            </article>
+          
+            <article class="hdk-reference-family">
+              <span>Media Operations</span>
+              <strong>Sprout Social · Adobe Express · Manus · Replit · PlanetScale</strong>
+              <p>Content operations should separate command triage, approval queues, publishable channels, QA evidence, Discord handoff, posting status, and time-series output health.</p>
+            </article>
+          
+            <article class="hdk-reference-family">
+              <span>Business Operations</span>
+              <strong>Asana · Linear · Wrike · Productboard · Plane</strong>
+              <p>Business cockpits should show executive rollups, accountability, work queues, decision logs, objective progress, and evidence behind readiness.</p>
+            </article>
+          
+            <article class="hdk-reference-family">
+              <span>Planning And Calendar</span>
+              <strong>Amie · Motion · Jobber · Time2book · Assembly</strong>
+              <p>Planning views should use a real calendar/work surface, selected-day or range drawers, library-to-plan flows, manual override, and clear generated-versus-human state.</p>
+            </article>
+          
+            <article class="hdk-reference-family">
+              <span>Cost And Performance</span>
+              <strong>Vercel · LangChain · Mixpanel · Employment Hero</strong>
+              <p>Cost dashboards should pair spend timelines with provider attribution, business-unit impact, efficiency ratios, anomaly states, freshness, and drilldowns.</p>
+            </article>
+          
+            <article class="hdk-reference-family">
+              <span>Proof And Governance</span>
+              <strong>Linear · PlanetScale · Productboard · Wrike</strong>
+              <p>Governance surfaces should make ownership, proof, blockers, exceptions, adoption status, and next action visible without dumping raw audit text.</p>
+            </article>
+          
+        </div>
+      </section>
+      
+    <section class="hdk-card hdk-component-intake" data-hdk-component="ComponentIntakeBoard" data-review-id="hdk.gallery.component-intake">
+      <header class="hdk-card__header">
+        <div>
+          <p class="hdk-eyebrow">Component Intake</p>
+          <h2>Approve the building blocks before projects reuse them</h2>
+          <p>Each family carries status, references, target tier, acceptance language, and the exact place where human taste should enter the system.</p>
+        </div>
+        <div class="hdk-gallery-status-strip" aria-label="Component status summary">
+          
+            <span class="hdk-gallery-status hdk-gallery-status-approved">Approved<strong>4</strong></span>
+          
+            <span class="hdk-gallery-status hdk-gallery-status-reviewing">Reviewing<strong>3</strong></span>
+          
+            <span class="hdk-gallery-status hdk-gallery-status-draft">Draft<strong>2</strong></span>
+          
+            <span class="hdk-gallery-status hdk-gallery-status-needs-redesign">Needs Redesign<strong>0</strong></span>
+          
+            <span class="hdk-gallery-status hdk-gallery-status-deprecated">Deprecated<strong>0</strong></span>
+          
+        </div>
+      </header>
+      <div class="hdk-component-intake__grid">
+        
+    <article class="hdk-component-card hdk-gallery-status-approved" data-component-family="shell-navigation">
+      <header>
+        <span>Core Shell</span>
+        <strong>Approved</strong>
+      </header>
+      <p>One shell, one sidebar, one route model, compact command header, bounded scroll owner, and proof/freshness visible above the primary work surface.</p>
+      <div class="hdk-component-card__chips" aria-label="Core Shell components">
+        <span>DashboardShell</span><span>OperationalSidebar</span><span>DashboardHeader</span><span>ProofStrip</span><span>DataFreshnessStrip</span>
+      </div>
+      <dl>
+        <div><dt>Target</dt><dd>tier-3</dd></div>
+        <div><dt>References</dt><dd>Linear, Asana, Vercel</dd></div>
+        <div><dt>Your role</dt><dd>Approve the navigation grouping, naming, density, collapsed behavior, and whether the page question is obvious.</dd></div>
+      </dl>
+    </article>
+  
+    <article class="hdk-component-card hdk-gallery-status-approved" data-component-family="metric-proof">
+      <header>
+        <span>Metric And Proof Cards</span>
+        <strong>Approved</strong>
+      </header>
+      <p>Cards are compact, equal-height where useful, text-safe, visibly tied to data freshness, and do not expose implementation telemetry unless actionable.</p>
+      <div class="hdk-component-card__chips" aria-label="Metric And Proof Cards components">
+        <span>MetricCard</span><span>StatusPill</span><span>StatePanel</span><span>StateChecklist</span><span>KpiContractTable</span>
+      </div>
+      <dl>
+        <div><dt>Target</dt><dd>tier-3</dd></div>
+        <div><dt>References</dt><dd>Mixpanel, Vercel, Wrike</dd></div>
+        <div><dt>Your role</dt><dd>Reject any metric card that feels like debug noise, duplicate summary, or non-actionable decoration.</dd></div>
+      </dl>
+    </article>
+  
+    <article class="hdk-component-card hdk-gallery-status-reviewing" data-component-family="chart-suite">
+      <header>
+        <span>Charts And Comparisons</span>
+        <strong>Reviewing</strong>
+      </header>
+      <p>Primary charts have visible axes, units, time windows, legends, compare controls, hover/focus states, and clear loading/stale/empty/error versions.</p>
+      <div class="hdk-component-card__chips" aria-label="Charts And Comparisons components">
+        <span>LineChart</span><span>AreaChart</span><span>BarChart</span><span>DonutChart</span><span>Heatmap</span><span>ScatterQuadrantChart</span><span>CandlestickChart</span><span>AnomalyBandChart</span>
+      </div>
+      <dl>
+        <div><dt>Target</dt><dd>tier-3</dd></div>
+        <div><dt>References</dt><dd>Kraken, OKX, Mixpanel, LangChain</dd></div>
+        <div><dt>Your role</dt><dd>Pick the chart density and visual language before we roll it into Kashi, Media Engine, or cost dashboards.</dd></div>
+      </dl>
+    </article>
+  
+    <article class="hdk-component-card hdk-gallery-status-approved" data-component-family="tables-queues">
+      <header>
+        <span>Tables And Queues</span>
+        <strong>Approved</strong>
+      </header>
+      <p>Tables live inside one card, paginate after ten rows, use a toolbar for sort/filter/export, and pair with a trend surface when the data is time-series.</p>
+      <div class="hdk-component-card__chips" aria-label="Tables And Queues components">
+        <span>DataTable</span><span>DataTableTabs</span><span>ApprovalQueue</span><span>ActionQueue</span><span>AlertQueue</span><span>WorkOrderQueue</span>
+      </div>
+      <dl>
+        <div><dt>Target</dt><dd>tier-3</dd></div>
+        <div><dt>References</dt><dd>Linear, Asana, Manus, PlanetScale</dd></div>
+        <div><dt>Your role</dt><dd>Approve which columns are operator-facing and which details move into drawers.</dd></div>
+      </dl>
+    </article>
+  
+    <article class="hdk-component-card hdk-gallery-status-reviewing" data-component-family="drawers-drilldowns">
+      <header>
+        <span>Drawers And Drilldowns</span>
+        <strong>Reviewing</strong>
+      </header>
+      <p>Browsing stays in context. Selecting a row opens focused detail with facts, charts, evidence, actions, and honest insufficient-data states.</p>
+      <div class="hdk-component-card__chips" aria-label="Drawers And Drilldowns components">
+        <span>DetailDrawer</span><span>MarketVolatilityDrawer</span><span>RunDrilldownPanel</span><span>LocationDetailDrawer</span><span>BottomSheetDrawer</span>
+      </div>
+      <dl>
+        <div><dt>Target</dt><dd>tier-3</dd></div>
+        <div><dt>References</dt><dd>Coinbase, Jobber, Productboard</dd></div>
+        <div><dt>Your role</dt><dd>Tell us what should be visible immediately versus tucked behind evidence/actions.</dd></div>
+      </dl>
+    </article>
+  
+    <article class="hdk-component-card hdk-gallery-status-reviewing" data-component-family="market-browser">
+      <header>
+        <span>Market Browser</span>
+        <strong>Reviewing</strong>
+      </header>
+      <p>Categories and subcategories are navigable without search-first behavior; the tape is scannable; detail charts use real snapshot/stream data and proof states.</p>
+      <div class="hdk-component-card__chips" aria-label="Market Browser components">
+        <span>MarketExplorerPage</span><span>MarketBrowserLayout</span><span>MarketTape</span><span>OrderBookLadder</span><span>TimeWindowSelector</span>
+      </div>
+      <dl>
+        <div><dt>Target</dt><dd>tier-3</dd></div>
+        <div><dt>References</dt><dd>Kraken, Binance, OKX, Coinbase</dd></div>
+        <div><dt>Your role</dt><dd>Approve the browse model before Kashi replaces static market-browser routes.</dd></div>
+      </dl>
+    </article>
+  
+    <article class="hdk-component-card hdk-gallery-status-draft" data-component-family="media-workflow">
+      <header>
+        <span>Media Workflow</span>
+        <strong>Draft</strong>
+      </header>
+      <p>The operator sees package readiness, approval/decline, publishable channels, QA reason, thumbnail/copy assets, and posting success without duplicate banners.</p>
+      <div class="hdk-component-card__chips" aria-label="Media Workflow components">
+        <span>ContentPackageWorkspace</span><span>BrandPortfolioGrid</span><span>ChannelPostabilityMatrix</span><span>QaReviewPanel</span><span>PublishingProofPanel</span>
+      </div>
+      <dl>
+        <div><dt>Target</dt><dd>tier-3</dd></div>
+        <div><dt>References</dt><dd>Sprout Social, Adobe Express, Manus</dd></div>
+        <div><dt>Your role</dt><dd>Define what must show in Discord versus the dashboard and what counts as approve-ready.</dd></div>
+      </dl>
+    </article>
+  
+    <article class="hdk-component-card hdk-gallery-status-draft" data-component-family="calendar-planning">
+      <header>
+        <span>Calendar And Planning</span>
+        <strong>Draft</strong>
+      </header>
+      <p>Calendar views look like true calendar products, support selected day/range planning, and expose drawer-based planning forms rather than card piles.</p>
+      <div class="hdk-component-card__chips" aria-label="Calendar And Planning components">
+        <span>MealPlannerCalendar</span><span>MealWeekDrawer</span><span>ScheduleTimeline</span><span>CalendarQueue</span><span>MealLibrary</span>
+      </div>
+      <dl>
+        <div><dt>Target</dt><dd>tier-3</dd></div>
+        <div><dt>References</dt><dd>Amie, Motion, Jobber, Time2book</dd></div>
+        <div><dt>Your role</dt><dd>Approve the calendar interaction model and form density before Meal Assistant migrates.</dd></div>
+      </dl>
+    </article>
+  
+    <article class="hdk-component-card hdk-gallery-status-approved" data-component-family="governance-adoption">
+      <header>
+        <span>Governance And Adoption</span>
+        <strong>Approved</strong>
+      </header>
+      <p>Every project can see current tier, target tier, missing components, proof evidence, owner, reviewer, exception expiry, and next migration step.</p>
+      <div class="hdk-component-card__chips" aria-label="Governance And Adoption components">
+        <span>GovernanceChecklist</span><span>ReadinessDomainMatrix</span><span>DeploymentPromotionPanel</span><span>PermissionAuditPanel</span><span>ComponentIntakeBoard</span>
+      </div>
+      <dl>
+        <div><dt>Target</dt><dd>tier-3</dd></div>
+        <div><dt>References</dt><dd>Linear, Wrike, Productboard</dd></div>
+        <div><dt>Your role</dt><dd>Use this to decide what is approved, what gets rebuilt, and what project should migrate next.</dd></div>
+      </dl>
+    </article>
+  
+      </div>
+    </section>
+  
+      <section class="hdk-gallery-section" id="preview" data-review-id="hdk.gallery.preview">
+        <header class="hdk-card__header">
+          <div>
+            <p class="hdk-eyebrow">Preview Surface</p>
+            <h2>What projects should inherit</h2>
+            <p>These examples show the minimum interaction and state density projects should import before they claim Tier 3.</p>
+          </div>
+          <span class="hdk-pill hdk-tone-info">49 named components</span>
+        </header>
+        <div class="hdk-gallery-preview-grid">
+          
+    <article class="hdk-chart-panel" data-hdk-component="ChartPanel" data-chart-type="line" data-x-axis="day" data-x-axis-label="Day" data-y-axis="approval rate" data-y-axis-label="Percent">
+      <div class="hdk-chart-header">
+        <div>
+          <h3 class="hdk-chart-title">Axis-bearing time series</h3>
+          <p class="hdk-chart-meta">Day by Percent</p>
+        </div>
+        
+      </div>
+      
+    <section class="hdk-card hdk-chart-card" data-hdk-component="LineChart">
+      
+    <header class="hdk-card__header">
+      <div>
+        <h2>Approval trend</h2>
+        
+      </div>
+    </header>
+  
+      
+        <svg class="hdk-chart" viewBox="0 0 760 320" role="img" aria-label="Approval trend">
+          
+            <line class="hdk-chart__grid" x1="58" x2="732" y1="272" y2="272"></line>
+            <text class="hdk-chart__axis" x="48" y="276" text-anchor="end">0</text>
+          
+            <line class="hdk-chart__grid" x1="58" x2="732" y1="210" y2="210"></line>
+            <text class="hdk-chart__axis" x="48" y="214" text-anchor="end">21.5</text>
+          
+            <line class="hdk-chart__grid" x1="58" x2="732" y1="148" y2="148"></line>
+            <text class="hdk-chart__axis" x="48" y="152" text-anchor="end">43</text>
+          
+            <line class="hdk-chart__grid" x1="58" x2="732" y1="86" y2="86"></line>
+            <text class="hdk-chart__axis" x="48" y="90" text-anchor="end">64.5</text>
+          
+            <line class="hdk-chart__grid" x1="58" x2="732" y1="24" y2="24"></line>
+            <text class="hdk-chart__axis" x="48" y="28" text-anchor="end">86</text>
+          
+          <text class="hdk-chart__axis" x="58" y="304" text-anchor="middle">1D</text><text class="hdk-chart__axis" x="507.3333333333333" y="304" text-anchor="middle">14D</text><text class="hdk-chart__axis" x="732" y="304" text-anchor="middle">30D</text>
+          <text class="hdk-chart__label" x="58" y="316">Window</text>
+          <text class="hdk-chart__label" x="14" y="24" transform="rotate(-90 14 24)">Approval rate</text>
+          
+          <path class="hdk-chart__line" d="M 58.00 67.26 L 282.67 47.07 L 507.33 35.53 L 732.00 24.00"></path><circle class="hdk-chart__point" cx="58" cy="67.25581395348837" r="4"><title>1D: 71</title></circle><circle class="hdk-chart__point" cx="282.66666666666663" cy="47.06976744186048" r="4"><title>7D: 78</title></circle><circle class="hdk-chart__point" cx="507.3333333333333" cy="35.534883720930225" r="4"><title>14D: 82</title></circle><circle class="hdk-chart__point" cx="732" cy="24" r="4"><title>30D: 86</title></circle>
+        </svg>
+      
+    </section>
+  
+      
+    </article>
+  
+          
+    <section class="hdk-card hdk-table-card" data-hdk-component="DataTable" data-page-size="10" data-pagination="table-window">
+      <div class="hdk-card__header"><h2>Approval queue</h2></div>
+      <div class="hdk-table-wrap" data-hdk-component="TableSurface">
+        <table class="hdk-table">
+          <thead><tr><th scope="col">Item</th><th scope="col">Owner</th><th scope="col">Status</th></tr></thead>
+          <tbody>
+            
+              <tr>
+                <td>Finance for Thought package</td><td>Media Engine</td><td>needs review</td>
+              </tr>
+            
+              <tr>
+                <td>Kashi live market browser</td><td>Kashi VC</td><td>reviewing</td>
+              </tr>
+            
+              <tr>
+                <td>Meal planner calendar</td><td>Meal Assistant</td><td>draft</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      </div>
+      <footer class="hdk-pagination" data-hdk-component="Pagination">
+        <span>Showing 1-3 of 3</span>
+        <div>
+          <label>Rows <select aria-label="Rows per page"><option value="10" selected>10</option><option value="25">25</option><option value="50">50</option></select></label>
+          <button type="button" disabled>Previous</button>
+          <button type="button" disabled>Next</button>
+        </div>
+      </footer>
+    </section>
+  
+          
+    <section class="hdk-state-checklist" data-hdk-component="StateChecklist">
+      <header class="hdk-card__header"><h2>Tier 3 checklist</h2></header>
+      
+        <article class="hdk-state-row hdk-tone-success">
+          <span>One shell</span>
+          <strong>ready</strong>
+          <p>No nested app route.</p>
+        </article>
+      
+        <article class="hdk-state-row hdk-tone-warning">
+          <span>Approved components</span>
+          <strong>partial</strong>
+          <p>Draft families need review.</p>
+        </article>
+      
+        <article class="hdk-state-row hdk-tone-success">
+          <span>Proof states</span>
+          <strong>ready</strong>
+          <p>Fresh/stale/partial/error visible.</p>
+        </article>
+      
+    </section>
+  
+          
+    <section class="hdk-data-freshness-strip" data-hdk-component="DataFreshnessStrip" data-review-id="hdk.data-freshness">
+      
+        <article class="hdk-freshness hdk-state-ready hdk-tone-success">
+          <span>Gallery data</span>
+          <strong>package source</strong>
+          
+        </article>
+      
+        <article class="hdk-freshness hdk-state-partial hdk-tone-warning">
+          <span>Reference intake</span>
+          <strong>human approval needed</strong>
+          
+        </article>
+      
+        <article class="hdk-freshness hdk-state-stale hdk-tone-warning">
+          <span>Project adoption</span>
+          <strong>requires migrations</strong>
+          
+        </article>
+      
+    </section>
+  
+        </div>
+      </section>
+    
+      </main>
+    </div>
+  </div>
+</body>
+</html>

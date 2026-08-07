@@ -62,6 +62,17 @@ export const dashboardPageMetadata: DashboardPageMetadata[] = [
     localOnlyReason: "Internal gallery route served by the Hermes dashboard app.",
   },
   {
+    route: "/dashboard-kit-gallery",
+    title: "Hermes Dashboard Kit Gallery",
+    recipe: "system-health-deployment",
+    owner: "Hermes",
+    category: "design-system",
+    dataContracts: ["DashboardKitGalleryReport", "ComponentFamily[]", "ReferenceFamily[]", "HumanReviewItem[]"],
+    requiredStates: ["normal", "reviewing", "draft", "approved", "mobile"],
+    validation: ["dashboard:design-system:gallery", "dashboard:design-system:test", "build --workspace web"],
+    localOnlyReason: "Internal component intake route served by the Hermes dashboard app.",
+  },
+  {
     route: "/design-intelligence",
     title: "Hermes Design Intelligence Command Center",
     recipe: "system-health-deployment",

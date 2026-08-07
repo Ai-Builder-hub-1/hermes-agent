@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-07T00:00:00.000Z",
+  "purpose": "Required visual proof matrix for Hermes Dashboard Kit component family approval.",
+  "route": "/dashboard-kit-gallery",
+  "viewports": [
+    { "id": "desktop", "width": 1440, "height": 1100 },
+    { "id": "tablet", "width": 1024, "height": 1000 },
+    { "id": "mobile", "width": 390, "height": 900 }
+  ],
+  "themes": ["light", "dark"],
+  "requiredStates": ["default", "loading", "empty", "stale", "error", "overflow"],
+  "families": [
+    { "id": "shell-navigation", "requiredCaptures": ["expanded sidebar", "collapsed sidebar", "mobile drawer", "proof strip"] },
+    { "id": "metric-proof", "requiredCaptures": ["metric strip", "proof strip", "freshness strip", "overflow stress"] },
+    { "id": "chart-suite", "requiredCaptures": ["line", "area", "bar", "donut", "heatmap", "loading", "empty", "stale", "error"] },
+    { "id": "tables-queues", "requiredCaptures": ["approval queue", "toolbar sorting", "pagination", "overflow stress"] },
+    { "id": "drawers-drilldowns", "requiredCaptures": ["right drawer", "market detail", "approval detail", "mobile bottom sheet"] },
+    { "id": "market-browser", "requiredCaptures": ["category browser", "sub-category rail", "market tape", "selected market", "stream proof"] },
+    { "id": "media-workflow", "requiredCaptures": ["package card", "approve/decline", "publishable channels", "posting proof", "Discord handoff"] },
+    { "id": "calendar-planning", "requiredCaptures": ["month grid", "selected day", "multi-day range", "right planning drawer", "meal library"] },
+    { "id": "governance-adoption", "requiredCaptures": ["adoption status", "tier score", "exception expiry", "proof evidence", "next action"] }
+  ],
+  "approvalRules": [
+    "Every approved family must have desktop and mobile light-mode screenshots.",
+    "Dark mode screenshots are required before a project can ship the family in dark mode.",
+    "Primary charts must prove visible axes, labels, legends, units, and nonblank plotted regions.",
+    "Tables must prove one card wrapper, one header, one toolbar, and one pagination footer.",
+    "Shell captures must prove there is one shell and the content pane owns scrolling."
+  ]
+}

@@ -8,6 +8,26 @@ This package is the source of truth for the Hermes/TLC dashboard design system. 
 
 Hermes OS should enforce and report adoption of this package. It should not maintain a competing dashboard component system.
 
+## Component Gallery
+
+Use the gallery when deciding whether the shared components are good enough to
+roll across projects:
+
+```bash
+npm run dashboard:design-system:gallery
+```
+
+That generates:
+
+- `docs/design/dashboard-kit-gallery.html`
+- `docs/design/dashboard-kit-gallery-report.json`
+- `docs/design/dashboard-kit-gallery-report.md`
+
+The gallery is the visible intake board for Mobbin-informed references,
+component-family status, target tier, preview states, and the human approval
+role. If a family is `draft` or `reviewing`, it should not be treated as a
+fleet-approved Tier 3 pattern until reviewed.
+
 ## Install From This Workspace
 
 Inside a workspace project:

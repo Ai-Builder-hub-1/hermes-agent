@@ -10,6 +10,236 @@ export const EXPERIENCE_TIERS =
       "tier-3"
   });
 
+export const DASHBOARD_KIT_REFERENCE_FAMILIES =
+  Object.freeze([
+    {
+      id:
+        "market-intelligence",
+      label:
+        "Market Intelligence",
+      references:
+        ["Kraken", "Binance", "OKX", "Coinbase", "Mixpanel"],
+      extraction:
+        "Market browsing should combine category navigation, watchlist/tape scanning, axis-bearing charts, selected-market detail, liquidity/spread context, proof state, and insufficient-data states."
+    },
+    {
+      id:
+        "media-operations",
+      label:
+        "Media Operations",
+      references:
+        ["Sprout Social", "Adobe Express", "Manus", "Replit", "PlanetScale"],
+      extraction:
+        "Content operations should separate command triage, approval queues, publishable channels, QA evidence, Discord handoff, posting status, and time-series output health."
+    },
+    {
+      id:
+        "business-operations",
+      label:
+        "Business Operations",
+      references:
+        ["Asana", "Linear", "Wrike", "Productboard", "Plane"],
+      extraction:
+        "Business cockpits should show executive rollups, accountability, work queues, decision logs, objective progress, and evidence behind readiness."
+    },
+    {
+      id:
+        "planning-calendar",
+      label:
+        "Planning And Calendar",
+      references:
+        ["Amie", "Motion", "Jobber", "Time2book", "Assembly"],
+      extraction:
+        "Planning views should use a real calendar/work surface, selected-day or range drawers, library-to-plan flows, manual override, and clear generated-versus-human state."
+    },
+    {
+      id:
+        "cost-performance",
+      label:
+        "Cost And Performance",
+      references:
+        ["Vercel", "LangChain", "Mixpanel", "Employment Hero"],
+      extraction:
+        "Cost dashboards should pair spend timelines with provider attribution, business-unit impact, efficiency ratios, anomaly states, freshness, and drilldowns."
+    },
+    {
+      id:
+        "proof-governance",
+      label:
+        "Proof And Governance",
+      references:
+        ["Linear", "PlanetScale", "Productboard", "Wrike"],
+      extraction:
+        "Governance surfaces should make ownership, proof, blockers, exceptions, adoption status, and next action visible without dumping raw audit text."
+    }
+  ]);
+
+export const DASHBOARD_KIT_COMPONENT_INVENTORY =
+  Object.freeze([
+    {
+      id:
+        "shell-navigation",
+      family:
+        "Core Shell",
+      status:
+        "approved",
+      targetTier:
+        "tier-3",
+      components:
+        ["DashboardShell", "OperationalSidebar", "DashboardHeader", "ProofStrip", "DataFreshnessStrip"],
+      references:
+        ["Linear", "Asana", "Vercel"],
+      good:
+        "One shell, one sidebar, one route model, compact command header, bounded scroll owner, and proof/freshness visible above the primary work surface.",
+      userRole:
+        "Approve the navigation grouping, naming, density, collapsed behavior, and whether the page question is obvious."
+    },
+    {
+      id:
+        "metric-proof",
+      family:
+        "Metric And Proof Cards",
+      status:
+        "approved",
+      targetTier:
+        "tier-3",
+      components:
+        ["MetricCard", "StatusPill", "StatePanel", "StateChecklist", "KpiContractTable"],
+      references:
+        ["Mixpanel", "Vercel", "Wrike"],
+      good:
+        "Cards are compact, equal-height where useful, text-safe, visibly tied to data freshness, and do not expose implementation telemetry unless actionable.",
+      userRole:
+        "Reject any metric card that feels like debug noise, duplicate summary, or non-actionable decoration."
+    },
+    {
+      id:
+        "chart-suite",
+      family:
+        "Charts And Comparisons",
+      status:
+        "reviewing",
+      targetTier:
+        "tier-3",
+      components:
+        ["LineChart", "AreaChart", "BarChart", "DonutChart", "Heatmap", "ScatterQuadrantChart", "CandlestickChart", "AnomalyBandChart"],
+      references:
+        ["Kraken", "OKX", "Mixpanel", "LangChain"],
+      good:
+        "Primary charts have visible axes, units, time windows, legends, compare controls, hover/focus states, and clear loading/stale/empty/error versions.",
+      userRole:
+        "Pick the chart density and visual language before we roll it into Kashi, Media Engine, or cost dashboards."
+    },
+    {
+      id:
+        "tables-queues",
+      family:
+        "Tables And Queues",
+      status:
+        "approved",
+      targetTier:
+        "tier-3",
+      components:
+        ["DataTable", "DataTableTabs", "ApprovalQueue", "ActionQueue", "AlertQueue", "WorkOrderQueue"],
+      references:
+        ["Linear", "Asana", "Manus", "PlanetScale"],
+      good:
+        "Tables live inside one card, paginate after ten rows, use a toolbar for sort/filter/export, and pair with a trend surface when the data is time-series.",
+      userRole:
+        "Approve which columns are operator-facing and which details move into drawers."
+    },
+    {
+      id:
+        "drawers-drilldowns",
+      family:
+        "Drawers And Drilldowns",
+      status:
+        "reviewing",
+      targetTier:
+        "tier-3",
+      components:
+        ["DetailDrawer", "MarketVolatilityDrawer", "RunDrilldownPanel", "LocationDetailDrawer", "BottomSheetDrawer"],
+      references:
+        ["Coinbase", "Jobber", "Productboard"],
+      good:
+        "Browsing stays in context. Selecting a row opens focused detail with facts, charts, evidence, actions, and honest insufficient-data states.",
+      userRole:
+        "Tell us what should be visible immediately versus tucked behind evidence/actions."
+    },
+    {
+      id:
+        "market-browser",
+      family:
+        "Market Browser",
+      status:
+        "reviewing",
+      targetTier:
+        "tier-3",
+      components:
+        ["MarketExplorerPage", "MarketBrowserLayout", "MarketTape", "OrderBookLadder", "TimeWindowSelector"],
+      references:
+        ["Kraken", "Binance", "OKX", "Coinbase"],
+      good:
+        "Categories and subcategories are navigable without search-first behavior; the tape is scannable; detail charts use real snapshot/stream data and proof states.",
+      userRole:
+        "Approve the browse model before Kashi replaces static market-browser routes."
+    },
+    {
+      id:
+        "media-workflow",
+      family:
+        "Media Workflow",
+      status:
+        "draft",
+      targetTier:
+        "tier-3",
+      components:
+        ["ContentPackageWorkspace", "BrandPortfolioGrid", "ChannelPostabilityMatrix", "QaReviewPanel", "PublishingProofPanel"],
+      references:
+        ["Sprout Social", "Adobe Express", "Manus"],
+      good:
+        "The operator sees package readiness, approval/decline, publishable channels, QA reason, thumbnail/copy assets, and posting success without duplicate banners.",
+      userRole:
+        "Define what must show in Discord versus the dashboard and what counts as approve-ready."
+    },
+    {
+      id:
+        "calendar-planning",
+      family:
+        "Calendar And Planning",
+      status:
+        "draft",
+      targetTier:
+        "tier-3",
+      components:
+        ["MealPlannerCalendar", "MealWeekDrawer", "ScheduleTimeline", "CalendarQueue", "MealLibrary"],
+      references:
+        ["Amie", "Motion", "Jobber", "Time2book"],
+      good:
+        "Calendar views look like true calendar products, support selected day/range planning, and expose drawer-based planning forms rather than card piles.",
+      userRole:
+        "Approve the calendar interaction model and form density before Meal Assistant migrates."
+    },
+    {
+      id:
+        "governance-adoption",
+      family:
+        "Governance And Adoption",
+      status:
+        "approved",
+      targetTier:
+        "tier-3",
+      components:
+        ["GovernanceChecklist", "ReadinessDomainMatrix", "DeploymentPromotionPanel", "PermissionAuditPanel", "ComponentIntakeBoard"],
+      references:
+        ["Linear", "Wrike", "Productboard"],
+      good:
+        "Every project can see current tier, target tier, missing components, proof evidence, owner, reviewer, exception expiry, and next migration step.",
+      userRole:
+        "Use this to decide what is approved, what gets rebuilt, and what project should migrate next."
+    }
+  ]);
+
 export function renderDashboardShell({
   title,
   subtitle = "",
@@ -1727,6 +1957,253 @@ function renderOperationalMatrix({
         </table>
       </div>
     </section>
+  `;
+}
+
+export function getDashboardKitComponentInventory() {
+  return DASHBOARD_KIT_COMPONENT_INVENTORY.map((item) => ({
+    ...item,
+    components:
+      [...item.components],
+    references:
+      [...item.references]
+  }));
+}
+
+export function getDashboardKitReferenceFamilies() {
+  return DASHBOARD_KIT_REFERENCE_FAMILIES.map((item) => ({
+    ...item,
+    references:
+      [...item.references]
+  }));
+}
+
+export function renderComponentIntakeBoard({
+  items = DASHBOARD_KIT_COMPONENT_INVENTORY,
+  reviewId = "hdk.component-intake-board"
+} = {}) {
+  const counts =
+    items.reduce((acc, item) => {
+      acc[item.status] =
+        (acc[item.status] || 0) + 1;
+      return acc;
+    }, {});
+  return `
+    <section class="hdk-card hdk-component-intake" data-hdk-component="ComponentIntakeBoard" data-review-id="${escapeAttr(reviewId)}">
+      <header class="hdk-card__header">
+        <div>
+          <p class="hdk-eyebrow">Component Intake</p>
+          <h2>Approve the building blocks before projects reuse them</h2>
+          <p>Each family carries status, references, target tier, acceptance language, and the exact place where human taste should enter the system.</p>
+        </div>
+        <div class="hdk-gallery-status-strip" aria-label="Component status summary">
+          ${["approved", "reviewing", "draft", "needs-redesign", "deprecated"].map((status) => `
+            <span class="hdk-gallery-status hdk-gallery-status-${escapeAttr(status)}">${escapeHtml(humanize(status))}<strong>${counts[status] || 0}</strong></span>
+          `).join("")}
+        </div>
+      </header>
+      <div class="hdk-component-intake__grid">
+        ${items.map((item) => renderComponentInventoryCard(item)).join("")}
+      </div>
+    </section>
+  `;
+}
+
+export function renderDashboardKitGallery({
+  title = "Hermes Dashboard Kit Gallery",
+  subtitle = "Shared component intake, approval status, and premium dashboard references.",
+  activeId = "gallery",
+  theme = "light",
+  inventory = DASHBOARD_KIT_COMPONENT_INVENTORY,
+  references = DASHBOARD_KIT_REFERENCE_FAMILIES,
+  reviewId = "hdk.dashboard-kit-gallery"
+} = {}) {
+  const approved =
+    inventory.filter((item) => item.status === "approved").length;
+  const reviewing =
+    inventory.filter((item) => item.status === "reviewing").length;
+  const draft =
+    inventory.filter((item) => item.status === "draft").length;
+  const allComponents =
+    new Set(inventory.flatMap((item) => item.components));
+  const actions =
+    `
+      <a class="hdk-button hdk-button-primary" href="#component-intake">Review components</a>
+      <a class="hdk-button" href="#references">Reference families</a>
+      <a class="hdk-button" href="#preview">Preview states</a>
+    `;
+  const children =
+    `
+      <section class="hdk-gallery-hero" data-review-id="hdk.gallery.hero">
+        ${renderMetricCard({ label: "Component families", value: String(inventory.length), detail: "Grouped by dashboard job-to-be-done", tone: "info" })}
+        ${renderMetricCard({ label: "Approved", value: String(approved), detail: "Safe for project adoption", tone: "success" })}
+        ${renderMetricCard({ label: "Reviewing", value: String(reviewing), detail: "Needs visual approval before scale", tone: "warning" })}
+        ${renderMetricCard({ label: "Draft", value: String(draft), detail: "Known gaps to design next", tone: "neutral" })}
+      </section>
+      <section class="hdk-gallery-section" id="references" data-review-id="hdk.gallery.references">
+        <header class="hdk-card__header">
+          <div>
+            <p class="hdk-eyebrow">Mobbin-informed Intake</p>
+            <h2>Reference families</h2>
+            <p>Mobbin is used as pattern input. We extract structure and interaction standards, not copied screens.</p>
+          </div>
+        </header>
+        <div class="hdk-reference-family-grid">
+          ${references.map((family) => `
+            <article class="hdk-reference-family">
+              <span>${escapeHtml(family.label)}</span>
+              <strong>${escapeHtml(family.references.join(" · "))}</strong>
+              <p>${escapeHtml(family.extraction)}</p>
+            </article>
+          `).join("")}
+        </div>
+      </section>
+      ${renderComponentIntakeBoard({ items: inventory, reviewId: "hdk.gallery.component-intake" })}
+      <section class="hdk-gallery-section" id="preview" data-review-id="hdk.gallery.preview">
+        <header class="hdk-card__header">
+          <div>
+            <p class="hdk-eyebrow">Preview Surface</p>
+            <h2>What projects should inherit</h2>
+            <p>These examples show the minimum interaction and state density projects should import before they claim Tier 3.</p>
+          </div>
+          <span class="hdk-pill hdk-tone-info">${allComponents.size} named components</span>
+        </header>
+        <div class="hdk-gallery-preview-grid">
+          ${renderChartPanel({
+            title:
+              "Axis-bearing time series",
+            type:
+              "line",
+            xAxis:
+              "day",
+            xAxisLabel:
+              "Day",
+            yAxis:
+              "approval rate",
+            yAxisLabel:
+              "Percent",
+            children:
+              renderLineChart({
+                title:
+                  "Approval trend",
+                data:
+                  [
+                    { x: "1D", y: 71 },
+                    { x: "7D", y: 78 },
+                    { x: "14D", y: 82 },
+                    { x: "30D", y: 86 }
+                  ],
+                xLabel:
+                  "Window",
+                yLabel:
+                  "Approval rate"
+              })
+          })}
+          ${renderDataTable({
+            caption:
+              "Approval queue",
+            columns:
+              [
+                { key: "item", label: "Item" },
+                { key: "owner", label: "Owner" },
+                { key: "status", label: "Status" }
+              ],
+            rows:
+              [
+                { item: "Finance for Thought package", owner: "Media Engine", status: "needs review" },
+                { item: "Kashi live market browser", owner: "Kashi VC", status: "reviewing" },
+                { item: "Meal planner calendar", owner: "Meal Assistant", status: "draft" }
+              ],
+            total:
+              3
+          })}
+          ${renderStateChecklist({
+            title:
+              "Tier 3 checklist",
+            items:
+              [
+                { label: "One shell", status: "ready", detail: "No nested app route." },
+                { label: "Approved components", status: "partial", detail: "Draft families need review." },
+                { label: "Proof states", status: "ready", detail: "Fresh/stale/partial/error visible." }
+              ]
+          })}
+          ${renderDataFreshnessStrip({
+            items:
+              [
+                { label: "Gallery data", state: "ready", value: "package source" },
+                { label: "Reference intake", state: "partial", value: "human approval needed" },
+                { label: "Project adoption", state: "stale", value: "requires migrations" }
+              ]
+          })}
+        </div>
+      </section>
+    `;
+  return `<div data-theme="${escapeAttr(theme)}">${renderDashboardShell({
+    title,
+    subtitle,
+    activeId,
+    reviewId,
+    actions,
+    sidebarStatus:
+      "Source of truth for dashboard component approval and project adoption.",
+    navGroups:
+      [
+        {
+          id:
+            "system",
+          label:
+            "Design System",
+          items:
+            [
+              { id: "gallery", label: "Kit Gallery", href: "#top", shortLabel: "Kit" },
+              { id: "references", label: "References", href: "#references", shortLabel: "Ref" },
+              { id: "component-intake", label: "Component Intake", href: "#component-intake", shortLabel: "Int" },
+              { id: "preview", label: "Preview States", href: "#preview", shortLabel: "Pre" }
+            ]
+        }
+      ],
+    children
+  })}</div>`;
+}
+
+export function renderDashboardKitGalleryDocument(options = {}) {
+  const css =
+    options.css || "";
+  return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${escapeHtml(options.title || "Hermes Dashboard Kit Gallery")}</title>
+  ${css ? `<style>${css}</style>` : `<link rel="stylesheet" href="../../packages/hermes-dashboard-kit/src/dashboard-kit.css">`}
+</head>
+<body>
+  <a id="top"></a>
+  ${renderDashboardKitGallery(options)}
+</body>
+</html>
+`;
+}
+
+function renderComponentInventoryCard(item) {
+  const status =
+    item.status || "draft";
+  return `
+    <article class="hdk-component-card hdk-gallery-status-${escapeAttr(status)}" data-component-family="${escapeAttr(item.id)}">
+      <header>
+        <span>${escapeHtml(item.family)}</span>
+        <strong>${escapeHtml(humanize(status))}</strong>
+      </header>
+      <p>${escapeHtml(item.good)}</p>
+      <div class="hdk-component-card__chips" aria-label="${escapeAttr(item.family)} components">
+        ${(item.components || []).map((component) => `<span>${escapeHtml(component)}</span>`).join("")}
+      </div>
+      <dl>
+        <div><dt>Target</dt><dd>${escapeHtml(item.targetTier || "tier-3")}</dd></div>
+        <div><dt>References</dt><dd>${escapeHtml((item.references || []).join(", "))}</dd></div>
+        <div><dt>Your role</dt><dd>${escapeHtml(item.userRole || "Approve or reject before project rollout.")}</dd></div>
+      </dl>
+    </article>
   `;
 }
 

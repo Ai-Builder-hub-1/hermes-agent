@@ -5,6 +5,8 @@ import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import {
+  getDashboardKitComponentInventory,
+  getDashboardKitReferenceFamilies,
   renderAreaChart,
   renderActionQueue,
   renderAlertQueue,
@@ -21,6 +23,8 @@ import {
   renderCostAttributionTable,
   renderCoverageGapMatrix,
   renderDashboardShell,
+  renderDashboardKitGallery,
+  renderDashboardKitGalleryDocument,
   renderDataTable,
   renderDataTableTabs,
   renderDetailDrawer,
@@ -46,6 +50,7 @@ import {
   renderBoxPlot,
   renderCandlestickChart,
   renderCompactActionRail,
+  renderComponentIntakeBoard,
   renderContractReadinessPanel,
   renderCorrelationMatrix,
   renderMarketBrowserLayout,
@@ -207,6 +212,56 @@ test("renders product-grade operational sidebar contract", () => {
   assert.match(html, /data-short="CEO"/);
   assert.match(html, /data-sidebar-footer/);
   assert.match(html, /hdk-sidebar-status/);
+});
+
+test("renders dashboard kit gallery and component intake board", () => {
+  const inventory =
+    getDashboardKitComponentInventory();
+  const references =
+    getDashboardKitReferenceFamilies();
+  const reviewRegistry =
+    JSON.parse(fs.readFileSync(new URL("../adoption/component-review-registry.json", import.meta.url), "utf8"));
+  const visualBaselines =
+    JSON.parse(fs.readFileSync(new URL("../adoption/component-visual-baselines.json", import.meta.url), "utf8"));
+  const reviewIds =
+    new Set(reviewRegistry.families.map((item) => item.id));
+  const baselineIds =
+    new Set(visualBaselines.families.map((item) => item.id));
+  const intake =
+    renderComponentIntakeBoard();
+  const gallery =
+    renderDashboardKitGallery();
+  const document =
+    renderDashboardKitGalleryDocument({
+      css:
+        ".hdk-shell{display:grid}"
+    });
+
+  assert.ok(inventory.length >= 8);
+  assert.ok(references.length >= 5);
+  assert.equal(reviewRegistry.version, 1);
+  assert.equal(visualBaselines.version, 1);
+  assert.deepEqual(
+    inventory.map((item) => item.id).filter((id) => !reviewIds.has(id)),
+    []
+  );
+  assert.deepEqual(
+    inventory.map((item) => item.id).filter((id) => !baselineIds.has(id)),
+    []
+  );
+  assert.ok(visualBaselines.viewports.some((viewport) => viewport.id === "desktop"));
+  assert.ok(visualBaselines.themes.includes("light"));
+  assert.ok(inventory.some((item) => item.status === "approved"));
+  assert.ok(inventory.some((item) => item.status === "reviewing"));
+  assert.ok(inventory.some((item) => item.status === "draft"));
+  assert.match(intake, /data-hdk-component="ComponentIntakeBoard"/);
+  assert.match(intake, /Your role/);
+  assert.match(gallery, /data-review-id="hdk.dashboard-kit-gallery"/);
+  assert.match(gallery, /Mobbin-informed Intake/);
+  assert.match(gallery, /data-hdk-component="LineChart"/);
+  assert.match(gallery, /data-hdk-component="DataTable"/);
+  assert.match(document, /<!doctype html>/);
+  assert.match(document, /Hermes Dashboard Kit Gallery/);
 });
 
 test("renders approved charts with axes and component markers", () => {

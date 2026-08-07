@@ -10,6 +10,9 @@ const required =
     "src/index.js",
     "src/dashboard-kit.css",
     "src/validate-surface.js",
+    "scripts/generate-gallery.mjs",
+    "adoption/component-review-registry.json",
+    "adoption/component-visual-baselines.json",
     "references/mobbin-extraction.md",
     "tests/dashboard-kit.test.js"
   ];
@@ -117,8 +120,19 @@ console.log(JSON.stringify({
       "BottomSheetDrawer",
       "MobileFilterSheet",
       "CompactActionRail",
-      "SwipeableQueue"
+      "SwipeableQueue",
+      "ComponentIntakeBoard",
+      "DashboardKitGallery"
     ],
+  gallery:
+    {
+      command:
+        "npm run dashboard:design-system:gallery",
+      html:
+        "docs/design/dashboard-kit-gallery.html",
+      report:
+        "docs/design/dashboard-kit-gallery-report.json"
+    },
   enforcement:
     [
       "tier3_without_dashboard_kit",
