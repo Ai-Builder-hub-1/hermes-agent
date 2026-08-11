@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-03T02:55:09.793Z",
+  "generatedAt": "2026-08-08T21:55:55.261Z",
   "kit": {
     "package": "@hermes/dashboard-kit",
     "version": "0.1.0",
@@ -33,12 +33,16 @@
       "CampaignRiskRail",
       "CandlestickChart",
       "CapacityMeter",
+      "Card",
       "CategoryHeatmap",
       "ChannelPostabilityMatrix",
       "ChartPanel",
       "CommandBar",
+      "CommandHeader",
       "CommandPalette",
       "CompactActionRail",
+      "ComponentIntakeBoard",
+      "ComponentQualityMaturityGraph",
       "ContentPackageWorkspace",
       "ContractReadinessPanel",
       "CorrelationMatrix",
@@ -49,6 +53,8 @@
       "DashboardEmptyState",
       "DashboardErrorState",
       "DashboardHeader",
+      "DashboardKitGallery",
+      "DashboardKitGalleryDocument",
       "DashboardLauncher",
       "DashboardLoadingShell",
       "DashboardLoadingState",
@@ -93,8 +99,10 @@
       "HealthBadge",
       "Heatmap",
       "HeatmapGrid",
+      "HelpTip",
       "HouseholdPreferencePanel",
       "IncidentCommandPanel",
+      "InfoPopover",
       "IngredientChecklist",
       "InsightGapPanel",
       "InsightPanel",
@@ -108,6 +116,7 @@
       "LocationDetailDrawer",
       "MapWorkspace",
       "MarketBrowserLayout",
+      "MarketExplorerPage",
       "MarketTape",
       "MarketVolatilityDrawer",
       "MealGenerationRulesPanel",
@@ -122,6 +131,7 @@
       "NarrativeBriefing",
       "NetworkGraph",
       "OperatingCompanyScorecard",
+      "OperationalSidebar",
       "OperationsFunnel",
       "OpportunityMatrix",
       "OrderBookLadder",
@@ -133,12 +143,19 @@
       "PartnerRankingTable",
       "PermissionAuditPanel",
       "PermissionLimitedPanel",
+      "Pill",
       "PortfolioCompanyGrid",
       "PostPerformanceTable",
+      "PremiumComparisonChart",
+      "PremiumDrilldownWorkspace",
+      "PremiumMarketBrowser",
+      "PremiumMediaApprovalWorkspace",
+      "PremiumPlannerCalendar",
       "PriceMovementChart",
       "ProgressMetric",
       "ProjectSwitcher",
       "ProofEvidencePanel",
+      "ProofStateStrip",
       "ProofStrip",
       "ProspectBoard",
       "ProviderSpendTimeline",
@@ -162,8 +179,10 @@
       "SearchInput",
       "SegmentedControl",
       "ServiceTopologyMap",
+      "Shell",
       "ShoppingListExportPanel",
       "Sidebar",
+      "SidebarRail",
       "SignalClusterPanel",
       "SimpleBarChart",
       "SimpleLineChart",
@@ -184,6 +203,7 @@
       "Sunburst",
       "SwipeableQueue",
       "TableToolbar",
+      "TableWrap",
       "TaskQueue",
       "TerritoryMatrix",
       "TimeWindowSelector",
@@ -217,6 +237,8 @@
       "dashboardVizPreviewMarketPoints",
       "decisionRiskRank",
       "executiveDecisionQueue",
+      "getDashboardKitComponentInventory",
+      "getDashboardKitReferenceFamilies",
       "getDashboardWorkspace",
       "groupDashboardModulesByWorkspace",
       "reportStatusRank",
@@ -231,9 +253,9 @@
     ]
   },
   "aggregate": {
-    "projectCount": 7,
-    "coveredProjects": 5,
-    "adoptionGapProjects": 2,
+    "projectCount": 10,
+    "coveredProjects": 10,
+    "adoptionGapProjects": 0,
     "kitGapProjects": 0,
     "missingSharedComponents": []
   },
@@ -247,15 +269,19 @@
         "exists": false,
         "path": null
       },
-      "adoptionMode": "static-adapter",
-      "implementationMode": "static-adapter",
-      "currentTier": null,
-      "targetTier": null,
+      "adoptionMode": "package-native",
+      "implementationMode": "package-built",
+      "currentTier": 3,
+      "targetTier": 3,
       "requiredComponents": [
+        "DashboardShell",
         "LiquidityDepthChart",
+        "LiveCommandPage",
+        "MarketBrowserPage",
         "MarketTape",
         "MarketVolatilityDrawer",
         "PriceMovementChart",
+        "ProofStrip",
         "SpreadBandChart",
         "TimeWindowSelector"
       ],
@@ -266,9 +292,74 @@
       "status": "covered",
       "surfaces": [
         {
+          "id": "roc-server-primary-route",
+          "path": "src/web/server.ts",
+          "status": "package-native",
+          "requiredComponents": [],
+          "declaredComponents": [],
+          "usedKnownComponents": [
+            "AreaChart",
+            "Card",
+            "Drawer",
+            "Header",
+            "Heatmap",
+            "LineChart",
+            "LiquidityDepthChart",
+            "Pill",
+            "PriceMovementChart",
+            "Shell",
+            "Sidebar",
+            "SpreadBandChart"
+          ],
+          "missingEvidence": [],
+          "fileExists": true
+        },
+        {
+          "id": "roc-shell",
+          "path": "public/roc/index.html",
+          "status": "package-native",
+          "requiredComponents": [
+            "DashboardShell",
+            "LiveCommandPage",
+            "MarketBrowserPage",
+            "MarketTape",
+            "MarketVolatilityDrawer",
+            "TimeWindowSelector",
+            "ProofStrip"
+          ],
+          "declaredComponents": [
+            "DashboardShell",
+            "LiveCommandPage",
+            "MarketBrowserPage",
+            "MarketTape",
+            "MarketVolatilityDrawer",
+            "TimeWindowSelector",
+            "ProofStrip"
+          ],
+          "usedKnownComponents": [
+            "Card",
+            "ChartPanel",
+            "DashboardQueryBoundary",
+            "DashboardShell",
+            "DataFreshnessStrip",
+            "Drawer",
+            "Header",
+            "MarketTape",
+            "MarketVolatilityDrawer",
+            "MetricGrid",
+            "Pill",
+            "ProofStrip",
+            "Shell",
+            "Sidebar",
+            "TimeWindowSelector"
+          ],
+          "missingEvidence": [],
+          "fileExists": true
+        },
+        {
           "id": "market-intelligence-live",
           "path": "public/roc/market-intelligence-live.html",
-          "status": "hybrid",
+          "status": "compatibility-review-surface",
           "requiredComponents": [
             "MarketTape",
             "MarketVolatilityDrawer",
@@ -283,9 +374,17 @@
             "PriceMovementChart",
             "SpreadBandChart",
             "LiquidityDepthChart",
-            "TimeWindowSelector"
+            "TimeWindowSelector",
+            "DashboardQueryBoundary"
           ],
           "usedKnownComponents": [
+            "Card",
+            "ChartPanel",
+            "CommandHeader",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DashboardShell",
+            "DashboardSidebar",
             "DetailDrawer",
             "Drawer",
             "Header",
@@ -294,7 +393,9 @@
             "MarketVolatilityDrawer",
             "PriceMovementChart",
             "ProofStrip",
+            "Shell",
             "Sidebar",
+            "SidebarRail",
             "SpreadBandChart",
             "TimeWindowSelector"
           ],
@@ -363,13 +464,19 @@
             "StateChecklist"
           ],
           "usedKnownComponents": [
+            "ActionQueue",
             "AiAssistantPanel",
+            "ApprovalQueue",
             "BarChart",
+            "Card",
             "ChartPanel",
+            "CommandHeader",
             "DashboardHeader",
+            "DashboardQueryBoundary",
             "DashboardShell",
             "DashboardSidebar",
             "DashboardWorkspaceOverview",
+            "DataFreshnessStrip",
             "DataTable",
             "DataTableTabs",
             "DetailDrawer",
@@ -378,11 +485,19 @@
             "Drawer",
             "EntitySummaryCard",
             "Header",
+            "HelpTip",
             "LineChart",
             "MetricCard",
             "MetricGrid",
+            "Pagination",
+            "PartialDataBanner",
+            "Pill",
+            "ProofStrip",
+            "Shell",
             "Sidebar",
+            "SidebarRail",
             "StateChecklist",
+            "TableWrap",
             "assessDashboardArchitecture",
             "dashboardHealthScore"
           ],
@@ -400,8 +515,8 @@
         "exists": true,
         "path": "../media-business-operations/docs/dashboard-component-gap-audit.md"
       },
-      "adoptionMode": "package-native-runtime-bridge",
-      "implementationMode": "browser-runtime-kit-backed",
+      "adoptionMode": "package-native",
+      "implementationMode": "package-native",
       "currentTier": 3,
       "targetTier": 3,
       "requiredComponents": [
@@ -577,17 +692,8 @@
         "WorkOrderQueue"
       ],
       "missingSharedComponents": [],
-      "missingSurfaceEvidence": [
-        {
-          "surface": "media-business-main",
-          "component": "CommandHeader"
-        },
-        {
-          "surface": "media-business-renderer",
-          "component": "TableWrap"
-        }
-      ],
-      "status": "adoption-gap",
+      "missingSurfaceEvidence": [],
+      "status": "covered",
       "surfaces": [
         {
           "id": "media-business-main",
@@ -609,15 +715,19 @@
             "DashboardShell"
           ],
           "usedKnownComponents": [
+            "CommandHeader",
             "DashboardHeader",
+            "DashboardQueryBoundary",
             "DashboardShell",
             "DashboardSidebar",
+            "DataFreshnessStrip",
             "Header",
-            "Sidebar"
+            "Pill",
+            "Shell",
+            "Sidebar",
+            "SidebarRail"
           ],
-          "missingEvidence": [
-            "CommandHeader"
-          ],
+          "missingEvidence": [],
           "fileExists": true
         },
         {
@@ -677,9 +787,12 @@
           "usedKnownComponents": [
             "ApprovalQueue",
             "BarChart",
+            "Card",
             "ChartPanel",
+            "CommandHeader",
             "DashboardLoadingShell",
             "DashboardQueryBoundary",
+            "DashboardSidebar",
             "DataFreshnessStrip",
             "DataTable",
             "DataTableTabs",
@@ -692,16 +805,19 @@
             "OutreachDraftPanel",
             "Pagination",
             "PartialDataBanner",
+            "Pill",
+            "ProofStateStrip",
             "ProofStrip",
             "QaReviewPanel",
+            "Shell",
             "Sidebar",
+            "SidebarRail",
             "StateChecklist",
             "StatePanel",
+            "TableWrap",
             "VideoPackageTable"
           ],
-          "missingEvidence": [
-            "TableWrap"
-          ],
+          "missingEvidence": [],
           "fileExists": true
         }
       ]
@@ -715,9 +831,9 @@
         "exists": false,
         "path": null
       },
-      "adoptionMode": "static-adapter",
-      "implementationMode": "static-adapter",
-      "currentTier": 1,
+      "adoptionMode": "package-native",
+      "implementationMode": "package-native",
+      "currentTier": 2,
       "targetTier": 2,
       "requiredComponents": [
         "Button",
@@ -737,7 +853,7 @@
         {
           "id": "business-mapper-workspace",
           "path": "business_mapper/static/index.html",
-          "status": "static-adapter",
+          "status": "package-native",
           "requiredComponents": [
             "Shell",
             "Sidebar",
@@ -754,11 +870,20 @@
             "MetricGrid",
             "Section",
             "Card",
-            "Button"
+            "Button",
+            "DashboardShell",
+            "DashboardSidebar",
+            "DashboardHeader"
           ],
           "usedKnownComponents": [
+            "Card",
+            "DashboardHeader",
+            "DashboardShell",
+            "DashboardSidebar",
             "Header",
             "MetricGrid",
+            "Pill",
+            "Shell",
             "Sidebar"
           ],
           "missingEvidence": [],
@@ -775,9 +900,9 @@
         "exists": false,
         "path": null
       },
-      "adoptionMode": "static-adapter",
-      "implementationMode": "server-rendered-legacy",
-      "currentTier": 1,
+      "adoptionMode": "package-native",
+      "implementationMode": "package-native",
+      "currentTier": 3,
       "targetTier": 3,
       "requiredComponents": [
         "CommandHeader",
@@ -787,22 +912,13 @@
       "requestedComponents": [],
       "sharedComponentsReady": [],
       "missingSharedComponents": [],
-      "missingSurfaceEvidence": [
-        {
-          "surface": "meal-dashboard-shell",
-          "component": "SidebarRail"
-        },
-        {
-          "surface": "meal-dashboard-shell",
-          "component": "CommandHeader"
-        }
-      ],
-      "status": "adoption-gap",
+      "missingSurfaceEvidence": [],
+      "status": "covered",
       "surfaces": [
         {
           "id": "meal-dashboard-shell",
           "path": "src/server.js",
-          "status": "legacy",
+          "status": "package-native",
           "requiredComponents": [
             "Shell",
             "SidebarRail",
@@ -813,21 +929,34 @@
             "SidebarRail",
             "CommandHeader",
             "DashboardShell",
-            "DashboardSidebar"
+            "DashboardSidebar",
+            "DashboardQueryBoundary",
+            "DataFreshnessStrip"
           ],
           "usedKnownComponents": [
+            "Card",
+            "CommandHeader",
             "DashboardHeader",
+            "DashboardQueryBoundary",
             "DashboardShell",
             "DashboardSidebar",
+            "DataFreshnessStrip",
             "Drawer",
             "Header",
+            "HouseholdPreferencePanel",
+            "MealGenerationRulesPanel",
             "MealLibrary",
-            "Sidebar"
+            "MealPlannerCalendar",
+            "MealWeekDrawer",
+            "MetricCard",
+            "PantryInventoryPanel",
+            "Pill",
+            "Shell",
+            "ShoppingListExportPanel",
+            "Sidebar",
+            "SidebarRail"
           ],
-          "missingEvidence": [
-            "SidebarRail",
-            "CommandHeader"
-          ],
+          "missingEvidence": [],
           "fileExists": true
         }
       ]
@@ -841,9 +970,9 @@
         "exists": false,
         "path": null
       },
-      "adoptionMode": "planned",
-      "implementationMode": "planned",
-      "currentTier": 0,
+      "adoptionMode": "package-native",
+      "implementationMode": "package-native",
+      "currentTier": 3,
       "targetTier": 3,
       "requiredComponents": [],
       "requestedComponents": [],
@@ -855,12 +984,28 @@
         {
           "id": "hermes-dashboard-hub",
           "path": "src/workspace/workspace-server.ts",
-          "status": "planned",
+          "status": "package-native",
           "requiredComponents": [],
-          "declaredComponents": [],
+          "declaredComponents": [
+            "DashboardShell",
+            "DashboardSidebar",
+            "DashboardHeader",
+            "DashboardQueryBoundary"
+          ],
           "usedKnownComponents": [
+            "Card",
+            "CommandHeader",
             "CommandPalette",
-            "Header"
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DashboardShell",
+            "DashboardSidebar",
+            "DataFreshnessStrip",
+            "Header",
+            "Pill",
+            "Shell",
+            "Sidebar",
+            "SidebarRail"
           ],
           "missingEvidence": [],
           "fileExists": true
@@ -868,24 +1013,54 @@
         {
           "id": "hermes-operator-dashboard-artifact",
           "path": "src/operator/operator-state.ts",
-          "status": "planned",
+          "status": "package-native",
           "requiredComponents": [],
           "declaredComponents": [
+            "DashboardShell",
+            "DashboardSidebar",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
             "Html"
           ],
-          "usedKnownComponents": [],
+          "usedKnownComponents": [
+            "CommandHeader",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DashboardShell",
+            "DashboardSidebar",
+            "DataFreshnessStrip",
+            "Header",
+            "Pill",
+            "Shell",
+            "Sidebar",
+            "SidebarRail"
+          ],
           "missingEvidence": [],
           "fileExists": true
         },
         {
           "id": "hermes-control-plane-artifact",
           "path": "src/operator/control-plane.ts",
-          "status": "planned",
+          "status": "package-native",
           "requiredComponents": [],
           "declaredComponents": [
+            "DashboardShell",
+            "DashboardSidebar",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
             "Html"
           ],
           "usedKnownComponents": [
+            "CommandHeader",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DashboardShell",
+            "DashboardSidebar",
+            "DataFreshnessStrip",
+            "Header",
+            "Shell",
+            "Sidebar",
+            "SidebarRail",
             "severityRank"
           ],
           "missingEvidence": [],
@@ -902,9 +1077,9 @@
         "exists": false,
         "path": null
       },
-      "adoptionMode": "planned",
-      "implementationMode": "planned",
-      "currentTier": 0,
+      "adoptionMode": "package-native",
+      "implementationMode": "package-native",
+      "currentTier": 3,
       "targetTier": 3,
       "requiredComponents": [],
       "requestedComponents": [],
@@ -916,11 +1091,26 @@
         {
           "id": "tlc-dashboard-shell",
           "path": "public/dashboard/index.html",
-          "status": "planned",
+          "status": "package-native",
           "requiredComponents": [],
-          "declaredComponents": [],
+          "declaredComponents": [
+            "DashboardShell",
+            "DashboardSidebar",
+            "DashboardHeader",
+            "DashboardQueryBoundary"
+          ],
           "usedKnownComponents": [
-            "Header"
+            "ChartPanel",
+            "CommandHeader",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DashboardShell",
+            "DashboardSidebar",
+            "DataFreshnessStrip",
+            "Header",
+            "Shell",
+            "Sidebar",
+            "SidebarRail"
           ],
           "missingEvidence": [],
           "fileExists": true
@@ -928,12 +1118,19 @@
         {
           "id": "tlc-dashboard-api",
           "path": "src/api.js",
-          "status": "planned",
+          "status": "package-native",
           "requiredComponents": [],
           "declaredComponents": [],
           "usedKnownComponents": [
+            "CommandHeader",
+            "DashboardQueryBoundary",
+            "DashboardShell",
+            "DataFreshnessStrip",
             "Header",
-            "JobQueue"
+            "JobQueue",
+            "Shell",
+            "Sidebar",
+            "SidebarRail"
           ],
           "missingEvidence": [],
           "fileExists": true
@@ -941,11 +1138,427 @@
         {
           "id": "tlc-dashboard-models",
           "path": "src/dashboards.js",
-          "status": "planned",
+          "status": "package-native",
           "requiredComponents": [],
           "declaredComponents": [],
           "usedKnownComponents": [
-            "ApprovalQueue"
+            "ApprovalQueue",
+            "CommandHeader",
+            "DashboardQueryBoundary",
+            "DashboardShell",
+            "DataFreshnessStrip",
+            "Header",
+            "Shell",
+            "Sidebar",
+            "SidebarRail"
+          ],
+          "missingEvidence": [],
+          "fileExists": true
+        }
+      ]
+    },
+    {
+      "id": "rinseables-os",
+      "name": "Rinseables OS",
+      "path": "../rinseables-os",
+      "manifest": "../rinseables-os/.hermes-dashboard.json",
+      "gapAudit": {
+        "exists": false,
+        "path": null
+      },
+      "adoptionMode": "package-native",
+      "implementationMode": "package-native",
+      "currentTier": 3,
+      "targetTier": 3,
+      "requiredComponents": [
+        "DashboardHeader",
+        "DashboardQueryBoundary",
+        "DashboardShell",
+        "DashboardSidebar",
+        "DataFreshnessStrip"
+      ],
+      "requestedComponents": [],
+      "sharedComponentsReady": [],
+      "missingSharedComponents": [],
+      "missingSurfaceEvidence": [],
+      "status": "covered",
+      "surfaces": [
+        {
+          "id": "rinseables-dashboard-shell",
+          "path": "public/dashboard/index.html",
+          "status": "package-native",
+          "requiredComponents": [
+            "DashboardShell",
+            "DashboardSidebar",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DataFreshnessStrip"
+          ],
+          "declaredComponents": [
+            "DashboardShell",
+            "DashboardSidebar",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DataFreshnessStrip"
+          ],
+          "usedKnownComponents": [
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DashboardShell",
+            "DashboardSidebar",
+            "DataFreshnessStrip",
+            "Header",
+            "Shell",
+            "Sidebar"
+          ],
+          "missingEvidence": [],
+          "fileExists": true
+        },
+        {
+          "id": "rinseables-dashboard-proof",
+          "path": "src/api.js",
+          "status": "package-native",
+          "requiredComponents": [],
+          "declaredComponents": [],
+          "usedKnownComponents": [
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DashboardShell",
+            "DashboardSidebar",
+            "DataFreshnessStrip",
+            "Header",
+            "Shell",
+            "Sidebar"
+          ],
+          "missingEvidence": [],
+          "fileExists": true
+        }
+      ]
+    },
+    {
+      "id": "investing-system",
+      "name": "Investing System",
+      "path": "../investing-system",
+      "manifest": "../investing-system/.hermes-dashboard.json",
+      "gapAudit": {
+        "exists": false,
+        "path": null
+      },
+      "adoptionMode": "package-native",
+      "implementationMode": "package-native",
+      "currentTier": 3,
+      "targetTier": 3,
+      "requiredComponents": [
+        "ChartPanel",
+        "DashboardHeader",
+        "DashboardQueryBoundary",
+        "DashboardShell",
+        "DashboardSidebar",
+        "DataFreshnessStrip",
+        "DataTable",
+        "StatePanel"
+      ],
+      "requestedComponents": [],
+      "sharedComponentsReady": [],
+      "missingSharedComponents": [],
+      "missingSurfaceEvidence": [],
+      "status": "covered",
+      "surfaces": [
+        {
+          "id": "investing-system-roc",
+          "path": "public/roc/index.html",
+          "status": "package-native",
+          "requiredComponents": [
+            "DashboardShell",
+            "DashboardSidebar",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DataFreshnessStrip",
+            "DataTable",
+            "StatePanel",
+            "ChartPanel"
+          ],
+          "declaredComponents": [
+            "DashboardShell",
+            "DashboardSidebar",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DataFreshnessStrip",
+            "DataTable",
+            "StatePanel",
+            "ChartPanel"
+          ],
+          "usedKnownComponents": [
+            "ChartPanel",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DashboardShell",
+            "DashboardSidebar",
+            "DataFreshnessStrip",
+            "DataTable",
+            "Header",
+            "Heatmap",
+            "Shell",
+            "Sidebar",
+            "StatePanel"
+          ],
+          "missingEvidence": [],
+          "fileExists": true
+        },
+        {
+          "id": "investing-system-proof",
+          "path": "src/api/server.ts",
+          "status": "package-native",
+          "requiredComponents": [],
+          "declaredComponents": [
+            "DashboardProofHtml"
+          ],
+          "usedKnownComponents": [
+            "Card",
+            "Header",
+            "Pill"
+          ],
+          "missingEvidence": [],
+          "fileExists": true
+        }
+      ]
+    },
+    {
+      "id": "nous-hermes-agent",
+      "name": "Nous Hermes Agent",
+      "path": ".",
+      "manifest": ".hermes-dashboard.json",
+      "gapAudit": {
+        "exists": false,
+        "path": null
+      },
+      "adoptionMode": "package-native",
+      "implementationMode": "package-native",
+      "currentTier": 3,
+      "targetTier": 3,
+      "requiredComponents": [
+        "ChartPanel",
+        "DashboardKitGallery",
+        "DataTable",
+        "PremiumComparisonChart",
+        "PremiumDrilldownWorkspace",
+        "PremiumMarketBrowser",
+        "PremiumMediaApprovalWorkspace",
+        "PremiumPlannerCalendar",
+        "ProofStrip"
+      ],
+      "requestedComponents": [],
+      "sharedComponentsReady": [],
+      "missingSharedComponents": [],
+      "missingSurfaceEvidence": [],
+      "status": "covered",
+      "surfaces": [
+        {
+          "id": "hermes-dashboard-kit-gallery",
+          "path": "packages/hermes-dashboard-kit/src/index.js",
+          "status": "production",
+          "requiredComponents": [
+            "DashboardKitGallery",
+            "PremiumComparisonChart",
+            "PremiumMarketBrowser",
+            "PremiumMediaApprovalWorkspace",
+            "PremiumPlannerCalendar",
+            "PremiumDrilldownWorkspace"
+          ],
+          "declaredComponents": [
+            "DashboardKitGallery",
+            "PremiumComparisonChart",
+            "PremiumMarketBrowser",
+            "PremiumMediaApprovalWorkspace",
+            "PremiumPlannerCalendar",
+            "PremiumDrilldownWorkspace"
+          ],
+          "usedKnownComponents": [
+            "ActionQueue",
+            "AlertQueue",
+            "AnomalyBandChart",
+            "ApprovalQueue",
+            "AreaChart",
+            "AttributionMatrix",
+            "AutomationReadinessMatrix",
+            "BarChart",
+            "BenchmarkPanel",
+            "BoardDecisionQueue",
+            "BottomSheetDrawer",
+            "BoxPlot",
+            "BrandPortfolioGrid",
+            "BriefingPanel",
+            "CalendarMonthGrid",
+            "CalendarQueue",
+            "CampaignEconomicsPanel",
+            "CampaignRiskRail",
+            "CandlestickChart",
+            "Card",
+            "ChannelPostabilityMatrix",
+            "ChartPanel",
+            "CompactActionRail",
+            "ComponentIntakeBoard",
+            "ComponentQualityMaturityGraph",
+            "ContentPackageWorkspace",
+            "ContractReadinessPanel",
+            "CorrelationMatrix",
+            "CostAttributionTable",
+            "CoverageGapMatrix",
+            "CoverageMap",
+            "DashboardHeader",
+            "DashboardKitGallery",
+            "DashboardKitGalleryDocument",
+            "DashboardLoadingShell",
+            "DashboardQueryBoundary",
+            "DashboardShell",
+            "DashboardSidebar",
+            "DataFreshnessStrip",
+            "DataTable",
+            "DataTableTabs",
+            "DeploymentPromotionPanel",
+            "DetailDrawer",
+            "DistributionPlot",
+            "DonutChart",
+            "Drawer",
+            "DrilldownPanel",
+            "EntityRelationshipGraph",
+            "EnvironmentHealthMatrix",
+            "EvidenceStack",
+            "GateRunTimeline",
+            "GovernanceChecklist",
+            "Header",
+            "Heatmap",
+            "HelpTip",
+            "HouseholdPreferencePanel",
+            "IncidentCommandPanel",
+            "InfoPopover",
+            "IngredientChecklist",
+            "InsightGapPanel",
+            "KpiContractTable",
+            "LearningEvidenceStack",
+            "LineChart",
+            "LocationDetailDrawer",
+            "MapWorkspace",
+            "MarketBrowserLayout",
+            "MarketExplorerPage",
+            "MarketTape",
+            "MarketVolatilityDrawer",
+            "MealGenerationRulesPanel",
+            "MealLibrary",
+            "MealPlannerCalendar",
+            "MealWeekDrawer",
+            "MetricCard",
+            "MobileDashboardShell",
+            "MobileFilterSheet",
+            "NarrativeBriefing",
+            "NetworkGraph",
+            "OperatingCompanyScorecard",
+            "OperationalSidebar",
+            "OperationsFunnel",
+            "OrderBookLadder",
+            "OutreachDraftPanel",
+            "OwnerAccountabilityMatrix",
+            "Pagination",
+            "PantryInventoryPanel",
+            "PartialDataBanner",
+            "PartnerRankingTable",
+            "PermissionAuditPanel",
+            "Pill",
+            "PortfolioCompanyGrid",
+            "PostPerformanceTable",
+            "PremiumComparisonChart",
+            "PremiumDrilldownWorkspace",
+            "PremiumMarketBrowser",
+            "PremiumMediaApprovalWorkspace",
+            "PremiumPlannerCalendar",
+            "ProofStrip",
+            "ProspectBoard",
+            "PublishingProofPanel",
+            "QaReviewPanel",
+            "ReadinessDomainMatrix",
+            "RecommendationReviewPanel",
+            "ResponseLogPanel",
+            "RunDrilldownPanel",
+            "RunbookPanel",
+            "SankeyFlow",
+            "ScatterQuadrantChart",
+            "ScheduleTimeline",
+            "ServiceTopologyMap",
+            "Shell",
+            "ShoppingListExportPanel",
+            "Sidebar",
+            "SidebarRail",
+            "SignalClusterPanel",
+            "SkeletonChart",
+            "SkeletonDashboardGrid",
+            "SkeletonMetricCard",
+            "SkeletonTable",
+            "SourceContractHealthTable",
+            "Sparkline",
+            "StageBlockerMatrix",
+            "StaleDataBadge",
+            "StateChecklist",
+            "StatePanel",
+            "StatusPill",
+            "StrategicInitiativeTimeline",
+            "Sunburst",
+            "SwipeableQueue",
+            "TableWrap",
+            "TerritoryMatrix",
+            "TimeWindowSelector",
+            "Treemap",
+            "ViolinPlot",
+            "WasteCostPanel",
+            "WorkOrderQueue",
+            "getDashboardKitComponentInventory",
+            "getDashboardKitReferenceFamilies"
+          ],
+          "missingEvidence": [],
+          "fileExists": true
+        },
+        {
+          "id": "hermes-dashboard-kit-gallery-web-route",
+          "path": "web/src/pages/DashboardKitGalleryPage.tsx",
+          "status": "production",
+          "requiredComponents": [
+            "DashboardKitGallery",
+            "ProofStrip",
+            "DataTable",
+            "ChartPanel",
+            "PremiumComparisonChart",
+            "PremiumMarketBrowser",
+            "PremiumMediaApprovalWorkspace",
+            "PremiumPlannerCalendar",
+            "PremiumDrilldownWorkspace"
+          ],
+          "declaredComponents": [
+            "DashboardKitGallery",
+            "ProofStrip",
+            "DataTable",
+            "ChartPanel",
+            "PremiumComparisonChart",
+            "PremiumMarketBrowser",
+            "PremiumMediaApprovalWorkspace",
+            "PremiumPlannerCalendar",
+            "PremiumDrilldownWorkspace"
+          ],
+          "usedKnownComponents": [
+            "BarChart",
+            "Card",
+            "ChartPanel",
+            "DashboardKitGallery",
+            "DataTable",
+            "Drawer",
+            "Header",
+            "Heatmap",
+            "LineChart",
+            "PremiumComparisonChart",
+            "PremiumDrilldownWorkspace",
+            "PremiumMarketBrowser",
+            "PremiumMediaApprovalWorkspace",
+            "PremiumPlannerCalendar",
+            "ProofStrip",
+            "Shell"
           ],
           "missingEvidence": [],
           "fileExists": true

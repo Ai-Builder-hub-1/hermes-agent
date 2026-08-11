@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-05T15:31:00.851Z",
+  "generatedAt": "2026-08-08T21:55:55.117Z",
   "purpose": "Fleet-wide evidence ledger for production proof, deployment evidence, monitoring, credentials, E2E, and outcome feeds.",
   "evidenceKinds": [
     "production-health",
@@ -8,6 +8,7 @@
     "readonly-proof",
     "screenshot-baseline",
     "dashboard-standard",
+    "static-route-debt",
     "live-e2e",
     "dns-proxy",
     "monitoring",
@@ -15,10 +16,11 @@
     "outcome-feed"
   ],
   "summary": {
-    "total": 100,
-    "current": 61,
-    "missing": 28,
-    "stale": 1,
+    "total": 110,
+    "current": 94,
+    "missing": 0,
+    "needsReview": 6,
+    "stale": 0,
     "blocked": 2,
     "notApplicable": 8
   },
@@ -29,7 +31,7 @@
       "kind": "production-health",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://tlc.tlccapitalgroup.com/health",
       "recommendedFix": null
     },
@@ -39,7 +41,7 @@
       "kind": "deployment-evidence",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "/root/apps/deploy/deployment-evidence/latest/tlc-capital-group-os.json",
       "promotion": {
         "available": true,
@@ -58,7 +60,7 @@
       "kind": "readonly-proof",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://tlc.tlccapitalgroup.com/dashboard/proof",
       "proof": {
         "status": "baseline-present",
@@ -74,7 +76,7 @@
       "kind": "screenshot-baseline",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "2026-08-03T20:44:02.605Z",
       "recommendedFix": null
     },
@@ -84,7 +86,7 @@
       "kind": "dashboard-standard",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
       "dashboard": {
         "registered": true,
@@ -98,14 +100,75 @@
       "recommendedFix": null
     },
     {
+      "id": "tlc-capital-group-os.static-route-debt",
+      "projectId": "tlc-capital-group-os",
+      "kind": "static-route-debt",
+      "status": "needs-review",
+      "severity": "blocking",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/static-dashboard-route-audit.json",
+      "findings": [
+        {
+          "severity": "warning",
+          "code": "static_compatibility_route",
+          "surfacePath": "public/dashboard/index.html",
+          "message": "Static dashboard route remains as compatibility/review debt. Keep it out of primary navigation and schedule archive/removal."
+        }
+      ],
+      "recommendedFix": "Migrate primary static/public dashboard routes to package-native frontend entrypoints and keep compatibility routes out of primary navigation."
+    },
+    {
       "id": "tlc-capital-group-os.live-e2e",
       "projectId": "tlc-capital-group-os",
       "kind": "live-e2e",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
-      "source": null,
-      "recommendedFix": "Add or refresh live E2E evidence for the primary production workflow."
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/dashboard-live-e2e-registry.json",
+      "evidence": {
+        "schemaVersion": 1,
+        "projectId": "tlc-capital-group-os",
+        "label": "TLC Capital Group OS",
+        "scenarioId": "tlc-capital-group-os.primary-operator-flow",
+        "status": "current",
+        "route": "https://tlc.tlccapitalgroup.com/dashboard",
+        "proofUrl": "https://tlc.tlccapitalgroup.com/dashboard/proof",
+        "healthUrl": "https://tlc.tlccapitalgroup.com/health",
+        "snapshotUrl": "https://tlc.tlccapitalgroup.com/dashboard-snapshot",
+        "requiredAssertions": [
+          "primary route loads",
+          "readonly proof route loads",
+          "snapshot or outcome feed returns data",
+          "primary empty/error/stale state is visible when data is unavailable",
+          "no blank primary region"
+        ],
+        "latestRun": {
+          "status": "passed",
+          "capturedAt": "2026-08-08T01:30:34.665Z",
+          "checks": {
+            "health": {
+              "ok": true,
+              "status": 200,
+              "ms": 171,
+              "contentType": "application/json"
+            },
+            "proof": {
+              "ok": true,
+              "status": 200,
+              "ms": 144,
+              "contentType": "application/json"
+            },
+            "snapshot": {
+              "ok": true,
+              "status": 200,
+              "ms": 45,
+              "contentType": "application/json"
+            }
+          }
+        },
+        "recommendedFix": null
+      },
+      "recommendedFix": null
     },
     {
       "id": "tlc-capital-group-os.dns-proxy",
@@ -113,7 +176,7 @@
       "kind": "dns-proxy",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://tlc.tlccapitalgroup.com/dashboard",
       "recommendedFix": null
     },
@@ -121,11 +184,46 @@
       "id": "tlc-capital-group-os.monitoring",
       "projectId": "tlc-capital-group-os",
       "kind": "monitoring",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
-      "source": null,
-      "recommendedFix": "Add monitoring/log shipping evidence and alert ownership."
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/dashboard-monitoring-registry.json",
+      "evidence": {
+        "schemaVersion": 1,
+        "projectId": "tlc-capital-group-os",
+        "label": "TLC Capital Group OS",
+        "status": "current",
+        "healthUrl": "https://tlc.tlccapitalgroup.com/health",
+        "snapshotUrl": "https://tlc.tlccapitalgroup.com/dashboard-snapshot",
+        "alertOwner": "tlc-enterprise",
+        "requiredSignals": [
+          "health endpoint status",
+          "snapshot freshness",
+          "primary dashboard proof freshness",
+          "deployment promotion status",
+          "error rate or failure count"
+        ],
+        "latestCheck": {
+          "status": "passed",
+          "capturedAt": "2026-08-08T01:29:26.715Z",
+          "checks": {
+            "health": {
+              "ok": true,
+              "status": 200,
+              "ms": 166,
+              "contentType": "application/json"
+            },
+            "snapshot": {
+              "ok": true,
+              "status": 200,
+              "ms": 149,
+              "contentType": "application/json"
+            }
+          }
+        },
+        "recommendedFix": null
+      },
+      "recommendedFix": null
     },
     {
       "id": "tlc-capital-group-os.external-credentials",
@@ -133,7 +231,7 @@
       "kind": "external-credentials",
       "status": "not-applicable",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": null,
       "recommendedFix": null
     },
@@ -143,7 +241,7 @@
       "kind": "outcome-feed",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://tlc.tlccapitalgroup.com/dashboard-snapshot",
       "recommendedFix": null
     },
@@ -153,7 +251,7 @@
       "kind": "production-health",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://agent.tlccapitalgroup.com/api/status",
       "recommendedFix": null
     },
@@ -163,7 +261,7 @@
       "kind": "deployment-evidence",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "/root/apps/deploy/deployment-evidence/latest/nous-hermes-agent.json",
       "promotion": {
         "available": true,
@@ -182,7 +280,7 @@
       "kind": "readonly-proof",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://agent.tlccapitalgroup.com/dashboard/proof",
       "proof": {
         "status": "baseline-present",
@@ -198,7 +296,7 @@
       "kind": "screenshot-baseline",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "2026-08-03T20:43:29.659Z",
       "recommendedFix": null
     },
@@ -206,30 +304,84 @@
       "id": "nous-hermes-agent.dashboard-standard",
       "projectId": "nous-hermes-agent",
       "kind": "dashboard-standard",
-      "status": "missing",
-      "severity": "blocking",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
       "dashboard": {
-        "registered": false,
+        "registered": true,
         "dashboardId": "nous-hermes-agent.dashboard",
-        "status": "unregistered",
-        "currentBand": "unknown",
-        "targetBand": null,
-        "implementationMode": null,
+        "status": "current",
+        "currentBand": "T3C",
+        "targetBand": "T3C",
+        "implementationMode": "package-native",
         "issueCount": 0
       },
-      "recommendedFix": "Register or repair the dashboard adoption surface."
+      "recommendedFix": null
+    },
+    {
+      "id": "nous-hermes-agent.static-route-debt",
+      "projectId": "nous-hermes-agent",
+      "kind": "static-route-debt",
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/static-dashboard-route-audit.json",
+      "findings": [],
+      "recommendedFix": null
     },
     {
       "id": "nous-hermes-agent.live-e2e",
       "projectId": "nous-hermes-agent",
       "kind": "live-e2e",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
-      "source": null,
-      "recommendedFix": "Add or refresh live E2E evidence for the primary production workflow."
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/dashboard-live-e2e-registry.json",
+      "evidence": {
+        "schemaVersion": 1,
+        "projectId": "nous-hermes-agent",
+        "label": "Nous Hermes Agent",
+        "scenarioId": "nous-hermes-agent.primary-operator-flow",
+        "status": "current",
+        "route": "https://agent.tlccapitalgroup.com",
+        "proofUrl": "https://agent.tlccapitalgroup.com/dashboard/proof",
+        "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
+        "snapshotUrl": "https://agent.tlccapitalgroup.com/api/dashboard-snapshot",
+        "requiredAssertions": [
+          "primary route loads",
+          "readonly proof route loads",
+          "snapshot or outcome feed returns data",
+          "primary empty/error/stale state is visible when data is unavailable",
+          "no blank primary region"
+        ],
+        "latestRun": {
+          "status": "passed",
+          "capturedAt": "2026-08-08T01:30:34.665Z",
+          "checks": {
+            "health": {
+              "ok": true,
+              "status": 200,
+              "ms": 156,
+              "contentType": "application/json"
+            },
+            "proof": {
+              "ok": true,
+              "status": 200,
+              "ms": 165,
+              "contentType": "text/html; charset=utf-8"
+            },
+            "snapshot": {
+              "ok": true,
+              "status": 200,
+              "ms": 62,
+              "contentType": "application/json"
+            }
+          }
+        },
+        "recommendedFix": null
+      },
+      "recommendedFix": null
     },
     {
       "id": "nous-hermes-agent.dns-proxy",
@@ -237,7 +389,7 @@
       "kind": "dns-proxy",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://agent.tlccapitalgroup.com",
       "recommendedFix": null
     },
@@ -245,11 +397,46 @@
       "id": "nous-hermes-agent.monitoring",
       "projectId": "nous-hermes-agent",
       "kind": "monitoring",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
-      "source": null,
-      "recommendedFix": "Add monitoring/log shipping evidence and alert ownership."
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/dashboard-monitoring-registry.json",
+      "evidence": {
+        "schemaVersion": 1,
+        "projectId": "nous-hermes-agent",
+        "label": "Nous Hermes Agent",
+        "status": "current",
+        "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
+        "snapshotUrl": "https://agent.tlccapitalgroup.com/api/dashboard-snapshot",
+        "alertOwner": "hermes-standards",
+        "requiredSignals": [
+          "health endpoint status",
+          "snapshot freshness",
+          "primary dashboard proof freshness",
+          "deployment promotion status",
+          "error rate or failure count"
+        ],
+        "latestCheck": {
+          "status": "passed",
+          "capturedAt": "2026-08-08T01:29:26.715Z",
+          "checks": {
+            "health": {
+              "ok": true,
+              "status": 200,
+              "ms": 172,
+              "contentType": "application/json"
+            },
+            "snapshot": {
+              "ok": true,
+              "status": 200,
+              "ms": 167,
+              "contentType": "application/json"
+            }
+          }
+        },
+        "recommendedFix": null
+      },
+      "recommendedFix": null
     },
     {
       "id": "nous-hermes-agent.external-credentials",
@@ -257,7 +444,7 @@
       "kind": "external-credentials",
       "status": "blocked",
       "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "hermes-agent-model-provider-credentials",
       "recommendedFix": "Resolve or explicitly defer external credential setup with owner and authority policy."
     },
@@ -265,11 +452,11 @@
       "id": "nous-hermes-agent.outcome-feed",
       "projectId": "nous-hermes-agent",
       "kind": "outcome-feed",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://agent.tlccapitalgroup.com/api/dashboard-snapshot",
-      "recommendedFix": "Add project-feed.v1, /api/hermes/outcomes, or /dashboard-snapshot evidence."
+      "recommendedFix": null
     },
     {
       "id": "hermes-os.production-health",
@@ -277,7 +464,7 @@
       "kind": "production-health",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
       "recommendedFix": null
     },
@@ -287,7 +474,7 @@
       "kind": "deployment-evidence",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "/root/apps/deploy/deployment-evidence/latest/hermes.json",
       "promotion": {
         "available": true,
@@ -306,7 +493,7 @@
       "kind": "readonly-proof",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://hermes.tlccapitalgroup.com/dashboard/proof",
       "proof": {
         "status": "baseline-present",
@@ -322,7 +509,7 @@
       "kind": "screenshot-baseline",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "2026-08-03T20:44:01.865Z",
       "recommendedFix": null
     },
@@ -332,7 +519,7 @@
       "kind": "dashboard-standard",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
       "dashboard": {
         "registered": true,
@@ -346,14 +533,68 @@
       "recommendedFix": null
     },
     {
+      "id": "hermes-os.static-route-debt",
+      "projectId": "hermes-os",
+      "kind": "static-route-debt",
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/static-dashboard-route-audit.json",
+      "findings": [],
+      "recommendedFix": null
+    },
+    {
       "id": "hermes-os.live-e2e",
       "projectId": "hermes-os",
       "kind": "live-e2e",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
-      "source": null,
-      "recommendedFix": "Add or refresh live E2E evidence for the primary production workflow."
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/dashboard-live-e2e-registry.json",
+      "evidence": {
+        "schemaVersion": 1,
+        "projectId": "hermes-os",
+        "label": "Hermes OS",
+        "scenarioId": "hermes-os.primary-operator-flow",
+        "status": "current",
+        "route": "https://hermes.tlccapitalgroup.com/",
+        "proofUrl": "https://hermes.tlccapitalgroup.com/dashboard/proof",
+        "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+        "snapshotUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+        "requiredAssertions": [
+          "primary route loads",
+          "readonly proof route loads",
+          "snapshot or outcome feed returns data",
+          "primary empty/error/stale state is visible when data is unavailable",
+          "no blank primary region"
+        ],
+        "latestRun": {
+          "status": "passed",
+          "capturedAt": "2026-08-08T01:30:34.665Z",
+          "checks": {
+            "health": {
+              "ok": true,
+              "status": 200,
+              "ms": 202,
+              "contentType": "application/json"
+            },
+            "proof": {
+              "ok": true,
+              "status": 200,
+              "ms": 138,
+              "contentType": "text/html; charset=utf-8"
+            },
+            "snapshot": {
+              "ok": true,
+              "status": 200,
+              "ms": 39,
+              "contentType": "application/json"
+            }
+          }
+        },
+        "recommendedFix": null
+      },
+      "recommendedFix": null
     },
     {
       "id": "hermes-os.dns-proxy",
@@ -361,7 +602,7 @@
       "kind": "dns-proxy",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://hermes.tlccapitalgroup.com/",
       "recommendedFix": null
     },
@@ -369,11 +610,46 @@
       "id": "hermes-os.monitoring",
       "projectId": "hermes-os",
       "kind": "monitoring",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
-      "source": null,
-      "recommendedFix": "Add monitoring/log shipping evidence and alert ownership."
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/dashboard-monitoring-registry.json",
+      "evidence": {
+        "schemaVersion": 1,
+        "projectId": "hermes-os",
+        "label": "Hermes OS",
+        "status": "current",
+        "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+        "snapshotUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+        "alertOwner": "hermes-runtime",
+        "requiredSignals": [
+          "health endpoint status",
+          "snapshot freshness",
+          "primary dashboard proof freshness",
+          "deployment promotion status",
+          "error rate or failure count"
+        ],
+        "latestCheck": {
+          "status": "passed",
+          "capturedAt": "2026-08-08T01:29:26.715Z",
+          "checks": {
+            "health": {
+              "ok": true,
+              "status": 200,
+              "ms": 146,
+              "contentType": "application/json"
+            },
+            "snapshot": {
+              "ok": true,
+              "status": 200,
+              "ms": 135,
+              "contentType": "application/json"
+            }
+          }
+        },
+        "recommendedFix": null
+      },
+      "recommendedFix": null
     },
     {
       "id": "hermes-os.external-credentials",
@@ -381,7 +657,7 @@
       "kind": "external-credentials",
       "status": "not-applicable",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": null,
       "recommendedFix": null
     },
@@ -389,11 +665,11 @@
       "id": "hermes-os.outcome-feed",
       "projectId": "hermes-os",
       "kind": "outcome-feed",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
-      "recommendedFix": "Add project-feed.v1, /api/hermes/outcomes, or /dashboard-snapshot evidence."
+      "recommendedFix": null
     },
     {
       "id": "media-engine.production-health",
@@ -401,7 +677,7 @@
       "kind": "production-health",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://media.tlccapitalgroup.com/health",
       "recommendedFix": null
     },
@@ -411,7 +687,7 @@
       "kind": "deployment-evidence",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "/root/apps/deploy/deployment-evidence/latest/media-engine-dashboard.json",
       "promotion": {
         "available": true,
@@ -430,7 +706,7 @@
       "kind": "readonly-proof",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://media.tlccapitalgroup.com/dashboard/proof",
       "proof": {
         "status": "baseline-present",
@@ -446,7 +722,7 @@
       "kind": "screenshot-baseline",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "2026-08-03T20:43:55.934Z",
       "recommendedFix": null
     },
@@ -456,7 +732,7 @@
       "kind": "dashboard-standard",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
       "dashboard": {
         "registered": true,
@@ -470,14 +746,68 @@
       "recommendedFix": null
     },
     {
+      "id": "media-engine.static-route-debt",
+      "projectId": "media-engine",
+      "kind": "static-route-debt",
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/static-dashboard-route-audit.json",
+      "findings": [],
+      "recommendedFix": null
+    },
+    {
       "id": "media-engine.live-e2e",
       "projectId": "media-engine",
       "kind": "live-e2e",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
-      "source": null,
-      "recommendedFix": "Add or refresh live E2E evidence for the primary production workflow."
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/dashboard-live-e2e-registry.json",
+      "evidence": {
+        "schemaVersion": 1,
+        "projectId": "media-engine",
+        "label": "Media Engine",
+        "scenarioId": "media-engine.primary-operator-flow",
+        "status": "current",
+        "route": "https://media.tlccapitalgroup.com/dashboard",
+        "proofUrl": "https://media.tlccapitalgroup.com/dashboard/proof",
+        "healthUrl": "https://media.tlccapitalgroup.com/health",
+        "snapshotUrl": "https://media.tlccapitalgroup.com/dashboard-snapshot",
+        "requiredAssertions": [
+          "primary route loads",
+          "readonly proof route loads",
+          "snapshot or outcome feed returns data",
+          "primary empty/error/stale state is visible when data is unavailable",
+          "no blank primary region"
+        ],
+        "latestRun": {
+          "status": "passed",
+          "capturedAt": "2026-08-08T01:30:34.665Z",
+          "checks": {
+            "health": {
+              "ok": true,
+              "status": 200,
+              "ms": 151,
+              "contentType": "application/json"
+            },
+            "proof": {
+              "ok": true,
+              "status": 200,
+              "ms": 2709,
+              "contentType": "text/html; charset=utf-8"
+            },
+            "snapshot": {
+              "ok": true,
+              "status": 200,
+              "ms": 2450,
+              "contentType": "application/json"
+            }
+          }
+        },
+        "recommendedFix": null
+      },
+      "recommendedFix": null
     },
     {
       "id": "media-engine.dns-proxy",
@@ -485,7 +815,7 @@
       "kind": "dns-proxy",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://media.tlccapitalgroup.com/dashboard",
       "recommendedFix": null
     },
@@ -493,11 +823,46 @@
       "id": "media-engine.monitoring",
       "projectId": "media-engine",
       "kind": "monitoring",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
-      "source": null,
-      "recommendedFix": "Add monitoring/log shipping evidence and alert ownership."
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/dashboard-monitoring-registry.json",
+      "evidence": {
+        "schemaVersion": 1,
+        "projectId": "media-engine",
+        "label": "Media Engine",
+        "status": "current",
+        "healthUrl": "https://media.tlccapitalgroup.com/health",
+        "snapshotUrl": "https://media.tlccapitalgroup.com/dashboard-snapshot",
+        "alertOwner": "media-production",
+        "requiredSignals": [
+          "health endpoint status",
+          "snapshot freshness",
+          "primary dashboard proof freshness",
+          "deployment promotion status",
+          "error rate or failure count"
+        ],
+        "latestCheck": {
+          "status": "passed",
+          "capturedAt": "2026-08-08T01:29:26.715Z",
+          "checks": {
+            "health": {
+              "ok": true,
+              "status": 200,
+              "ms": 143,
+              "contentType": "application/json"
+            },
+            "snapshot": {
+              "ok": true,
+              "status": 200,
+              "ms": 3443,
+              "contentType": "application/json"
+            }
+          }
+        },
+        "recommendedFix": null
+      },
+      "recommendedFix": null
     },
     {
       "id": "media-engine.external-credentials",
@@ -505,7 +870,7 @@
       "kind": "external-credentials",
       "status": "blocked",
       "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "media-engine-platform-credentials",
       "recommendedFix": "Resolve or explicitly defer external credential setup with owner and authority policy."
     },
@@ -515,7 +880,7 @@
       "kind": "outcome-feed",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://media.tlccapitalgroup.com/dashboard-snapshot",
       "recommendedFix": null
     },
@@ -525,7 +890,7 @@
       "kind": "production-health",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://media-business-operations.tlccapitalgroup.com/health",
       "recommendedFix": null
     },
@@ -535,7 +900,7 @@
       "kind": "deployment-evidence",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "/root/apps/deploy/deployment-evidence/latest/media-business-operations.json",
       "promotion": {
         "available": true,
@@ -554,7 +919,7 @@
       "kind": "readonly-proof",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://media-business-operations.tlccapitalgroup.com/dashboard/proof",
       "proof": {
         "status": "baseline-present",
@@ -570,7 +935,7 @@
       "kind": "screenshot-baseline",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "2026-08-03T20:43:58.656Z",
       "recommendedFix": null
     },
@@ -580,7 +945,7 @@
       "kind": "dashboard-standard",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
       "dashboard": {
         "registered": true,
@@ -594,14 +959,68 @@
       "recommendedFix": null
     },
     {
+      "id": "media-business-operations.static-route-debt",
+      "projectId": "media-business-operations",
+      "kind": "static-route-debt",
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/static-dashboard-route-audit.json",
+      "findings": [],
+      "recommendedFix": null
+    },
+    {
       "id": "media-business-operations.live-e2e",
       "projectId": "media-business-operations",
       "kind": "live-e2e",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
-      "source": null,
-      "recommendedFix": "Add or refresh live E2E evidence for the primary production workflow."
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/dashboard-live-e2e-registry.json",
+      "evidence": {
+        "schemaVersion": 1,
+        "projectId": "media-business-operations",
+        "label": "Media Business Operations",
+        "scenarioId": "media-business-operations.primary-operator-flow",
+        "status": "current",
+        "route": "https://media-business-operations.tlccapitalgroup.com/dashboard",
+        "proofUrl": "https://media-business-operations.tlccapitalgroup.com/dashboard/proof",
+        "healthUrl": "https://media-business-operations.tlccapitalgroup.com/health",
+        "snapshotUrl": "https://media-business-operations.tlccapitalgroup.com/api/dashboard-summary",
+        "requiredAssertions": [
+          "primary route loads",
+          "readonly proof route loads",
+          "snapshot or outcome feed returns data",
+          "primary empty/error/stale state is visible when data is unavailable",
+          "no blank primary region"
+        ],
+        "latestRun": {
+          "status": "passed",
+          "capturedAt": "2026-08-08T01:30:34.665Z",
+          "checks": {
+            "health": {
+              "ok": true,
+              "status": 200,
+              "ms": 199,
+              "contentType": "application/json"
+            },
+            "proof": {
+              "ok": true,
+              "status": 200,
+              "ms": 833,
+              "contentType": "text/html; charset=utf-8"
+            },
+            "snapshot": {
+              "ok": true,
+              "status": 200,
+              "ms": 555,
+              "contentType": "application/json"
+            }
+          }
+        },
+        "recommendedFix": null
+      },
+      "recommendedFix": null
     },
     {
       "id": "media-business-operations.dns-proxy",
@@ -609,7 +1028,7 @@
       "kind": "dns-proxy",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://media-business-operations.tlccapitalgroup.com/dashboard",
       "recommendedFix": null
     },
@@ -617,11 +1036,46 @@
       "id": "media-business-operations.monitoring",
       "projectId": "media-business-operations",
       "kind": "monitoring",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
-      "source": null,
-      "recommendedFix": "Add monitoring/log shipping evidence and alert ownership."
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/dashboard-monitoring-registry.json",
+      "evidence": {
+        "schemaVersion": 1,
+        "projectId": "media-business-operations",
+        "label": "Media Business Operations",
+        "status": "current",
+        "healthUrl": "https://media-business-operations.tlccapitalgroup.com/health",
+        "snapshotUrl": "https://media-business-operations.tlccapitalgroup.com/api/dashboard-summary",
+        "alertOwner": "media-business",
+        "requiredSignals": [
+          "health endpoint status",
+          "snapshot freshness",
+          "primary dashboard proof freshness",
+          "deployment promotion status",
+          "error rate or failure count"
+        ],
+        "latestCheck": {
+          "status": "passed",
+          "capturedAt": "2026-08-08T01:29:26.715Z",
+          "checks": {
+            "health": {
+              "ok": true,
+              "status": 200,
+              "ms": 148,
+              "contentType": "application/json"
+            },
+            "snapshot": {
+              "ok": true,
+              "status": 200,
+              "ms": 804,
+              "contentType": "application/json"
+            }
+          }
+        },
+        "recommendedFix": null
+      },
+      "recommendedFix": null
     },
     {
       "id": "media-business-operations.external-credentials",
@@ -629,7 +1083,7 @@
       "kind": "external-credentials",
       "status": "not-applicable",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": null,
       "recommendedFix": null
     },
@@ -637,11 +1091,11 @@
       "id": "media-business-operations.outcome-feed",
       "projectId": "media-business-operations",
       "kind": "outcome-feed",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://media-business-operations.tlccapitalgroup.com/api/dashboard-summary",
-      "recommendedFix": "Add project-feed.v1, /api/hermes/outcomes, or /dashboard-snapshot evidence."
+      "recommendedFix": null
     },
     {
       "id": "khashi-vc.production-health",
@@ -649,7 +1103,7 @@
       "kind": "production-health",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://roc.tlccapitalgroup.com/readyz",
       "recommendedFix": null
     },
@@ -659,15 +1113,15 @@
       "kind": "deployment-evidence",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "/root/apps/deploy/deployment-evidence/latest/khashi.json",
       "promotion": {
         "available": true,
         "status": "succeeded",
         "target": "main",
-        "eventId": "khashi-2026-08-05T13-48-40Z",
-        "resolvedCommit": "213fb16f722ffa3d255d6f1104bd613b82c849f9",
-        "finishedAt": "2026-08-05T13:48:40Z",
+        "eventId": "khashi-2026-08-08T14-47-38Z",
+        "resolvedCommit": "3b348e6d7f81f28eb00d2633f238ff054361dbc6",
+        "finishedAt": "2026-08-08T14:47:38Z",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/khashi.json"
       },
       "recommendedFix": null
@@ -678,7 +1132,7 @@
       "kind": "readonly-proof",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://roc.tlccapitalgroup.com/dashboard/proof?view=live-market-intelligence",
       "proof": {
         "status": "baseline-present",
@@ -694,7 +1148,7 @@
       "kind": "screenshot-baseline",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "2026-08-03T20:43:30.445Z",
       "recommendedFix": null
     },
@@ -704,7 +1158,7 @@
       "kind": "dashboard-standard",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
       "dashboard": {
         "registered": true,
@@ -718,14 +1172,81 @@
       "recommendedFix": null
     },
     {
+      "id": "khashi-vc.static-route-debt",
+      "projectId": "khashi-vc",
+      "kind": "static-route-debt",
+      "status": "needs-review",
+      "severity": "blocking",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/static-dashboard-route-audit.json",
+      "findings": [
+        {
+          "severity": "warning",
+          "code": "static_compatibility_route",
+          "surfacePath": "public/roc/index.html",
+          "message": "Static dashboard route remains as compatibility/review debt. Keep it out of primary navigation and schedule archive/removal."
+        },
+        {
+          "severity": "warning",
+          "code": "static_compatibility_route",
+          "surfacePath": "public/roc/market-intelligence-live.html",
+          "message": "Static dashboard route remains as compatibility/review debt. Keep it out of primary navigation and schedule archive/removal."
+        }
+      ],
+      "recommendedFix": "Migrate primary static/public dashboard routes to package-native frontend entrypoints and keep compatibility routes out of primary navigation."
+    },
+    {
       "id": "khashi-vc.live-e2e",
       "projectId": "khashi-vc",
       "kind": "live-e2e",
-      "status": "missing",
+      "status": "needs-review",
       "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
-      "source": null,
-      "recommendedFix": "Add or refresh live E2E evidence for the primary production workflow."
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/dashboard-live-e2e-registry.json",
+      "evidence": {
+        "schemaVersion": 1,
+        "projectId": "khashi-vc",
+        "label": "Khashi VC",
+        "scenarioId": "khashi-vc.primary-operator-flow",
+        "status": "declared",
+        "route": "https://roc.tlccapitalgroup.com/",
+        "proofUrl": "https://roc.tlccapitalgroup.com/dashboard/proof?view=live-market-intelligence",
+        "healthUrl": "https://roc.tlccapitalgroup.com/readyz",
+        "snapshotUrl": "https://roc.tlccapitalgroup.com/api/dashboard-snapshot",
+        "requiredAssertions": [
+          "primary route loads",
+          "readonly proof route loads",
+          "snapshot or outcome feed returns data",
+          "primary empty/error/stale state is visible when data is unavailable",
+          "no blank primary region"
+        ],
+        "latestRun": {
+          "status": "failed",
+          "capturedAt": "2026-08-08T01:31:15.195Z",
+          "checks": {
+            "health": {
+              "ok": true,
+              "status": 200,
+              "ms": 162,
+              "contentType": "application/json"
+            },
+            "proof": {
+              "ok": false,
+              "status": null,
+              "ms": 20004,
+              "error": "This operation was aborted"
+            },
+            "snapshot": {
+              "ok": true,
+              "status": 200,
+              "ms": 4332,
+              "contentType": "application/json"
+            }
+          }
+        },
+        "recommendedFix": "Add a Playwright or API-backed live E2E run and persist latestRun status/capturedAt evidence."
+      },
+      "recommendedFix": "Add a Playwright or API-backed live E2E run and persist latestRun status/capturedAt evidence."
     },
     {
       "id": "khashi-vc.dns-proxy",
@@ -733,7 +1254,7 @@
       "kind": "dns-proxy",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://roc.tlccapitalgroup.com/",
       "recommendedFix": null
     },
@@ -741,11 +1262,46 @@
       "id": "khashi-vc.monitoring",
       "projectId": "khashi-vc",
       "kind": "monitoring",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
-      "source": null,
-      "recommendedFix": "Add monitoring/log shipping evidence and alert ownership."
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/dashboard-monitoring-registry.json",
+      "evidence": {
+        "schemaVersion": 1,
+        "projectId": "khashi-vc",
+        "label": "Khashi VC",
+        "status": "current",
+        "healthUrl": "https://roc.tlccapitalgroup.com/readyz",
+        "snapshotUrl": "https://roc.tlccapitalgroup.com/api/dashboard-snapshot",
+        "alertOwner": "market-intelligence",
+        "requiredSignals": [
+          "health endpoint status",
+          "snapshot freshness",
+          "primary dashboard proof freshness",
+          "deployment promotion status",
+          "error rate or failure count"
+        ],
+        "latestCheck": {
+          "status": "passed",
+          "capturedAt": "2026-08-08T01:29:26.715Z",
+          "checks": {
+            "health": {
+              "ok": true,
+              "status": 200,
+              "ms": 377,
+              "contentType": "application/json"
+            },
+            "snapshot": {
+              "ok": true,
+              "status": 200,
+              "ms": 4009,
+              "contentType": "application/json"
+            }
+          }
+        },
+        "recommendedFix": null
+      },
+      "recommendedFix": null
     },
     {
       "id": "khashi-vc.external-credentials",
@@ -753,7 +1309,7 @@
       "kind": "external-credentials",
       "status": "not-applicable",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": null,
       "recommendedFix": null
     },
@@ -763,7 +1319,7 @@
       "kind": "outcome-feed",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://roc.tlccapitalgroup.com/api/dashboard-snapshot",
       "recommendedFix": null
     },
@@ -773,7 +1329,7 @@
       "kind": "production-health",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://business-mapper.tlccapitalgroup.com/health",
       "recommendedFix": null
     },
@@ -783,7 +1339,7 @@
       "kind": "deployment-evidence",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "/root/apps/deploy/deployment-evidence/latest/business-mapper.json",
       "promotion": {
         "available": true,
@@ -802,7 +1358,7 @@
       "kind": "readonly-proof",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://business-mapper.tlccapitalgroup.com/dashboard/proof",
       "proof": {
         "status": "baseline-present",
@@ -818,7 +1374,7 @@
       "kind": "screenshot-baseline",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "2026-08-03T20:43:59.513Z",
       "recommendedFix": null
     },
@@ -828,7 +1384,7 @@
       "kind": "dashboard-standard",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
       "dashboard": {
         "registered": true,
@@ -842,14 +1398,75 @@
       "recommendedFix": null
     },
     {
+      "id": "business-mapper.static-route-debt",
+      "projectId": "business-mapper",
+      "kind": "static-route-debt",
+      "status": "needs-review",
+      "severity": "blocking",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/static-dashboard-route-audit.json",
+      "findings": [
+        {
+          "severity": "warning",
+          "code": "static_compatibility_route",
+          "surfacePath": "business_mapper/static/index.html",
+          "message": "Static dashboard route remains as compatibility/review debt. Keep it out of primary navigation and schedule archive/removal."
+        }
+      ],
+      "recommendedFix": "Migrate primary static/public dashboard routes to package-native frontend entrypoints and keep compatibility routes out of primary navigation."
+    },
+    {
       "id": "business-mapper.live-e2e",
       "projectId": "business-mapper",
       "kind": "live-e2e",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
-      "source": null,
-      "recommendedFix": "Add or refresh live E2E evidence for the primary production workflow."
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/dashboard-live-e2e-registry.json",
+      "evidence": {
+        "schemaVersion": 1,
+        "projectId": "business-mapper",
+        "label": "Business Mapper / Consulting",
+        "scenarioId": "business-mapper.primary-operator-flow",
+        "status": "current",
+        "route": "https://business-mapper.tlccapitalgroup.com/dashboard",
+        "proofUrl": "https://business-mapper.tlccapitalgroup.com/dashboard/proof",
+        "healthUrl": "https://business-mapper.tlccapitalgroup.com/health",
+        "snapshotUrl": "https://business-mapper.tlccapitalgroup.com/api/dashboard-snapshot",
+        "requiredAssertions": [
+          "primary route loads",
+          "readonly proof route loads",
+          "snapshot or outcome feed returns data",
+          "primary empty/error/stale state is visible when data is unavailable",
+          "no blank primary region"
+        ],
+        "latestRun": {
+          "status": "passed",
+          "capturedAt": "2026-08-08T01:30:34.665Z",
+          "checks": {
+            "health": {
+              "ok": true,
+              "status": 200,
+              "ms": 145,
+              "contentType": "application/json; charset=utf-8"
+            },
+            "proof": {
+              "ok": true,
+              "status": 200,
+              "ms": 138,
+              "contentType": "text/html; charset=utf-8"
+            },
+            "snapshot": {
+              "ok": true,
+              "status": 200,
+              "ms": 38,
+              "contentType": "application/json; charset=utf-8"
+            }
+          }
+        },
+        "recommendedFix": null
+      },
+      "recommendedFix": null
     },
     {
       "id": "business-mapper.dns-proxy",
@@ -857,7 +1474,7 @@
       "kind": "dns-proxy",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://business-mapper.tlccapitalgroup.com/dashboard",
       "recommendedFix": null
     },
@@ -865,11 +1482,46 @@
       "id": "business-mapper.monitoring",
       "projectId": "business-mapper",
       "kind": "monitoring",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
-      "source": null,
-      "recommendedFix": "Add monitoring/log shipping evidence and alert ownership."
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/dashboard-monitoring-registry.json",
+      "evidence": {
+        "schemaVersion": 1,
+        "projectId": "business-mapper",
+        "label": "Business Mapper / Consulting",
+        "status": "current",
+        "healthUrl": "https://business-mapper.tlccapitalgroup.com/health",
+        "snapshotUrl": "https://business-mapper.tlccapitalgroup.com/api/dashboard-snapshot",
+        "alertOwner": "consulting",
+        "requiredSignals": [
+          "health endpoint status",
+          "snapshot freshness",
+          "primary dashboard proof freshness",
+          "deployment promotion status",
+          "error rate or failure count"
+        ],
+        "latestCheck": {
+          "status": "passed",
+          "capturedAt": "2026-08-08T01:29:26.715Z",
+          "checks": {
+            "health": {
+              "ok": true,
+              "status": 200,
+              "ms": 141,
+              "contentType": "application/json; charset=utf-8"
+            },
+            "snapshot": {
+              "ok": true,
+              "status": 200,
+              "ms": 138,
+              "contentType": "application/json; charset=utf-8"
+            }
+          }
+        },
+        "recommendedFix": null
+      },
+      "recommendedFix": null
     },
     {
       "id": "business-mapper.external-credentials",
@@ -877,7 +1529,7 @@
       "kind": "external-credentials",
       "status": "not-applicable",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": null,
       "recommendedFix": null
     },
@@ -887,7 +1539,7 @@
       "kind": "outcome-feed",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://business-mapper.tlccapitalgroup.com/api/dashboard-snapshot",
       "recommendedFix": null
     },
@@ -897,7 +1549,7 @@
       "kind": "production-health",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://meal.tlccapitalgroup.com/health",
       "recommendedFix": null
     },
@@ -907,7 +1559,7 @@
       "kind": "deployment-evidence",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "/root/apps/deploy/deployment-evidence/latest/meal-assistant.json",
       "promotion": {
         "available": true,
@@ -926,7 +1578,7 @@
       "kind": "readonly-proof",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://meal.tlccapitalgroup.com/dashboard/proof",
       "proof": {
         "status": "baseline-present",
@@ -942,7 +1594,7 @@
       "kind": "screenshot-baseline",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "2026-08-03T20:44:00.270Z",
       "recommendedFix": null
     },
@@ -952,7 +1604,7 @@
       "kind": "dashboard-standard",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
       "dashboard": {
         "registered": true,
@@ -966,14 +1618,68 @@
       "recommendedFix": null
     },
     {
+      "id": "meal-assistant.static-route-debt",
+      "projectId": "meal-assistant",
+      "kind": "static-route-debt",
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/static-dashboard-route-audit.json",
+      "findings": [],
+      "recommendedFix": null
+    },
+    {
       "id": "meal-assistant.live-e2e",
       "projectId": "meal-assistant",
       "kind": "live-e2e",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
-      "source": null,
-      "recommendedFix": "Add or refresh live E2E evidence for the primary production workflow."
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/dashboard-live-e2e-registry.json",
+      "evidence": {
+        "schemaVersion": 1,
+        "projectId": "meal-assistant",
+        "label": "Meal Assistant",
+        "scenarioId": "meal-assistant.primary-operator-flow",
+        "status": "current",
+        "route": "https://meal.tlccapitalgroup.com/",
+        "proofUrl": "https://meal.tlccapitalgroup.com/dashboard/proof",
+        "healthUrl": "https://meal.tlccapitalgroup.com/health",
+        "snapshotUrl": "https://meal.tlccapitalgroup.com/api/dashboard-snapshot",
+        "requiredAssertions": [
+          "primary route loads",
+          "readonly proof route loads",
+          "snapshot or outcome feed returns data",
+          "primary empty/error/stale state is visible when data is unavailable",
+          "no blank primary region"
+        ],
+        "latestRun": {
+          "status": "passed",
+          "capturedAt": "2026-08-08T01:30:34.665Z",
+          "checks": {
+            "health": {
+              "ok": true,
+              "status": 200,
+              "ms": 179,
+              "contentType": "application/json"
+            },
+            "proof": {
+              "ok": true,
+              "status": 200,
+              "ms": 250,
+              "contentType": "text/html; charset=utf-8"
+            },
+            "snapshot": {
+              "ok": true,
+              "status": 200,
+              "ms": 34,
+              "contentType": "application/json"
+            }
+          }
+        },
+        "recommendedFix": null
+      },
+      "recommendedFix": null
     },
     {
       "id": "meal-assistant.dns-proxy",
@@ -981,7 +1687,7 @@
       "kind": "dns-proxy",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://meal.tlccapitalgroup.com/",
       "recommendedFix": null
     },
@@ -989,11 +1695,46 @@
       "id": "meal-assistant.monitoring",
       "projectId": "meal-assistant",
       "kind": "monitoring",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
-      "source": null,
-      "recommendedFix": "Add monitoring/log shipping evidence and alert ownership."
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/dashboard-monitoring-registry.json",
+      "evidence": {
+        "schemaVersion": 1,
+        "projectId": "meal-assistant",
+        "label": "Meal Assistant",
+        "status": "current",
+        "healthUrl": "https://meal.tlccapitalgroup.com/health",
+        "snapshotUrl": "https://meal.tlccapitalgroup.com/api/dashboard-snapshot",
+        "alertOwner": "household-product",
+        "requiredSignals": [
+          "health endpoint status",
+          "snapshot freshness",
+          "primary dashboard proof freshness",
+          "deployment promotion status",
+          "error rate or failure count"
+        ],
+        "latestCheck": {
+          "status": "passed",
+          "capturedAt": "2026-08-08T01:29:26.715Z",
+          "checks": {
+            "health": {
+              "ok": true,
+              "status": 200,
+              "ms": 140,
+              "contentType": "application/json"
+            },
+            "snapshot": {
+              "ok": true,
+              "status": 200,
+              "ms": 138,
+              "contentType": "application/json"
+            }
+          }
+        },
+        "recommendedFix": null
+      },
+      "recommendedFix": null
     },
     {
       "id": "meal-assistant.external-credentials",
@@ -1001,7 +1742,7 @@
       "kind": "external-credentials",
       "status": "not-applicable",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": null,
       "recommendedFix": null
     },
@@ -1011,7 +1752,7 @@
       "kind": "outcome-feed",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://meal.tlccapitalgroup.com/api/dashboard-snapshot",
       "recommendedFix": null
     },
@@ -1021,7 +1762,7 @@
       "kind": "production-health",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://rinseables.tlccapitalgroup.com/health",
       "recommendedFix": null
     },
@@ -1031,7 +1772,7 @@
       "kind": "deployment-evidence",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "/root/apps/deploy/deployment-evidence/latest/rinseables-os.json",
       "promotion": {
         "available": true,
@@ -1048,56 +1789,117 @@
       "id": "rinseables-os.readonly-proof",
       "projectId": "rinseables-os",
       "kind": "readonly-proof",
-      "status": "stale",
-      "severity": "blocking",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://rinseables.tlccapitalgroup.com/dashboard/proof",
       "proof": {
-        "status": "not-in-proof-registry",
-        "capturedAt": null,
-        "screenshotCaptured": false,
-        "httpStatus": null
+        "status": "baseline-present",
+        "capturedAt": "2026-08-08T01:33:06.286Z",
+        "screenshotCaptured": true,
+        "httpStatus": 200
       },
-      "recommendedFix": "Capture or refresh the production readonly proof route."
+      "recommendedFix": null
     },
     {
       "id": "rinseables-os.screenshot-baseline",
       "projectId": "rinseables-os",
       "kind": "screenshot-baseline",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
-      "source": null,
-      "recommendedFix": "Capture a production screenshot baseline."
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "2026-08-08T01:33:06.286Z",
+      "recommendedFix": null
     },
     {
       "id": "rinseables-os.dashboard-standard",
       "projectId": "rinseables-os",
       "kind": "dashboard-standard",
-      "status": "missing",
-      "severity": "blocking",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
       "dashboard": {
-        "registered": false,
-        "dashboardId": null,
-        "status": "unregistered",
-        "currentBand": "unknown",
-        "targetBand": null,
-        "implementationMode": null,
+        "registered": true,
+        "dashboardId": "rinseables-os.main",
+        "status": "current",
+        "currentBand": "T3C",
+        "targetBand": "T3C",
+        "implementationMode": "package-native",
         "issueCount": 0
       },
-      "recommendedFix": "Register or repair the dashboard adoption surface."
+      "recommendedFix": null
+    },
+    {
+      "id": "rinseables-os.static-route-debt",
+      "projectId": "rinseables-os",
+      "kind": "static-route-debt",
+      "status": "needs-review",
+      "severity": "blocking",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/static-dashboard-route-audit.json",
+      "findings": [
+        {
+          "severity": "warning",
+          "code": "static_compatibility_route",
+          "surfacePath": "public/dashboard/index.html",
+          "message": "Static dashboard route remains as compatibility/review debt. Keep it out of primary navigation and schedule archive/removal."
+        }
+      ],
+      "recommendedFix": "Migrate primary static/public dashboard routes to package-native frontend entrypoints and keep compatibility routes out of primary navigation."
     },
     {
       "id": "rinseables-os.live-e2e",
       "projectId": "rinseables-os",
       "kind": "live-e2e",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
-      "source": null,
-      "recommendedFix": "Add or refresh live E2E evidence for the primary production workflow."
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/dashboard-live-e2e-registry.json",
+      "evidence": {
+        "schemaVersion": 1,
+        "projectId": "rinseables-os",
+        "label": "Rinseables OS",
+        "scenarioId": "rinseables-os.primary-operator-flow",
+        "status": "current",
+        "route": "https://rinseables.tlccapitalgroup.com",
+        "proofUrl": "https://rinseables.tlccapitalgroup.com/dashboard/proof",
+        "healthUrl": "https://rinseables.tlccapitalgroup.com/health",
+        "snapshotUrl": "https://rinseables.tlccapitalgroup.com/api/dashboard-snapshot",
+        "requiredAssertions": [
+          "primary route loads",
+          "readonly proof route loads",
+          "snapshot or outcome feed returns data",
+          "primary empty/error/stale state is visible when data is unavailable",
+          "no blank primary region"
+        ],
+        "latestRun": {
+          "status": "passed",
+          "capturedAt": "2026-08-08T01:30:34.665Z",
+          "checks": {
+            "health": {
+              "ok": true,
+              "status": 200,
+              "ms": 150,
+              "contentType": "application/json"
+            },
+            "proof": {
+              "ok": true,
+              "status": 200,
+              "ms": 134,
+              "contentType": "application/json"
+            },
+            "snapshot": {
+              "ok": true,
+              "status": 200,
+              "ms": 34,
+              "contentType": "application/json"
+            }
+          }
+        },
+        "recommendedFix": null
+      },
+      "recommendedFix": null
     },
     {
       "id": "rinseables-os.dns-proxy",
@@ -1105,7 +1907,7 @@
       "kind": "dns-proxy",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://rinseables.tlccapitalgroup.com",
       "recommendedFix": null
     },
@@ -1113,11 +1915,46 @@
       "id": "rinseables-os.monitoring",
       "projectId": "rinseables-os",
       "kind": "monitoring",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
-      "source": null,
-      "recommendedFix": "Add monitoring/log shipping evidence and alert ownership."
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/dashboard-monitoring-registry.json",
+      "evidence": {
+        "schemaVersion": 1,
+        "projectId": "rinseables-os",
+        "label": "Rinseables OS",
+        "status": "current",
+        "healthUrl": "https://rinseables.tlccapitalgroup.com/health",
+        "snapshotUrl": "https://rinseables.tlccapitalgroup.com/api/dashboard-snapshot",
+        "alertOwner": "rinseables-business",
+        "requiredSignals": [
+          "health endpoint status",
+          "snapshot freshness",
+          "primary dashboard proof freshness",
+          "deployment promotion status",
+          "error rate or failure count"
+        ],
+        "latestCheck": {
+          "status": "passed",
+          "capturedAt": "2026-08-08T01:29:26.715Z",
+          "checks": {
+            "health": {
+              "ok": true,
+              "status": 200,
+              "ms": 139,
+              "contentType": "application/json"
+            },
+            "snapshot": {
+              "ok": true,
+              "status": 200,
+              "ms": 134,
+              "contentType": "application/json"
+            }
+          }
+        },
+        "recommendedFix": null
+      },
+      "recommendedFix": null
     },
     {
       "id": "rinseables-os.external-credentials",
@@ -1125,7 +1962,7 @@
       "kind": "external-credentials",
       "status": "not-applicable",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": null,
       "recommendedFix": null
     },
@@ -1133,11 +1970,11 @@
       "id": "rinseables-os.outcome-feed",
       "projectId": "rinseables-os",
       "kind": "outcome-feed",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://rinseables.tlccapitalgroup.com/api/dashboard-snapshot",
-      "recommendedFix": "Add project-feed.v1, /api/hermes/outcomes, or /dashboard-snapshot evidence."
+      "recommendedFix": null
     },
     {
       "id": "investing-system.production-health",
@@ -1145,7 +1982,7 @@
       "kind": "production-health",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://investing.tlccapitalgroup.com/health",
       "recommendedFix": null
     },
@@ -1155,7 +1992,7 @@
       "kind": "deployment-evidence",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "/root/apps/deploy/deployment-evidence/latest/investing-system.json",
       "promotion": {
         "available": true,
@@ -1174,7 +2011,7 @@
       "kind": "readonly-proof",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://investing.tlccapitalgroup.com/dashboard/proof",
       "proof": {
         "status": "baseline-present",
@@ -1190,7 +2027,7 @@
       "kind": "screenshot-baseline",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "2026-08-03T20:44:01.030Z",
       "recommendedFix": null
     },
@@ -1198,30 +2035,91 @@
       "id": "investing-system.dashboard-standard",
       "projectId": "investing-system",
       "kind": "dashboard-standard",
-      "status": "missing",
-      "severity": "blocking",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
       "dashboard": {
-        "registered": false,
+        "registered": true,
         "dashboardId": "investing-system.roc",
-        "status": "unregistered",
-        "currentBand": "unknown",
-        "targetBand": null,
-        "implementationMode": null,
+        "status": "current",
+        "currentBand": "T3C",
+        "targetBand": "T3C",
+        "implementationMode": "package-native",
         "issueCount": 0
       },
-      "recommendedFix": "Register or repair the dashboard adoption surface."
+      "recommendedFix": null
+    },
+    {
+      "id": "investing-system.static-route-debt",
+      "projectId": "investing-system",
+      "kind": "static-route-debt",
+      "status": "needs-review",
+      "severity": "blocking",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/static-dashboard-route-audit.json",
+      "findings": [
+        {
+          "severity": "warning",
+          "code": "static_compatibility_route",
+          "surfacePath": "public/roc/index.html",
+          "message": "Static dashboard route remains as compatibility/review debt. Keep it out of primary navigation and schedule archive/removal."
+        }
+      ],
+      "recommendedFix": "Migrate primary static/public dashboard routes to package-native frontend entrypoints and keep compatibility routes out of primary navigation."
     },
     {
       "id": "investing-system.live-e2e",
       "projectId": "investing-system",
       "kind": "live-e2e",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
-      "source": null,
-      "recommendedFix": "Add or refresh live E2E evidence for the primary production workflow."
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/dashboard-live-e2e-registry.json",
+      "evidence": {
+        "schemaVersion": 1,
+        "projectId": "investing-system",
+        "label": "Investing System",
+        "scenarioId": "investing-system.primary-operator-flow",
+        "status": "current",
+        "route": "https://investing.tlccapitalgroup.com/roc",
+        "proofUrl": "https://investing.tlccapitalgroup.com/dashboard/proof",
+        "healthUrl": "https://investing.tlccapitalgroup.com/health",
+        "snapshotUrl": "https://investing.tlccapitalgroup.com/api/dashboard-snapshot",
+        "requiredAssertions": [
+          "primary route loads",
+          "readonly proof route loads",
+          "snapshot or outcome feed returns data",
+          "primary empty/error/stale state is visible when data is unavailable",
+          "no blank primary region"
+        ],
+        "latestRun": {
+          "status": "passed",
+          "capturedAt": "2026-08-08T01:30:34.665Z",
+          "checks": {
+            "health": {
+              "ok": true,
+              "status": 200,
+              "ms": 150,
+              "contentType": "application/json"
+            },
+            "proof": {
+              "ok": true,
+              "status": 200,
+              "ms": 155,
+              "contentType": "text/html"
+            },
+            "snapshot": {
+              "ok": true,
+              "status": 200,
+              "ms": 74,
+              "contentType": "application/json"
+            }
+          }
+        },
+        "recommendedFix": null
+      },
+      "recommendedFix": null
     },
     {
       "id": "investing-system.dns-proxy",
@@ -1229,7 +2127,7 @@
       "kind": "dns-proxy",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://investing.tlccapitalgroup.com/roc",
       "recommendedFix": null
     },
@@ -1237,11 +2135,46 @@
       "id": "investing-system.monitoring",
       "projectId": "investing-system",
       "kind": "monitoring",
-      "status": "missing",
-      "severity": "maturity",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
-      "source": null,
-      "recommendedFix": "Add monitoring/log shipping evidence and alert ownership."
+      "status": "current",
+      "severity": "none",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
+      "source": "docs/design/dashboard-monitoring-registry.json",
+      "evidence": {
+        "schemaVersion": 1,
+        "projectId": "investing-system",
+        "label": "Investing System",
+        "status": "current",
+        "healthUrl": "https://investing.tlccapitalgroup.com/health",
+        "snapshotUrl": "https://investing.tlccapitalgroup.com/api/dashboard-snapshot",
+        "alertOwner": "investment-operations",
+        "requiredSignals": [
+          "health endpoint status",
+          "snapshot freshness",
+          "primary dashboard proof freshness",
+          "deployment promotion status",
+          "error rate or failure count"
+        ],
+        "latestCheck": {
+          "status": "passed",
+          "capturedAt": "2026-08-08T01:29:26.715Z",
+          "checks": {
+            "health": {
+              "ok": true,
+              "status": 200,
+              "ms": 145,
+              "contentType": "application/json"
+            },
+            "snapshot": {
+              "ok": true,
+              "status": 200,
+              "ms": 178,
+              "contentType": "application/json"
+            }
+          }
+        },
+        "recommendedFix": null
+      },
+      "recommendedFix": null
     },
     {
       "id": "investing-system.external-credentials",
@@ -1249,7 +2182,7 @@
       "kind": "external-credentials",
       "status": "not-applicable",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": null,
       "recommendedFix": null
     },
@@ -1259,7 +2192,7 @@
       "kind": "outcome-feed",
       "status": "current",
       "severity": "none",
-      "lastCheckedAt": "2026-08-05T15:31:00.851Z",
+      "lastCheckedAt": "2026-08-08T21:55:55.117Z",
       "source": "https://investing.tlccapitalgroup.com/api/dashboard-snapshot",
       "recommendedFix": null
     }

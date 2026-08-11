@@ -122,7 +122,13 @@ console.log(JSON.stringify({
       "CompactActionRail",
       "SwipeableQueue",
       "ComponentIntakeBoard",
-      "DashboardKitGallery"
+      "DashboardKitGallery",
+      "ComponentQualityMaturityGraph",
+      "PremiumComparisonChart",
+      "PremiumMarketBrowser",
+      "PremiumMediaApprovalWorkspace",
+      "PremiumPlannerCalendar",
+      "PremiumDrilldownWorkspace"
     ],
   gallery:
     {

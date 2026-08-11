@@ -1,9 +1,11 @@
 import {
   useCallback,
   useEffect,
+  lazy,
   useMemo,
   useRef,
   useState,
+  Suspense,
   type ComponentType,
   type FocusEvent,
   type MouseEvent,
@@ -21,7 +23,6 @@ import {
 import {
   Activity,
   BarChart3,
-  BookOpen,
   Clock,
   Code,
   Cpu,
@@ -38,18 +39,14 @@ import {
   Package,
   PanelLeftClose,
   PanelLeftOpen,
-  Plug,
   Puzzle,
-  Radio,
   RotateCw,
   Settings,
   Shield,
-  ShieldCheck,
   Sparkles,
   Star,
   Terminal,
   Users,
-  Webhook,
   Wrench,
   X,
   Zap,
@@ -72,26 +69,12 @@ import { ProfileSwitcher } from "@/components/ProfileSwitcher";
 import { ProfileScopeBanner } from "@/components/ProfileScopeBanner";
 import { useSystemActions } from "@/contexts/useSystemActions";
 import type { SystemAction } from "@/contexts/system-actions-context";
-import ConfigPage from "@/pages/ConfigPage";
-import DocsPage from "@/pages/DocsPage";
-import EnvPage from "@/pages/EnvPage";
-import FilesPage from "@/pages/FilesPage";
-import SessionsPage from "@/pages/SessionsPage";
-import LogsPage from "@/pages/LogsPage";
-import AnalyticsPage from "@/pages/AnalyticsPage";
-import ModelsPage from "@/pages/ModelsPage";
-import CronPage from "@/pages/CronPage";
-import ProfilesPage from "@/pages/ProfilesPage";
-import ProfileBuilderPage from "@/pages/ProfileBuilderPage";
-import SkillsPage from "@/pages/SkillsPage";
-import PluginsPage from "@/pages/PluginsPage";
-import McpPage from "@/pages/McpPage";
-import PairingPage from "@/pages/PairingPage";
-import ChannelsPage from "@/pages/ChannelsPage";
-import WebhooksPage from "@/pages/WebhooksPage";
-import SystemPage from "@/pages/SystemPage";
-import ChatPage from "@/pages/ChatPage";
-import DashboardKitGalleryPage from "@/pages/DashboardKitGalleryPage";
+import {
+  BUILTIN_NAV_REST,
+  BUILTIN_ROUTES_CORE,
+  CHAT_NAV_ITEM,
+  type RouteComponent,
+} from "@/dashboard-route-registry";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 import { useI18n } from "@/i18n";
@@ -103,10 +86,6 @@ import { isDashboardEmbeddedChatEnabled } from "@/lib/dashboard-flags";
 import { api } from "@/lib/api";
 import type { StatusResponse, UpdateCheckResponse } from "@/lib/api";
 
-function RootRedirect() {
-  return <Navigate to="/sessions" replace />;
-}
-
 function UnknownRouteFallback({ pluginsLoading }: { pluginsLoading: boolean }) {
   if (pluginsLoading) {
     // Render nothing during the plugin-load window — a spinner here would just flash.
@@ -115,44 +94,7 @@ function UnknownRouteFallback({ pluginsLoading }: { pluginsLoading: boolean }) {
   return <Navigate to="/sessions" replace />;
 }
 
-const CHAT_NAV_ITEM: NavItem = {
-  path: "/chat",
-  labelKey: "chat",
-  label: "Chat",
-  icon: Terminal,
-};
-
-/**
- * Built-in routes except /chat.  Chat is rendered persistently (outside
- * <Routes>) when embedded — see the persistent chat host block rendered
- * inline near the bottom of this file — so the PTY child, WebSocket,
- * and xterm instance survive when the user visits another tab and comes
- * back.  A `display:none` toggle hides the terminal without unmounting.
- * Routing still owns the URL so /chat deep-links, browser back/forward,
- * and nav highlight keep working.
- */
-const BUILTIN_ROUTES_CORE: Record<string, ComponentType> = {
-  "/": RootRedirect,
-  "/sessions": SessionsPage,
-  "/files": FilesPage,
-  "/analytics": AnalyticsPage,
-  "/models": ModelsPage,
-  "/logs": LogsPage,
-  "/cron": CronPage,
-  "/skills": SkillsPage,
-  "/plugins": PluginsPage,
-  "/mcp": McpPage,
-  "/pairing": PairingPage,
-  "/channels": ChannelsPage,
-  "/webhooks": WebhooksPage,
-  "/dashboard-kit-gallery": DashboardKitGalleryPage,
-  "/system": SystemPage,
-  "/profiles": ProfilesPage,
-  "/profiles/new": ProfileBuilderPage,
-  "/config": ConfigPage,
-  "/env": EnvPage,
-  "/docs": DocsPage,
-};
+const ChatPage = lazy(() => import("@/pages/ChatPage"));
 
 // Route placeholder for /chat.  The persistent ChatPage host (rendered
 // outside <Routes> when embedded chat is on) paints on top; this empty
@@ -161,47 +103,6 @@ const BUILTIN_ROUTES_CORE: Record<string, ComponentType> = {
 function ChatRouteSink() {
   return null;
 }
-
-const BUILTIN_NAV_REST: NavItem[] = [
-  {
-    path: "/sessions",
-    labelKey: "sessions",
-    label: "Sessions",
-    icon: MessageSquare,
-  },
-  { path: "/files", label: "Files", icon: FolderOpen },
-  {
-    path: "/analytics",
-    labelKey: "analytics",
-    label: "Analytics",
-    icon: BarChart3,
-  },
-  {
-    path: "/models",
-    labelKey: "models",
-    label: "Models",
-    icon: Cpu,
-  },
-  { path: "/logs", labelKey: "logs", label: "Logs", icon: FileText },
-  { path: "/cron", labelKey: "cron", label: "Cron", icon: Clock },
-  { path: "/skills", labelKey: "skills", label: "Skills", icon: Package },
-  { path: "/plugins", labelKey: "plugins", label: "Plugins", icon: Puzzle },
-  { path: "/mcp", label: "MCP", icon: Plug },
-  { path: "/channels", label: "Channels", icon: Radio },
-  { path: "/webhooks", label: "Webhooks", icon: Webhook },
-  { path: "/dashboard-kit-gallery", label: "Kit Gallery", icon: Eye },
-  { path: "/pairing", label: "Pairing", icon: ShieldCheck },
-  { path: "/profiles", labelKey: "profiles", label: "Profiles", icon: Users },
-  { path: "/config", labelKey: "config", label: "Config", icon: Settings },
-  { path: "/env", labelKey: "keys", label: "Keys", icon: KeyRound },
-  { path: "/system", label: "System", icon: Wrench },
-  {
-    path: "/docs",
-    labelKey: "documentation",
-    label: "Documentation",
-    icon: BookOpen,
-  },
-];
 
 const ICON_MAP: Record<string, ComponentType<{ className?: string }>> = {
   Activity,
@@ -285,7 +186,7 @@ function partitionSidebarNav(
 }
 
 function buildRoutes(
-  builtinRoutes: Record<string, ComponentType>,
+  builtinRoutes: Record<string, RouteComponent>,
   manifests: PluginManifest[],
 ): Array<{
   key: string;
@@ -318,7 +219,15 @@ function buildRoutes(
         element: <PluginPage name={om.name} />,
       });
     } else {
-      routes.push({ key: `builtin:${path}`, path, element: <Component /> });
+      routes.push({
+        key: `builtin:${path}`,
+        path,
+        element: (
+          <Suspense fallback={<RouteLoadingFallback />}>
+            <Component />
+          </Suspense>
+        ),
+      });
     }
   }
 
@@ -345,6 +254,17 @@ function buildRoutes(
   }
 
   return routes;
+}
+
+function RouteLoadingFallback() {
+  return (
+    <div className="flex min-h-[320px] min-w-0 items-center justify-center rounded-xl border border-current/10 bg-background-base/40">
+      <div className="flex items-center gap-2 text-sm text-text-secondary">
+        <Spinner />
+        <span>Loading view…</span>
+      </div>
+    </div>
+  );
 }
 
 const SIDEBAR_COLLAPSED_KEY = "hermes-sidebar-collapsed";
@@ -777,7 +697,9 @@ export default function App() {
                       )}
                       aria-hidden={!isChatRoute}
                     >
-                      <ChatPage isActive={isChatRoute} />
+                      <Suspense fallback={<RouteLoadingFallback />}>
+                        <ChatPage isActive={isChatRoute} />
+                      </Suspense>
                     </div>
                   ))}
               </div>

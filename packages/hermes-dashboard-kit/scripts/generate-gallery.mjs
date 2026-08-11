@@ -3,6 +3,7 @@ import path from "node:path";
 import {
   getDashboardKitComponentInventory,
   getDashboardKitReferenceFamilies,
+  renderComponentQualityMaturityGraph,
   renderBarChart,
   renderContentPackageWorkspace,
   renderDashboardShell,
@@ -13,6 +14,11 @@ import {
   renderLineChart,
   renderMarketExplorerPage,
   renderMealPlannerCalendar,
+  renderPremiumComparisonChart,
+  renderPremiumDrilldownWorkspace,
+  renderPremiumMarketBrowser,
+  renderPremiumMediaApprovalWorkspace,
+  renderPremiumPlannerCalendar,
   renderStateChecklist
 } from "../src/index.js";
 
@@ -57,6 +63,13 @@ const componentCount =
   new Set(inventory.flatMap((item) => item.components)).size;
 const showroom =
   buildShowroom(inventory);
+const qualityGraphHtml =
+  renderComponentQualityMaturityGraph({
+    families:
+      inventory,
+    review:
+      reviewRegistry.families || []
+  });
 const reviewSummary =
   summarizeReviewRegistry(inventory);
 const report =
@@ -124,6 +137,7 @@ const report =
         families:
           visualBaselines.families || []
       },
+    qualityGraphHtml,
     showroom,
     inventory
   };
@@ -238,6 +252,8 @@ function mergeReviewRegistry(items, registry) {
         review.score || null,
       notes:
         review.notes || [],
+      closureEvidence:
+        review.closureEvidence || [],
       nextActions:
         review.nextActions || [],
       projectReadiness:
@@ -250,8 +266,26 @@ function scoreAverage(score) {
   if (!score) {
     return null;
   }
+  const maturityDimensions =
+    [
+      "visualPolish",
+      "interactionCompleteness",
+      "stateCoverage",
+      "domainIntelligence",
+      "adoptionReadiness"
+    ];
   const values =
-    Object.values(score).filter((value) => Number.isFinite(value));
+    maturityDimensions
+      .map((dimension) => {
+        if (dimension === "domainIntelligence") {
+          return score.domainIntelligence ?? score.interactionCompleteness;
+        }
+        if (dimension === "adoptionReadiness") {
+          return score.adoptionReadiness ?? score.projectAdoption;
+        }
+        return score[dimension];
+      })
+      .filter((value) => Number.isFinite(value));
   if (!values.length) {
     return null;
   }
@@ -263,13 +297,26 @@ function summarizeReviewRegistry(items) {
     items
       .map((item) => item.reviewScore)
       .filter((value) => Number.isFinite(value));
+  const projectAdoptionScores =
+    items
+      .map((item) => item.score?.projectAdoption)
+      .filter((value) => Number.isFinite(value));
   const averageScore =
     scores.length
       ? Math.round(scores.reduce((sum, value) => sum + value, 0) / scores.length)
       : null;
+  const downstreamAdoptionScore =
+    projectAdoptionScores.length
+      ? Math.round(projectAdoptionScores.reduce((sum, value) => sum + value, 0) / projectAdoptionScores.length)
+      : null;
+  const unresolvedNextActions =
+    items.flatMap((item) => item.nextActions || []);
+  const familiesMissingClosureEvidence =
+    items.filter((item) => !(item.closureEvidence || []).length).map((item) => item.id);
 
   return {
     averageScore,
+    downstreamAdoptionScore,
     approved:
       items.filter((item) => item.reviewStatus === "approved").length,
     reviewing:
@@ -279,7 +326,15 @@ function summarizeReviewRegistry(items) {
     needsRedesign:
       items.filter((item) => item.reviewStatus === "needs-redesign").length,
     blockedProjects:
-      items.flatMap((item) => item.projectReadiness || []).filter((item) => item.status === "blocked").length
+      items.flatMap((item) => item.projectReadiness || []).filter((item) => item.status === "blocked").length,
+    unresolvedNextActions:
+      unresolvedNextActions.length,
+    familiesMissingClosureEvidence,
+    level5Ready:
+      averageScore === 100 &&
+      items.every((item) => item.reviewStatus === "approved") &&
+      !unresolvedNextActions.length &&
+      !familiesMissingClosureEvidence.length
   };
 }
 
@@ -299,7 +354,10 @@ Purpose: ${data.purpose}
 | Approved families | ${data.statusSummary.approved || 0} |
 | Reviewing families | ${data.statusSummary.reviewing || 0} |
 | Draft families | ${data.statusSummary.draft || 0} |
-| Average review score | ${data.reviewSummary.averageScore || "n/a"} |
+| Central kit review score | ${data.reviewSummary.averageScore || "n/a"} |
+| Downstream adoption score | ${data.reviewSummary.downstreamAdoptionScore || "n/a"} |
+| Level 5 ready | ${data.reviewSummary.level5Ready ? "yes" : "no"} |
+| Unresolved kit next actions | ${data.reviewSummary.unresolvedNextActions || 0} |
 | Blocked project adoptions | ${data.reviewSummary.blockedProjects || 0} |
 | Required visual captures | ${data.visualBaselines.requiredCaptureCount || 0} |
 
@@ -329,6 +387,7 @@ ${data.inventory.map((item) => `### ${item.family}
 - Approved variants: ${(item.approvedVariants || []).join(", ") || "none yet"}
 - Blocked variants: ${(item.blockedVariants || []).join(", ") || "none"}
 - Notes: ${(item.notes || []).join(" ")}
+- Closure evidence: ${(item.closureEvidence || []).join(" ")}
 - Next actions: ${(item.nextActions || []).join(" ")}
 `).join("\n")}
 
@@ -594,23 +653,25 @@ function buildActualDemoHtml(id) {
 
   if (id === "chart-suite") {
     return [
-      renderLineChart({
+      renderPremiumComparisonChart({
         title:
-          "Approval trend",
+          "Brand output comparison",
         subtitle:
-          "X axis: day · Y axis: approvals",
+          "X axis: day · Y axis: count. Add or remove states and compare brands behind the same trend surface.",
         data:
-          chartData,
-        xKey:
-          "x",
-        yKey:
-          "y",
-        xLabel:
-          "Day",
-        yLabel:
-          "Approvals",
+          [
+            { label: "Mon", approved: 22, posted: 18, rejected: 5 },
+            { label: "Tue", approved: 28, posted: 21, rejected: 4 },
+            { label: "Wed", approved: 24, posted: 22, rejected: 7 },
+            { label: "Thu", approved: 34, posted: 29, rejected: 3 },
+            { label: "Fri", approved: 39, posted: 35, rejected: 6 },
+            { label: "Sat", approved: 32, posted: 28, rejected: 5 },
+            { label: "Sun", approved: 45, posted: 41, rejected: 2 }
+          ],
+        activeMetric:
+          "approved",
         reviewId:
-          "hdk.gallery.actual.line-chart"
+          "hdk.gallery.actual.premium-comparison-chart"
       }),
       renderBarChart({
         title:
@@ -668,155 +729,30 @@ function buildActualDemoHtml(id) {
   }
 
   if (id === "drawers-drilldowns") {
-    return `<section class="hdk-card" data-hdk-component="DetailDrawerDemo" data-review-id="hdk.gallery.actual.drawer">
-      <div class="hdk-card__header"><h2>Selected detail drawer</h2><p>Preserve context while showing facts, proof, charts, and actions.</p></div>
-      <div class="hdk-market-browser">
-        <div class="hdk-market-browser__tape">${renderDataTable({
-          columns:
-            [
-              { key: "item", label: "Item" },
-              { key: "status", label: "Status" },
-              { key: "age", label: "Age" }
-            ],
-          rows:
-            tableRows,
-          pageSize:
-            10,
-          total:
-            tableRows.length
-        })}</div>
-        <aside class="hdk-market-browser__detail">${renderLineChart({
-          title: "Selected item history",
-          data: chartData,
-          xKey: "x",
-          yKey: "y",
-          xLabel: "Day",
-          yLabel: "Value"
-        })}</aside>
-      </div>
-    </section>`;
+    return renderPremiumDrilldownWorkspace({
+      reviewId:
+        "hdk.gallery.actual.premium-drilldown"
+    });
   }
 
   if (id === "market-browser") {
-    return renderMarketExplorerPage({
-      note:
-        "Actual kit output: browse first, then filter/search inside category.",
-      categories:
-        [
-          { key: "all", label: "All live", count: 488 },
-          { key: "sports", label: "Sports", count: 240 },
-          { key: "politics", label: "Politics", count: 62 },
-          { key: "financials", label: "Financials", count: 41 }
-        ],
-      topics:
-        [
-          { key: "all", label: "All", count: 488 },
-          { key: "nba", label: "Basketball", count: 72 },
-          { key: "elections", label: "Elections", count: 62 }
-        ],
-      topMovers:
-        [
-          { id: "m1", title: "Will Team A win tonight?", moveLabel: "+8c", movementCents: 8 },
-          { id: "m2", title: "Rate decision this week?", moveLabel: "-4c", movementCents: -4 }
-        ],
-      markets:
-        [
-          { title: "Will Team A win tonight?", subtitle: "Sports · basketball", mid: "54c", spread: "3c", snapshots: "28" },
-          { title: "Rate decision this week?", subtitle: "Financials · macro", mid: "47c", spread: "4c", snapshots: "17" }
-        ],
-      title:
-        "Sports live markets",
-      visibleLabel:
-        "240 watched",
-      countLabel:
-        "488 live",
+    return renderPremiumMarketBrowser({
       reviewId:
-        "hdk.gallery.actual.market-browser"
+        "hdk.gallery.actual.premium-market-browser"
     });
   }
 
   if (id === "media-workflow") {
-    return renderContentPackageWorkspace({
-      title:
-        "Content package review",
-      package:
-        {
-          brand:
-            "Unimportant News",
-          platform:
-            "YouTube",
-          status:
-            "reviewing",
-          seoScore:
-            "82",
-          transcriptStatus:
-            "complete",
-          description:
-            "Thumbnail, transcript-derived SEO, channel destinations, and posting proof.",
-          copy:
-            "A direct upload-ready description with title, summary, tags, and publishable channel state."
-        },
-      assets:
-        [
-          { label: "Thumbnail PNG", href: "#" },
-          { label: "Video link", href: "#" }
-        ],
-      checklist:
-        [
-          { label: "Thumbnail attached", status: "approved" },
-          { label: "SEO copy generated", status: "approved" },
-          { label: "Posting result", status: "reviewing" }
-        ],
+    return renderPremiumMediaApprovalWorkspace({
       reviewId:
-        "hdk.gallery.actual.media-workflow"
+        "hdk.gallery.actual.premium-media-workflow"
     });
   }
 
   if (id === "calendar-planning") {
-    return renderMealPlannerCalendar({
-      title:
-        "Meal planner calendar",
-      columns:
-        [
-          { key: "mon", label: "Mon" },
-          { key: "tue", label: "Tue" },
-          { key: "wed", label: "Wed" },
-          { key: "thu", label: "Thu" },
-          { key: "fri", label: "Fri" }
-        ],
-      rows:
-        [
-          {
-            label:
-              "Dinner",
-            detail:
-              "Manual plus generated planning",
-            values:
-              {
-                mon: { value: "Chicken", status: "approved" },
-                tue: { value: "Open", status: "draft" },
-                wed: { value: "Salmon", status: "approved" },
-                thu: { value: "Generate", status: "reviewing" },
-                fri: { value: "Turkey", status: "approved" }
-              }
-          },
-          {
-            label:
-              "Prep",
-            detail:
-              "Broad checklist",
-            values:
-              {
-                mon: { value: "Rice", status: "approved" },
-                tue: { value: "Skip", status: "muted" },
-                wed: { value: "Greens", status: "approved" },
-                thu: { value: "TBD", status: "draft" },
-                fri: { value: "Potatoes", status: "approved" }
-              }
-          }
-        ],
+    return renderPremiumPlannerCalendar({
       reviewId:
-        "hdk.gallery.actual.calendar"
+        "hdk.gallery.actual.premium-planner-calendar"
     });
   }
 

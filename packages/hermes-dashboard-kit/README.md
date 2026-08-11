@@ -28,6 +28,12 @@ component-family status, target tier, preview states, and the human approval
 role. If a family is `draft` or `reviewing`, it should not be treated as a
 fleet-approved Tier 3 pattern until reviewed.
 
+The gallery also includes a Level 5 maturity graph. Level 5 requires strong
+scores across visual polish, interaction completeness, state coverage, domain
+intelligence, and adoption readiness. Do not mark a dashboard or component
+family as Level 5 just because it renders; it needs proof, states, and project
+adoption evidence.
+
 ## Install From This Workspace
 
 Inside a workspace project:
@@ -138,6 +144,8 @@ Use the data-visualization primitives before building local chart UI:
 - `ForecastConeChart`
 - `WaterfallChart`
 - `VisualizationStateFrame`
+- `PremiumComparisonChart`
+- `PremiumMarketBrowser`
 
 These components support real-data, preview, stale, loading, empty, and error states so prototypes can demonstrate intent without pretending mock data is production truth.
 
@@ -159,6 +167,10 @@ Use the product-interface primitives before building local dashboard interaction
 - `StateChecklist`
 - `PermissionLimitedPanel`
 - `GeneratedInsightCallout`
+- `PremiumMediaApprovalWorkspace`
+- `PremiumPlannerCalendar`
+- `PremiumDrilldownWorkspace`
+- `ComponentQualityMaturityGraph`
 
 See:
 

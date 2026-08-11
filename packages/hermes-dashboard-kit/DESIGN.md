@@ -126,9 +126,24 @@ The gallery must show:
 
 - Mobbin/reference families used as pattern input.
 - Component families, named components, target tier, and status.
+- A Level 5 maturity graph for each component family.
 - What makes each family good enough for Tier 3.
 - The human operator's approval role for that family.
 - Preview examples for charts, tables, proof states, and state handling.
+
+Level 5 is an evidence state, not an aesthetic claim. A family reaches Level 5
+only when the review registry shows production-quality scores for:
+
+- visual polish
+- interaction completeness
+- state coverage
+- domain intelligence
+- adoption readiness
+
+The gallery renders the maturity graph from
+`adoption/component-review-registry.json`. If the graph shows a family below
+Level 5, the correct next move is to improve the component or adoption proof,
+not to relabel the family as complete.
 
 Component family statuses:
 
@@ -148,6 +163,15 @@ local CSS.
 Project dashboards should only claim Tier 3 when their required component
 families are `approved` or when a project manifest records a reviewed exception
 with owner, reviewer, reason, and expiry.
+
+Premium component families currently available for Level 5 review include:
+
+- `ComponentQualityMaturityGraph`
+- `PremiumComparisonChart`
+- `PremiumMarketBrowser`
+- `PremiumMediaApprovalWorkspace`
+- `PremiumPlannerCalendar`
+- `PremiumDrilldownWorkspace`
 
 Dashboard products must be package-native. Static adapters are a temporary
 bridge for existing dashboards, compatibility routes, and dev review; they are

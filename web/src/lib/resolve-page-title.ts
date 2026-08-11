@@ -15,6 +15,11 @@ const BUILTIN: Record<string, keyof Translations["app"]["nav"]> = {
   "/docs": "documentation",
 };
 
+const ROUTE_TITLES: Record<string, string> = {
+  "/dashboard-kit-gallery": "Dashboard Kit Gallery",
+  "/fleet-maturity-review": "Fleet Maturity Review",
+};
+
 export function resolvePageTitle(
   pathname: string,
   t: Translations,
@@ -31,6 +36,9 @@ export function resolvePageTitle(
   const key = BUILTIN[normalized];
   if (key) {
     return t.app.nav[key];
+  }
+  if (ROUTE_TITLES[normalized]) {
+    return ROUTE_TITLES[normalized];
   }
   // Derive title from pathname: "/profiles" → "Profiles"
   const segment = normalized.slice(1);

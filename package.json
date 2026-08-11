@@ -25,6 +25,8 @@
     "dashboard:design-system:status": "node packages/hermes-dashboard-kit/scripts/status.mjs",
     "dashboard:design-system:test": "node --test packages/hermes-dashboard-kit/tests/dashboard-kit.test.js",
     "dashboard:design-system:gallery": "node packages/hermes-dashboard-kit/scripts/generate-gallery.mjs",
+    "dashboard:design-system:gallery:maturity": "node scripts/validate-dashboard-kit-gallery-maturity.mjs",
+    "dashboard:web:build-budget": "node scripts/check-web-build-budget.mjs",
     "dashboard:design-system:hooks:install": "node scripts/install-dashboard-design-system-hooks.mjs",
     "dashboard:surface:validate": "node packages/hermes-dashboard-kit/src/validate-surface.js",
     "dashboard-kit:adoption:audit": "node packages/hermes-dashboard-kit/scripts/audit-adoption.mjs",
@@ -49,6 +51,8 @@
     "dashboard:world-class:report": "node scripts/audit-world-class-dashboard-system.mjs --write-report",
     "dashboard:standards:summary": "node scripts/summarize-dashboard-standards.mjs",
     "dashboard:standards:summary:fast": "node scripts/summarize-dashboard-standards.mjs --fast",
+    "dashboard:standards:validate-all": "npm run dashboard:design-system:test && npm run dashboard-kit:adoption:report && npm run dashboard-kit:component-gaps:report && npm run dashboard:static-routes:report && npm run fleet:maturity:scan && npm run dashboard:live-e2e:registry && npm run dashboard:monitoring:registry && npm run fleet:maturity:scan && npm run fleet:maturity:validate",
+    "dashboard:standards:validate-all:strict": "npm run dashboard:design-system:test && npm run dashboard-kit:adoption:audit:strict && npm run dashboard-kit:component-gaps:audit && npm run dashboard:static-routes:strict && npm run fleet:maturity:validate",
     "architecture:standards:validate": "node scripts/validate-product-architecture-system.mjs",
     "dashboard:governance:validate": "node scripts/validate-dashboard-governance.mjs",
     "dashboard:interface-system:validate": "node scripts/validate-operating-interface-system.mjs",
@@ -66,6 +70,11 @@
     "dashboard:deployment-ledger:report": "node scripts/generate-dashboard-deployment-ledger.mjs",
     "dashboard:deployment-ledger:validate": "node scripts/validate-dashboard-deployment-ledger.mjs",
     "dashboard:deploy-anti-loop:check": "node scripts/check-dashboard-deploy-anti-loop.mjs",
+    "fleet:release-readiness": "node scripts/generate-fleet-release-readiness.mjs",
+    "fleet:release-readiness:strict": "node scripts/generate-fleet-release-readiness.mjs --strict",
+    "fleet:release-readiness:validate": "node scripts/validate-fleet-release-readiness.mjs",
+    "fleet:ship-check": "node scripts/fleet-ship-check.mjs",
+    "fleet:ship-check:full": "node scripts/fleet-ship-check.mjs --full",
     "dashboard:kit-distribution:report": "node scripts/scan-dashboard-kit-distribution.mjs",
     "dashboard:kit-distribution:strict": "node scripts/scan-dashboard-kit-distribution.mjs --strict",
     "dashboard:static-routes:audit": "node scripts/audit-static-dashboard-routes.mjs",
@@ -79,6 +88,10 @@
     "dashboard:project-profiles:validate": "node scripts/validate-dashboard-project-profiles.mjs",
     "dashboard:health:validate": "node scripts/validate-dashboard-health.mjs",
     "dashboard:health:validate:live": "node scripts/validate-dashboard-health.mjs --live",
+    "dashboard:live-e2e:registry": "node scripts/generate-dashboard-live-e2e-registry.mjs",
+    "dashboard:live-e2e:check": "node scripts/check-dashboard-live-e2e.mjs",
+    "dashboard:monitoring:registry": "node scripts/generate-dashboard-monitoring-registry.mjs",
+    "dashboard:monitoring:check": "node scripts/check-dashboard-monitoring.mjs",
     "dashboard:bridge:coverage": "node scripts/check-dashboard-bridge-coverage.mjs",
     "dashboard:tier-assessment:sync": "node scripts/sync-dashboard-tier-assessment.mjs",
     "dashboard:tier-assessment:validate": "node scripts/validate-dashboard-tier-assessment.mjs",
@@ -97,6 +110,7 @@
     "dashboard:maturity-reports:validate": "node scripts/validate-dashboard-maturity-reports.mjs",
     "dashboard:project-status:ledger": "node scripts/generate-project-status-ledger.mjs",
     "fleet:maturity:scan": "node scripts/generate-fleet-maturity-tracker.mjs",
+    "fleet:maturity:review-data": "node scripts/generate-fleet-maturity-review-data.mjs",
     "fleet:maturity:validate": "node scripts/validate-fleet-maturity-tracker.mjs",
     "fleet:maturity:check": "npm run fleet:maturity:validate",
     "fleet:maturity:check:full": "npm run fleet:maturity:validate && npm run dashboard:maturity-reports:validate && npm run dashboard:design-system:test",
@@ -117,6 +131,7 @@
   },
   "homepage": "https://github.com/NousResearch/Hermes-Agent#readme",
   "dependencies": {
+    "@hermes/dashboard-kit": "file:packages/hermes-dashboard-kit",
     "@streamdown/math": "^1.0.2",
     "agent-browser": "^0.26.0"
   },
@@ -126,5 +141,8 @@
   },
   "engines": {
     "node": ">=22.22.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1"
   }
 }

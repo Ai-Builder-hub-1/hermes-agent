@@ -28,6 +28,9 @@ const sourcePaths = {
   proof: path.join(root, "docs/design/dashboard-production-proof-registry.json"),
   deployment: path.join(root, "docs/design/dashboard-deployment-ledger.json"),
   status: path.join(root, "docs/design/project-status-ledger.json"),
+  staticRoutes: path.join(root, "docs/design/static-dashboard-route-audit.json"),
+  liveE2E: path.join(root, "docs/design/dashboard-live-e2e-registry.json"),
+  monitoring: path.join(root, "docs/design/dashboard-monitoring-registry.json"),
   enterpriseBacklog: path.join(workspaceRoot, "tlc-capital-group-os/registries/enterprise-backlog.json")
 };
 
@@ -222,6 +225,7 @@ const evidenceKinds = [
   "readonly-proof",
   "screenshot-baseline",
   "dashboard-standard",
+  "static-route-debt",
   "live-e2e",
   "dns-proxy",
   "monitoring",
@@ -297,7 +301,7 @@ function evidenceItem(project, kind, status, detail = {}) {
   const severity =
     status === "current" || status === "not-applicable"
       ? "none"
-      : ["deployment-evidence", "production-health", "readonly-proof", "dashboard-standard"].includes(kind)
+      : ["deployment-evidence", "production-health", "readonly-proof", "dashboard-standard", "static-route-debt"].includes(kind)
         ? "blocking"
         : "maturity";
   return {
@@ -336,6 +340,9 @@ const adoptionReport = optionalJson(sourcePaths.adoption, { results: [] });
 const proofRegistry = optionalJson(sourcePaths.proof, { entries: [] });
 const deploymentLedger = optionalJson(sourcePaths.deployment, { entries: [] });
 const projectStatus = optionalJson(sourcePaths.status, { projects: [] });
+const staticRoutes = optionalJson(sourcePaths.staticRoutes, { findings: [] });
+const liveE2ERegistry = optionalJson(sourcePaths.liveE2E, { entries: [] });
+const monitoringRegistry = optionalJson(sourcePaths.monitoring, { entries: [] });
 const enterpriseBacklog = optionalJson(sourcePaths.enterpriseBacklog, { items: [] });
 
 const registry = baseProjects.map((project) => {
@@ -394,7 +401,14 @@ const registry = baseProjects.map((project) => {
 const evidenceEntries = registry.flatMap((project) => {
   const proofCurrent = project.proof.status === "baseline-present" || project.proof.httpStatus === 200;
   const dashboardCurrent = project.dashboard.status === "current" && project.dashboard.issueCount === 0;
-  const hasOutcomeFeed = Boolean(project.production.snapshotUrl) && ["tlc-capital-group-os", "khashi-vc", "media-engine", "business-mapper", "meal-assistant", "investing-system"].includes(project.id);
+  const projectAliases = new Set([project.id, project.adoptionId].filter(Boolean));
+  const staticFindings = (staticRoutes.findings ?? []).filter((finding) => projectAliases.has(finding.projectId));
+  const staticErrors = staticFindings.filter((finding) => finding.severity === "error");
+  const staticWarnings = staticFindings.filter((finding) => finding.severity === "warning");
+  const staticRouteStatus = staticErrors.length ? "blocked" : staticWarnings.length ? "needs-review" : "current";
+  const liveE2E = (liveE2ERegistry.entries ?? []).find((entry) => projectAliases.has(entry.projectId));
+  const monitoring = (monitoringRegistry.entries ?? []).find((entry) => projectAliases.has(entry.projectId));
+  const hasOutcomeFeed = Boolean(project.production.snapshotUrl);
   const externalCredBacklog = project.enterpriseBacklog.find((item) => /credential/i.test(item.id) || /credential/i.test(item.title ?? ""));
   return [
     evidenceItem(project, "production-health", statusFromBoolean(Boolean(project.production.healthUrl)), {
@@ -420,17 +434,35 @@ const evidenceEntries = registry.flatMap((project) => {
       dashboard: project.dashboard,
       recommendedFix: dashboardCurrent ? null : "Register or repair the dashboard adoption surface."
     }),
-    evidenceItem(project, "live-e2e", "missing", {
-      source: null,
-      recommendedFix: "Add or refresh live E2E evidence for the primary production workflow."
+    evidenceItem(project, "static-route-debt", staticRouteStatus, {
+      source: "docs/design/static-dashboard-route-audit.json",
+      findings: staticFindings.map((finding) => ({
+        severity: finding.severity,
+        code: finding.code,
+        surfacePath: finding.surfacePath,
+        message: finding.message
+      })),
+      recommendedFix: staticFindings.length
+        ? "Migrate primary static/public dashboard routes to package-native frontend entrypoints and keep compatibility routes out of primary navigation."
+        : null
+    }),
+    evidenceItem(project, "live-e2e", liveE2E?.status === "current" ? "current" : liveE2E?.status === "declared" ? "needs-review" : "missing", {
+      source: "docs/design/dashboard-live-e2e-registry.json",
+      evidence: liveE2E ?? null,
+      recommendedFix: liveE2E?.status === "current"
+        ? null
+        : liveE2E?.recommendedFix ?? "Add or refresh live E2E evidence for the primary production workflow."
     }),
     evidenceItem(project, "dns-proxy", statusFromBoolean(Boolean(project.production.url), "missing"), {
       source: project.production.url,
       recommendedFix: project.production.url ? null : "Declare the production DNS and Caddy route."
     }),
-    evidenceItem(project, "monitoring", "missing", {
-      source: null,
-      recommendedFix: "Add monitoring/log shipping evidence and alert ownership."
+    evidenceItem(project, "monitoring", monitoring?.status === "current" ? "current" : monitoring?.status === "declared" ? "needs-review" : "missing", {
+      source: "docs/design/dashboard-monitoring-registry.json",
+      evidence: monitoring ?? null,
+      recommendedFix: monitoring?.status === "current"
+        ? null
+        : monitoring?.recommendedFix ?? "Add monitoring/log shipping evidence and alert ownership."
     }),
     evidenceItem(project, "external-credentials", externalCredBacklog ? "blocked" : "not-applicable", {
       source: externalCredBacklog?.id ?? null,
@@ -581,6 +613,7 @@ const evidenceReport = {
     total: evidenceEntries.length,
     current: evidenceEntries.filter((entry) => entry.status === "current").length,
     missing: evidenceEntries.filter((entry) => entry.status === "missing").length,
+    needsReview: evidenceEntries.filter((entry) => entry.status === "needs-review").length,
     stale: evidenceEntries.filter((entry) => entry.status === "stale").length,
     blocked: evidenceEntries.filter((entry) => entry.status === "blocked").length,
     notApplicable: evidenceEntries.filter((entry) => entry.status === "not-applicable").length
@@ -635,6 +668,7 @@ const evidenceRows = evidenceKinds.map((kind) => {
     kind,
     entries.filter((entry) => entry.status === "current").length,
     entries.filter((entry) => entry.status === "missing").length,
+    entries.filter((entry) => entry.status === "needs-review").length,
     entries.filter((entry) => entry.status === "stale").length,
     entries.filter((entry) => entry.status === "blocked").length
   ];
@@ -652,6 +686,7 @@ Purpose: one fleet-wide tracker for production proof, deployment evidence, monit
 - Evidence entries: ${evidenceReport.summary.total}
 - Current evidence entries: ${evidenceReport.summary.current}
 - Missing evidence entries: ${evidenceReport.summary.missing}
+- Needs-review evidence entries: ${evidenceReport.summary.needsReview}
 - Blocked evidence entries: ${evidenceReport.summary.blocked}
 - Maturity work items: ${workGraph.summary.total}
 - Cross-project work items: ${workGraph.summary.crossProject}
@@ -664,7 +699,7 @@ ${markdownTable(["Project", "Service", "Dashboard Band", "Deploy Evidence", "Pro
 
 ## Evidence Coverage
 
-${markdownTable(["Evidence Kind", "Current", "Missing", "Stale", "Blocked"], evidenceRows)}
+${markdownTable(["Evidence Kind", "Current", "Missing", "Needs Review", "Stale", "Blocked"], evidenceRows)}
 
 ## Top Suggestions
 

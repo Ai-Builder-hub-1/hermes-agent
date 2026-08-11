@@ -49,6 +49,7 @@ const CronPage = lazy(() => import("@/pages/CronPage"));
 const HermesOsPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.HermesOsPage })));
 const DesignSystemPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.DesignSystemPage })));
 const DashboardKitGalleryPage = lazy(() => import("@/pages/DashboardKitGalleryPage"));
+const FleetMaturityReviewPage = lazy(() => import("@/pages/FleetMaturityReviewPage"));
 const DesignIntelligenceCommandCenterPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.DesignIntelligenceCommandCenterPage })));
 const PackageNativeMigrationsPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.PackageNativeMigrationsPage })));
 const MediaEnginePackageNativePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ProjectSnapshotsPage })));
@@ -243,6 +244,7 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/design-intelligence": DesignIntelligenceCommandCenterPage,
   "/design-system": DesignSystemPage,
   "/dashboard-kit-gallery": DashboardKitGalleryPage,
+  "/fleet-maturity-review": FleetMaturityReviewPage,
   "/models": ModelsPage,
   "/logs": LogsPage,
   "/cron": CronPage,
@@ -345,6 +347,7 @@ export const BUILTIN_NAV_REST: BuiltinNavItem[] = [
   { path: "/design-intelligence", label: "Design Intel", icon: Workflow },
   { path: "/design-system", label: "Design System", icon: GalleryVerticalEnd },
   { path: "/dashboard-kit-gallery", label: "Kit Gallery", icon: GalleryVerticalEnd },
+  { path: "/fleet-maturity-review", label: "Fleet Review", icon: ListChecks },
   { path: "/models", labelKey: "models", label: "Models", icon: Cpu },
   { path: "/logs", labelKey: "logs", label: "Logs", icon: FileText },
   { path: "/cron", labelKey: "cron", label: "Cron", icon: Clock },

@@ -50,6 +50,7 @@ import {
   renderBoxPlot,
   renderCandlestickChart,
   renderCompactActionRail,
+  renderComponentQualityMaturityGraph,
   renderComponentIntakeBoard,
   renderContractReadinessPanel,
   renderCorrelationMatrix,
@@ -83,6 +84,11 @@ import {
   renderPantryInventoryPanel,
   renderPermissionAuditPanel,
   renderPortfolioCompanyGrid,
+  renderPremiumComparisonChart,
+  renderPremiumDrilldownWorkspace,
+  renderPremiumMarketBrowser,
+  renderPremiumMediaApprovalWorkspace,
+  renderPremiumPlannerCalendar,
   renderPartialDataBanner,
   renderPostPerformanceTable,
   renderProspectBoard,
@@ -240,6 +246,8 @@ test("renders dashboard kit gallery and component intake board", () => {
   assert.ok(inventory.length >= 8);
   assert.ok(references.length >= 5);
   assert.equal(reviewRegistry.version, 1);
+  assert.equal(reviewRegistry.scale.level5Threshold, 100);
+  assert.match(reviewRegistry.scale.scorePolicy, /Downstream project adoption/);
   assert.equal(visualBaselines.version, 1);
   assert.deepEqual(
     inventory.map((item) => item.id).filter((id) => !reviewIds.has(id)),
@@ -251,6 +259,15 @@ test("renders dashboard kit gallery and component intake board", () => {
   );
   assert.ok(visualBaselines.viewports.some((viewport) => viewport.id === "desktop"));
   assert.ok(visualBaselines.themes.includes("light"));
+  for (const family of reviewRegistry.families) {
+    assert.equal(family.reviewStatus, "approved");
+    assert.ok(family.closureEvidence.length >= 1);
+    assert.equal(family.nextActions.length, 0);
+    for (const dimension of ["visualPolish", "interactionCompleteness", "stateCoverage", "domainIntelligence", "adoptionReadiness", "accessibility"]) {
+      assert.equal(family.score[dimension], 100);
+    }
+    assert.equal(Number.isFinite(family.score.projectAdoption), true);
+  }
   assert.ok(inventory.some((item) => item.status === "approved"));
   assert.ok(inventory.some((item) => item.status === "reviewing"));
   assert.ok(inventory.some((item) => item.status === "draft"));
@@ -314,6 +331,70 @@ test("renders approved charts with axes and component markers", () => {
     assert.match(html, /hdk-chart__axis/);
     assert.match(html, /hdk-chart__label/);
   }
+});
+
+test("renders level 5 maturity graph and premium dashboard components", () => {
+  const inventory =
+    getDashboardKitComponentInventory();
+  const quality =
+    renderComponentQualityMaturityGraph({
+      families:
+        inventory,
+      review:
+        [
+          {
+            id:
+              "chart-suite",
+            reviewStatus:
+              "reviewing",
+            score:
+              {
+                visualPolish:
+                  100,
+                interactionCompleteness:
+                  100,
+                stateCoverage:
+                  100,
+                domainIntelligence:
+                  100,
+                adoptionReadiness:
+                  100
+              }
+          }
+        ]
+    });
+  const comparison =
+    renderPremiumComparisonChart({
+      title:
+        "Approval trend",
+      data:
+        [
+          { label: "Mon", approved: 12, posted: 10 },
+          { label: "Tue", approved: 18, posted: 14 }
+        ],
+      metrics:
+        [
+          { key: "approved", label: "Approved", color: "var(--hdk-series-green)" },
+          { key: "posted", label: "Posted", color: "var(--hdk-series-blue)" }
+        ]
+    });
+
+  assert.match(quality, /data-hdk-component="ComponentQualityMaturityGraph"/);
+  assert.match(quality, /data-quality-family="chart-suite"/);
+  assert.match(quality, /data-quality-level="5"/);
+  assert.match(comparison, /data-hdk-component="PremiumComparisonChart"/);
+  assert.match(comparison, /hdk-chart__axis/);
+  assert.match(comparison, /hdk-chart__label/);
+  assert.match(comparison, />time</);
+  assert.match(comparison, />count</);
+  assert.match(renderPremiumMarketBrowser(), /data-hdk-component="PremiumMarketBrowser"/);
+  assert.match(renderPremiumMarketBrowser(), /Category-first navigation/);
+  assert.match(renderPremiumMediaApprovalWorkspace(), /data-hdk-component="PremiumMediaApprovalWorkspace"/);
+  assert.match(renderPremiumMediaApprovalWorkspace(), /Decline with reason/);
+  assert.match(renderPremiumPlannerCalendar(), /data-hdk-component="PremiumPlannerCalendar"/);
+  assert.match(renderPremiumPlannerCalendar(), /hdk-calendar-month-grid/);
+  assert.match(renderPremiumDrilldownWorkspace(), /data-hdk-component="PremiumDrilldownWorkspace"/);
+  assert.match(renderPremiumDrilldownWorkspace(), /Detail trend/);
 });
 
 test("renders non-cartesian chart and data controls", () => {

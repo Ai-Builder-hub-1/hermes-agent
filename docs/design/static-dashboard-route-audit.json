@@ -1,24 +1,24 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-07T19:15:44.079Z",
+  "generatedAt": "2026-08-08T01:33:29.811Z",
   "policy": {
     "primaryStaticDashboardRoutesAllowed": false,
     "compatibilityStaticRoutesAllowedTemporarily": true,
     "target": "package-native frontend entrypoints that consume @hermes/dashboard-kit"
   },
   "totals": {
-    "errors": 1,
-    "warnings": 5,
-    "findings": 6
+    "errors": 0,
+    "warnings": 8,
+    "findings": 8
   },
   "findings": [
     {
-      "severity": "error",
+      "severity": "warning",
       "projectId": "khashi-vc",
       "projectName": "Kashi VC",
       "surfacePath": "public/roc/index.html",
-      "code": "primary_static_dashboard_route",
-      "message": "Primary dashboard route is still a hand-authored static/public surface. Migrate to a package-native frontend entrypoint."
+      "code": "static_compatibility_route",
+      "message": "Static dashboard route remains as compatibility/review debt. Keep it out of primary navigation and schedule archive/removal."
     },
     {
       "severity": "warning",
@@ -57,6 +57,22 @@
       "projectId": "tlc-capital-group-os",
       "projectName": "TLC Capital Group OS",
       "surfacePath": "public/dashboard/index.html",
+      "code": "static_compatibility_route",
+      "message": "Static dashboard route remains as compatibility/review debt. Keep it out of primary navigation and schedule archive/removal."
+    },
+    {
+      "severity": "warning",
+      "projectId": "rinseables-os",
+      "projectName": "Rinseables OS",
+      "surfacePath": "public/dashboard/index.html",
+      "code": "static_compatibility_route",
+      "message": "Static dashboard route remains as compatibility/review debt. Keep it out of primary navigation and schedule archive/removal."
+    },
+    {
+      "severity": "warning",
+      "projectId": "investing-system",
+      "projectName": "Investing System",
+      "surfacePath": "public/roc/index.html",
       "code": "static_compatibility_route",
       "message": "Static dashboard route remains as compatibility/review debt. Keep it out of primary navigation and schedule archive/removal."
     }

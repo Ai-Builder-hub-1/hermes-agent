@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-11T17:06:38.525Z",
+  "mode": "standard",
+  "safeToCommit": true,
+  "safeToDeploy": true,
+  "summary": {
+    "steps": 5,
+    "failedSteps": 0,
+    "dirtyProjects": 2,
+    "blockedProjects": 0,
+    "needsReviewProjects": 0,
+    "commitReadyProjects": 10,
+    "deployReadyProjects": 10
+  },
+  "blockedBy": [],
+  "readinessReport": "docs/fleet/fleet-release-readiness.json",
+  "steps": [
+    {
+      "id": "release-readiness",
+      "label": "Release readiness",
+      "command": "npm run fleet:release-readiness",
+      "startedAt": "2026-08-11T17:06:37.656Z",
+      "finishedAt": "2026-08-11T17:06:37.974Z",
+      "passed": true,
+      "exitCode": 0,
+      "stdoutTail": [
+        "> hermes-agent@1.0.0 fleet:release-readiness",
+        "> node scripts/generate-fleet-release-readiness.mjs",
+        "",
+        "Wrote docs/fleet/fleet-release-readiness.json and docs/fleet/fleet-release-readiness.md",
+        "Fleet release readiness: 2 dirty project(s), 0 blocked, 0 needs review."
+      ],
+      "stderrTail": []
+    },
+    {
+      "id": "release-readiness-validate",
+      "label": "Release readiness schema",
+      "command": "npm run fleet:release-readiness:validate",
+      "startedAt": "2026-08-11T17:06:37.974Z",
+      "finishedAt": "2026-08-11T17:06:38.073Z",
+      "passed": true,
+      "exitCode": 0,
+      "stdoutTail": [
+        "> hermes-agent@1.0.0 fleet:release-readiness:validate",
+        "> node scripts/validate-fleet-release-readiness.mjs",
+        "",
+        "Fleet release readiness validation: 0 error(s), 0 warning(s)."
+      ],
+      "stderrTail": []
+    },
+    {
+      "id": "release-readiness-strict",
+      "label": "Release readiness strict gate",
+      "command": "npm run fleet:release-readiness:strict",
+      "startedAt": "2026-08-11T17:06:38.073Z",
+      "finishedAt": "2026-08-11T17:06:38.333Z",
+      "passed": true,
+      "exitCode": 0,
+      "stdoutTail": [
+        "> hermes-agent@1.0.0 fleet:release-readiness:strict",
+        "> node scripts/generate-fleet-release-readiness.mjs --strict",
+        "",
+        "Wrote docs/fleet/fleet-release-readiness.json and docs/fleet/fleet-release-readiness.md",
+        "Fleet release readiness: 2 dirty project(s), 0 blocked, 0 needs review."
+      ],
+      "stderrTail": []
+    },
+    {
+      "id": "web-build-budget",
+      "label": "Web build budget",
+      "command": "npm run dashboard:web:build-budget",
+      "startedAt": "2026-08-11T17:06:38.333Z",
+      "finishedAt": "2026-08-11T17:06:38.424Z",
+      "passed": true,
+      "exitCode": 0,
+      "stdoutTail": [
+        "Web build budget largest assets:",
+        "- index-CwI5fgv0.js 526.2 KiB",
+        "- vendor-xterm-BRN-hOYD.js 484.0 KiB",
+        "- vendor-nous-ui-DuXYiwlH.js 273.6 KiB",
+        "- vendor-CHWgcPAU.js 212.1 KiB",
+        "- index-54zUsFU-.css 115.1 KiB",
+        "- DashboardKitGalleryPage-C-4PADs-.js 102.1 KiB",
+        "- FleetMaturityReviewPage-DU092YbQ.js 101.4 KiB",
+        "- vendor-react-Bx9y0EYb.js 39.7 KiB",
+        "Web build budget validation: 0 issue(s)."
+      ],
+      "stderrTail": []
+    },
+    {
+      "id": "dashboard-governance",
+      "label": "Dashboard governance",
+      "command": "npm run dashboard:governance:validate",
+      "startedAt": "2026-08-11T17:06:38.424Z",
+      "finishedAt": "2026-08-11T17:06:38.524Z",
+      "passed": true,
+      "exitCode": 0,
+      "stdoutTail": [
+        "> hermes-agent@1.0.0 dashboard:governance:validate",
+        "> node scripts/validate-dashboard-governance.mjs",
+        "",
+        "Dashboard governance validation: 0 error(s), 0 warning(s)."
+      ],
+      "stderrTail": []
+    }
+  ]
+}

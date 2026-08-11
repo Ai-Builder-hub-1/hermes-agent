@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-05T15:31:00.851Z",
+  "generatedAt": "2026-08-08T21:55:55.117Z",
   "purpose": "Fleet-wide project, production, dashboard, and relationship registry for Nous Hermes Agent.",
   "projects": [
     {
@@ -111,12 +111,12 @@
         "promotionEvidencePath": "/root/apps/deploy/deployment-evidence/latest/nous-hermes-agent.json"
       },
       "dashboard": {
-        "registered": false,
+        "registered": true,
         "dashboardId": "nous-hermes-agent.dashboard",
-        "status": "unregistered",
-        "currentBand": "unknown",
-        "targetBand": null,
-        "implementationMode": null,
+        "status": "current",
+        "currentBand": "T3C",
+        "targetBand": "T3C",
+        "implementationMode": "package-native",
         "issueCount": 0
       },
       "readiness": {
@@ -126,10 +126,10 @@
       "repoState": {
         "path": "",
         "branch": "## main...ai-builder/main",
-        "commit": "4ad9da0d39ec34a17a9bd55649c60a8c1bd8c667",
-        "shortCommit": "4ad9da0d39ec",
-        "clean": true,
-        "dirtyCount": 0,
+        "commit": "24b1662e89c921d329b23bf282b4027f3d6428a5",
+        "shortCommit": "24b1662e89c9",
+        "clean": false,
+        "dirtyCount": 51,
         "ahead": 0,
         "behind": 0
       },
@@ -208,8 +208,8 @@
       "repoState": {
         "path": "../hermes",
         "branch": "## deploy/hermes-workspace-hetzner...origin/deploy/hermes-workspace-hetzner",
-        "commit": "abe01cbcda734a0b803c91351317ba77e636df89",
-        "shortCommit": "abe01cbcda73",
+        "commit": "af33e7719ccedc9eb88c18b735a594bbcfb009bb",
+        "shortCommit": "af33e7719cce",
         "clean": true,
         "dirtyCount": 0,
         "ahead": 0,
@@ -279,10 +279,10 @@
       "repoState": {
         "path": "../media-engine",
         "branch": "## main...origin/main",
-        "commit": "42b1ce1953935d2c4237471f8a4513629652b7fb",
-        "shortCommit": "42b1ce195393",
-        "clean": true,
-        "dirtyCount": 0,
+        "commit": "eaba723ff6ac4477760f8b5e6d4fe90380be6e48",
+        "shortCommit": "eaba723ff6ac",
+        "clean": false,
+        "dirtyCount": 19,
         "ahead": 0,
         "behind": 0
       },
@@ -367,8 +367,8 @@
       "repoState": {
         "path": "../media-business-operations",
         "branch": "## main...origin/main",
-        "commit": "0cbaa79847d3bc32bd15be5d507bd52b3cfc0c0f",
-        "shortCommit": "0cbaa79847d3",
+        "commit": "bad731df3c19c24296a8890f7ef0e83272f09bcb",
+        "shortCommit": "bad731df3c19",
         "clean": true,
         "dirtyCount": 0,
         "ahead": 0,
@@ -445,8 +445,8 @@
       "repoState": {
         "path": "../khashi-vc",
         "branch": "## main...origin/main",
-        "commit": "213fb16f722ffa3d255d6f1104bd613b82c849f9",
-        "shortCommit": "213fb16f722f",
+        "commit": "3b348e6d7f81f28eb00d2633f238ff054361dbc6",
+        "shortCommit": "3b348e6d7f81",
         "clean": true,
         "dirtyCount": 0,
         "ahead": 0,
@@ -456,9 +456,9 @@
         "available": true,
         "status": "succeeded",
         "target": "main",
-        "eventId": "khashi-2026-08-05T13-48-40Z",
-        "resolvedCommit": "213fb16f722ffa3d255d6f1104bd613b82c849f9",
-        "finishedAt": "2026-08-05T13:48:40Z",
+        "eventId": "khashi-2026-08-08T14-47-38Z",
+        "resolvedCommit": "3b348e6d7f81f28eb00d2633f238ff054361dbc6",
+        "finishedAt": "2026-08-08T14:47:38Z",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/khashi.json"
       },
       "proof": {
@@ -638,12 +638,12 @@
         "promotionEvidencePath": "/root/apps/deploy/deployment-evidence/latest/rinseables-os.json"
       },
       "dashboard": {
-        "registered": false,
-        "dashboardId": null,
-        "status": "unregistered",
-        "currentBand": "unknown",
-        "targetBand": null,
-        "implementationMode": null,
+        "registered": true,
+        "dashboardId": "rinseables-os.main",
+        "status": "current",
+        "currentBand": "T3C",
+        "targetBand": "T3C",
+        "implementationMode": "package-native",
         "issueCount": 0
       },
       "readiness": {
@@ -655,8 +655,8 @@
         "branch": "## main...origin/main",
         "commit": "6ec0cabcce9af8a1fa2147962df0466c94f15e93",
         "shortCommit": "6ec0cabcce9a",
-        "clean": true,
-        "dirtyCount": 0,
+        "clean": false,
+        "dirtyCount": 5,
         "ahead": 0,
         "behind": 0
       },
@@ -670,10 +670,10 @@
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/rinseables-os.json"
       },
       "proof": {
-        "status": "not-in-proof-registry",
-        "capturedAt": null,
-        "screenshotCaptured": false,
-        "httpStatus": null
+        "status": "baseline-present",
+        "capturedAt": "2026-08-08T01:33:06.286Z",
+        "screenshotCaptured": true,
+        "httpStatus": 200
       },
       "enterpriseBacklog": [],
       "relationships": [
@@ -709,12 +709,12 @@
         "promotionEvidencePath": "/root/apps/deploy/deployment-evidence/latest/investing-system.json"
       },
       "dashboard": {
-        "registered": false,
+        "registered": true,
         "dashboardId": "investing-system.roc",
-        "status": "unregistered",
-        "currentBand": "unknown",
-        "targetBand": null,
-        "implementationMode": null,
+        "status": "current",
+        "currentBand": "T3C",
+        "targetBand": "T3C",
+        "implementationMode": "package-native",
         "issueCount": 0
       },
       "readiness": {
@@ -726,8 +726,8 @@
         "branch": "## main...origin/main",
         "commit": "de5c212ed8f96f9c9dea74cc06688076f3fc35ec",
         "shortCommit": "de5c212ed8f9",
-        "clean": true,
-        "dirtyCount": 0,
+        "clean": false,
+        "dirtyCount": 5,
         "ahead": 0,
         "behind": 0
       },

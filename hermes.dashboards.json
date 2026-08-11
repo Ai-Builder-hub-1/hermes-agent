@@ -144,6 +144,27 @@
       }
     },
     {
+      "id": "rinseables-os.main",
+      "label": "Rinseables OS",
+      "description": "Rinseables product, audience, and business operating dashboard.",
+      "category": "consumer-operations",
+      "owner": "Rinseables",
+      "projectName": "Rinseables OS",
+      "projectPath": "../rinseables-os",
+      "url": "https://rinseables.tlccapitalgroup.com",
+      "proofUrl": "https://rinseables.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://rinseables.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://rinseables.tlccapitalgroup.com/api/dashboard-snapshot",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "rinseables-os",
+        "buildContext": "/root/apps/rinseables-os",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh"
+      }
+    },
+    {
       "id": "investing-system.roc",
       "label": "Investing System ROC",
       "description": "Investing operations and research dashboard.",

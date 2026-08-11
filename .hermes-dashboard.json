@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "projectId": "nous-hermes-agent",
+  "dashboardKit": {
+    "package": "@hermes/dashboard-kit",
+    "requiredVersion": "0.1.0",
+    "adoptionMode": "package-native",
+    "implementationMode": "package-native",
+    "staticAdapterAllowed": false,
+    "currentExperienceTier": 3,
+    "targetExperienceTier": 3,
+    "targetExperienceBand": "T3C",
+    "packageNativeRequired": true,
+    "mobbinReferenceRequired": true,
+    "tierMigrationRequired": false,
+    "tierMigrationNote": "Nous Hermes Agent owns the dashboard standards/control-plane surface and must follow the same package-native evidence contract as downstream dashboards."
+  },
+  "referenceIntake": {
+    "path": "docs/design/dashboard-kit-reference-intake.md"
+  },
+  "designReview": {
+    "path": "docs/design/dashboard-kit-design-review.md"
+  },
+  "proof": {
+    "playwrightConfig": "web/playwright.config.ts",
+    "captureScript": "scripts/capture-dashboard-visual-baseline.mjs"
+  },
+  "surfaces": [
+    {
+      "id": "hermes-dashboard-kit-gallery",
+      "path": "packages/hermes-dashboard-kit/src/index.js",
+      "role": "kit-source",
+      "status": "production",
+      "requiredComponents": [
+        "DashboardKitGallery",
+        "PremiumComparisonChart",
+        "PremiumMarketBrowser",
+        "PremiumMediaApprovalWorkspace",
+        "PremiumPlannerCalendar",
+        "PremiumDrilldownWorkspace"
+      ],
+      "markers": [
+        "renderDashboardKitGallery",
+        "renderPremiumComparisonChart",
+        "renderPremiumMarketBrowser",
+        "renderPremiumMediaApprovalWorkspace",
+        "renderPremiumPlannerCalendar",
+        "renderPremiumDrilldownWorkspace"
+      ],
+      "notes": "Canonical server-rendered gallery generator for dashboard-kit component review and maturity evidence."
+    },
+    {
+      "id": "hermes-dashboard-kit-gallery-web-route",
+      "path": "web/src/pages/DashboardKitGalleryPage.tsx",
+      "role": "page-content",
+      "status": "production",
+      "requiredComponents": [
+        "DashboardKitGallery",
+        "ProofStrip",
+        "DataTable",
+        "ChartPanel",
+        "PremiumComparisonChart",
+        "PremiumMarketBrowser",
+        "PremiumMediaApprovalWorkspace",
+        "PremiumPlannerCalendar",
+        "PremiumDrilldownWorkspace"
+      ],
+      "markers": [
+        "data-review-id=\"hermes.dashboard-kit-gallery\"",
+        "dashboardKitGalleryReport",
+        "dashboard-kit-gallery-kit.css",
+        "report.qualityGraphHtml",
+        "hdk-gallery-actual-demo",
+        "DashboardKitGallery",
+        "ProofStrip",
+        "DataTable",
+        "ChartPanel"
+      ],
+      "notes": "Operator-facing gallery route inside the Nous Hermes web shell."
+    }
+  ],
+  "exceptions": [
+    {
+      "id": "react-app-shell-owned-by-web-app",
+      "scope": "surface",
+      "surface": "hermes-dashboard-kit-gallery-web-route",
+      "reason": "The gallery route is page content inside the existing React application shell. Shell/sidebar/header evidence lives in web/src/App.tsx instead of being re-rendered inside the page route.",
+      "expiresAt": "2026-09-30"
+    }
+  ]
+}

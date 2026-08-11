@@ -1,0 +1,362 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-11T17:06:37.726Z",
+  "purpose": "Dashboard monitoring evidence registry for production health, freshness, and alert ownership.",
+  "statusMeaning": {
+    "current": "Monitoring is connected and latestCheck evidence is present.",
+    "declared": "Health/snapshot contracts exist, but no monitoring check evidence is recorded or the latest check failed.",
+    "missing": "The project lacks enough health/snapshot contract evidence for monitoring."
+  },
+  "entries": [
+    {
+      "schemaVersion": 1,
+      "projectId": "tlc-capital-group-os",
+      "label": "TLC Capital Group OS",
+      "status": "declared",
+      "healthUrl": "https://tlc.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://tlc.tlccapitalgroup.com/dashboard-snapshot",
+      "alertOwner": "tlc-enterprise",
+      "requiredSignals": [
+        "health endpoint status",
+        "snapshot freshness",
+        "primary dashboard proof freshness",
+        "deployment promotion status",
+        "error rate or failure count"
+      ],
+      "latestCheck": {
+        "status": "failed",
+        "capturedAt": "2026-08-11T17:06:37.726Z",
+        "checks": {
+          "health": {
+            "ok": false,
+            "status": null,
+            "ms": 20,
+            "error": "fetch failed"
+          },
+          "snapshot": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          }
+        }
+      },
+      "recommendedFix": "Repair failing health/snapshot checks, then rerun dashboard:monitoring:check."
+    },
+    {
+      "schemaVersion": 1,
+      "projectId": "nous-hermes-agent",
+      "label": "Nous Hermes Agent",
+      "status": "declared",
+      "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
+      "snapshotUrl": "https://agent.tlccapitalgroup.com/api/dashboard-snapshot",
+      "alertOwner": "hermes-standards",
+      "requiredSignals": [
+        "health endpoint status",
+        "snapshot freshness",
+        "primary dashboard proof freshness",
+        "deployment promotion status",
+        "error rate or failure count"
+      ],
+      "latestCheck": {
+        "status": "failed",
+        "capturedAt": "2026-08-11T17:06:37.726Z",
+        "checks": {
+          "health": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          },
+          "snapshot": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          }
+        }
+      },
+      "recommendedFix": "Repair failing health/snapshot checks, then rerun dashboard:monitoring:check."
+    },
+    {
+      "schemaVersion": 1,
+      "projectId": "hermes-os",
+      "label": "Hermes OS",
+      "status": "declared",
+      "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+      "snapshotUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+      "alertOwner": "hermes-runtime",
+      "requiredSignals": [
+        "health endpoint status",
+        "snapshot freshness",
+        "primary dashboard proof freshness",
+        "deployment promotion status",
+        "error rate or failure count"
+      ],
+      "latestCheck": {
+        "status": "failed",
+        "capturedAt": "2026-08-11T17:06:37.726Z",
+        "checks": {
+          "health": {
+            "ok": false,
+            "status": null,
+            "ms": 0,
+            "error": "fetch failed"
+          },
+          "snapshot": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          }
+        }
+      },
+      "recommendedFix": "Repair failing health/snapshot checks, then rerun dashboard:monitoring:check."
+    },
+    {
+      "schemaVersion": 1,
+      "projectId": "media-engine",
+      "label": "Media Engine",
+      "status": "declared",
+      "healthUrl": "https://media.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://media.tlccapitalgroup.com/dashboard-snapshot",
+      "alertOwner": "media-production",
+      "requiredSignals": [
+        "health endpoint status",
+        "snapshot freshness",
+        "primary dashboard proof freshness",
+        "deployment promotion status",
+        "error rate or failure count"
+      ],
+      "latestCheck": {
+        "status": "failed",
+        "capturedAt": "2026-08-11T17:06:37.726Z",
+        "checks": {
+          "health": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          },
+          "snapshot": {
+            "ok": false,
+            "status": null,
+            "ms": 0,
+            "error": "fetch failed"
+          }
+        }
+      },
+      "recommendedFix": "Repair failing health/snapshot checks, then rerun dashboard:monitoring:check."
+    },
+    {
+      "schemaVersion": 1,
+      "projectId": "media-business-operations",
+      "label": "Media Business Operations",
+      "status": "declared",
+      "healthUrl": "https://media-business-operations.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://media-business-operations.tlccapitalgroup.com/api/dashboard-summary",
+      "alertOwner": "media-business",
+      "requiredSignals": [
+        "health endpoint status",
+        "snapshot freshness",
+        "primary dashboard proof freshness",
+        "deployment promotion status",
+        "error rate or failure count"
+      ],
+      "latestCheck": {
+        "status": "failed",
+        "capturedAt": "2026-08-11T17:06:37.726Z",
+        "checks": {
+          "health": {
+            "ok": false,
+            "status": null,
+            "ms": 2,
+            "error": "fetch failed"
+          },
+          "snapshot": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          }
+        }
+      },
+      "recommendedFix": "Repair failing health/snapshot checks, then rerun dashboard:monitoring:check."
+    },
+    {
+      "schemaVersion": 1,
+      "projectId": "khashi-vc",
+      "label": "Khashi VC",
+      "status": "declared",
+      "healthUrl": "https://roc.tlccapitalgroup.com/readyz",
+      "snapshotUrl": "https://roc.tlccapitalgroup.com/api/dashboard-snapshot",
+      "alertOwner": "market-intelligence",
+      "requiredSignals": [
+        "health endpoint status",
+        "snapshot freshness",
+        "primary dashboard proof freshness",
+        "deployment promotion status",
+        "error rate or failure count"
+      ],
+      "latestCheck": {
+        "status": "failed",
+        "capturedAt": "2026-08-11T17:06:37.726Z",
+        "checks": {
+          "health": {
+            "ok": false,
+            "status": null,
+            "ms": 0,
+            "error": "fetch failed"
+          },
+          "snapshot": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          }
+        }
+      },
+      "recommendedFix": "Repair failing health/snapshot checks, then rerun dashboard:monitoring:check."
+    },
+    {
+      "schemaVersion": 1,
+      "projectId": "business-mapper",
+      "label": "Business Mapper / Consulting",
+      "status": "declared",
+      "healthUrl": "https://business-mapper.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://business-mapper.tlccapitalgroup.com/api/dashboard-snapshot",
+      "alertOwner": "consulting",
+      "requiredSignals": [
+        "health endpoint status",
+        "snapshot freshness",
+        "primary dashboard proof freshness",
+        "deployment promotion status",
+        "error rate or failure count"
+      ],
+      "latestCheck": {
+        "status": "failed",
+        "capturedAt": "2026-08-11T17:06:37.726Z",
+        "checks": {
+          "health": {
+            "ok": false,
+            "status": null,
+            "ms": 0,
+            "error": "fetch failed"
+          },
+          "snapshot": {
+            "ok": false,
+            "status": null,
+            "ms": 0,
+            "error": "fetch failed"
+          }
+        }
+      },
+      "recommendedFix": "Repair failing health/snapshot checks, then rerun dashboard:monitoring:check."
+    },
+    {
+      "schemaVersion": 1,
+      "projectId": "meal-assistant",
+      "label": "Meal Assistant",
+      "status": "declared",
+      "healthUrl": "https://meal.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://meal.tlccapitalgroup.com/api/dashboard-snapshot",
+      "alertOwner": "household-product",
+      "requiredSignals": [
+        "health endpoint status",
+        "snapshot freshness",
+        "primary dashboard proof freshness",
+        "deployment promotion status",
+        "error rate or failure count"
+      ],
+      "latestCheck": {
+        "status": "failed",
+        "capturedAt": "2026-08-11T17:06:37.726Z",
+        "checks": {
+          "health": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          },
+          "snapshot": {
+            "ok": false,
+            "status": null,
+            "ms": 0,
+            "error": "fetch failed"
+          }
+        }
+      },
+      "recommendedFix": "Repair failing health/snapshot checks, then rerun dashboard:monitoring:check."
+    },
+    {
+      "schemaVersion": 1,
+      "projectId": "rinseables-os",
+      "label": "Rinseables OS",
+      "status": "declared",
+      "healthUrl": "https://rinseables.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://rinseables.tlccapitalgroup.com/api/dashboard-snapshot",
+      "alertOwner": "rinseables-business",
+      "requiredSignals": [
+        "health endpoint status",
+        "snapshot freshness",
+        "primary dashboard proof freshness",
+        "deployment promotion status",
+        "error rate or failure count"
+      ],
+      "latestCheck": {
+        "status": "failed",
+        "capturedAt": "2026-08-11T17:06:37.726Z",
+        "checks": {
+          "health": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          },
+          "snapshot": {
+            "ok": false,
+            "status": null,
+            "ms": 0,
+            "error": "fetch failed"
+          }
+        }
+      },
+      "recommendedFix": "Repair failing health/snapshot checks, then rerun dashboard:monitoring:check."
+    },
+    {
+      "schemaVersion": 1,
+      "projectId": "investing-system",
+      "label": "Investing System",
+      "status": "declared",
+      "healthUrl": "https://investing.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://investing.tlccapitalgroup.com/api/dashboard-snapshot",
+      "alertOwner": "investment-operations",
+      "requiredSignals": [
+        "health endpoint status",
+        "snapshot freshness",
+        "primary dashboard proof freshness",
+        "deployment promotion status",
+        "error rate or failure count"
+      ],
+      "latestCheck": {
+        "status": "failed",
+        "capturedAt": "2026-08-11T17:06:37.726Z",
+        "checks": {
+          "health": {
+            "ok": false,
+            "status": null,
+            "ms": 0,
+            "error": "fetch failed"
+          },
+          "snapshot": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          }
+        }
+      },
+      "recommendedFix": "Repair failing health/snapshot checks, then rerun dashboard:monitoring:check."
+    }
+  ]
+}

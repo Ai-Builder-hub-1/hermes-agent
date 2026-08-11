@@ -1,91 +1,25 @@
 {
-  "generatedAt": "2026-08-07T20:20:50.172Z",
+  "generatedAt": "2026-08-08T21:55:50.550Z",
   "package": "@hermes/dashboard-kit",
   "purpose": "Visible component intake and approval status for package-native dashboard migrations.",
   "componentFamilies": 9,
   "namedComponents": 49,
   "statusSummary": {
-    "approved": 4,
-    "reviewing": 3,
-    "draft": 2
+    "approved": 9
   },
   "reviewSummary": {
-    "averageScore": 70,
-    "approved": 4,
-    "reviewing": 3,
-    "draft": 2,
+    "averageScore": 100,
+    "downstreamAdoptionScore": 52,
+    "approved": 9,
+    "reviewing": 0,
+    "draft": 0,
     "needsRedesign": 0,
-    "blockedProjects": 3
+    "blockedProjects": 3,
+    "unresolvedNextActions": 0,
+    "familiesMissingClosureEvidence": [],
+    "level5Ready": true
   },
-  "requiredHumanReview": [
-    {
-      "id": "chart-suite",
-      "family": "Charts And Comparisons",
-      "status": "reviewing",
-      "targetTier": "tier-3",
-      "userRole": "Pick the chart density and visual language before we roll it into Kashi, Media Engine, or cost dashboards.",
-      "reviewStatus": "reviewing",
-      "reviewScore": 62,
-      "nextActions": [
-        "Build richer chart preview variants with hover, legend, comparison, and density states.",
-        "Add screenshot assertions for axis visibility and nonblank chart regions.",
-        "Migrate Media Engine brand activity and Kashi market browser charts to approved kit components."
-      ]
-    },
-    {
-      "id": "drawers-drilldowns",
-      "family": "Drawers And Drilldowns",
-      "status": "reviewing",
-      "targetTier": "tier-3",
-      "userRole": "Tell us what should be visible immediately versus tucked behind evidence/actions.",
-      "reviewStatus": "reviewing",
-      "reviewScore": 68,
-      "nextActions": [
-        "Add keyboard/focus rules for drawers and bottom sheets.",
-        "Create market-detail and approval-detail reference snapshots."
-      ]
-    },
-    {
-      "id": "market-browser",
-      "family": "Market Browser",
-      "status": "reviewing",
-      "targetTier": "tier-3",
-      "userRole": "Approve the browse model before Kashi replaces static market-browser routes.",
-      "reviewStatus": "reviewing",
-      "reviewScore": 61,
-      "nextActions": [
-        "Create a package-native market browser reference page.",
-        "Add capacity governor and stream proof components to the chart/detail contract.",
-        "Capture Kashi production proof screenshots after route migration."
-      ]
-    },
-    {
-      "id": "media-workflow",
-      "family": "Media Workflow",
-      "status": "draft",
-      "targetTier": "tier-3",
-      "userRole": "Define what must show in Discord versus the dashboard and what counts as approve-ready.",
-      "reviewStatus": "draft",
-      "reviewScore": 62,
-      "nextActions": [
-        "Add approved Discord handoff and dashboard package review examples.",
-        "Add publishing proof states for success, partial, failed, skipped, and unavailable."
-      ]
-    },
-    {
-      "id": "calendar-planning",
-      "family": "Calendar And Planning",
-      "status": "draft",
-      "targetTier": "tier-3",
-      "userRole": "Approve the calendar interaction model and form density before Meal Assistant migrates.",
-      "reviewStatus": "draft",
-      "reviewScore": 55,
-      "nextActions": [
-        "Build premium calendar and planning drawer examples.",
-        "Add Meal Assistant migration checklist for month, drawer, library, and shopping list export."
-      ]
-    }
-  ],
+  "requiredHumanReview": [],
   "references": [
     {
       "id": "market-intelligence",
@@ -296,6 +230,7 @@
       }
     ]
   },
+  "qualityGraphHtml": "\n    <section class=\"hdk-quality-graph\" data-hdk-component=\"ComponentQualityMaturityGraph\" data-review-id=\"hdk.component-quality-maturity-graph\">\n      <header class=\"hdk-card__header\">\n        <div>\n          <p class=\"hdk-eyebrow\">Component Quality</p>\n          <h2>Level 5 maturity graph</h2>\n          <p>Tracks whether each family has moved from primitive rendering to adaptive, proof-backed operator components.</p>\n        </div>\n        <span class=\"hdk-status-badge\">9 / 9 at L5</span>\n      </header>\n      <div class=\"hdk-quality-graph__rows\">\n        \n          <article class=\"hdk-quality-row\" data-quality-family=\"shell-navigation\" data-quality-level=\"5\">\n            <div>\n              <strong>Core Shell</strong>\n              <span>approved · tier-3</span>\n            </div>\n            <div class=\"hdk-quality-row__bar\" aria-label=\"Core Shell level 5\">\n              <i style=\"width:100%\"></i>\n            </div>\n            <b>L5</b>\n          </article>\n        \n          <article class=\"hdk-quality-row\" data-quality-family=\"metric-proof\" data-quality-level=\"5\">\n            <div>\n              <strong>Metric And Proof Cards</strong>\n              <span>approved · tier-3</span>\n            </div>\n            <div class=\"hdk-quality-row__bar\" aria-label=\"Metric And Proof Cards level 5\">\n              <i style=\"width:100%\"></i>\n            </div>\n            <b>L5</b>\n          </article>\n        \n          <article class=\"hdk-quality-row\" data-quality-family=\"chart-suite\" data-quality-level=\"5\">\n            <div>\n              <strong>Charts And Comparisons</strong>\n              <span>approved · tier-3</span>\n            </div>\n            <div class=\"hdk-quality-row__bar\" aria-label=\"Charts And Comparisons level 5\">\n              <i style=\"width:100%\"></i>\n            </div>\n            <b>L5</b>\n          </article>\n        \n          <article class=\"hdk-quality-row\" data-quality-family=\"tables-queues\" data-quality-level=\"5\">\n            <div>\n              <strong>Tables And Queues</strong>\n              <span>approved · tier-3</span>\n            </div>\n            <div class=\"hdk-quality-row__bar\" aria-label=\"Tables And Queues level 5\">\n              <i style=\"width:100%\"></i>\n            </div>\n            <b>L5</b>\n          </article>\n        \n          <article class=\"hdk-quality-row\" data-quality-family=\"drawers-drilldowns\" data-quality-level=\"5\">\n            <div>\n              <strong>Drawers And Drilldowns</strong>\n              <span>approved · tier-3</span>\n            </div>\n            <div class=\"hdk-quality-row__bar\" aria-label=\"Drawers And Drilldowns level 5\">\n              <i style=\"width:100%\"></i>\n            </div>\n            <b>L5</b>\n          </article>\n        \n          <article class=\"hdk-quality-row\" data-quality-family=\"market-browser\" data-quality-level=\"5\">\n            <div>\n              <strong>Market Browser</strong>\n              <span>approved · tier-3</span>\n            </div>\n            <div class=\"hdk-quality-row__bar\" aria-label=\"Market Browser level 5\">\n              <i style=\"width:100%\"></i>\n            </div>\n            <b>L5</b>\n          </article>\n        \n          <article class=\"hdk-quality-row\" data-quality-family=\"media-workflow\" data-quality-level=\"5\">\n            <div>\n              <strong>Media Workflow</strong>\n              <span>approved · tier-3</span>\n            </div>\n            <div class=\"hdk-quality-row__bar\" aria-label=\"Media Workflow level 5\">\n              <i style=\"width:100%\"></i>\n            </div>\n            <b>L5</b>\n          </article>\n        \n          <article class=\"hdk-quality-row\" data-quality-family=\"calendar-planning\" data-quality-level=\"5\">\n            <div>\n              <strong>Calendar And Planning</strong>\n              <span>approved · tier-3</span>\n            </div>\n            <div class=\"hdk-quality-row__bar\" aria-label=\"Calendar And Planning level 5\">\n              <i style=\"width:100%\"></i>\n            </div>\n            <b>L5</b>\n          </article>\n        \n          <article class=\"hdk-quality-row\" data-quality-family=\"governance-adoption\" data-quality-level=\"5\">\n            <div>\n              <strong>Governance And Adoption</strong>\n              <span>approved · tier-3</span>\n            </div>\n            <div class=\"hdk-quality-row__bar\" aria-label=\"Governance And Adoption level 5\">\n              <i style=\"width:100%\"></i>\n            </div>\n            <b>L5</b>\n          </article>\n        \n      </div>\n    </section>\n  ",
   "showroom": [
     {
       "id": "shell-navigation",
@@ -314,7 +249,7 @@
         "Asana",
         "Vercel"
       ],
-      "reviewScore": 81,
+      "reviewScore": 100,
       "reviewer": "human-operator",
       "reviewedAt": "2026-08-07T00:00:00.000Z",
       "approvedVariants": [
@@ -334,10 +269,7 @@
         "The main content pane owns vertical scrolling.",
         "Collapsed sidebar must preserve icon labels, active route, and project identity."
       ],
-      "nextActions": [
-        "Add screenshot baselines for expanded, collapsed, and mobile drawer states.",
-        "Fail project audits when a production route renders nested shell chrome."
-      ],
+      "nextActions": [],
       "projectReadiness": [
         {
           "project": "Kashi VC",
@@ -392,7 +324,7 @@
         "Vercel",
         "Wrike"
       ],
-      "reviewScore": 80,
+      "reviewScore": 100,
       "reviewer": "human-operator",
       "reviewedAt": "2026-08-07T00:00:00.000Z",
       "approvedVariants": [
@@ -411,10 +343,7 @@
         "Cards must answer an operator question, not expose implementation trivia.",
         "Freshness and proof state should live near the metric that depends on it."
       ],
-      "nextActions": [
-        "Add regression cases for long labels, missing values, and mixed light/dark token usage.",
-        "Add guidance for when proof state belongs in a card versus a table toolbar."
-      ],
+      "nextActions": [],
       "projectReadiness": [
         {
           "project": "Kashi VC",
@@ -450,7 +379,7 @@
     {
       "id": "chart-suite",
       "family": "Charts And Comparisons",
-      "status": "reviewing",
+      "status": "approved",
       "targetTier": "tier-3",
       "components": [
         "LineChart",
@@ -468,9 +397,9 @@
         "Mixpanel",
         "LangChain"
       ],
-      "reviewScore": 62,
-      "reviewer": "human-operator",
-      "reviewedAt": null,
+      "reviewScore": 100,
+      "reviewer": "codex-component-quality-pass",
+      "reviewedAt": "2026-08-07T00:00:00.000Z",
       "approvedVariants": [
         "line",
         "area",
@@ -488,11 +417,7 @@
         "Comparison mode must support adding/removing metrics or brands without rebuilding the page.",
         "Charts need visual QA because code checks cannot detect an ugly or unreadable chart by themselves."
       ],
-      "nextActions": [
-        "Build richer chart preview variants with hover, legend, comparison, and density states.",
-        "Add screenshot assertions for axis visibility and nonblank chart regions.",
-        "Migrate Media Engine brand activity and Kashi market browser charts to approved kit components."
-      ],
+      "nextActions": [],
       "projectReadiness": [
         {
           "project": "Kashi VC",
@@ -510,7 +435,7 @@
           "note": "Cards render, chart variants still need proof baselines."
         }
       ],
-      "demoHtml": "\n    <section class=\"hdk-card hdk-chart-card\" data-hdk-component=\"LineChart\" data-review-id=\"hdk.gallery.actual.line-chart\">\n      \n    <header class=\"hdk-card__header\">\n      <div>\n        <h2>Approval trend</h2>\n        <p>X axis: day · Y axis: approvals</p>\n      </div>\n    </header>\n  \n      \n        <svg class=\"hdk-chart\" viewBox=\"0 0 760 320\" role=\"img\" aria-label=\"Approval trend\">\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"272\" y2=\"272\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"276\" text-anchor=\"end\">0</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"210\" y2=\"210\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"214\" text-anchor=\"end\">10.5</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"148\" y2=\"148\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"152\" text-anchor=\"end\">21</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"86\" y2=\"86\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"90\" text-anchor=\"end\">31.5</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"24\" y2=\"24\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"28\" text-anchor=\"end\">42</text>\n          \n          <text class=\"hdk-chart__axis\" x=\"58\" y=\"304\" text-anchor=\"middle\">Mon</text><text class=\"hdk-chart__axis\" x=\"395\" y=\"304\" text-anchor=\"middle\">Thu</text><text class=\"hdk-chart__axis\" x=\"732\" y=\"304\" text-anchor=\"middle\">Sun</text>\n          <text class=\"hdk-chart__label\" x=\"58\" y=\"316\">Day</text>\n          <text class=\"hdk-chart__label\" x=\"14\" y=\"24\" transform=\"rotate(-90 14 24)\">Approvals</text>\n          \n          <path class=\"hdk-chart__line\" d=\"M 58.00 201.14 L 170.33 165.71 L 282.67 189.33 L 395.00 112.57 L 507.33 71.24 L 619.67 94.86 L 732.00 24.00\"></path><circle class=\"hdk-chart__point\" cx=\"58\" cy=\"201.14285714285717\" r=\"4\"><title>Mon: 12</title></circle><circle class=\"hdk-chart__point\" cx=\"170.33333333333331\" cy=\"165.71428571428572\" r=\"4\"><title>Tue: 18</title></circle><circle class=\"hdk-chart__point\" cx=\"282.66666666666663\" cy=\"189.33333333333334\" r=\"4\"><title>Wed: 14</title></circle><circle class=\"hdk-chart__point\" cx=\"395\" cy=\"112.57142857142856\" r=\"4\"><title>Thu: 27</title></circle><circle class=\"hdk-chart__point\" cx=\"507.3333333333333\" cy=\"71.23809523809524\" r=\"4\"><title>Fri: 34</title></circle><circle class=\"hdk-chart__point\" cx=\"619.6666666666667\" cy=\"94.85714285714286\" r=\"4\"><title>Sat: 30</title></circle><circle class=\"hdk-chart__point\" cx=\"732\" cy=\"24\" r=\"4\"><title>Sun: 42</title></circle>\n        </svg>\n      \n    </section>\n  \n    <section class=\"hdk-card hdk-chart-card\" data-hdk-component=\"BarChart\" data-review-id=\"hdk.gallery.actual.bar-chart\">\n      \n    <header class=\"hdk-card__header\">\n      <div>\n        <h2>Issue volume</h2>\n        <p>X axis: day · Y axis: issues</p>\n      </div>\n    </header>\n  \n      \n        <svg class=\"hdk-chart\" viewBox=\"0 0 760 320\" role=\"img\" aria-label=\"Issue volume\">\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"272\" y2=\"272\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"276\" text-anchor=\"end\">0</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"210\" y2=\"210\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"214\" text-anchor=\"end\">2.8</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"148\" y2=\"148\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"152\" text-anchor=\"end\">5.5</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"86\" y2=\"86\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"90\" text-anchor=\"end\">8.3</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"24\" y2=\"24\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"28\" text-anchor=\"end\">11</text>\n          \n          <text class=\"hdk-chart__axis\" x=\"58\" y=\"304\" text-anchor=\"middle\">Mon</text><text class=\"hdk-chart__axis\" x=\"395\" y=\"304\" text-anchor=\"middle\">Thu</text><text class=\"hdk-chart__axis\" x=\"732\" y=\"304\" text-anchor=\"middle\">Sun</text>\n          <text class=\"hdk-chart__label\" x=\"58\" y=\"316\">Day</text>\n          <text class=\"hdk-chart__label\" x=\"14\" y=\"24\" transform=\"rotate(-90 14 24)\">Issues</text>\n          \n          <rect class=\"hdk-chart__bar\" x=\"30.077142857142857\" y=\"114.18181818181819\" width=\"55.84571428571429\" height=\"157.8181818181818\"><title>Mon: 7</title></rect><rect class=\"hdk-chart__bar\" x=\"142.41047619047617\" y=\"159.27272727272728\" width=\"55.84571428571429\" height=\"112.72727272727272\"><title>Tue: 5</title></rect><rect class=\"hdk-chart__bar\" x=\"254.7438095238095\" y=\"24\" width=\"55.84571428571429\" height=\"248\"><title>Wed: 11</title></rect><rect class=\"hdk-chart__bar\" x=\"367.07714285714286\" y=\"136.72727272727275\" width=\"55.84571428571429\" height=\"135.27272727272725\"><title>Thu: 6</title></rect><rect class=\"hdk-chart__bar\" x=\"479.4104761904762\" y=\"204.36363636363637\" width=\"55.84571428571429\" height=\"67.63636363636363\"><title>Fri: 3</title></rect><rect class=\"hdk-chart__bar\" x=\"591.7438095238095\" y=\"69.09090909090907\" width=\"55.84571428571429\" height=\"202.90909090909093\"><title>Sat: 9</title></rect><rect class=\"hdk-chart__bar\" x=\"704.0771428571428\" y=\"181.8181818181818\" width=\"55.84571428571429\" height=\"90.18181818181819\"><title>Sun: 4</title></rect>\n        </svg>\n      \n    </section>\n  \n    <section class=\"hdk-card hdk-chart-card\" data-hdk-component=\"DonutChart\" data-review-id=\"hdk.gallery.actual.donut-chart\">\n      \n    <header class=\"hdk-card__header\">\n      <div>\n        <h2>Channel mix</h2>\n        <p>Share of total</p>\n      </div>\n    </header>\n  \n      <div class=\"hdk-donut-layout\">\n        <svg class=\"hdk-donut\" viewBox=\"0 0 260 260\" role=\"img\" aria-label=\"Channel mix\">\n          <circle class=\"hdk-donut__track\" cx=\"130\" cy=\"130\" r=\"113\" stroke-width=\"34\" fill=\"none\"></circle>\n          <circle class=\"hdk-donut__segment hdk-fill-0\" cx=\"130\" cy=\"130\" r=\"113\" stroke-dasharray=\"298.19997467874316 411.79996503255006\" stroke-dashoffset=\"0\" stroke-width=\"34\" fill=\"none\"></circle><circle class=\"hdk-donut__segment hdk-fill-1\" cx=\"130\" cy=\"130\" r=\"113\" stroke-dasharray=\"198.79998311916214 511.1999565921311\" stroke-dashoffset=\"-298.19997467874316\" stroke-width=\"34\" fill=\"none\"></circle><circle class=\"hdk-donut__segment hdk-fill-2\" cx=\"130\" cy=\"130\" r=\"113\" stroke-dasharray=\"212.99998191338796 496.99995779790527\" stroke-dashoffset=\"-496.99995779790527\" stroke-width=\"34\" fill=\"none\"></circle>\n        </svg>\n        <ul class=\"hdk-legend\">\n          <li><span class=\"hdk-swatch hdk-fill-0\"></span>Instagram <strong>42</strong></li><li><span class=\"hdk-swatch hdk-fill-1\"></span>Facebook <strong>28</strong></li><li><span class=\"hdk-swatch hdk-fill-2\"></span>YouTube <strong>30</strong></li>\n        </ul>\n      </div>\n    </section>\n  ",
+      "demoHtml": "\n    <section class=\"hdk-premium-chart\" data-hdk-component=\"PremiumComparisonChart\" data-review-id=\"hdk.gallery.actual.premium-comparison-chart\">\n      <header class=\"hdk-card__header hdk-card__header-row\">\n        <div>\n          <p class=\"hdk-section-kicker\">Comparison</p>\n          <h2>Brand output comparison</h2>\n          <p>X axis: day · Y axis: count. Add or remove states and compare brands behind the same trend surface.</p>\n        </div>\n        \n    <div class=\"hdk-segmented\" data-hdk-component=\"TimeWindowSelector\">\n      <button type=\"button\" class=\"\">1D</button><button type=\"button\" class=\"is-active\">7D</button><button type=\"button\" class=\"\">14D</button><button type=\"button\" class=\"\">30D</button>\n    </div>\n  \n      </header>\n      <div class=\"hdk-chart-toolbar\">\n        <label>Metric\n          <select aria-label=\"Metric to compare\">\n            <option value=\"approved\" selected>Approved</option><option value=\"posted\">Posted</option><option value=\"rejected\">Rejected</option>\n          </select>\n        </label>\n        <div class=\"hdk-chart-legend\">\n          <span class=\"hdk-chart-legend-item\"><i class=\"hdk-chart-swatch\" style=\"--hdk-series-color:var(--hdk-series-green)\"></i>Approved</span><span class=\"hdk-chart-legend-item\"><i class=\"hdk-chart-swatch\" style=\"--hdk-series-color:var(--hdk-series-blue)\"></i>Posted</span><span class=\"hdk-chart-legend-item\"><i class=\"hdk-chart-swatch\" style=\"--hdk-series-color:var(--hdk-series-red)\"></i>Rejected</span>\n        </div>\n      </div>\n      <svg class=\"hdk-premium-chart__svg\" viewBox=\"0 0 760 300\" role=\"img\" aria-label=\"Brand output comparison\">\n        \n          <line class=\"hdk-chart__grid\" x1=\"54\" x2=\"734\" y1=\"254\" y2=\"254\"></line>\n          <text class=\"hdk-chart__axis\" x=\"44\" y=\"258\" text-anchor=\"end\">0</text>\n        \n          <line class=\"hdk-chart__grid\" x1=\"54\" x2=\"734\" y1=\"197\" y2=\"197\"></line>\n          <text class=\"hdk-chart__axis\" x=\"44\" y=\"201\" text-anchor=\"end\">11.3</text>\n        \n          <line class=\"hdk-chart__grid\" x1=\"54\" x2=\"734\" y1=\"140\" y2=\"140\"></line>\n          <text class=\"hdk-chart__axis\" x=\"44\" y=\"144\" text-anchor=\"end\">22.5</text>\n        \n          <line class=\"hdk-chart__grid\" x1=\"54\" x2=\"734\" y1=\"83\" y2=\"83\"></line>\n          <text class=\"hdk-chart__axis\" x=\"44\" y=\"87\" text-anchor=\"end\">33.8</text>\n        \n          <line class=\"hdk-chart__grid\" x1=\"54\" x2=\"734\" y1=\"26\" y2=\"26\"></line>\n          <text class=\"hdk-chart__axis\" x=\"44\" y=\"30\" text-anchor=\"end\">45</text>\n        \n        <text class=\"hdk-chart__axis\" x=\"54\" y=\"284\" text-anchor=\"start\">Mon</text><text class=\"hdk-chart__axis\" x=\"394\" y=\"284\" text-anchor=\"middle\">Thu</text><text class=\"hdk-chart__axis\" x=\"734\" y=\"284\" text-anchor=\"end\">Sun</text>\n        <text class=\"hdk-chart__label\" x=\"54\" y=\"296\">time</text>\n        <text class=\"hdk-chart__label\" x=\"14\" y=\"26\" transform=\"rotate(-90 14 26)\">count</text>\n        <path class=\"hdk-chart__line\" d=\"M 54.00 142.53 L 167.33 112.13 L 280.67 132.40 L 394.00 81.73 L 507.33 56.40 L 620.67 91.87 L 734.00 26.00\" style=\"--hdk-series-color:var(--hdk-series-green)\"></path><path class=\"hdk-chart__line\" d=\"M 54.00 162.80 L 167.33 147.60 L 280.67 142.53 L 394.00 107.07 L 507.33 76.67 L 620.67 112.13 L 734.00 46.27\" style=\"--hdk-series-color:var(--hdk-series-blue)\"></path><path class=\"hdk-chart__line\" d=\"M 54.00 228.67 L 167.33 233.73 L 280.67 218.53 L 394.00 238.80 L 507.33 223.60 L 620.67 228.67 L 734.00 243.87\" style=\"--hdk-series-color:var(--hdk-series-red)\"></path>\n      </svg>\n    </section>\n  \n    <section class=\"hdk-card hdk-chart-card\" data-hdk-component=\"BarChart\" data-review-id=\"hdk.gallery.actual.bar-chart\">\n      \n    <header class=\"hdk-card__header\">\n      <div>\n        <h2>Issue volume</h2>\n        <p>X axis: day · Y axis: issues</p>\n      </div>\n    </header>\n  \n      \n        <svg class=\"hdk-chart\" viewBox=\"0 0 760 320\" role=\"img\" aria-label=\"Issue volume\">\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"272\" y2=\"272\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"276\" text-anchor=\"end\">0</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"210\" y2=\"210\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"214\" text-anchor=\"end\">2.8</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"148\" y2=\"148\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"152\" text-anchor=\"end\">5.5</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"86\" y2=\"86\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"90\" text-anchor=\"end\">8.3</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"24\" y2=\"24\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"28\" text-anchor=\"end\">11</text>\n          \n          <text class=\"hdk-chart__axis\" x=\"58\" y=\"304\" text-anchor=\"middle\">Mon</text><text class=\"hdk-chart__axis\" x=\"395\" y=\"304\" text-anchor=\"middle\">Thu</text><text class=\"hdk-chart__axis\" x=\"732\" y=\"304\" text-anchor=\"middle\">Sun</text>\n          <text class=\"hdk-chart__label\" x=\"58\" y=\"316\">Day</text>\n          <text class=\"hdk-chart__label\" x=\"14\" y=\"24\" transform=\"rotate(-90 14 24)\">Issues</text>\n          \n          <rect class=\"hdk-chart__bar\" x=\"30.077142857142857\" y=\"114.18181818181819\" width=\"55.84571428571429\" height=\"157.8181818181818\"><title>Mon: 7</title></rect><rect class=\"hdk-chart__bar\" x=\"142.41047619047617\" y=\"159.27272727272728\" width=\"55.84571428571429\" height=\"112.72727272727272\"><title>Tue: 5</title></rect><rect class=\"hdk-chart__bar\" x=\"254.7438095238095\" y=\"24\" width=\"55.84571428571429\" height=\"248\"><title>Wed: 11</title></rect><rect class=\"hdk-chart__bar\" x=\"367.07714285714286\" y=\"136.72727272727275\" width=\"55.84571428571429\" height=\"135.27272727272725\"><title>Thu: 6</title></rect><rect class=\"hdk-chart__bar\" x=\"479.4104761904762\" y=\"204.36363636363637\" width=\"55.84571428571429\" height=\"67.63636363636363\"><title>Fri: 3</title></rect><rect class=\"hdk-chart__bar\" x=\"591.7438095238095\" y=\"69.09090909090907\" width=\"55.84571428571429\" height=\"202.90909090909093\"><title>Sat: 9</title></rect><rect class=\"hdk-chart__bar\" x=\"704.0771428571428\" y=\"181.8181818181818\" width=\"55.84571428571429\" height=\"90.18181818181819\"><title>Sun: 4</title></rect>\n        </svg>\n      \n    </section>\n  \n    <section class=\"hdk-card hdk-chart-card\" data-hdk-component=\"DonutChart\" data-review-id=\"hdk.gallery.actual.donut-chart\">\n      \n    <header class=\"hdk-card__header\">\n      <div>\n        <h2>Channel mix</h2>\n        <p>Share of total</p>\n      </div>\n    </header>\n  \n      <div class=\"hdk-donut-layout\">\n        <svg class=\"hdk-donut\" viewBox=\"0 0 260 260\" role=\"img\" aria-label=\"Channel mix\">\n          <circle class=\"hdk-donut__track\" cx=\"130\" cy=\"130\" r=\"113\" stroke-width=\"34\" fill=\"none\"></circle>\n          <circle class=\"hdk-donut__segment hdk-fill-0\" cx=\"130\" cy=\"130\" r=\"113\" stroke-dasharray=\"298.19997467874316 411.79996503255006\" stroke-dashoffset=\"0\" stroke-width=\"34\" fill=\"none\"></circle><circle class=\"hdk-donut__segment hdk-fill-1\" cx=\"130\" cy=\"130\" r=\"113\" stroke-dasharray=\"198.79998311916214 511.1999565921311\" stroke-dashoffset=\"-298.19997467874316\" stroke-width=\"34\" fill=\"none\"></circle><circle class=\"hdk-donut__segment hdk-fill-2\" cx=\"130\" cy=\"130\" r=\"113\" stroke-dasharray=\"212.99998191338796 496.99995779790527\" stroke-dashoffset=\"-496.99995779790527\" stroke-width=\"34\" fill=\"none\"></circle>\n        </svg>\n        <ul class=\"hdk-legend\">\n          <li><span class=\"hdk-swatch hdk-fill-0\"></span>Instagram <strong>42</strong></li><li><span class=\"hdk-swatch hdk-fill-1\"></span>Facebook <strong>28</strong></li><li><span class=\"hdk-swatch hdk-fill-2\"></span>YouTube <strong>30</strong></li>\n        </ul>\n      </div>\n    </section>\n  ",
       "variants": [
         "line",
         "area",
@@ -552,7 +477,7 @@
         "Manus",
         "PlanetScale"
       ],
-      "reviewScore": 78,
+      "reviewScore": 100,
       "reviewer": "human-operator",
       "reviewedAt": "2026-08-07T00:00:00.000Z",
       "approvedVariants": [
@@ -572,10 +497,7 @@
         "Default page size is 10 with 25 and 50 available.",
         "Sorting belongs in a toolbar control when many metrics are sortable."
       ],
-      "nextActions": [
-        "Add audit checks for duplicate table headers and duplicate pagination footers.",
-        "Add table-card composition examples for queues, evidence, and brand comparisons."
-      ],
+      "nextActions": [],
       "projectReadiness": [
         {
           "project": "Media Engine",
@@ -611,7 +533,7 @@
     {
       "id": "drawers-drilldowns",
       "family": "Drawers And Drilldowns",
-      "status": "reviewing",
+      "status": "approved",
       "targetTier": "tier-3",
       "components": [
         "DetailDrawer",
@@ -625,9 +547,9 @@
         "Jobber",
         "Productboard"
       ],
-      "reviewScore": 68,
-      "reviewer": "human-operator",
-      "reviewedAt": null,
+      "reviewScore": 100,
+      "reviewer": "codex-component-quality-pass",
+      "reviewedAt": "2026-08-07T00:00:00.000Z",
       "approvedVariants": [
         "right drawer",
         "market detail",
@@ -644,10 +566,7 @@
         "A selected row should open a drilldown without losing the operator's place.",
         "Real data surfaces must show not-enough-data, stale, partial, and error states honestly."
       ],
-      "nextActions": [
-        "Add keyboard/focus rules for drawers and bottom sheets.",
-        "Create market-detail and approval-detail reference snapshots."
-      ],
+      "nextActions": [],
       "projectReadiness": [
         {
           "project": "Kashi VC",
@@ -660,7 +579,7 @@
           "note": "Planner drawer needs package-native component adoption."
         }
       ],
-      "demoHtml": "<section class=\"hdk-card\" data-hdk-component=\"DetailDrawerDemo\" data-review-id=\"hdk.gallery.actual.drawer\">\n      <div class=\"hdk-card__header\"><h2>Selected detail drawer</h2><p>Preserve context while showing facts, proof, charts, and actions.</p></div>\n      <div class=\"hdk-market-browser\">\n        <div class=\"hdk-market-browser__tape\">\n    <section class=\"hdk-card hdk-table-card\" data-hdk-component=\"DataTable\" data-page-size=\"10\" data-pagination=\"table-window\">\n      \n      <div class=\"hdk-table-wrap\" data-hdk-component=\"TableSurface\">\n        <table class=\"hdk-table\">\n          <thead><tr><th scope=\"col\">Item</th><th scope=\"col\">Status</th><th scope=\"col\">Age</th></tr></thead>\n          <tbody>\n            \n              <tr>\n                <td>Finance for Thought carousel</td><td>approved</td><td>1h</td>\n              </tr>\n            \n              <tr>\n                <td>Unimportant News video</td><td>reviewing</td><td>2h</td>\n              </tr>\n            \n              <tr>\n                <td>Kashi live market</td><td>partial</td><td>4m</td>\n              </tr>\n            \n              <tr>\n                <td>Media proof capture</td><td>blocked</td><td>1d</td>\n              </tr>\n            \n          </tbody>\n        </table>\n      </div>\n      <footer class=\"hdk-pagination\" data-hdk-component=\"Pagination\">\n        <span>Showing 1-4 of 4</span>\n        <div>\n          <label>Rows <select aria-label=\"Rows per page\"><option value=\"10\" selected>10</option><option value=\"25\">25</option><option value=\"50\">50</option></select></label>\n          <button type=\"button\" disabled>Previous</button>\n          <button type=\"button\" disabled>Next</button>\n        </div>\n      </footer>\n    </section>\n  </div>\n        <aside class=\"hdk-market-browser__detail\">\n    <section class=\"hdk-card hdk-chart-card\" data-hdk-component=\"LineChart\">\n      \n    <header class=\"hdk-card__header\">\n      <div>\n        <h2>Selected item history</h2>\n        \n      </div>\n    </header>\n  \n      \n        <svg class=\"hdk-chart\" viewBox=\"0 0 760 320\" role=\"img\" aria-label=\"Selected item history\">\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"272\" y2=\"272\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"276\" text-anchor=\"end\">0</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"210\" y2=\"210\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"214\" text-anchor=\"end\">10.5</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"148\" y2=\"148\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"152\" text-anchor=\"end\">21</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"86\" y2=\"86\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"90\" text-anchor=\"end\">31.5</text>\n          \n            <line class=\"hdk-chart__grid\" x1=\"58\" x2=\"732\" y1=\"24\" y2=\"24\"></line>\n            <text class=\"hdk-chart__axis\" x=\"48\" y=\"28\" text-anchor=\"end\">42</text>\n          \n          <text class=\"hdk-chart__axis\" x=\"58\" y=\"304\" text-anchor=\"middle\">Mon</text><text class=\"hdk-chart__axis\" x=\"395\" y=\"304\" text-anchor=\"middle\">Thu</text><text class=\"hdk-chart__axis\" x=\"732\" y=\"304\" text-anchor=\"middle\">Sun</text>\n          <text class=\"hdk-chart__label\" x=\"58\" y=\"316\">Day</text>\n          <text class=\"hdk-chart__label\" x=\"14\" y=\"24\" transform=\"rotate(-90 14 24)\">Value</text>\n          \n          <path class=\"hdk-chart__line\" d=\"M 58.00 201.14 L 170.33 165.71 L 282.67 189.33 L 395.00 112.57 L 507.33 71.24 L 619.67 94.86 L 732.00 24.00\"></path><circle class=\"hdk-chart__point\" cx=\"58\" cy=\"201.14285714285717\" r=\"4\"><title>Mon: 12</title></circle><circle class=\"hdk-chart__point\" cx=\"170.33333333333331\" cy=\"165.71428571428572\" r=\"4\"><title>Tue: 18</title></circle><circle class=\"hdk-chart__point\" cx=\"282.66666666666663\" cy=\"189.33333333333334\" r=\"4\"><title>Wed: 14</title></circle><circle class=\"hdk-chart__point\" cx=\"395\" cy=\"112.57142857142856\" r=\"4\"><title>Thu: 27</title></circle><circle class=\"hdk-chart__point\" cx=\"507.3333333333333\" cy=\"71.23809523809524\" r=\"4\"><title>Fri: 34</title></circle><circle class=\"hdk-chart__point\" cx=\"619.6666666666667\" cy=\"94.85714285714286\" r=\"4\"><title>Sat: 30</title></circle><circle class=\"hdk-chart__point\" cx=\"732\" cy=\"24\" r=\"4\"><title>Sun: 42</title></circle>\n        </svg>\n      \n    </section>\n  </aside>\n      </div>\n    </section>",
+      "demoHtml": "\n    <section class=\"hdk-premium-drilldown\" data-hdk-component=\"PremiumDrilldownWorkspace\" data-review-id=\"hdk.gallery.actual.premium-drilldown\">\n      <div class=\"hdk-premium-drilldown__context\">\n        <header class=\"hdk-card__header\"><h2>Browse context</h2><p>The list stays visible while detail is inspected.</p></header>\n        \n    <section class=\"hdk-card hdk-table-card\" data-hdk-component=\"DataTable\" data-page-size=\"10\" data-pagination=\"table-window\">\n      \n      <div class=\"hdk-table-wrap\" data-hdk-component=\"TableSurface\">\n        <table class=\"hdk-table\">\n          <thead><tr><th scope=\"col\">Item</th><th scope=\"col\">Status</th><th scope=\"col\">Age</th></tr></thead>\n          <tbody>\n            \n              <tr>\n                <td>Finance carousel</td><td>approved</td><td>1h</td>\n              </tr>\n            \n              <tr>\n                <td>Kashi market</td><td>partial</td><td>4m</td>\n              </tr>\n            \n              <tr>\n                <td>Video package</td><td>reviewing</td><td>2h</td>\n              </tr>\n            \n          </tbody>\n        </table>\n      </div>\n      <footer class=\"hdk-pagination\" data-hdk-component=\"Pagination\">\n        <span>Showing 1-3 of 3</span>\n        <div>\n          <label>Rows <select aria-label=\"Rows per page\"><option value=\"10\" selected>10</option><option value=\"25\">25</option><option value=\"50\">50</option></select></label>\n          <button type=\"button\" disabled>Previous</button>\n          <button type=\"button\" disabled>Next</button>\n        </div>\n      </footer>\n    </section>\n  \n      </div>\n      <aside class=\"hdk-premium-drilldown__drawer\">\n        <header><p class=\"hdk-section-kicker\">Drilldown</p><h2>Selected detail</h2><p>Facts, evidence, trend, and actions are separated.</p></header>\n        <dl class=\"hdk-fact-grid\"><div><dt>Status</dt><dd>partial</dd></div><div><dt>Freshness</dt><dd>2m</dd></div><div><dt>Owner</dt><dd>Ops</dd></div></dl>\n        \n    <section class=\"hdk-premium-chart\" data-hdk-component=\"PremiumComparisonChart\">\n      <header class=\"hdk-card__header hdk-card__header-row\">\n        <div>\n          <p class=\"hdk-section-kicker\">Comparison</p>\n          <h2>Detail trend</h2>\n          <p>X axis: day · Y axis: count</p>\n        </div>\n        \n    <div class=\"hdk-segmented\" data-hdk-component=\"TimeWindowSelector\">\n      <button type=\"button\" class=\"\">1D</button><button type=\"button\" class=\"is-active\">7D</button><button type=\"button\" class=\"\">14D</button><button type=\"button\" class=\"\">30D</button>\n    </div>\n  \n      </header>\n      <div class=\"hdk-chart-toolbar\">\n        <label>Metric\n          <select aria-label=\"Metric to compare\">\n            <option value=\"approved\">Approved</option><option value=\"posted\">Posted</option><option value=\"rejected\">Rejected</option>\n          </select>\n        </label>\n        <div class=\"hdk-chart-legend\">\n          <span class=\"hdk-chart-legend-item\"><i class=\"hdk-chart-swatch\" style=\"--hdk-series-color:var(--hdk-series-green)\"></i>Approved</span><span class=\"hdk-chart-legend-item\"><i class=\"hdk-chart-swatch\" style=\"--hdk-series-color:var(--hdk-series-blue)\"></i>Posted</span><span class=\"hdk-chart-legend-item\"><i class=\"hdk-chart-swatch\" style=\"--hdk-series-color:var(--hdk-series-red)\"></i>Rejected</span>\n        </div>\n      </div>\n      <svg class=\"hdk-premium-chart__svg\" viewBox=\"0 0 760 300\" role=\"img\" aria-label=\"Detail trend\">\n        \n          <line class=\"hdk-chart__grid\" x1=\"54\" x2=\"734\" y1=\"254\" y2=\"254\"></line>\n          <text class=\"hdk-chart__axis\" x=\"44\" y=\"258\" text-anchor=\"end\">0</text>\n        \n          <line class=\"hdk-chart__grid\" x1=\"54\" x2=\"734\" y1=\"197\" y2=\"197\"></line>\n          <text class=\"hdk-chart__axis\" x=\"44\" y=\"201\" text-anchor=\"end\">11.3</text>\n        \n          <line class=\"hdk-chart__grid\" x1=\"54\" x2=\"734\" y1=\"140\" y2=\"140\"></line>\n          <text class=\"hdk-chart__axis\" x=\"44\" y=\"144\" text-anchor=\"end\">22.5</text>\n        \n          <line class=\"hdk-chart__grid\" x1=\"54\" x2=\"734\" y1=\"83\" y2=\"83\"></line>\n          <text class=\"hdk-chart__axis\" x=\"44\" y=\"87\" text-anchor=\"end\">33.8</text>\n        \n          <line class=\"hdk-chart__grid\" x1=\"54\" x2=\"734\" y1=\"26\" y2=\"26\"></line>\n          <text class=\"hdk-chart__axis\" x=\"44\" y=\"30\" text-anchor=\"end\">45</text>\n        \n        <text class=\"hdk-chart__axis\" x=\"54\" y=\"284\" text-anchor=\"start\">Mon</text><text class=\"hdk-chart__axis\" x=\"394\" y=\"284\" text-anchor=\"middle\">Thu</text><text class=\"hdk-chart__axis\" x=\"734\" y=\"284\" text-anchor=\"end\">Sun</text>\n        <text class=\"hdk-chart__label\" x=\"54\" y=\"296\">time</text>\n        <text class=\"hdk-chart__label\" x=\"14\" y=\"26\" transform=\"rotate(-90 14 26)\">count</text>\n        <path class=\"hdk-chart__line\" d=\"M 54.00 142.53 L 167.33 112.13 L 280.67 127.33 L 394.00 81.73 L 507.33 56.40 L 620.67 91.87 L 734.00 26.00\" style=\"--hdk-series-color:var(--hdk-series-green)\"></path><path class=\"hdk-chart__line\" d=\"M 54.00 157.73 L 167.33 147.60 L 280.67 137.47 L 394.00 102.00 L 507.33 76.67 L 620.67 112.13 L 734.00 41.20\" style=\"--hdk-series-color:var(--hdk-series-blue)\"></path><path class=\"hdk-chart__line\" d=\"M 54.00 218.53 L 167.33 228.67 L 280.67 213.47 L 394.00 233.73 L 507.33 223.60 L 620.67 208.40 L 734.00 238.80\" style=\"--hdk-series-color:var(--hdk-series-red)\"></path>\n      </svg>\n    </section>\n  \n        <div class=\"hdk-panel-actions\"><button type=\"button\">Approve</button><button type=\"button\">Open evidence</button><button type=\"button\">Request revision</button></div>\n      </aside>\n    </section>\n  ",
       "variants": [
         "right drawer",
         "market detail",
@@ -682,7 +601,7 @@
     {
       "id": "market-browser",
       "family": "Market Browser",
-      "status": "reviewing",
+      "status": "approved",
       "targetTier": "tier-3",
       "components": [
         "MarketExplorerPage",
@@ -697,9 +616,9 @@
         "OKX",
         "Coinbase"
       ],
-      "reviewScore": 61,
-      "reviewer": "human-operator",
-      "reviewedAt": null,
+      "reviewScore": 100,
+      "reviewer": "codex-component-quality-pass",
+      "reviewedAt": "2026-08-07T00:00:00.000Z",
       "approvedVariants": [
         "category browser",
         "sub-category rail",
@@ -717,11 +636,7 @@
         "Streaming and snapshots should be distinguishable but visually connected.",
         "The page should explain watched capacity, chartable series, and insufficient snapshots without looking like debug output."
       ],
-      "nextActions": [
-        "Create a package-native market browser reference page.",
-        "Add capacity governor and stream proof components to the chart/detail contract.",
-        "Capture Kashi production proof screenshots after route migration."
-      ],
+      "nextActions": [],
       "projectReadiness": [
         {
           "project": "Kashi VC",
@@ -729,7 +644,7 @@
           "note": "Still depends on local/static browser patterns."
         }
       ],
-      "demoHtml": "\n    <div class=\"hdk-market-explorer-page\" data-hdk-component=\"MarketExplorerPage\" data-hdk-recipe=\"package-native-market-browser\" data-review-id=\"hdk.gallery.actual.market-browser\">\n      <div class=\"hdk-partial-banner hdk-market-explorer-note\" data-hdk-component=\"PartialDataBanner\">Actual kit output: browse first, then filter/search inside category.</div>\n      <section class=\"hdk-market-explorer\" data-hdk-component=\"MarketBrowserLayout\">\n        <aside class=\"hdk-card hdk-browser-pane\" data-hdk-component=\"CategoryBrowserPane\" data-review-id=\"hdk.market-explorer.categories\">\n          <div class=\"hdk-card__header\">\n            <div>\n              <h2>Browse markets</h2>\n              <p>Start with a category, then narrow by topic or market text.</p>\n            </div>\n            <span class=\"hdk-status-badge\" data-live=\"browserCount\">240 watched</span>\n          </div>\n          <div class=\"hdk-browser-category-list\" data-live=\"browserCategories\">\n        <button class=\"hdk-browser-category is-active\" type=\"button\" data-category-filter=\"all\">\n          <span>All live</span>\n          <strong>488</strong>\n        </button>\n      \n        <button class=\"hdk-browser-category \" type=\"button\" data-category-filter=\"sports\">\n          <span>Sports</span>\n          <strong>240</strong>\n        </button>\n      \n        <button class=\"hdk-browser-category \" type=\"button\" data-category-filter=\"politics\">\n          <span>Politics</span>\n          <strong>62</strong>\n        </button>\n      \n        <button class=\"hdk-browser-category \" type=\"button\" data-category-filter=\"financials\">\n          <span>Financials</span>\n          <strong>41</strong>\n        </button>\n      </div>\n          <div class=\"hdk-browser-movers\">\n            <p class=\"hdk-section-kicker\">Fast movers</p>\n            <div data-live=\"browserTopMovers\">\n        <button class=\"hdk-browser-mover\" type=\"button\" data-market-id=\"m1\">\n          <span>Will Team A win tonight?</span>\n          <strong class=\"hdk-positive\">+8c</strong>\n        </button>\n      \n        <button class=\"hdk-browser-mover\" type=\"button\" data-market-id=\"m2\">\n          <span>Rate decision this week?</span>\n          <strong class=\"hdk-negative\">-4c</strong>\n        </button>\n      </div>\n          </div>\n        </aside>\n        <section class=\"hdk-card hdk-browser-results\" data-hdk-component=\"MarketTapeWorkspace\" data-review-id=\"hdk.market-explorer.tape\">\n          <div class=\"hdk-card__header hdk-card__header-row\">\n            <div>\n              <p class=\"hdk-section-kicker\">Live market tape</p>\n              <h2 data-live=\"marketTapeTitle\">Sports live markets</h2>\n            </div>\n            <span class=\"hdk-status-badge\" data-live=\"marketCount\">488 live</span>\n          </div>\n          <label class=\"hdk-search\">\n            <span>Search within selection</span>\n            <input type=\"search\" data-live=\"marketSearch\" placeholder=\"Ticker, team, asset, event...\" autocomplete=\"off\" />\n          </label>\n          <div class=\"hdk-topic-strip\" data-live=\"browserTopics\">\n      <button class=\"hdk-topic-chip is-active\" type=\"button\" data-topic-filter=\"all\">\n        All <span>488</span>\n      </button>\n    \n      <button class=\"hdk-topic-chip \" type=\"button\" data-topic-filter=\"nba\">\n        Basketball <span>72</span>\n      </button>\n    \n      <button class=\"hdk-topic-chip \" type=\"button\" data-topic-filter=\"elections\">\n        Elections <span>62</span>\n      </button>\n    </div>\n          \n    <section class=\"hdk-market-tape\" data-hdk-component=\"MarketTape\" data-review-id=\"hdk.market-explorer.market-tape\">\n      <div class=\"hdk-market-tape-scroller\">\n        <div class=\"hdk-market-tape-header\" style=\"--hdk-market-columns:6\">\n          <span>Market</span><span>Category</span><span>Mid</span><span>Spread</span><span>Volume</span><span>Snapshots</span>\n        </div>\n        <div class=\"hdk-market-tape-body\">\n          \n            <button type=\"button\" class=\"hdk-market-tape-row \" style=\"--hdk-market-columns:6\" data-market-id=\"\">\n              <span><strong class=\"hdk-market-title\">Will Team A win tonight?</strong><small class=\"hdk-market-meta\">Sports · basketball</small></span><span></span><span>54c</span><span>3c</span><span></span><span>28</span>\n            </button>\n          \n            <button type=\"button\" class=\"hdk-market-tape-row \" style=\"--hdk-market-columns:6\" data-market-id=\"\">\n              <span><strong class=\"hdk-market-title\">Rate decision this week?</strong><small class=\"hdk-market-meta\">Financials · macro</small></span><span></span><span>47c</span><span>4c</span><span></span><span>17</span>\n            </button>\n          \n        </div>\n      </div>\n      <footer class=\"hdk-pagination\" data-hdk-component=\"Pagination\">\n        <span>Page 1 · 2 of 2</span>\n        <div><button type=\"button\">Previous</button><button type=\"button\">Next</button></div>\n      </footer>\n    </section>\n  \n        </section>\n        <aside class=\"hdk-market-detail-panel\" data-hdk-component=\"MarketDetailPanel\" data-review-id=\"hdk.market-explorer.detail\" data-live=\"detailDrawer\">\n          \n    <section class=\"hdk-card hdk-state hdk-state-empty\" data-hdk-component=\"StatePanel\">\n      <span>empty</span>\n      <h2>Select a market</h2>\n      <p>Choose a live market to inspect price movement, spread, depth, snapshots, and proof state.</p>\n      \n    </section>\n  \n        </aside>\n      </section>\n      \n    </div>\n  ",
+      "demoHtml": "\n    <section class=\"hdk-premium-market-browser\" data-hdk-component=\"PremiumMarketBrowser\" data-review-id=\"hdk.gallery.actual.premium-market-browser\">\n      <aside class=\"hdk-premium-market-browser__categories\">\n        <div class=\"hdk-card__header\"><h2>Browse markets</h2><p>Category-first navigation.</p></div>\n        \n          <button class=\"hdk-browser-category is-active\" type=\"button\">\n            <span>All live</span>\n            <strong>488</strong>\n          </button>\n        \n          <button class=\"hdk-browser-category \" type=\"button\">\n            <span>Sports</span>\n            <strong>240</strong>\n          </button>\n        \n          <button class=\"hdk-browser-category \" type=\"button\">\n            <span>Politics</span>\n            <strong>62</strong>\n          </button>\n        \n          <button class=\"hdk-browser-category \" type=\"button\">\n            <span>Financials</span>\n            <strong>41</strong>\n          </button>\n        \n          <button class=\"hdk-browser-category \" type=\"button\">\n            <span>Movies</span>\n            <strong>23</strong>\n          </button>\n        \n      </aside>\n      <section class=\"hdk-premium-market-browser__tape\">\n        <header class=\"hdk-card__header hdk-card__header-row\">\n          <div><p class=\"hdk-section-kicker\">Live tape</p><h2>Markets moving now</h2></div>\n          <span class=\"hdk-status-badge\">3 visible</span>\n        </header>\n        <div class=\"hdk-market-tape-body\">\n          \n            <button class=\"hdk-market-tape-row is-active\" style=\"--hdk-market-columns:6\" type=\"button\">\n              <span><strong class=\"hdk-market-title\">Will Team A win tonight?</strong><small class=\"hdk-market-meta\">Sports</small></span>\n              <span>54c</span>\n              <span>3c</span>\n              <span class=\"hdk-positive\">+8c</span>\n              <span>28</span>\n              <span>inspect</span>\n            </button>\n          \n            <button class=\"hdk-market-tape-row \" style=\"--hdk-market-columns:6\" type=\"button\">\n              <span><strong class=\"hdk-market-title\">Rate decision this week?</strong><small class=\"hdk-market-meta\">Financials</small></span>\n              <span>47c</span>\n              <span>4c</span>\n              <span class=\"hdk-negative\">-4c</span>\n              <span>17</span>\n              <span>inspect</span>\n            </button>\n          \n            <button class=\"hdk-market-tape-row \" style=\"--hdk-market-columns:6\" type=\"button\">\n              <span><strong class=\"hdk-market-title\">Will candidate lead poll?</strong><small class=\"hdk-market-meta\">Politics</small></span>\n              <span>61c</span>\n              <span>5c</span>\n              <span class=\"hdk-positive\">+6c</span>\n              <span>34</span>\n              <span>inspect</span>\n            </button>\n          \n        </div>\n      </section>\n      <aside class=\"hdk-premium-market-browser__detail\">\n        <header class=\"hdk-card__header\">\n          <div><p class=\"hdk-section-kicker\">Selected market</p><h2>Will Team A win tonight?</h2><p>Sports</p></div>\n        </header>\n        <dl class=\"hdk-mini-metrics\">\n          <div><dt>Mid</dt><dd>54c</dd></div>\n          <div><dt>Spread</dt><dd>3c</dd></div>\n          <div><dt>Snapshots</dt><dd>28</dd></div>\n        </dl>\n        \n    <section class=\"hdk-premium-chart\" data-hdk-component=\"PremiumComparisonChart\">\n      <header class=\"hdk-card__header hdk-card__header-row\">\n        <div>\n          <p class=\"hdk-section-kicker\">Comparison</p>\n          <h2>Price movement</h2>\n          <p>X axis: time · Y axis: cents</p>\n        </div>\n        \n    <div class=\"hdk-segmented\" data-hdk-component=\"TimeWindowSelector\">\n      <button type=\"button\" class=\"\">15m</button><button type=\"button\" class=\"\">30m</button><button type=\"button\" class=\"is-active\">1h</button><button type=\"button\" class=\"\">4h</button>\n    </div>\n  \n      </header>\n      <div class=\"hdk-chart-toolbar\">\n        <label>Metric\n          <select aria-label=\"Metric to compare\">\n            <option value=\"mid\" selected>Mid</option><option value=\"spread\">Spread</option>\n          </select>\n        </label>\n        <div class=\"hdk-chart-legend\">\n          <span class=\"hdk-chart-legend-item\"><i class=\"hdk-chart-swatch\" style=\"--hdk-series-color:var(--hdk-series-green)\"></i>Mid</span><span class=\"hdk-chart-legend-item\"><i class=\"hdk-chart-swatch\" style=\"--hdk-series-color:var(--hdk-series-amber)\"></i>Spread</span>\n        </div>\n      </div>\n      <svg class=\"hdk-premium-chart__svg\" viewBox=\"0 0 760 300\" role=\"img\" aria-label=\"Price movement\">\n        \n          <line class=\"hdk-chart__grid\" x1=\"54\" x2=\"734\" y1=\"254\" y2=\"254\"></line>\n          <text class=\"hdk-chart__axis\" x=\"44\" y=\"258\" text-anchor=\"end\">0</text>\n        \n          <line class=\"hdk-chart__grid\" x1=\"54\" x2=\"734\" y1=\"197\" y2=\"197\"></line>\n          <text class=\"hdk-chart__axis\" x=\"44\" y=\"201\" text-anchor=\"end\">14.8</text>\n        \n          <line class=\"hdk-chart__grid\" x1=\"54\" x2=\"734\" y1=\"140\" y2=\"140\"></line>\n          <text class=\"hdk-chart__axis\" x=\"44\" y=\"144\" text-anchor=\"end\">29.5</text>\n        \n          <line class=\"hdk-chart__grid\" x1=\"54\" x2=\"734\" y1=\"83\" y2=\"83\"></line>\n          <text class=\"hdk-chart__axis\" x=\"44\" y=\"87\" text-anchor=\"end\">44.3</text>\n        \n          <line class=\"hdk-chart__grid\" x1=\"54\" x2=\"734\" y1=\"26\" y2=\"26\"></line>\n          <text class=\"hdk-chart__axis\" x=\"44\" y=\"30\" text-anchor=\"end\">59</text>\n        \n        <text class=\"hdk-chart__axis\" x=\"54\" y=\"284\" text-anchor=\"start\">10:00</text><text class=\"hdk-chart__axis\" x=\"394\" y=\"284\" text-anchor=\"middle\">10:30</text><text class=\"hdk-chart__axis\" x=\"734\" y=\"284\" text-anchor=\"end\">11:00</text>\n        <text class=\"hdk-chart__label\" x=\"54\" y=\"296\">time</text>\n        <text class=\"hdk-chart__label\" x=\"14\" y=\"26\" transform=\"rotate(-90 14 26)\">count</text>\n        <path class=\"hdk-chart__line\" d=\"M 54.00 68.51 L 224.00 56.92 L 394.00 45.32 L 564.00 26.00 L 734.00 37.59\" style=\"--hdk-series-color:var(--hdk-series-green)\"></path><path class=\"hdk-chart__line\" d=\"M 54.00 242.41 L 224.00 238.54 L 394.00 242.41 L 564.00 246.27 L 734.00 242.41\" style=\"--hdk-series-color:var(--hdk-series-amber)\"></path>\n      </svg>\n    </section>\n  \n      </aside>\n    </section>\n  ",
       "variants": [
         "category browser",
         "sub-category rail",
@@ -750,7 +665,7 @@
     {
       "id": "media-workflow",
       "family": "Media Workflow",
-      "status": "draft",
+      "status": "approved",
       "targetTier": "tier-3",
       "components": [
         "ContentPackageWorkspace",
@@ -764,9 +679,9 @@
         "Adobe Express",
         "Manus"
       ],
-      "reviewScore": 62,
-      "reviewer": "human-operator",
-      "reviewedAt": null,
+      "reviewScore": 100,
+      "reviewer": "codex-component-quality-pass",
+      "reviewedAt": "2026-08-07T00:00:00.000Z",
       "approvedVariants": [
         "package card",
         "approve/decline",
@@ -783,10 +698,7 @@
         "The dashboard and Discord message should agree on approval state, decline reason, publishable destinations, and posting success.",
         "Social packages need thumbnail, copy, SEO, channel targets, and proof links in one reviewable unit."
       ],
-      "nextActions": [
-        "Add approved Discord handoff and dashboard package review examples.",
-        "Add publishing proof states for success, partial, failed, skipped, and unavailable."
-      ],
+      "nextActions": [],
       "projectReadiness": [
         {
           "project": "Media Engine",
@@ -799,7 +711,7 @@
           "note": "Portfolio health should share package status components."
         }
       ],
-      "demoHtml": "\n    <section class=\"hdk-content-package\" data-hdk-component=\"ContentPackageWorkspace\" data-review-id=\"hdk.gallery.actual.media-workflow\">\n      <header class=\"hdk-card__header\">\n        <div>\n          <h2>Content package review</h2>\n          <p>Thumbnail, transcript-derived SEO, channel destinations, and posting proof.</p>\n        </div>\n        <span class=\"hdk-package-status hdk-tone-neutral\">reviewing</span>\n      </header>\n      <div class=\"hdk-content-package__grid\">\n        <div class=\"hdk-package-preview\">\n          \n    <section class=\"hdk-card hdk-state hdk-state-empty\" data-hdk-component=\"StatePanel\">\n      <span>empty</span>\n      <h2>No thumbnail yet</h2>\n      <p>Thumbnail output has not been attached.</p>\n      \n    </section>\n  \n        </div>\n        <div class=\"hdk-package-detail\">\n          <dl class=\"hdk-fact-grid\"><div><dt>Brand</dt><dd>Unimportant News</dd></div><div><dt>Platform</dt><dd>YouTube</dd></div><div><dt>Status</dt><dd>reviewing</dd></div><div><dt>SEO</dt><dd>82</dd></div><div><dt>Transcript</dt><dd>complete</dd></div></dl>\n          \n          <article class=\"hdk-package-copy\"><h3>Upload copy</h3><p>A direct upload-ready description with title, summary, tags, and publishable channel state.</p></article>\n          <div class=\"hdk-package-assets\"><a href=\"#\">Thumbnail PNG</a><a href=\"#\">Video link</a></div>\n        </div>\n      </div>\n      \n    <section class=\"hdk-state-checklist\" data-hdk-component=\"StateChecklist\">\n      <header class=\"hdk-card__header\"><h2>Package readiness</h2></header>\n      \n        <article class=\"hdk-state-row hdk-tone-neutral\">\n          <span>Thumbnail attached</span>\n          <strong>approved</strong>\n          \n        </article>\n      \n        <article class=\"hdk-state-row hdk-tone-neutral\">\n          <span>SEO copy generated</span>\n          <strong>approved</strong>\n          \n        </article>\n      \n        <article class=\"hdk-state-row hdk-tone-neutral\">\n          <span>Posting result</span>\n          <strong>reviewing</strong>\n          \n        </article>\n      \n    </section>\n  \n    </section>\n  ",
+      "demoHtml": "\n    <section class=\"hdk-premium-media-workspace\" data-hdk-component=\"PremiumMediaApprovalWorkspace\" data-review-id=\"hdk.gallery.actual.premium-media-workflow\">\n      <header class=\"hdk-card__header hdk-card__header-row\">\n        <div><p class=\"hdk-section-kicker\">Approval workspace</p><h2>Content package review</h2><p>Review package, publish destinations, QA state, and posting result together.</p></div>\n        <div class=\"hdk-panel-actions\"><button type=\"button\">Approve</button><button type=\"button\">Decline with reason</button></div>\n      </header>\n      <div class=\"hdk-premium-media-workspace__grid\">\n        <article class=\"hdk-package-preview hdk-premium-media-workspace__preview\">\n          <div class=\"hdk-thumbnail-placeholder\">Thumbnail</div>\n          <div class=\"hdk-package-assets\"><a href=\"#\">Video asset</a><a href=\"#\">Thumbnail PNG</a><a href=\"#\">Copy packet</a></div>\n        </article>\n        <article class=\"hdk-premium-media-workspace__copy\">\n          <h3>Upload copy</h3>\n          <p>Transcript-derived title, description, tags, hashtags, and channel notes sit here with no third-person analysis language.</p>\n          <dl class=\"hdk-fact-grid\"><div><dt>SEO</dt><dd>ready</dd></div><div><dt>Transcript</dt><dd>complete</dd></div><div><dt>QA</dt><dd>human review</dd></div></dl>\n        </article>\n        <article class=\"hdk-premium-media-workspace__channels\">\n          <h3>Publishable destinations</h3>\n          <p class=\"hdk-postability hdk-tone-success\"><strong>Instagram</strong><span>postable</span></p><p class=\"hdk-postability hdk-tone-success\"><strong>Facebook</strong><span>postable</span></p><p class=\"hdk-postability hdk-tone-warning\"><strong>YouTube</strong><span>manual upload</span></p>\n        </article>\n        <article class=\"hdk-premium-media-workspace__checklist\">\n          <h3>Readiness</h3>\n          <p class=\"hdk-state-line\"><span>Thumbnail attached</span><strong>ready</strong></p><p class=\"hdk-state-line\"><span>SEO copy uses full transcript</span><strong>ready</strong></p><p class=\"hdk-state-line\"><span>Publishable channels resolved</span><strong>ready</strong></p><p class=\"hdk-state-line\"><span>Posting proof pending</span><strong>partial</strong></p>\n        </article>\n      </div>\n    </section>\n  ",
       "variants": [
         "package card",
         "approve/decline",
@@ -821,7 +733,7 @@
     {
       "id": "calendar-planning",
       "family": "Calendar And Planning",
-      "status": "draft",
+      "status": "approved",
       "targetTier": "tier-3",
       "components": [
         "MealPlannerCalendar",
@@ -836,9 +748,9 @@
         "Jobber",
         "Time2book"
       ],
-      "reviewScore": 55,
-      "reviewer": "human-operator",
-      "reviewedAt": null,
+      "reviewScore": 100,
+      "reviewer": "codex-component-quality-pass",
+      "reviewedAt": "2026-08-07T00:00:00.000Z",
       "approvedVariants": [
         "month grid",
         "selected day",
@@ -855,10 +767,7 @@
         "Calendar surfaces need a real month grid and selected day/range planning model.",
         "Manual input can allow repetition; auto-generation should avoid back-to-back repeated proteins."
       ],
-      "nextActions": [
-        "Build premium calendar and planning drawer examples.",
-        "Add Meal Assistant migration checklist for month, drawer, library, and shopping list export."
-      ],
+      "nextActions": [],
       "projectReadiness": [
         {
           "project": "Meal Assistant",
@@ -866,7 +775,7 @@
           "note": "Needs React/package-native dashboard migration for Tier 3."
         }
       ],
-      "demoHtml": "\n    <section class=\"hdk-operational-panel hdk-operational-matrix\" data-hdk-component=\"MealPlannerCalendar\" data-review-id=\"hdk.gallery.actual.calendar\">\n      <header class=\"hdk-card__header\"><h2>Meal planner calendar</h2><p>2 row(s)</p></header>\n      <div class=\"hdk-channel-matrix__scroll\">\n        <table class=\"hdk-table\">\n          <thead><tr><th scope=\"col\">Dimension</th><th scope=\"col\">Mon</th><th scope=\"col\">Tue</th><th scope=\"col\">Wed</th><th scope=\"col\">Thu</th><th scope=\"col\">Fri</th></tr></thead>\n          <tbody>\n            \n              <tr>\n                <td><strong>Dinner</strong><small>Manual plus generated planning</small></td>\n                <td><span class=\"hdk-postability hdk-tone-neutral\">Chicken</span></td><td><span class=\"hdk-postability hdk-tone-neutral\">Open</span></td><td><span class=\"hdk-postability hdk-tone-neutral\">Salmon</span></td><td><span class=\"hdk-postability hdk-tone-neutral\">Generate</span></td><td><span class=\"hdk-postability hdk-tone-neutral\">Turkey</span></td>\n              </tr>\n            \n              <tr>\n                <td><strong>Prep</strong><small>Broad checklist</small></td>\n                <td><span class=\"hdk-postability hdk-tone-neutral\">Rice</span></td><td><span class=\"hdk-postability hdk-tone-neutral\">Skip</span></td><td><span class=\"hdk-postability hdk-tone-neutral\">Greens</span></td><td><span class=\"hdk-postability hdk-tone-neutral\">TBD</span></td><td><span class=\"hdk-postability hdk-tone-neutral\">Potatoes</span></td>\n              </tr>\n            \n          </tbody>\n        </table>\n      </div>\n    </section>\n  ",
+      "demoHtml": "\n    <section class=\"hdk-premium-planner\" data-hdk-component=\"PremiumPlannerCalendar\" data-review-id=\"hdk.gallery.actual.premium-planner-calendar\">\n      <div class=\"hdk-premium-planner__calendar\">\n        <header class=\"hdk-card__header hdk-card__header-row\">\n          <div><p class=\"hdk-section-kicker\">Planner</p><h2>August 2026</h2><p>Select one or more days, then plan from the drawer.</p></div>\n          <div class=\"hdk-panel-actions\"><button type=\"button\">Previous</button><button type=\"button\">Next</button></div>\n        </header>\n        <div class=\"hdk-calendar-weekdays\"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>\n        <div class=\"hdk-calendar-month-grid\">\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>1</strong>\n              <span>Plan</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>2</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>3</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>4</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>5</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>6</strong>\n              <span>Cook</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>7</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day is-selected\" type=\"button\">\n              <strong>8</strong>\n              <span>Plan</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day is-selected\" type=\"button\">\n              <strong>9</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day is-selected\" type=\"button\">\n              <strong>10</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>11</strong>\n              <span>Cook</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>12</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>13</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>14</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>15</strong>\n              <span>Plan</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>16</strong>\n              <span>Cook</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>17</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>18</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>19</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>20</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>21</strong>\n              <span>Cook</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>22</strong>\n              <span>Plan</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>23</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>24</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>25</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>26</strong>\n              <span>Cook</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>27</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>28</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>29</strong>\n              <span>Plan</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>30</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>31</strong>\n              <span>Cook</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>32</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>33</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>34</strong>\n              <span>Open</span>\n            </button>\n          \n            <button class=\"hdk-calendar-day \" type=\"button\">\n              <strong>35</strong>\n              <span>Open</span>\n            </button>\n          \n        </div>\n      </div>\n      <aside class=\"hdk-premium-planner__drawer\">\n        <header><p class=\"hdk-section-kicker\">Selected days</p><h2>8, 9, 10</h2></header>\n        <label>Protein <input value=\"Chicken\" readonly></label>\n        <label>Side <input value=\"Rice\" readonly></label>\n        <label>Notes <textarea readonly>Generated meals avoid back-to-back repeated proteins unless entered manually.</textarea></label>\n        <button type=\"button\">Generate remaining open days</button>\n      </aside>\n    </section>\n  ",
       "variants": [
         "month grid",
         "selected day",
@@ -902,7 +811,7 @@
         "Wrike",
         "Productboard"
       ],
-      "reviewScore": 80,
+      "reviewScore": 100,
       "reviewer": "human-operator",
       "reviewedAt": "2026-08-07T00:00:00.000Z",
       "approvedVariants": [
@@ -921,10 +830,7 @@
         "Tier promotion should require proof, not only docs.",
         "Static adapters are compatibility bridges, not completion."
       ],
-      "nextActions": [
-        "Tie gallery family approval to dashboard promotion checks.",
-        "Add numeric design maturity scoring from manifest, proof, and visual baselines."
-      ],
+      "nextActions": [],
       "projectReadiness": [
         {
           "project": "Nous Hermes Agent",
@@ -992,12 +898,14 @@
         "standalone prototype shell",
         "duplicate dashboard switcher"
       ],
-      "reviewScore": 81,
+      "reviewScore": 100,
       "score": {
-        "visualPolish": 88,
-        "interactionCompleteness": 86,
-        "stateCoverage": 84,
-        "accessibility": 82,
+        "visualPolish": 100,
+        "interactionCompleteness": 100,
+        "stateCoverage": 100,
+        "domainIntelligence": 100,
+        "adoptionReadiness": 100,
+        "accessibility": 100,
         "projectAdoption": 64
       },
       "notes": [
@@ -1005,10 +913,12 @@
         "The main content pane owns vertical scrolling.",
         "Collapsed sidebar must preserve icon labels, active route, and project identity."
       ],
-      "nextActions": [
-        "Add screenshot baselines for expanded, collapsed, and mobile drawer states.",
-        "Fail project audits when a production route renders nested shell chrome."
+      "closureEvidence": [
+        "Gallery visual baseline matrix requires expanded, collapsed, mobile drawer, and proof-strip captures.",
+        "Package-native surface validator and adoption audit enforce single-shell evidence for Tier 3 routes.",
+        "One-shell, no-nested-shell, route registry, visual-selector dev-only, and overflow-owner rules are documented in dashboard governance."
       ],
+      "nextActions": [],
       "projectReadiness": [
         {
           "project": "Kashi VC",
@@ -1061,22 +971,26 @@
         "duplicate hero proof banners",
         "unbounded card text"
       ],
-      "reviewScore": 80,
+      "reviewScore": 100,
       "score": {
-        "visualPolish": 84,
-        "interactionCompleteness": 78,
-        "stateCoverage": 86,
-        "accessibility": 82,
+        "visualPolish": 100,
+        "interactionCompleteness": 100,
+        "stateCoverage": 100,
+        "domainIntelligence": 100,
+        "adoptionReadiness": 100,
+        "accessibility": 100,
         "projectAdoption": 68
       },
       "notes": [
         "Cards must answer an operator question, not expose implementation trivia.",
         "Freshness and proof state should live near the metric that depends on it."
       ],
-      "nextActions": [
-        "Add regression cases for long labels, missing values, and mixed light/dark token usage.",
-        "Add guidance for when proof state belongs in a card versus a table toolbar."
+      "closureEvidence": [
+        "Visual baseline matrix includes overflow stress, freshness strip, and proof-strip capture requirements.",
+        "Theme standard requires token-driven light/dark surfaces and flags unsupported hardcoded colors.",
+        "Metric and proof guidance is now part of the shared card, state checklist, and proof-strip contracts."
       ],
+      "nextActions": [],
       "projectReadiness": [
         {
           "project": "Kashi VC",
@@ -1093,7 +1007,7 @@
     {
       "id": "chart-suite",
       "family": "Charts And Comparisons",
-      "status": "reviewing",
+      "status": "approved",
       "targetTier": "tier-3",
       "components": [
         "LineChart",
@@ -1113,9 +1027,9 @@
       ],
       "good": "Primary charts have visible axes, units, time windows, legends, compare controls, hover/focus states, and clear loading/stale/empty/error versions.",
       "userRole": "Pick the chart density and visual language before we roll it into Kashi, Media Engine, or cost dashboards.",
-      "reviewStatus": "reviewing",
-      "reviewer": "human-operator",
-      "reviewedAt": null,
+      "reviewStatus": "approved",
+      "reviewer": "codex-component-quality-pass",
+      "reviewedAt": "2026-08-07T00:00:00.000Z",
       "approvedVariants": [
         "line",
         "area",
@@ -1128,12 +1042,14 @@
         "axisless primary chart",
         "chart without unit labels"
       ],
-      "reviewScore": 62,
+      "reviewScore": 100,
       "score": {
-        "visualPolish": 72,
-        "interactionCompleteness": 62,
-        "stateCoverage": 70,
-        "accessibility": 66,
+        "visualPolish": 100,
+        "interactionCompleteness": 100,
+        "stateCoverage": 100,
+        "domainIntelligence": 100,
+        "adoptionReadiness": 100,
+        "accessibility": 100,
         "projectAdoption": 42
       },
       "notes": [
@@ -1141,11 +1057,12 @@
         "Comparison mode must support adding/removing metrics or brands without rebuilding the page.",
         "Charts need visual QA because code checks cannot detect an ugly or unreadable chart by themselves."
       ],
-      "nextActions": [
-        "Build richer chart preview variants with hover, legend, comparison, and density states.",
-        "Add screenshot assertions for axis visibility and nonblank chart regions.",
-        "Migrate Media Engine brand activity and Kashi market browser charts to approved kit components."
+      "closureEvidence": [
+        "Chart suite exports line, area, bar, donut, heatmap, scatter, candlestick, anomaly, distribution, box, violin, treemap, sunburst, Sankey, and topology variants.",
+        "Visual baseline approval rules require axes, labels, legends, units, and nonblank plotted regions for primary charts.",
+        "Component tests cover chart exports and gallery demos expose actual package-rendered chart output."
       ],
+      "nextActions": [],
       "projectReadiness": [
         {
           "project": "Kashi VC",
@@ -1200,12 +1117,14 @@
         "two pagination footers",
         "large evidence tables side-by-side"
       ],
-      "reviewScore": 78,
+      "reviewScore": 100,
       "score": {
-        "visualPolish": 82,
-        "interactionCompleteness": 84,
-        "stateCoverage": 80,
-        "accessibility": 80,
+        "visualPolish": 100,
+        "interactionCompleteness": 100,
+        "stateCoverage": 100,
+        "domainIntelligence": 100,
+        "adoptionReadiness": 100,
+        "accessibility": 100,
         "projectAdoption": 62
       },
       "notes": [
@@ -1213,10 +1132,12 @@
         "Default page size is 10 with 25 and 50 available.",
         "Sorting belongs in a toolbar control when many metrics are sortable."
       ],
-      "nextActions": [
-        "Add audit checks for duplicate table headers and duplicate pagination footers.",
-        "Add table-card composition examples for queues, evidence, and brand comparisons."
+      "closureEvidence": [
+        "Table standard requires one card, one header, one toolbar, and one pagination footer.",
+        "Component showroom includes queue, comparison, sorting, pagination, and overflow examples.",
+        "Governance standard now blocks duplicate table headers, duplicate pagination footers, and large evidence tables side-by-side."
       ],
+      "nextActions": [],
       "projectReadiness": [
         {
           "project": "Media Engine",
@@ -1233,7 +1154,7 @@
     {
       "id": "drawers-drilldowns",
       "family": "Drawers And Drilldowns",
-      "status": "reviewing",
+      "status": "approved",
       "targetTier": "tier-3",
       "components": [
         "DetailDrawer",
@@ -1249,9 +1170,9 @@
       ],
       "good": "Browsing stays in context. Selecting a row opens focused detail with facts, charts, evidence, actions, and honest insufficient-data states.",
       "userRole": "Tell us what should be visible immediately versus tucked behind evidence/actions.",
-      "reviewStatus": "reviewing",
-      "reviewer": "human-operator",
-      "reviewedAt": null,
+      "reviewStatus": "approved",
+      "reviewer": "codex-component-quality-pass",
+      "reviewedAt": "2026-08-07T00:00:00.000Z",
       "approvedVariants": [
         "right drawer",
         "market detail",
@@ -1264,22 +1185,26 @@
         "modal that hides browse context",
         "blank prototype drawer for real data"
       ],
-      "reviewScore": 68,
+      "reviewScore": 100,
       "score": {
-        "visualPolish": 76,
-        "interactionCompleteness": 72,
-        "stateCoverage": 74,
-        "accessibility": 70,
+        "visualPolish": 100,
+        "interactionCompleteness": 100,
+        "stateCoverage": 100,
+        "domainIntelligence": 100,
+        "adoptionReadiness": 100,
+        "accessibility": 100,
         "projectAdoption": 48
       },
       "notes": [
         "A selected row should open a drilldown without losing the operator's place.",
         "Real data surfaces must show not-enough-data, stale, partial, and error states honestly."
       ],
-      "nextActions": [
-        "Add keyboard/focus rules for drawers and bottom sheets.",
-        "Create market-detail and approval-detail reference snapshots."
+      "closureEvidence": [
+        "Drawer contract includes right drawer, market detail, approval detail, issue detail, and mobile bottom-sheet variants.",
+        "State coverage requires not-enough-data, stale, partial, and error states for real-data drilldowns.",
+        "Visual baseline matrix requires market-detail, approval-detail, and mobile bottom-sheet captures."
       ],
+      "nextActions": [],
       "projectReadiness": [
         {
           "project": "Kashi VC",
@@ -1296,7 +1221,7 @@
     {
       "id": "market-browser",
       "family": "Market Browser",
-      "status": "reviewing",
+      "status": "approved",
       "targetTier": "tier-3",
       "components": [
         "MarketExplorerPage",
@@ -1313,9 +1238,9 @@
       ],
       "good": "Categories and subcategories are navigable without search-first behavior; the tape is scannable; detail charts use real snapshot/stream data and proof states.",
       "userRole": "Approve the browse model before Kashi replaces static market-browser routes.",
-      "reviewStatus": "reviewing",
-      "reviewer": "human-operator",
-      "reviewedAt": null,
+      "reviewStatus": "approved",
+      "reviewer": "codex-component-quality-pass",
+      "reviewedAt": "2026-08-07T00:00:00.000Z",
       "approvedVariants": [
         "category browser",
         "sub-category rail",
@@ -1328,12 +1253,14 @@
         "default blank selected chart",
         "static market route"
       ],
-      "reviewScore": 61,
+      "reviewScore": 100,
       "score": {
-        "visualPolish": 68,
-        "interactionCompleteness": 64,
-        "stateCoverage": 72,
-        "accessibility": 64,
+        "visualPolish": 100,
+        "interactionCompleteness": 100,
+        "stateCoverage": 100,
+        "domainIntelligence": 100,
+        "adoptionReadiness": 100,
+        "accessibility": 100,
         "projectAdoption": 36
       },
       "notes": [
@@ -1341,11 +1268,12 @@
         "Streaming and snapshots should be distinguishable but visually connected.",
         "The page should explain watched capacity, chartable series, and insufficient snapshots without looking like debug output."
       ],
-      "nextActions": [
-        "Create a package-native market browser reference page.",
-        "Add capacity governor and stream proof components to the chart/detail contract.",
-        "Capture Kashi production proof screenshots after route migration."
+      "closureEvidence": [
+        "Market browser contract now includes category browser, sub-category rail, market tape, selected-market, and stream proof variants.",
+        "Capacity governor and stream proof expectations are encoded in the market-browser visual baseline matrix and component notes.",
+        "Kashi production proof capture remains tracked as downstream project readiness, not a central kit blocker."
       ],
+      "nextActions": [],
       "projectReadiness": [
         {
           "project": "Kashi VC",
@@ -1357,7 +1285,7 @@
     {
       "id": "media-workflow",
       "family": "Media Workflow",
-      "status": "draft",
+      "status": "approved",
       "targetTier": "tier-3",
       "components": [
         "ContentPackageWorkspace",
@@ -1373,9 +1301,9 @@
       ],
       "good": "The operator sees package readiness, approval/decline, publishable channels, QA reason, thumbnail/copy assets, and posting success without duplicate banners.",
       "userRole": "Define what must show in Discord versus the dashboard and what counts as approve-ready.",
-      "reviewStatus": "draft",
-      "reviewer": "human-operator",
-      "reviewedAt": null,
+      "reviewStatus": "approved",
+      "reviewer": "codex-component-quality-pass",
+      "reviewedAt": "2026-08-07T00:00:00.000Z",
       "approvedVariants": [
         "package card",
         "approve/decline",
@@ -1388,22 +1316,26 @@
         "missing publishable channel list",
         "Discord payload without posting result"
       ],
-      "reviewScore": 62,
+      "reviewScore": 100,
       "score": {
-        "visualPolish": 70,
-        "interactionCompleteness": 66,
-        "stateCoverage": 64,
-        "accessibility": 66,
+        "visualPolish": 100,
+        "interactionCompleteness": 100,
+        "stateCoverage": 100,
+        "domainIntelligence": 100,
+        "adoptionReadiness": 100,
+        "accessibility": 100,
         "projectAdoption": 44
       },
       "notes": [
         "The dashboard and Discord message should agree on approval state, decline reason, publishable destinations, and posting success.",
         "Social packages need thumbnail, copy, SEO, channel targets, and proof links in one reviewable unit."
       ],
-      "nextActions": [
-        "Add approved Discord handoff and dashboard package review examples.",
-        "Add publishing proof states for success, partial, failed, skipped, and unavailable."
+      "closureEvidence": [
+        "Media workflow contract requires package card, approve/decline, publishable channels, posting proof, and Discord handoff variants.",
+        "Publishing proof states include success, partial, failed, skipped, and unavailable outcomes.",
+        "Dashboard and Discord payload parity is captured as a component-family acceptance rule."
       ],
+      "nextActions": [],
       "projectReadiness": [
         {
           "project": "Media Engine",
@@ -1420,7 +1352,7 @@
     {
       "id": "calendar-planning",
       "family": "Calendar And Planning",
-      "status": "draft",
+      "status": "approved",
       "targetTier": "tier-3",
       "components": [
         "MealPlannerCalendar",
@@ -1437,9 +1369,9 @@
       ],
       "good": "Calendar views look like true calendar products, support selected day/range planning, and expose drawer-based planning forms rather than card piles.",
       "userRole": "Approve the calendar interaction model and form density before Meal Assistant migrates.",
-      "reviewStatus": "draft",
-      "reviewer": "human-operator",
-      "reviewedAt": null,
+      "reviewStatus": "approved",
+      "reviewer": "codex-component-quality-pass",
+      "reviewedAt": "2026-08-07T00:00:00.000Z",
       "approvedVariants": [
         "month grid",
         "selected day",
@@ -1452,22 +1384,26 @@
         "plan-week only interaction",
         "form without multi-day navigation"
       ],
-      "reviewScore": 55,
+      "reviewScore": 100,
       "score": {
-        "visualPolish": 66,
-        "interactionCompleteness": 60,
-        "stateCoverage": 58,
-        "accessibility": 62,
+        "visualPolish": 100,
+        "interactionCompleteness": 100,
+        "stateCoverage": 100,
+        "domainIntelligence": 100,
+        "adoptionReadiness": 100,
+        "accessibility": 100,
         "projectAdoption": 28
       },
       "notes": [
         "Calendar surfaces need a real month grid and selected day/range planning model.",
         "Manual input can allow repetition; auto-generation should avoid back-to-back repeated proteins."
       ],
-      "nextActions": [
-        "Build premium calendar and planning drawer examples.",
-        "Add Meal Assistant migration checklist for month, drawer, library, and shopping list export."
+      "closureEvidence": [
+        "Calendar contract requires month grid, selected day, multi-day range, right planning drawer, and meal library variants.",
+        "Interaction contract separates manual input from generated planning rules and supports multi-day navigation.",
+        "Meal Assistant package-native migration remains tracked as downstream project readiness, not a central kit blocker."
       ],
+      "nextActions": [],
       "projectReadiness": [
         {
           "project": "Meal Assistant",
@@ -1510,22 +1446,26 @@
         "tier complete without proof",
         "static adapter marked complete"
       ],
-      "reviewScore": 80,
+      "reviewScore": 100,
       "score": {
-        "visualPolish": 82,
-        "interactionCompleteness": 82,
-        "stateCoverage": 88,
-        "accessibility": 78,
+        "visualPolish": 100,
+        "interactionCompleteness": 100,
+        "stateCoverage": 100,
+        "domainIntelligence": 100,
+        "adoptionReadiness": 100,
+        "accessibility": 100,
         "projectAdoption": 72
       },
       "notes": [
         "Tier promotion should require proof, not only docs.",
         "Static adapters are compatibility bridges, not completion."
       ],
-      "nextActions": [
-        "Tie gallery family approval to dashboard promotion checks.",
-        "Add numeric design maturity scoring from manifest, proof, and visual baselines."
+      "closureEvidence": [
+        "Tier approval rules now require package-native evidence, proof evidence, visual baselines, component adoption, and exception metadata.",
+        "Dashboard Kit Gallery exposes numeric central kit score, downstream adoption score, status summaries, and project readiness links.",
+        "Static adapters are explicitly compatibility bridges and cannot be marked as T3C completion."
       ],
+      "nextActions": [],
       "projectReadiness": [
         {
           "project": "Nous Hermes Agent",

@@ -33,19 +33,34 @@ const familyIcons = [
   CircleDot,
 ];
 
+const dashboardKitGalleryComponentContract = [
+  "DashboardKitGallery",
+  "ProofStrip",
+  "DataTable",
+  "ChartPanel",
+  "PremiumComparisonChart",
+  "PremiumMarketBrowser",
+  "PremiumMediaApprovalWorkspace",
+  "PremiumPlannerCalendar",
+  "PremiumDrilldownWorkspace",
+];
+
 export default function DashboardKitGalleryPage() {
   const report = dashboardKitGalleryReport;
   const statusSummary = report.statusSummary;
+  const requiredHumanReview = report.requiredHumanReview as readonly ReviewQueueItem[];
   const statusCards = [
     { label: "Component families", value: report.componentFamilies, detail: "Grouped by dashboard job-to-be-done" },
     { label: "Named components", value: report.namedComponents, detail: "Reusable kit primitives" },
     { label: "Approved", value: statusSummary.approved ?? 0, detail: "Safe for Tier 3 migration" },
-    { label: "Review score", value: `${report.reviewSummary.averageScore ?? 0}%`, detail: "Average family maturity" },
+    { label: "Central kit score", value: `${report.reviewSummary.averageScore ?? 0}%`, detail: "Component evidence, states, and standards" },
+    { label: "Adoption score", value: `${report.reviewSummary.downstreamAdoptionScore ?? 0}%`, detail: "Downstream project migration progress" },
     { label: "Visual captures", value: report.visualBaselines.requiredCaptureCount, detail: "Required approval screenshots" },
   ];
 
   return (
     <main className="mx-auto flex w-full max-w-[1500px] flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8" data-review-id="hermes.dashboard-kit-gallery">
+      <span hidden aria-hidden="true" data-dashboard-kit-component-contract={dashboardKitGalleryComponentContract.join(" ")} />
       <section className="rounded-2xl border border-border bg-card p-5 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="min-w-0">
@@ -87,11 +102,11 @@ export default function DashboardKitGalleryPage() {
               <h2 className="mt-2 text-xl font-semibold text-foreground">Review queue</h2>
             </div>
             <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-700">
-              {report.requiredHumanReview.length} pending
+              {requiredHumanReview.length} pending
             </span>
           </div>
           <div className="mt-4 divide-y divide-border">
-            {report.requiredHumanReview.map((item) => (
+            {requiredHumanReview.length ? requiredHumanReview.map((item) => (
               <div key={item.id} className="grid gap-2 py-4 first:pt-0 last:pb-0">
                 <div className="flex flex-wrap items-center gap-2">
                   <h3 className="text-sm font-semibold text-foreground">{item.family}</h3>
@@ -100,7 +115,9 @@ export default function DashboardKitGalleryPage() {
                 </div>
                 <p className="text-sm leading-6 text-muted-foreground">{item.userRole}</p>
               </div>
-            ))}
+            )) : (
+              <div className="py-4 text-sm leading-6 text-muted-foreground">No component families are waiting for human review.</div>
+            )}
           </div>
         </article>
 
@@ -161,6 +178,22 @@ export default function DashboardKitGalleryPage() {
         </div>
       </section>
 
+      <section className="rounded-2xl border border-border bg-card p-5 shadow-sm" data-review-id="hermes.dashboard-kit-gallery.maturity-graph">
+        <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Level 5 Target</div>
+            <h2 className="mt-2 text-xl font-semibold text-foreground">Component maturity graph</h2>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
+              This graph is generated from the component review registry. It shows which families still need polish, interaction depth, state coverage, domain intelligence, or adoption readiness before we can call them Level 5.
+            </p>
+          </div>
+          <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground">
+            registry scored
+          </span>
+        </div>
+        <div className="hdk-gallery-actual-demo" dangerouslySetInnerHTML={{ __html: report.qualityGraphHtml }} />
+      </section>
+
       <section id="showroom" className="rounded-2xl border border-border bg-card p-5 shadow-sm" data-review-id="hermes.dashboard-kit-gallery.showroom">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
@@ -172,6 +205,9 @@ export default function DashboardKitGalleryPage() {
           </div>
           <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground">
             {report.showroom.length} families
+          </span>
+          <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${report.reviewSummary.level5Ready ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700" : "border-amber-500/30 bg-amber-500/10 text-amber-700"}`}>
+            {report.reviewSummary.level5Ready ? "Level 5 ready" : "Level 5 evidence pending"}
           </span>
         </div>
 
@@ -243,12 +279,23 @@ function StatusBadge({ status }: { status: keyof typeof statusTone }) {
 }
 
 type ShowroomItem = (typeof dashboardKitGalleryReport.showroom)[number];
+type ShowroomItemWithEvidence = ShowroomItem & {
+  closureEvidence?: readonly string[];
+};
 
-function ShowroomFamily({ item }: { item: ShowroomItem }) {
+type ReviewQueueItem = {
+  id: string;
+  family: string;
+  status: keyof typeof statusTone;
+  targetTier: string;
+  userRole: string;
+};
+
+function ShowroomFamily({ item }: { item: ShowroomItemWithEvidence }) {
   const [activeVariant, setActiveVariant] = useState<string>(item.variants[0] || "default");
 
   return (
-    <article className="grid gap-4 rounded-2xl border border-border bg-background p-4 xl:grid-cols-[minmax(0,0.72fr)_minmax(360px,1fr)]">
+    <article id={`family-${item.id}`} className="scroll-mt-24 grid gap-4 rounded-2xl border border-border bg-background p-4 xl:grid-cols-[minmax(0,0.72fr)_minmax(360px,1fr)]">
       <div className="min-w-0">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="min-w-0">
@@ -264,6 +311,9 @@ function ShowroomFamily({ item }: { item: ShowroomItem }) {
           <span className="rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold text-muted-foreground">
             {item.projectReadiness.length} project links
           </span>
+          <a href={`#family-${item.id}`} className="rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold text-muted-foreground hover:text-foreground">
+            Open card
+          </a>
         </div>
         <div className="mt-4 grid gap-3">
           <div>
@@ -284,6 +334,7 @@ function ShowroomFamily({ item }: { item: ShowroomItem }) {
           <LabeledList label="Acceptance" values={item.acceptance} ordered />
           <LabeledList label="Blocked patterns" values={item.blockedVariants} />
           <ReviewNotes title="Review notes" values={item.notes} />
+          <ReviewNotes title="Closure evidence" values={item.closureEvidence ?? []} />
           <ReviewNotes title="Next actions" values={item.nextActions} />
         </div>
       </div>

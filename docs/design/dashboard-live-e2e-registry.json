@@ -1,0 +1,442 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-11T17:06:37.650Z",
+  "purpose": "Live E2E evidence registry for primary production dashboard workflows.",
+  "statusMeaning": {
+    "current": "A recent live E2E run passed and latestRun evidence is present.",
+    "declared": "The route/proof/snapshot contract exists, but no recent live E2E run is recorded or the latest run failed.",
+    "missing": "The project lacks enough route/proof/snapshot contract evidence to run live E2E."
+  },
+  "entries": [
+    {
+      "schemaVersion": 1,
+      "projectId": "tlc-capital-group-os",
+      "label": "TLC Capital Group OS",
+      "scenarioId": "tlc-capital-group-os.primary-operator-flow",
+      "status": "declared",
+      "route": "https://tlc.tlccapitalgroup.com/dashboard",
+      "proofUrl": "https://tlc.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://tlc.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://tlc.tlccapitalgroup.com/dashboard-snapshot",
+      "requiredAssertions": [
+        "primary route loads",
+        "readonly proof route loads",
+        "snapshot or outcome feed returns data",
+        "primary empty/error/stale state is visible when data is unavailable",
+        "no blank primary region"
+      ],
+      "latestRun": {
+        "status": "failed",
+        "capturedAt": "2026-08-11T17:06:37.650Z",
+        "checks": {
+          "health": {
+            "ok": false,
+            "status": null,
+            "ms": 25,
+            "error": "fetch failed"
+          },
+          "proof": {
+            "ok": false,
+            "status": null,
+            "ms": 2,
+            "error": "fetch failed"
+          },
+          "snapshot": {
+            "ok": false,
+            "status": null,
+            "ms": 2,
+            "error": "fetch failed"
+          }
+        }
+      },
+      "recommendedFix": "Repair failing health/proof/snapshot checks, then rerun dashboard:live-e2e:check."
+    },
+    {
+      "schemaVersion": 1,
+      "projectId": "nous-hermes-agent",
+      "label": "Nous Hermes Agent",
+      "scenarioId": "nous-hermes-agent.primary-operator-flow",
+      "status": "declared",
+      "route": "https://agent.tlccapitalgroup.com",
+      "proofUrl": "https://agent.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
+      "snapshotUrl": "https://agent.tlccapitalgroup.com/api/dashboard-snapshot",
+      "requiredAssertions": [
+        "primary route loads",
+        "readonly proof route loads",
+        "snapshot or outcome feed returns data",
+        "primary empty/error/stale state is visible when data is unavailable",
+        "no blank primary region"
+      ],
+      "latestRun": {
+        "status": "failed",
+        "capturedAt": "2026-08-11T17:06:37.650Z",
+        "checks": {
+          "health": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          },
+          "proof": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          },
+          "snapshot": {
+            "ok": false,
+            "status": null,
+            "ms": 3,
+            "error": "fetch failed"
+          }
+        }
+      },
+      "recommendedFix": "Repair failing health/proof/snapshot checks, then rerun dashboard:live-e2e:check."
+    },
+    {
+      "schemaVersion": 1,
+      "projectId": "hermes-os",
+      "label": "Hermes OS",
+      "scenarioId": "hermes-os.primary-operator-flow",
+      "status": "declared",
+      "route": "https://hermes.tlccapitalgroup.com/",
+      "proofUrl": "https://hermes.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+      "snapshotUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+      "requiredAssertions": [
+        "primary route loads",
+        "readonly proof route loads",
+        "snapshot or outcome feed returns data",
+        "primary empty/error/stale state is visible when data is unavailable",
+        "no blank primary region"
+      ],
+      "latestRun": {
+        "status": "failed",
+        "capturedAt": "2026-08-11T17:06:37.650Z",
+        "checks": {
+          "health": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          },
+          "proof": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          },
+          "snapshot": {
+            "ok": false,
+            "status": null,
+            "ms": 2,
+            "error": "fetch failed"
+          }
+        }
+      },
+      "recommendedFix": "Repair failing health/proof/snapshot checks, then rerun dashboard:live-e2e:check."
+    },
+    {
+      "schemaVersion": 1,
+      "projectId": "media-engine",
+      "label": "Media Engine",
+      "scenarioId": "media-engine.primary-operator-flow",
+      "status": "declared",
+      "route": "https://media.tlccapitalgroup.com/dashboard",
+      "proofUrl": "https://media.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://media.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://media.tlccapitalgroup.com/dashboard-snapshot",
+      "requiredAssertions": [
+        "primary route loads",
+        "readonly proof route loads",
+        "snapshot or outcome feed returns data",
+        "primary empty/error/stale state is visible when data is unavailable",
+        "no blank primary region"
+      ],
+      "latestRun": {
+        "status": "failed",
+        "capturedAt": "2026-08-11T17:06:37.650Z",
+        "checks": {
+          "health": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          },
+          "proof": {
+            "ok": false,
+            "status": null,
+            "ms": 2,
+            "error": "fetch failed"
+          },
+          "snapshot": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          }
+        }
+      },
+      "recommendedFix": "Repair failing health/proof/snapshot checks, then rerun dashboard:live-e2e:check."
+    },
+    {
+      "schemaVersion": 1,
+      "projectId": "media-business-operations",
+      "label": "Media Business Operations",
+      "scenarioId": "media-business-operations.primary-operator-flow",
+      "status": "declared",
+      "route": "https://media-business-operations.tlccapitalgroup.com/dashboard",
+      "proofUrl": "https://media-business-operations.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://media-business-operations.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://media-business-operations.tlccapitalgroup.com/api/dashboard-summary",
+      "requiredAssertions": [
+        "primary route loads",
+        "readonly proof route loads",
+        "snapshot or outcome feed returns data",
+        "primary empty/error/stale state is visible when data is unavailable",
+        "no blank primary region"
+      ],
+      "latestRun": {
+        "status": "failed",
+        "capturedAt": "2026-08-11T17:06:37.650Z",
+        "checks": {
+          "health": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          },
+          "proof": {
+            "ok": false,
+            "status": null,
+            "ms": 0,
+            "error": "fetch failed"
+          },
+          "snapshot": {
+            "ok": false,
+            "status": null,
+            "ms": 0,
+            "error": "fetch failed"
+          }
+        }
+      },
+      "recommendedFix": "Repair failing health/proof/snapshot checks, then rerun dashboard:live-e2e:check."
+    },
+    {
+      "schemaVersion": 1,
+      "projectId": "khashi-vc",
+      "label": "Khashi VC",
+      "scenarioId": "khashi-vc.primary-operator-flow",
+      "status": "declared",
+      "route": "https://roc.tlccapitalgroup.com/",
+      "proofUrl": "https://roc.tlccapitalgroup.com/dashboard/proof?view=live-market-intelligence",
+      "healthUrl": "https://roc.tlccapitalgroup.com/readyz",
+      "snapshotUrl": "https://roc.tlccapitalgroup.com/api/dashboard-snapshot",
+      "requiredAssertions": [
+        "primary route loads",
+        "readonly proof route loads",
+        "snapshot or outcome feed returns data",
+        "primary empty/error/stale state is visible when data is unavailable",
+        "no blank primary region"
+      ],
+      "latestRun": {
+        "status": "failed",
+        "capturedAt": "2026-08-11T17:06:37.650Z",
+        "checks": {
+          "health": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          },
+          "proof": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          },
+          "snapshot": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          }
+        }
+      },
+      "recommendedFix": "Repair failing health/proof/snapshot checks, then rerun dashboard:live-e2e:check."
+    },
+    {
+      "schemaVersion": 1,
+      "projectId": "business-mapper",
+      "label": "Business Mapper / Consulting",
+      "scenarioId": "business-mapper.primary-operator-flow",
+      "status": "declared",
+      "route": "https://business-mapper.tlccapitalgroup.com/dashboard",
+      "proofUrl": "https://business-mapper.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://business-mapper.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://business-mapper.tlccapitalgroup.com/api/dashboard-snapshot",
+      "requiredAssertions": [
+        "primary route loads",
+        "readonly proof route loads",
+        "snapshot or outcome feed returns data",
+        "primary empty/error/stale state is visible when data is unavailable",
+        "no blank primary region"
+      ],
+      "latestRun": {
+        "status": "failed",
+        "capturedAt": "2026-08-11T17:06:37.650Z",
+        "checks": {
+          "health": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          },
+          "proof": {
+            "ok": false,
+            "status": null,
+            "ms": 0,
+            "error": "fetch failed"
+          },
+          "snapshot": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          }
+        }
+      },
+      "recommendedFix": "Repair failing health/proof/snapshot checks, then rerun dashboard:live-e2e:check."
+    },
+    {
+      "schemaVersion": 1,
+      "projectId": "meal-assistant",
+      "label": "Meal Assistant",
+      "scenarioId": "meal-assistant.primary-operator-flow",
+      "status": "declared",
+      "route": "https://meal.tlccapitalgroup.com/",
+      "proofUrl": "https://meal.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://meal.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://meal.tlccapitalgroup.com/api/dashboard-snapshot",
+      "requiredAssertions": [
+        "primary route loads",
+        "readonly proof route loads",
+        "snapshot or outcome feed returns data",
+        "primary empty/error/stale state is visible when data is unavailable",
+        "no blank primary region"
+      ],
+      "latestRun": {
+        "status": "failed",
+        "capturedAt": "2026-08-11T17:06:37.650Z",
+        "checks": {
+          "health": {
+            "ok": false,
+            "status": null,
+            "ms": 0,
+            "error": "fetch failed"
+          },
+          "proof": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          },
+          "snapshot": {
+            "ok": false,
+            "status": null,
+            "ms": 0,
+            "error": "fetch failed"
+          }
+        }
+      },
+      "recommendedFix": "Repair failing health/proof/snapshot checks, then rerun dashboard:live-e2e:check."
+    },
+    {
+      "schemaVersion": 1,
+      "projectId": "rinseables-os",
+      "label": "Rinseables OS",
+      "scenarioId": "rinseables-os.primary-operator-flow",
+      "status": "declared",
+      "route": "https://rinseables.tlccapitalgroup.com",
+      "proofUrl": "https://rinseables.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://rinseables.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://rinseables.tlccapitalgroup.com/api/dashboard-snapshot",
+      "requiredAssertions": [
+        "primary route loads",
+        "readonly proof route loads",
+        "snapshot or outcome feed returns data",
+        "primary empty/error/stale state is visible when data is unavailable",
+        "no blank primary region"
+      ],
+      "latestRun": {
+        "status": "failed",
+        "capturedAt": "2026-08-11T17:06:37.650Z",
+        "checks": {
+          "health": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          },
+          "proof": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          },
+          "snapshot": {
+            "ok": false,
+            "status": null,
+            "ms": 0,
+            "error": "fetch failed"
+          }
+        }
+      },
+      "recommendedFix": "Repair failing health/proof/snapshot checks, then rerun dashboard:live-e2e:check."
+    },
+    {
+      "schemaVersion": 1,
+      "projectId": "investing-system",
+      "label": "Investing System",
+      "scenarioId": "investing-system.primary-operator-flow",
+      "status": "declared",
+      "route": "https://investing.tlccapitalgroup.com/roc",
+      "proofUrl": "https://investing.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://investing.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://investing.tlccapitalgroup.com/api/dashboard-snapshot",
+      "requiredAssertions": [
+        "primary route loads",
+        "readonly proof route loads",
+        "snapshot or outcome feed returns data",
+        "primary empty/error/stale state is visible when data is unavailable",
+        "no blank primary region"
+      ],
+      "latestRun": {
+        "status": "failed",
+        "capturedAt": "2026-08-11T17:06:37.650Z",
+        "checks": {
+          "health": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          },
+          "proof": {
+            "ok": false,
+            "status": null,
+            "ms": 0,
+            "error": "fetch failed"
+          },
+          "snapshot": {
+            "ok": false,
+            "status": null,
+            "ms": 1,
+            "error": "fetch failed"
+          }
+        }
+      },
+      "recommendedFix": "Repair failing health/proof/snapshot checks, then rerun dashboard:live-e2e:check."
+    }
+  ]
+}

@@ -63,6 +63,20 @@ function rel(file) {
   return path.relative(root, file) || ".";
 }
 
+function linkedCssContent(content, surfacePath, projectRoot) {
+  const surfaceDir = path.dirname(surfacePath);
+  return [...content.matchAll(/<link[^>]+href=["']([^"']+\.css)["'][^>]*>/gi)]
+    .map((match) => match[1])
+    .map((href) => {
+      const normalized = href.startsWith("/")
+        ? path.resolve(projectRoot, "public", href.replace(/^\//, ""))
+        : path.resolve(surfaceDir, href);
+      return fs.existsSync(normalized) ? fs.readFileSync(normalized, "utf8") : "";
+    })
+    .filter(Boolean)
+    .join("\n");
+}
+
 function compareVersions(actual, required) {
   const clean = (value) => String(value ?? "").replace(/^[^\d]*/, "").split(".").map((part) => Number(part) || 0);
   const a = clean(actual);
@@ -473,11 +487,15 @@ function evaluateProject(registry, project, sourceHash) {
 
   for (const surface of manifest.surfaces ?? []) {
     const surfacePath = path.resolve(projectRoot, surface.path);
+    const surfaceRole = surface.role ?? "ui";
+    const isUiSurface =
+      !["api", "data-contract", "proof-endpoint", "kit-source", "page-content", "server-route"].includes(surfaceRole);
     if (!fs.existsSync(surfacePath)) {
       issues.push(issue("error", "surface.fileMissing", `Surface file is missing: ${surface.path}`, { surface: surface.id }));
       continue;
     }
-    const content = fs.readFileSync(surfacePath, "utf8");
+    const surfaceContent = fs.readFileSync(surfacePath, "utf8");
+    const content = `${surfaceContent}\n${linkedCssContent(surfaceContent, surfacePath, projectRoot)}`;
     for (const marker of surface.markers ?? []) {
       if (!content.includes(marker)) {
         issues.push(issue("error", "surface.markerMissing", `Surface ${surface.id} is missing required marker: ${marker}`, { path: surface.path }));
@@ -493,7 +511,7 @@ function evaluateProject(registry, project, sourceHash) {
         issues.push(issue(severity, "surface.componentMissing", `Surface ${surface.id} does not show adoption evidence for ${component}.`, { path: surface.path }));
       }
     }
-    if (Number(targetExperienceTier) >= 3 && implementationMode === "package-native") {
+    if (isUiSurface && Number(targetExperienceTier) >= 3 && implementationMode === "package-native") {
       if (!content.includes("data-theme=") && !content.includes("hdk-theme-scope")) {
         issues.push(issue(
           "error",
@@ -511,15 +529,17 @@ function evaluateProject(registry, project, sourceHash) {
         ));
       }
     }
-    const allowed = new Set(surface.allowedLegacyPatterns ?? []);
-    for (const pattern of registry.legacyPatterns ?? []) {
-      if (allowed.has(pattern.id)) continue;
-      if (content.toLowerCase().includes(pattern.pattern.toLowerCase())) {
-        if (pattern.requiresDevOnlyGuard && hasDevOnlyGuard(content)) continue;
-        issues.push(issue(pattern.severity, `legacy.${pattern.id}`, pattern.message, { surface: surface.id, path: surface.path }));
+    if (isUiSurface) {
+      const allowed = new Set(surface.allowedLegacyPatterns ?? []);
+      for (const pattern of registry.legacyPatterns ?? []) {
+        if (allowed.has(pattern.id)) continue;
+        if (content.toLowerCase().includes(pattern.pattern.toLowerCase())) {
+          if (pattern.requiresDevOnlyGuard && hasDevOnlyGuard(content)) continue;
+          issues.push(issue(pattern.severity, `legacy.${pattern.id}`, pattern.message, { surface: surface.id, path: surface.path }));
+        }
       }
     }
-    if (Number(targetExperienceTier) >= 3 && surface.status !== "prototype" && surface.status !== "planned") {
+    if (isUiSurface && Number(targetExperienceTier) >= 3 && surface.status !== "prototype" && surface.status !== "planned") {
       const shellQualityIssues =
         evaluateTier3ShellQuality(content, surface);
       issues.push(...shellQualityIssues);

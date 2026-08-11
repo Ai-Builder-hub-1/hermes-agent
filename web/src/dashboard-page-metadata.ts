@@ -73,6 +73,17 @@ export const dashboardPageMetadata: DashboardPageMetadata[] = [
     localOnlyReason: "Internal component intake route served by the Hermes dashboard app.",
   },
   {
+    route: "/fleet-maturity-review",
+    title: "Fleet Maturity Review",
+    recipe: "system-health-deployment",
+    owner: "Hermes",
+    category: "fleet-governance",
+    dataContracts: ["FleetEvidenceLedger", "FleetMaturitySuggestion[]", "FleetProjectRegistry[]"],
+    requiredStates: ["normal", "current", "needs-review", "blocked", "not-applicable", "empty", "mobile"],
+    validation: ["fleet:maturity:scan", "fleet:maturity:review-data", "fleet:maturity:validate", "build --workspace web"],
+    localOnlyReason: "Internal fleet evidence review route served by the Hermes dashboard app.",
+  },
+  {
     route: "/design-intelligence",
     title: "Hermes Design Intelligence Command Center",
     recipe: "system-health-deployment",

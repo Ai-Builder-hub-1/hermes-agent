@@ -1,12 +1,12 @@
 # Dashboard Component Gap Audit
 
-Generated: 2026-08-03T02:55:09.793Z
+Generated: 2026-08-08T21:55:55.261Z
 
 ## Summary
 
-- Projects audited: 7
-- Covered projects: 5
-- Adoption-gap projects: 2
+- Projects audited: 10
+- Covered projects: 10
+- Adoption-gap projects: 0
 - Kit-gap projects: 0
 
 ## Missing Shared Components
@@ -17,13 +17,16 @@ No missing shared components detected from project manifests or gap-audit docs.
 
 | Project | Status | Mode | Tier | Missing shared | Missing evidence | Gap audit |
 | --- | --- | --- | --- | ---: | ---: | --- |
-| Kashi VC | covered | static-adapter | ?->? | 0 | 0 | missing |
+| Kashi VC | covered | package-built | 3->3 | 0 | 0 | missing |
 | Media Engine | covered | package-native | 3->3 | 0 | 0 | missing |
-| Media Business OS | adoption-gap | browser-runtime-kit-backed | 3->3 | 0 | 2 | ../media-business-operations/docs/dashboard-component-gap-audit.md |
-| Business Mapper | covered | static-adapter | 1->2 | 0 | 0 | missing |
-| Meal Assistant | adoption-gap | server-rendered-legacy | 1->3 | 0 | 2 | missing |
-| Hermes OS | covered | planned | 0->3 | 0 | 0 | missing |
-| TLC Capital Group OS | covered | planned | 0->3 | 0 | 0 | missing |
+| Media Business OS | covered | package-native | 3->3 | 0 | 0 | ../media-business-operations/docs/dashboard-component-gap-audit.md |
+| Business Mapper | covered | package-native | 2->2 | 0 | 0 | missing |
+| Meal Assistant | covered | package-native | 3->3 | 0 | 0 | missing |
+| Hermes OS | covered | package-native | 3->3 | 0 | 0 | missing |
+| TLC Capital Group OS | covered | package-native | 3->3 | 0 | 0 | missing |
+| Rinseables OS | covered | package-native | 3->3 | 0 | 0 | missing |
+| Investing System | covered | package-native | 3->3 | 0 | 0 | missing |
+| Nous Hermes Agent | covered | package-native | 3->3 | 0 | 0 | missing |
 
 ## Next Actions
 

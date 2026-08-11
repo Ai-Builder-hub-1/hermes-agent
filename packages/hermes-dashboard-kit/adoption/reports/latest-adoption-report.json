@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-05T13:23:29.890Z",
+  "generatedAt": "2026-08-08T01:34:29.680Z",
   "source": {
     "package": "@hermes/dashboard-kit",
     "version": "0.1.0",
@@ -230,6 +230,78 @@
         "dependencyDeclared": true,
         "dependencyVersion": "file:../nous-hermes-agent/packages/hermes-dashboard-kit",
         "packageJson": "../tlc-capital-group-os/package.json"
+      },
+      "issues": [],
+      "externalWorkItems": []
+    },
+    {
+      "project": "rinseables-os",
+      "name": "Rinseables OS",
+      "status": "current",
+      "experienceTier": {
+        "current": 3,
+        "target": 3,
+        "currentBand": "T3C",
+        "currentBandLabel": "Package-native product cockpit (T3C)",
+        "targetBand": "T3C",
+        "targetBandLabel": "Package-native product cockpit (T3C)",
+        "implementationMode": "package-native",
+        "migrationRequired": false,
+        "nextAction": "Rinseables OS is now visible to the central adoption audit. It has a package-native dashboard shell and proof route, but still needs deeper product cockpit decomposition before its UI should be treated as complete.",
+        "note": "Rinseables OS is now visible to the central adoption audit. It has a package-native dashboard shell and proof route, but still needs deeper product cockpit decomposition before its UI should be treated as complete."
+      },
+      "packageNative": {
+        "dependencyDeclared": true,
+        "dependencyVersion": "file:../nous-hermes-agent/packages/hermes-dashboard-kit",
+        "packageJson": "../rinseables-os/package.json"
+      },
+      "issues": [],
+      "externalWorkItems": []
+    },
+    {
+      "project": "investing-system",
+      "name": "Investing System",
+      "status": "current",
+      "experienceTier": {
+        "current": 3,
+        "target": 3,
+        "currentBand": "T3C",
+        "currentBandLabel": "Package-native product cockpit (T3C)",
+        "targetBand": "T3C",
+        "targetBandLabel": "Package-native product cockpit (T3C)",
+        "implementationMode": "package-native",
+        "migrationRequired": false,
+        "nextAction": "Investing System is now visible to the central adoption audit. The ROC dashboard declares package-native shell/proof contracts while deeper component decomposition remains the next maturity step.",
+        "note": "Investing System is now visible to the central adoption audit. The ROC dashboard declares package-native shell/proof contracts while deeper component decomposition remains the next maturity step."
+      },
+      "packageNative": {
+        "dependencyDeclared": true,
+        "dependencyVersion": "file:../nous-hermes-agent/packages/hermes-dashboard-kit",
+        "packageJson": "../investing-system/package.json"
+      },
+      "issues": [],
+      "externalWorkItems": []
+    },
+    {
+      "project": "nous-hermes-agent",
+      "name": "Nous Hermes Agent",
+      "status": "current",
+      "experienceTier": {
+        "current": 3,
+        "target": 3,
+        "currentBand": "T3C",
+        "currentBandLabel": "Package-native product cockpit (T3C)",
+        "targetBand": "T3C",
+        "targetBandLabel": "Package-native product cockpit (T3C)",
+        "implementationMode": "package-native",
+        "migrationRequired": false,
+        "nextAction": "Nous Hermes Agent is the standards/control-plane project and now audits its own dashboard kit gallery route under the same package-native rules it applies to downstream dashboards.",
+        "note": "Nous Hermes Agent is the standards/control-plane project and now audits its own dashboard kit gallery route under the same package-native rules it applies to downstream dashboards."
+      },
+      "packageNative": {
+        "dependencyDeclared": true,
+        "dependencyVersion": "file:packages/hermes-dashboard-kit",
+        "packageJson": "package.json"
       },
       "issues": [],
       "externalWorkItems": []

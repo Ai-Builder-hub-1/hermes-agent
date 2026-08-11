@@ -1679,6 +1679,403 @@ export function renderMarketExplorerPage({
   `;
 }
 
+export function renderComponentQualityMaturityGraph({
+  families = DASHBOARD_KIT_COMPONENT_INVENTORY,
+  review = [],
+  reviewId = "hdk.component-quality-maturity-graph"
+} = {}) {
+  const reviewById =
+    new Map(review.map((item) => [item.id, item]));
+  const dimensions =
+    [
+      "visualPolish",
+      "interactionCompleteness",
+      "stateCoverage",
+      "domainIntelligence",
+      "adoptionReadiness"
+    ];
+  const rows =
+    families.map((family) => {
+      const item =
+        reviewById.get(family.id) || {};
+      const scores =
+        item.score || {};
+      const values =
+        dimensions.map((dimension) => {
+          if (dimension === "adoptionReadiness") {
+            return Number(scores.adoptionReadiness ?? scores.projectAdoption ?? 0);
+          }
+          if (dimension === "domainIntelligence") {
+            return Number(scores.domainIntelligence ?? scores.interactionCompleteness ?? 0);
+          }
+          return Number(scores[dimension] ?? 0);
+        });
+      const level =
+        values.length
+          ? Math.min(5, Math.max(0, Math.round(values.reduce((sum, value) => sum + value, 0) / values.length / 20)))
+          : 0;
+      const pct =
+        Math.min(100, Math.max(0, level * 20));
+      return {
+        family,
+        item,
+        level,
+        pct
+      };
+    });
+
+  return `
+    <section class="hdk-quality-graph" data-hdk-component="ComponentQualityMaturityGraph" data-review-id="${escapeAttr(reviewId)}">
+      <header class="hdk-card__header">
+        <div>
+          <p class="hdk-eyebrow">Component Quality</p>
+          <h2>Level 5 maturity graph</h2>
+          <p>Tracks whether each family has moved from primitive rendering to adaptive, proof-backed operator components.</p>
+        </div>
+        <span class="hdk-status-badge">${escapeHtml(rows.filter((row) => row.level >= 5).length)} / ${escapeHtml(rows.length)} at L5</span>
+      </header>
+      <div class="hdk-quality-graph__rows">
+        ${rows.map(({ family, item, level, pct }) => `
+          <article class="hdk-quality-row" data-quality-family="${escapeAttr(family.id)}" data-quality-level="${escapeAttr(level)}">
+            <div>
+              <strong>${escapeHtml(family.family)}</strong>
+              <span>${escapeHtml(item.reviewStatus || family.status)} · ${escapeHtml(family.targetTier)}</span>
+            </div>
+            <div class="hdk-quality-row__bar" aria-label="${escapeAttr(`${family.family} level ${level}`)}">
+              <i style="width:${pct}%"></i>
+            </div>
+            <b>L${escapeHtml(level)}</b>
+          </article>
+        `).join("")}
+      </div>
+    </section>
+  `;
+}
+
+export function renderPremiumComparisonChart({
+  title = "Comparison trend",
+  subtitle = "Compare metrics across brands, windows, or segments.",
+  data = [],
+  metrics = [],
+  activeMetric = "",
+  windows = ["1D", "7D", "14D", "30D"],
+  activeWindow = "7D",
+  reviewId = ""
+} = {}) {
+  const resolvedData =
+    data.length
+      ? data
+      : [
+          { label: "Mon", approved: 22, rejected: 7, posted: 19 },
+          { label: "Tue", approved: 28, rejected: 5, posted: 21 },
+          { label: "Wed", approved: 25, rejected: 8, posted: 23 },
+          { label: "Thu", approved: 34, rejected: 4, posted: 30 },
+          { label: "Fri", approved: 39, rejected: 6, posted: 35 },
+          { label: "Sat", approved: 32, rejected: 9, posted: 28 },
+          { label: "Sun", approved: 45, rejected: 3, posted: 42 }
+        ];
+  const resolvedMetrics =
+    metrics.length
+      ? metrics
+      : [
+          { key: "approved", label: "Approved", color: "var(--hdk-series-green)" },
+          { key: "posted", label: "Posted", color: "var(--hdk-series-blue)" },
+          { key: "rejected", label: "Rejected", color: "var(--hdk-series-red)" }
+        ];
+  const width =
+    760;
+  const height =
+    300;
+  const margin =
+    { top: 26, right: 26, bottom: 46, left: 54 };
+  const plotWidth =
+    width - margin.left - margin.right;
+  const plotHeight =
+    height - margin.top - margin.bottom;
+  const maxValue =
+    Math.max(1, ...resolvedData.flatMap((row) => resolvedMetrics.map((metric) => Number(row[metric.key] || 0))));
+  const ticks =
+    [0, 0.25, 0.5, 0.75, 1].map((ratio) => ({
+      y:
+        margin.top + plotHeight - ratio * plotHeight,
+      value:
+        ratio * maxValue
+    }));
+  const xTicks =
+    resolvedData.filter((_, index) => index === 0 || index === resolvedData.length - 1 || index === Math.floor(resolvedData.length / 2));
+  const lineFor =
+    (metric) =>
+      resolvedData.map((row, index) => {
+        const x =
+          margin.left + (resolvedData.length <= 1 ? plotWidth / 2 : index / (resolvedData.length - 1) * plotWidth);
+        const y =
+          margin.top + plotHeight - (Number(row[metric.key] || 0) / maxValue) * plotHeight;
+        return `${index === 0 ? "M" : "L"} ${x.toFixed(2)} ${y.toFixed(2)}`;
+      }).join(" ");
+
+  return `
+    <section class="hdk-premium-chart" data-hdk-component="PremiumComparisonChart"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      <header class="hdk-card__header hdk-card__header-row">
+        <div>
+          <p class="hdk-section-kicker">Comparison</p>
+          <h2>${escapeHtml(title)}</h2>
+          <p>${escapeHtml(subtitle)}</p>
+        </div>
+        ${renderTimeWindowSelector({ windows, active: activeWindow })}
+      </header>
+      <div class="hdk-chart-toolbar">
+        <label>Metric
+          <select aria-label="Metric to compare">
+            ${resolvedMetrics.map((metric) => `<option value="${escapeAttr(metric.key)}"${metric.key === activeMetric ? " selected" : ""}>${escapeHtml(metric.label)}</option>`).join("")}
+          </select>
+        </label>
+        <div class="hdk-chart-legend">
+          ${resolvedMetrics.map((metric) => `<span class="hdk-chart-legend-item"><i class="hdk-chart-swatch" style="--hdk-series-color:${escapeAttr(metric.color)}"></i>${escapeHtml(metric.label)}</span>`).join("")}
+        </div>
+      </div>
+      <svg class="hdk-premium-chart__svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${escapeAttr(title)}">
+        ${ticks.map((tick) => `
+          <line class="hdk-chart__grid" x1="${margin.left}" x2="${width - margin.right}" y1="${tick.y}" y2="${tick.y}"></line>
+          <text class="hdk-chart__axis" x="${margin.left - 10}" y="${tick.y + 4}" text-anchor="end">${formatCompact(tick.value)}</text>
+        `).join("")}
+        ${xTicks.map((tick, index) => {
+          const sourceIndex =
+            resolvedData.indexOf(tick);
+          const x =
+            margin.left + (resolvedData.length <= 1 ? plotWidth / 2 : sourceIndex / (resolvedData.length - 1) * plotWidth);
+          return `<text class="hdk-chart__axis" x="${x}" y="${height - 16}" text-anchor="${index === 0 ? "start" : index === xTicks.length - 1 ? "end" : "middle"}">${escapeHtml(tick.label)}</text>`;
+        }).join("")}
+        <text class="hdk-chart__label" x="${margin.left}" y="${height - 4}">time</text>
+        <text class="hdk-chart__label" x="14" y="${margin.top}" transform="rotate(-90 14 ${margin.top})">count</text>
+        ${resolvedMetrics.map((metric) => `<path class="hdk-chart__line" d="${escapeAttr(lineFor(metric))}" style="--hdk-series-color:${escapeAttr(metric.color)}"></path>`).join("")}
+      </svg>
+    </section>
+  `;
+}
+
+export function renderPremiumMarketBrowser({
+  categories = [],
+  markets = [],
+  selected = null,
+  snapshots = [],
+  reviewId = "hdk.premium-market-browser"
+} = {}) {
+  const resolvedCategories =
+    categories.length
+      ? categories
+      : [
+          { label: "All live", count: 488, active: true },
+          { label: "Sports", count: 240 },
+          { label: "Politics", count: 62 },
+          { label: "Financials", count: 41 },
+          { label: "Movies", count: 23 }
+        ];
+  const resolvedMarkets =
+    markets.length
+      ? markets
+      : [
+          { title: "Will Team A win tonight?", category: "Sports", mid: "54c", spread: "3c", movement: "+8c", snapshots: 28 },
+          { title: "Rate decision this week?", category: "Financials", mid: "47c", spread: "4c", movement: "-4c", snapshots: 17 },
+          { title: "Will candidate lead poll?", category: "Politics", mid: "61c", spread: "5c", movement: "+6c", snapshots: 34 }
+        ];
+  const resolvedSelected =
+    selected || resolvedMarkets[0];
+  const resolvedSnapshots =
+    snapshots.length
+      ? snapshots
+      : [
+          { label: "10:00", mid: 48, spread: 3 },
+          { label: "10:15", mid: 51, spread: 4 },
+          { label: "10:30", mid: 54, spread: 3 },
+          { label: "10:45", mid: 59, spread: 2 },
+          { label: "11:00", mid: 56, spread: 3 }
+        ];
+
+  return `
+    <section class="hdk-premium-market-browser" data-hdk-component="PremiumMarketBrowser"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      <aside class="hdk-premium-market-browser__categories">
+        <div class="hdk-card__header"><h2>Browse markets</h2><p>Category-first navigation.</p></div>
+        ${resolvedCategories.map((category) => `
+          <button class="hdk-browser-category ${category.active ? "is-active" : ""}" type="button">
+            <span>${escapeHtml(category.label)}</span>
+            <strong>${escapeHtml(category.count)}</strong>
+          </button>
+        `).join("")}
+      </aside>
+      <section class="hdk-premium-market-browser__tape">
+        <header class="hdk-card__header hdk-card__header-row">
+          <div><p class="hdk-section-kicker">Live tape</p><h2>Markets moving now</h2></div>
+          <span class="hdk-status-badge">${escapeHtml(resolvedMarkets.length)} visible</span>
+        </header>
+        <div class="hdk-market-tape-body">
+          ${resolvedMarkets.map((market, index) => `
+            <button class="hdk-market-tape-row ${index === 0 ? "is-active" : ""}" style="--hdk-market-columns:6" type="button">
+              <span><strong class="hdk-market-title">${escapeHtml(market.title)}</strong><small class="hdk-market-meta">${escapeHtml(market.category)}</small></span>
+              <span>${escapeHtml(market.mid)}</span>
+              <span>${escapeHtml(market.spread)}</span>
+              <span class="${String(market.movement || "").startsWith("-") ? "hdk-negative" : "hdk-positive"}">${escapeHtml(market.movement)}</span>
+              <span>${escapeHtml(market.snapshots)}</span>
+              <span>inspect</span>
+            </button>
+          `).join("")}
+        </div>
+      </section>
+      <aside class="hdk-premium-market-browser__detail">
+        <header class="hdk-card__header">
+          <div><p class="hdk-section-kicker">Selected market</p><h2>${escapeHtml(resolvedSelected.title)}</h2><p>${escapeHtml(resolvedSelected.category)}</p></div>
+        </header>
+        <dl class="hdk-mini-metrics">
+          <div><dt>Mid</dt><dd>${escapeHtml(resolvedSelected.mid)}</dd></div>
+          <div><dt>Spread</dt><dd>${escapeHtml(resolvedSelected.spread)}</dd></div>
+          <div><dt>Snapshots</dt><dd>${escapeHtml(resolvedSelected.snapshots)}</dd></div>
+        </dl>
+        ${renderPremiumComparisonChart({
+          title: "Price movement",
+          subtitle: "X axis: time · Y axis: cents",
+          data: resolvedSnapshots,
+          metrics: [{ key: "mid", label: "Mid", color: "var(--hdk-series-green)" }, { key: "spread", label: "Spread", color: "var(--hdk-series-amber)" }],
+          activeMetric: "mid",
+          windows: ["15m", "30m", "1h", "4h"],
+          activeWindow: "1h"
+        })}
+      </aside>
+    </section>
+  `;
+}
+
+export function renderPremiumMediaApprovalWorkspace({
+  packageTitle = "Content package review",
+  channels = [],
+  checklist = [],
+  reviewId = "hdk.premium-media-approval-workspace"
+} = {}) {
+  const resolvedChannels =
+    channels.length
+      ? channels
+      : [
+          { label: "Instagram", status: "postable", tone: "success" },
+          { label: "Facebook", status: "postable", tone: "success" },
+          { label: "YouTube", status: "manual upload", tone: "warning" }
+        ];
+  const resolvedChecklist =
+    checklist.length
+      ? checklist
+      : [
+          { label: "Thumbnail attached", status: "ready" },
+          { label: "SEO copy uses full transcript", status: "ready" },
+          { label: "Publishable channels resolved", status: "ready" },
+          { label: "Posting proof pending", status: "partial" }
+        ];
+
+  return `
+    <section class="hdk-premium-media-workspace" data-hdk-component="PremiumMediaApprovalWorkspace"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      <header class="hdk-card__header hdk-card__header-row">
+        <div><p class="hdk-section-kicker">Approval workspace</p><h2>${escapeHtml(packageTitle)}</h2><p>Review package, publish destinations, QA state, and posting result together.</p></div>
+        <div class="hdk-panel-actions"><button type="button">Approve</button><button type="button">Decline with reason</button></div>
+      </header>
+      <div class="hdk-premium-media-workspace__grid">
+        <article class="hdk-package-preview hdk-premium-media-workspace__preview">
+          <div class="hdk-thumbnail-placeholder">Thumbnail</div>
+          <div class="hdk-package-assets"><a href="#">Video asset</a><a href="#">Thumbnail PNG</a><a href="#">Copy packet</a></div>
+        </article>
+        <article class="hdk-premium-media-workspace__copy">
+          <h3>Upload copy</h3>
+          <p>Transcript-derived title, description, tags, hashtags, and channel notes sit here with no third-person analysis language.</p>
+          <dl class="hdk-fact-grid"><div><dt>SEO</dt><dd>ready</dd></div><div><dt>Transcript</dt><dd>complete</dd></div><div><dt>QA</dt><dd>human review</dd></div></dl>
+        </article>
+        <article class="hdk-premium-media-workspace__channels">
+          <h3>Publishable destinations</h3>
+          ${resolvedChannels.map((channel) => `<p class="hdk-postability hdk-tone-${escapeAttr(channel.tone || statusTone(channel.status))}"><strong>${escapeHtml(channel.label)}</strong><span>${escapeHtml(channel.status)}</span></p>`).join("")}
+        </article>
+        <article class="hdk-premium-media-workspace__checklist">
+          <h3>Readiness</h3>
+          ${resolvedChecklist.map((item) => `<p class="hdk-state-line"><span>${escapeHtml(item.label)}</span><strong>${escapeHtml(item.status)}</strong></p>`).join("")}
+        </article>
+      </div>
+    </section>
+  `;
+}
+
+export function renderPremiumPlannerCalendar({
+  days = [],
+  selected = [],
+  reviewId = "hdk.premium-planner-calendar"
+} = {}) {
+  const resolvedDays =
+    days.length
+      ? days
+      : Array.from({ length: 35 }).map((_, index) => ({
+          day:
+            index + 1,
+          label:
+            index % 7 === 0 ? "Plan" : index % 5 === 0 ? "Cook" : "Open",
+          status:
+            index % 7 === 0 ? "planned" : index % 5 === 0 ? "cook" : "open"
+        }));
+  const selectedSet =
+    new Set(selected.length ? selected : [8, 9, 10]);
+
+  return `
+    <section class="hdk-premium-planner" data-hdk-component="PremiumPlannerCalendar"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      <div class="hdk-premium-planner__calendar">
+        <header class="hdk-card__header hdk-card__header-row">
+          <div><p class="hdk-section-kicker">Planner</p><h2>August 2026</h2><p>Select one or more days, then plan from the drawer.</p></div>
+          <div class="hdk-panel-actions"><button type="button">Previous</button><button type="button">Next</button></div>
+        </header>
+        <div class="hdk-calendar-weekdays">${["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => `<span>${day}</span>`).join("")}</div>
+        <div class="hdk-calendar-month-grid">
+          ${resolvedDays.map((day) => `
+            <button class="hdk-calendar-day ${selectedSet.has(day.day) ? "is-selected" : ""}" type="button">
+              <strong>${escapeHtml(day.day)}</strong>
+              <span>${escapeHtml(day.label)}</span>
+            </button>
+          `).join("")}
+        </div>
+      </div>
+      <aside class="hdk-premium-planner__drawer">
+        <header><p class="hdk-section-kicker">Selected days</p><h2>${escapeHtml(Array.from(selectedSet).join(", "))}</h2></header>
+        <label>Protein <input value="Chicken" readonly></label>
+        <label>Side <input value="Rice" readonly></label>
+        <label>Notes <textarea readonly>Generated meals avoid back-to-back repeated proteins unless entered manually.</textarea></label>
+        <button type="button">Generate remaining open days</button>
+      </aside>
+    </section>
+  `;
+}
+
+export function renderPremiumDrilldownWorkspace({
+  title = "Selected detail",
+  reviewId = "hdk.premium-drilldown-workspace"
+} = {}) {
+  return `
+    <section class="hdk-premium-drilldown" data-hdk-component="PremiumDrilldownWorkspace"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      <div class="hdk-premium-drilldown__context">
+        <header class="hdk-card__header"><h2>Browse context</h2><p>The list stays visible while detail is inspected.</p></header>
+        ${renderDataTable({
+          columns: [
+            { key: "item", label: "Item" },
+            { key: "status", label: "Status" },
+            { key: "age", label: "Age" }
+          ],
+          rows: [
+            { item: "Finance carousel", status: "approved", age: "1h" },
+            { item: "Kashi market", status: "partial", age: "4m" },
+            { item: "Video package", status: "reviewing", age: "2h" }
+          ],
+          pageSize: 10,
+          total: 3
+        })}
+      </div>
+      <aside class="hdk-premium-drilldown__drawer">
+        <header><p class="hdk-section-kicker">Drilldown</p><h2>${escapeHtml(title)}</h2><p>Facts, evidence, trend, and actions are separated.</p></header>
+        <dl class="hdk-fact-grid"><div><dt>Status</dt><dd>partial</dd></div><div><dt>Freshness</dt><dd>2m</dd></div><div><dt>Owner</dt><dd>Ops</dd></div></dl>
+        ${renderPremiumComparisonChart({ title: "Detail trend", subtitle: "X axis: day · Y axis: count" })}
+        <div class="hdk-panel-actions"><button type="button">Approve</button><button type="button">Open evidence</button><button type="button">Request revision</button></div>
+      </aside>
+    </section>
+  `;
+}
+
 export function renderTimeWindowSelector({
   windows = ["1D", "7D", "14D", "30D"],
   active = "7D",
