@@ -97,6 +97,8 @@ import {
   renderQaReviewPanel,
   renderReadinessDomainMatrix,
   renderRecommendationReviewPanel,
+  getResearchDeskWorkflowAction,
+  renderResearchDeskWorkspace,
   renderResponseLogPanel,
   renderRunDrilldownPanel,
   renderRunbookPanel,
@@ -123,6 +125,9 @@ import {
   renderWasteCostPanel,
   renderWorkOrderQueue
 } from "../src/index.js";
+
+const repoRoot =
+  path.resolve(new URL("../../..", import.meta.url).pathname);
 
 test("renders a tier 3 dashboard shell with one shell marker", () => {
   const html =
@@ -279,6 +284,133 @@ test("renders dashboard kit gallery and component intake board", () => {
   assert.match(gallery, /data-hdk-component="DataTable"/);
   assert.match(document, /<!doctype html>/);
   assert.match(document, /Hermes Dashboard Kit Gallery/);
+});
+
+test("renders package-native Research Desk workspace contract", () => {
+  const html =
+    renderResearchDeskWorkspace({
+      summary:
+        {
+          total:
+            2,
+          recent:
+            1,
+          pendingHumanDecisions:
+            1,
+          pendingEvidenceReviews:
+            3,
+          viabilityRate:
+            "50%"
+        },
+      maturity:
+        {
+          tier:
+            "T3",
+          checks:
+            [
+              {
+                label:
+                  "Source contract",
+                pass:
+                  true
+              }
+            ]
+        },
+      selectedProjectId:
+        "research-1",
+      activeTab:
+        "evidence",
+      activeAction:
+        "define_research_plan",
+      projects:
+        [
+          {
+            projectId:
+              "research-1",
+            title:
+              "Creator economy platform shakeup",
+            status:
+              "operator_started",
+            operatorReviewStatus:
+              "needs_more_research",
+            masterQuestion:
+              "What changed?",
+            lastWorkflowActionAt:
+              "2026-08-05T10:15:00.000Z",
+            researchPlan:
+              {
+                selectedDirection:
+                  "direction_0_1",
+                directionOptions:
+                  [
+                    {
+                      id:
+                        "direction_0_1",
+                      label:
+                        "Money trail",
+                      thesis:
+                        "Follow the incentives.",
+                      evidence:
+                        "Revenue and ownership."
+                    }
+                  ]
+              },
+            sourceSummary:
+              {
+                total:
+                  4,
+                primary:
+                  2
+              },
+            claimSummary:
+              {
+                total:
+                  3,
+                unresolved:
+                  1
+              },
+            pendingHumanDecisions:
+              1,
+            reviewWorkbench:
+              {
+                evidenceReview:
+                  [
+                    {
+                      evidenceId:
+                        "ev-1",
+                      sourceId:
+                        "src-1",
+                      reviewStatus:
+                        "pending",
+                      recommendedAction:
+                        "Verify"
+                    }
+                  ]
+              }
+          }
+        ]
+    });
+
+  assert.match(html, /data-hdk-component="ResearchDeskWorkspace"/);
+  assert.match(html, /data-hdk-component="ThreePaneWorkspace"/);
+  assert.match(html, /data-hdk-component="WorkspaceSwitcher"/);
+  assert.match(html, /data-hdk-component="ResearchProjectComposer"/);
+  assert.match(html, /data-hdk-component="DrilldownPanel"/);
+  assert.match(html, /data-hdk-component="DetailInspector"/);
+  assert.match(html, /data-hdk-component="HelpTip"/);
+  assert.match(html, /data-research-create/);
+  assert.match(html, /data-research-open="research-1"/);
+  assert.match(html, /data-research-tab="evidence"/);
+  assert.match(html, /data-research-action="define_research_plan"/);
+  assert.match(html, /data-hdk-component="ResearchActionDrawer"/);
+  assert.match(html, /data-hdk-component="ResearchDirectionFlow"/);
+  assert.match(html, /data-hdk-component="ResearchPlanSummary"/);
+  assert.match(html, /Saved plan/);
+  assert.match(html, /data-research-generate-directions/);
+  assert.match(html, /name="selectedDirection"/);
+  assert.match(html, /name="directionOptionsJson"/);
+  assert.match(html, /data-research-action-form/);
+  assert.equal(getResearchDeskWorkflowAction("lock_claims").tab, "claims");
 });
 
 test("renders approved charts with axes and component markers", () => {
@@ -1060,12 +1192,12 @@ test("surface validator rejects chart-like tier 3 surfaces without kit charts", 
     spawnSync(
       process.execPath,
       [
-        path.resolve("packages/hermes-dashboard-kit/src/validate-surface.js"),
+        path.join(repoRoot, "packages/hermes-dashboard-kit/src/validate-surface.js"),
         badSurface
       ],
       {
         cwd:
-          path.resolve("."),
+          repoRoot,
         encoding:
           "utf8"
       }
@@ -1093,12 +1225,12 @@ test("surface validator rejects tier 3 tables over ten rows without pagination",
     spawnSync(
       process.execPath,
       [
-        path.resolve("packages/hermes-dashboard-kit/src/validate-surface.js"),
+        path.join(repoRoot, "packages/hermes-dashboard-kit/src/validate-surface.js"),
         badSurface
       ],
       {
         cwd:
-          path.resolve("."),
+          repoRoot,
         encoding:
           "utf8"
       }
@@ -1137,12 +1269,12 @@ test("surface validator warns when sortable evidence tables miss toolbar and tre
     spawnSync(
       process.execPath,
       [
-        path.resolve("packages/hermes-dashboard-kit/src/validate-surface.js"),
+        path.join(repoRoot, "packages/hermes-dashboard-kit/src/validate-surface.js"),
         badSurface
       ],
       {
         cwd:
-          path.resolve("."),
+          repoRoot,
         encoding:
           "utf8"
       }
@@ -1189,12 +1321,12 @@ test("surface validator accepts chart-led sortable evidence tables with toolbar 
     spawnSync(
       process.execPath,
       [
-        path.resolve("packages/hermes-dashboard-kit/src/validate-surface.js"),
+        path.join(repoRoot, "packages/hermes-dashboard-kit/src/validate-surface.js"),
         goodSurface
       ],
       {
         cwd:
-          path.resolve("."),
+          repoRoot,
         encoding:
           "utf8"
       }
@@ -1270,14 +1402,14 @@ test("local override scanner blocks protected dashboard CSS without a manifest e
     spawnSync(
       process.execPath,
       [
-        path.resolve("scripts/scan-dashboard-local-overrides.mjs"),
+        path.join(repoRoot, "scripts/scan-dashboard-local-overrides.mjs"),
         "--project-dir",
         dir,
         "--strict"
       ],
       {
         cwd:
-          path.resolve("."),
+          repoRoot,
         encoding:
           "utf8"
       }

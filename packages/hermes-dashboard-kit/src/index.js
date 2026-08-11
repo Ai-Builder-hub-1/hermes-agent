@@ -74,6 +74,62 @@ export const DASHBOARD_KIT_REFERENCE_FAMILIES =
     }
   ]);
 
+export const RESEARCH_DESK_WORKFLOW_ACTIONS =
+  Object.freeze([
+    {
+      id: "define_research_plan",
+      label: "Define plan",
+      tab: "overview",
+      phase: "Intake",
+      fields: ["researchQuestion", "workingThesis", "sourceTargets", "unknowns"],
+      description: "Clarify the story question, working thesis, source targets, and unknowns before research expands."
+    },
+    {
+      id: "add_source",
+      label: "Add source",
+      tab: "evidence",
+      phase: "Sourcing",
+      fields: ["sourceTitle", "sourceUrl", "sourceClass", "sourceNote"],
+      description: "Capture a source candidate, link, source class, and why it matters to the story."
+    },
+    {
+      id: "review_evidence",
+      label: "Review evidence",
+      tab: "evidence",
+      phase: "Evidence",
+      fields: ["evidenceNote", "evidenceDisposition"],
+      description: "Record whether the evidence supports, weakens, or changes the story direction."
+    },
+    {
+      id: "lock_claims",
+      label: "Lock claims",
+      tab: "claims",
+      phase: "Claim lock",
+      fields: ["claim", "claimConfidence", "claimEvidence"],
+      description: "Convert research into claims that are backed by evidence and ready for editorial use."
+    },
+    {
+      id: "resolve_gaps",
+      label: "Resolve gaps",
+      tab: "research-gates",
+      phase: "Evidence",
+      fields: ["gap", "gapDisposition", "gapOwner"],
+      description: "Close, defer, or block a known research gap before outline handoff."
+    },
+    {
+      id: "approve_outline",
+      label: "Approve outline",
+      tab: "story-tree",
+      phase: "Outline",
+      fields: ["outlineReadinessNote"],
+      description: "Mark the project ready to become an outline only after source, evidence, and claim gates are honest."
+    }
+  ]);
+
+export function getResearchDeskWorkflowAction(actionId) {
+  return RESEARCH_DESK_WORKFLOW_ACTIONS.find((action) => action.id === actionId) || null;
+}
+
 export const DASHBOARD_KIT_COMPONENT_INVENTORY =
   Object.freeze([
     {
@@ -190,15 +246,15 @@ export const DASHBOARD_KIT_COMPONENT_INVENTORY =
       family:
         "Media Workflow",
       status:
-        "draft",
+        "reviewing",
       targetTier:
         "tier-3",
       components:
-        ["ContentPackageWorkspace", "BrandPortfolioGrid", "ChannelPostabilityMatrix", "QaReviewPanel", "PublishingProofPanel"],
+        ["ContentPackageWorkspace", "BrandPortfolioGrid", "ChannelPostabilityMatrix", "QaReviewPanel", "PublishingProofPanel", "ResearchDeskWorkspace"],
       references:
         ["Sprout Social", "Adobe Express", "Manus"],
       good:
-        "The operator sees package readiness, approval/decline, publishable channels, QA reason, thumbnail/copy assets, and posting success without duplicate banners.",
+        "The operator sees package readiness, approval/decline, publishable channels, QA reason, thumbnail/copy assets, posting success, and research workspaces without duplicate banners or local layout drift.",
       userRole:
         "Define what must show in Discord versus the dashboard and what counts as approve-ready."
     },
@@ -2076,6 +2132,789 @@ export function renderPremiumDrilldownWorkspace({
   `;
 }
 
+export function renderResearchDeskWorkspace({
+  title = "Build and resume investigations",
+  subtitle = "Start a story investigation, resume active work, and move it through source, evidence, claim-lock, visual, and outline gates.",
+  summary = {},
+  maturity = {},
+  projects = [],
+  selectedProjectId = "",
+  activeTab = "overview",
+  activeAction = "",
+  directionVariant = 0,
+  reviewId = "hdk.research-desk",
+  help = true
+} = {}) {
+  const selectedProject =
+    projects.find((project) => project.projectId === selectedProjectId || project.id === selectedProjectId) ||
+    projects[0] ||
+    null;
+  const needsAction =
+    projects
+      .filter((project) => Number(project.pendingHumanDecisions || 0) > 0 || Number(project.criticalGaps || 0) > 0)
+      .slice(0, 8);
+  return `
+    <section class="hdk-research-desk" data-hdk-component="ResearchDeskWorkspace" data-review-id="${escapeAttr(reviewId)}">
+      <header class="hdk-research-command hdk-card" data-hdk-component="CompactCommandHeader" data-review-id="${escapeAttr(reviewId)}.command">
+        <div>
+          <p class="hdk-section-kicker">Research Desk ${help ? renderHelpTip({
+            label: "Research Desk",
+            text: "Start a story investigation, resume an active project, and move it through source, evidence, claim-lock, visual, and outline gates.",
+            reviewId: `${reviewId}.help.overview`
+          }) : ""}</p>
+          <h2>${escapeHtml(title)}</h2>
+          ${subtitle ? `<p>${escapeHtml(subtitle)}</p>` : ""}
+        </div>
+        <div class="hdk-research-command__metrics" data-hdk-component="MetricCardGroup">
+          ${renderMetricCard({ label: "Projects", value: summary.total || projects.length || 0, detail: `${summary.recent || 0} recent` })}
+          ${renderMetricCard({ label: "Needs decision", value: summary.pendingHumanDecisions || 0, detail: "human gates", tone: summary.pendingHumanDecisions ? "warning" : "success" })}
+          ${renderMetricCard({ label: "Ready rate", value: summary.viabilityRate || "0%", detail: "outline viability", tone: summary.viabilityRate === "0%" ? "warning" : "success" })}
+          ${renderMetricCard({ label: "Evidence", value: summary.pendingEvidenceReviews || 0, detail: "pending review", tone: summary.pendingEvidenceReviews ? "warning" : "success" })}
+        </div>
+      </header>
+
+      <div class="hdk-research-layout" data-hdk-component="ThreePaneWorkspace">
+        ${renderResearchProjectNavigator({ projects, selectedProject, needsAction, reviewId, help })}
+        <main class="hdk-research-main">
+          ${renderResearchProjectComposer({ maturity, reviewId, help })}
+          ${selectedProject ? renderResearchActiveProject({ project: selectedProject, reviewId }) : renderStatePanel({
+            state: "empty",
+            title: "No research project selected",
+            message: "Start a project to create a working space for sources, claims, evidence, and outline readiness.",
+            reviewId: `${reviewId}.empty`
+          })}
+          ${selectedProject ? renderResearchWorkboards({ project: selectedProject, activeTab, reviewId, help }) : ""}
+        </main>
+        ${renderResearchInspector({ selectedProject, maturity, events: summary.recentEvents || [], reviewId })}
+      </div>
+      ${selectedProject && activeAction ? renderResearchActionDrawer({ project: selectedProject, actionId: activeAction, directionVariant, reviewId }) : ""}
+    </section>
+  `;
+}
+
+function renderResearchProjectNavigator({
+  projects,
+  selectedProject,
+  needsAction,
+  reviewId,
+  help
+}) {
+  const selectedId =
+    selectedProject?.projectId || selectedProject?.id || "";
+  const groups =
+    [
+      ["Needs decision", projects.filter((project) => Number(project.pendingHumanDecisions || 0) > 0)],
+      ["Needs research", projects.filter((project) => ["needs_more_research", "operator_started", "unreviewed"].includes(project.operatorReviewStatus || project.status))],
+      ["Ready for outline", projects.filter((project) => project.operatorReviewStatus === "ready_for_outline" || project.status === "approved_for_outline")],
+      ["Blocked", projects.filter((project) => project.operatorReviewStatus === "blocked" || Number(project.criticalGaps || 0) > 0)]
+    ];
+  return `
+    <aside class="hdk-research-navigator hdk-card" data-hdk-component="WorkspaceSwitcher" data-review-id="${escapeAttr(reviewId)}.navigator">
+      <div class="hdk-research-panel-head">
+        <div>
+          <span>Project navigator ${help ? renderHelpTip({
+            label: "Project navigator",
+            text: "Select a project to load its workboards in the center workspace. Urgent groups jump to the first project in that state.",
+            reviewId: `${reviewId}.help.navigator`
+          }) : ""}</span>
+          <strong>${formatCompact(projects.length)} investigations</strong>
+        </div>
+        <b>${formatCompact(needsAction.length)} urgent</b>
+      </div>
+      <div class="hdk-research-project-list">
+        ${projects.length ? projects.map((project) => renderResearchNavigatorRow({ project, selectedId })).join("") : renderStatePanel({
+          state: "empty",
+          title: "No projects yet",
+          message: "Start one from the desk."
+        })}
+      </div>
+      <div class="hdk-research-filter-stack">
+        ${groups.map(([label, items]) => `
+          <button type="button" class="hdk-research-filter-row" ${items[0] ? `data-research-open="${escapeAttr(items[0].projectId || items[0].id)}"` : "disabled"}>
+            <span>${escapeHtml(label)}</span>
+            <strong>${formatCompact(items.length)}</strong>
+          </button>
+        `).join("")}
+      </div>
+    </aside>
+  `;
+}
+
+function renderResearchNavigatorRow({
+  project,
+  selectedId
+}) {
+  const projectId =
+    project.projectId || project.id;
+  return `
+    <button class="hdk-research-nav-project ${projectId === selectedId ? "is-selected" : ""}" type="button" data-research-open="${escapeAttr(projectId)}">
+      <span>${escapeHtml(project.title || "Untitled project")}</span>
+      <small>${escapeHtml(researchPhase(project))} · ${project.updatedAt ? escapeHtml(formatDateLabel(project.updatedAt)) : "not dated"}</small>
+      <b>${escapeHtml(researchOperatorStatusLabel(project.operatorReviewStatus || project.status))}</b>
+    </button>
+  `;
+}
+
+function renderResearchProjectComposer({
+  maturity,
+  reviewId,
+  help
+}) {
+  return `
+    <section class="hdk-research-composer hdk-card" data-hdk-component="ResearchProjectComposer" data-review-id="${escapeAttr(reviewId)}.composer">
+      <div class="hdk-card__header hdk-card__header-row">
+        <div>
+          <h2>Start a research project ${help ? renderHelpTip({
+            label: "Start project",
+            text: "Create the lightweight investigation shell first. Sources, claims, counterevidence, and outline readiness can mature after the project exists.",
+            reviewId: `${reviewId}.help.start`
+          }) : ""}</h2>
+        </div>
+        <span class="hdk-status-badge hdk-tone-${escapeAttr(maturity.tier === "T3" ? "success" : "warning")}">${escapeHtml(maturity.tier || "T0")}</span>
+      </div>
+      <form class="hdk-research-project-form" data-research-create>
+        <label>
+          <span>Project title</span>
+          <input name="title" type="text" placeholder="Creator economy platform shakeup" required>
+        </label>
+        <label>
+          <span>Master question</span>
+          <input name="masterQuestion" type="text" placeholder="What are we trying to prove or disprove?">
+        </label>
+        <label>
+          <span>Topic / beat</span>
+          <input name="topic" type="text" placeholder="media, politics, tech, finance">
+        </label>
+        <button class="hdk-button hdk-button-primary" type="submit">Start project</button>
+      </form>
+    </section>
+  `;
+}
+
+function renderResearchActiveProject({
+  project,
+  reviewId
+}) {
+  const nextAction =
+    researchNextWorkflowAction(project);
+  return `
+    <section class="hdk-research-active hdk-card" data-hdk-component="EntitySummaryCard" data-review-id="${escapeAttr(reviewId)}.active-project">
+      <div class="hdk-research-active__head">
+        <div>
+          <span class="hdk-status-badge hdk-tone-${escapeAttr(researchProjectTone(project))}">${escapeHtml(project.status || "unknown")}</span>
+          <h2>${escapeHtml(project.title || "Untitled project")}</h2>
+          <p>${escapeHtml(project.masterQuestion || "No master question recorded yet.")}</p>
+        </div>
+        <div class="hdk-research-active__actions">
+          ${renderResearchReviewButton(project, "needs_more_research", "Research")}
+          ${renderResearchReviewButton(project, "needs_claim_work", "Claims")}
+          ${renderResearchReviewButton(project, "ready_for_outline", "Ready")}
+        </div>
+      </div>
+      ${renderResearchPhaseStepper(project)}
+      <div class="hdk-research-active__grid">
+        <div class="hdk-research-next-card">
+          <span>Next best action</span>
+          <strong>${escapeHtml(project.recommendedNextAction || "Define the first evidence pass.")}</strong>
+          <button type="button" class="hdk-button hdk-button-primary" data-research-action="${escapeAttr(nextAction.id)}" data-research-project-id="${escapeAttr(project.projectId || project.id || "")}">
+            ${escapeHtml(nextAction.label)}
+          </button>
+        </div>
+        <div class="hdk-research-next-card">
+          <span>Operator state</span>
+          <strong>${escapeHtml(researchOperatorStatusLabel(project.operatorReviewStatus || project.status))}</strong>
+          <small>${escapeHtml(project.operatorNote || project.operatorOwner || "No operator note yet.")}</small>
+        </div>
+        ${renderResearchSavedPlanCard(project)}
+      </div>
+    </section>
+  `;
+}
+
+function renderResearchSavedPlanCard(project) {
+  const plan =
+    project.researchPlan || {};
+  const selectedOption =
+    (plan.directionOptions || []).find((option) => option.id === plan.selectedDirection) ||
+    null;
+  if (!plan.question && !plan.workingThesis && !selectedOption && !project.lastWorkflowActionAt) {
+    return "";
+  }
+  return `
+    <div class="hdk-research-next-card hdk-research-saved-plan" data-hdk-component="ResearchPlanSummary">
+      <span>Saved plan</span>
+      <strong>${escapeHtml(selectedOption?.label || "Plan direction saved")}</strong>
+      <small>${escapeHtml(selectedOption?.thesis || plan.workingThesis || plan.question || "Research plan details saved.")}</small>
+      ${project.lastWorkflowActionAt ? `<em>Saved ${escapeHtml(formatDateLabel(project.lastWorkflowActionAt))}</em>` : ""}
+    </div>
+  `;
+}
+
+function renderResearchPhaseStepper(project) {
+  const current =
+    researchPhase(project);
+  const phases =
+    [
+      ["Intake", "define_research_plan"],
+      ["Sourcing", "add_source"],
+      ["Evidence", "review_evidence"],
+      ["Claim lock", "lock_claims"],
+      ["Outline", "approve_outline"],
+      ["Handoff", "approve_outline"]
+    ];
+  const currentIndex =
+    Math.max(0, phases.findIndex(([phase]) => phase === current));
+  return `
+    <div class="hdk-research-phase-stepper" aria-label="Research phase" data-hdk-component="ResearchPhaseStepper">
+      ${phases.map(([phase, actionId], index) => `
+        <button type="button" class="${index <= currentIndex ? "is-active" : ""}" data-research-action="${escapeAttr(actionId)}">
+          <b>${index + 1}</b>
+          ${escapeHtml(phase)}
+        </button>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderResearchWorkboards({
+  project,
+  activeTab,
+  reviewId,
+  help
+}) {
+  const tabs =
+    [
+      ["overview", "Overview"],
+      ["sources", "Sources"],
+      ["research-gates", "Gates"],
+      ["evidence", "Evidence"],
+      ["claims", "Claims"],
+      ["story-tree", "Story tree"],
+      ["visuals", "Visuals"]
+    ];
+  return `
+    <section class="hdk-research-workboards hdk-card" data-hdk-component="DrilldownPanel" data-review-id="${escapeAttr(reviewId)}.workboards">
+      <div class="hdk-card__header">
+        <div>
+          <h2>Project workboards ${help ? renderHelpTip({
+            label: "Project workboards",
+            text: "Work the selected project in context: overview, gates, evidence, claims, story tree, and visual planning.",
+            reviewId: `${reviewId}.help.workboards`
+          }) : ""}</h2>
+        </div>
+      </div>
+      <div class="hdk-research-board-tabs">
+        ${tabs.map(([id, label]) => `
+          <button type="button" class="${activeTab === id ? "is-active" : ""}" data-research-tab="${escapeAttr(id)}">${escapeHtml(label)}</button>
+        `).join("")}
+      </div>
+      <div class="hdk-research-board-body">
+        ${renderResearchBoardTab(project, activeTab)}
+      </div>
+    </section>
+  `;
+}
+
+function renderResearchBoardTab(project, activeTab) {
+  if (activeTab === "sources") {
+    const sources =
+      project.reviewWorkbench?.sourceInbox || [];
+    return `
+      ${renderResearchBoardActions([["add_source", "Add source"]])}
+      ${renderResearchMiniTable({
+        columns: ["Source", "Evidence", "Type", "Review"],
+        rows:
+          sources.length
+            ? sources.map((item) => [
+                item.title || item.sourceId || "Source",
+                item.evidence || item.recommendedAction || item.sourceUrl || item.url || "Review source before using it in the story.",
+                item.sourceType || item.sourceClass || "source",
+                item.reviewStatus || item.status || "needs_review"
+              ])
+            : []
+      })}
+    `;
+  }
+  if (activeTab === "research-gates") {
+    const gates =
+      Object.entries(project.gates || {}).map(([label, status]) => ({
+        label,
+        status
+      }));
+    return `
+      ${renderResearchBoardActions([
+        ["define_research_plan", "Define plan"],
+        ["resolve_gaps", "Resolve gaps"],
+        ["approve_outline", "Approve outline"]
+      ])}
+      ${renderStateChecklist({
+        items:
+          gates.length
+            ? gates.map((gate) => ({
+                label: humanize(gate.label),
+                status: gate.status,
+                detail: gate.status === "approved" ? "Ready" : "Needs operator review"
+              }))
+            : [{ label: "Research plan", status: "pending", detail: "No gates recorded yet." }]
+      })}
+    `;
+  }
+  if (activeTab === "evidence") {
+    const evidence =
+      project.reviewWorkbench?.evidenceReview || [];
+    return `
+      ${renderResearchBoardActions([
+        ["add_source", "Add source"],
+        ["review_evidence", "Review evidence"]
+      ])}
+      ${renderResearchMiniTable({
+        columns: ["Evidence", "Source", "Review", "Next"],
+        rows:
+          evidence.length
+            ? evidence.map((item) => [
+                item.evidence || item.title || item.evidenceId || "Evidence",
+                item.sourceId || item.sourceUrl || "source",
+                item.reviewStatus || item.status || "pending",
+                item.recommendedAction || item.weakClaims || "Review"
+              ])
+            : []
+      })}
+    `;
+  }
+  if (activeTab === "claims") {
+    const claims =
+      project.reviewWorkbench?.claimLock || [];
+    return `
+      ${renderResearchBoardActions([["lock_claims", "Lock claim"]])}
+      ${renderResearchMiniTable({
+        columns: ["Claim", "Support", "Limit", "Evidence"],
+        rows:
+          claims.length
+            ? claims.map((item) => [
+                item.claim || item.title || "Claim",
+                item.support || item.confidence || item.status || "unknown",
+                item.limit || item.recommendedAction || "No limit recorded",
+                `${item.evidenceCount || 0} evidence`
+              ])
+            : []
+      })}
+    `;
+  }
+  if (activeTab === "story-tree") {
+    const nodes =
+      project.storyTree?.nodes || project.storyTree || [];
+    return renderResearchStack({
+      items:
+        Array.isArray(nodes) && nodes.length
+          ? nodes.map((item) => ({
+              title: item.title || item.label || item.id || "Story node",
+              detail: item.detail || item.summary || item.type || "Node"
+            }))
+          : [{ title: "Story tree not generated yet", detail: "Generate or import story nodes from the research pipeline." }]
+    });
+  }
+  if (activeTab === "visuals") {
+    const visuals =
+      project.visualPlan?.shots || project.visualPlan || [];
+    return renderResearchStack({
+      items:
+        Array.isArray(visuals) && visuals.length
+          ? visuals.map((item) => ({
+              title: item.title || item.label || item.id || "Visual",
+              detail: item.detail || item.prompt || item.status || "Visual planning item"
+            }))
+          : [{ title: "No visual plan yet", detail: "Add thumbnail, chart, screenshot, or B-roll requirements before outline handoff." }]
+    });
+  }
+  return renderResearchStack({
+    items: [
+      ...(project.researchPlan?.selectedDirection ? [{
+        title: "Selected research direction",
+        detail: researchSelectedDirectionLabel(project)
+      }] : []),
+      {
+        title: "Recommended next action",
+        detail: project.recommendedNextAction || "Define the first evidence pass."
+      },
+      {
+        title: "Source posture",
+        detail: `${project.sourceSummary?.total || 0} total sources · ${project.sourceSummary?.primary || 0} primary`
+      },
+      {
+        title: "Risk posture",
+        detail: `${project.criticalGaps || 0} critical gaps · ${project.pendingHumanDecisions || 0} human decisions`
+      }
+    ]
+  });
+}
+
+function researchSelectedDirectionLabel(project) {
+  const plan =
+    project.researchPlan || {};
+  const selected =
+    (plan.directionOptions || []).find((option) => option.id === plan.selectedDirection);
+  if (!selected) return plan.selectedDirection || "Direction selected";
+  return `${selected.label}: ${selected.thesis}`;
+}
+
+function renderResearchBoardActions(actions) {
+  return `
+    <div class="hdk-research-board-actions" data-hdk-component="ActionRail">
+      ${actions.map(([actionId, label]) => `
+        <button type="button" class="hdk-button" data-research-action="${escapeAttr(actionId)}">${escapeHtml(label)}</button>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderResearchActionDrawer({ project, actionId, directionVariant = 0, reviewId }) {
+  const action =
+    getResearchDeskWorkflowAction(actionId) || getResearchDeskWorkflowAction("define_research_plan");
+  const projectId =
+    project.projectId || project.id || "";
+  return `
+    <aside class="hdk-research-action-drawer" data-hdk-component="ResearchActionDrawer" data-review-id="${escapeAttr(reviewId)}.action-drawer">
+      <div class="hdk-research-action-drawer__panel hdk-card">
+        <div class="hdk-card__header hdk-card__header-row">
+          <div>
+            <p class="hdk-section-kicker">${escapeHtml(action.phase)}</p>
+            <h2>${escapeHtml(action.label)}</h2>
+            <p>${escapeHtml(action.description)}</p>
+          </div>
+          <button type="button" class="hdk-button" data-research-action-close>Close</button>
+        </div>
+        <form class="hdk-research-action-form" data-research-action-form>
+          <input type="hidden" name="projectId" value="${escapeAttr(projectId)}">
+          <input type="hidden" name="actionId" value="${escapeAttr(action.id)}">
+          <input type="hidden" name="tab" value="${escapeAttr(action.tab)}">
+          ${action.id === "define_research_plan" ? renderResearchDirectionOptions({ project, directionVariant }) : ""}
+          ${renderResearchActionFields(action, project)}
+          <label>
+            <span>Operator note</span>
+            <textarea name="operatorNote" rows="3" placeholder="What changed, what is still unknown, or what should happen next?"></textarea>
+          </label>
+          <div class="hdk-research-action-footer">
+            <button type="button" class="hdk-button" data-research-action-close>Cancel</button>
+            <button type="submit" class="hdk-button hdk-button-primary">Save workflow update</button>
+          </div>
+        </form>
+      </div>
+    </aside>
+  `;
+}
+
+function renderResearchActionFields(action, project = {}) {
+  return action.fields.map((field) => {
+    const label =
+      humanize(field);
+    const existingValue =
+      researchExistingFieldValue(project, field);
+    if (["workingThesis", "sourceTargets", "unknowns", "sourceNote", "evidenceNote", "claimEvidence", "outlineReadinessNote"].includes(field)) {
+      return `<label><span>${escapeHtml(label)}</span><textarea name="${escapeAttr(field)}" rows="3" placeholder="${escapeAttr(researchFieldPlaceholder(field))}">${escapeHtml(existingValue)}</textarea></label>`;
+    }
+    if (field === "sourceClass") {
+      return `
+        <label>
+          <span>Source class</span>
+          <select name="sourceClass">
+            <option value="primary">Primary</option>
+            <option value="secondary">Secondary</option>
+            <option value="historical">Historical</option>
+            <option value="expert">Expert</option>
+          </select>
+        </label>
+      `;
+    }
+    if (field === "evidenceDisposition") {
+      return `
+        <label>
+          <span>Evidence disposition</span>
+          <select name="evidenceDisposition">
+            <option value="supports">Supports</option>
+            <option value="weakens">Weakens</option>
+            <option value="changes_direction">Changes direction</option>
+            <option value="needs_verification">Needs verification</option>
+          </select>
+        </label>
+      `;
+    }
+    if (field === "claimConfidence") {
+      return `
+        <label>
+          <span>Claim confidence</span>
+          <select name="claimConfidence">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </label>
+      `;
+    }
+    if (field === "gapDisposition") {
+      return `
+        <label>
+          <span>Gap disposition</span>
+          <select name="gapDisposition">
+            <option value="closed">Closed</option>
+            <option value="deferred">Deferred</option>
+            <option value="blocked">Blocked</option>
+          </select>
+        </label>
+      `;
+    }
+    return `<label><span>${escapeHtml(label)}</span><input name="${escapeAttr(field)}" type="${field === "sourceUrl" ? "url" : "text"}" value="${escapeAttr(existingValue)}" placeholder="${escapeAttr(researchFieldPlaceholder(field))}"></label>`;
+  }).join("");
+}
+
+function renderResearchDirectionOptions({ project, directionVariant = 0 }) {
+  const options =
+    researchDirectionOptions(project, directionVariant);
+  const selectedDirection =
+    project.researchPlan?.selectedDirection || options[0]?.id || "";
+  return `
+    <section class="hdk-research-direction-flow" data-hdk-component="ResearchDirectionFlow" data-review-id="hdk.research-direction-flow">
+      <div class="hdk-card__header hdk-card__header-row">
+        <div>
+          <p class="hdk-section-kicker">Direction flow</p>
+          <h3>Pick a research direction</h3>
+          <p>Generated from the master question. Select the strongest path, then save it into the plan.</p>
+        </div>
+        <button type="button" class="hdk-button" data-research-generate-directions>Regenerate options</button>
+      </div>
+      <input type="hidden" name="directionOptionsJson" value="${escapeAttr(JSON.stringify(options))}">
+      <div class="hdk-research-direction-grid">
+        ${options.map((option) => `
+          <label class="hdk-research-direction-card ${option.id === selectedDirection ? "is-selected" : ""}">
+            <input type="radio" name="selectedDirection" value="${escapeAttr(option.id)}" ${option.id === selectedDirection ? "checked" : ""}>
+            <span>${escapeHtml(option.label)}</span>
+            <strong>${escapeHtml(option.thesis)}</strong>
+            <small>${escapeHtml(option.evidence)}</small>
+          </label>
+        `).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function researchDirectionOptions(project, directionVariant = 0) {
+  const savedOptions =
+    project.researchPlan?.directionOptions;
+  if (Array.isArray(savedOptions) && savedOptions.length >= 3 && Number(directionVariant) === 0) {
+    return savedOptions;
+  }
+  const question =
+    project.masterQuestion || project.researchPlan?.question || project.title || "What is the story?";
+  const subject =
+    question
+      .replace(/[?!.]+$/g, "")
+      .replace(/^(what|why|how|when|where|who|is|are|did|does|do|can|should)\s+/i, "")
+      .slice(0, 80) || "the story";
+  const variants =
+    [
+      [
+        ["Money trail", `Follow the incentives behind ${subject}.`, "Revenue, funding, contracts, ownership, spending, or compensation records."],
+        ["Power map", `Identify who benefits, who loses, and who controls the outcome.`, "Decision makers, affected groups, public statements, timelines, and dependency maps."],
+        ["Before and after", `Show what changed and why it matters now.`, "Historical baseline, latest change, measurable impact, and counterexamples."]
+      ],
+      [
+        ["Accountability angle", `Test whether the public explanation matches the record.`, "Primary documents, direct quotes, chronology, contradictions, and missing disclosures."],
+        ["Human impact", `Anchor the story in who is affected by ${subject}.`, "Examples, testimonials, local data, costs, access, and second-order effects."],
+        ["Market signal", `Look for measurable behavior that proves the story is real.`, "Search demand, pricing, audience response, volume, filings, or operational metrics."]
+      ],
+      [
+        ["Contrarian read", `Pressure-test the obvious narrative around ${subject}.`, "Best opposing evidence, alternative explanations, incentives, and weak assumptions."],
+        ["Timeline build", `Reconstruct the chain of events that created this moment.`, "Dates, announcements, filings, policy changes, posts, videos, and corrections."],
+        ["Evidence-first path", `Let the strongest available records decide the final angle.`, "Primary sources, ranked evidence cards, confidence scoring, and unresolved gaps."]
+      ]
+    ];
+  const set =
+    variants[Math.abs(Number(directionVariant || 0)) % variants.length];
+  return set.map(([label, thesis, evidence], index) => ({
+    id: `direction_${Math.abs(Number(directionVariant || 0))}_${index + 1}`,
+    label,
+    thesis,
+    evidence
+  }));
+}
+
+function researchExistingFieldValue(project, field) {
+  const plan =
+    project.researchPlan || {};
+  const values = {
+    researchQuestion: plan.question || project.masterQuestion || "",
+    workingThesis: plan.workingThesis || "",
+    sourceTargets: plan.sourceTargets || "",
+    unknowns: plan.unknowns || "",
+  };
+  return values[field] || "";
+}
+
+function researchFieldPlaceholder(field) {
+  const placeholders = {
+    researchQuestion: "What exact question should this project answer?",
+    workingThesis: "The current story angle, with room to be wrong.",
+    sourceTargets: "Documents, people, data, clips, or pages to collect.",
+    unknowns: "What could change or disprove the story?",
+    sourceTitle: "SEC filing, interview, dataset, clip, article...",
+    sourceUrl: "https://...",
+    sourceNote: "Why this source belongs in the project.",
+    evidenceNote: "What the evidence says and where it came from.",
+    claim: "A claim that can be backed by evidence.",
+    claimEvidence: "Evidence IDs, URLs, or notes backing the claim.",
+    gap: "What is missing or blocking confidence?",
+    gapOwner: "operator, VA, agent, editor...",
+    outlineReadinessNote: "Why this can or cannot move into outline."
+  };
+  return placeholders[field] || "";
+}
+
+function researchNextWorkflowAction(project) {
+  const gates =
+    project.gates || {};
+  if (!gates.researchPlan || ["not_started", "needs_review", "blocked"].includes(gates.researchPlan)) {
+    return getResearchDeskWorkflowAction("define_research_plan");
+  }
+  if ((project.sourceSummary?.total || 0) === 0) {
+    return getResearchDeskWorkflowAction("add_source");
+  }
+  if ((project.reviewWorkbench?.summary?.pendingEvidenceReviews || 0) > 0) {
+    return getResearchDeskWorkflowAction("review_evidence");
+  }
+  if ((project.claimSummary?.unresolved || 0) > 0 || (project.claimSummary?.total || 0) === 0) {
+    return getResearchDeskWorkflowAction("lock_claims");
+  }
+  if ((project.criticalGaps || 0) > 0) {
+    return getResearchDeskWorkflowAction("resolve_gaps");
+  }
+  return getResearchDeskWorkflowAction("approve_outline");
+}
+
+function renderResearchInspector({
+  selectedProject,
+  maturity,
+  events = [],
+  reviewId
+}) {
+  return `
+    <aside class="hdk-research-inspector" data-hdk-component="DetailInspector" data-review-id="${escapeAttr(reviewId)}.inspector">
+      <section class="hdk-card hdk-research-inspector-card" data-hdk-component="StatePanel">
+        <div class="hdk-card__header hdk-card__header-row"><h2>Inspector</h2><span class="hdk-status-badge">${escapeHtml(selectedProject ? researchPhase(selectedProject) : "none")}</span></div>
+        ${selectedProject ? `
+          <div class="hdk-research-inspector-stack">
+            ${renderMetricCard({ label: "Sources", value: selectedProject.sourceSummary?.total || 0, detail: `${selectedProject.sourceSummary?.primary || 0} primary` })}
+            ${renderMetricCard({ label: "Claims", value: selectedProject.claimSummary?.total || 0, detail: `${selectedProject.claimSummary?.unresolved || 0} unresolved`, tone: selectedProject.claimSummary?.unresolved ? "warning" : "success" })}
+            ${renderMetricCard({ label: "Gaps", value: selectedProject.criticalGaps || 0, detail: "critical", tone: selectedProject.criticalGaps ? "critical" : "success" })}
+          </div>
+        ` : renderStatePanel({ state: "empty", title: "Select a project", message: "Source, claim, and gap health appears here." })}
+      </section>
+      <section class="hdk-card hdk-research-inspector-card" data-hdk-component="ExpandableDataList">
+        <div class="hdk-card__header hdk-card__header-row"><h2>Recent events</h2><span class="hdk-status-badge">${formatCompact(events.length)}</span></div>
+        ${renderResearchStack({
+          items:
+            events.length
+              ? events.slice(0, 8).map((item) => ({
+                  title: item.type || "event",
+                  detail: item.message || item.projectId || "",
+                  value: item.createdAt ? formatDateLabel(item.createdAt) : ""
+                }))
+              : [{ title: "No recent events", detail: "Research activity events appear after the feed updates." }]
+        })}
+      </section>
+      <section class="hdk-card hdk-research-inspector-card" data-hdk-component="StateChecklist">
+        <div class="hdk-card__header hdk-card__header-row"><h2>Maturity checks</h2><span class="hdk-status-badge">${escapeHtml(maturity.tier || "T0")}</span></div>
+        ${renderStateChecklist({
+          items: (maturity.checks || []).map((check) => ({
+            label: check.label,
+            status: check.pass ? "pass" : "blocked",
+            detail: check.detail || ""
+          }))
+        })}
+      </section>
+    </aside>
+  `;
+}
+
+function renderResearchReviewButton(project, status, label) {
+  const projectId =
+    project.projectId || project.id || "";
+  return `<button type="button" class="hdk-button" data-research-review="${escapeAttr(status)}" data-research-project="${escapeAttr(projectId)}">${escapeHtml(label)}</button>`;
+}
+
+function renderResearchMiniTable({
+  columns,
+  rows
+}) {
+  if (!rows.length) {
+    return renderStatePanel({
+      state: "empty",
+      title: "No records yet",
+      message: "This workboard will fill as the research pipeline exports review records."
+    });
+  }
+  return `
+    <div class="hdk-research-mini-table" data-hdk-component="DataTable">
+      <table>
+        <thead><tr>${columns.map((column) => `<th>${escapeHtml(column)}</th>`).join("")}</tr></thead>
+        <tbody>
+          ${rows.map((row) => `<tr>${row.map((cell) => `<td>${escapeHtml(cell)}</td>`).join("")}</tr>`).join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function renderResearchStack({ items }) {
+  return `
+    <div class="hdk-research-stack">
+      ${items.map((item) => `
+        <article class="hdk-research-stack-item">
+          <div>
+            <strong>${escapeHtml(item.title || item.label || "Item")}</strong>
+            ${item.detail ? `<p>${escapeHtml(item.detail)}</p>` : ""}
+          </div>
+          ${item.value ? `<b>${escapeHtml(item.value)}</b>` : ""}
+        </article>
+      `).join("")}
+    </div>
+  `;
+}
+
+function researchPhase(project) {
+  const gates =
+    project.gates || {};
+  if (project.operatorReviewStatus === "ready_for_outline" || project.status === "approved_for_outline") return "Outline";
+  if (project.status === "operator_started") return "Intake";
+  if (gates.claimLock === "approved" || project.status === "claim_lock") return "Claim lock";
+  if ((project.reviewWorkbench?.summary?.evidenceCards || 0) > 0 || gates.preliminaryEvidence === "approved") return "Evidence";
+  if ((project.sourceSummary?.total || 0) > 0 || gates.researchPlan === "approved") return "Sourcing";
+  return "Intake";
+}
+
+function researchProjectTone(project) {
+  const status =
+    project.operatorReviewStatus || project.status || "";
+  if (status.includes("blocked")) return "critical";
+  if (status.includes("ready") || status.includes("approved")) return "success";
+  if (status.includes("research") || status.includes("claim") || Number(project.criticalGaps || 0) > 0) return "warning";
+  return "neutral";
+}
+
+function researchOperatorStatusLabel(status = "") {
+  return humanize(status || "unreviewed");
+}
+
+function formatDateLabel(value) {
+  const date =
+    new Date(value);
+  if (Number.isNaN(date.getTime())) return String(value);
+  return date.toLocaleDateString("en-US", {
+    month:
+      "short",
+    day:
+      "numeric"
+  });
+}
+
 export function renderTimeWindowSelector({
   windows = ["1D", "7D", "14D", "30D"],
   active = "7D",
@@ -2763,6 +3602,7 @@ function severityTone(severity) {
 
 function humanize(value) {
   return String(value || "")
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
     .replace(/[_-]+/g, " ")
     .replace(/\b\w/g, (match) => match.toUpperCase());
 }
