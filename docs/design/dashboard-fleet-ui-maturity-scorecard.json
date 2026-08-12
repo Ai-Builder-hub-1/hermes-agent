@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-12T14:40:10.793Z",
+  "generatedAt": "2026-08-12T15:09:04.176Z",
   "purpose": "Aggregates central UI maturity signals for every registered production dashboard.",
   "scoringModel": {
     "tierBand": 20,
