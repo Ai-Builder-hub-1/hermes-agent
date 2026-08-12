@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-12T15:56:19.089Z",
+  "generatedAt": "2026-08-12T16:01:38.692Z",
   "purpose": "Cross-project deployment source ledger for Hetzner dashboard promotion and rollback review.",
   "checkedCount": 10,
   "missingSourceCount": 0,
@@ -38,16 +38,22 @@
       },
       "repo": {
         "branch": "main",
-        "commit": "b9d699e6ee3bdffa255436581c442ea209c43c07",
-        "shortCommit": "b9d699e6ee3b",
+        "commit": "f09fdfe67ebbfcc95aa0e2877591453bd8a23043",
+        "shortCommit": "f09fdfe67ebb",
         "statusBranch": "## main...ai-builder/main",
         "clean": true,
-        "dirtyCount": 0,
+        "dirtyCount": 2,
         "sourceDirtyCount": 0,
-        "evidenceDirtyCount": 0,
-        "dirtyFiles": [],
+        "evidenceDirtyCount": 2,
+        "dirtyFiles": [
+          "M docs/design/dashboard-deployment-ledger.json",
+          " M docs/design/dashboard-deployment-ledger.md"
+        ],
         "sourceDirtyFiles": [],
-        "evidenceDirtyFiles": [],
+        "evidenceDirtyFiles": [
+          "M docs/design/dashboard-deployment-ledger.json",
+          " M docs/design/dashboard-deployment-ledger.md"
+        ],
         "ahead": 0,
         "behind": 0
       },
@@ -117,22 +123,22 @@
         "composeService": "media-engine-dashboard",
         "buildContext": "/root/apps/media-engine",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": "promotion-evidence:media-engine-dashboard-2026-08-12T15-54-37Z",
+        "source": "promotion-evidence:media-engine-dashboard-2026-08-12T15-59-36Z",
         "sourceCommit": "439b7f272f85b17ee2822c620d99dc10351ebe36"
       },
       "promotionEvidence": {
         "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/media-engine-dashboard.json",
         "error": null,
-        "eventId": "media-engine-dashboard-2026-08-12T15-54-37Z",
+        "eventId": "media-engine-dashboard-2026-08-12T15-59-36Z",
         "status": "succeeded",
-        "startedAt": "2026-08-12T15:54:05Z",
-        "finishedAt": "2026-08-12T15:54:37Z",
-        "previousCommit": "dc3e762560f2340c1f6592cf0ae884b9010b15cc",
+        "startedAt": "2026-08-12T15:59:21Z",
+        "finishedAt": "2026-08-12T15:59:36Z",
+        "previousCommit": "439b7f272f85b17ee2822c620d99dc10351ebe36",
         "resolvedCommit": "439b7f272f85b17ee2822c620d99dc10351ebe36",
-        "imageId": "sha256:4f2702b6faa85244584194647ffb3f659ed6b6413bff991ac669bcb56be980bc",
-        "containerImageId": "sha256:4f2702b6faa85244584194647ffb3f659ed6b6413bff991ac669bcb56be980bc",
-        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh media-engine dc3e762560f2340c1f6592cf0ae884b9010b15cc"
+        "imageId": "sha256:f57e2eab8b847bb73589ac25a9fe4ede77340a960805a6eff3515a924ed00183",
+        "containerImageId": "sha256:f57e2eab8b847bb73589ac25a9fe4ede77340a960805a6eff3515a924ed00183",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh media-engine 439b7f272f85b17ee2822c620d99dc10351ebe36"
       },
       "repo": {
         "branch": "main",
@@ -419,27 +425,27 @@
         "composeService": "hermes",
         "buildContext": "/root/apps/hermes",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": "promotion-evidence:hermes-2026-08-12T15-24-13Z",
-        "sourceCommit": "92b6f8a7990bffb27ef278842db3183cc0eb2268"
+        "source": "promotion-evidence:hermes-2026-08-12T16-01-23Z",
+        "sourceCommit": "85fbce064150af40328ff840829d789ac7be135f"
       },
       "promotionEvidence": {
         "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/hermes.json",
         "error": null,
-        "eventId": "hermes-2026-08-12T15-24-13Z",
+        "eventId": "hermes-2026-08-12T16-01-23Z",
         "status": "succeeded",
-        "startedAt": "2026-08-12T15:22:24Z",
-        "finishedAt": "2026-08-12T15:24:13Z",
-        "previousCommit": "53f97c0804592dec2e24358c41b406a98a0c5a69",
-        "resolvedCommit": "92b6f8a7990bffb27ef278842db3183cc0eb2268",
-        "imageId": "sha256:86c88fbebbc4d0969a2f6143415872d00acb3ede6fb128c5260a35839d55fd3b",
-        "containerImageId": "sha256:86c88fbebbc4d0969a2f6143415872d00acb3ede6fb128c5260a35839d55fd3b",
-        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh hermes 53f97c0804592dec2e24358c41b406a98a0c5a69"
+        "startedAt": "2026-08-12T16:00:05Z",
+        "finishedAt": "2026-08-12T16:01:23Z",
+        "previousCommit": "92b6f8a7990bffb27ef278842db3183cc0eb2268",
+        "resolvedCommit": "85fbce064150af40328ff840829d789ac7be135f",
+        "imageId": "sha256:e3f639c5cc613fd2cc25e98d54c303217e864a8e8f7d17ec045848a657f01dc3",
+        "containerImageId": "sha256:e3f639c5cc613fd2cc25e98d54c303217e864a8e8f7d17ec045848a657f01dc3",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh hermes 92b6f8a7990bffb27ef278842db3183cc0eb2268"
       },
       "repo": {
         "branch": "deploy/hermes-workspace-hetzner",
-        "commit": "92b6f8a7990bffb27ef278842db3183cc0eb2268",
-        "shortCommit": "92b6f8a7990b",
+        "commit": "85fbce064150af40328ff840829d789ac7be135f",
+        "shortCommit": "85fbce064150",
         "statusBranch": "## deploy/hermes-workspace-hetzner...origin/deploy/hermes-workspace-hetzner",
         "clean": true,
         "dirtyCount": 0,
