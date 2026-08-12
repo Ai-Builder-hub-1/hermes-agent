@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-12T16:01:38.692Z",
+  "generatedAt": "2026-08-12T16:09:36.629Z",
   "purpose": "Cross-project deployment source ledger for Hetzner dashboard promotion and rollback review.",
   "checkedCount": 10,
   "missingSourceCount": 0,
@@ -38,8 +38,8 @@
       },
       "repo": {
         "branch": "main",
-        "commit": "f09fdfe67ebbfcc95aa0e2877591453bd8a23043",
-        "shortCommit": "f09fdfe67ebb",
+        "commit": "2279fa6046d8877d7b0f597f3acc769116dae9ea",
+        "shortCommit": "2279fa6046d8",
         "statusBranch": "## main...ai-builder/main",
         "clean": true,
         "dirtyCount": 2,
@@ -425,27 +425,27 @@
         "composeService": "hermes",
         "buildContext": "/root/apps/hermes",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": "promotion-evidence:hermes-2026-08-12T16-01-23Z",
-        "sourceCommit": "85fbce064150af40328ff840829d789ac7be135f"
+        "source": "promotion-evidence:hermes-2026-08-12T16-08-39Z",
+        "sourceCommit": "9ad2dd78d03b00969d26da825f2620969b4c896c"
       },
       "promotionEvidence": {
         "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/hermes.json",
         "error": null,
-        "eventId": "hermes-2026-08-12T16-01-23Z",
+        "eventId": "hermes-2026-08-12T16-08-39Z",
         "status": "succeeded",
-        "startedAt": "2026-08-12T16:00:05Z",
-        "finishedAt": "2026-08-12T16:01:23Z",
-        "previousCommit": "92b6f8a7990bffb27ef278842db3183cc0eb2268",
-        "resolvedCommit": "85fbce064150af40328ff840829d789ac7be135f",
-        "imageId": "sha256:e3f639c5cc613fd2cc25e98d54c303217e864a8e8f7d17ec045848a657f01dc3",
-        "containerImageId": "sha256:e3f639c5cc613fd2cc25e98d54c303217e864a8e8f7d17ec045848a657f01dc3",
-        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh hermes 92b6f8a7990bffb27ef278842db3183cc0eb2268"
+        "startedAt": "2026-08-12T16:06:43Z",
+        "finishedAt": "2026-08-12T16:08:39Z",
+        "previousCommit": "85fbce064150af40328ff840829d789ac7be135f",
+        "resolvedCommit": "9ad2dd78d03b00969d26da825f2620969b4c896c",
+        "imageId": "sha256:9914aa12f0d0a4ed3f01305f3142390225db9c984d82a1871d2dda516ec915d7",
+        "containerImageId": "sha256:9914aa12f0d0a4ed3f01305f3142390225db9c984d82a1871d2dda516ec915d7",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh hermes 85fbce064150af40328ff840829d789ac7be135f"
       },
       "repo": {
         "branch": "deploy/hermes-workspace-hetzner",
-        "commit": "85fbce064150af40328ff840829d789ac7be135f",
-        "shortCommit": "85fbce064150",
+        "commit": "9ad2dd78d03b00969d26da825f2620969b4c896c",
+        "shortCommit": "9ad2dd78d03b",
         "statusBranch": "## deploy/hermes-workspace-hetzner...origin/deploy/hermes-workspace-hetzner",
         "clean": true,
         "dirtyCount": 0,
