@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-05T13:23:36.729Z",
+  "generatedAt": "2026-08-12T15:26:16.177Z",
   "purpose": "Cross-project deployment source ledger for Hetzner dashboard promotion and rollback review.",
-  "checkedCount": 9,
+  "checkedCount": 10,
   "missingSourceCount": 0,
-  "trackedWithRisksCount": 5,
+  "trackedWithRisksCount": 3,
   "entries": [
     {
       "id": "nous-hermes-agent.dashboard",
@@ -19,83 +19,69 @@
         "composeService": "nous-hermes-agent",
         "buildContext": "/root/apps/nous-hermes-agent",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": "promotion-evidence:nous-hermes-agent-2026-08-05T02-58-05Z",
-        "sourceCommit": "353243782ef023985605e332ca6c3e6d10619555"
+        "source": "promotion-evidence:nous-hermes-agent-2026-08-12T15-13-51Z",
+        "sourceCommit": "a4453531619c174c4a13722483f95133fb37c72d"
       },
       "promotionEvidence": {
         "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/nous-hermes-agent.json",
         "error": null,
-        "eventId": "nous-hermes-agent-2026-08-05T02-58-05Z",
+        "eventId": "nous-hermes-agent-2026-08-12T15-13-51Z",
         "status": "succeeded",
-        "startedAt": "2026-08-05T02:54:41Z",
-        "finishedAt": "2026-08-05T02:58:05Z",
-        "previousCommit": "0954bc1e97d0f539961eeca78e28d5e0e05646e8",
-        "resolvedCommit": "353243782ef023985605e332ca6c3e6d10619555",
-        "imageId": "sha256:17fc05255e1d316ae41bc520f931c1c8cd36e1370ead88043c9661f304f37db7",
-        "containerImageId": "sha256:17fc05255e1d316ae41bc520f931c1c8cd36e1370ead88043c9661f304f37db7",
-        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh nous-hermes-agent 0954bc1e97d0f539961eeca78e28d5e0e05646e8"
+        "startedAt": "2026-08-12T15:10:27Z",
+        "finishedAt": "2026-08-12T15:13:51Z",
+        "previousCommit": "9fef42a96a406da673caaaf410bf10553db834e6",
+        "resolvedCommit": "a4453531619c174c4a13722483f95133fb37c72d",
+        "imageId": "sha256:492b44e53e9c40f610876895299c7e50eada19428e475996017d91f614f4daca",
+        "containerImageId": "sha256:492b44e53e9c40f610876895299c7e50eada19428e475996017d91f614f4daca",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh nous-hermes-agent 9fef42a96a406da673caaaf410bf10553db834e6"
       },
       "repo": {
         "branch": "main",
-        "commit": "353243782ef023985605e332ca6c3e6d10619555",
-        "shortCommit": "353243782ef0",
-        "statusBranch": "## main...ai-builder/main",
+        "commit": "a4453531619c174c4a13722483f95133fb37c72d",
+        "shortCommit": "a4453531619c",
+        "statusBranch": "## main...ai-builder/main [ahead 4]",
         "clean": true,
-        "dirtyCount": 32,
+        "dirtyCount": 12,
         "sourceDirtyCount": 0,
-        "evidenceDirtyCount": 32,
+        "evidenceDirtyCount": 12,
         "dirtyFiles": [
-          "M docs/design/dashboard-bridge-coverage-report.json",
-          " M docs/design/dashboard-cross-project-action-backlog.json",
-          " M docs/design/dashboard-cross-project-action-backlog.md",
-          " M docs/design/dashboard-deployment-ledger.json",
+          "M docs/design/dashboard-deployment-ledger.json",
           " M docs/design/dashboard-deployment-ledger.md",
-          " M docs/design/dashboard-deployment-metadata-report.json",
-          " M docs/design/dashboard-governance-refresh-report.json",
-          " M docs/design/dashboard-governance-refresh-report.md",
-          " M docs/design/dashboard-health-report.json",
+          " M docs/design/dashboard-design-debt-report.json",
+          " M docs/design/dashboard-design-debt-report.md",
+          " M docs/design/dashboard-fleet-ui-maturity-scorecard.json",
+          " M docs/design/dashboard-fleet-ui-maturity-scorecard.md",
           " M docs/design/dashboard-kit-distribution-report.json",
           " M docs/design/dashboard-kit-distribution-report.md",
-          " M docs/design/dashboard-maturity-report.json",
-          " M docs/design/dashboard-next-actions-report.json",
-          " M docs/design/dashboard-next-actions-report.md",
-          " M docs/design/dashboard-production-dns-report.json",
-          " M docs/design/dashboard-production-proof-registry.json",
-          " M docs/design/dashboard-project-validation-profiles-report.json",
-          " M docs/design/dashboard-promotion-readiness.json",
-          " M docs/design/dashboard-promotion-readiness.md",
-          " M docs/design/dashboard-readiness-impact.json"
+          " M docs/design/dashboard-runtime-data-report.json",
+          " M docs/design/dashboard-runtime-data-report.md",
+          " M docs/design/dashboard-visual-regression-matrix.json",
+          " M docs/design/dashboard-visual-regression-matrix.md"
         ],
         "sourceDirtyFiles": [],
         "evidenceDirtyFiles": [
-          "M docs/design/dashboard-bridge-coverage-report.json",
-          " M docs/design/dashboard-cross-project-action-backlog.json",
-          " M docs/design/dashboard-cross-project-action-backlog.md",
-          " M docs/design/dashboard-deployment-ledger.json",
+          "M docs/design/dashboard-deployment-ledger.json",
           " M docs/design/dashboard-deployment-ledger.md",
-          " M docs/design/dashboard-deployment-metadata-report.json",
-          " M docs/design/dashboard-governance-refresh-report.json",
-          " M docs/design/dashboard-governance-refresh-report.md",
-          " M docs/design/dashboard-health-report.json",
+          " M docs/design/dashboard-design-debt-report.json",
+          " M docs/design/dashboard-design-debt-report.md",
+          " M docs/design/dashboard-fleet-ui-maturity-scorecard.json",
+          " M docs/design/dashboard-fleet-ui-maturity-scorecard.md",
           " M docs/design/dashboard-kit-distribution-report.json",
           " M docs/design/dashboard-kit-distribution-report.md",
-          " M docs/design/dashboard-maturity-report.json",
-          " M docs/design/dashboard-next-actions-report.json",
-          " M docs/design/dashboard-next-actions-report.md",
-          " M docs/design/dashboard-production-dns-report.json",
-          " M docs/design/dashboard-production-proof-registry.json",
-          " M docs/design/dashboard-project-validation-profiles-report.json",
-          " M docs/design/dashboard-promotion-readiness.json",
-          " M docs/design/dashboard-promotion-readiness.md",
-          " M docs/design/dashboard-readiness-impact.json"
+          " M docs/design/dashboard-runtime-data-report.json",
+          " M docs/design/dashboard-runtime-data-report.md",
+          " M docs/design/dashboard-visual-regression-matrix.json",
+          " M docs/design/dashboard-visual-regression-matrix.md"
         ],
-        "ahead": 0,
+        "ahead": 4,
         "behind": 0
       },
-      "status": "tracked",
+      "status": "tracked-with-risks",
       "missing": [],
-      "risks": []
+      "risks": [
+        "local branch has unpushed commits"
+      ]
     },
     {
       "id": "khashi-vc.roc",
@@ -110,50 +96,41 @@
         "composeService": "khashi",
         "buildContext": "/root/apps/khashi-vc",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": null,
-        "sourceCommit": null
+        "source": "promotion-evidence:khashi-2026-08-12T15-16-57Z",
+        "sourceCommit": "99ed31466d85f0dcae28001afd947889e880d899"
       },
       "promotionEvidence": {
-        "available": false,
+        "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/khashi.json",
-        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/khashi.json",
-        "eventId": null,
-        "status": null,
-        "startedAt": null,
-        "finishedAt": null,
-        "previousCommit": null,
-        "resolvedCommit": null,
-        "imageId": null,
-        "containerImageId": null,
-        "rollbackCommand": null
+        "error": null,
+        "eventId": "khashi-2026-08-12T15-16-57Z",
+        "status": "succeeded",
+        "startedAt": "2026-08-12T15:15:40Z",
+        "finishedAt": "2026-08-12T15:16:57Z",
+        "previousCommit": "81489d3e55f4778f6ba8f15d9298fb980434f898",
+        "resolvedCommit": "99ed31466d85f0dcae28001afd947889e880d899",
+        "imageId": "sha256:72db3fb18b081ffb7dd8498c97c7cc4b37166ed7b9dddf64eb3bb1fb08d73577",
+        "containerImageId": "sha256:72db3fb18b081ffb7dd8498c97c7cc4b37166ed7b9dddf64eb3bb1fb08d73577",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh khashi 81489d3e55f4778f6ba8f15d9298fb980434f898"
       },
       "repo": {
         "branch": "main",
-        "commit": "5104d391c74db4ee7ecf3321cba166b26fc96ec9",
-        "shortCommit": "5104d391c74d",
+        "commit": "99ed31466d85f0dcae28001afd947889e880d899",
+        "shortCommit": "99ed31466d85",
         "statusBranch": "## main...origin/main",
-        "clean": false,
-        "dirtyCount": 1,
-        "sourceDirtyCount": 1,
+        "clean": true,
+        "dirtyCount": 0,
+        "sourceDirtyCount": 0,
         "evidenceDirtyCount": 0,
-        "dirtyFiles": [
-          "M public/roc/index.html"
-        ],
-        "sourceDirtyFiles": [
-          "M public/roc/index.html"
-        ],
+        "dirtyFiles": [],
+        "sourceDirtyFiles": [],
         "evidenceDirtyFiles": [],
         "ahead": 0,
         "behind": 0
       },
-      "status": "tracked-with-risks",
+      "status": "tracked",
       "missing": [],
-      "risks": [
-        "deployment source note missing",
-        "production commit not recorded",
-        "promotion evidence unavailable",
-        "local repo has uncommitted changes"
-      ]
+      "risks": []
     },
     {
       "id": "media-engine.ops",
@@ -168,27 +145,27 @@
         "composeService": "media-engine-dashboard",
         "buildContext": "/root/apps/media-engine",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": "promotion-evidence:media-engine-dashboard-2026-08-05T02-52-39Z",
-        "sourceCommit": "42b1ce1953935d2c4237471f8a4513629652b7fb"
+        "source": "promotion-evidence:media-engine-dashboard-2026-08-12T15-17-42Z",
+        "sourceCommit": "dc3e762560f2340c1f6592cf0ae884b9010b15cc"
       },
       "promotionEvidence": {
         "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/media-engine-dashboard.json",
         "error": null,
-        "eventId": "media-engine-dashboard-2026-08-05T02-52-39Z",
+        "eventId": "media-engine-dashboard-2026-08-12T15-17-42Z",
         "status": "succeeded",
-        "startedAt": "2026-08-05T02:51:31Z",
-        "finishedAt": "2026-08-05T02:52:39Z",
-        "previousCommit": "11a556474fbc9de1d13c338d5a04c133ee959637",
-        "resolvedCommit": "42b1ce1953935d2c4237471f8a4513629652b7fb",
-        "imageId": "sha256:f42edb648500810e71293a3571065c0ca6038c300547e038c036c9f5eb311f58",
-        "containerImageId": "sha256:f42edb648500810e71293a3571065c0ca6038c300547e038c036c9f5eb311f58",
-        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh media-engine 11a556474fbc9de1d13c338d5a04c133ee959637"
+        "startedAt": "2026-08-12T15:17:03Z",
+        "finishedAt": "2026-08-12T15:17:42Z",
+        "previousCommit": "eaba723ff6ac4477760f8b5e6d4fe90380be6e48",
+        "resolvedCommit": "dc3e762560f2340c1f6592cf0ae884b9010b15cc",
+        "imageId": "sha256:f64d5872aae9fa3b8d98eae1d52e40a26262e9effd40062083f6ad5a7efbc068",
+        "containerImageId": "sha256:f64d5872aae9fa3b8d98eae1d52e40a26262e9effd40062083f6ad5a7efbc068",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh media-engine eaba723ff6ac4477760f8b5e6d4fe90380be6e48"
       },
       "repo": {
         "branch": "main",
-        "commit": "42b1ce1953935d2c4237471f8a4513629652b7fb",
-        "shortCommit": "42b1ce195393",
+        "commit": "dc3e762560f2340c1f6592cf0ae884b9010b15cc",
+        "shortCommit": "dc3e762560f2",
         "statusBranch": "## main...origin/main",
         "clean": true,
         "dirtyCount": 0,
@@ -217,47 +194,41 @@
         "composeService": "media-business-operations",
         "buildContext": "/root/apps/media-business-operations",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": "promotion-evidence:media-business-operations-2026-08-05T02-51-26Z",
-        "sourceCommit": "49ae37cf0abe681ae7fad68893d5893456bf34d1"
+        "source": "promotion-evidence:media-business-operations-2026-08-12T15-19-24Z",
+        "sourceCommit": "f7cf37c724271fb31c11166fa49f36db0afbbbdf"
       },
       "promotionEvidence": {
         "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/media-business-operations.json",
         "error": null,
-        "eventId": "media-business-operations-2026-08-05T02-51-26Z",
+        "eventId": "media-business-operations-2026-08-12T15-19-24Z",
         "status": "succeeded",
-        "startedAt": "2026-08-05T02:51:10Z",
-        "finishedAt": "2026-08-05T02:51:26Z",
-        "previousCommit": "1bb63646a8984376c30fa0f0031b1c2a0b9c1f92",
-        "resolvedCommit": "49ae37cf0abe681ae7fad68893d5893456bf34d1",
-        "imageId": "sha256:19973a54cc712058c4d10b82d9da607ba63de00e7669be2fe45cb761dd1b41c5",
-        "containerImageId": "sha256:19973a54cc712058c4d10b82d9da607ba63de00e7669be2fe45cb761dd1b41c5",
-        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh media-business-operations 1bb63646a8984376c30fa0f0031b1c2a0b9c1f92"
+        "startedAt": "2026-08-12T15:19:01Z",
+        "finishedAt": "2026-08-12T15:19:24Z",
+        "previousCommit": "3b7099a97f0dfc55afd231ada5f1f00557d32424",
+        "resolvedCommit": "f7cf37c724271fb31c11166fa49f36db0afbbbdf",
+        "imageId": "sha256:80a538be78e510bbba2e22b4ea866367320860ce553acc2b4c593bdd9e34ba10",
+        "containerImageId": "sha256:80a538be78e510bbba2e22b4ea866367320860ce553acc2b4c593bdd9e34ba10",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh media-business-operations 3b7099a97f0dfc55afd231ada5f1f00557d32424"
       },
       "repo": {
         "branch": "main",
-        "commit": "49ae37cf0abe681ae7fad68893d5893456bf34d1",
-        "shortCommit": "49ae37cf0abe",
+        "commit": "f7cf37c724271fb31c11166fa49f36db0afbbbdf",
+        "shortCommit": "f7cf37c72427",
         "statusBranch": "## main...origin/main",
-        "clean": false,
-        "dirtyCount": 1,
-        "sourceDirtyCount": 1,
+        "clean": true,
+        "dirtyCount": 0,
+        "sourceDirtyCount": 0,
         "evidenceDirtyCount": 0,
-        "dirtyFiles": [
-          "M docs/business-unit-readiness-plan.md"
-        ],
-        "sourceDirtyFiles": [
-          "M docs/business-unit-readiness-plan.md"
-        ],
+        "dirtyFiles": [],
+        "sourceDirtyFiles": [],
         "evidenceDirtyFiles": [],
         "ahead": 0,
         "behind": 0
       },
-      "status": "tracked-with-risks",
+      "status": "tracked",
       "missing": [],
-      "risks": [
-        "local repo has uncommitted changes"
-      ]
+      "risks": []
     },
     {
       "id": "business-mapper.workspace",
@@ -272,47 +243,41 @@
         "composeService": "business-mapper",
         "buildContext": "/root/apps/business-mapper",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": "promotion-evidence:business-mapper-2026-08-05T02-51-05Z",
-        "sourceCommit": "a2ff9504a7269600310afce4037de3ebb2a39de2"
+        "source": "promotion-evidence:business-mapper-2026-08-12T15-19-53Z",
+        "sourceCommit": "515d7f063ac5bffa344ec94e6e5ce898dbd60e3c"
       },
       "promotionEvidence": {
         "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/business-mapper.json",
         "error": null,
-        "eventId": "business-mapper-2026-08-05T02-51-05Z",
+        "eventId": "business-mapper-2026-08-12T15-19-53Z",
         "status": "succeeded",
-        "startedAt": "2026-08-05T02:50:45Z",
-        "finishedAt": "2026-08-05T02:51:05Z",
-        "previousCommit": "a2ff9504a7269600310afce4037de3ebb2a39de2",
-        "resolvedCommit": "a2ff9504a7269600310afce4037de3ebb2a39de2",
-        "imageId": "sha256:37f1eb6130781e027e0b20993b1237f1f384f8053158f07ca18a73b54c3b0b15",
-        "containerImageId": "sha256:37f1eb6130781e027e0b20993b1237f1f384f8053158f07ca18a73b54c3b0b15",
-        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh business-mapper a2ff9504a7269600310afce4037de3ebb2a39de2"
+        "startedAt": "2026-08-12T15:19:31Z",
+        "finishedAt": "2026-08-12T15:19:53Z",
+        "previousCommit": "8308efc2866de08a33e08885a8c59aa795bb6edf",
+        "resolvedCommit": "515d7f063ac5bffa344ec94e6e5ce898dbd60e3c",
+        "imageId": "sha256:7438bc7f903e0c764e34e869aac141b7cd160e8a54c34dbfeed2ee99375b7f61",
+        "containerImageId": "sha256:7438bc7f903e0c764e34e869aac141b7cd160e8a54c34dbfeed2ee99375b7f61",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh business-mapper 8308efc2866de08a33e08885a8c59aa795bb6edf"
       },
       "repo": {
         "branch": "main",
-        "commit": "a2ff9504a7269600310afce4037de3ebb2a39de2",
-        "shortCommit": "a2ff9504a726",
+        "commit": "515d7f063ac5bffa344ec94e6e5ce898dbd60e3c",
+        "shortCommit": "515d7f063ac5",
         "statusBranch": "## main...origin/main",
-        "clean": false,
-        "dirtyCount": 1,
-        "sourceDirtyCount": 1,
+        "clean": true,
+        "dirtyCount": 0,
+        "sourceDirtyCount": 0,
         "evidenceDirtyCount": 0,
-        "dirtyFiles": [
-          "M docs/business-unit-readiness-plan.md"
-        ],
-        "sourceDirtyFiles": [
-          "M docs/business-unit-readiness-plan.md"
-        ],
+        "dirtyFiles": [],
+        "sourceDirtyFiles": [],
         "evidenceDirtyFiles": [],
         "ahead": 0,
         "behind": 0
       },
-      "status": "tracked-with-risks",
+      "status": "tracked",
       "missing": [],
-      "risks": [
-        "local repo has uncommitted changes"
-      ]
+      "risks": []
     },
     {
       "id": "meal-assistant.main",
@@ -327,52 +292,90 @@
         "composeService": "meal-assistant",
         "buildContext": "/root/apps/Meal-assistant",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": "hetzner-deploy-verified-2026-08-03",
-        "sourceCommit": null
+        "source": "promotion-evidence:meal-assistant-2026-08-12T15-20-18Z",
+        "sourceCommit": "55c3e48e9674ab8fb2171ef838e7b8566ee11aea"
       },
       "promotionEvidence": {
-        "available": false,
+        "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/meal-assistant.json",
-        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/meal-assistant.json",
-        "eventId": null,
-        "status": null,
-        "startedAt": null,
-        "finishedAt": null,
-        "previousCommit": null,
-        "resolvedCommit": null,
-        "imageId": null,
-        "containerImageId": null,
-        "rollbackCommand": null
+        "error": null,
+        "eventId": "meal-assistant-2026-08-12T15-20-18Z",
+        "status": "succeeded",
+        "startedAt": "2026-08-12T15:19:58Z",
+        "finishedAt": "2026-08-12T15:20:18Z",
+        "previousCommit": "f26e8e4a67281ff9c0b911e6e9e35f872887bda5",
+        "resolvedCommit": "55c3e48e9674ab8fb2171ef838e7b8566ee11aea",
+        "imageId": "sha256:cd62fe5c5caa1f30ac82b947fc040b4e424548c2582575aa2c0443dae90cc861",
+        "containerImageId": "sha256:cd62fe5c5caa1f30ac82b947fc040b4e424548c2582575aa2c0443dae90cc861",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh meal-assistant f26e8e4a67281ff9c0b911e6e9e35f872887bda5"
       },
       "repo": {
         "branch": "main",
-        "commit": "5212aa31c8d2f5adf90bbd666b64a726c7c44e82",
-        "shortCommit": "5212aa31c8d2",
+        "commit": "55c3e48e9674ab8fb2171ef838e7b8566ee11aea",
+        "shortCommit": "55c3e48e9674",
         "statusBranch": "## main...origin/main",
-        "clean": false,
-        "dirtyCount": 2,
-        "sourceDirtyCount": 1,
-        "evidenceDirtyCount": 1,
-        "dirtyFiles": [
-          "M docs/design/dashboard-reference-intake.md",
-          " M src/server.js"
-        ],
-        "sourceDirtyFiles": [
-          " M src/server.js"
-        ],
-        "evidenceDirtyFiles": [
-          "M docs/design/dashboard-reference-intake.md"
-        ],
+        "clean": true,
+        "dirtyCount": 0,
+        "sourceDirtyCount": 0,
+        "evidenceDirtyCount": 0,
+        "dirtyFiles": [],
+        "sourceDirtyFiles": [],
+        "evidenceDirtyFiles": [],
         "ahead": 0,
         "behind": 0
       },
-      "status": "tracked-with-risks",
+      "status": "tracked",
       "missing": [],
-      "risks": [
-        "production commit not recorded",
-        "promotion evidence unavailable",
-        "local repo has uncommitted changes"
-      ]
+      "risks": []
+    },
+    {
+      "id": "rinseables-os.main",
+      "label": "Rinseables OS",
+      "projectPath": "../rinseables-os",
+      "projectRoot": "../rinseables-os",
+      "url": "https://rinseables.tlccapitalgroup.com",
+      "deployment": {
+        "provider": "hetzner",
+        "sshHost": "hermes-os",
+        "composeProject": "deploy",
+        "composeService": "rinseables-os",
+        "buildContext": "/root/apps/rinseables-os",
+        "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
+        "source": "promotion-evidence:rinseables-os-2026-08-12T15-20-43Z",
+        "sourceCommit": "cc4ee3441a7101211757bda172a4f7868f5bc90a"
+      },
+      "promotionEvidence": {
+        "available": true,
+        "remotePath": "/root/apps/deploy/deployment-evidence/latest/rinseables-os.json",
+        "error": null,
+        "eventId": "rinseables-os-2026-08-12T15-20-43Z",
+        "status": "succeeded",
+        "startedAt": "2026-08-12T15:20:33Z",
+        "finishedAt": "2026-08-12T15:20:43Z",
+        "previousCommit": "6ec0cabcce9af8a1fa2147962df0466c94f15e93",
+        "resolvedCommit": "cc4ee3441a7101211757bda172a4f7868f5bc90a",
+        "imageId": "sha256:fa83bca28c6490b9f75bf0d9a2fc68ee540f72e47c035fb2c1d79cf24fc80ebc",
+        "containerImageId": "sha256:fa83bca28c6490b9f75bf0d9a2fc68ee540f72e47c035fb2c1d79cf24fc80ebc",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh rinseables-os 6ec0cabcce9af8a1fa2147962df0466c94f15e93"
+      },
+      "repo": {
+        "branch": "main",
+        "commit": "cc4ee3441a7101211757bda172a4f7868f5bc90a",
+        "shortCommit": "cc4ee3441a71",
+        "statusBranch": "## main...origin/main",
+        "clean": true,
+        "dirtyCount": 0,
+        "sourceDirtyCount": 0,
+        "evidenceDirtyCount": 0,
+        "dirtyFiles": [],
+        "sourceDirtyFiles": [],
+        "evidenceDirtyFiles": [],
+        "ahead": 0,
+        "behind": 0
+      },
+      "status": "tracked",
+      "missing": [],
+      "risks": []
     },
     {
       "id": "investing-system.roc",
@@ -387,41 +390,49 @@
         "composeService": "investing-system",
         "buildContext": "/root/apps/investing-system",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": "promotion-evidence:investing-system-2026-08-05T02-54-12Z",
-        "sourceCommit": "de5c212ed8f96f9c9dea74cc06688076f3fc35ec"
+        "source": "promotion-evidence:investing-system-2026-08-12T15-22-19Z",
+        "sourceCommit": "559e420d215c9a32352f21d908fc61ed9fb92231"
       },
       "promotionEvidence": {
         "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/investing-system.json",
         "error": null,
-        "eventId": "investing-system-2026-08-05T02-54-12Z",
+        "eventId": "investing-system-2026-08-12T15-22-19Z",
         "status": "succeeded",
-        "startedAt": "2026-08-05T02:52:46Z",
-        "finishedAt": "2026-08-05T02:54:12Z",
-        "previousCommit": "26ff0240ae251e1ea5d39eefd143d31090c2d886",
-        "resolvedCommit": "de5c212ed8f96f9c9dea74cc06688076f3fc35ec",
-        "imageId": "sha256:d587d5e09f933f030e59f57631a2352d3a7e0724d0577249d7b26eb619c4390b",
-        "containerImageId": "sha256:d587d5e09f933f030e59f57631a2352d3a7e0724d0577249d7b26eb619c4390b",
-        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh investing-system 26ff0240ae251e1ea5d39eefd143d31090c2d886"
+        "startedAt": "2026-08-12T15:20:50Z",
+        "finishedAt": "2026-08-12T15:22:19Z",
+        "previousCommit": "f30da1721c83f56689fe6443c2fde7637b606f77",
+        "resolvedCommit": "559e420d215c9a32352f21d908fc61ed9fb92231",
+        "imageId": "sha256:d6915a7c27a3e32f766d069fa7a4f51f68639987be45dacf8fd2e52684fc3c83",
+        "containerImageId": "sha256:d6915a7c27a3e32f766d069fa7a4f51f68639987be45dacf8fd2e52684fc3c83",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh investing-system f30da1721c83f56689fe6443c2fde7637b606f77"
       },
       "repo": {
         "branch": "main",
-        "commit": "de5c212ed8f96f9c9dea74cc06688076f3fc35ec",
-        "shortCommit": "de5c212ed8f9",
+        "commit": "559e420d215c9a32352f21d908fc61ed9fb92231",
+        "shortCommit": "559e420d215c",
         "statusBranch": "## main...origin/main",
-        "clean": true,
-        "dirtyCount": 0,
-        "sourceDirtyCount": 0,
+        "clean": false,
+        "dirtyCount": 2,
+        "sourceDirtyCount": 2,
         "evidenceDirtyCount": 0,
-        "dirtyFiles": [],
-        "sourceDirtyFiles": [],
+        "dirtyFiles": [
+          "M docs/staged-build-plan.md",
+          "?? docs/proofs/oanda-production-smoke.json"
+        ],
+        "sourceDirtyFiles": [
+          "M docs/staged-build-plan.md",
+          "?? docs/proofs/oanda-production-smoke.json"
+        ],
         "evidenceDirtyFiles": [],
         "ahead": 0,
         "behind": 0
       },
-      "status": "tracked",
+      "status": "tracked-with-risks",
       "missing": [],
-      "risks": []
+      "risks": [
+        "local repo has uncommitted changes"
+      ]
     },
     {
       "id": "hermes.workspace",
@@ -436,47 +447,41 @@
         "composeService": "hermes",
         "buildContext": "/root/apps/hermes",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": "promotion-evidence:hermes-2026-08-05T12-58-07Z",
-        "sourceCommit": "0fa6bc3c2dd2b0b9fa4012c7a67a006d3ed9130c"
+        "source": "promotion-evidence:hermes-2026-08-12T15-24-13Z",
+        "sourceCommit": "92b6f8a7990bffb27ef278842db3183cc0eb2268"
       },
       "promotionEvidence": {
         "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/hermes.json",
         "error": null,
-        "eventId": "hermes-2026-08-05T12-58-07Z",
+        "eventId": "hermes-2026-08-12T15-24-13Z",
         "status": "succeeded",
-        "startedAt": "2026-08-05T12:56:52Z",
-        "finishedAt": "2026-08-05T12:58:07Z",
-        "previousCommit": "6e0263f2815919fd4c447750470b32b3325e5a26",
-        "resolvedCommit": "0fa6bc3c2dd2b0b9fa4012c7a67a006d3ed9130c",
-        "imageId": "sha256:4c51813cd69d6087cf62d9912810e797a02fd82ada86ef3cf3ca4d2403bbfa7f",
-        "containerImageId": "sha256:4c51813cd69d6087cf62d9912810e797a02fd82ada86ef3cf3ca4d2403bbfa7f",
-        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh hermes 6e0263f2815919fd4c447750470b32b3325e5a26"
+        "startedAt": "2026-08-12T15:22:24Z",
+        "finishedAt": "2026-08-12T15:24:13Z",
+        "previousCommit": "53f97c0804592dec2e24358c41b406a98a0c5a69",
+        "resolvedCommit": "92b6f8a7990bffb27ef278842db3183cc0eb2268",
+        "imageId": "sha256:86c88fbebbc4d0969a2f6143415872d00acb3ede6fb128c5260a35839d55fd3b",
+        "containerImageId": "sha256:86c88fbebbc4d0969a2f6143415872d00acb3ede6fb128c5260a35839d55fd3b",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh hermes 53f97c0804592dec2e24358c41b406a98a0c5a69"
       },
       "repo": {
         "branch": "deploy/hermes-workspace-hetzner",
-        "commit": "0fa6bc3c2dd2b0b9fa4012c7a67a006d3ed9130c",
-        "shortCommit": "0fa6bc3c2dd2",
+        "commit": "92b6f8a7990bffb27ef278842db3183cc0eb2268",
+        "shortCommit": "92b6f8a7990b",
         "statusBranch": "## deploy/hermes-workspace-hetzner...origin/deploy/hermes-workspace-hetzner",
-        "clean": false,
-        "dirtyCount": 1,
-        "sourceDirtyCount": 1,
+        "clean": true,
+        "dirtyCount": 0,
+        "sourceDirtyCount": 0,
         "evidenceDirtyCount": 0,
-        "dirtyFiles": [
-          "M docs/business-unit-readiness-plan.md"
-        ],
-        "sourceDirtyFiles": [
-          "M docs/business-unit-readiness-plan.md"
-        ],
+        "dirtyFiles": [],
+        "sourceDirtyFiles": [],
         "evidenceDirtyFiles": [],
         "ahead": 0,
         "behind": 0
       },
-      "status": "tracked-with-risks",
+      "status": "tracked",
       "missing": [],
-      "risks": [
-        "local repo has uncommitted changes"
-      ]
+      "risks": []
     },
     {
       "id": "tlc-capital-group-os.main",
@@ -491,41 +496,61 @@
         "composeService": "tlc-capital-group-os",
         "buildContext": "/root/apps/tlc-capital-group-os",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": "promotion-evidence:tlc-capital-group-os-2026-08-05T02-54-36Z",
-        "sourceCommit": "9d7b4f99d692a3e47546a71620d0bd13b4489743"
+        "source": "promotion-evidence:tlc-capital-group-os-2026-08-12T15-24-48Z",
+        "sourceCommit": "6853f88d0961754be40cf8ee8c741266bd7351af"
       },
       "promotionEvidence": {
         "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/tlc-capital-group-os.json",
         "error": null,
-        "eventId": "tlc-capital-group-os-2026-08-05T02-54-36Z",
+        "eventId": "tlc-capital-group-os-2026-08-12T15-24-48Z",
         "status": "succeeded",
-        "startedAt": "2026-08-05T02:54:18Z",
-        "finishedAt": "2026-08-05T02:54:36Z",
-        "previousCommit": "a1ab1f2fa8f3c55223a79ba774b196f8a695d516",
-        "resolvedCommit": "9d7b4f99d692a3e47546a71620d0bd13b4489743",
-        "imageId": "sha256:be17ab3933fd4059b52bcd20f57a9c9a903f0f1fe137656ad6de7e9adb58fd80",
-        "containerImageId": "sha256:be17ab3933fd4059b52bcd20f57a9c9a903f0f1fe137656ad6de7e9adb58fd80",
-        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh tlc-capital-group-os a1ab1f2fa8f3c55223a79ba774b196f8a695d516"
+        "startedAt": "2026-08-12T15:24:25Z",
+        "finishedAt": "2026-08-12T15:24:48Z",
+        "previousCommit": "9d7b4f99d692a3e47546a71620d0bd13b4489743",
+        "resolvedCommit": "6853f88d0961754be40cf8ee8c741266bd7351af",
+        "imageId": "sha256:36ee63c5010875a0458fa50f3a082b69544de7fc0f84e160aa23f12cde8534d2",
+        "containerImageId": "sha256:36ee63c5010875a0458fa50f3a082b69544de7fc0f84e160aa23f12cde8534d2",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh tlc-capital-group-os 9d7b4f99d692a3e47546a71620d0bd13b4489743"
       },
       "repo": {
         "branch": "main",
-        "commit": "9d7b4f99d692a3e47546a71620d0bd13b4489743",
-        "shortCommit": "9d7b4f99d692",
+        "commit": "6853f88d0961754be40cf8ee8c741266bd7351af",
+        "shortCommit": "6853f88d0961",
         "statusBranch": "## main...origin/main",
-        "clean": true,
-        "dirtyCount": 0,
-        "sourceDirtyCount": 0,
+        "clean": false,
+        "dirtyCount": 8,
+        "sourceDirtyCount": 8,
         "evidenceDirtyCount": 0,
-        "dirtyFiles": [],
-        "sourceDirtyFiles": [],
+        "dirtyFiles": [
+          "M docs/contracts/okr-system-v1.md",
+          " M public/dashboard/app.js",
+          " M public/dashboard/index.html",
+          " M public/dashboard/styles.css",
+          " M src/api.js",
+          " M src/domain.js",
+          " M src/okr.js",
+          " M tests/okr-system.test.js"
+        ],
+        "sourceDirtyFiles": [
+          "M docs/contracts/okr-system-v1.md",
+          " M public/dashboard/app.js",
+          " M public/dashboard/index.html",
+          " M public/dashboard/styles.css",
+          " M src/api.js",
+          " M src/domain.js",
+          " M src/okr.js",
+          " M tests/okr-system.test.js"
+        ],
         "evidenceDirtyFiles": [],
         "ahead": 0,
         "behind": 0
       },
-      "status": "tracked",
+      "status": "tracked-with-risks",
       "missing": [],
-      "risks": []
+      "risks": [
+        "local repo has uncommitted changes"
+      ]
     }
   ]
 }

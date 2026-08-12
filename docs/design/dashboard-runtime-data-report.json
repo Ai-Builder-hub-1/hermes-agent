@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-12T15:09:05.022Z",
+  "generatedAt": "2026-08-12T15:24:58.650Z",
   "purpose": "Finds tracked or dirty generated runtime data across registered dashboard projects.",
   "checkedCount": 10,
   "reviewNeededCount": 0,

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-12T15:09:04.730Z",
+  "generatedAt": "2026-08-12T15:24:58.381Z",
   "purpose": "Tracks how registered dashboard projects consume @hermes/dashboard-kit.",
   "checkedCount": 10,
   "blockingGapCount": 0,
