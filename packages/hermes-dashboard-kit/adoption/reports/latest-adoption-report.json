@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-08T01:34:29.680Z",
+  "generatedAt": "2026-08-12T14:36:27.131Z",
   "source": {
     "package": "@hermes/dashboard-kit",
     "version": "0.1.0",
@@ -84,7 +84,7 @@
       },
       "packageNative": {
         "dependencyDeclared": true,
-        "dependencyVersion": "file:../nous-hermes-agent/packages/hermes-dashboard-kit",
+        "dependencyVersion": "file:vendor/hermes-dashboard-kit",
         "packageJson": "../khashi-vc/package.json"
       },
       "issues": [],
@@ -132,7 +132,7 @@
       },
       "packageNative": {
         "dependencyDeclared": true,
-        "dependencyVersion": "file:../nous-hermes-agent/packages/hermes-dashboard-kit",
+        "dependencyVersion": "file:vendor/hermes-dashboard-kit",
         "packageJson": "../media-business-operations/package.json"
       },
       "issues": [],
@@ -143,20 +143,20 @@
       "name": "Business Mapper",
       "status": "current",
       "experienceTier": {
-        "current": 2,
-        "target": 2,
-        "currentBand": "T2B",
-        "currentBandLabel": "Package-native shared-component dashboard (T2B)",
-        "targetBand": "T2B",
-        "targetBandLabel": "Package-native shared-component dashboard (T2B)",
+        "current": 3,
+        "target": 3,
+        "currentBand": "T3C",
+        "currentBandLabel": "Package-native product cockpit (T3C)",
+        "targetBand": "T3C",
+        "targetBandLabel": "Package-native product cockpit (T3C)",
         "implementationMode": "package-native",
         "migrationRequired": false,
-        "nextAction": "Business Mapper workspace is inventoried. It should move from static adapter usage to shared component dashboard quality before being considered complete.",
-        "note": "Business Mapper workspace is inventoried. It should move from static adapter usage to shared component dashboard quality before being considered complete."
+        "nextAction": "Business Mapper workspace is current at T3C as a package-native operating workspace with one shell, review center, graph workspace, validation queues, roadmap, advisory, deliverables, proof route, and visual evidence. Further maturity can replace local graph/roadmap internals with deeper shared-kit components without blocking current T3C status.",
+        "note": "Business Mapper workspace is current at T3C as a package-native operating workspace with one shell, review center, graph workspace, validation queues, roadmap, advisory, deliverables, proof route, and visual evidence. Further maturity can replace local graph/roadmap internals with deeper shared-kit components without blocking current T3C status."
       },
       "packageNative": {
         "dependencyDeclared": true,
-        "dependencyVersion": "file:../nous-hermes-agent/packages/hermes-dashboard-kit",
+        "dependencyVersion": "file:vendor/hermes-dashboard-kit",
         "packageJson": "../business-mapper/package.json"
       },
       "issues": [],
@@ -180,7 +180,7 @@
       },
       "packageNative": {
         "dependencyDeclared": true,
-        "dependencyVersion": "file:../nous-hermes-agent/packages/hermes-dashboard-kit",
+        "dependencyVersion": "file:vendor/hermes-dashboard-kit",
         "packageJson": "../Meal-assistant/package.json"
       },
       "issues": [],
@@ -204,7 +204,7 @@
       },
       "packageNative": {
         "dependencyDeclared": true,
-        "dependencyVersion": "file:../nous-hermes-agent/packages/hermes-dashboard-kit",
+        "dependencyVersion": "file:vendor/hermes-dashboard-kit",
         "packageJson": "../hermes/package.json"
       },
       "issues": [],
@@ -228,7 +228,7 @@
       },
       "packageNative": {
         "dependencyDeclared": true,
-        "dependencyVersion": "file:../nous-hermes-agent/packages/hermes-dashboard-kit",
+        "dependencyVersion": "file:vendor/hermes-dashboard-kit",
         "packageJson": "../tlc-capital-group-os/package.json"
       },
       "issues": [],
@@ -252,7 +252,7 @@
       },
       "packageNative": {
         "dependencyDeclared": true,
-        "dependencyVersion": "file:../nous-hermes-agent/packages/hermes-dashboard-kit",
+        "dependencyVersion": "file:vendor/hermes-dashboard-kit",
         "packageJson": "../rinseables-os/package.json"
       },
       "issues": [],
@@ -276,7 +276,7 @@
       },
       "packageNative": {
         "dependencyDeclared": true,
-        "dependencyVersion": "file:../nous-hermes-agent/packages/hermes-dashboard-kit",
+        "dependencyVersion": "file:vendor/hermes-dashboard-kit",
         "packageJson": "../investing-system/package.json"
       },
       "issues": [],

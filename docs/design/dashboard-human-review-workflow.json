@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "version": "V14",
+  "title": "Dashboard Human Review Workflow",
+  "status": "active",
+  "reviewStates": ["draft", "needs-review", "changes-requested", "approved", "excepted"],
+  "requiredFor": ["material redesign", "Tier 3 promotion", "new component family", "new domain library"],
+  "requiredEvidence": [
+    "reference intake",
+    "before screenshot or baseline",
+    "after screenshot",
+    "component/layout/interaction registry selections",
+    "known debt or exception record",
+    "final reviewer decision"
+  ],
+  "decisionRules": [
+    "Approval cannot be inferred from passing source validation alone.",
+    "Changes-requested must record the component, layout, interaction, or copy reason.",
+    "Exception requires owner, reviewer, expiry, and replacement plan."
+  ]
+}

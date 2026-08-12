@@ -12,7 +12,23 @@ const mdPath = path.join(root, "docs/design/dashboard-visual-coverage-report.md"
 const dashboards = JSON.parse(fs.readFileSync(dashboardsPath, "utf8")).dashboards ?? [];
 const quality = fs.existsSync(qualityPath) ? JSON.parse(fs.readFileSync(qualityPath, "utf8")) : { items: [] };
 const screenshots = fs.existsSync(screenshotDir) ? fs.readdirSync(screenshotDir).filter((file) => file.endsWith(".png")) : [];
-const qualityByProject = new Map((quality.items ?? []).map((item) => [item.project, item]));
+const qualityAliases = new Map([
+  ["media-business-operations.main", "media-business-os"],
+  ["hermes.workspace", "hermes-os"],
+  ["nous-hermes-agent.dashboard", "nous-hermes-agent"],
+  ["khashi-vc.roc", "khashi-vc"],
+  ["media-engine.ops", "media-engine"],
+  ["business-mapper.workspace", "business-mapper"],
+  ["meal-assistant.main", "meal-assistant"],
+  ["rinseables-os.main", "rinseables-os"],
+  ["investing-system.roc", "investing-system"],
+  ["tlc-capital-group-os.main", "tlc-capital-group-os"]
+]);
+const qualityByProject = new Map();
+for (const item of quality.items ?? []) {
+  const existing = qualityByProject.get(item.project);
+  if (!existing || Number(item.score ?? 0) > Number(existing.score ?? 0)) qualityByProject.set(item.project, item);
+}
 const freshnessSlaDays = 30;
 
 function slug(value) {
@@ -20,11 +36,18 @@ function slug(value) {
 }
 
 const items = dashboards.map((dashboard) => {
-  const screenshot = screenshots.find((file) => file.includes(slug(dashboard.id)) || file.includes(slug(dashboard.projectName ?? dashboard.label)));
+  const screenshot = screenshots.find((file) =>
+    file === `${dashboard.id}.png` ||
+    file.includes(slug(dashboard.id)) ||
+    file.includes(slug(dashboard.projectName ?? dashboard.label))
+  );
   const screenshotPath = screenshot ? path.join(screenshotDir, screenshot) : "";
   const screenshotUpdatedAt = screenshot ? fs.statSync(screenshotPath).mtime.toISOString() : null;
   const screenshotAgeDays = screenshot ? Math.floor((Date.now() - fs.statSync(screenshotPath).mtimeMs) / 86_400_000) : null;
-  const qualityItem = qualityByProject.get(slug(dashboard.projectName ?? dashboard.label)) ?? qualityByProject.get(slug(dashboard.owner ?? dashboard.label));
+  const qualityItem =
+    qualityByProject.get(qualityAliases.get(dashboard.id)) ??
+    qualityByProject.get(slug(dashboard.projectName ?? dashboard.label)) ??
+    qualityByProject.get(slug(dashboard.owner ?? dashboard.label));
   return {
     dashboardId: dashboard.id,
     label: dashboard.label,

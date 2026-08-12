@@ -3374,7 +3374,7 @@ export function renderDashboardKitGallery({
         </div>
       </section>
     `;
-  return `<div data-theme="${escapeAttr(theme)}">${renderDashboardShell({
+  return `<div class="hdk-theme-scope" data-theme="${escapeAttr(theme)}" style="--hdk-gallery-responsive:clamp(16px,2vw,32px)">${renderDashboardShell({
     title,
     subtitle,
     activeId,

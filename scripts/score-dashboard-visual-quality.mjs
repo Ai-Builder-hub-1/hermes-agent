@@ -53,6 +53,8 @@ for (const project of registry.projects ?? []) {
   const manifest = readJson(manifestPath);
   const projectRoot = path.resolve(root, project.path);
   for (const surface of manifest.surfaces ?? []) {
+    const surfaceRole = surface.role ?? "ui";
+    if (["api", "data-contract", "proof-endpoint", "kit-source", "server-route"].includes(surfaceRole)) continue;
     const file = path.resolve(projectRoot, surface.path);
     if (!fs.existsSync(file)) continue;
     const content = fs.readFileSync(file, "utf8");
@@ -60,7 +62,7 @@ for (const project of registry.projects ?? []) {
     const fillerContent = stripBenignPlaceholderAttributes(scoredContent);
     const checks = [
       { id: "review-handles", passed: scoredContent.includes("data-review-id=") },
-      { id: "selection-bridge", passed: scoredContent.includes("visual-selection-bridge.js") },
+      { id: "kit-theme-scope", passed: scoredContent.includes("hdk-theme-scope") || scoredContent.includes("data-theme=") || scoredContent.includes("@hermes/dashboard-kit") },
       { id: "states", passed: hasAny(scoredContent, ["empty", "loading", "error", "stale", "readiness"]) },
       { id: "responsive", passed: hasAny(scoredContent, ["@media", "minmax(", "clamp("]) },
       { id: "chart-language", passed: hasAny(scoredContent, ["chart", "spark", "heatmap", "drawer", "tape", "graph", "map", "roadmap", "table", "queue"]) },

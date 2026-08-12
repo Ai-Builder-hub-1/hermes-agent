@@ -73,6 +73,54 @@
       "appliesTo": ["material redesigns"]
     },
     {
+      "id": "domain-library-registry",
+      "command": "npm run dashboard:domain-libraries:validate",
+      "level": "blocking",
+      "appliesTo": ["Tier 3 promotion", "domain-specific dashboard components", "new dashboard library adoption"]
+    },
+    {
+      "id": "domain-library-coverage",
+      "command": "npm run dashboard:domain-libraries:coverage:strict",
+      "level": "blocking",
+      "appliesTo": ["T3C promotion", "domain-specific dashboard components", "new dashboard library adoption"]
+    },
+    {
+      "id": "domain-wrapper-proof",
+      "command": "npm run dashboard:domain-wrappers:proof:strict",
+      "level": "blocking",
+      "appliesTo": ["T3C promotion", "domain-specific dashboard components", "new dashboard library adoption"]
+    },
+    {
+      "id": "domain-library-usage",
+      "command": "npm run dashboard:domain-libraries:usage:strict",
+      "level": "blocking",
+      "appliesTo": ["T3C promotion", "downstream domain library imports", "package-native adoption"]
+    },
+    {
+      "id": "ui-quality-system",
+      "command": "npm run dashboard:ui-quality:validate",
+      "level": "blocking",
+      "appliesTo": ["T3C promotion", "material redesigns", "agent-driven dashboard builds", "new dashboard standards"]
+    },
+    {
+      "id": "ui-quality-design-debt",
+      "command": "npm run dashboard:ui-quality:debt:strict",
+      "level": "blocking",
+      "appliesTo": ["T3C promotion", "material redesigns", "agent-driven dashboard builds", "deprecated pattern retirement"]
+    },
+    {
+      "id": "ui-quality-scorecard",
+      "command": "npm run dashboard:ui-quality:scorecard",
+      "level": "advisory",
+      "appliesTo": ["registered dashboard projects", "release manager review", "cross-project maturity review"]
+    },
+    {
+      "id": "visual-regression-matrix",
+      "command": "npm run dashboard:visual-regression:matrix",
+      "level": "blocking",
+      "appliesTo": ["T3C promotion", "visual proof capture", "dashboard screenshot baseline changes"]
+    },
+    {
       "id": "governance-exceptions",
       "command": "npm run dashboard:governance-exceptions:validate",
       "level": "blocking",

@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-05T13:23:37.107Z",
+  "generatedAt": "2026-08-12T14:40:21.798Z",
   "purpose": "Finds tracked or dirty generated runtime data across registered dashboard projects.",
-  "checkedCount": 9,
-  "reviewNeededCount": 3,
-  "runtimeTrackedCount": 13,
+  "checkedCount": 10,
+  "reviewNeededCount": 0,
+  "runtimeTrackedCount": 0,
   "dirtyGeneratedCount": 0,
   "entries": [
     {
@@ -35,103 +35,109 @@
       "id": "media-engine.ops",
       "label": "Media Engine Ops",
       "projectPath": "../media-engine",
-      "status": "policy-review-needed",
+      "status": "clean",
       "trackedDataCount": 10,
-      "runtimeTrackedCount": 10,
+      "runtimeTrackedCount": 0,
       "dirtyGeneratedCount": 0,
       "tracked": [
         {
           "file": "data/audience-snapshots.json",
-          "classification": "runtime-data"
+          "classification": "approved-dashboard-snapshot"
         },
         {
           "file": "data/human-video-desktop-ledger.json",
-          "classification": "runtime-data"
+          "classification": "approved-operational-ledger"
         },
         {
           "file": "data/media-business-os-feed.json",
-          "classification": "runtime-data"
+          "classification": "approved-dashboard-feed"
         },
         {
           "file": "data/media-engine-ai-executive-briefing.json",
-          "classification": "runtime-data"
+          "classification": "approved-dashboard-feed"
         },
         {
           "file": "data/media-engine-business-unit-readiness.json",
-          "classification": "runtime-data"
+          "classification": "approved-dashboard-feed"
         },
         {
           "file": "data/post-performance-snapshots.json",
-          "classification": "runtime-data"
+          "classification": "approved-dashboard-snapshot"
         },
         {
           "file": "data/source-policy.json",
-          "classification": "runtime-data"
+          "classification": "approved-policy-data"
         },
         {
           "file": "data/source-reputation.json",
-          "classification": "runtime-data"
+          "classification": "approved-policy-data"
         },
         {
           "file": "data/story-example-bank.json",
-          "classification": "runtime-data"
+          "classification": "approved-reference-data"
         },
         {
           "file": "data/tlc-os-readiness-feed.json",
-          "classification": "runtime-data"
+          "classification": "approved-dashboard-feed"
         }
       ],
       "dirtyGenerated": [],
-      "risks": [
-        "tracked runtime-like data files"
-      ]
+      "risks": []
     },
     {
       "id": "media-business-operations.main",
       "label": "Media Business Operations",
       "projectPath": "../media-business-operations",
-      "status": "policy-review-needed",
+      "status": "clean",
       "trackedDataCount": 1,
-      "runtimeTrackedCount": 1,
+      "runtimeTrackedCount": 0,
       "dirtyGeneratedCount": 0,
       "tracked": [
         {
           "file": "data/dashboard-snapshot.json",
-          "classification": "runtime-data"
+          "classification": "approved-dashboard-snapshot"
         }
       ],
       "dirtyGenerated": [],
-      "risks": [
-        "tracked runtime-like data files"
-      ]
+      "risks": []
     },
     {
       "id": "business-mapper.workspace",
       "label": "Business Mapper Workspace",
       "projectPath": "../business-mapper",
-      "status": "policy-review-needed",
+      "status": "clean",
       "trackedDataCount": 2,
-      "runtimeTrackedCount": 2,
+      "runtimeTrackedCount": 0,
       "dirtyGeneratedCount": 0,
       "tracked": [
         {
           "file": "data/workspaces/_workspace-index.json",
-          "classification": "runtime-data"
+          "classification": "approved-workspace-index"
         },
         {
           "file": "data/workspaces/demo-real-estate.json",
-          "classification": "runtime-data"
+          "classification": "approved-demo-workspace"
         }
       ],
       "dirtyGenerated": [],
-      "risks": [
-        "tracked runtime-like data files"
-      ]
+      "risks": []
     },
     {
       "id": "meal-assistant.main",
       "label": "Meal Assistant",
       "projectPath": "../Meal-assistant",
+      "status": "clean",
+      "trackedDataCount": 0,
+      "runtimeTrackedCount": 0,
+      "dirtyGeneratedCount": 0,
+      "tracked": [],
+      "dirtyGenerated": [],
+      "risks": []
+    },
+    {
+      "id": "rinseables-os.main",
+      "label": "Rinseables OS",
+      "projectPath": "../rinseables-os",
       "status": "clean",
       "trackedDataCount": 0,
       "runtimeTrackedCount": 0,

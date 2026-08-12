@@ -1,6 +1,6 @@
 # Dashboard Runtime Data Report
 
-Generated: 2026-08-05T13:23:37.107Z
+Generated: 2026-08-12T14:40:21.798Z
 
 Runtime data should be either generated/ignored, explicitly treated as fixture data, or promoted into a durable datastore. This report is advisory by default because several older projects still need per-project cleanup.
 
@@ -8,10 +8,11 @@ Runtime data should be either generated/ignored, explicitly treated as fixture d
 | --- | --- | --- | --- | --- | --- |
 | Nous Hermes Agent | clean | 0 | 0 | 0 | none |
 | Khashi VC ROC | clean | 0 | 0 | 0 | none |
-| Media Engine Ops | policy-review-needed | 10 | 10 | 0 | tracked runtime-like data files |
-| Media Business Operations | policy-review-needed | 1 | 1 | 0 | tracked runtime-like data files |
-| Business Mapper Workspace | policy-review-needed | 2 | 2 | 0 | tracked runtime-like data files |
+| Media Engine Ops | clean | 10 | 0 | 0 | none |
+| Media Business Operations | clean | 1 | 0 | 0 | none |
+| Business Mapper Workspace | clean | 2 | 0 | 0 | none |
 | Meal Assistant | clean | 0 | 0 | 0 | none |
+| Rinseables OS | clean | 0 | 0 | 0 | none |
 | Investing System ROC | clean | 0 | 0 | 0 | none |
 | Hermes Workspace | clean | 0 | 0 | 0 | none |
 | TLC Capital Group OS | clean | 0 | 0 | 0 | none |

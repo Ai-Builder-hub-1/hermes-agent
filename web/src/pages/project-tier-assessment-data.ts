@@ -32,7 +32,7 @@ export interface TierBand {
   meaning: string;
 }
 
-export const projectTierGeneratedAt = "2026-08-05T13:23:29.890Z";
+export const projectTierGeneratedAt = "2026-08-12T14:36:27.131Z";
 export const projectTierSourceHash = "47d216e4494116d6d4c13013d713a5d0f4307d6e1b2f0c03d09c6b57c3c8eb05";
 
 export const tierBands: TierBand[] = [
@@ -152,17 +152,17 @@ export const projectTierAssessments: ProjectTierAssessment[] = [
     "name": "Business Mapper",
     "auditStatus": "current",
     "coarseTier": {
-      "current": 2,
-      "target": 2
+      "current": 3,
+      "target": 3
     },
-    "currentBand": "T2B",
-    "currentBandLabel": "Package-native shared-component dashboard (T2B)",
-    "targetBand": "T2B",
-    "targetBandLabel": "Package-native shared-component dashboard (T2B)",
+    "currentBand": "T3C",
+    "currentBandLabel": "Package-native product cockpit (T3C)",
+    "targetBand": "T3C",
+    "targetBandLabel": "Package-native product cockpit (T3C)",
     "implementationMode": "package-native",
     "warnings": [],
     "errors": [],
-    "nextMove": "Business Mapper workspace is inventoried. It should move from static adapter usage to shared component dashboard quality before being considered complete.",
+    "nextMove": "Business Mapper workspace is current at T3C as a package-native operating workspace with one shell, review center, graph workspace, validation queues, roadmap, advisory, deliverables, proof route, and visual evidence. Further maturity can replace local graph/roadmap internals with deeper shared-kit components without blocking current T3C status.",
     "externalWorkItems": []
   },
   {
@@ -217,6 +217,60 @@ export const projectTierAssessments: ProjectTierAssessment[] = [
     "warnings": [],
     "errors": [],
     "nextMove": "TLC Capital Group OS raw dashboard shell, API route, and dashboard data models are inventoried as planned migration surfaces. The UI must become package-native while keeping the domain data model authoritative.",
+    "externalWorkItems": []
+  },
+  {
+    "project": "rinseables-os",
+    "name": "Rinseables OS",
+    "auditStatus": "current",
+    "coarseTier": {
+      "current": 3,
+      "target": 3
+    },
+    "currentBand": "T3C",
+    "currentBandLabel": "Package-native product cockpit (T3C)",
+    "targetBand": "T3C",
+    "targetBandLabel": "Package-native product cockpit (T3C)",
+    "implementationMode": "package-native",
+    "warnings": [],
+    "errors": [],
+    "nextMove": "Rinseables OS is now visible to the central adoption audit. It has a package-native dashboard shell and proof route, but still needs deeper product cockpit decomposition before its UI should be treated as complete.",
+    "externalWorkItems": []
+  },
+  {
+    "project": "investing-system",
+    "name": "Investing System",
+    "auditStatus": "current",
+    "coarseTier": {
+      "current": 3,
+      "target": 3
+    },
+    "currentBand": "T3C",
+    "currentBandLabel": "Package-native product cockpit (T3C)",
+    "targetBand": "T3C",
+    "targetBandLabel": "Package-native product cockpit (T3C)",
+    "implementationMode": "package-native",
+    "warnings": [],
+    "errors": [],
+    "nextMove": "Investing System is now visible to the central adoption audit. The ROC dashboard declares package-native shell/proof contracts while deeper component decomposition remains the next maturity step.",
+    "externalWorkItems": []
+  },
+  {
+    "project": "nous-hermes-agent",
+    "name": "Nous Hermes Agent",
+    "auditStatus": "current",
+    "coarseTier": {
+      "current": 3,
+      "target": 3
+    },
+    "currentBand": "T3C",
+    "currentBandLabel": "Package-native product cockpit (T3C)",
+    "targetBand": "T3C",
+    "targetBandLabel": "Package-native product cockpit (T3C)",
+    "implementationMode": "package-native",
+    "warnings": [],
+    "errors": [],
+    "nextMove": "Nous Hermes Agent is the standards/control-plane project and now audits its own dashboard kit gallery route under the same package-native rules it applies to downstream dashboards.",
     "externalWorkItems": []
   }
 ];

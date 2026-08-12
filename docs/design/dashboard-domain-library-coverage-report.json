@@ -1,0 +1,204 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-12T13:14:16.591Z",
+  "purpose": "Shows whether approved domain-library wrapper names exist in @hermes/dashboard-kit source. Registry approval is not the same as implementation.",
+  "domainCount": 11,
+  "coveredDomainCount": 11,
+  "partialDomainCount": 0,
+  "missingDomainCount": 0,
+  "averageCoveragePercent": 100,
+  "domains": [
+    {
+      "id": "financial-trading-charts",
+      "label": "Financial And Trading Charts",
+      "defaultLibrary": "lightweight-charts",
+      "wrapperCount": 5,
+      "implementedCount": 5,
+      "missingCount": 0,
+      "coveragePercent": 100,
+      "implementedWrappers": [
+        "FinancialCandlestickChart",
+        "MarketTapeChart",
+        "VolumeHistogram",
+        "IndicatorOverlay",
+        "PriceLineOverlay"
+      ],
+      "missingWrappers": [],
+      "status": "covered"
+    },
+    {
+      "id": "general-dashboard-charts",
+      "label": "General Dashboard Charts",
+      "defaultLibrary": "recharts",
+      "wrapperCount": 5,
+      "implementedCount": 5,
+      "missingCount": 0,
+      "coveragePercent": 100,
+      "implementedWrappers": [
+        "MetricTimelineChart",
+        "ComparisonTrendChart",
+        "IssueTrendChart",
+        "DonutBreakdownChart",
+        "BarComparisonChart"
+      ],
+      "missingWrappers": [],
+      "status": "covered"
+    },
+    {
+      "id": "data-tables-and-grids",
+      "label": "Data Tables And Evidence Grids",
+      "defaultLibrary": "tanstack-table",
+      "wrapperCount": 5,
+      "implementedCount": 5,
+      "missingCount": 0,
+      "coveragePercent": 100,
+      "implementedWrappers": [
+        "EvidenceDataTable",
+        "PaginatedTableCard",
+        "TableToolbar",
+        "SortableMetricTable",
+        "DenseOperationsGrid"
+      ],
+      "missingWrappers": [],
+      "status": "covered"
+    },
+    {
+      "id": "calendar-and-scheduling",
+      "label": "Calendar And Scheduling",
+      "defaultLibrary": "fullcalendar",
+      "wrapperCount": 5,
+      "implementedCount": 5,
+      "missingCount": 0,
+      "coveragePercent": 100,
+      "implementedWrappers": [
+        "DashboardCalendar",
+        "MonthPlanner",
+        "WeekPlanningDrawer",
+        "ScheduleEventCard",
+        "CalendarToolbar"
+      ],
+      "missingWrappers": [],
+      "status": "covered"
+    },
+    {
+      "id": "workflow-drag-drop",
+      "label": "Workflow And Drag-Drop",
+      "defaultLibrary": "dnd-kit",
+      "wrapperCount": 4,
+      "implementedCount": 4,
+      "missingCount": 0,
+      "coveragePercent": 100,
+      "implementedWrappers": [
+        "WorkflowBoard",
+        "SortableQueue",
+        "AssignmentLane",
+        "DragDropReviewList"
+      ],
+      "missingWrappers": [],
+      "status": "covered"
+    },
+    {
+      "id": "node-graphs-and-pipelines",
+      "label": "Node Graphs And Pipelines",
+      "defaultLibrary": "react-flow",
+      "wrapperCount": 4,
+      "implementedCount": 4,
+      "missingCount": 0,
+      "coveragePercent": 100,
+      "implementedWrappers": [
+        "StoryTreeGraph",
+        "PipelineGraph",
+        "EvidenceRelationshipGraph",
+        "GraphInspectorDrawer"
+      ],
+      "missingWrappers": [],
+      "status": "covered"
+    },
+    {
+      "id": "rich-text-and-research-documents",
+      "label": "Rich Text And Research Documents",
+      "defaultLibrary": "tiptap",
+      "wrapperCount": 4,
+      "implementedCount": 4,
+      "missingCount": 0,
+      "coveragePercent": 100,
+      "implementedWrappers": [
+        "ResearchEditor",
+        "ScriptEditor",
+        "EvidenceAnnotationEditor",
+        "DecisionMemoEditor"
+      ],
+      "missingWrappers": [],
+      "status": "covered"
+    },
+    {
+      "id": "image-thumbnail-generation",
+      "label": "Image And Thumbnail Generation",
+      "defaultLibrary": "sharp",
+      "wrapperCount": 4,
+      "implementedCount": 4,
+      "missingCount": 0,
+      "coveragePercent": 100,
+      "implementedWrappers": [
+        "ThumbnailPipelineRenderer",
+        "ImageSharpnessQa",
+        "AssetManifestPreview",
+        "ThumbnailProofCard"
+      ],
+      "missingWrappers": [],
+      "status": "covered"
+    },
+    {
+      "id": "interactive-canvas-editing",
+      "label": "Interactive Canvas Editing",
+      "defaultLibrary": "react-konva",
+      "wrapperCount": 4,
+      "implementedCount": 4,
+      "missingCount": 0,
+      "coveragePercent": 100,
+      "implementedWrappers": [
+        "CreativeCanvasEditor",
+        "CanvasLayerPanel",
+        "ThumbnailTextOverlayEditor",
+        "CanvasExportProof"
+      ],
+      "missingWrappers": [],
+      "status": "covered"
+    },
+    {
+      "id": "video-template-generation",
+      "label": "Video Template Generation",
+      "defaultLibrary": "remotion",
+      "wrapperCount": 4,
+      "implementedCount": 4,
+      "missingCount": 0,
+      "coveragePercent": 100,
+      "implementedWrappers": [
+        "VideoTemplatePreview",
+        "RenderQueueStatus",
+        "ClipExtractionPanel",
+        "VideoPackageProofCard"
+      ],
+      "missingWrappers": [],
+      "status": "covered"
+    },
+    {
+      "id": "forms-and-validation",
+      "label": "Forms And Validation",
+      "defaultLibrary": "react-hook-form-zod",
+      "wrapperCount": 5,
+      "implementedCount": 5,
+      "missingCount": 0,
+      "coveragePercent": 100,
+      "implementedWrappers": [
+        "ValidatedForm",
+        "ApprovalReasonForm",
+        "ResearchIntakeForm",
+        "TradingSafetyForm",
+        "SettingsFormSection"
+      ],
+      "missingWrappers": [],
+      "status": "covered"
+    }
+  ]
+}

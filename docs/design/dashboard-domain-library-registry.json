@@ -1,0 +1,380 @@
+{
+  "schemaVersion": 1,
+  "version": "V13",
+  "title": "Dashboard Domain Library Registry",
+  "status": "active",
+  "owner": "nous-hermes-agent",
+  "purpose": "Define approved domain-native libraries that may be wrapped by @hermes/dashboard-kit so downstream dashboards do not rebuild complex domain behavior with static HTML, hand-drawn charts, or local one-off components.",
+  "defaultPolicy": {
+    "selectionRequiredForTier3": true,
+    "projectLocalInstallAllowed": "only when the library is wrapped through @hermes/dashboard-kit or an approved temporary exception exists",
+    "staticFallbackAllowed": "compatibility-only; cannot satisfy T3C",
+    "newLibraryAdmission": [
+      "record the domain and candidate in this registry",
+      "explain why generic dashboard primitives are insufficient",
+      "declare @hermes/dashboard-kit wrapper components",
+      "declare visual proof and interaction proof expectations",
+      "declare license and bundle/performance review status",
+      "add or update validator coverage before promotion"
+    ]
+  },
+  "domains": [
+    {
+      "id": "financial-trading-charts",
+      "label": "Financial And Trading Charts",
+      "projectTypes": ["investing-system", "khashi-vc", "market-intelligence", "trading-desk"],
+      "defaultLibrary": "lightweight-charts",
+      "libraryCandidates": [
+        {
+          "id": "lightweight-charts",
+          "package": "lightweight-charts",
+          "source": "https://tradingview.github.io/lightweight-charts/",
+          "licenseReview": "open-source-reviewed",
+          "bestFor": ["candlesticks", "volume", "price lines", "crosshair", "streaming market updates"],
+          "whyUse": "Financial-native chart behavior is a core requirement for market, OANDA, and trading screens. Generic SVG line charts are not acceptable for this domain.",
+          "tradeoffs": ["does not provide market data", "does not provide built-in indicators", "dashboard kit must own indicator calculations and data adapters"]
+        },
+        {
+          "id": "tradingview-advanced-charts",
+          "package": "external-commercial-or-widget",
+          "source": "https://www.tradingview.com/charting-library-docs/latest/getting_started/product-comparison/",
+          "licenseReview": "requires-commercial-review",
+          "bestFor": ["terminal-grade charting", "advanced chart tools", "full trading-platform feel"],
+          "whyUse": "Use only when the product requires a full TradingView-like terminal and the licensing/integration constraints are accepted.",
+          "tradeoffs": ["heavier integration", "commercial/licensing review required", "less owned design control"]
+        }
+      ],
+      "approvedWrappers": ["FinancialCandlestickChart", "MarketTapeChart", "VolumeHistogram", "IndicatorOverlay", "PriceLineOverlay"],
+      "requiredProof": ["candlestick-visible", "x-axis-visible", "y-axis-visible", "crosshair-or-hover-visible", "volume-visible-when-volume-data-exists"],
+      "bannedFallbacks": ["hand-drawn svg price chart", "div-based sparkline as primary trading chart", "chart without y-axis price scale"]
+    },
+    {
+      "id": "general-dashboard-charts",
+      "label": "General Dashboard Charts",
+      "projectTypes": ["media-engine", "media-business-operations", "tlc-capital-group-os", "hermes-os", "business-mapper"],
+      "defaultLibrary": "recharts",
+      "libraryCandidates": [
+        {
+          "id": "recharts",
+          "package": "recharts",
+          "source": "https://recharts.org/",
+          "licenseReview": "open-source-reviewed",
+          "bestFor": ["line charts", "bar charts", "area charts", "donut charts", "legends", "axes"],
+          "whyUse": "Good default for business dashboards where charts need to be reliable, readable, and fast to compose inside shared components.",
+          "tradeoffs": ["less suitable for highly custom visual systems", "large dense datasets may need specialized handling"]
+        },
+        {
+          "id": "visx",
+          "package": "@visx/*",
+          "source": "https://github.com/airbnb/visx",
+          "licenseReview": "open-source-reviewed",
+          "bestFor": ["premium custom charts", "bespoke executive views", "custom axes and layouts"],
+          "whyUse": "Use when Recharts cannot meet the visual or interaction requirement and dashboard kit needs deeper control over chart primitives.",
+          "tradeoffs": ["more engineering effort", "requires us to build more complete chart components"]
+        }
+      ],
+      "approvedWrappers": ["MetricTimelineChart", "ComparisonTrendChart", "IssueTrendChart", "DonutBreakdownChart", "BarComparisonChart"],
+      "requiredProof": ["axis-labels-visible", "legend-or-series-labels-visible", "empty-state-visible", "tooltip-or-hover-state-visible"],
+      "bannedFallbacks": ["hand-drawn chart path", "chart without axes when axes are meaningful", "single chart type reused for every comparison"]
+    },
+    {
+      "id": "data-tables-and-grids",
+      "label": "Data Tables And Evidence Grids",
+      "projectTypes": ["all-dashboard-projects"],
+      "defaultLibrary": "tanstack-table",
+      "libraryCandidates": [
+        {
+          "id": "tanstack-table",
+          "package": "@tanstack/react-table",
+          "source": "https://tanstack.com/table/latest/docs/overview",
+          "licenseReview": "open-source-reviewed",
+          "bestFor": ["sorting", "filtering", "pagination", "row selection", "server-controlled table state"],
+          "whyUse": "Headless table behavior lets the dashboard kit enforce our own visual standard while getting reliable table state management.",
+          "tradeoffs": ["not a finished visual table", "dashboard kit must own markup, spacing, density, and toolbar patterns"]
+        },
+        {
+          "id": "ag-grid",
+          "package": "ag-grid-react",
+          "source": "https://www.ag-grid.com/react-data-grid/getting-started/",
+          "licenseReview": "community-open-source-with-enterprise-review",
+          "bestFor": ["large operational grids", "column groups", "high-performance enterprise tables", "advanced filtering"],
+          "whyUse": "Use when a table becomes a true grid workspace with heavy volume, complex columns, or operational editing.",
+          "tradeoffs": ["can overpower the product design", "some advanced features require enterprise licensing"]
+        }
+      ],
+      "approvedWrappers": ["EvidenceDataTable", "PaginatedTableCard", "TableToolbar", "SortableMetricTable", "DenseOperationsGrid"],
+      "requiredProof": ["pagination-for-over-ten-rows", "page-size-control-visible", "table-contained-in-card", "no-duplicate-table-footers"],
+      "bannedFallbacks": ["plain table over ten rows without pagination", "header sort controls repeated noisily when toolbar sort is required", "table outside a card surface"]
+    },
+    {
+      "id": "calendar-and-scheduling",
+      "label": "Calendar And Scheduling",
+      "projectTypes": ["meal-assistant", "media-engine", "media-business-operations", "publishing-calendar"],
+      "defaultLibrary": "fullcalendar",
+      "libraryCandidates": [
+        {
+          "id": "fullcalendar",
+          "package": "@fullcalendar/*",
+          "source": "https://fullcalendar.io/docs",
+          "licenseReview": "mixed-open-source-premium-reviewed",
+          "bestFor": ["month view", "week view", "date selection", "event drag", "event resize", "list view"],
+          "whyUse": "Calendar behavior is a domain problem. FullCalendar prevents us from rebuilding month/week/day mechanics by hand.",
+          "tradeoffs": ["premium plugins may require license", "must be heavily themed through dashboard-kit tokens"]
+        },
+        {
+          "id": "react-big-calendar",
+          "package": "react-big-calendar",
+          "source": "https://github.com/jquense/react-big-calendar",
+          "licenseReview": "open-source-review-required",
+          "bestFor": ["simpler internal calendars", "basic day/week/month scheduling"],
+          "whyUse": "A lighter alternative for projects that need basic event scheduling without heavier FullCalendar features.",
+          "tradeoffs": ["less complete for advanced planning workflows", "more custom behavior may be needed"]
+        }
+      ],
+      "approvedWrappers": ["DashboardCalendar", "MonthPlanner", "WeekPlanningDrawer", "ScheduleEventCard", "CalendarToolbar"],
+      "requiredProof": ["month-grid-visible", "selected-date-state-visible", "week-or-day-drilldown-visible", "empty-day-state-visible"],
+      "bannedFallbacks": ["calendar rendered as disconnected cards", "day cells with noisy status text instead of concise state", "planning form without drawer or focused detail region"]
+    },
+    {
+      "id": "workflow-drag-drop",
+      "label": "Workflow And Drag-Drop",
+      "projectTypes": ["media-engine", "media-business-operations", "meal-assistant", "tlc-capital-group-os"],
+      "defaultLibrary": "dnd-kit",
+      "libraryCandidates": [
+        {
+          "id": "dnd-kit",
+          "package": "@dnd-kit/*",
+          "source": "https://next.dndkit.com/react/quickstart",
+          "licenseReview": "open-source-reviewed",
+          "bestFor": ["sortable lists", "kanban movement", "assignment boards", "custom drag interactions"],
+          "whyUse": "Drag/drop should be controlled by product state and styled by dashboard-kit, not by a finished third-party board skin.",
+          "tradeoffs": ["provides behavior rather than finished UI", "accessibility and keyboard paths must be validated"]
+        },
+        {
+          "id": "react-dnd",
+          "package": "react-dnd",
+          "source": "https://react-dnd.github.io/react-dnd/docs/api/use-drop/",
+          "licenseReview": "open-source-reviewed",
+          "bestFor": ["complex drag types", "drop target contracts", "custom workflow interactions"],
+          "whyUse": "Use when workflows need more complex drag item types or drop target semantics than simple sortable lists.",
+          "tradeoffs": ["more boilerplate", "heavier mental model"]
+        }
+      ],
+      "approvedWrappers": ["WorkflowBoard", "SortableQueue", "AssignmentLane", "DragDropReviewList"],
+      "requiredProof": ["keyboard-or-accessible-alternative", "drag-state-visible", "drop-target-state-visible", "empty-lane-state-visible"],
+      "bannedFallbacks": ["visual-only draggable cards", "drag interactions without persistence contract", "workflow columns without overflow rules"]
+    },
+    {
+      "id": "node-graphs-and-pipelines",
+      "label": "Node Graphs And Pipelines",
+      "projectTypes": ["media-engine", "media-business-operations", "nous-hermes-agent", "research-workbench"],
+      "defaultLibrary": "react-flow",
+      "libraryCandidates": [
+        {
+          "id": "react-flow",
+          "package": "@xyflow/react",
+          "source": "https://reactflow.dev/learn/concepts/building-a-flow",
+          "licenseReview": "open-source-reviewed",
+          "bestFor": ["story trees", "agent pipelines", "workflow graphs", "node editing", "pan and zoom"],
+          "whyUse": "Story construction and agent workflows need editable node/edge behavior. Static diagrams cannot support operational research work.",
+          "tradeoffs": ["must be themed to avoid generic diagram look", "large graphs require performance and layout review"]
+        },
+        {
+          "id": "cytoscape",
+          "package": "cytoscape",
+          "source": "https://js.cytoscape.org/",
+          "licenseReview": "open-source-review-required",
+          "bestFor": ["network analysis", "entity relationship graphs", "graph algorithms"],
+          "whyUse": "Use for analytical graph exploration rather than authoring/editing pipelines.",
+          "tradeoffs": ["less natural for app-builder node editing", "needs separate layout and interaction design"]
+        }
+      ],
+      "approvedWrappers": ["StoryTreeGraph", "PipelineGraph", "EvidenceRelationshipGraph", "GraphInspectorDrawer"],
+      "requiredProof": ["nodes-visible", "edges-visible", "pan-or-zoom-controls-visible", "selected-node-detail-visible"],
+      "bannedFallbacks": ["static image diagram for interactive workflow", "node cards without edges for graph workflow", "graph without detail drilldown"]
+    },
+    {
+      "id": "rich-text-and-research-documents",
+      "label": "Rich Text And Research Documents",
+      "projectTypes": ["media-business-operations", "media-engine", "tlc-capital-group-os", "research-workbench"],
+      "defaultLibrary": "tiptap",
+      "libraryCandidates": [
+        {
+          "id": "tiptap",
+          "package": "@tiptap/*",
+          "source": "https://tiptap.dev/docs",
+          "licenseReview": "mixed-open-source-cloud-reviewed",
+          "bestFor": ["research notes", "scripts", "evidence annotations", "comments", "structured editor JSON"],
+          "whyUse": "Research desks need editable documents, structured notes, and script artifacts. Textareas are not sufficient for Tier 3.",
+          "tradeoffs": ["requires document schema decisions", "collaboration/cloud features may require separate review"]
+        },
+        {
+          "id": "lexical",
+          "package": "lexical",
+          "source": "https://lexical.dev/",
+          "licenseReview": "open-source-review-required",
+          "bestFor": ["custom editors", "lightweight rich text", "deep product-specific editing"],
+          "whyUse": "Use when we want lower-level editor control and are willing to own more of the editor product surface.",
+          "tradeoffs": ["more custom build work", "less turnkey for research workflows"]
+        }
+      ],
+      "approvedWrappers": ["ResearchEditor", "ScriptEditor", "EvidenceAnnotationEditor", "DecisionMemoEditor"],
+      "requiredProof": ["editor-toolbar-visible", "save-state-visible", "empty-document-state-visible", "structured-output-contract-visible"],
+      "bannedFallbacks": ["large textarea as primary research desk", "contenteditable without schema", "editor without save/proof state"]
+    },
+    {
+      "id": "image-thumbnail-generation",
+      "label": "Image And Thumbnail Generation",
+      "projectTypes": ["media-engine", "media-business-operations", "publishing-ops"],
+      "defaultLibrary": "sharp",
+      "libraryCandidates": [
+        {
+          "id": "sharp",
+          "package": "sharp",
+          "source": "https://sharp.pixelplumbing.com/",
+          "licenseReview": "open-source-reviewed",
+          "bestFor": ["server-side image resize", "compositing", "format conversion", "thumbnail rendering", "quality normalization"],
+          "whyUse": "Automated thumbnails require deterministic server-side rendering, guardrails, sizing, and file output. Browser-only canvas is not enough for the pipeline.",
+          "tradeoffs": ["not interactive", "must be paired with visual QA and asset manifest checks"]
+        },
+        {
+          "id": "image-js",
+          "package": "image-js",
+          "source": "https://docs.image-js.org/",
+          "licenseReview": "open-source-review-required",
+          "bestFor": ["image analysis", "filtering", "pixel-level transforms"],
+          "whyUse": "Use for analytical image processing where sharp is not enough.",
+          "tradeoffs": ["less standard for production thumbnail compositing", "pipeline performance must be tested"]
+        }
+      ],
+      "approvedWrappers": ["ThumbnailPipelineRenderer", "ImageSharpnessQa", "AssetManifestPreview", "ThumbnailProofCard"],
+      "requiredProof": ["output-dimensions-valid", "text-within-safe-area", "source-asset-manifest-visible", "sharpness-check-visible"],
+      "bannedFallbacks": ["thumbnail without source manifest", "text overlay without safe-area guardrails", "manual-only image export for production package"]
+    },
+    {
+      "id": "interactive-canvas-editing",
+      "label": "Interactive Canvas Editing",
+      "projectTypes": ["media-engine", "thumbnail-editor", "creative-review"],
+      "defaultLibrary": "react-konva",
+      "libraryCandidates": [
+        {
+          "id": "react-konva",
+          "package": "react-konva",
+          "source": "https://konvajs.org/docs/react/index.html",
+          "licenseReview": "open-source-reviewed",
+          "bestFor": ["draggable text", "image layers", "canvas preview", "creative editing", "hit testing"],
+          "whyUse": "A human-adjustable thumbnail or post editor needs layer manipulation, not static form controls.",
+          "tradeoffs": ["browser-only", "server export still needs a rendering backend such as sharp or Remotion"]
+        },
+        {
+          "id": "fabric-js",
+          "package": "fabric",
+          "source": "https://fabricjs.com/",
+          "licenseReview": "open-source-review-required",
+          "bestFor": ["canvas object editing", "layer manipulation", "text and image transforms"],
+          "whyUse": "A mature alternative if Konva cannot support a required editing workflow.",
+          "tradeoffs": ["React integration and state control require review", "can drift from dashboard-kit patterns if not wrapped"]
+        }
+      ],
+      "approvedWrappers": ["CreativeCanvasEditor", "CanvasLayerPanel", "ThumbnailTextOverlayEditor", "CanvasExportProof"],
+      "requiredProof": ["canvas-visible", "layer-selection-visible", "safe-area-visible", "export-preview-visible"],
+      "bannedFallbacks": ["canvas editor without layer model", "manual pixel positioning without safe bounds", "editor without export proof"]
+    },
+    {
+      "id": "video-template-generation",
+      "label": "Video Template Generation",
+      "projectTypes": ["media-engine", "publishing-ops", "creative-automation"],
+      "defaultLibrary": "remotion",
+      "libraryCandidates": [
+        {
+          "id": "remotion",
+          "package": "remotion",
+          "source": "https://www.remotion.dev/",
+          "licenseReview": "commercial-and-open-source-review-required",
+          "bestFor": ["programmatic video templates", "branded intros", "social clips", "prop-driven renders", "previewable compositions"],
+          "whyUse": "Video packages need reusable templates and previews. Plain FFmpeg scripts are too low-level for product-grade creative automation.",
+          "tradeoffs": ["heavier runtime", "render infrastructure and licensing must be reviewed"]
+        },
+        {
+          "id": "ffmpeg-cli",
+          "package": "system-ffmpeg",
+          "source": "https://ffmpeg.org/",
+          "licenseReview": "binary-and-license-review-required",
+          "bestFor": ["encoding", "clipping", "audio extraction", "transcoding", "frame extraction"],
+          "whyUse": "Keep FFmpeg as the low-level media operation layer even when Remotion owns templates.",
+          "tradeoffs": ["not a UI or template system", "hard to maintain complex visuals as scripts only"]
+        }
+      ],
+      "approvedWrappers": ["VideoTemplatePreview", "RenderQueueStatus", "ClipExtractionPanel", "VideoPackageProofCard"],
+      "requiredProof": ["template-preview-visible", "render-status-visible", "asset-inputs-visible", "output-link-visible"],
+      "bannedFallbacks": ["opaque video script without preview", "render package without asset manifest", "video template not parameterized"]
+    },
+    {
+      "id": "forms-and-validation",
+      "label": "Forms And Validation",
+      "projectTypes": ["all-dashboard-projects"],
+      "defaultLibrary": "react-hook-form-zod",
+      "libraryCandidates": [
+        {
+          "id": "react-hook-form-zod",
+          "package": "react-hook-form + zod",
+          "source": "https://react-hook-form.com/",
+          "licenseReview": "open-source-review-required",
+          "bestFor": ["schema-backed forms", "validation", "approval reasons", "research intake", "trading safety forms"],
+          "whyUse": "Forms should have typed contracts, validation, dirty state, and submission proof. Visual-only forms are not sufficient.",
+          "tradeoffs": ["requires shared form component wrappers", "schema design must be owned by each data domain"]
+        },
+        {
+          "id": "formik-yup",
+          "package": "formik + yup",
+          "source": "https://formik.org/",
+          "licenseReview": "open-source-review-required",
+          "bestFor": ["legacy forms", "simple familiar form flows"],
+          "whyUse": "A fallback for legacy projects already using Formik.",
+          "tradeoffs": ["less aligned with current schema-first TypeScript standard", "heavier than needed for many dashboard forms"]
+        }
+      ],
+      "approvedWrappers": ["ValidatedForm", "ApprovalReasonForm", "ResearchIntakeForm", "TradingSafetyForm", "SettingsFormSection"],
+      "requiredProof": ["field-errors-visible", "submit-state-visible", "dirty-state-visible", "success-or-failure-state-visible"],
+      "bannedFallbacks": ["form without validation contract", "button with no submission state", "approval/decline without reason capture when required"]
+    }
+  ],
+  "maturityWork": [
+    {
+      "id": "kit-wrappers-first",
+      "label": "Build shared wrappers before downstream redesigns",
+      "whyItMatters": "Libraries improve behavior only when the design kit wraps them. Direct project usage creates another drift vector.",
+      "requiredOutcome": "Every default library has at least one @hermes/dashboard-kit wrapper component before a project can claim T3C for that domain."
+    },
+    {
+      "id": "visual-proof-aware-validator",
+      "label": "Make validation screenshot-aware",
+      "whyItMatters": "Static checks cannot prove overflow, clipped labels, unreadable themes, or generic-looking charts.",
+      "requiredOutcome": "Tier 3 validation uses Playwright evidence to verify axes, legends, toolbars, empty states, and responsive layout."
+    },
+    {
+      "id": "component-family-scorecards",
+      "label": "Score each component family independently",
+      "whyItMatters": "A dashboard can have a strong shell but weak charts or forms. The score must expose the weak family.",
+      "requiredOutcome": "Dashboard maturity reports include family scores for shell, tables, charts, forms, calendars, workflows, proof states, and domain widgets."
+    },
+    {
+      "id": "library-admission-rfc",
+      "label": "Require a domain-library admission RFC",
+      "whyItMatters": "New dependencies have long-term license, bundle, accessibility, and design-system costs.",
+      "requiredOutcome": "Any new domain library includes an RFC with alternatives, proof, wrapper plan, and maintenance owner."
+    },
+    {
+      "id": "project-usage-scan",
+      "label": "Scan downstream project usage",
+      "whyItMatters": "A registry is not enforcement unless projects are checked for direct/local usage and missing wrappers.",
+      "requiredOutcome": "CI warns or fails when registered projects use domain libraries directly outside approved wrappers."
+    },
+    {
+      "id": "mobbin-pattern-to-component-pipeline",
+      "label": "Convert references into component requirements",
+      "whyItMatters": "Mobbin screenshots do not improve UI unless they become extracted patterns, acceptance criteria, and reusable components.",
+      "requiredOutcome": "Each major component family has reference evidence, mapped component variants, and visual acceptance criteria."
+    }
+  ]
+}

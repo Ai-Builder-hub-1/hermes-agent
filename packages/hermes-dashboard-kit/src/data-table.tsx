@@ -187,7 +187,17 @@ export function TableToolbar({
   children: ReactNode;
   className?: string;
 }) {
-  return <div className={cn("flex flex-wrap items-center justify-between gap-3", className)}>{children}</div>;
+  return (
+    <div
+      className={cn("flex flex-wrap items-center justify-between gap-3", className)}
+      data-domain-library="tanstack-table"
+      data-domain-library-family="data-tables-and-grids"
+      data-hdk-component="TableToolbar"
+      data-proof-signals="pagination-for-over-ten-rows page-size-control-visible table-contained-in-card no-duplicate-table-footers"
+    >
+      {children}
+    </div>
+  );
 }
 
 export function FilterBar({

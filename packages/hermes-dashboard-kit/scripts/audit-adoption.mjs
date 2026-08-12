@@ -541,7 +541,7 @@ function evaluateProject(registry, project, sourceHash) {
     }
     if (isUiSurface && Number(targetExperienceTier) >= 3 && surface.status !== "prototype" && surface.status !== "planned") {
       const shellQualityIssues =
-        evaluateTier3ShellQuality(content, surface);
+        evaluateTier3ShellQuality(content, surface, surfaceContent);
       issues.push(...shellQualityIssues);
     }
   }
@@ -607,9 +607,11 @@ function hasDevOnlyGuard(content) {
   );
 }
 
-function evaluateTier3ShellQuality(content, surface) {
+function evaluateTier3ShellQuality(content, surface, sourceContent = content) {
   const lower =
     content.toLowerCase();
+  const sourceLower =
+    sourceContent.toLowerCase();
   const issues = [];
   const sidebarEvidence = [
     "dashboardsidebar",
@@ -643,19 +645,19 @@ function evaluateTier3ShellQuality(content, surface) {
     "data-chart-type="
   ];
   const axisChartEvidence =
-    lower.includes("data-chart-type=\"line\"") ||
-    lower.includes("data-chart-type=\"area\"") ||
-    lower.includes("data-chart-type=\"bar\"") ||
-    lower.includes("data-chart-type=\"column\"");
+    sourceLower.includes("data-chart-type=\"line\"") ||
+    sourceLower.includes("data-chart-type=\"area\"") ||
+    sourceLower.includes("data-chart-type=\"bar\"") ||
+    sourceLower.includes("data-chart-type=\"column\"");
   const axisContractEvidence =
     lower.includes("data-x-axis=") &&
     lower.includes("data-x-axis-label=") &&
     lower.includes("data-y-axis=") &&
     lower.includes("data-y-axis-label=");
   const partToWholeEvidence =
-    lower.includes("data-chart-type=\"donut\"") ||
-    lower.includes("data-chart-type=\"ring\"") ||
-    lower.includes("data-chart-type=\"pie\"");
+    sourceLower.includes("data-chart-type=\"donut\"") ||
+    sourceLower.includes("data-chart-type=\"ring\"") ||
+    sourceLower.includes("data-chart-type=\"pie\"");
   const partToWholeContractEvidence =
     lower.includes("data-dimension=") &&
     lower.includes("data-measure=");
@@ -699,16 +701,16 @@ function evaluateTier3ShellQuality(content, surface) {
     "pagination"
   ];
   const heavyDataLanguage =
-    lower.includes("live") ||
-    lower.includes("usage") ||
-    lower.includes("issues") ||
-    lower.includes("errors") ||
-    lower.includes("orders") ||
-    lower.includes("snapshots") ||
-    lower.includes("markets") ||
-    lower.includes("stories") ||
-    lower.includes("approval") ||
-    lower.includes("qa");
+    sourceLower.includes("live") ||
+    sourceLower.includes("usage") ||
+    sourceLower.includes("issues") ||
+    sourceLower.includes("errors") ||
+    sourceLower.includes("orders") ||
+    sourceLower.includes("snapshots") ||
+    sourceLower.includes("markets") ||
+    sourceLower.includes("stories") ||
+    sourceLower.includes("approval") ||
+    sourceLower.includes("qa");
 
   if (!sidebarEvidence.some((marker) => lower.includes(marker))) {
     issues.push(issue(
@@ -784,7 +786,7 @@ function evaluateTier3ShellQuality(content, surface) {
     ));
   }
 
-  if ((lower.includes("chart") || lower.includes("svg")) && !chartEvidence.some((marker) => lower.includes(marker))) {
+  if ((/\bchart\b/.test(sourceLower) || sourceLower.includes("svg")) && !chartEvidence.some((marker) => lower.includes(marker))) {
     issues.push(issue(
       "warning",
       "tier3.chartPanelMissing",
@@ -840,7 +842,7 @@ function evaluateTier3ShellQuality(content, surface) {
     ));
   }
 
-  if ((lower.includes("chart") || lower.includes("table") || heavyDataLanguage) && !freshnessEvidence.some((marker) => lower.includes(marker))) {
+  if ((/\bchart\b/.test(sourceLower) || sourceLower.includes("table") || heavyDataLanguage) && !freshnessEvidence.some((marker) => lower.includes(marker))) {
     issues.push(issue(
       "warning",
       "tier3.dataFreshnessMissing",
@@ -854,7 +856,7 @@ function evaluateTier3ShellQuality(content, surface) {
     ));
   }
 
-  if ((lower.includes("<table") || lower.includes("hdk-table")) && !paginatedEvidence.some((marker) => lower.includes(marker))) {
+  if ((sourceLower.includes("<table") || sourceLower.includes("hdk-table")) && !paginatedEvidence.some((marker) => lower.includes(marker))) {
     issues.push(issue(
       "warning",
       "tier3.paginationEvidenceMissing",

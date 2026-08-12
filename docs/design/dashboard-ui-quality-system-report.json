@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-12T14:39:29.605Z",
+  "version": "V14",
+  "layerCount": 12,
+  "implementedCount": 3,
+  "newStandardCount": 9,
+  "statusCounts": {
+    "implemented": 3,
+    "new-standard": 9
+  },
+  "tier3CRequirementCount": 12,
+  "centralReports": {
+    "fleetUiMaturity": {
+      "averageScore": 100,
+      "tier3cReadyCount": 10,
+      "needsMigrationCount": 0,
+      "needsEvidenceCount": 0
+    },
+    "designDebt": {
+      "status": "pass",
+      "activeDebtCount": 0,
+      "expiredDebtCount": 0,
+      "blockingDebtCount": 0
+    },
+    "visualRegression": {
+      "baselineReadyCount": 10,
+      "dashboardCount": 10,
+      "missingProofRouteCount": 0
+    }
+  },
+  "layers": [
+    {
+      "id": "design-token-governance",
+      "number": 13,
+      "status": "implemented",
+      "commandCount": 2,
+      "artifactCount": 4,
+      "proofSignalCount": 3,
+      "maturityOutput": "Token scan and token enforcement report are clean."
+    },
+    {
+      "id": "content-copy-standard",
+      "number": 14,
+      "status": "new-standard",
+      "commandCount": 1,
+      "artifactCount": 1,
+      "proofSignalCount": 3,
+      "maturityOutput": "Copy rules are checked during UI quality validation and human review."
+    },
+    {
+      "id": "information-priority-model",
+      "number": 15,
+      "status": "new-standard",
+      "commandCount": 1,
+      "artifactCount": 2,
+      "proofSignalCount": 3,
+      "maturityOutput": "Tier 3 review packets cite primary, secondary, and tertiary information placement."
+    },
+    {
+      "id": "density-responsiveness-system",
+      "number": 16,
+      "status": "new-standard",
+      "commandCount": 2,
+      "artifactCount": 3,
+      "proofSignalCount": 6,
+      "maturityOutput": "Rendered proof matrix covers required viewport and density expectations."
+    },
+    {
+      "id": "accessibility-keyboard-operation",
+      "number": 17,
+      "status": "new-standard",
+      "commandCount": 1,
+      "artifactCount": 2,
+      "proofSignalCount": 3,
+      "maturityOutput": "A11y matrix covers governed routes and component families."
+    },
+    {
+      "id": "performance-loading-ux",
+      "number": 18,
+      "status": "implemented",
+      "commandCount": 1,
+      "artifactCount": 2,
+      "proofSignalCount": 4,
+      "maturityOutput": "Loading-performance contract exists and route proof shows nonblank progressive render."
+    },
+    {
+      "id": "ui-quality-observability",
+      "number": 19,
+      "status": "new-standard",
+      "commandCount": 3,
+      "artifactCount": 3,
+      "proofSignalCount": 4,
+      "maturityOutput": "Monitoring registry records UI quality signals for production dashboards."
+    },
+    {
+      "id": "design-debt-registry",
+      "number": 20,
+      "status": "new-standard",
+      "commandCount": 2,
+      "artifactCount": 2,
+      "proofSignalCount": 2,
+      "maturityOutput": "Design debt registry is clean or only contains non-expired accepted compromises."
+    },
+    {
+      "id": "pattern-deprecation-system",
+      "number": 21,
+      "status": "new-standard",
+      "commandCount": 3,
+      "artifactCount": 2,
+      "proofSignalCount": 3,
+      "maturityOutput": "Deprecated pattern scan is clean for promoted routes."
+    },
+    {
+      "id": "component-acceptance-tests",
+      "number": 22,
+      "status": "implemented",
+      "commandCount": 3,
+      "artifactCount": 3,
+      "proofSignalCount": 3,
+      "maturityOutput": "Component and wrapper proof gates pass before downstream adoption."
+    },
+    {
+      "id": "human-review-workflow",
+      "number": 23,
+      "status": "new-standard",
+      "commandCount": 1,
+      "artifactCount": 2,
+      "proofSignalCount": 3,
+      "maturityOutput": "Material redesigns produce a validated review packet and signoff record."
+    },
+    {
+      "id": "agent-build-protocol",
+      "number": 24,
+      "status": "new-standard",
+      "commandCount": 2,
+      "artifactCount": 1,
+      "proofSignalCount": 3,
+      "maturityOutput": "Agent build artifacts show standards path followed before implementation is called complete."
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-12T14:40:10.702Z",
+  "status": "pass",
+  "policy": {
+    "expiredDebtBlocksTier3C": true,
+    "blockingDebtBlocksPromotion": true,
+    "requiredFields": [
+      "id",
+      "scope",
+      "owner",
+      "reviewer",
+      "reason",
+      "maturityImpact",
+      "replacementPlan",
+      "expiresOn"
+    ]
+  },
+  "summary": {
+    "activeDebtCount": 0,
+    "expiredDebtCount": 0,
+    "blockingDebtCount": 0,
+    "deprecatedPatternCount": 4,
+    "findingCount": 0
+  },
+  "activeDebt": [],
+  "deprecatedPatterns": [
+    {
+      "id": "production-static-dashboard-route",
+      "pattern": "-active.html|prototype-gallery",
+      "scope": [
+        "production navigation",
+        "Tier 3 routes"
+      ],
+      "replacement": "package-native route composed with @hermes/dashboard-kit",
+      "enforcementDate": "2026-08-12",
+      "exceptionPath": "docs/design/dashboard-governance-exceptions.json"
+    },
+    {
+      "id": "hand-drawn-primary-chart",
+      "pattern": "inline svg chart|function chart\\(|chart-card",
+      "scope": [
+        "Tier 3 charts",
+        "market/trading dashboards",
+        "analytics dashboards"
+      ],
+      "replacement": "approved chart/domain wrapper from @hermes/dashboard-kit",
+      "enforcementDate": "2026-08-12",
+      "exceptionPath": "docs/design/dashboard-governance-exceptions.json"
+    },
+    {
+      "id": "fat-default-banner",
+      "pattern": "hero banner|page banner as default structure",
+      "scope": [
+        "Tier 3 command pages"
+      ],
+      "replacement": "compact DashboardHeader plus proof/action strips only when needed",
+      "enforcementDate": "2026-08-12",
+      "exceptionPath": "docs/design/dashboard-governance-exceptions.json"
+    },
+    {
+      "id": "local-protected-visual-override",
+      "pattern": "\\.hdk-|\\.sidebar|\\.card|\\.chart|\\.table",
+      "scope": [
+        "downstream project CSS"
+      ],
+      "replacement": "dashboard-kit token or component variant",
+      "enforcementDate": "2026-08-12",
+      "exceptionPath": "project .hermes-dashboard.json exceptions"
+    }
+  ],
+  "findings": []
+}

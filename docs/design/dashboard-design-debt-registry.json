@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "version": "V14",
+  "title": "Dashboard Design Debt Registry",
+  "status": "active",
+  "policy": {
+    "expiredDebtBlocksTier3C": true,
+    "blockingDebtBlocksPromotion": true,
+    "requiredFields": ["id", "scope", "owner", "reviewer", "reason", "maturityImpact", "replacementPlan", "expiresOn"]
+  },
+  "items": []
+}

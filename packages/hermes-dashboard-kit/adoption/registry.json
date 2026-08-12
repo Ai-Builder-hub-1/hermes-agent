@@ -219,14 +219,14 @@
       "adapterTarget": "../business-mapper/business_mapper/static/hermes-dashboard-kit.css",
       "expectedMode": "package-native",
       "implementationMode": "package-native",
-      "targetExperienceBand": "T2B",
+      "targetExperienceBand": "T3C",
       "packageNativeRequired": true,
       "bridgeStatus": "package-native",
       "mobbinReferenceRequired": true,
-      "currentExperienceTier": 2,
-      "targetExperienceTier": 2,
+      "currentExperienceTier": 3,
+      "targetExperienceTier": 3,
       "tierMigrationRequired": false,
-      "tierMigrationNote": "Business Mapper workspace is inventoried. It should move from static adapter usage to shared component dashboard quality before being considered complete.",
+      "tierMigrationNote": "Business Mapper workspace is current at T3C as a package-native operating workspace with one shell, review center, graph workspace, validation queues, roadmap, advisory, deliverables, proof route, and visual evidence. Further maturity can replace local graph/roadmap internals with deeper shared-kit components without blocking current T3C status.",
       "requiredSurfaces": ["business-mapper-workspace"]
     },
     {

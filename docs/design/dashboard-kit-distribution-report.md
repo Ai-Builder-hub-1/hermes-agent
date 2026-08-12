@@ -1,15 +1,16 @@
 # Dashboard Kit Distribution Report
 
-Generated: 2026-08-05T13:23:36.826Z
+Generated: 2026-08-12T14:40:21.398Z
 
 | Project | Status | Dependency | Mode | Recommendation |
 | --- | --- | --- | --- | --- |
 | Nous Hermes Agent | ready | source-package | source-package | Nous owns the canonical package source; downstream projects consume a package artifact or approved local copy. |
-| Khashi VC ROC | advisory | file:../nous-hermes-agent/packages/hermes-dashboard-kit | sibling-file | Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy. |
+| Khashi VC ROC | ready | file:vendor/hermes-dashboard-kit | vendored-file | Keep vendor copy refreshed from Nous before promotion. |
 | Media Engine Ops | ready | file:vendor/hermes-dashboard-kit | vendored-file | Keep vendor copy refreshed from Nous before promotion. |
-| Media Business Operations | advisory | file:../nous-hermes-agent/packages/hermes-dashboard-kit | sibling-file | Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy. |
-| Business Mapper Workspace | advisory | file:../nous-hermes-agent/packages/hermes-dashboard-kit | sibling-file | Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy. |
-| Meal Assistant | advisory | file:../nous-hermes-agent/packages/hermes-dashboard-kit | sibling-file | Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy. |
-| Investing System ROC | advisory | file:../nous-hermes-agent/packages/hermes-dashboard-kit | sibling-file | Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy. |
-| Hermes Workspace | advisory | file:../nous-hermes-agent/packages/hermes-dashboard-kit | sibling-file | Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy. |
-| TLC Capital Group OS | advisory | file:../nous-hermes-agent/packages/hermes-dashboard-kit | sibling-file | Replace with an approved package artifact, workspace protocol, or vendored copy before independent deploy. |
+| Media Business Operations | ready | file:vendor/hermes-dashboard-kit | vendored-file | Keep vendor copy refreshed from Nous before promotion. |
+| Business Mapper Workspace | ready | file:vendor/hermes-dashboard-kit | vendored-file | Keep vendor copy refreshed from Nous before promotion. |
+| Meal Assistant | ready | file:vendor/hermes-dashboard-kit | vendored-file | Keep vendor copy refreshed from Nous before promotion. |
+| Rinseables OS | ready | file:vendor/hermes-dashboard-kit | vendored-file | Keep vendor copy refreshed from Nous before promotion. |
+| Investing System ROC | ready | file:vendor/hermes-dashboard-kit | vendored-file | Keep vendor copy refreshed from Nous before promotion. |
+| Hermes Workspace | ready | file:vendor/hermes-dashboard-kit | vendored-file | Keep vendor copy refreshed from Nous before promotion. |
+| TLC Capital Group OS | ready | file:vendor/hermes-dashboard-kit | vendored-file | Keep vendor copy refreshed from Nous before promotion. |

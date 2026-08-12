@@ -39,6 +39,7 @@ Every new or materially redesigned dashboard surface must pass these gates in or
 | `shell-visual-contract` | sidebar rail, compact command header, active route, and overflow protections are declared | the shell technically exists but feels like a bloated report or card stack |
 | `experience-tier` | current tier, target tier, and migration delta are declared | a shell-only report is called complete |
 | `recipe-selection` | one primary dashboard recipe is selected | UI starts from layout taste instead of user decision |
+| `domain-library-selection` | approved domain library and dashboard-kit wrapper are selected when the surface contains domain-native behavior | trading charts, calendars, editors, workflow boards, or media tools are rebuilt as static/local UI |
 | `data-contract` | data fields, source, freshness, states, and null behavior are declared | UI is built before data reality is known |
 | `interaction-contract` | key actions, drilldowns, pagination, filters, keyboard path, and fallback states are declared | controls exist as visual-only buttons |
 | `proof-route` | production proof endpoint or approved proof alternative is declared | production cannot be verified without a human login |
@@ -84,6 +85,7 @@ Required evidence for Tier 3 promotion includes:
 - one shell with sidebar/header contract
 - package-native `@hermes/dashboard-kit` import for T3C
 - Mobbin/reference intake and design-review artifact
+- domain-library registry selection and dashboard-kit wrapper evidence when the route contains trading charts, general charts, tables, calendars, workflow boards, node graphs, research editors, creative media tools, video templates, or complex forms
 - visual proof screenshots for desktop/mobile and relevant states
 - loading-performance contract: loading, freshness, stale, partial, empty, and error states
 - table contract: full-width table surface, contained horizontal scroll, default 10-row pagination, and 10 / 25 / 50 page-size controls for tables over 10 rows
@@ -94,6 +96,7 @@ Required evidence for Tier 3 promotion includes:
 - selectable review-region contract: every visible operator region that a human might ask to change must expose a stable `data-review-id`, including shortcut rails, utility/admin rails, page headers, cards, tables, charts, drawers, forms, and important action buttons
 - visual-selection runtime contract: stable review markers may ship in production, but the visual-selection bridge/runtime must be loaded only in local/development or explicitly approved proof/review routes
 - approved chart/table/drawer/state components
+- UI quality system compliance for token governance, content/copy, information priority, density/responsiveness, accessibility, performance/loading UX, observability, design debt, pattern deprecation, component acceptance, human review, and agent build protocol
 
 The project manifest should not be promoted by hand before this packet says `approved`.
 
@@ -104,11 +107,12 @@ Dashboard work must start with the system path, not a quick page patch:
 1. Select the dashboard recipe and target tier.
 2. Gather Mobbin/reference examples before implementation.
 3. Extract patterns into component requirements and acceptance criteria.
-4. Define the data/state/interaction contract.
-5. Build package-native or shared-kit components.
-6. Compose the product route in the one shell.
-7. Capture local and production proof screenshots.
-8. Update adoption/tier reporting.
+4. Select the approved domain library family from `docs/design/dashboard-domain-library-registry.json` when domain-native behavior is involved.
+5. Define the data/state/interaction contract.
+6. Build package-native or shared-kit components.
+7. Compose the product route in the one shell.
+8. Capture local and production proof screenshots.
+9. Update adoption/tier reporting.
 
 Skipping the reference and contract steps is allowed only for emergency fixes. Emergency fixes do not increase a dashboard's experience tier.
 
@@ -124,6 +128,85 @@ Mobbin is part of the design workflow, not a late inspiration pass. For material
 - screenshot proof after build
 
 The implementation must translate the reference into original Hermes components. It must not copy proprietary Mobbin assets, markup, or product-specific branding.
+
+## Domain Library Rule
+
+Mobbin/reference evidence defines the product pattern. Domain libraries provide the hard behavior. The dashboard kit owns the wrapper.
+
+The canonical registry lives at:
+
+```text
+docs/design/dashboard-domain-library-registry.json
+```
+
+The human-readable standard lives at:
+
+```text
+docs/design/dashboard-domain-library-standard.md
+```
+
+Use the registry when a dashboard route contains:
+
+- financial or trading charts
+- general dashboard charts
+- tables or grids
+- calendars
+- drag/drop workflows
+- node graphs or pipelines
+- rich text or research editors
+- image/thumbnail generation
+- interactive canvas editing
+- video template generation
+- complex validated forms
+
+The allowed integration path is:
+
+```text
+domain library -> @hermes/dashboard-kit wrapper -> project dashboard route
+```
+
+Direct project imports are allowed only with a temporary exception. Static or hand-drawn local replacements cannot satisfy T3C when an approved domain library and wrapper family exists.
+
+Validate the registry with:
+
+```bash
+npm run dashboard:domain-libraries:validate
+```
+
+## UI Quality System Rule
+
+The domain-library registry solves domain primitives. It does not by itself guarantee strong UI. Tier 3C also requires the broader UI quality system:
+
+- design token governance
+- content and copy standard
+- information priority model
+- density and responsiveness
+- accessibility and keyboard operation
+- performance and loading UX
+- UI quality observability
+- design debt registry
+- pattern deprecation system
+- component acceptance tests
+- human review workflow
+- agent build protocol
+
+The canonical registry lives at:
+
+```text
+docs/design/dashboard-ui-quality-system-registry.json
+```
+
+Validate it with:
+
+```bash
+npm run dashboard:ui-quality:validate
+```
+
+Generate a maturity report with:
+
+```bash
+npm run dashboard:ui-quality:report
+```
 
 ## Required Recipe Selection
 
@@ -304,6 +387,39 @@ Authorization: Bearer $HERMES_DASHBOARD_PROOF_TOKEN
 ```
 
 The proof route must not expose credentials, destructive actions, private user content, or editable controls. It should render enough real state to prove the primary page is not blank, not blocked by auth, and not relying on mock data.
+
+## Central UI Maturity Rule
+
+Tier labels are not enough for promotion. Each dashboard is scored through the central UI maturity scorecard:
+
+```bash
+npm run dashboard:ui-quality:scorecard
+```
+
+The scorecard combines tier band, package distribution, visual evidence, proof route coverage, runtime-data policy, design debt, deprecated-pattern status, and V14 UI quality status.
+
+Promotion interpretation:
+
+- `tier3c-ready`: dashboard can move through final review when the review packet and deploy gates also pass.
+- `needs-proof-hardening`: dashboard is visually/structurally close but lacks production proof, package-distribution hardening, or runtime-policy cleanup.
+- `needs-migration`: dashboard should not be called complete until the named migration/evidence gap is closed.
+- `needs-evidence`: dashboard lacks enough proof to judge maturity.
+
+Visual regression requirements are generated with:
+
+```bash
+npm run dashboard:visual-regression:matrix
+```
+
+The matrix defines required screenshot evidence by dashboard, viewport, theme, and state. Tier 3C surfaces must have matrix coverage before promotion.
+
+Design debt and deprecated patterns are checked with:
+
+```bash
+npm run dashboard:ui-quality:debt:strict
+```
+
+Expired or blocking design debt blocks Tier 3C.
 
 ## Exception And Deprecation Policy
 

@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-12T13:07:58.599Z",
+  "purpose": "Scans registered dashboard projects for direct imports of approved domain libraries. Direct imports outside @hermes/dashboard-kit are drift risks.",
+  "projectCount": 10,
+  "directFindingCount": 0,
+  "entries": [
+    {
+      "id": "nous-hermes-agent.dashboard",
+      "label": "Nous Hermes Agent",
+      "projectPath": ".",
+      "status": "no-domain-library-imports",
+      "scanScope": "declared-dashboard-surfaces",
+      "findingCount": 0,
+      "directFindingCount": 0,
+      "findings": []
+    },
+    {
+      "id": "khashi-vc.roc",
+      "label": "Khashi VC ROC",
+      "projectPath": "../khashi-vc",
+      "status": "no-domain-library-imports",
+      "scanScope": "declared-dashboard-surfaces",
+      "findingCount": 0,
+      "directFindingCount": 0,
+      "findings": []
+    },
+    {
+      "id": "media-engine.ops",
+      "label": "Media Engine Ops",
+      "projectPath": "../media-engine",
+      "status": "no-domain-library-imports",
+      "scanScope": "declared-dashboard-surfaces",
+      "findingCount": 0,
+      "directFindingCount": 0,
+      "findings": []
+    },
+    {
+      "id": "media-business-operations.main",
+      "label": "Media Business Operations",
+      "projectPath": "../media-business-operations",
+      "status": "no-domain-library-imports",
+      "scanScope": "declared-dashboard-surfaces",
+      "findingCount": 0,
+      "directFindingCount": 0,
+      "findings": []
+    },
+    {
+      "id": "business-mapper.workspace",
+      "label": "Business Mapper Workspace",
+      "projectPath": "../business-mapper",
+      "status": "no-domain-library-imports",
+      "scanScope": "declared-dashboard-surfaces",
+      "findingCount": 0,
+      "directFindingCount": 0,
+      "findings": []
+    },
+    {
+      "id": "meal-assistant.main",
+      "label": "Meal Assistant",
+      "projectPath": "../Meal-assistant",
+      "status": "no-domain-library-imports",
+      "scanScope": "declared-dashboard-surfaces",
+      "findingCount": 0,
+      "directFindingCount": 0,
+      "findings": []
+    },
+    {
+      "id": "rinseables-os.main",
+      "label": "Rinseables OS",
+      "projectPath": "../rinseables-os",
+      "status": "no-domain-library-imports",
+      "scanScope": "declared-dashboard-surfaces",
+      "findingCount": 0,
+      "directFindingCount": 0,
+      "findings": []
+    },
+    {
+      "id": "investing-system.roc",
+      "label": "Investing System ROC",
+      "projectPath": "../investing-system",
+      "status": "no-domain-library-imports",
+      "scanScope": "declared-dashboard-surfaces",
+      "findingCount": 0,
+      "directFindingCount": 0,
+      "findings": []
+    },
+    {
+      "id": "hermes.workspace",
+      "label": "Hermes Workspace",
+      "projectPath": "../hermes",
+      "status": "no-domain-library-imports",
+      "scanScope": "declared-dashboard-surfaces",
+      "findingCount": 0,
+      "directFindingCount": 0,
+      "findings": []
+    },
+    {
+      "id": "tlc-capital-group-os.main",
+      "label": "TLC Capital Group OS",
+      "projectPath": "../tlc-capital-group-os",
+      "status": "no-domain-library-imports",
+      "scanScope": "declared-dashboard-surfaces",
+      "findingCount": 0,
+      "directFindingCount": 0,
+      "findings": []
+    }
+  ]
+}

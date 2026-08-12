@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "version": "V14",
+  "title": "Dashboard UI Quality System Registry",
+  "status": "active",
+  "owner": "nous-hermes-agent",
+  "purpose": "Enumerate and enforce the full UI-quality operating system beyond domain libraries so dashboard work improves systematically across tokens, copy, layout, interaction, proof, scoring, debt, deprecation, human review, and agent build protocol.",
+  "minimumTier3CRequirements": [
+    "declared design input and reference pattern",
+    "approved domain library and wrapper when domain-native behavior exists",
+    "approved component variant and layout pattern",
+    "interaction and data-state contracts",
+    "token-compatible visual implementation",
+    "rendered proof across required states and viewports",
+    "family-level UI quality score",
+    "project adoption and migration evidence",
+    "CI gate pass or explicit non-expired exception",
+    "design debt and deprecated-pattern scan clean for the promoted route",
+    "human review record for material visual changes",
+    "agent build protocol checklist completed"
+  ],
+  "layers": [
+    {
+      "id": "design-token-governance",
+      "number": 13,
+      "status": "implemented",
+      "purpose": "Keep spacing, color, typography, radius, shadows, density, and theme behavior consistent across dashboards.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-token-enforcement.json",
+        "docs/design/dashboard-theme-mode-standard.md",
+        "packages/hermes-dashboard-kit/src/dashboard-kit.css",
+        "packages/hermes-dashboard-kit/static/hermes-dashboard-kit.css"
+      ],
+      "requiredCapabilities": ["token families", "protected token rules", "dark-light compatibility", "density scale", "token scanner"],
+      "enforcementCommands": ["npm run dashboard:token-enforcement:validate", "npm run dashboard:token-scan:strict"],
+      "proofSignals": ["no hardcoded colors in governed source", "spacing uses hdk tokens", "theme-compatible text/surface pairs"],
+      "maturityOutput": "Token scan and token enforcement report are clean."
+    },
+    {
+      "id": "content-copy-standard",
+      "number": 14,
+      "status": "new-standard",
+      "purpose": "Make dashboard language concise, operator-facing, non-duplicative, and free of implementation/debug leakage.",
+      "sourceArtifacts": ["docs/design/dashboard-ui-quality-system-handbook.md"],
+      "requiredCapabilities": ["title rules", "helper text rules", "empty/error/stale copy rules", "tooltip copy rules", "debug-copy boundary"],
+      "enforcementCommands": ["npm run dashboard:ui-quality:validate"],
+      "proofSignals": ["no duplicate page/card headers", "no bloated default banners", "debug telemetry hidden unless actionable"],
+      "maturityOutput": "Copy rules are checked during UI quality validation and human review."
+    },
+    {
+      "id": "information-priority-model",
+      "number": 15,
+      "status": "new-standard",
+      "purpose": "Define top-level visibility versus drawer/detail/tooltip placement so dashboards do not expose everything at equal weight.",
+      "sourceArtifacts": ["docs/design/dashboard-ui-quality-system-handbook.md", "docs/design/dashboard-information-architecture.md"],
+      "requiredCapabilities": ["primary decision question", "secondary evidence", "tertiary implementation details", "debug visibility rules"],
+      "enforcementCommands": ["npm run dashboard:ui-quality:validate"],
+      "proofSignals": ["page has one primary operator question", "top row is decision-useful", "debug telemetry does not dominate"],
+      "maturityOutput": "Tier 3 review packets cite primary, secondary, and tertiary information placement."
+    },
+    {
+      "id": "density-responsiveness-system",
+      "number": 16,
+      "status": "new-standard",
+      "purpose": "Define compact, comfortable, and dense behavior across desktop, laptop, tablet, mobile, and embedded proof panels.",
+      "sourceArtifacts": ["docs/design/dashboard-visual-evidence-layer.json", "docs/design/dashboard-operational-navigation-standard.md", "docs/design/dashboard-visual-regression-matrix.json"],
+      "requiredCapabilities": ["density modes", "viewport rules", "sidebar collapse rules", "table responsive rules", "drawer to bottom-sheet behavior"],
+      "enforcementCommands": ["npm run dashboard:visual-evidence:validate", "npm run dashboard:visual-regression:matrix"],
+      "proofSignals": ["desktop proof", "tablet proof", "mobile proof", "embedded panel proof", "visual-regression matrix", "no overflow"],
+      "maturityOutput": "Rendered proof matrix covers required viewport and density expectations."
+    },
+    {
+      "id": "accessibility-keyboard-operation",
+      "number": 17,
+      "status": "new-standard",
+      "purpose": "Ensure dashboards are usable with keyboard, focus states, accessible labels, and non-mouse alternatives for complex interactions.",
+      "sourceArtifacts": ["docs/design/dashboard-route-a11y-matrix.json", "docs/design/dashboard-visual-evidence-layer.json"],
+      "requiredCapabilities": ["focus state", "keyboard navigation", "ARIA expectations", "chart/table accessibility", "drag/drop alternatives"],
+      "enforcementCommands": ["npm run dashboard:a11y:check"],
+      "proofSignals": ["keyboard focus visible", "interactive controls have labels", "drag/drop has accessible alternative"],
+      "maturityOutput": "A11y matrix covers governed routes and component families."
+    },
+    {
+      "id": "performance-loading-ux",
+      "number": 18,
+      "status": "implemented",
+      "purpose": "Make dashboards fast, stable, and honest while data loads or hydrates.",
+      "sourceArtifacts": ["docs/design/dashboard-loading-performance-standard.md", "packages/hermes-dashboard-kit/src/dashboard-performance.tsx"],
+      "requiredCapabilities": ["load-time budgets", "skeleton standards", "cache/freshness rules", "lazy rendering", "virtualization triggers"],
+      "enforcementCommands": ["npm run dashboard:web:build-budget"],
+      "proofSignals": ["loading state visible", "freshness visible", "partial state visible", "error state visible"],
+      "maturityOutput": "Loading-performance contract exists and route proof shows nonblank progressive render."
+    },
+    {
+      "id": "ui-quality-observability",
+      "number": 19,
+      "status": "new-standard",
+      "purpose": "Track dashboard UI errors, slow loads, stale data, broken interactions, and proof freshness in production.",
+      "sourceArtifacts": ["docs/design/dashboard-monitoring-registry.json", "docs/design/dashboard-runtime-data-report.json", "docs/design/dashboard-fleet-ui-maturity-scorecard.json"],
+      "requiredCapabilities": ["UI error logging", "load-time telemetry", "interaction success/failure logs", "stale-data telemetry", "proof freshness monitoring"],
+      "enforcementCommands": ["npm run dashboard:monitoring:check", "npm run dashboard:runtime-data:report", "npm run dashboard:ui-quality:scorecard"],
+      "proofSignals": ["runtime data scan", "monitoring registry", "proof endpoint freshness", "fleet UI maturity score"],
+      "maturityOutput": "Monitoring registry records UI quality signals for production dashboards."
+    },
+    {
+      "id": "design-debt-registry",
+      "number": 20,
+      "status": "new-standard",
+      "purpose": "Track temporary UI compromises, owners, expiry dates, affected routes, and replacement components.",
+      "sourceArtifacts": ["docs/design/dashboard-design-debt-registry.json", "docs/design/dashboard-design-debt-report.json"],
+      "requiredCapabilities": ["debt item owner", "reviewer", "expiry", "route/component scope", "replacement plan", "maturity impact"],
+      "enforcementCommands": ["npm run dashboard:ui-quality:validate", "npm run dashboard:ui-quality:debt:strict"],
+      "proofSignals": ["no expired design debt", "T3C route has no blocking design debt"],
+      "maturityOutput": "Design debt registry is clean or only contains non-expired accepted compromises."
+    },
+    {
+      "id": "pattern-deprecation-system",
+      "number": 21,
+      "status": "new-standard",
+      "purpose": "Retire bad UI patterns once approved replacements exist.",
+      "sourceArtifacts": ["docs/design/dashboard-pattern-deprecation-registry.json", "docs/design/dashboard-design-debt-report.json"],
+      "requiredCapabilities": ["deprecated pattern registry", "banned selectors", "replacement component", "enforcement date", "exception path"],
+      "enforcementCommands": ["npm run dashboard:static-routes:strict", "npm run dashboard:local-overrides:validate", "npm run dashboard:ui-quality:validate"],
+      "proofSignals": ["no deprecated selectors in governed routes", "exceptions have expiry", "replacement component is named"],
+      "maturityOutput": "Deprecated pattern scan is clean for promoted routes."
+    },
+    {
+      "id": "component-acceptance-tests",
+      "number": 22,
+      "status": "implemented",
+      "purpose": "Prove shared components meet contract before projects use them.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-component-maturity-registry.json",
+        "docs/design/dashboard-component-certification-checklist.json",
+        "docs/design/dashboard-domain-wrapper-proof-report.json"
+      ],
+      "requiredCapabilities": ["state fixtures", "visual proof", "accessibility expectations", "keyboard expectations", "responsive proof"],
+      "enforcementCommands": ["npm run dashboard:component-maturity:validate", "npm run dashboard:domain-wrappers:proof:strict", "npm run dashboard:design-system:test"],
+      "proofSignals": ["component maturity clean", "wrapper proof-ready", "kit tests pass"],
+      "maturityOutput": "Component and wrapper proof gates pass before downstream adoption."
+    },
+    {
+      "id": "human-review-workflow",
+      "number": 23,
+      "status": "new-standard",
+      "purpose": "Make taste review operational through review packets, screenshots, approval notes, and rejected pattern reasons.",
+      "sourceArtifacts": ["docs/design/dashboard-human-review-workflow.json", "docs/design/dashboard-review-packet-standard.json"],
+      "requiredCapabilities": ["review queue", "screenshot comparison", "approval notes", "rejection reasons", "reference links", "final signoff"],
+      "enforcementCommands": ["npm run dashboard:review-packet:validate"],
+      "proofSignals": ["review packet exists", "human signoff or explicit exception", "rejected patterns are recorded"],
+      "maturityOutput": "Material redesigns produce a validated review packet and signoff record."
+    },
+    {
+      "id": "agent-build-protocol",
+      "number": 24,
+      "status": "new-standard",
+      "purpose": "Force agent-driven dashboard work to follow the same sequence every time instead of jumping into local patching.",
+      "sourceArtifacts": ["docs/design/dashboard-agent-build-protocol.md"],
+      "requiredCapabilities": ["pre-build checklist", "registry lookup", "project audit", "proof capture", "maturity report", "blocked action rules"],
+      "enforcementCommands": ["npm run dashboard:ui-quality:validate", "npm run dashboard:standards:summary:fast"],
+      "proofSignals": ["agent names selected registries before build", "agent runs relevant proof", "final report cites maturity impact"],
+      "maturityOutput": "Agent build artifacts show standards path followed before implementation is called complete."
+    }
+  ]
+}

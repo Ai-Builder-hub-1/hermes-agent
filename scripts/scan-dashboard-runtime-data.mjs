@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 import path from "node:path";
 import process from "node:process";
-import { dashboardRegistry, designDir, markdownTable, resolveProjectPath, root, runGit, statusLines, writeJson, writeMarkdown } from "./dashboard-report-utils.mjs";
+import fs from "node:fs";
+import { dashboardRegistry, designDir, markdownTable, resolveProjectPath, root, runGit, statusLines, writeJson, writeMarkdown, readJson } from "./dashboard-report-utils.mjs";
 
 const strict = process.argv.includes("--strict");
 const jsonPath = path.join(designDir, "dashboard-runtime-data-report.json");
@@ -20,6 +21,19 @@ function classifyFile(file) {
   return "runtime-data";
 }
 
+function runtimePolicy(projectRoot) {
+  const manifestPath = path.join(projectRoot, ".hermes-dashboard.json");
+  if (!fs.existsSync(manifestPath)) return { approvedTrackedData: [] };
+  return readJson(manifestPath).runtimeDataPolicy ?? { approvedTrackedData: [] };
+}
+
+function approvedClassification(policy, file) {
+  const exact = (policy.approvedTrackedData ?? []).find((item) => item.file === file);
+  if (exact) return exact.classification ?? "approved-runtime-data";
+  const pattern = (policy.approvedTrackedDataPatterns ?? []).find((item) => new RegExp(item.pattern).test(file));
+  return pattern?.classification ?? null;
+}
+
 const seen = new Map();
 for (const dashboard of dashboardRegistry()) {
   if (!seen.has(dashboard.projectPath)) seen.set(dashboard.projectPath, dashboard);
@@ -27,7 +41,11 @@ for (const dashboard of dashboardRegistry()) {
 
 const entries = [...seen.values()].map((dashboard) => {
   const projectRoot = resolveProjectPath(dashboard.projectPath);
-  const tracked = trackedData(projectRoot).map((file) => ({ file, classification: classifyFile(file) }));
+  const policy = runtimePolicy(projectRoot);
+  const tracked = trackedData(projectRoot).map((file) => ({
+    file,
+    classification: approvedClassification(policy, file) ?? classifyFile(file)
+  }));
   const status = statusLines(projectRoot, "data").map((line) => line.trim());
   const runtimeTracked = tracked.filter((item) => item.classification === "runtime-data");
   const generatedDirty = status.filter((line) => runtimePattern.test(line));

@@ -58,6 +58,7 @@ const requiredGateIds = new Set([
   "implementation-mode",
   "recipe-selection",
   "reference-evidence",
+  "domain-library-selection",
   "data-contract",
   "interaction-contract",
   "proof-route",
