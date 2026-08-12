@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-12T15:27:39.103Z",
+  "generatedAt": "2026-08-12T15:56:19.089Z",
   "purpose": "Cross-project deployment source ledger for Hetzner dashboard promotion and rollback review.",
   "checkedCount": 10,
   "missingSourceCount": 0,
-  "trackedWithRisksCount": 3,
+  "trackedWithRisksCount": 2,
   "entries": [
     {
       "id": "nous-hermes-agent.dashboard",
@@ -38,9 +38,9 @@
       },
       "repo": {
         "branch": "main",
-        "commit": "73e9b953474689038f0a708ceceb0cc3832db24b",
-        "shortCommit": "73e9b9534746",
-        "statusBranch": "## main...ai-builder/main [ahead 5]",
+        "commit": "b9d699e6ee3bdffa255436581c442ea209c43c07",
+        "shortCommit": "b9d699e6ee3b",
+        "statusBranch": "## main...ai-builder/main",
         "clean": true,
         "dirtyCount": 0,
         "sourceDirtyCount": 0,
@@ -48,14 +48,12 @@
         "dirtyFiles": [],
         "sourceDirtyFiles": [],
         "evidenceDirtyFiles": [],
-        "ahead": 5,
+        "ahead": 0,
         "behind": 0
       },
-      "status": "tracked-with-risks",
+      "status": "tracked",
       "missing": [],
-      "risks": [
-        "local branch has unpushed commits"
-      ]
+      "risks": []
     },
     {
       "id": "khashi-vc.roc",
@@ -119,27 +117,27 @@
         "composeService": "media-engine-dashboard",
         "buildContext": "/root/apps/media-engine",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": "promotion-evidence:media-engine-dashboard-2026-08-12T15-17-42Z",
-        "sourceCommit": "dc3e762560f2340c1f6592cf0ae884b9010b15cc"
+        "source": "promotion-evidence:media-engine-dashboard-2026-08-12T15-54-37Z",
+        "sourceCommit": "439b7f272f85b17ee2822c620d99dc10351ebe36"
       },
       "promotionEvidence": {
         "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/media-engine-dashboard.json",
         "error": null,
-        "eventId": "media-engine-dashboard-2026-08-12T15-17-42Z",
+        "eventId": "media-engine-dashboard-2026-08-12T15-54-37Z",
         "status": "succeeded",
-        "startedAt": "2026-08-12T15:17:03Z",
-        "finishedAt": "2026-08-12T15:17:42Z",
-        "previousCommit": "eaba723ff6ac4477760f8b5e6d4fe90380be6e48",
-        "resolvedCommit": "dc3e762560f2340c1f6592cf0ae884b9010b15cc",
-        "imageId": "sha256:f64d5872aae9fa3b8d98eae1d52e40a26262e9effd40062083f6ad5a7efbc068",
-        "containerImageId": "sha256:f64d5872aae9fa3b8d98eae1d52e40a26262e9effd40062083f6ad5a7efbc068",
-        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh media-engine eaba723ff6ac4477760f8b5e6d4fe90380be6e48"
+        "startedAt": "2026-08-12T15:54:05Z",
+        "finishedAt": "2026-08-12T15:54:37Z",
+        "previousCommit": "dc3e762560f2340c1f6592cf0ae884b9010b15cc",
+        "resolvedCommit": "439b7f272f85b17ee2822c620d99dc10351ebe36",
+        "imageId": "sha256:4f2702b6faa85244584194647ffb3f659ed6b6413bff991ac669bcb56be980bc",
+        "containerImageId": "sha256:4f2702b6faa85244584194647ffb3f659ed6b6413bff991ac669bcb56be980bc",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh media-engine dc3e762560f2340c1f6592cf0ae884b9010b15cc"
       },
       "repo": {
         "branch": "main",
-        "commit": "dc3e762560f2340c1f6592cf0ae884b9010b15cc",
-        "shortCommit": "dc3e762560f2",
+        "commit": "439b7f272f85b17ee2822c620d99dc10351ebe36",
+        "shortCommit": "439b7f272f85",
         "statusBranch": "## main...origin/main",
         "clean": true,
         "dirtyCount": 0,
@@ -364,27 +362,27 @@
         "composeService": "investing-system",
         "buildContext": "/root/apps/investing-system",
         "promotionScript": "/root/apps/deploy/scripts/promote-service.sh",
-        "source": "promotion-evidence:investing-system-2026-08-12T15-22-19Z",
-        "sourceCommit": "559e420d215c9a32352f21d908fc61ed9fb92231"
+        "source": "promotion-evidence:investing-system-2026-08-12T15-55-34Z",
+        "sourceCommit": "90a2b9705f8a67978381a865a06fe9b606b24e10"
       },
       "promotionEvidence": {
         "available": true,
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/investing-system.json",
         "error": null,
-        "eventId": "investing-system-2026-08-12T15-22-19Z",
+        "eventId": "investing-system-2026-08-12T15-55-34Z",
         "status": "succeeded",
-        "startedAt": "2026-08-12T15:20:50Z",
-        "finishedAt": "2026-08-12T15:22:19Z",
-        "previousCommit": "f30da1721c83f56689fe6443c2fde7637b606f77",
-        "resolvedCommit": "559e420d215c9a32352f21d908fc61ed9fb92231",
-        "imageId": "sha256:d6915a7c27a3e32f766d069fa7a4f51f68639987be45dacf8fd2e52684fc3c83",
-        "containerImageId": "sha256:d6915a7c27a3e32f766d069fa7a4f51f68639987be45dacf8fd2e52684fc3c83",
-        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh investing-system f30da1721c83f56689fe6443c2fde7637b606f77"
+        "startedAt": "2026-08-12T15:54:05Z",
+        "finishedAt": "2026-08-12T15:55:34Z",
+        "previousCommit": "559e420d215c9a32352f21d908fc61ed9fb92231",
+        "resolvedCommit": "90a2b9705f8a67978381a865a06fe9b606b24e10",
+        "imageId": "sha256:61bba814fcafb92508d1b7fd7a84419a0cf94f4b26fdb827b2ce227f3323e1c1",
+        "containerImageId": "sha256:61bba814fcafb92508d1b7fd7a84419a0cf94f4b26fdb827b2ce227f3323e1c1",
+        "rollbackCommand": "/root/apps/deploy/scripts/promote-service.sh investing-system 559e420d215c9a32352f21d908fc61ed9fb92231"
       },
       "repo": {
         "branch": "main",
-        "commit": "559e420d215c9a32352f21d908fc61ed9fb92231",
-        "shortCommit": "559e420d215c",
+        "commit": "90a2b9705f8a67978381a865a06fe9b606b24e10",
+        "shortCommit": "90a2b9705f8a",
         "statusBranch": "## main...origin/main",
         "clean": false,
         "dirtyCount": 2,
