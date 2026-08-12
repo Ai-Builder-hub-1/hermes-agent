@@ -1,12 +1,12 @@
 # Dashboard Deployment Ledger
 
-Generated: 2026-08-12T16:22:04.687Z
+Generated: 2026-08-12T16:28:48.035Z
 
 This ledger connects each registered dashboard to local repo state, Hetzner deployment metadata, and the latest promotion evidence when available. Services without promotion evidence still need a recorded deployed commit before their production source can be treated as proven.
 
 | Project | Status | Local commit | Deployed commit | Service | Evidence | Risks |
 | --- | --- | --- | --- | --- | --- | --- |
-| Nous Hermes Agent | tracked | 6dcbdd56af3d | 73e9b9534746 | nous-hermes-agent | nous-hermes-agent-2026-08-12T15-27-12Z | none |
+| Nous Hermes Agent | tracked | f331b9668890 | f331b9668890 | nous-hermes-agent | nous-hermes-agent-2026-08-12T16-28-20Z | none |
 | Khashi VC ROC | tracked | 99ed31466d85 | 99ed31466d85 | khashi | khashi-2026-08-12T15-16-57Z | none |
 | Media Engine Ops | tracked | 439b7f272f85 | 439b7f272f85 | media-engine-dashboard | media-engine-dashboard-2026-08-12T15-59-36Z | none |
 | Media Business Operations | tracked | f7cf37c72427 | f7cf37c72427 | media-business-operations | media-business-operations-2026-08-12T15-19-24Z | none |
