@@ -10,6 +10,11 @@ const deprecationPath = path.join(root, "docs/design/dashboard-pattern-deprecati
 const humanReviewPath = path.join(root, "docs/design/dashboard-human-review-workflow.json");
 const handbookPath = path.join(root, "docs/design/dashboard-ui-quality-system-handbook.md");
 const agentProtocolPath = path.join(root, "docs/design/dashboard-agent-build-protocol.md");
+const renderedImplementationPath = path.join(root, "docs/design/rendered-visual-implementation-standard.md");
+const visualRubricPath = path.join(root, "docs/design/dashboard-visual-maturity-rubric.json");
+const visualReviewQueuePath = path.join(root, "docs/design/dashboard-visual-review-queue.json");
+const designPreferenceMemoryPath = path.join(root, "docs/design/dashboard-design-preference-memory.json");
+const operatingMaturityPlanPath = path.join(root, "docs/fleet/tlc-operating-system-maturity-build-plan.json");
 const issues = [];
 
 const requiredLayerIds = new Set([
@@ -47,7 +52,19 @@ function nonEmptyString(value) {
   return typeof value === "string" && value.trim().length > 0;
 }
 
-for (const file of [registryPath, designDebtPath, deprecationPath, humanReviewPath, handbookPath, agentProtocolPath]) {
+for (const file of [
+  registryPath,
+  designDebtPath,
+  deprecationPath,
+  humanReviewPath,
+  handbookPath,
+  agentProtocolPath,
+  renderedImplementationPath,
+  visualRubricPath,
+  visualReviewQueuePath,
+  designPreferenceMemoryPath,
+  operatingMaturityPlanPath,
+]) {
   if (!fs.existsSync(file)) issue("error", `missing:${path.relative(root, file)}`, `${path.relative(root, file)} is required.`);
 }
 
@@ -123,6 +140,43 @@ for (const required of ["approved", "changes-requested", "excepted"]) {
 }
 if ((review.requiredEvidence ?? []).length < 5) issue("error", "humanReview.requiredEvidence", "Human review workflow must require enough evidence.");
 
+const visualRubric = readJson(visualRubricPath);
+if (visualRubric.version !== "V1") issue("error", "visualRubric.version", "Visual maturity rubric must declare V1.");
+if ((visualRubric.visualTiers ?? []).length < 5) issue("error", "visualRubric.tiers", "Visual maturity rubric must define V0 through V4.");
+if (!visualRubric.visualTiers?.some((tier) => tier.tier === "V3" && tier.minimumScore >= 88)) {
+  issue("error", "visualRubric.V3", "Visual maturity rubric must require V3 score >= 88.");
+}
+if ((visualRubric.criteria ?? []).length < 10) issue("error", "visualRubric.criteria", "Visual maturity rubric must cover at least 10 quality criteria.");
+if (!visualRubric.promotionRules?.some((rule) => rule.target === "V4")) {
+  issue("error", "visualRubric.promotionRules", "Visual maturity rubric must define a V4 promotion rule.");
+}
+
+const visualReviewQueue = readJson(visualReviewQueuePath);
+if (visualReviewQueue.version !== "V1") issue("error", "visualReviewQueue.version", "Visual review queue must declare V1.");
+for (const state of ["queued", "in-review", "changes-requested", "approved", "excepted"]) {
+  if (!(visualReviewQueue.states ?? []).includes(state)) issue("error", `visualReviewQueue.state:${state}`, `Visual review queue must include state ${state}.`);
+}
+for (const item of visualReviewQueue.items ?? []) {
+  for (const field of ["id", "project", "surface", "state", "targetVisualTier", "currentVisualTier", "reason", "nextAction"]) {
+    if (!item[field]) issue("error", `visualReviewQueue:${item.id ?? "unknown"}.${field}`, `Visual review queue item must declare ${field}.`);
+  }
+  if (!nonEmptyArray(item.requiredEvidence)) issue("error", `visualReviewQueue:${item.id}.requiredEvidence`, "Visual review queue items must require evidence.");
+}
+
+const designPreferenceMemory = readJson(designPreferenceMemoryPath);
+if (designPreferenceMemory.version !== "V1") issue("error", "designPreferenceMemory.version", "Design preference memory must declare V1.");
+if ((designPreferenceMemory.globalPreferences ?? []).length < 5) {
+  issue("error", "designPreferenceMemory.globalPreferences", "Design preference memory must include core global preferences.");
+}
+if (!designPreferenceMemory.globalPreferences?.some((item) => item.id === "avoid-generic-static-dashboards")) {
+  issue("error", "designPreferenceMemory.genericDashboard", "Design preference memory must record the generic dashboard rejection.");
+}
+
+const operatingPlan = readJson(operatingMaturityPlanPath);
+if (operatingPlan.schemaVersion !== 1) issue("error", "operatingPlan.schemaVersion", "Operating maturity plan must declare schemaVersion 1.");
+if ((operatingPlan.levels ?? []).length < 6) issue("error", "operatingPlan.levels", "Operating maturity plan must cover L0 through L5.");
+if ((operatingPlan.workstreams ?? []).length < 10) issue("error", "operatingPlan.workstreams", "Operating maturity plan must include trackable workstreams.");
+
 const handbook = fs.readFileSync(handbookPath, "utf8");
 for (const phrase of ["Content And Copy Standard", "Information Priority Model", "Density And Responsiveness", "Design Debt", "Pattern Deprecation", "Human Review", "Agent Protocol"]) {
   if (!handbook.includes(phrase)) issue("error", `handbook.${phrase}`, `Handbook must include ${phrase}.`);
@@ -131,6 +185,11 @@ for (const phrase of ["Content And Copy Standard", "Information Priority Model",
 const agentProtocol = fs.readFileSync(agentProtocolPath, "utf8");
 for (const phrase of ["Required Sequence", "Blocked Actions", "Final Response Requirements"]) {
   if (!agentProtocol.includes(phrase)) issue("error", `agentProtocol.${phrase}`, `Agent protocol must include ${phrase}.`);
+}
+
+const renderedImplementation = fs.readFileSync(renderedImplementationPath, "utf8");
+for (const phrase of ["Completion Rule", "Layout rhythm layer", "Missing component layer", "Rendered proof layer", "Promotion layer"]) {
+  if (!renderedImplementation.includes(phrase)) issue("error", `renderedImplementation.${phrase}`, `Rendered visual implementation standard must include ${phrase}.`);
 }
 
 finish();

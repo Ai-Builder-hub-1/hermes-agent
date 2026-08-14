@@ -32,8 +32,8 @@ export interface TierBand {
   meaning: string;
 }
 
-export const projectTierGeneratedAt = "2026-08-12T14:36:27.131Z";
-export const projectTierSourceHash = "47d216e4494116d6d4c13013d713a5d0f4307d6e1b2f0c03d09c6b57c3c8eb05";
+export const projectTierGeneratedAt = "2026-08-14T17:16:35.078Z";
+export const projectTierSourceHash = "5b83a20a2e78a6f8e448fdfa4496b186aa0f77095b99e8fa81b26690b56f912f";
 
 export const tierBands: TierBand[] = [
   {
@@ -96,7 +96,7 @@ export const projectTierAssessments: ProjectTierAssessment[] = [
   {
     "project": "khashi-vc",
     "name": "Kashi VC",
-    "auditStatus": "current",
+    "auditStatus": "stale",
     "coarseTier": {
       "current": 3,
       "target": 3
@@ -107,14 +107,24 @@ export const projectTierAssessments: ProjectTierAssessment[] = [
     "targetBandLabel": "Package-native product cockpit (T3C)",
     "implementationMode": "package-native",
     "warnings": [],
-    "errors": [],
+    "errors": [
+      "packageNative.implementationIncomplete"
+    ],
     "nextMove": "Kashi VC Live Command is the current Tier 3 reference surface for live market cockpit behavior, but the highest maturity target remains T3C package-native delivery.",
-    "externalWorkItems": []
+    "externalWorkItems": [
+      {
+        "ownerProject": "khashi-vc",
+        "scope": "external-project",
+        "priority": "P0",
+        "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+        "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+      }
+    ]
   },
   {
     "project": "media-engine",
     "name": "Media Engine",
-    "auditStatus": "current",
+    "auditStatus": "stale",
     "coarseTier": {
       "current": 3,
       "target": 3
@@ -125,14 +135,24 @@ export const projectTierAssessments: ProjectTierAssessment[] = [
     "targetBandLabel": "Package-native product cockpit (T3C)",
     "implementationMode": "package-native",
     "warnings": [],
-    "errors": [],
+    "errors": [
+      "packageNative.implementationIncomplete"
+    ],
     "nextMove": "Media Engine production renderer now imports @hermes/dashboard-kit directly, resolves shared CSS from the package export, and renders package metric primitives. Remaining local chart/table/drawer/state primitives are compatibility code pending full component decomposition.",
-    "externalWorkItems": []
+    "externalWorkItems": [
+      {
+        "ownerProject": "media-engine",
+        "scope": "external-project",
+        "priority": "P0",
+        "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+        "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+      }
+    ]
   },
   {
     "project": "media-business-os",
     "name": "Media Business OS",
-    "auditStatus": "current",
+    "auditStatus": "stale",
     "coarseTier": {
       "current": 3,
       "target": 3
@@ -143,9 +163,19 @@ export const projectTierAssessments: ProjectTierAssessment[] = [
     "targetBandLabel": "Package-native product cockpit (T3C)",
     "implementationMode": "package-native",
     "warnings": [],
-    "errors": [],
+    "errors": [
+      "packageNative.implementationIncomplete"
+    ],
     "nextMove": "Media Business OS shell and client renderer are inventoried. It has adapter-level alignment but still needs package-native shared components for product-grade operating cockpit completion.",
-    "externalWorkItems": []
+    "externalWorkItems": [
+      {
+        "ownerProject": "media-business-os",
+        "scope": "external-project",
+        "priority": "P0",
+        "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+        "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+      }
+    ]
   },
   {
     "project": "business-mapper",
@@ -168,7 +198,7 @@ export const projectTierAssessments: ProjectTierAssessment[] = [
   {
     "project": "meal-assistant",
     "name": "Meal Assistant",
-    "auditStatus": "current",
+    "auditStatus": "stale",
     "coarseTier": {
       "current": 3,
       "target": 3
@@ -179,14 +209,24 @@ export const projectTierAssessments: ProjectTierAssessment[] = [
     "targetBandLabel": "Package-native product cockpit (T3C)",
     "implementationMode": "package-native",
     "warnings": [],
-    "errors": [],
+    "errors": [
+      "packageNative.implementationIncomplete"
+    ],
     "nextMove": "Meal Assistant server-rendered dashboard is inventoried. Planner, calendar, drawer, library, checklist, review, household, and history must migrate to package-native shared components before Tier 3 completion.",
-    "externalWorkItems": []
+    "externalWorkItems": [
+      {
+        "ownerProject": "meal-assistant",
+        "scope": "external-project",
+        "priority": "P0",
+        "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+        "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+      }
+    ]
   },
   {
     "project": "hermes-os",
     "name": "Hermes OS",
-    "auditStatus": "current",
+    "auditStatus": "stale",
     "coarseTier": {
       "current": 3,
       "target": 3
@@ -197,14 +237,24 @@ export const projectTierAssessments: ProjectTierAssessment[] = [
     "targetBandLabel": "Package-native product cockpit (T3C)",
     "implementationMode": "package-native",
     "warnings": [],
-    "errors": [],
+    "errors": [
+      "packageNative.implementationIncomplete"
+    ],
     "nextMove": "Hermes OS dashboard hub, operator dashboard artifact, and control-plane artifact are inventoried as planned migration surfaces. The governance project still needs package-native shell/component adoption for its own operator UI.",
-    "externalWorkItems": []
+    "externalWorkItems": [
+      {
+        "ownerProject": "hermes-os",
+        "scope": "external-project",
+        "priority": "P0",
+        "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+        "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+      }
+    ]
   },
   {
     "project": "tlc-capital-group-os",
     "name": "TLC Capital Group OS",
-    "auditStatus": "current",
+    "auditStatus": "stale",
     "coarseTier": {
       "current": 3,
       "target": 3
@@ -215,14 +265,24 @@ export const projectTierAssessments: ProjectTierAssessment[] = [
     "targetBandLabel": "Package-native product cockpit (T3C)",
     "implementationMode": "package-native",
     "warnings": [],
-    "errors": [],
+    "errors": [
+      "packageNative.implementationIncomplete"
+    ],
     "nextMove": "TLC Capital Group OS raw dashboard shell, API route, and dashboard data models are inventoried as planned migration surfaces. The UI must become package-native while keeping the domain data model authoritative.",
-    "externalWorkItems": []
+    "externalWorkItems": [
+      {
+        "ownerProject": "tlc-capital-group-os",
+        "scope": "external-project",
+        "priority": "P0",
+        "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+        "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+      }
+    ]
   },
   {
     "project": "rinseables-os",
     "name": "Rinseables OS",
-    "auditStatus": "current",
+    "auditStatus": "stale",
     "coarseTier": {
       "current": 3,
       "target": 3
@@ -233,14 +293,24 @@ export const projectTierAssessments: ProjectTierAssessment[] = [
     "targetBandLabel": "Package-native product cockpit (T3C)",
     "implementationMode": "package-native",
     "warnings": [],
-    "errors": [],
+    "errors": [
+      "packageNative.implementationIncomplete"
+    ],
     "nextMove": "Rinseables OS is now visible to the central adoption audit. It has a package-native dashboard shell and proof route, but still needs deeper product cockpit decomposition before its UI should be treated as complete.",
-    "externalWorkItems": []
+    "externalWorkItems": [
+      {
+        "ownerProject": "rinseables-os",
+        "scope": "external-project",
+        "priority": "P0",
+        "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+        "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+      }
+    ]
   },
   {
     "project": "investing-system",
     "name": "Investing System",
-    "auditStatus": "current",
+    "auditStatus": "stale",
     "coarseTier": {
       "current": 3,
       "target": 3
@@ -251,9 +321,19 @@ export const projectTierAssessments: ProjectTierAssessment[] = [
     "targetBandLabel": "Package-native product cockpit (T3C)",
     "implementationMode": "package-native",
     "warnings": [],
-    "errors": [],
+    "errors": [
+      "packageNative.implementationIncomplete"
+    ],
     "nextMove": "Investing System is now visible to the central adoption audit. The ROC dashboard declares package-native shell/proof contracts while deeper component decomposition remains the next maturity step.",
-    "externalWorkItems": []
+    "externalWorkItems": [
+      {
+        "ownerProject": "investing-system",
+        "scope": "external-project",
+        "priority": "P0",
+        "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+        "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+      }
+    ]
   },
   {
     "project": "nous-hermes-agent",

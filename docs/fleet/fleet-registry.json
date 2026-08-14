@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-08T21:55:55.117Z",
+  "generatedAt": "2026-08-14T20:37:19.728Z",
   "purpose": "Fleet-wide project, production, dashboard, and relationship registry for Nous Hermes Agent.",
   "projects": [
     {
@@ -23,33 +23,53 @@
       "dashboard": {
         "registered": true,
         "dashboardId": "tlc-capital-group-os.main",
-        "status": "current",
+        "status": "stale",
         "currentBand": "T3C",
         "targetBand": "T3C",
         "implementationMode": "package-native",
-        "issueCount": 0
+        "issueCount": 1
       },
       "readiness": {
         "text": "88 enterprise readiness in the portfolio hub.",
-        "interpretation": "Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers."
+        "interpretation": "Adoption status is stale; needs follow-up."
+      },
+      "visual": {
+        "visualTier": "V4",
+        "targetVisualTier": "V4",
+        "visualScore": 100,
+        "status": "current",
+        "queuedReviewItems": [],
+        "note": "Heuristic visual score exists; human visual approval still required for V3/V4."
+      },
+      "productMaturity": {
+        "productTier": "P2",
+        "targetProductTier": "P4",
+        "status": "in-progress",
+        "note": "OKR/KPI and governance backbone exists; company intelligence workflows need deeper integration."
+      },
+      "companyOsMaturity": {
+        "companyOsTier": "C2",
+        "targetCompanyOsTier": "C5",
+        "status": "in-progress",
+        "note": "Primary company OS home; next layers are decision intelligence, strategy graph, finance, workforce, and compound learning."
       },
       "repoState": {
         "path": "../tlc-capital-group-os",
-        "branch": "## main...origin/main",
-        "commit": "9d7b4f99d692a3e47546a71620d0bd13b4489743",
-        "shortCommit": "9d7b4f99d692",
-        "clean": true,
-        "dirtyCount": 0,
-        "ahead": 0,
+        "branch": "## main...origin/main [ahead 1]",
+        "commit": "2a345b2803bbc88b0d41487af32eef310fa9821e",
+        "shortCommit": "2a345b2803bb",
+        "clean": false,
+        "dirtyCount": 5,
+        "ahead": 1,
         "behind": 0
       },
       "latestPromotion": {
         "available": true,
         "status": "succeeded",
-        "target": "main",
-        "eventId": "tlc-capital-group-os-2026-08-05T02-54-36Z",
-        "resolvedCommit": "9d7b4f99d692a3e47546a71620d0bd13b4489743",
-        "finishedAt": "2026-08-05T02:54:36Z",
+        "target": "6853f88d0961754be40cf8ee8c741266bd7351af",
+        "eventId": "tlc-capital-group-os-2026-08-12T15-24-48Z",
+        "resolvedCommit": "6853f88d0961754be40cf8ee8c741266bd7351af",
+        "finishedAt": "2026-08-12T15:24:48Z",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/tlc-capital-group-os.json"
       },
       "proof": {
@@ -121,25 +141,45 @@
       },
       "readiness": {
         "text": "65 software integration in the portfolio hub; dashboard governance is much stronger than child-project adoption.",
-        "interpretation": "No current dashboard adoption record; needs inventory."
+        "interpretation": "Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers."
+      },
+      "visual": {
+        "visualTier": "V2",
+        "targetVisualTier": "V3",
+        "visualScore": 83,
+        "status": "needs-review",
+        "queuedReviewItems": [],
+        "note": "Heuristic visual score exists; human visual approval still required for V3/V4."
+      },
+      "productMaturity": {
+        "productTier": "P3",
+        "targetProductTier": "P5",
+        "status": "in-progress",
+        "note": "Standards/control-plane is strong; product-building OS and self-improving loops are next."
+      },
+      "companyOsMaturity": {
+        "companyOsTier": "C2",
+        "targetCompanyOsTier": "C5",
+        "status": "in-progress",
+        "note": "Standards and agent control plane feed company OS; next is learning, review, and workforce coordination."
       },
       "repoState": {
         "path": "",
-        "branch": "## main...ai-builder/main",
-        "commit": "24b1662e89c921d329b23bf282b4027f3d6428a5",
-        "shortCommit": "24b1662e89c9",
+        "branch": "## main...ai-builder/main [ahead 1]",
+        "commit": "6077c4139330ef5124b81717eaac4baab81ca265",
+        "shortCommit": "6077c4139330",
         "clean": false,
-        "dirtyCount": 51,
-        "ahead": 0,
+        "dirtyCount": 56,
+        "ahead": 1,
         "behind": 0
       },
       "latestPromotion": {
         "available": true,
         "status": "succeeded",
-        "target": "4ad9da0d3",
-        "eventId": "nous-hermes-agent-2026-08-05T15-30-40Z",
-        "resolvedCommit": "4ad9da0d39ec34a17a9bd55649c60a8c1bd8c667",
-        "finishedAt": "2026-08-05T15:30:40Z",
+        "target": "f331b9668",
+        "eventId": "nous-hermes-agent-2026-08-12T16-28-20Z",
+        "resolvedCommit": "f331b96688907a0b87d34fd51127c54af4562cfd",
+        "finishedAt": "2026-08-12T16:28:20Z",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/nous-hermes-agent.json"
       },
       "proof": {
@@ -195,33 +235,53 @@
       "dashboard": {
         "registered": true,
         "dashboardId": "hermes.workspace",
-        "status": "current",
+        "status": "stale",
         "currentBand": "T3C",
         "targetBand": "T3C",
         "implementationMode": "package-native",
-        "issueCount": 0
+        "issueCount": 1
       },
       "readiness": {
         "text": "40 business readiness in the portfolio hub.",
-        "interpretation": "Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers."
+        "interpretation": "Adoption status is stale; needs follow-up."
+      },
+      "visual": {
+        "visualTier": "V4",
+        "targetVisualTier": "V4",
+        "visualScore": 100,
+        "status": "current",
+        "queuedReviewItems": [],
+        "note": "Heuristic visual score exists; human visual approval still required for V3/V4."
+      },
+      "productMaturity": {
+        "productTier": "P2",
+        "targetProductTier": "P4",
+        "status": "in-progress",
+        "note": "Runtime/control-plane exists; platform constitution, authority, deploy health, and operator feedback loops need maturity."
+      },
+      "companyOsMaturity": {
+        "companyOsTier": "C1",
+        "targetCompanyOsTier": "C4",
+        "status": "in-progress",
+        "note": "Runtime platform should feed governance, deployment evidence, incidents, and platform risk."
       },
       "repoState": {
         "path": "../hermes",
-        "branch": "## deploy/hermes-workspace-hetzner...origin/deploy/hermes-workspace-hetzner",
-        "commit": "af33e7719ccedc9eb88c18b735a594bbcfb009bb",
-        "shortCommit": "af33e7719cce",
-        "clean": true,
-        "dirtyCount": 0,
-        "ahead": 0,
+        "branch": "## deploy/hermes-workspace-hetzner...origin/deploy/hermes-workspace-hetzner [ahead 1]",
+        "commit": "037b8457a3be76e4d9bd7502b6c3521fe02ebfbb",
+        "shortCommit": "037b8457a3be",
+        "clean": false,
+        "dirtyCount": 5,
+        "ahead": 1,
         "behind": 0
       },
       "latestPromotion": {
         "available": true,
         "status": "succeeded",
-        "target": "deploy/hermes-workspace-hetzner",
-        "eventId": "hermes-2026-08-05T13-50-46Z",
-        "resolvedCommit": "abe01cbcda734a0b803c91351317ba77e636df89",
-        "finishedAt": "2026-08-05T13:50:46Z",
+        "target": "8f09a95",
+        "eventId": "hermes-2026-08-12T16-21-41Z",
+        "resolvedCommit": "8f09a950b728f3ebfd20374201842c989201b96b",
+        "finishedAt": "2026-08-12T16:21:41Z",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/hermes.json"
       },
       "proof": {
@@ -276,23 +336,43 @@
         "text": "56 business readiness and 45.5 plan completion in the portfolio hub.",
         "interpretation": "Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers."
       },
+      "visual": {
+        "visualTier": "V4",
+        "targetVisualTier": "V4",
+        "visualScore": 100,
+        "status": "current",
+        "queuedReviewItems": [],
+        "note": "Heuristic visual score exists; human visual approval still required for V3/V4."
+      },
+      "productMaturity": {
+        "productTier": "P3",
+        "targetProductTier": "P4",
+        "status": "in-progress",
+        "note": "Content packaging and Discord handoff exist; telemetry, QA, and outcome attribution should deepen."
+      },
+      "companyOsMaturity": {
+        "companyOsTier": "C1",
+        "targetCompanyOsTier": "C4",
+        "status": "in-progress",
+        "note": "Needs outcome attribution from content packages to channel performance and business goals."
+      },
       "repoState": {
         "path": "../media-engine",
-        "branch": "## main...origin/main",
-        "commit": "eaba723ff6ac4477760f8b5e6d4fe90380be6e48",
-        "shortCommit": "eaba723ff6ac",
+        "branch": "## main...origin/main [ahead 1]",
+        "commit": "c1cd4bf8022ad41e2f4b5141adb2210841b1a576",
+        "shortCommit": "c1cd4bf8022a",
         "clean": false,
-        "dirtyCount": 19,
-        "ahead": 0,
+        "dirtyCount": 5,
+        "ahead": 1,
         "behind": 0
       },
       "latestPromotion": {
         "available": true,
         "status": "succeeded",
-        "target": "main",
-        "eventId": "media-engine-dashboard-2026-08-05T02-52-39Z",
-        "resolvedCommit": "42b1ce1953935d2c4237471f8a4513629652b7fb",
-        "finishedAt": "2026-08-05T02:52:39Z",
+        "target": "439b7f2",
+        "eventId": "media-engine-dashboard-2026-08-12T15-59-36Z",
+        "resolvedCommit": "439b7f272f85b17ee2822c620d99dc10351ebe36",
+        "finishedAt": "2026-08-12T15:59:36Z",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/media-engine-dashboard.json"
       },
       "proof": {
@@ -354,33 +434,53 @@
       "dashboard": {
         "registered": true,
         "dashboardId": "media-business-operations.main",
-        "status": "current",
+        "status": "stale",
         "currentBand": "T3C",
         "targetBand": "T3C",
         "implementationMode": "package-native",
-        "issueCount": 0
+        "issueCount": 1
       },
       "readiness": {
         "text": "60 business readiness in the portfolio hub.",
-        "interpretation": "Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers."
+        "interpretation": "Adoption status is stale; needs follow-up."
+      },
+      "visual": {
+        "visualTier": "V4",
+        "targetVisualTier": "V4",
+        "visualScore": 100,
+        "status": "current",
+        "queuedReviewItems": [],
+        "note": "Heuristic visual score exists; human visual approval still required for V3/V4."
+      },
+      "productMaturity": {
+        "productTier": "P2",
+        "targetProductTier": "P4",
+        "status": "in-progress",
+        "note": "Operations cockpit exists; research/story workflows and business outcome loops need maturity."
+      },
+      "companyOsMaturity": {
+        "companyOsTier": "C1",
+        "targetCompanyOsTier": "C4",
+        "status": "in-progress",
+        "note": "Needs brand operations, research desk, channel status, and story execution tied to TLC goals."
       },
       "repoState": {
         "path": "../media-business-operations",
-        "branch": "## main...origin/main",
-        "commit": "bad731df3c19c24296a8890f7ef0e83272f09bcb",
-        "shortCommit": "bad731df3c19",
-        "clean": true,
-        "dirtyCount": 0,
-        "ahead": 0,
+        "branch": "## main...origin/main [ahead 1]",
+        "commit": "3d304db1a034f8c0b52fb81df3df4192cea4b3ef",
+        "shortCommit": "3d304db1a034",
+        "clean": false,
+        "dirtyCount": 5,
+        "ahead": 1,
         "behind": 0
       },
       "latestPromotion": {
         "available": true,
         "status": "succeeded",
-        "target": "main",
-        "eventId": "media-business-operations-2026-08-05T13-49-49Z",
-        "resolvedCommit": "0cbaa79847d3bc32bd15be5d507bd52b3cfc0c0f",
-        "finishedAt": "2026-08-05T13:49:49Z",
+        "target": "f7cf37c724271fb31c11166fa49f36db0afbbbdf",
+        "eventId": "media-business-operations-2026-08-12T15-19-24Z",
+        "resolvedCommit": "f7cf37c724271fb31c11166fa49f36db0afbbbdf",
+        "finishedAt": "2026-08-12T15:19:24Z",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/media-business-operations.json"
       },
       "proof": {
@@ -432,33 +532,53 @@
       "dashboard": {
         "registered": true,
         "dashboardId": "khashi-vc.roc",
-        "status": "current",
+        "status": "stale",
         "currentBand": "T3C",
         "targetBand": "T3C",
         "implementationMode": "package-native",
-        "issueCount": 0
+        "issueCount": 1
       },
       "readiness": {
         "text": "90 software plan completion in the portfolio hub.",
-        "interpretation": "Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers."
+        "interpretation": "Adoption status is stale; needs follow-up."
+      },
+      "visual": {
+        "visualTier": "V4",
+        "targetVisualTier": "V4",
+        "visualScore": 100,
+        "status": "current",
+        "queuedReviewItems": [],
+        "note": "Heuristic visual score exists; human visual approval still required for V3/V4."
+      },
+      "productMaturity": {
+        "productTier": "P3",
+        "targetProductTier": "P4",
+        "status": "in-progress",
+        "note": "Live market cockpit exists; long-run data analysis, experiment generation, and strategy evidence need maturity."
+      },
+      "companyOsMaturity": {
+        "companyOsTier": "C1",
+        "targetCompanyOsTier": "C4",
+        "status": "in-progress",
+        "note": "Needs daily hard-stop analysis, experiment backlog, and risk/evidence rollup into TLC governance."
       },
       "repoState": {
         "path": "../khashi-vc",
-        "branch": "## main...origin/main",
-        "commit": "3b348e6d7f81f28eb00d2633f238ff054361dbc6",
-        "shortCommit": "3b348e6d7f81",
-        "clean": true,
-        "dirtyCount": 0,
-        "ahead": 0,
+        "branch": "## main...origin/main [ahead 1]",
+        "commit": "52450442407b629c793d0c1f20fcea323df43ee4",
+        "shortCommit": "52450442407b",
+        "clean": false,
+        "dirtyCount": 6,
+        "ahead": 1,
         "behind": 0
       },
       "latestPromotion": {
         "available": true,
         "status": "succeeded",
-        "target": "main",
-        "eventId": "khashi-2026-08-08T14-47-38Z",
-        "resolvedCommit": "3b348e6d7f81f28eb00d2633f238ff054361dbc6",
-        "finishedAt": "2026-08-08T14:47:38Z",
+        "target": "99ed31466d85f0dcae28001afd947889e880d899",
+        "eventId": "khashi-2026-08-12T15-16-57Z",
+        "resolvedCommit": "99ed31466d85f0dcae28001afd947889e880d899",
+        "finishedAt": "2026-08-12T15:16:57Z",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/khashi.json"
       },
       "proof": {
@@ -507,32 +627,52 @@
         "registered": true,
         "dashboardId": "business-mapper.workspace",
         "status": "current",
-        "currentBand": "T2B",
-        "targetBand": "T2B",
+        "currentBand": "T3C",
+        "targetBand": "T3C",
         "implementationMode": "package-native",
         "issueCount": 0
       },
       "readiness": {
         "text": "32 business readiness and 82 tool completion in the portfolio hub.",
-        "interpretation": "Registered/current by latest dashboard adoption report."
+        "interpretation": "Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers."
+      },
+      "visual": {
+        "visualTier": "V4",
+        "targetVisualTier": "V4",
+        "visualScore": 100,
+        "status": "current",
+        "queuedReviewItems": [],
+        "note": "Heuristic visual score exists; human visual approval still required for V3/V4."
+      },
+      "productMaturity": {
+        "productTier": "P1",
+        "targetProductTier": "P3",
+        "status": "needs-migration",
+        "note": "Workspace exists; offer, client workflow, pricing, and outcome reporting need product definition."
+      },
+      "companyOsMaturity": {
+        "companyOsTier": "C0",
+        "targetCompanyOsTier": "C3",
+        "status": "not-started",
+        "note": "Needs offer/outcome model before company OS linkage can be meaningful."
       },
       "repoState": {
         "path": "../business-mapper",
-        "branch": "## main...origin/main",
-        "commit": "8308efc2866de08a33e08885a8c59aa795bb6edf",
-        "shortCommit": "8308efc2866d",
-        "clean": true,
-        "dirtyCount": 0,
-        "ahead": 0,
+        "branch": "## main...origin/main [ahead 1]",
+        "commit": "fceb11535980971a8373cd86372451125c60fb39",
+        "shortCommit": "fceb11535980",
+        "clean": false,
+        "dirtyCount": 4,
+        "ahead": 1,
         "behind": 0
       },
       "latestPromotion": {
         "available": true,
         "status": "succeeded",
-        "target": "main",
-        "eventId": "business-mapper-2026-08-05T13-49-49Z",
-        "resolvedCommit": "8308efc2866de08a33e08885a8c59aa795bb6edf",
-        "finishedAt": "2026-08-05T13:49:49Z",
+        "target": "515d7f063ac5bffa344ec94e6e5ce898dbd60e3c",
+        "eventId": "business-mapper-2026-08-12T15-19-53Z",
+        "resolvedCommit": "515d7f063ac5bffa344ec94e6e5ce898dbd60e3c",
+        "finishedAt": "2026-08-12T15:19:53Z",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/business-mapper.json"
       },
       "proof": {
@@ -573,33 +713,55 @@
       "dashboard": {
         "registered": true,
         "dashboardId": "meal-assistant.main",
-        "status": "current",
+        "status": "stale",
         "currentBand": "T3C",
         "targetBand": "T3C",
         "implementationMode": "package-native",
-        "issueCount": 0
+        "issueCount": 1
       },
       "readiness": {
         "text": "90 software plan completion in the portfolio hub.",
-        "interpretation": "Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers."
+        "interpretation": "Adoption status is stale; needs follow-up."
+      },
+      "visual": {
+        "visualTier": "V1",
+        "targetVisualTier": "V3",
+        "visualScore": 60,
+        "status": "needs-migration",
+        "queuedReviewItems": [
+          "visual-review-meal-assistant-planner-v3"
+        ],
+        "note": "Technically clean, but sidebar, calendar, planner drawer, library, and spacing need a full visual quality migration."
+      },
+      "productMaturity": {
+        "productTier": "P1",
+        "targetProductTier": "P3",
+        "status": "needs-migration",
+        "note": "Planner MVP exists; real product workflow, calendar polish, and household usage loop need maturity."
+      },
+      "companyOsMaturity": {
+        "companyOsTier": "C0",
+        "targetCompanyOsTier": "C2",
+        "status": "not-started",
+        "note": "Household product is not a primary TLC company OS contributor yet; keep product maturity separate."
       },
       "repoState": {
         "path": "../Meal-assistant",
-        "branch": "## main...origin/main",
-        "commit": "f26e8e4a67281ff9c0b911e6e9e35f872887bda5",
-        "shortCommit": "f26e8e4a6728",
-        "clean": true,
-        "dirtyCount": 0,
-        "ahead": 0,
+        "branch": "## main...origin/main [ahead 1]",
+        "commit": "6578d0fd1611fb171b327a9ebe6b234dcf05d4f8",
+        "shortCommit": "6578d0fd1611",
+        "clean": false,
+        "dirtyCount": 4,
+        "ahead": 1,
         "behind": 0
       },
       "latestPromotion": {
         "available": true,
         "status": "succeeded",
-        "target": "main",
-        "eventId": "meal-assistant-2026-08-05T13-29-19Z",
-        "resolvedCommit": "f26e8e4a67281ff9c0b911e6e9e35f872887bda5",
-        "finishedAt": "2026-08-05T13:29:19Z",
+        "target": "55c3e48e9674ab8fb2171ef838e7b8566ee11aea",
+        "eventId": "meal-assistant-2026-08-12T15-20-18Z",
+        "resolvedCommit": "55c3e48e9674ab8fb2171ef838e7b8566ee11aea",
+        "finishedAt": "2026-08-12T15:20:18Z",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/meal-assistant.json"
       },
       "proof": {
@@ -640,33 +802,53 @@
       "dashboard": {
         "registered": true,
         "dashboardId": "rinseables-os.main",
-        "status": "current",
+        "status": "stale",
         "currentBand": "T3C",
         "targetBand": "T3C",
         "implementationMode": "package-native",
-        "issueCount": 0
+        "issueCount": 1
       },
       "readiness": {
         "text": "40 business readiness and 90 software plan completion in the portfolio hub.",
-        "interpretation": "No current dashboard adoption record; needs inventory."
+        "interpretation": "Adoption status is stale; needs follow-up."
+      },
+      "visual": {
+        "visualTier": "V4",
+        "targetVisualTier": "V4",
+        "visualScore": 100,
+        "status": "current",
+        "queuedReviewItems": [],
+        "note": "Heuristic visual score exists; human visual approval still required for V3/V4."
+      },
+      "productMaturity": {
+        "productTier": "P1",
+        "targetProductTier": "P3",
+        "status": "needs-migration",
+        "note": "Software plan exists; SaaS product model, customer analytics, and offer need definition."
+      },
+      "companyOsMaturity": {
+        "companyOsTier": "C0",
+        "targetCompanyOsTier": "C3",
+        "status": "not-started",
+        "note": "Needs product/business model before company OS linkage can be meaningful."
       },
       "repoState": {
         "path": "../rinseables-os",
-        "branch": "## main...origin/main",
-        "commit": "6ec0cabcce9af8a1fa2147962df0466c94f15e93",
-        "shortCommit": "6ec0cabcce9a",
+        "branch": "## main...origin/main [ahead 1]",
+        "commit": "23673e5e25421d0be7b3b63cba6c2056c0cec35b",
+        "shortCommit": "23673e5e2542",
         "clean": false,
-        "dirtyCount": 5,
-        "ahead": 0,
+        "dirtyCount": 4,
+        "ahead": 1,
         "behind": 0
       },
       "latestPromotion": {
         "available": true,
         "status": "succeeded",
-        "target": "main",
-        "eventId": "rinseables-os-2026-08-05T13-49-36Z",
-        "resolvedCommit": "6ec0cabcce9af8a1fa2147962df0466c94f15e93",
-        "finishedAt": "2026-08-05T13:49:36Z",
+        "target": "cc4ee3441a7101211757bda172a4f7868f5bc90a",
+        "eventId": "rinseables-os-2026-08-12T15-20-43Z",
+        "resolvedCommit": "cc4ee3441a7101211757bda172a4f7868f5bc90a",
+        "finishedAt": "2026-08-12T15:20:43Z",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/rinseables-os.json"
       },
       "proof": {
@@ -711,33 +893,53 @@
       "dashboard": {
         "registered": true,
         "dashboardId": "investing-system.roc",
-        "status": "current",
+        "status": "stale",
         "currentBand": "T3C",
         "targetBand": "T3C",
         "implementationMode": "package-native",
-        "issueCount": 0
+        "issueCount": 1
       },
       "readiness": {
         "text": "90 software plan completion in the portfolio hub.",
-        "interpretation": "No current dashboard adoption record; needs inventory."
+        "interpretation": "Adoption status is stale; needs follow-up."
+      },
+      "visual": {
+        "visualTier": "V4",
+        "targetVisualTier": "V4",
+        "visualScore": 100,
+        "status": "current",
+        "queuedReviewItems": [],
+        "note": "Heuristic visual score exists; human visual approval still required for V3/V4."
+      },
+      "productMaturity": {
+        "productTier": "P3",
+        "targetProductTier": "P4",
+        "status": "in-progress",
+        "note": "Research/trading system direction exists; live promotion, risk governance, and outcome evidence need maturation."
+      },
+      "companyOsMaturity": {
+        "companyOsTier": "C1",
+        "targetCompanyOsTier": "C4",
+        "status": "in-progress",
+        "note": "Needs investment decision records, risk, capital exposure, and outcome attribution into TLC governance."
       },
       "repoState": {
         "path": "../investing-system",
-        "branch": "## main...origin/main",
-        "commit": "de5c212ed8f96f9c9dea74cc06688076f3fc35ec",
-        "shortCommit": "de5c212ed8f9",
+        "branch": "## main...origin/main [ahead 1]",
+        "commit": "8bc775e57762aeb7962fc24cdf16973d93e49078",
+        "shortCommit": "8bc775e57762",
         "clean": false,
-        "dirtyCount": 5,
-        "ahead": 0,
+        "dirtyCount": 4,
+        "ahead": 1,
         "behind": 0
       },
       "latestPromotion": {
         "available": true,
         "status": "succeeded",
         "target": "main",
-        "eventId": "investing-system-2026-08-05T02-54-12Z",
-        "resolvedCommit": "de5c212ed8f96f9c9dea74cc06688076f3fc35ec",
-        "finishedAt": "2026-08-05T02:54:12Z",
+        "eventId": "investing-system-2026-08-13T16-12-27Z",
+        "resolvedCommit": "089adb81d5d0db0c94de6947864794912bcd426f",
+        "finishedAt": "2026-08-13T16:12:27Z",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/investing-system.json"
       },
       "proof": {

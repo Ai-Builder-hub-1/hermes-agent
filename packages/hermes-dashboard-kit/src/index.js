@@ -338,7 +338,9 @@ export function renderDashboardShell({
           </div>
           ${actions ? `<div class="hdk-header__actions">${actions}</div>` : ""}
         </header>
-        ${children}
+        <div class="hdk-page-frame" data-hdk-component="DashboardPageFrame">
+          ${children}
+        </div>
       </main>
     </div>
   `;
@@ -350,6 +352,7 @@ export function renderOperationalSidebar({
   mark = "H",
   nav = [],
   navGroups = [],
+  className = "",
   collapsible = true,
   activeId = "",
   status = "",
@@ -371,7 +374,7 @@ export function renderOperationalSidebar({
         ];
 
   return `
-      <aside class="hdk-sidebar hdk-sidebar-rail" data-hdk-component="Sidebar" data-component="DashboardSidebar">
+      <aside class="hdk-sidebar hdk-sidebar-rail ${escapeAttr(className)}" data-hdk-component="Sidebar" data-component="DashboardSidebar">
         <div class="hdk-brand hdk-sidebar-brand" data-sidebar-brand>
           <span class="hdk-brand__mark">${escapeHtml(mark)}</span>
           <span>
@@ -429,10 +432,11 @@ export function renderMetricCard({
   delta = "",
   tone = "neutral",
   detail = "",
+  className = "",
   reviewId = ""
 }) {
   return `
-    <article class="hdk-card hdk-metric hdk-tone-${escapeAttr(tone)}" data-hdk-component="MetricCard"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+    <article class="hdk-card hdk-metric ${escapeAttr(className)} hdk-tone-${escapeAttr(tone)}" data-hdk-component="MetricCard"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
       <span>${escapeHtml(label)}</span>
       <strong>${escapeHtml(value)}</strong>
       ${delta || detail ? `<p>${escapeHtml([delta, detail].filter(Boolean).join(" · "))}</p>` : ""}
@@ -677,22 +681,62 @@ export function renderDataTable({
 }
 
 export function renderDataTableTabs({
+  id = "",
+  title = "",
   tabs = [],
   activeId = "",
-  reviewId = ""
+  reviewId = "",
+  pageSize = 10
 }) {
   const normalized =
-    tabs.filter(Boolean);
+    tabs
+      .filter(Boolean)
+      .map((tab, index) => ({
+        id:
+          tab.id || `${id || "table-tabs"}-${index + 1}`,
+        label:
+          tab.label || tab.id || `Table ${index + 1}`,
+        shortLabel:
+          tab.shortLabel || tab.label || tab.id || `Table ${index + 1}`,
+        html:
+          tab.html || "",
+        count:
+          tab.count,
+        columns:
+          tab.columns || [],
+        rows:
+          tab.rows || [],
+        page:
+          tab.page || 1,
+        pageSize:
+          tab.pageSize || pageSize,
+        total:
+          tab.total
+      }));
   const active =
     activeId || normalized[0]?.id || "";
 
+  if (!normalized.length) {
+    return `
+      <section class="hdk-card hdk-table-card hdk-table-tabs" data-hdk-component="DataTableTabs" data-component="DataTableTabs"${id ? ` data-table-tabs="${escapeAttr(id)}"` : ""}${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+        ${renderStatePanel({ state: "empty", title: "No table evidence", message: "No rows are available for this evidence surface yet." })}
+      </section>
+    `;
+  }
+
   return `
-    <section class="hdk-table-tabs" data-hdk-component="DataTableTabs"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
-      <div class="hdk-tablist" role="tablist">
-        ${normalized.map((tab) => `<button type="button" class="hdk-tab ${tab.id === active ? "is-active" : ""}" role="tab" aria-selected="${tab.id === active ? "true" : "false"}">${escapeHtml(tab.label || tab.id)}${tab.count === undefined ? "" : `<span>${escapeHtml(tab.count)}</span>`}</button>`).join("")}
+    <section class="hdk-card hdk-table-card hdk-table-tabs" data-hdk-component="DataTableTabs" data-component="DataTableTabs"${id ? ` data-table-tabs="${escapeAttr(id)}"` : ""} data-page-size="${escapeAttr(pageSize)}" data-pagination="table-window"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      <div class="hdk-table-tabs-header">
+        <div class="hdk-table-tabs-title">
+          ${title ? `<p class="hdk-kicker">${escapeHtml(title)}</p>` : ""}
+          <div class="hdk-tablist" role="tablist"${id ? ` aria-label="${escapeAttr(id)} tables"` : ""}>
+            ${normalized.map((tab) => `<button type="button" class="hdk-tab ${tab.id === active ? "is-active active" : ""}" role="tab" id="${escapeAttr(tab.id)}-tab" aria-controls="${escapeAttr(tab.id)}-panel" aria-selected="${tab.id === active ? "true" : "false"}" data-table-tab="${escapeAttr(tab.id)}" data-table-label="${escapeAttr(tab.label)}">${escapeHtml(tab.shortLabel)}${tab.count === undefined ? "" : `<span>${escapeHtml(tab.count)}</span>`}</button>`).join("")}
+          </div>
+        </div>
+        <span class="hdk-pill hdk-table-row-count" data-table-active-count>${escapeHtml(normalized.find((tab) => tab.id === active)?.count ?? 0)} rows</span>
       </div>
       ${normalized.map((tab) => `
-        <div class="hdk-tab-panel ${tab.id === active ? "is-active" : ""}" role="tabpanel">
+        <div class="hdk-tab-panel ${tab.id === active ? "is-active active" : ""}" role="tabpanel" id="${escapeAttr(tab.id)}-panel" aria-labelledby="${escapeAttr(tab.id)}-tab" data-table-panel="${escapeAttr(tab.id)}" data-table-surface="${escapeAttr(tab.id)}" ${tab.id === active ? "" : "hidden"}>
           ${tab.html || renderDataTable({
             caption:
               tab.label,
@@ -703,12 +747,80 @@ export function renderDataTableTabs({
             page:
               tab.page || 1,
             pageSize:
-              tab.pageSize || 10,
+              tab.pageSize,
             total:
-              tab.total ?? tab.rows?.length ?? 0
+              tab.total ?? tab.rows.length
           })}
         </div>
       `).join("")}
+    </section>
+  `;
+}
+
+export function renderSortableDataTable({
+  caption = "",
+  columns = [],
+  rows = [],
+  sortOptions = [],
+  defaultSortKey = "",
+  defaultSortDirection = "descending",
+  pageSize = 10,
+  reviewId = ""
+}) {
+  const resolvedSortOptions =
+    sortOptions.length
+      ? sortOptions
+      : columns.map((column) => ({
+          key:
+            column.key,
+          label:
+            column.label || column.key,
+          type:
+            column.type || "text"
+        }));
+
+  return `
+    <section class="hdk-card hdk-table-card hdk-sortable-table" data-hdk-component="SortableDataTable" data-component="DataTable"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      <div class="hdk-card__header">
+        <div>
+          ${caption ? `<h2>${escapeHtml(caption)}</h2>` : ""}
+        </div>
+        <div class="hdk-table-toolbar" data-table-toolbar>
+          <span class="hdk-pill">${escapeHtml(rows.length)} rows</span>
+          <label>Sort by
+            <select data-brand-sort-key>
+              ${resolvedSortOptions.map((option) => `<option value="${escapeAttr(option.key)}" data-sort-type="${escapeAttr(option.type || "text")}" ${option.key === defaultSortKey ? "selected" : ""}>${escapeHtml(option.label || option.key)}</option>`).join("")}
+            </select>
+          </label>
+          <label>Order
+            <select data-brand-sort-direction>
+              <option value="descending" ${defaultSortDirection === "descending" ? "selected" : ""}>High to low</option>
+              <option value="ascending" ${defaultSortDirection === "ascending" ? "selected" : ""}>Low to high</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <div class="hdk-table-wrap" data-hdk-component="TableSurface">
+        <table class="hdk-table" data-sortable-table data-default-sort-key="${escapeAttr(defaultSortKey)}" data-default-sort-direction="${escapeAttr(defaultSortDirection)}">
+          <thead><tr>${columns.map((column) => `<th scope="col" data-column-key="${escapeAttr(column.key)}">${escapeHtml(column.label || column.key)}</th>`).join("")}</tr></thead>
+          <tbody>
+            ${rows.map((row) => `
+              <tr>
+                ${columns.map((column) => {
+                  const raw =
+                    row[column.key];
+                  const value =
+                    raw && typeof raw === "object" && "value" in raw ? raw.value : raw;
+                  const sortValue =
+                    raw && typeof raw === "object" && "sortValue" in raw ? raw.sortValue : value;
+                  return `<td data-sort-value="${escapeAttr(sortValue ?? "")}">${formatCell(value, column)}</td>`;
+                }).join("")}
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+      <footer class="hdk-pagination" data-hdk-component="Pagination" data-page-size="${escapeAttr(pageSize)}" data-pagination="table-window"></footer>
     </section>
   `;
 }
@@ -731,6 +843,122 @@ export function renderAreaChart(options) {
     mode:
       "area"
   });
+}
+
+export function renderMultiSeriesLineChart({
+  title,
+  subtitle = "",
+  data = [],
+  series = [],
+  xKey = "x",
+  xLabel = "Time",
+  yLabel = "Count",
+  width = 760,
+  height = 320,
+  reviewId = ""
+} = {}) {
+  const normalizedSeries =
+    (series || [])
+      .map((item, index) => ({
+        key:
+          item.key || item.id || `series${index + 1}`,
+        label:
+          item.label || humanize(item.key || item.id || `series ${index + 1}`),
+        color:
+          item.color || chartSeriesColor(index)
+      }))
+      .filter((item) => item.key);
+  const rows =
+    (data || []).filter(Boolean);
+  const values =
+    rows.flatMap((row) => normalizedSeries.map((item) => Number(row[item.key] ?? 0)));
+  const margin =
+    {
+      top:
+        24,
+      right:
+        28,
+      bottom:
+        48,
+      left:
+        58
+    };
+  const plotWidth =
+    width - margin.left - margin.right;
+  const plotHeight =
+    height - margin.top - margin.bottom;
+  const yMin =
+    Math.min(0, ...values);
+  const yMax =
+    Math.max(1, ...values);
+  const step =
+    rows.length <= 1 ? 0 : plotWidth / (rows.length - 1);
+  const ticks =
+    [0, 0.25, 0.5, 0.75, 1].map((ratio) => {
+      const y =
+        margin.top + plotHeight - ratio * plotHeight;
+      const value =
+        yMin + ratio * (yMax - yMin);
+      return {
+        y,
+        value
+      };
+    });
+  const xTicks =
+    rows
+      .map((row, index) => ({
+        label:
+          row.label || row[xKey] || String(index + 1),
+        index,
+        x:
+          rows.length <= 1 ? margin.left + plotWidth / 2 : margin.left + index * step
+      }))
+      .filter((_, index) =>
+        index === 0 || index === rows.length - 1 || index === Math.floor(rows.length / 2)
+      );
+  const lines =
+    normalizedSeries.map((item) => {
+      const points =
+        rows.map((row, index) => {
+          const value =
+            Number(row[item.key] ?? 0);
+          const x =
+            rows.length <= 1 ? margin.left + plotWidth / 2 : margin.left + index * step;
+          const y =
+            margin.top + plotHeight - ((value - yMin) / (yMax - yMin || 1)) * plotHeight;
+          return {
+            x,
+            y,
+            label:
+              row.label || row[xKey] || String(index + 1),
+            value
+          };
+        });
+      const path =
+        linePath(points.map((point) => [point.x, point.y]));
+      return `<path class="hdk-chart__line" d="${escapeAttr(path)}" style="--hdk-series-color:${escapeAttr(item.color)}"></path>${points.map((point) => `<circle class="hdk-chart__point" cx="${point.x}" cy="${point.y}" r="3" style="--hdk-series-color:${escapeAttr(item.color)}"><title>${escapeHtml(`${item.label} ${point.label}: ${point.value}`)}</title></circle>`).join("")}`;
+    }).join("");
+
+  return `
+    <section class="hdk-card hdk-chart-card hdk-chart-panel" data-hdk-component="MultiSeriesLineChart" data-component="ChartPanel" data-chart-type="line" data-x-axis="${escapeAttr(xKey)}" data-x-axis-label="${escapeAttr(xLabel)}" data-y-axis="multi-series" data-y-axis-label="${escapeAttr(yLabel)}"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      ${renderChartHeader(title, subtitle || `${xLabel} on X axis. ${yLabel} on Y axis.`)}
+      ${rows.length < 2 || normalizedSeries.length < 1 ? renderStatePanel({ state: "partial", title: "Not enough chart data yet", message: "At least two points and one series are required for a meaningful time series." }) : `
+        <svg class="hdk-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="${escapeAttr(title || "multi-series line chart")}">
+          ${ticks.map((tick) => `
+            <line class="hdk-chart__grid" x1="${margin.left}" x2="${width - margin.right}" y1="${tick.y}" y2="${tick.y}"></line>
+            <text class="hdk-chart__axis" x="${margin.left - 10}" y="${tick.y + 4}" text-anchor="end">${formatCompact(tick.value)}</text>
+          `).join("")}
+          ${xTicks.map((tick) => `<text class="hdk-chart__axis" x="${tick.x}" y="${height - 16}" text-anchor="middle">${escapeHtml(tick.label)}</text>`).join("")}
+          <text class="hdk-chart__label" x="${margin.left}" y="${height - 4}">${escapeHtml(xLabel)}</text>
+          <text class="hdk-chart__label" x="14" y="${margin.top}" transform="rotate(-90 14 ${margin.top})">${escapeHtml(yLabel)}</text>
+          ${lines}
+        </svg>
+      `}
+      <div class="hdk-legend">
+        ${normalizedSeries.map((item) => `<span><i class="hdk-swatch" style="--hdk-series-color:${escapeAttr(item.color)}"></i>${escapeHtml(item.label)}</span>`).join("")}
+      </div>
+    </section>
+  `;
 }
 
 export function renderBarChart(options) {
@@ -3137,7 +3365,7 @@ function renderCartesianChart({
     );
 
   return `
-    <section class="hdk-card hdk-chart-card" data-hdk-component="${escapeAttr(component)}"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+    <section class="hdk-card hdk-chart-card hdk-chart-panel" data-hdk-component="${escapeAttr(component)}" data-component="ChartPanel" data-chart-type="${escapeAttr(mode)}" data-x-axis="${escapeAttr(xKey)}" data-x-axis-label="${escapeAttr(xLabel)}" data-y-axis="${escapeAttr(yKey)}" data-y-axis-label="${escapeAttr(yLabel)}"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
       ${renderChartHeader(title, subtitle)}
       ${data.length < 2 ? renderStatePanel({ state: "partial", title: "Not enough chart data yet", message: "At least two points are required for a meaningful time series." }) : `
         <svg class="hdk-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="${escapeAttr(title || component)}">
@@ -3168,6 +3396,87 @@ function renderBars(points, margin, plotWidth, plotHeight, yMin, yMax) {
       Math.abs(zeroY - point.yPos);
     return `<rect class="hdk-chart__bar" x="${point.xPos - barWidth / 2}" y="${Math.min(point.yPos, zeroY)}" width="${barWidth}" height="${height}"><title>${escapeHtml(`${point.label}: ${point.y}`)}</title></rect>`;
   }).join("");
+}
+
+export function renderAiAssistantPanel({
+  title = "AI pattern summary",
+  subtitle = "",
+  prompt = "",
+  actionLabel = "Summarize pattern",
+  status = "",
+  reviewId = ""
+}) {
+  return `
+    <section class="hdk-card hdk-ai-panel" data-hdk-component="AiAssistantPanel" data-component="AiAssistantPanel"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      <div class="hdk-ai-panel__body">
+        <p class="hdk-kicker">AI assistant</p>
+        <h3>${escapeHtml(title)}</h3>
+        ${subtitle ? `<p>${escapeHtml(subtitle)}</p>` : ""}
+        ${prompt ? `
+          <details>
+            <summary>Prompt contract</summary>
+            <pre>${escapeHtml(prompt)}</pre>
+          </details>
+        ` : ""}
+      </div>
+      <div class="hdk-ai-panel__actions">
+        <button class="hdk-button" type="button" data-ai-review-action${prompt ? ` data-ai-review-prompt="${escapeAttr(prompt)}"` : ""}>${escapeHtml(actionLabel)}</button>
+        <span class="hdk-muted" data-ai-review-status>${escapeHtml(status)}</span>
+      </div>
+    </section>
+  `;
+}
+
+export function renderEntitySummaryGrid({
+  items = [],
+  emptyTitle = "No current items",
+  emptyMessage = "No current items for this surface.",
+  reviewId = ""
+}) {
+  if (!items.length) {
+    return renderStatePanel({
+      state:
+        "empty",
+      title:
+        emptyTitle,
+      message:
+        emptyMessage,
+      reviewId
+    });
+  }
+
+  return `
+    <div class="hdk-entity-grid" data-hdk-component="EntitySummaryGrid"${reviewId ? ` data-review-id="${escapeAttr(reviewId)}"` : ""}>
+      ${items.map((item) => renderEntitySummaryCard(item)).join("")}
+    </div>
+  `;
+}
+
+function renderEntitySummaryCard(item = {}) {
+  const status =
+    item.status || "unknown";
+  const facts =
+    Array.isArray(item.facts) && item.facts.length
+      ? item.facts
+      : [
+          { label: "Issue", value: item.issueCategory || "none" },
+          { label: "Updated", value: item.updatedAt || "unknown" }
+        ];
+  return `
+    <article class="hdk-card hdk-entity-card" data-hdk-component="EntitySummaryCard" data-component="EntitySummaryCard">
+      <header class="hdk-entity-card__header">
+        <div>
+          <h3>${escapeHtml(item.title || item.id || "Untitled item")}</h3>
+          <p>${escapeHtml(item.meta || item.kind || "item")}${item.brandId ? ` · ${escapeHtml(item.brandId)}` : ""}</p>
+        </div>
+        <span class="hdk-pill hdk-status-${escapeAttr(status)}">${escapeHtml(status)}</span>
+      </header>
+      ${item.detail || item.recommendedAction ? `<p class="hdk-muted">${escapeHtml(item.detail || item.recommendedAction)}</p>` : ""}
+      <dl class="hdk-fact-grid">
+        ${facts.map((fact) => `<div><dt>${escapeHtml(fact.label || "")}</dt><dd>${escapeHtml(fact.value ?? "")}</dd></div>`).join("")}
+      </dl>
+    </article>
+  `;
 }
 
 function renderMarketCell(market, column) {
@@ -3571,7 +3880,18 @@ function renderNavItem(item, activeId) {
     item.id === activeId ? "is-active" : "";
   const ariaCurrent =
     item.id === activeId ? ` aria-current="page"` : "";
-  return `<a class="${active}" href="${escapeAttr(item.href || `#${item.id}`)}" data-short="${escapeAttr(item.shortLabel || item.short || String(item.label || item.id).slice(0, 4))}"${ariaCurrent}>${escapeHtml(item.label)}${item.badge ? `<span>${escapeHtml(item.badge)}</span>` : ""}</a>`;
+  const className =
+    ["hdk-nav-item", active, item.className || ""].filter(Boolean).join(" ");
+  const dataAttributes =
+    Object.entries(item.data || {})
+      .map(([key, value]) => ` data-${escapeAttr(key)}="${escapeAttr(value)}"`)
+      .join("");
+  const content =
+    `${item.icon || item.shortLabel || item.short ? `<span class="hdk-nav-item__icon" aria-hidden="true">${escapeHtml(item.icon || item.shortLabel || item.short)}</span>` : ""}<span class="hdk-nav-item__copy"><span>${escapeHtml(item.label)}</span>${item.description || item.eyebrow ? `<small>${escapeHtml(item.description || item.eyebrow)}</small>` : ""}</span>${item.badge ? `<span>${escapeHtml(item.badge)}</span>` : ""}`;
+  if (item.as === "button") {
+    return `<button class="${escapeAttr(className)}" type="button" data-short="${escapeAttr(item.shortLabel || item.short || String(item.label || item.id).slice(0, 4))}"${dataAttributes}${item.title ? ` title="${escapeAttr(item.title)}"` : ""}${ariaCurrent}>${content}</button>`;
+  }
+  return `<a class="${escapeAttr(className)}" href="${escapeAttr(item.href || `#${item.id}`)}" data-short="${escapeAttr(item.shortLabel || item.short || String(item.label || item.id).slice(0, 4))}"${dataAttributes}${item.title ? ` title="${escapeAttr(item.title)}"` : ""}${ariaCurrent}>${content}</a>`;
 }
 
 function normalizePoints(data, width, height, padding = 0) {
@@ -3667,6 +3987,19 @@ function humanize(value) {
     .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
     .replace(/[_-]+/g, " ")
     .replace(/\b\w/g, (match) => match.toUpperCase());
+}
+
+function chartSeriesColor(index) {
+  return [
+    "#126b5a",
+    "#2457c5",
+    "#b46a14",
+    "#8c3d8f",
+    "#a22d3d",
+    "#3f6f2a",
+    "#64748b",
+    "#0f766e"
+  ][index % 8];
 }
 
 function escapeHtml(value) {

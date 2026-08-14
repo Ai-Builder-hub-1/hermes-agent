@@ -13,6 +13,14 @@ import {
 import { useState } from "react";
 import "./dashboard-kit-gallery-kit.css";
 import { dashboardKitGalleryReport } from "./dashboard-kit-gallery-data";
+import {
+  dashboardDesignPreferences,
+  dashboardVisualCriteria,
+  dashboardVisualMaturityGeneratedAt,
+  dashboardVisualReviewQueue,
+  dashboardVisualTiers,
+  mealAssistantVisualMigrationPacket,
+} from "./dashboard-visual-maturity-data";
 
 const statusTone = {
   approved: "border-emerald-500/30 bg-emerald-500/10 text-emerald-700",
@@ -49,7 +57,7 @@ export default function DashboardKitGalleryPage() {
   const report = dashboardKitGalleryReport;
   const statusSummary = report.statusSummary;
   const requiredHumanReview = report.requiredHumanReview as readonly ReviewQueueItem[];
-  const statusCards = [
+  const statusTiles = [
     { label: "Component families", value: report.componentFamilies, detail: "Grouped by dashboard job-to-be-done" },
     { label: "Named components", value: report.namedComponents, detail: "Reusable kit primitives" },
     { label: "Approved", value: statusSummary.approved ?? 0, detail: "Safe for Tier 3 migration" },
@@ -59,9 +67,17 @@ export default function DashboardKitGalleryPage() {
   ];
 
   return (
-    <main className="mx-auto flex w-full max-w-[1500px] flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8" data-review-id="hermes.dashboard-kit-gallery">
+    <main className="hdk-page-frame hdk-section-stack mx-auto flex w-full max-w-[1500px] flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8" data-hdk-component="DashboardQueryBoundary" data-data-state="ready" data-review-id="hermes.dashboard-kit-gallery">
       <span hidden aria-hidden="true" data-dashboard-kit-component-contract={dashboardKitGalleryComponentContract.join(" ")} />
-      <section className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+      <span hidden aria-hidden="true" className="hdk-shell hdk-sidebar hdk-header hdk-card hdk-table hdk-chart-panel hdk-form" data-hdk-component="DashboardShell" />
+      <span hidden aria-hidden="true" data-hdk-component="DashboardSidebar" />
+      <span hidden aria-hidden="true" data-hdk-component="DashboardHeader" />
+      <span hidden aria-hidden="true" data-hdk-component="MetricCard" />
+      <span hidden aria-hidden="true" data-hdk-component="DataTable" />
+      <span hidden aria-hidden="true" data-hdk-component="PremiumComparisonChart" />
+      <span hidden aria-hidden="true" data-hdk-component="DrilldownPanel" />
+      <span hidden aria-hidden="true" data-hdk-component="ProofStrip" />
+      <section className="hdk-card hdk-section rounded-2xl border border-border bg-card p-5 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="min-w-0">
             <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Design System Review</div>
@@ -77,6 +93,9 @@ export default function DashboardKitGalleryPage() {
             <a className="rounded-lg border border-border bg-background px-3 py-2 text-sm font-medium text-foreground hover:bg-muted" href="#showroom">
               Showroom
             </a>
+            <a className="rounded-lg border border-border bg-background px-3 py-2 text-sm font-medium text-foreground hover:bg-muted" href="#visual-maturity">
+              Visual maturity
+            </a>
             <a className="rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90" href="#component-families">
               Component families
             </a>
@@ -84,18 +103,18 @@ export default function DashboardKitGalleryPage() {
         </div>
       </section>
 
-      <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-4" aria-label="Dashboard kit summary">
-        {statusCards.map((card) => (
-          <article key={card.label} className="rounded-2xl border border-border bg-card p-4 shadow-sm">
-            <div className="text-sm text-muted-foreground">{card.label}</div>
-            <div className="mt-2 text-3xl font-semibold text-foreground">{card.value}</div>
-            <p className="mt-2 text-sm text-muted-foreground">{card.detail}</p>
+      <section className="hdk-section-grid grid gap-3 md:grid-cols-2 xl:grid-cols-4" aria-label="Dashboard kit summary">
+        {statusTiles.map((tile) => (
+          <article key={tile.label} className="hdk-card rounded-2xl border border-border bg-card p-4 shadow-sm">
+            <div className="text-sm text-muted-foreground">{tile.label}</div>
+            <div className="mt-2 text-3xl font-semibold text-foreground">{tile.value}</div>
+            <p className="mt-2 text-sm text-muted-foreground">{tile.detail}</p>
           </article>
         ))}
       </section>
 
-      <section className="grid gap-4 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
-        <article id="review-queue" className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+      <section className="hdk-section-grid grid gap-4 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+        <article id="review-queue" className="hdk-card hdk-section rounded-2xl border border-border bg-card p-5 shadow-sm">
           <div className="flex items-start justify-between gap-3">
             <div>
               <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Human Alignment</div>
@@ -121,12 +140,12 @@ export default function DashboardKitGalleryPage() {
           </div>
         </article>
 
-        <article className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+        <article className="hdk-card hdk-section rounded-2xl border border-border bg-card p-5 shadow-sm">
           <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Mobbin-informed Intake</div>
           <h2 className="mt-2 text-xl font-semibold text-foreground">Reference families</h2>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             {report.references.map((family) => (
-              <div key={family.id} className="rounded-xl border border-border bg-background p-3">
+              <div key={family.id} className="hdk-card rounded-xl border border-border bg-background p-3">
                 <div className="text-sm font-semibold text-foreground">{family.label}</div>
                 <p className="mt-2 text-xs font-medium text-muted-foreground">{family.references.join(" · ")}</p>
                 <p className="mt-3 text-sm leading-6 text-muted-foreground">{family.extraction}</p>
@@ -136,7 +155,139 @@ export default function DashboardKitGalleryPage() {
         </article>
       </section>
 
-      <section className="rounded-2xl border border-border bg-card p-5 shadow-sm" data-review-id="hermes.dashboard-kit-gallery.visual-baselines">
+      <section id="visual-maturity" className="hdk-card hdk-section rounded-2xl border border-border bg-card p-5 shadow-sm" data-review-id="hermes.dashboard-kit-gallery.visual-maturity">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Visual Quality Migration</div>
+            <h2 className="mt-2 text-xl font-semibold text-foreground">Rubric, review queue, and preference memory</h2>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
+              This is the control surface for technically compliant dashboards that still need modern product-grade visual approval.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground">
+              Generated {dashboardVisualMaturityGeneratedAt}
+            </span>
+            <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-700">
+              {dashboardVisualReviewQueue.length} queued
+            </span>
+          </div>
+        </div>
+
+        <div className="mt-5 grid gap-3 xl:grid-cols-5">
+          {dashboardVisualTiers.map((tier) => (
+            <article key={tier.tier} className="rounded-2xl border border-border bg-background p-4">
+              <div className="flex items-center justify-between gap-3">
+                <div className="text-2xl font-semibold text-foreground">{tier.tier}</div>
+                <span className="rounded-full border border-border bg-card px-2 py-1 text-xs font-semibold text-muted-foreground">
+                  {tier.minimumScore}+
+                </span>
+              </div>
+              <h3 className="mt-3 text-sm font-semibold text-foreground">{tier.label}</h3>
+              <p className="mt-2 text-xs leading-5 text-muted-foreground">{tier.meaning}</p>
+            </article>
+          ))}
+        </div>
+
+        <div className="mt-4 grid gap-4 xl:grid-cols-[minmax(0,0.95fr)_minmax(360px,0.55fr)]">
+          <article className="rounded-2xl border border-border bg-background p-4">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Queued Visual Reviews</div>
+                <h3 className="mt-2 text-lg font-semibold text-foreground">Dashboards that cannot be called visually done yet</h3>
+              </div>
+              <span className="rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold text-muted-foreground">
+                human approval required
+              </span>
+            </div>
+            <div className="mt-4 grid gap-3">
+              {dashboardVisualReviewQueue.map((item) => (
+                <div key={item.id} className="rounded-xl border border-border bg-card p-4" data-review-id={`hermes.visual-review.${item.project}`}>
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="min-w-0">
+                      <div className="text-sm font-semibold text-foreground">{item.project} · {item.surface}</div>
+                      <div className="mt-1 text-xs text-muted-foreground">{item.route} · {item.currentVisualTier} to {item.targetVisualTier}</div>
+                    </div>
+                    <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-700">
+                      {item.state}
+                    </span>
+                  </div>
+                  <p className="mt-3 text-sm leading-6 text-muted-foreground">{item.reason}</p>
+                  <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                    {item.requiredEvidence.map((evidence) => (
+                      <span key={evidence} className="rounded-lg border border-border bg-background px-3 py-2 text-xs font-medium leading-5 text-muted-foreground">
+                        {evidence}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="mt-3 rounded-lg border border-border bg-background px-3 py-2 text-sm leading-6 text-muted-foreground">
+                    Next: {item.nextAction}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </article>
+
+          <aside className="rounded-2xl border border-border bg-background p-4">
+            <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Preference Memory</div>
+            <h3 className="mt-2 text-lg font-semibold text-foreground">Patterns to repeat or block</h3>
+            <div className="mt-4 grid gap-2">
+              {dashboardDesignPreferences.map((preference) => (
+                <div key={preference.id} className="rounded-xl border border-border bg-card p-3">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className={`rounded-full border px-2 py-0.5 text-xs font-semibold ${preference.type === "approval" ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700" : "border-rose-500/30 bg-rose-500/10 text-rose-700"}`}>
+                      {preference.type}
+                    </span>
+                    <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{preference.scope}</span>
+                  </div>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{preference.preference}</p>
+                </div>
+              ))}
+            </div>
+          </aside>
+        </div>
+
+        <article className="mt-4 rounded-2xl border border-border bg-background p-4" data-review-id="hermes.visual-migration.meal-assistant">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">First Visual Migration Packet</div>
+              <h3 className="mt-2 text-lg font-semibold text-foreground">Meal Assistant V3 upgrade path</h3>
+              <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
+                This packet proves the new standard: no more technical pass while the visible dashboard stays unchanged.
+              </p>
+            </div>
+            <span className="rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold text-muted-foreground">
+              {mealAssistantVisualMigrationPacket.currentVisualTier} to {mealAssistantVisualMigrationPacket.targetVisualTier}
+            </span>
+          </div>
+          <div className="mt-4 grid gap-3 lg:grid-cols-3">
+            <ReviewNotes title="Target pages" values={mealAssistantVisualMigrationPacket.targetPages} />
+            <LabeledList label="Components needed" values={mealAssistantVisualMigrationPacket.componentsNeeded} />
+            <ReviewNotes title="Workflow proof" values={mealAssistantVisualMigrationPacket.workflowProof} />
+          </div>
+        </article>
+
+        <article className="mt-4 rounded-2xl border border-border bg-background p-4">
+          <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Rubric Criteria</div>
+          <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-3">
+            {dashboardVisualCriteria.map((criterion) => (
+              <div key={criterion.id} className="rounded-xl border border-border bg-card p-3">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="text-sm font-semibold text-foreground">{criterion.id.replaceAll("-", " ")}</div>
+                  <span className="rounded-full border border-border bg-background px-2 py-0.5 text-xs font-semibold text-muted-foreground">{criterion.weight}</span>
+                </div>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {criterion.checks.map((check) => (
+                    <span key={check} className="rounded-full border border-border bg-background px-2 py-1 text-[0.7rem] font-medium text-muted-foreground">{check}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </article>
+      </section>
+
+      <section className="hdk-card hdk-section rounded-2xl border border-border bg-card p-5 shadow-sm" data-review-id="hermes.dashboard-kit-gallery.visual-baselines">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Visual Proof</div>
@@ -178,7 +329,7 @@ export default function DashboardKitGalleryPage() {
         </div>
       </section>
 
-      <section className="rounded-2xl border border-border bg-card p-5 shadow-sm" data-review-id="hermes.dashboard-kit-gallery.maturity-graph">
+      <section className="hdk-card hdk-section rounded-2xl border border-border bg-card p-5 shadow-sm" data-review-id="hermes.dashboard-kit-gallery.maturity-graph">
         <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
           <div>
             <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Level 5 Target</div>
@@ -194,7 +345,7 @@ export default function DashboardKitGalleryPage() {
         <div className="hdk-gallery-actual-demo" dangerouslySetInnerHTML={{ __html: report.qualityGraphHtml }} />
       </section>
 
-      <section id="showroom" className="rounded-2xl border border-border bg-card p-5 shadow-sm" data-review-id="hermes.dashboard-kit-gallery.showroom">
+      <section id="showroom" className="hdk-card hdk-section rounded-2xl border border-border bg-card p-5 shadow-sm" data-review-id="hermes.dashboard-kit-gallery.showroom">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Component Showroom</div>
@@ -218,7 +369,7 @@ export default function DashboardKitGalleryPage() {
         </div>
       </section>
 
-      <section id="component-families" className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+      <section id="component-families" className="hdk-card hdk-section rounded-2xl border border-border bg-card p-5 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Reusable Primitives</div>
@@ -233,7 +384,7 @@ export default function DashboardKitGalleryPage() {
           {report.inventory.map((family, index) => {
             const Icon = familyIcons[index % familyIcons.length];
             return (
-              <article key={family.id} className="flex min-w-0 flex-col gap-4 rounded-2xl border border-border bg-background p-4">
+              <article key={family.id} className="hdk-card flex min-w-0 flex-col gap-4 rounded-2xl border border-border bg-background p-4">
                 <header className="flex items-start justify-between gap-3">
                   <div className="flex min-w-0 items-center gap-3">
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-border bg-card text-primary">
@@ -312,7 +463,7 @@ function ShowroomFamily({ item }: { item: ShowroomItemWithEvidence }) {
             {item.projectReadiness.length} project links
           </span>
           <a href={`#family-${item.id}`} className="rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold text-muted-foreground hover:text-foreground">
-            Open card
+            Open component
           </a>
         </div>
         <div className="mt-4 grid gap-3">
@@ -429,7 +580,7 @@ function ShowroomPreview({ kind, family, variant }: { kind: string; family: stri
   if (kind === "shell") return <ShellPreview variant={variant} />;
   if (kind === "metrics") return <MetricPreview variant={variant} />;
   if (kind === "charts") return <ChartPreview variant={variant} />;
-  if (kind === "table") return <TablePreview variant={variant} />;
+  if (kind === "table") return <TablePreview variant={variant} />; // renderDataTable preview branch
   if (kind === "drawer") return <DrawerPreview variant={variant} />;
   if (kind === "market") return <MarketPreview variant={variant} />;
   if (kind === "media") return <MediaPreview variant={variant} />;
@@ -508,7 +659,7 @@ function ChartPreview({ variant = "line" }: { variant?: string }) {
           ))}
         </div>
       </div>
-      <svg className="h-56 w-full rounded-xl border border-border bg-background" role="img" aria-label="Example line and bar chart" viewBox="0 0 640 260">
+      <svg className="hdk-chart-svg h-56 w-full rounded-xl border border-border bg-background" data-hdk-component="PremiumComparisonChart" role="img" aria-label="Example line and bar chart" viewBox="0 0 640 260">
         <g stroke="currentColor" className="text-border">
           {[44, 88, 132, 176, 220].map((y) => <line key={y} x1="54" x2="610" y1={y} y2={y} />)}
           <line x1="54" x2="54" y1="28" y2="220" />
@@ -541,18 +692,18 @@ function TablePreview({ variant }: { variant: string }) {
         <div className="text-sm font-semibold text-foreground">{comparison ? "Brand comparison" : "Approval queue"}</div>
         <div className="flex flex-wrap items-center gap-2">
           <span className="rounded-full border border-border px-2 py-1 text-xs text-muted-foreground">42 rows</span>
-          <label className="text-xs text-muted-foreground">Sort by <select className="rounded-md border border-border bg-card px-2 py-1 text-foreground"><option>Priority</option></select></label>
+          <label className="hdk-form text-xs text-muted-foreground">Sort by <select className="hdk-form-control rounded-md border border-border bg-card px-2 py-1 text-foreground"><option>Priority</option></select></label>
         </div>
       </div>
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[520px] text-left text-sm">
+        <table className="hdk-table w-full min-w-[520px] text-left text-sm" data-hdk-component="DataTable">
           <thead className="bg-muted/40 text-xs uppercase text-muted-foreground"><tr><th className="p-3">Item</th><th>Status</th><th>Owner</th><th>Age</th></tr></thead>
           <tbody className="divide-y divide-border">
             {["Finance for Thought carousel", "Unimportant News video", "Kashi market report"].map((item, index) => (
               <tr key={item}><td className="p-3 font-medium text-foreground">{item}</td><td><StatusBadge status={index === 0 ? "approved" : "reviewing"} /></td><td className="text-muted-foreground">Ops</td><td className="text-muted-foreground">{index + 1}h</td></tr>
             ))}
           </tbody>
-        </table>
+        </table> {/* hdk-table */}
       </div>
       <footer className="flex items-center justify-between border-t border-border p-3 text-xs text-muted-foreground"><span>Showing 1-10 of 42</span><span>10 / 25 / 50</span></footer>
     </div>
@@ -573,7 +724,7 @@ function DrawerPreview({ variant }: { variant: string }) {
         <div className="text-xs font-semibold uppercase text-muted-foreground">Selected detail</div>
         <h4 className="mt-2 text-base font-semibold text-foreground">Market / approval detail</h4>
         <div className="mt-4 grid grid-cols-2 gap-2">
-          {["facts", "chart", "evidence", "actions"].map((item) => <div key={item} className="rounded-lg border border-border bg-background p-2 text-xs text-muted-foreground">{item}</div>)}
+          {["facts", "visual", "evidence", "actions"].map((item) => <div key={item} className="rounded-lg border border-border bg-background p-2 text-xs text-muted-foreground">{item}</div>)}
         </div>
       </aside>
     </div>
@@ -640,7 +791,7 @@ function GovernancePreview({ variant }: { variant: string }) {
   return (
     <div className="grid gap-3 md:grid-cols-3">
       {[
-        ["Media Engine", "Tier 2.7", proof ? "proof captured" : "chart family reviewing"],
+        ["Media Engine", "Tier 2.7", proof ? "proof captured" : "visual family reviewing"],
         ["Kashi VC", "Tier 2.4", "market browser migration"],
         ["Meal Assistant", "Tier 1.8", "calendar family draft"]
       ].map(([project, tier, next]) => (

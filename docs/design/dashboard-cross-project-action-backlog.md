@@ -1,12 +1,21 @@
 # Dashboard Cross-Project Action Backlog
 
-Date: 2026-08-12T14:36:27.131Z
+Date: 2026-08-14T17:16:35.078Z
 Source: `packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json`
 Purpose: track required work that cannot be completed inside Nous Hermes Agent because it belongs in another project repository.
 
 ## Backlog
 
-No blocking cross-project dashboard action items are open in the latest adoption report.
+| Project | Priority | Current band | Target | Action | Reason |
+|---|---:|---|---|---|---|
+| Kashi VC | P0 | `T3C` | `T3C` | Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes. | A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration. |
+| Media Engine | P0 | `T3C` | `T3C` | Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes. | A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration. |
+| Media Business OS | P0 | `T3C` | `T3C` | Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes. | A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration. |
+| Meal Assistant | P0 | `T3C` | `T3C` | Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes. | A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration. |
+| Hermes OS | P0 | `T3C` | `T3C` | Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes. | A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration. |
+| TLC Capital Group OS | P0 | `T3C` | `T3C` | Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes. | A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration. |
+| Rinseables OS | P0 | `T3C` | `T3C` | Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes. | A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration. |
+| Investing System | P0 | `T3C` | `T3C` | Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes. | A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration. |
 
 ## Done Inside Nous Hermes Agent
 

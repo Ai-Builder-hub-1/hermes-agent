@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-14T19:08:04.292Z",
+  "summary": {
+    "totalProjects": 10,
+    "passed": 10,
+    "needsServedCss": 0,
+    "findings": 0
+  },
+  "rows": [
+    {
+      "project": "khashi-vc",
+      "status": "passed",
+      "missingFiles": [],
+      "missingPatterns": []
+    },
+    {
+      "project": "media-engine",
+      "status": "passed",
+      "missingFiles": [],
+      "missingPatterns": []
+    },
+    {
+      "project": "media-business-os",
+      "status": "passed",
+      "missingFiles": [],
+      "missingPatterns": []
+    },
+    {
+      "project": "business-mapper",
+      "status": "passed",
+      "missingFiles": [],
+      "missingPatterns": []
+    },
+    {
+      "project": "meal-assistant",
+      "status": "passed",
+      "missingFiles": [],
+      "missingPatterns": []
+    },
+    {
+      "project": "hermes-os",
+      "status": "not-applicable",
+      "missingFiles": [],
+      "missingPatterns": []
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "status": "passed",
+      "missingFiles": [],
+      "missingPatterns": []
+    },
+    {
+      "project": "rinseables-os",
+      "status": "passed",
+      "missingFiles": [],
+      "missingPatterns": []
+    },
+    {
+      "project": "investing-system",
+      "status": "passed",
+      "missingFiles": [],
+      "missingPatterns": []
+    },
+    {
+      "project": "nous-hermes-agent",
+      "status": "not-applicable",
+      "missingFiles": [],
+      "missingPatterns": []
+    }
+  ],
+  "findings": []
+}

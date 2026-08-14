@@ -160,6 +160,10 @@ const enterpriseBacklogPath = path.join(workspaceRoot, "tlc-capital-group-os/reg
 const adoptionReportPath = path.join(root, "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json");
 const tierAssessmentPath = path.join(root, "docs/design/project-dashboard-tier-assessment.json");
 const maturitySummaryPath = path.join(root, "docs/design/canonical-main-design-maturity-summary.json");
+const visualQualityPath = path.join(root, "docs/design/dashboard-visual-quality-report.json");
+const visualReviewQueuePath = path.join(root, "docs/design/dashboard-visual-review-queue.json");
+const visualRubricPath = path.join(root, "docs/design/dashboard-visual-maturity-rubric.json");
+const operatingPlanPath = path.join(root, "docs/fleet/tlc-operating-system-maturity-build-plan.json");
 
 function readJson(file, fallback) {
   if (!fs.existsSync(file)) return fallback;
@@ -210,6 +214,42 @@ function backlogFor(projectId, enterpriseBacklog) {
   return (enterpriseBacklog.items ?? []).filter((item) => item.project === projectId || item.projectId === projectId);
 }
 
+const visualTierOverrides = {
+  "meal-assistant": {
+    visualTier: "V1",
+    targetVisualTier: "V3",
+    visualScore: 60,
+    visualStatus: "needs-migration",
+    note: "Technically clean, but sidebar, calendar, planner drawer, library, and spacing need a full visual quality migration."
+  }
+};
+
+const productTierByProject = {
+  "tlc-capital-group-os": { productTier: "P2", targetProductTier: "P4", status: "in-progress", note: "OKR/KPI and governance backbone exists; company intelligence workflows need deeper integration." },
+  "nous-hermes-agent": { productTier: "P3", targetProductTier: "P5", status: "in-progress", note: "Standards/control-plane is strong; product-building OS and self-improving loops are next." },
+  "hermes-os": { productTier: "P2", targetProductTier: "P4", status: "in-progress", note: "Runtime/control-plane exists; platform constitution, authority, deploy health, and operator feedback loops need maturity." },
+  "media-engine": { productTier: "P3", targetProductTier: "P4", status: "in-progress", note: "Content packaging and Discord handoff exist; telemetry, QA, and outcome attribution should deepen." },
+  "media-business-os": { productTier: "P2", targetProductTier: "P4", status: "in-progress", note: "Operations cockpit exists; research/story workflows and business outcome loops need maturity." },
+  "khashi-vc": { productTier: "P3", targetProductTier: "P4", status: "in-progress", note: "Live market cockpit exists; long-run data analysis, experiment generation, and strategy evidence need maturity." },
+  "business-mapper": { productTier: "P1", targetProductTier: "P3", status: "needs-migration", note: "Workspace exists; offer, client workflow, pricing, and outcome reporting need product definition." },
+  "meal-assistant": { productTier: "P1", targetProductTier: "P3", status: "needs-migration", note: "Planner MVP exists; real product workflow, calendar polish, and household usage loop need maturity." },
+  "rinseables-os": { productTier: "P1", targetProductTier: "P3", status: "needs-migration", note: "Software plan exists; SaaS product model, customer analytics, and offer need definition." },
+  "investing-system": { productTier: "P3", targetProductTier: "P4", status: "in-progress", note: "Research/trading system direction exists; live promotion, risk governance, and outcome evidence need maturation." }
+};
+
+const companyOsTierByProject = {
+  "tlc-capital-group-os": { companyOsTier: "C2", targetCompanyOsTier: "C5", status: "in-progress", note: "Primary company OS home; next layers are decision intelligence, strategy graph, finance, workforce, and compound learning." },
+  "nous-hermes-agent": { companyOsTier: "C2", targetCompanyOsTier: "C5", status: "in-progress", note: "Standards and agent control plane feed company OS; next is learning, review, and workforce coordination." },
+  "hermes-os": { companyOsTier: "C1", targetCompanyOsTier: "C4", status: "in-progress", note: "Runtime platform should feed governance, deployment evidence, incidents, and platform risk." },
+  "media-engine": { companyOsTier: "C1", targetCompanyOsTier: "C4", status: "in-progress", note: "Needs outcome attribution from content packages to channel performance and business goals." },
+  "media-business-os": { companyOsTier: "C1", targetCompanyOsTier: "C4", status: "in-progress", note: "Needs brand operations, research desk, channel status, and story execution tied to TLC goals." },
+  "khashi-vc": { companyOsTier: "C1", targetCompanyOsTier: "C4", status: "in-progress", note: "Needs daily hard-stop analysis, experiment backlog, and risk/evidence rollup into TLC governance." },
+  "business-mapper": { companyOsTier: "C0", targetCompanyOsTier: "C3", status: "not-started", note: "Needs offer/outcome model before company OS linkage can be meaningful." },
+  "meal-assistant": { companyOsTier: "C0", targetCompanyOsTier: "C2", status: "not-started", note: "Household product is not a primary TLC company OS contributor yet; keep product maturity separate." },
+  "rinseables-os": { companyOsTier: "C0", targetCompanyOsTier: "C3", status: "not-started", note: "Needs product/business model before company OS linkage can be meaningful." },
+  "investing-system": { companyOsTier: "C1", targetCompanyOsTier: "C4", status: "in-progress", note: "Needs investment decision records, risk, capital exposure, and outcome attribution into TLC governance." }
+};
+
 function interpretation(project, adoption) {
   if (!adoption) return "No current dashboard adoption record; needs inventory.";
   const note = adoption.experienceTier?.nextAction ?? adoption.experienceTier?.note ?? adoption.tierMigrationNote ?? adoption.note ?? "";
@@ -230,6 +270,34 @@ const adoption = readJson(adoptionReportPath, { results: [] });
 const tierAssessment = readJson(tierAssessmentPath, { projects: [] });
 const maturitySummary = readJson(maturitySummaryPath, {});
 const enterpriseBacklog = readJson(enterpriseBacklogPath, { items: [] });
+const visualQuality = readJson(visualQualityPath, { items: [] });
+const visualReviewQueue = readJson(visualReviewQueuePath, { items: [] });
+const visualRubric = readJson(visualRubricPath, { visualTiers: [] });
+const operatingPlan = readJson(operatingPlanPath, { levels: [], workstreams: [] });
+
+function visualFor(projectId) {
+  const override = visualTierOverrides[projectId];
+  const qualityItems = (visualQuality.items ?? []).filter((item) => item.project === projectId);
+  const bestScore = qualityItems.length ? Math.max(...qualityItems.map((item) => item.score ?? 0)) : null;
+  const queued = (visualReviewQueue.items ?? []).filter((item) => item.project === projectId && !["approved", "excepted"].includes(item.state));
+  const score = override?.visualScore ?? bestScore ?? null;
+  const tier = override?.visualTier ?? tierForScore(score);
+  const targetVisualTier = override?.targetVisualTier ?? (tier === "V4" ? "V4" : "V3");
+  return {
+    visualTier: tier,
+    targetVisualTier,
+    visualScore: score,
+    status: override?.visualStatus ?? (queued.length ? "needs-review" : score !== null && score >= 88 ? "current" : "needs-review"),
+    queuedReviewItems: queued.map((item) => item.id),
+    note: override?.note ?? (queued.length ? "Visual review is queued." : "Heuristic visual score exists; human visual approval still required for V3/V4.")
+  };
+}
+
+function tierForScore(score) {
+  if (score === null || score === undefined) return "V0";
+  const tiers = [...(visualRubric.visualTiers ?? [])].sort((a, b) => (b.minimumScore ?? 0) - (a.minimumScore ?? 0));
+  return tiers.find((tier) => score >= (tier.minimumScore ?? 0))?.tier ?? "V0";
+}
 
 const rows = projects.map((project) => {
   const adoptionRecord = adoptionFor(project.id, adoption);
@@ -250,6 +318,9 @@ const rows = projects.map((project) => {
       olderAssessmentBand: tierRecord?.currentExperienceBand ?? null,
       interpretation: interpretation(project, adoptionRecord)
     },
+    visual: visualFor(project.id),
+    product: productTierByProject[project.id] ?? { productTier: "P0", targetProductTier: "P3", status: "needs-inventory", note: "Product maturity not inventoried yet." },
+    companyOs: companyOsTierByProject[project.id] ?? { companyOsTier: "C0", targetCompanyOsTier: "C3", status: "needs-inventory", note: "Company OS maturity not inventoried yet." },
     git: gitStatus(project.repo),
     recentCommits: latestCommits(project.repo),
     enterpriseBacklog: backlogFor(project.id, enterpriseBacklog).map((item) => ({
@@ -288,7 +359,11 @@ const report = {
     dashboardAdoption: path.relative(root, adoptionReportPath),
     olderTierAssessment: path.relative(root, tierAssessmentPath),
     nousMaturitySummary: path.relative(root, maturitySummaryPath),
-    tlcEnterpriseBacklog: path.relative(root, enterpriseBacklogPath)
+    tlcEnterpriseBacklog: path.relative(root, enterpriseBacklogPath),
+    visualQuality: path.relative(root, visualQualityPath),
+    visualReviewQueue: path.relative(root, visualReviewQueuePath),
+    visualRubric: path.relative(root, visualRubricPath),
+    operatingPlan: path.relative(root, operatingPlanPath)
   },
   crossProject,
   projects: rows
@@ -323,7 +398,11 @@ for (const row of rows) {
   lines.push(`- Role: ${row.role}`);
   lines.push(`- Readiness: ${row.readiness}`);
   lines.push(`- Dashboard: ${row.dashboard.latestStatus}; reported band ${row.dashboard.reportedTier ?? "unknown"}; mode ${row.dashboard.implementationMode ?? "unknown"}`);
+  lines.push(`- Visual maturity: ${row.visual.visualTier} -> ${row.visual.targetVisualTier}; score ${row.visual.visualScore ?? "unscored"}; ${row.visual.status}`);
+  lines.push(`- Product maturity: ${row.product.productTier} -> ${row.product.targetProductTier}; ${row.product.status}`);
+  lines.push(`- Company OS maturity: ${row.companyOs.companyOsTier} -> ${row.companyOs.targetCompanyOsTier}; ${row.companyOs.status}`);
   lines.push(`- Interpretation: ${row.dashboard.interpretation}`);
+  if (row.visual.queuedReviewItems.length) lines.push(`- Visual review queue: ${row.visual.queuedReviewItems.join(", ")}`);
   lines.push(`- Git: ${row.git.branch || "not available"}; ${row.git.clean ? "clean" : `${row.git.dirtyCount} dirty file(s)`}`);
   if (row.enterpriseBacklog.length) {
     lines.push(`- Enterprise backlog: ${row.enterpriseBacklog.map((item) => `${item.id} (${item.status}, ${item.priority})`).join("; ")}`);

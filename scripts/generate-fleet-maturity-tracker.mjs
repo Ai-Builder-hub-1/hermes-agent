@@ -225,6 +225,9 @@ const evidenceKinds = [
   "readonly-proof",
   "screenshot-baseline",
   "dashboard-standard",
+  "visual-maturity",
+  "product-maturity",
+  "company-os-maturity",
   "static-route-debt",
   "live-e2e",
   "dns-proxy",
@@ -383,6 +386,26 @@ const registry = baseProjects.map((project) => {
       text: status?.readiness ?? null,
       interpretation: status?.dashboard?.interpretation ?? null
     },
+    visual: status?.visual ?? {
+      visualTier: "V0",
+      targetVisualTier: "V3",
+      visualScore: null,
+      status: "needs-inventory",
+      queuedReviewItems: [],
+      note: "Visual maturity not inventoried."
+    },
+    productMaturity: status?.product ?? {
+      productTier: "P0",
+      targetProductTier: "P3",
+      status: "needs-inventory",
+      note: "Product maturity not inventoried."
+    },
+    companyOsMaturity: status?.companyOs ?? {
+      companyOsTier: "C0",
+      targetCompanyOsTier: "C3",
+      status: "needs-inventory",
+      note: "Company OS maturity not inventoried."
+    },
     repoState: repo,
     latestPromotion: promotion,
     proof: {
@@ -433,6 +456,21 @@ const evidenceEntries = registry.flatMap((project) => {
       source: "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
       dashboard: project.dashboard,
       recommendedFix: dashboardCurrent ? null : "Register or repair the dashboard adoption surface."
+    }),
+    evidenceItem(project, "visual-maturity", project.visual.status === "current" ? "current" : ["needs-migration", "needs-review", "needs-inventory"].includes(project.visual.status) ? "needs-review" : "stale", {
+      source: "docs/design/project-status-ledger.json",
+      visual: project.visual,
+      recommendedFix: project.visual.status === "current" ? null : "Score and review the dashboard against the visual maturity rubric."
+    }),
+    evidenceItem(project, "product-maturity", project.productMaturity.status === "current" ? "current" : ["in-progress", "needs-migration", "needs-inventory"].includes(project.productMaturity.status) ? "needs-review" : "stale", {
+      source: "docs/design/project-status-ledger.json",
+      productMaturity: project.productMaturity,
+      recommendedFix: project.productMaturity.status === "current" ? null : "Advance the product-building OS maturity work for this project."
+    }),
+    evidenceItem(project, "company-os-maturity", project.companyOsMaturity.status === "current" ? "current" : ["in-progress", "not-started", "needs-inventory"].includes(project.companyOsMaturity.status) ? "needs-review" : "stale", {
+      source: "docs/design/project-status-ledger.json",
+      companyOsMaturity: project.companyOsMaturity,
+      recommendedFix: project.companyOsMaturity.status === "current" ? null : "Link this project to company memory, OKR/KPI, decision, risk, finance, or outcome-attribution layers as appropriate."
     }),
     evidenceItem(project, "static-route-debt", staticRouteStatus, {
       source: "docs/design/static-dashboard-route-audit.json",
@@ -656,6 +694,9 @@ const projectRows = registry.map((project) => [
   project.name,
   project.production.service,
   project.dashboard.currentBand,
+  `${project.visual.visualTier}->${project.visual.targetVisualTier}`,
+  `${project.productMaturity.productTier}->${project.productMaturity.targetProductTier}`,
+  `${project.companyOsMaturity.companyOsTier}->${project.companyOsMaturity.targetCompanyOsTier}`,
   project.latestPromotion.available && project.latestPromotion.status === "succeeded" ? "current" : "missing",
   project.proof.status,
   project.repoState.clean ? "clean" : `${project.repoState.dirtyCount} dirty`,
@@ -695,7 +736,7 @@ Purpose: one fleet-wide tracker for production proof, deployment evidence, monit
 
 ## Project Registry
 
-${markdownTable(["Project", "Service", "Dashboard Band", "Deploy Evidence", "Proof", "Repo", "Relationships"], projectRows)}
+${markdownTable(["Project", "Service", "Dashboard Band", "Visual", "Product", "Company OS", "Deploy Evidence", "Proof", "Repo", "Relationships"], projectRows)}
 
 ## Evidence Coverage
 

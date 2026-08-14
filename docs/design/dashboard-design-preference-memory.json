@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "version": "V1",
+  "title": "Dashboard Design Preference Memory",
+  "status": "active",
+  "purpose": "Capture user-approved and user-rejected design patterns so future dashboard work starts closer to the desired taste.",
+  "globalPreferences": [
+    {
+      "id": "avoid-generic-static-dashboards",
+      "type": "rejection",
+      "scope": "fleet",
+      "preference": "Do not call a dashboard complete just because it is technically compliant; it must look like a modern product surface.",
+      "appliesTo": ["all dashboards"]
+    },
+    {
+      "id": "avoid-fat-repeated-banners",
+      "type": "rejection",
+      "scope": "fleet",
+      "preference": "Avoid large repeated banners on every page. Keep command context compact unless it is the main command-center surface.",
+      "appliesTo": ["command center", "media operations", "market intelligence", "business operations"]
+    },
+    {
+      "id": "tables-inside-card-with-pagination",
+      "type": "approval",
+      "scope": "fleet",
+      "preference": "Tables should sit inside a coherent card/surface, use tabs for related tables, and paginate at 10/25/50 when row counts exceed the threshold.",
+      "appliesTo": ["data tables", "queues", "evidence tables", "runs"]
+    },
+    {
+      "id": "help-text-becomes-help-icon",
+      "type": "approval",
+      "scope": "fleet",
+      "preference": "Long helper text should move into a help icon/tooltip pattern instead of sitting as visible paragraph clutter.",
+      "appliesTo": ["page headers", "cards", "sections"]
+    },
+    {
+      "id": "modern-real-chart-components",
+      "type": "approval",
+      "scope": "fleet",
+      "preference": "Charts must use real modern chart components with axes, labels, tooltips, states, and comparison controls where relevant.",
+      "appliesTo": ["charts", "financial dashboards", "media dashboards", "operations dashboards"]
+    },
+    {
+      "id": "single-shell-no-nested-app",
+      "type": "approval",
+      "scope": "fleet",
+      "preference": "Every product should have one shell, one sidebar, one header model, and no standalone app embedded inside another app.",
+      "appliesTo": ["all dashboards"]
+    }
+  ],
+  "approvedReferences": [
+    {
+      "id": "khashi-live-command-direction",
+      "project": "khashi-vc",
+      "note": "Live Command was preferred as a stronger working cockpit direction than older static pages."
+    }
+  ],
+  "rejectedPatterns": [
+    {
+      "id": "meal-assistant-generic-planner",
+      "project": "meal-assistant",
+      "reason": "Technically aligned but still visually generic; sidebar and spacing do not yet feel like the standard."
+    }
+  ]
+}

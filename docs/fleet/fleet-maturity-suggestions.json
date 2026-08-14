@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-08T21:55:55.117Z",
+  "generatedAt": "2026-08-14T20:37:19.728Z",
   "purpose": "Ranked next maturity suggestions generated after fleet evidence and cross-project trigger analysis.",
   "summary": {
-    "total": 13,
-    "readyToBuild": 10,
+    "total": 61,
+    "readyToBuild": 57,
     "needsHumanDecision": 2,
-    "recommended": 1
+    "recommended": 2
   },
   "suggestions": [
     {
@@ -24,6 +24,34 @@
       "nextAction": "Codex can build or refresh this maturity work."
     },
     {
+      "id": "suggest.hermes-os.dashboard-standard.maturity",
+      "workItemId": "hermes-os.dashboard-standard.maturity",
+      "title": "Hermes OS: dashboard standard is needs-review",
+      "ownerProject": "hermes-os",
+      "affectedProjects": [
+        "hermes-os"
+      ],
+      "status": "ready-to-build",
+      "priority": "high",
+      "score": 100,
+      "reason": "Fleet evidence scan found dashboard-standard=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.investing-system.dashboard-standard.maturity",
+      "workItemId": "investing-system.dashboard-standard.maturity",
+      "title": "Investing System: dashboard standard is needs-review",
+      "ownerProject": "investing-system",
+      "affectedProjects": [
+        "investing-system"
+      ],
+      "status": "ready-to-build",
+      "priority": "high",
+      "score": 100,
+      "reason": "Fleet evidence scan found dashboard-standard=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
       "id": "suggest.investing-system.static-route-debt.maturity",
       "workItemId": "investing-system.static-route-debt.maturity",
       "title": "Investing System: static route debt is needs-review",
@@ -35,6 +63,20 @@
       "priority": "high",
       "score": 100,
       "reason": "Fleet evidence scan found static-route-debt=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.khashi-vc.dashboard-standard.maturity",
+      "workItemId": "khashi-vc.dashboard-standard.maturity",
+      "title": "Khashi VC: dashboard standard is needs-review",
+      "ownerProject": "khashi-vc",
+      "affectedProjects": [
+        "khashi-vc"
+      ],
+      "status": "ready-to-build",
+      "priority": "high",
+      "score": 100,
+      "reason": "Fleet evidence scan found dashboard-standard=needs-review.",
       "nextAction": "Codex can build or refresh this maturity work."
     },
     {
@@ -52,6 +94,48 @@
       "nextAction": "Codex can build or refresh this maturity work."
     },
     {
+      "id": "suggest.meal-assistant.dashboard-standard.maturity",
+      "workItemId": "meal-assistant.dashboard-standard.maturity",
+      "title": "Meal Assistant: dashboard standard is needs-review",
+      "ownerProject": "meal-assistant",
+      "affectedProjects": [
+        "meal-assistant"
+      ],
+      "status": "ready-to-build",
+      "priority": "high",
+      "score": 100,
+      "reason": "Fleet evidence scan found dashboard-standard=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.media-business-operations.dashboard-standard.maturity",
+      "workItemId": "media-business-operations.dashboard-standard.maturity",
+      "title": "Media Business Operations: dashboard standard is needs-review",
+      "ownerProject": "media-business-operations",
+      "affectedProjects": [
+        "media-business-operations"
+      ],
+      "status": "ready-to-build",
+      "priority": "high",
+      "score": 100,
+      "reason": "Fleet evidence scan found dashboard-standard=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.rinseables-os.dashboard-standard.maturity",
+      "workItemId": "rinseables-os.dashboard-standard.maturity",
+      "title": "Rinseables OS: dashboard standard is needs-review",
+      "ownerProject": "rinseables-os",
+      "affectedProjects": [
+        "rinseables-os"
+      ],
+      "status": "ready-to-build",
+      "priority": "high",
+      "score": 100,
+      "reason": "Fleet evidence scan found dashboard-standard=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
       "id": "suggest.rinseables-os.static-route-debt.maturity",
       "workItemId": "rinseables-os.static-route-debt.maturity",
       "title": "Rinseables OS: static route debt is needs-review",
@@ -63,6 +147,20 @@
       "priority": "high",
       "score": 100,
       "reason": "Fleet evidence scan found static-route-debt=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.tlc-capital-group-os.dashboard-standard.maturity",
+      "workItemId": "tlc-capital-group-os.dashboard-standard.maturity",
+      "title": "TLC Capital Group OS: dashboard standard is needs-review",
+      "ownerProject": "tlc-capital-group-os",
+      "affectedProjects": [
+        "tlc-capital-group-os"
+      ],
+      "status": "ready-to-build",
+      "priority": "high",
+      "score": 100,
+      "reason": "Fleet evidence scan found dashboard-standard=needs-review.",
       "nextAction": "Codex can build or refresh this maturity work."
     },
     {
@@ -80,6 +178,188 @@
       "nextAction": "Codex can build or refresh this maturity work."
     },
     {
+      "id": "suggest.business-mapper.company-os-maturity.maturity",
+      "workItemId": "business-mapper.company-os-maturity.maturity",
+      "title": "Business Mapper / Consulting: company os maturity is needs-review",
+      "ownerProject": "business-mapper",
+      "affectedProjects": [
+        "business-mapper"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found company-os-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.business-mapper.live-e2e.maturity",
+      "workItemId": "business-mapper.live-e2e.maturity",
+      "title": "Business Mapper / Consulting: live e2e is needs-review",
+      "ownerProject": "business-mapper",
+      "affectedProjects": [
+        "business-mapper"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found live-e2e=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.business-mapper.monitoring.maturity",
+      "workItemId": "business-mapper.monitoring.maturity",
+      "title": "Business Mapper / Consulting: monitoring is needs-review",
+      "ownerProject": "business-mapper",
+      "affectedProjects": [
+        "business-mapper"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found monitoring=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.business-mapper.product-maturity.maturity",
+      "workItemId": "business-mapper.product-maturity.maturity",
+      "title": "Business Mapper / Consulting: product maturity is needs-review",
+      "ownerProject": "business-mapper",
+      "affectedProjects": [
+        "business-mapper"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found product-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.hermes-os.company-os-maturity.maturity",
+      "workItemId": "hermes-os.company-os-maturity.maturity",
+      "title": "Hermes OS: company os maturity is needs-review",
+      "ownerProject": "hermes-os",
+      "affectedProjects": [
+        "hermes-os"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found company-os-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.hermes-os.live-e2e.maturity",
+      "workItemId": "hermes-os.live-e2e.maturity",
+      "title": "Hermes OS: live e2e is needs-review",
+      "ownerProject": "hermes-os",
+      "affectedProjects": [
+        "hermes-os"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found live-e2e=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.hermes-os.monitoring.maturity",
+      "workItemId": "hermes-os.monitoring.maturity",
+      "title": "Hermes OS: monitoring is needs-review",
+      "ownerProject": "hermes-os",
+      "affectedProjects": [
+        "hermes-os"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found monitoring=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.hermes-os.product-maturity.maturity",
+      "workItemId": "hermes-os.product-maturity.maturity",
+      "title": "Hermes OS: product maturity is needs-review",
+      "ownerProject": "hermes-os",
+      "affectedProjects": [
+        "hermes-os"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found product-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.investing-system.company-os-maturity.maturity",
+      "workItemId": "investing-system.company-os-maturity.maturity",
+      "title": "Investing System: company os maturity is needs-review",
+      "ownerProject": "investing-system",
+      "affectedProjects": [
+        "investing-system"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found company-os-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.investing-system.live-e2e.maturity",
+      "workItemId": "investing-system.live-e2e.maturity",
+      "title": "Investing System: live e2e is needs-review",
+      "ownerProject": "investing-system",
+      "affectedProjects": [
+        "investing-system"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found live-e2e=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.investing-system.monitoring.maturity",
+      "workItemId": "investing-system.monitoring.maturity",
+      "title": "Investing System: monitoring is needs-review",
+      "ownerProject": "investing-system",
+      "affectedProjects": [
+        "investing-system"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found monitoring=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.investing-system.product-maturity.maturity",
+      "workItemId": "investing-system.product-maturity.maturity",
+      "title": "Investing System: product maturity is needs-review",
+      "ownerProject": "investing-system",
+      "affectedProjects": [
+        "investing-system"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found product-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.khashi-vc.company-os-maturity.maturity",
+      "workItemId": "khashi-vc.company-os-maturity.maturity",
+      "title": "Khashi VC: company os maturity is needs-review",
+      "ownerProject": "khashi-vc",
+      "affectedProjects": [
+        "khashi-vc"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found company-os-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
       "id": "suggest.khashi-vc.live-e2e.maturity",
       "workItemId": "khashi-vc.live-e2e.maturity",
       "title": "Khashi VC: live e2e is needs-review",
@@ -92,6 +372,415 @@
       "score": 60,
       "reason": "Fleet evidence scan found live-e2e=needs-review.",
       "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.khashi-vc.monitoring.maturity",
+      "workItemId": "khashi-vc.monitoring.maturity",
+      "title": "Khashi VC: monitoring is needs-review",
+      "ownerProject": "khashi-vc",
+      "affectedProjects": [
+        "khashi-vc"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found monitoring=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.khashi-vc.product-maturity.maturity",
+      "workItemId": "khashi-vc.product-maturity.maturity",
+      "title": "Khashi VC: product maturity is needs-review",
+      "ownerProject": "khashi-vc",
+      "affectedProjects": [
+        "khashi-vc"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found product-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.meal-assistant.company-os-maturity.maturity",
+      "workItemId": "meal-assistant.company-os-maturity.maturity",
+      "title": "Meal Assistant: company os maturity is needs-review",
+      "ownerProject": "meal-assistant",
+      "affectedProjects": [
+        "meal-assistant"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found company-os-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.meal-assistant.live-e2e.maturity",
+      "workItemId": "meal-assistant.live-e2e.maturity",
+      "title": "Meal Assistant: live e2e is needs-review",
+      "ownerProject": "meal-assistant",
+      "affectedProjects": [
+        "meal-assistant"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found live-e2e=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.meal-assistant.monitoring.maturity",
+      "workItemId": "meal-assistant.monitoring.maturity",
+      "title": "Meal Assistant: monitoring is needs-review",
+      "ownerProject": "meal-assistant",
+      "affectedProjects": [
+        "meal-assistant"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found monitoring=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.meal-assistant.product-maturity.maturity",
+      "workItemId": "meal-assistant.product-maturity.maturity",
+      "title": "Meal Assistant: product maturity is needs-review",
+      "ownerProject": "meal-assistant",
+      "affectedProjects": [
+        "meal-assistant"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found product-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.meal-assistant.visual-maturity.maturity",
+      "workItemId": "meal-assistant.visual-maturity.maturity",
+      "title": "Meal Assistant: visual maturity is needs-review",
+      "ownerProject": "meal-assistant",
+      "affectedProjects": [
+        "meal-assistant"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found visual-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.media-business-operations.company-os-maturity.maturity",
+      "workItemId": "media-business-operations.company-os-maturity.maturity",
+      "title": "Media Business Operations: company os maturity is needs-review",
+      "ownerProject": "media-business-operations",
+      "affectedProjects": [
+        "media-business-operations"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found company-os-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.media-business-operations.live-e2e.maturity",
+      "workItemId": "media-business-operations.live-e2e.maturity",
+      "title": "Media Business Operations: live e2e is needs-review",
+      "ownerProject": "media-business-operations",
+      "affectedProjects": [
+        "media-business-operations"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found live-e2e=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.media-business-operations.monitoring.maturity",
+      "workItemId": "media-business-operations.monitoring.maturity",
+      "title": "Media Business Operations: monitoring is needs-review",
+      "ownerProject": "media-business-operations",
+      "affectedProjects": [
+        "media-business-operations"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found monitoring=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.media-business-operations.product-maturity.maturity",
+      "workItemId": "media-business-operations.product-maturity.maturity",
+      "title": "Media Business Operations: product maturity is needs-review",
+      "ownerProject": "media-business-operations",
+      "affectedProjects": [
+        "media-business-operations"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found product-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.media-engine.company-os-maturity.maturity",
+      "workItemId": "media-engine.company-os-maturity.maturity",
+      "title": "Media Engine: company os maturity is needs-review",
+      "ownerProject": "media-engine",
+      "affectedProjects": [
+        "media-engine"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found company-os-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.media-engine.live-e2e.maturity",
+      "workItemId": "media-engine.live-e2e.maturity",
+      "title": "Media Engine: live e2e is needs-review",
+      "ownerProject": "media-engine",
+      "affectedProjects": [
+        "media-engine"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found live-e2e=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.media-engine.monitoring.maturity",
+      "workItemId": "media-engine.monitoring.maturity",
+      "title": "Media Engine: monitoring is needs-review",
+      "ownerProject": "media-engine",
+      "affectedProjects": [
+        "media-engine"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found monitoring=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.media-engine.product-maturity.maturity",
+      "workItemId": "media-engine.product-maturity.maturity",
+      "title": "Media Engine: product maturity is needs-review",
+      "ownerProject": "media-engine",
+      "affectedProjects": [
+        "media-engine"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found product-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.nous-hermes-agent.company-os-maturity.maturity",
+      "workItemId": "nous-hermes-agent.company-os-maturity.maturity",
+      "title": "Nous Hermes Agent: company os maturity is needs-review",
+      "ownerProject": "nous-hermes-agent",
+      "affectedProjects": [
+        "nous-hermes-agent"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found company-os-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.nous-hermes-agent.live-e2e.maturity",
+      "workItemId": "nous-hermes-agent.live-e2e.maturity",
+      "title": "Nous Hermes Agent: live e2e is needs-review",
+      "ownerProject": "nous-hermes-agent",
+      "affectedProjects": [
+        "nous-hermes-agent"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found live-e2e=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.nous-hermes-agent.monitoring.maturity",
+      "workItemId": "nous-hermes-agent.monitoring.maturity",
+      "title": "Nous Hermes Agent: monitoring is needs-review",
+      "ownerProject": "nous-hermes-agent",
+      "affectedProjects": [
+        "nous-hermes-agent"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found monitoring=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.nous-hermes-agent.product-maturity.maturity",
+      "workItemId": "nous-hermes-agent.product-maturity.maturity",
+      "title": "Nous Hermes Agent: product maturity is needs-review",
+      "ownerProject": "nous-hermes-agent",
+      "affectedProjects": [
+        "nous-hermes-agent"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found product-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.nous-hermes-agent.visual-maturity.maturity",
+      "workItemId": "nous-hermes-agent.visual-maturity.maturity",
+      "title": "Nous Hermes Agent: visual maturity is needs-review",
+      "ownerProject": "nous-hermes-agent",
+      "affectedProjects": [
+        "nous-hermes-agent"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found visual-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.rinseables-os.company-os-maturity.maturity",
+      "workItemId": "rinseables-os.company-os-maturity.maturity",
+      "title": "Rinseables OS: company os maturity is needs-review",
+      "ownerProject": "rinseables-os",
+      "affectedProjects": [
+        "rinseables-os"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found company-os-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.rinseables-os.live-e2e.maturity",
+      "workItemId": "rinseables-os.live-e2e.maturity",
+      "title": "Rinseables OS: live e2e is needs-review",
+      "ownerProject": "rinseables-os",
+      "affectedProjects": [
+        "rinseables-os"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found live-e2e=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.rinseables-os.monitoring.maturity",
+      "workItemId": "rinseables-os.monitoring.maturity",
+      "title": "Rinseables OS: monitoring is needs-review",
+      "ownerProject": "rinseables-os",
+      "affectedProjects": [
+        "rinseables-os"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found monitoring=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.rinseables-os.product-maturity.maturity",
+      "workItemId": "rinseables-os.product-maturity.maturity",
+      "title": "Rinseables OS: product maturity is needs-review",
+      "ownerProject": "rinseables-os",
+      "affectedProjects": [
+        "rinseables-os"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found product-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.tlc-capital-group-os.company-os-maturity.maturity",
+      "workItemId": "tlc-capital-group-os.company-os-maturity.maturity",
+      "title": "TLC Capital Group OS: company os maturity is needs-review",
+      "ownerProject": "tlc-capital-group-os",
+      "affectedProjects": [
+        "tlc-capital-group-os"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found company-os-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.tlc-capital-group-os.live-e2e.maturity",
+      "workItemId": "tlc-capital-group-os.live-e2e.maturity",
+      "title": "TLC Capital Group OS: live e2e is needs-review",
+      "ownerProject": "tlc-capital-group-os",
+      "affectedProjects": [
+        "tlc-capital-group-os"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found live-e2e=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.tlc-capital-group-os.monitoring.maturity",
+      "workItemId": "tlc-capital-group-os.monitoring.maturity",
+      "title": "TLC Capital Group OS: monitoring is needs-review",
+      "ownerProject": "tlc-capital-group-os",
+      "affectedProjects": [
+        "tlc-capital-group-os"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found monitoring=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.tlc-capital-group-os.product-maturity.maturity",
+      "workItemId": "tlc-capital-group-os.product-maturity.maturity",
+      "title": "TLC Capital Group OS: product maturity is needs-review",
+      "ownerProject": "tlc-capital-group-os",
+      "affectedProjects": [
+        "tlc-capital-group-os"
+      ],
+      "status": "ready-to-build",
+      "priority": "medium",
+      "score": 60,
+      "reason": "Fleet evidence scan found product-maturity=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.rinseables-product-to-media-and-tlc",
+      "workItemId": "rinseables-product-to-media-and-tlc",
+      "title": "Connect Rinseables product/audience maturity to Media Business, Media Engine, and TLC reporting.",
+      "ownerProject": "tlc-capital-group-os",
+      "affectedProjects": [
+        "rinseables-os",
+        "media-business-operations",
+        "media-engine",
+        "tlc-capital-group-os"
+      ],
+      "status": "recommended",
+      "priority": "medium",
+      "score": 50,
+      "reason": "Rinseables product model, KPI, revenue, or audience layer changes.",
+      "nextAction": "Close dependency evidence first, then execute the cross-project maturity item."
     },
     {
       "id": "suggest.khashi-diagnostics-to-hermes-runtime",
@@ -158,23 +847,6 @@
       "priority": "low",
       "score": 30,
       "reason": "Hermes promotion rail, Caddy route, deploy script, or evidence schema changes.",
-      "nextAction": "Codex can build or refresh this maturity work."
-    },
-    {
-      "id": "suggest.rinseables-product-to-media-and-tlc",
-      "workItemId": "rinseables-product-to-media-and-tlc",
-      "title": "Connect Rinseables product/audience maturity to Media Business, Media Engine, and TLC reporting.",
-      "ownerProject": "tlc-capital-group-os",
-      "affectedProjects": [
-        "rinseables-os",
-        "media-business-operations",
-        "media-engine",
-        "tlc-capital-group-os"
-      ],
-      "status": "ready-to-build",
-      "priority": "low",
-      "score": 30,
-      "reason": "Rinseables product model, KPI, revenue, or audience layer changes.",
       "nextAction": "Codex can build or refresh this maturity work."
     },
     {

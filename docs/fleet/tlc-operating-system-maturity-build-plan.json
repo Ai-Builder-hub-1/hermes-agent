@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-08-14",
+  "owner": "nous-hermes-agent",
+  "scope": [
+    "tlc-capital-group",
+    "nous-hermes-agent",
+    "business-unit-products",
+    "fleet-dashboards"
+  ],
+  "levels": [
+    {
+      "id": "L0",
+      "name": "Technical Compliance",
+      "outcome": "Projects use required package-native/dashboard-kit contracts and no longer hide old implementation debt."
+    },
+    {
+      "id": "L1",
+      "name": "Visual Quality Migration",
+      "outcome": "Dashboards look and behave like polished products, not just compliant pages."
+    },
+    {
+      "id": "L2",
+      "name": "Product-Building OS",
+      "outcome": "Ideas become product briefs, component maps, workflows, tests, and proof before being called done."
+    },
+    {
+      "id": "L3",
+      "name": "Self-Improving Product OS",
+      "outcome": "Usage, screenshots, failures, and human preference continuously improve products and standards."
+    },
+    {
+      "id": "L4",
+      "name": "Company Intelligence Layer",
+      "outcome": "TLC has memory, decision intelligence, OKR/KPI linkage, risk, finance, and strategy execution visibility."
+    },
+    {
+      "id": "L5",
+      "name": "Compound Learning Enterprise",
+      "outcome": "The company learns, allocates resources, governs humans/agents, and compounds IP over time."
+    }
+  ],
+  "workstreams": [
+    {
+      "id": "P0.1",
+      "phase": "P0",
+      "name": "Fleet project inventory",
+      "status": "in-progress",
+      "project": "nous-hermes-agent",
+      "acceptance": "Every active project has route inventory, target tier, proof route, production URL, and owner."
+    },
+    {
+      "id": "P0.2",
+      "phase": "P0",
+      "name": "Technical implementation audit",
+      "status": "complete",
+      "project": "nous-hermes-agent",
+      "acceptance": "Strict rendered-implementation report shows 10/10 fully decomposed, 0 findings, 0 false-native risk."
+    },
+    {
+      "id": "P1.4",
+      "phase": "P1",
+      "name": "No local override policy",
+      "status": "not-started",
+      "project": "nous-hermes-agent",
+      "acceptance": "Local visual primitive overrides require reason, expiration, proof, and promotion path."
+    },
+    {
+      "id": "P2.1",
+      "phase": "P2",
+      "name": "Visual tier model",
+      "status": "complete",
+      "project": "nous-hermes-agent",
+      "acceptance": "Add V0 through V4 visual maturity tiers alongside technical/product tiers."
+    },
+    {
+      "id": "P2.2",
+      "phase": "P2",
+      "name": "Visual acceptance rubric",
+      "status": "complete",
+      "project": "nous-hermes-agent",
+      "acceptance": "Rubric scores sidebar, hierarchy, spacing, cards, typography, tables, charts, forms, drawers, responsive states, and interaction polish."
+    },
+    {
+      "id": "P3.4",
+      "phase": "P3",
+      "name": "Planner/calendar components",
+      "status": "not-started",
+      "project": "nous-hermes-agent",
+      "acceptance": "Month calendar, week/day drawer, multi-select, planner detail, and export states exist for Meal Assistant and future planners."
+    },
+    {
+      "id": "P5.1",
+      "phase": "P5",
+      "name": "Intent-to-product protocol",
+      "status": "not-started",
+      "project": "nous-hermes-agent",
+      "acceptance": "User intent becomes product goal, workflows, data model, routes, components, proof states, and tests."
+    },
+    {
+      "id": "P6.1",
+      "phase": "P6",
+      "name": "Company memory model",
+      "status": "not-started",
+      "project": "tlc-capital-group-os",
+      "acceptance": "Decisions, experiments, launches, failures, wins, OKRs, KPIs, risks, assets, docs, and postmortems are queryable."
+    },
+    {
+      "id": "P7.1",
+      "phase": "P7",
+      "name": "Agent role registry",
+      "status": "not-started",
+      "project": "nous-hermes-agent",
+      "acceptance": "Agent roles, permissions, work queues, escalation rules, audit logs, and performance history exist."
+    },
+    {
+      "id": "P8.3",
+      "phase": "P8",
+      "name": "Outcome attribution",
+      "status": "not-started",
+      "project": "tlc-capital-group-os",
+      "acceptance": "Work connects to results across posts, traffic, OKRs, experiments, strategies, returns, dashboards, and actions."
+    },
+    {
+      "id": "P9.1",
+      "phase": "P9",
+      "name": "Institutional knowledge engine",
+      "status": "not-started",
+      "project": "tlc-capital-group-os",
+      "acceptance": "Beliefs, evidence, contradictions, staleness, and decision impact are tracked."
+    },
+    {
+      "id": "P2.7",
+      "phase": "P2",
+      "name": "Visual review queue schema",
+      "status": "complete",
+      "project": "nous-hermes-agent",
+      "acceptance": "dashboard-visual-review-queue.json/md exist and are validated by the UI-quality system gate."
+    },
+    {
+      "id": "P2.8",
+      "phase": "P2",
+      "name": "Screenshot approval and rejection memory schema",
+      "status": "complete",
+      "project": "nous-hermes-agent",
+      "acceptance": "dashboard-design-preference-memory.json/md exist and preserve approved/rejected patterns."
+    },
+    {
+      "id": "P2.9",
+      "phase": "P2",
+      "name": "Meal Assistant visual migration packet",
+      "status": "complete",
+      "project": "nous-hermes-agent",
+      "acceptance": "Meal Assistant V3 visual migration packet exists with target pages, components, workflow proof, visual proof, and acceptance criteria."
+    },
+    {
+      "id": "P2.10",
+      "phase": "P2",
+      "name": "Dashboard visual review UI",
+      "status": "complete",
+      "project": "nous-hermes-agent",
+      "acceptance": "Dashboard Kit Gallery exposes visual tiers, queued reviews, preference memory, rubric criteria, and the first Meal Assistant migration packet."
+    }
+  ],
+  "nextBuildPacket": [
+    "Review the Meal Assistant V3 candidate screenshots and approve or request changes.",
+    "Promote reusable Meal Assistant sidebar, planner, drawer, proof-route, and visual-review learnings into dashboard-kit guidance/components where needed.",
+    "Add screenshot-aware visual regression comparison for approved baselines.",
+    "Repeat the visual-quality migration loop for Media Engine, Kashi VC, Media Business Ops, Investing System, TLC OS, Hermes OS, Business Mapper, and Rinseables."
+  ],
+  "latestBuildPacket": {
+    "status": "complete",
+    "completedAt": "2026-08-14",
+    "items": [
+      "Added visual/product/company-OS maturity fields to project status ledger generator.",
+      "Created visual maturity rubric.",
+      "Created visual review queue.",
+      "Created screenshot approval/rejection preference memory.",
+      "Generated Meal Assistant V3 visual migration packet.",
+      "Updated UI quality validator to enforce the new artifacts.",
+      "Added visual maturity review lane to Dashboard Kit Gallery.",
+      "Completed Meal Assistant project-side V3 candidate redesign with proof, visual-review screenshots, local Playwright capture, and zero uncontained overflow diagnostics."
+    ]
+  }
+}

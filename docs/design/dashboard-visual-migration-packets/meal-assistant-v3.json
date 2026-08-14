@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "version": "V1",
+  "id": "meal-assistant-visual-v3-migration",
+  "project": "meal-assistant",
+  "surface": "meal-dashboard-shell",
+  "route": "/",
+  "status": "ready-for-planning-review",
+  "currentState": {
+    "technicalCompliance": "fully-decomposed",
+    "currentVisualTier": "V1",
+    "targetVisualTier": "V3",
+    "problem": "The dashboard passes implementation debt checks, but the visible sidebar, calendar, planner, library, and spacing still feel generic."
+  },
+  "referenceFamilies": [
+    "calendar/planner workspace",
+    "household operations dashboard",
+    "light-mode consumer productivity tool",
+    "drawer-based planning flow",
+    "entity library with filters"
+  ],
+  "targetPages": [
+    {
+      "id": "planner",
+      "target": "Month-first planning workspace with one real calendar grid, compact selected-day state, and right-side drawer for day/multi-day planning."
+    },
+    {
+      "id": "meal-library",
+      "target": "Modern searchable library with filters, compact meal cards or table/list toggle, clear broad meal attributes, and quick edit drawer."
+    },
+    {
+      "id": "history-insights",
+      "target": "Small insight surface showing recent cooking, repeated proteins, skipped days, checklist history, and planning rhythm."
+    }
+  ],
+  "componentsNeeded": [
+    "PremiumSidebar",
+    "PlannerMonthCalendar",
+    "PlannerDayDrawer",
+    "MultiDaySelectionBar",
+    "MealLibrarySurface",
+    "FilterRail",
+    "CompactMetricStrip",
+    "ChecklistExportPanel",
+    "EmptyState",
+    "HelpTooltip"
+  ],
+  "workflowProof": [
+    "create or select meals",
+    "select one day",
+    "select multiple non-adjacent days",
+    "open drawer",
+    "save meal choices",
+    "auto-fill remaining selected days without adjacent generated protein repeat",
+    "export broad checklist",
+    "reload and verify persistence"
+  ],
+  "visualProofRequired": [
+    "desktop expanded sidebar",
+    "desktop collapsed sidebar",
+    "month calendar",
+    "multi-day drawer",
+    "meal library",
+    "mobile planner"
+  ],
+  "acceptance": [
+    "rubric score >= 88",
+    "human review queue state is approved",
+    "no clipped text or overflow",
+    "calendar reads as one calendar, not unrelated cards",
+    "drawer opens reliably and saves workflow state",
+    "new reusable components or patterns are promoted back to dashboard kit when broadly useful"
+  ]
+}

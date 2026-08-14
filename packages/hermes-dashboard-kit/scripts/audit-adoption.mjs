@@ -201,7 +201,34 @@ function externalWorkItemsFor({ result, project }) {
     });
   }
 
+  if (issueCodes.has("packageNative.implementationIncomplete")) {
+    items.push({
+      ownerProject: project.id,
+      scope: "external-project",
+      priority: "P0",
+      action: "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+      reason: "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+    });
+  }
+
   return items;
+}
+
+function hasImplementationIncompleteLanguage(...values) {
+  const text = values.filter(Boolean).join(" ");
+  return [
+    /\bcompatibility\b/i,
+    /\bstatic\b/i,
+    /\bhybrid\b/i,
+    /\bbridge\b/i,
+    /\blocal (?:chart|table|drawer|state|primitive|render)/i,
+    /\bproject-owned\b/i,
+    /\bmust migrate\b/i,
+    /\bneeds? (?:package-native|migration|shared components?|adoption|one-shell)\b/i,
+    /\bpending (?:full )?(?:component|package-native|migration|adoption|decomposition)/i,
+    /\bshould be replaced\b/i,
+    /\bremains? .* (?:static|legacy|compatibility|domain renderers?)\b/i
+  ].some((pattern) => pattern.test(text));
 }
 
 function evaluateProject(registry, project, sourceHash) {
@@ -345,6 +372,32 @@ function evaluateProject(registry, project, sourceHash) {
           registry.newDashboardPolicy?.requiredAdoptionModeForAllDashboardProjects ||
           registry.newDashboardPolicy?.requiredAdoptionModeForTier3 ||
           "package-native"
+      }
+    ));
+  }
+
+  if (
+    policyRequiresPackageNative &&
+    implementationMode === "package-native" &&
+    targetExperienceBand === "T3C" &&
+    hasImplementationIncompleteLanguage(
+      project.bridgeStatus,
+      project.tierMigrationNote,
+      manifest.dashboardKit?.bridgeStatus,
+      manifest.dashboardKit?.tierMigrationNote,
+      ...(manifest.surfaces ?? []).map((surface) => surface.status),
+      ...(manifest.surfaces ?? []).map((surface) => surface.notes)
+    )
+  ) {
+    issues.push(issue(
+      "error",
+      "packageNative.implementationIncomplete",
+      "Project claims T3C/package-native, but registry or surface notes still describe static, compatibility, bridge, local primitive, or pending migration work.",
+      {
+        implementationMode,
+        targetExperienceBand,
+        bridgeStatus:
+          project.bridgeStatus || manifest.dashboardKit?.bridgeStatus || ""
       }
     ));
   }
@@ -497,7 +550,7 @@ function evaluateProject(registry, project, sourceHash) {
     const surfaceContent = fs.readFileSync(surfacePath, "utf8");
     const content = `${surfaceContent}\n${linkedCssContent(surfaceContent, surfacePath, projectRoot)}`;
     for (const marker of surface.markers ?? []) {
-      if (!content.includes(marker)) {
+      if (!hasMarkerEvidence(content, marker)) {
         issues.push(issue("error", "surface.markerMissing", `Surface ${surface.id} is missing required marker: ${marker}`, { path: surface.path }));
       }
     }
@@ -505,8 +558,9 @@ function evaluateProject(registry, project, sourceHash) {
       const componentMarkers = [
         component,
         `hdk-${component.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`).replace(/^-/, "")}`,
+        ...componentEvidenceAliases(component)
       ];
-      if (!componentMarkers.some((marker) => content.includes(marker))) {
+      if (!componentMarkers.some((marker) => hasMarkerEvidence(content, marker))) {
         const severity = surface.status === "prototype" || surface.status === "planned" ? "warning" : "error";
         issues.push(issue(severity, "surface.componentMissing", `Surface ${surface.id} does not show adoption evidence for ${component}.`, { path: surface.path }));
       }
@@ -598,6 +652,44 @@ function evaluateProject(registry, project, sourceHash) {
   };
 }
 
+function hasMarkerEvidence(content, marker) {
+  if (content.includes(marker)) return true;
+  return markerEvidenceAliases(marker).some((alias) => content.includes(alias));
+}
+
+function markerEvidenceAliases(marker) {
+  const aliases = {
+    'data-component="DashboardSidebar"': ["renderOperationalSidebar"],
+    "hdk-sidebar-rail": ["renderOperationalSidebar"],
+    'data-component="DataTableTabs"': ["renderKitDataTableTabs", "renderDataTableTabs"],
+    'data-component="EntitySummaryCard"': ["renderKitEntitySummaryGrid", "renderEntitySummaryGrid", "renderKitEntitySummaryCard", "renderEntitySummaryCard"],
+    'data-component="AiAssistantPanel"': ["renderKitAiAssistantPanel", "renderAiAssistantPanel"],
+    'data-component="StateChecklist"': ["renderKitStateChecklist", "renderStateChecklist"],
+    'data-component="DetailDrawerShell"': ["renderKitDetailDrawerShell", "renderDetailDrawerShell"],
+    'data-component="ChartPanel"': ["renderMultiSeriesLineChart", "renderKitBarChart", "renderKitDonutChart", "renderLineChart", "renderBarChart", "renderDonutChart"],
+    "data-chart-type=": ["renderMultiSeriesLineChart", "renderKitBarChart", "renderKitDonutChart", "renderLineChart", "renderBarChart", "renderDonutChart"],
+    "data-x-axis=": ["renderMultiSeriesLineChart", "renderLineChart", "renderAreaChart", "renderKitBarChart"],
+    "data-y-axis=": ["renderMultiSeriesLineChart", "renderLineChart", "renderAreaChart", "renderKitBarChart"],
+    "hdk-table-tabs": ["renderKitDataTableTabs", "renderDataTableTabs"],
+    "hdk-table-layout": ["renderKitDataTable", "renderDataTable"]
+  };
+  return aliases[marker] || [];
+}
+
+function componentEvidenceAliases(component) {
+  const aliases = {
+    DashboardSidebar: ["renderOperationalSidebar"],
+    DataTableTabs: ["renderKitDataTableTabs", "renderDataTableTabs"],
+    DataTable: ["renderKitDataTable", "renderDataTable"],
+    EntitySummaryCard: ["renderKitEntitySummaryGrid", "renderEntitySummaryGrid", "renderKitEntitySummaryCard", "renderEntitySummaryCard"],
+    AiAssistantPanel: ["renderKitAiAssistantPanel", "renderAiAssistantPanel"],
+    StateChecklist: ["renderKitStateChecklist", "renderStateChecklist"],
+    DetailDrawerShell: ["renderKitDetailDrawerShell", "renderDetailDrawerShell"],
+    ChartPanel: ["renderMultiSeriesLineChart", "renderKitBarChart", "renderKitDonutChart", "renderLineChart", "renderBarChart", "renderDonutChart"]
+  };
+  return aliases[component] || [];
+}
+
 function hasDevOnlyGuard(content) {
   const lower = content.toLowerCase();
   return (
@@ -616,6 +708,7 @@ function evaluateTier3ShellQuality(content, surface, sourceContent = content) {
   const sidebarEvidence = [
     "dashboardsidebar",
     "data-component=\"dashboardsidebar\"",
+    "renderoperationalsidebar",
     "hdk-sidebar-rail",
     "hdk-sidebar"
   ];
@@ -642,7 +735,12 @@ function evaluateTier3ShellQuality(content, surface, sourceContent = content) {
   const chartEvidence = [
     "data-component=\"chartpanel\"",
     "hdk-chart-panel",
-    "data-chart-type="
+    "data-chart-type=",
+    "renderlinechart",
+    "renderareachart",
+    "renderbarchart",
+    "renderdonutchart",
+    "renderheatmap"
   ];
   const axisChartEvidence =
     sourceLower.includes("data-chart-type=\"line\"") ||

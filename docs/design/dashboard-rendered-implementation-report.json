@@ -1,0 +1,475 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-14T20:35:53.892Z",
+  "standard": {
+    "definition": "Rendered implementation means the visible route is controlled by dashboard-kit shell, spacing, sidebar, card, table, chart, form, state, and proof primitives. Local classes may exist only as domain accents, not as primary layout machinery.",
+    "decompositionDefinition": "Fully decomposed means visible UI surfaces have no significant local layout/component machinery. Bridge-aligned means kit evidence exists, but local primitives still control meaningful parts of the page. Needs migration means errors or missing required kit evidence remain.",
+    "protectedPatterns": [
+      "local-sidebar",
+      "local-card",
+      "local-grid-spacing",
+      "local-table",
+      "local-chart",
+      "local-form"
+    ]
+  },
+  "summary": {
+    "totalProjects": 10,
+    "pass": 10,
+    "needsMigration": 0,
+    "findings": 0,
+    "fullyDecomposed": 10,
+    "bridgeAligned": 0,
+    "falseNativeRisk": 0
+  },
+  "items": [
+    {
+      "project": "khashi-vc",
+      "name": "Kashi VC",
+      "status": "pass",
+      "decompositionStatus": "fully-decomposed",
+      "localSignalCount": 0,
+      "falseNativeRisk": false,
+      "findings": [],
+      "surfaces": [
+        {
+          "id": "roc-server-primary-route",
+          "path": "src/web/server.ts",
+          "role": "server-route",
+          "hasShellEvidence": false,
+          "hasPageFrame": false,
+          "localSignals": {
+            "total": 0,
+            "byRule": {}
+          },
+          "findings": []
+        },
+        {
+          "id": "roc-shell",
+          "path": "public/roc/index.html",
+          "role": "compatibility-route",
+          "hasShellEvidence": true,
+          "hasPageFrame": true,
+          "localSignals": {
+            "total": 0,
+            "byRule": {
+              "local-sidebar": 0,
+              "local-card": 0,
+              "local-grid-spacing": 0,
+              "local-table": 0,
+              "local-chart": 0,
+              "local-form": 0
+            }
+          },
+          "findings": []
+        },
+        {
+          "id": "market-intelligence-live",
+          "path": "public/roc/market-intelligence-live.html",
+          "role": "legacy-compatibility-route",
+          "hasShellEvidence": true,
+          "hasPageFrame": true,
+          "localSignals": {
+            "total": 0,
+            "byRule": {
+              "local-sidebar": 0,
+              "local-card": 0,
+              "local-grid-spacing": 0,
+              "local-table": 0,
+              "local-chart": 0,
+              "local-form": 0
+            }
+          },
+          "findings": []
+        }
+      ]
+    },
+    {
+      "project": "media-engine",
+      "name": "Media Engine",
+      "status": "pass",
+      "decompositionStatus": "fully-decomposed",
+      "localSignalCount": 0,
+      "falseNativeRisk": false,
+      "findings": [],
+      "surfaces": [
+        {
+          "id": "media-engine-ops-active",
+          "path": "core/operations/unified-publishing-dashboard.js",
+          "role": "ui",
+          "hasShellEvidence": true,
+          "hasPageFrame": true,
+          "localSignals": {
+            "total": 0,
+            "byRule": {
+              "local-sidebar": 0,
+              "local-card": 0,
+              "local-grid-spacing": 0,
+              "local-table": 0,
+              "local-chart": 0,
+              "local-form": 0
+            }
+          },
+          "findings": []
+        }
+      ]
+    },
+    {
+      "project": "media-business-os",
+      "name": "Media Business OS",
+      "status": "pass",
+      "decompositionStatus": "fully-decomposed",
+      "localSignalCount": 0,
+      "falseNativeRisk": false,
+      "findings": [],
+      "surfaces": [
+        {
+          "id": "media-business-main",
+          "path": "public/dashboard/index.html",
+          "role": "ui",
+          "hasShellEvidence": true,
+          "hasPageFrame": true,
+          "localSignals": {
+            "total": 0,
+            "byRule": {
+              "local-sidebar": 0,
+              "local-card": 0,
+              "local-grid-spacing": 0,
+              "local-table": 0,
+              "local-chart": 0,
+              "local-form": 0
+            }
+          },
+          "findings": []
+        },
+        {
+          "id": "media-business-renderer",
+          "path": "public/dashboard/app.js",
+          "role": "ui",
+          "hasShellEvidence": false,
+          "hasPageFrame": false,
+          "localSignals": {
+            "total": 0,
+            "byRule": {
+              "local-sidebar": 0,
+              "local-card": 0,
+              "local-grid-spacing": 0,
+              "local-table": 0,
+              "local-chart": 0,
+              "local-form": 0
+            }
+          },
+          "findings": []
+        }
+      ]
+    },
+    {
+      "project": "business-mapper",
+      "name": "Business Mapper",
+      "status": "pass",
+      "decompositionStatus": "fully-decomposed",
+      "localSignalCount": 0,
+      "falseNativeRisk": false,
+      "findings": [],
+      "surfaces": [
+        {
+          "id": "business-mapper-workspace",
+          "path": "business_mapper/static/index.html",
+          "role": "ui",
+          "hasShellEvidence": true,
+          "hasPageFrame": true,
+          "localSignals": {
+            "total": 0,
+            "byRule": {
+              "local-sidebar": 0,
+              "local-card": 0,
+              "local-grid-spacing": 0,
+              "local-table": 0,
+              "local-chart": 0,
+              "local-form": 0
+            }
+          },
+          "findings": []
+        }
+      ]
+    },
+    {
+      "project": "meal-assistant",
+      "name": "Meal Assistant",
+      "status": "pass",
+      "decompositionStatus": "fully-decomposed",
+      "localSignalCount": 0,
+      "falseNativeRisk": false,
+      "findings": [],
+      "surfaces": [
+        {
+          "id": "meal-dashboard-shell",
+          "path": "src/server.js",
+          "role": "ui",
+          "hasShellEvidence": true,
+          "hasPageFrame": true,
+          "localSignals": {
+            "total": 0,
+            "byRule": {
+              "local-sidebar": 0,
+              "local-card": 0,
+              "local-grid-spacing": 0,
+              "local-table": 0,
+              "local-chart": 0,
+              "local-form": 0
+            }
+          },
+          "findings": []
+        }
+      ]
+    },
+    {
+      "project": "hermes-os",
+      "name": "Hermes OS",
+      "status": "pass",
+      "decompositionStatus": "fully-decomposed",
+      "localSignalCount": 0,
+      "falseNativeRisk": false,
+      "findings": [],
+      "surfaces": [
+        {
+          "id": "hermes-dashboard-hub",
+          "path": "src/workspace/workspace-server.ts",
+          "role": "ui",
+          "hasShellEvidence": true,
+          "hasPageFrame": true,
+          "localSignals": {
+            "total": 0,
+            "byRule": {
+              "local-sidebar": 0,
+              "local-card": 0,
+              "local-grid-spacing": 0,
+              "local-table": 0,
+              "local-chart": 0,
+              "local-form": 0
+            }
+          },
+          "findings": []
+        },
+        {
+          "id": "hermes-operator-dashboard-artifact",
+          "path": "src/operator/operator-state.ts",
+          "role": "ui",
+          "hasShellEvidence": true,
+          "hasPageFrame": true,
+          "localSignals": {
+            "total": 0,
+            "byRule": {
+              "local-sidebar": 0,
+              "local-card": 0,
+              "local-grid-spacing": 0,
+              "local-table": 0,
+              "local-chart": 0,
+              "local-form": 0
+            }
+          },
+          "findings": []
+        },
+        {
+          "id": "hermes-control-plane-artifact",
+          "path": "src/operator/control-plane.ts",
+          "role": "ui",
+          "hasShellEvidence": true,
+          "hasPageFrame": true,
+          "localSignals": {
+            "total": 0,
+            "byRule": {
+              "local-sidebar": 0,
+              "local-card": 0,
+              "local-grid-spacing": 0,
+              "local-table": 0,
+              "local-chart": 0,
+              "local-form": 0
+            }
+          },
+          "findings": []
+        }
+      ]
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "name": "TLC Capital Group OS",
+      "status": "pass",
+      "decompositionStatus": "fully-decomposed",
+      "localSignalCount": 0,
+      "falseNativeRisk": false,
+      "findings": [],
+      "surfaces": [
+        {
+          "id": "tlc-dashboard-shell",
+          "path": "public/dashboard/index.html",
+          "role": "ui",
+          "hasShellEvidence": true,
+          "hasPageFrame": true,
+          "localSignals": {
+            "total": 0,
+            "byRule": {
+              "local-sidebar": 0,
+              "local-card": 0,
+              "local-grid-spacing": 0,
+              "local-table": 0,
+              "local-chart": 0,
+              "local-form": 0
+            }
+          },
+          "findings": []
+        },
+        {
+          "id": "tlc-dashboard-api",
+          "path": "src/api.js",
+          "role": "api",
+          "hasShellEvidence": true,
+          "hasPageFrame": false,
+          "localSignals": {
+            "total": 0,
+            "byRule": {}
+          },
+          "findings": []
+        },
+        {
+          "id": "tlc-dashboard-models",
+          "path": "src/dashboards.js",
+          "role": "data-contract",
+          "hasShellEvidence": true,
+          "hasPageFrame": false,
+          "localSignals": {
+            "total": 0,
+            "byRule": {}
+          },
+          "findings": []
+        }
+      ]
+    },
+    {
+      "project": "rinseables-os",
+      "name": "Rinseables OS",
+      "status": "pass",
+      "decompositionStatus": "fully-decomposed",
+      "localSignalCount": 0,
+      "falseNativeRisk": false,
+      "findings": [],
+      "surfaces": [
+        {
+          "id": "rinseables-dashboard-shell",
+          "path": "public/dashboard/index.html",
+          "role": "compatibility",
+          "hasShellEvidence": true,
+          "hasPageFrame": true,
+          "localSignals": {
+            "total": 0,
+            "byRule": {
+              "local-sidebar": 0,
+              "local-card": 0,
+              "local-grid-spacing": 0,
+              "local-table": 0,
+              "local-chart": 0,
+              "local-form": 0
+            }
+          },
+          "findings": []
+        },
+        {
+          "id": "rinseables-dashboard-proof",
+          "path": "src/api.js",
+          "role": "proof-endpoint",
+          "hasShellEvidence": true,
+          "hasPageFrame": false,
+          "localSignals": {
+            "total": 0,
+            "byRule": {}
+          },
+          "findings": []
+        }
+      ]
+    },
+    {
+      "project": "investing-system",
+      "name": "Investing System",
+      "status": "pass",
+      "decompositionStatus": "fully-decomposed",
+      "localSignalCount": 0,
+      "falseNativeRisk": false,
+      "findings": [],
+      "surfaces": [
+        {
+          "id": "investing-system-roc",
+          "path": "public/roc/index.html",
+          "role": "compatibility",
+          "hasShellEvidence": true,
+          "hasPageFrame": true,
+          "localSignals": {
+            "total": 0,
+            "byRule": {
+              "local-sidebar": 0,
+              "local-card": 0,
+              "local-grid-spacing": 0,
+              "local-table": 0,
+              "local-chart": 0,
+              "local-form": 0
+            }
+          },
+          "findings": []
+        },
+        {
+          "id": "investing-system-proof",
+          "path": "src/api/server.ts",
+          "role": "proof-endpoint",
+          "hasShellEvidence": false,
+          "hasPageFrame": false,
+          "localSignals": {
+            "total": 0,
+            "byRule": {}
+          },
+          "findings": []
+        }
+      ]
+    },
+    {
+      "project": "nous-hermes-agent",
+      "name": "Nous Hermes Agent",
+      "status": "pass",
+      "decompositionStatus": "fully-decomposed",
+      "localSignalCount": 0,
+      "falseNativeRisk": false,
+      "findings": [],
+      "surfaces": [
+        {
+          "id": "hermes-dashboard-kit-gallery",
+          "path": "packages/hermes-dashboard-kit/src/index.js",
+          "role": "kit-source",
+          "hasShellEvidence": true,
+          "hasPageFrame": true,
+          "localSignals": {
+            "total": 0,
+            "byRule": {}
+          },
+          "findings": []
+        },
+        {
+          "id": "hermes-dashboard-kit-gallery-web-route",
+          "path": "web/src/pages/DashboardKitGalleryPage.tsx",
+          "role": "page-content",
+          "hasShellEvidence": true,
+          "hasPageFrame": true,
+          "localSignals": {
+            "total": 0,
+            "byRule": {
+              "local-sidebar": 0,
+              "local-card": 0,
+              "local-grid-spacing": 0,
+              "local-table": 0,
+              "local-chart": 0,
+              "local-form": 0
+            }
+          },
+          "findings": []
+        }
+      ]
+    }
+  ]
+}

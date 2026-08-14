@@ -1,22 +1,19 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-14T16:56:47.976Z",
+  "generatedAt": "2026-08-14T17:36:28.205Z",
   "sourceRegistry": "packages/hermes-dashboard-kit/adoption/registry.json",
   "commandPlan": [
     "dashboard:kit:check",
     "dashboard:standard:check",
     "dashboard:proof:capture",
     "dashboard:proof",
-    "dashboard:proof:screenshot",
-    "test",
-    "smoke",
-    "release:check"
+    "dashboard:proof:screenshot"
   ],
   "summary": {
     "totalProjects": 10,
     "passed": 10,
     "failed": 0,
-    "fullMode": true,
+    "fullMode": false,
     "strict": false
   },
   "projects": [
@@ -43,7 +40,7 @@
           "status": "passed",
           "exitCode": 0,
           "signal": null,
-          "stdoutTail": "> kalshi-fetcher@1.0.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"khashi-vc\",\n  \"checkedAt\": \"2026-08-14T16:56:48.179Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-built\",\n  \"errors\": [],\n  \"warnings\": []\n}",
+          "stdoutTail": "> kalshi-fetcher@1.0.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"khashi-vc\",\n  \"checkedAt\": \"2026-08-14T17:36:28.399Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-built\",\n  \"errors\": [],\n  \"warnings\": []\n}",
           "stderrTail": ""
         },
         {
@@ -59,14 +56,6 @@
             "startedForProof": true,
             "alreadyHealthy": false
           }
-        },
-        {
-          "script": "test",
-          "status": "passed",
-          "exitCode": 0,
-          "signal": null,
-          "stdoutTail": "> kalshi-fetcher@1.0.0 test\n> vitest run\n\n\n RUN  v4.1.8 /Users/hq/Workspace/projects/khashi-vc\n\n\n Test Files  81 passed (81)\n      Tests  272 passed (272)\n   Start at  11:56:51\n   Duration  22.72s (transform 4.91s, setup 0ms, import 18.80s, tests 41.52s, environment 5ms)",
-          "stderrTail": "Market data scheduler full-sync rate limited; backing off until 2026-08-14T16:57:54.209Z"
         }
       ],
       "missingRequired": [],
@@ -95,7 +84,7 @@
           "status": "passed",
           "exitCode": 0,
           "signal": null,
-          "stdoutTail": "> hermes@1.0.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"media-engine\",\n  \"checkedAt\": \"2026-08-14T16:57:14.066Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
+          "stdoutTail": "> hermes@1.0.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"media-engine\",\n  \"checkedAt\": \"2026-08-14T17:36:31.268Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
           "stderrTail": ""
         }
       ],
@@ -125,7 +114,7 @@
           "status": "passed",
           "exitCode": 0,
           "signal": null,
-          "stdoutTail": "> media-business-operations@0.1.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"media-business-os\",\n  \"checkedAt\": \"2026-08-14T16:57:14.266Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
+          "stdoutTail": "> media-business-operations@0.1.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"media-business-os\",\n  \"checkedAt\": \"2026-08-14T17:36:31.485Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
           "stderrTail": ""
         },
         {
@@ -141,22 +130,6 @@
             "startedForProof": true,
             "alreadyHealthy": false
           }
-        },
-        {
-          "script": "test",
-          "status": "passed",
-          "exitCode": 0,
-          "signal": null,
-          "stdoutTail": "# {\"at\":\"2026-08-14T16:57:19.198Z\",\"service\":\"media-business-operations\",\"level\":\"warn\",\"event\":\"source_missing\",\"filePath\":\"/var/folders/pg/w_wrpl9n5pxbx6rz8rt0xb600000gn/T/mbo-sources-5C8LLZ/data/human-video-production-feed.json\"}\n# {\"at\":\"2026-08-14T16:57:19.198Z\",\"service\":\"media-business-operations\",\"level\":\"warn\",\"event\":\"source_missing\",\"filePath\":\"/var/folders/pg/w_wrpl9n5pxbx6rz8rt0xb600000gn/T/mbo-sources-5C8LLZ/data/human-video-publish-ledger.json\"}\n# {\"at\":\"2026-08-14T16:57:19.198Z\",\"service\":\"media-business-operations\",\"level\":\"warn\",\"event\":\"source_missing\",\"filePath\":\"/var/folders/pg/w_wrpl9n5pxbx6rz8rt0xb600000gn/T/mbo-sources-5C8LLZ/data/business-work-order-ledger.json\"}\n# Subtest: tests/smoke.test.js\nok 8 - tests/smoke.test.js\n  ---\n  duration_ms: 144.308209\n  type: 'test'\n  ...\n1..13\n# tests 13\n# suites 0\n# pass 13\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 156.88775",
-          "stderrTail": ""
-        },
-        {
-          "script": "smoke",
-          "status": "passed",
-          "exitCode": 0,
-          "signal": null,
-          "stdoutTail": "> media-business-operations@0.1.0 smoke\n> node tests/smoke.test.js",
-          "stderrTail": "{\"at\":\"2026-08-14T16:57:19.385Z\",\"service\":\"media-business-operations\",\"level\":\"warn\",\"event\":\"source_missing\",\"filePath\":\"/var/folders/pg/w_wrpl9n5pxbx6rz8rt0xb600000gn/T/mbo-sources-i7M65d/data/human-video-publish-ledger.json\"}\n{\"at\":\"2026-08-14T16:57:19.385Z\",\"service\":\"media-business-operations\",\"level\":\"warn\",\"event\":\"source_missing\",\"filePath\":\"/var/folders/pg/w_wrpl9n5pxbx6rz8rt0xb600000gn/T/mbo-sources-i7M65d/data/business-work-order-ledger.json\"}\n{\"at\":\"2026-08-14T16:57:19.401Z\",\"service\":\"media-business-operations\",\"level\":\"error\",\"event\":\"source_read_error\",\"filePath\":\"/var/folders/pg/w_wrpl9n5pxbx6rz8rt0xb600000gn/T/mbo-sources-i7M65d/data/cost-ledger.json\",\"error\":\"Expected property name or '}' in JSON at position 1 (line 1 column 2)\"}\n{\"at\":\"2026-08-14T16:57:19.401Z\",\"service\":\"media-business-operations\",\"level\":\"warn\",\"event\":\"source_missing\",\"filePath\":\"/var/folders/pg/w_wrpl9n5pxbx6rz8rt0xb600000gn/T/mbo-sources-i7M65d/data/scheduled-posts.json\"}\n{\"at\":\"2026-08-14T16:57:19.401Z\",\"service\":\"media-business-operations\",\"level\":\"warn\",\"event\":\"source_missing\",\"filePath\":\"/var/folders/pg/w_wrpl9n5pxbx6rz8rt0xb600000gn/T/mbo-sources-i7M65d/data/va-content-requests.json\"}\n{\"at\":\"2026-08-14T16:57:19.401Z\",\"service\":\"media-business-operations\",\"level\":\"warn\",\"event\":\"source_missing\",\"filePath\":\"/var/folders/pg/w_wrpl9n5pxbx6rz8rt0xb600000gn/T/mbo-sources-i7M65d/data/va-jobs.sqlite\"}\n{\"at\":\"2026-08-14T16:57:19.401Z\",\"service\":\"media-business-operations\",\"level\":\"warn\",\"event\":\"source_missing\",\"filePath\":\"/var/folders/pg/w_wrpl9n5pxbx6rz8rt0xb600000gn/T/mbo-sources-i7M65d/data/story-ledger.json\"}\n{\"at\":\"2026-08-14T16:57:19.401Z\",\"service\":\"media-business-operations\",\"level\":\"warn\",\"event\":\"source_missing\",\"filePath\":\"/var/folders/pg/w_wrpl9n5pxbx6rz8rt0xb600000gn/T/mbo-sources-i7M65d/portfolio/human-action-items.json\"}\n{\"at\":\"2026-08-14T16:57:19.401Z\",\"service\":\"media-business-operations\",\"level\":\"warn\",\"event\":\"source_missing\",\"filePath\":\"/var/folders/pg/w_wrpl9n5pxbx6rz8rt0xb600000gn/T/mbo-sources-i7M65d/data/source-reputation.json\"}\n{\"at\":\"2026-08-14T16:57:19.401Z\",\"service\":\"media-business-operations\",\"level\":\"warn\",\"event\":\"source_missing\",\"filePath\":\"/var/folders/pg/w_wrpl9n5pxbx6rz8rt0xb600000gn/T/mbo-sources-i7M65d/data/story-example-bank.json\"}\n{\"at\":\"2026-08-14T16:57:19.401Z\",\"service\":\"media-business-operations\",\"level\":\"warn\",\"event\":\"source_missing\",\"filePath\":\"/var/folders/pg/w_wrpl9n5pxbx6rz8rt0xb600000gn/T/mbo-sources-i7M65d/data/discord-alert-state.json\"}\n{\"at\":\"2026-08-14T16:57:19.401Z\",\"service\":\"media-business-operations\",\"level\":\"warn\",\"event\":\"source_missing\",\"filePath\":\"/var/folders/pg/w_wrpl9n5pxbx6rz8rt0xb600000gn/T/mbo-sources-i7M65d/data/discord-bot-heartbeat.json\"}\n{\"at\":\"2026-08-14T16:57:19.401Z\",\"service\":\"media-business-operations\",\"level\":\"warn\",\"event\":\"source_missing\",\"filePath\":\"/var/folders/pg/w_wrpl9n5pxbx6rz8rt0xb600000gn/T/mbo-sources-i7M65d/data/audience-snapshots.json\"}\n{\"at\":\"2026-08-14T16:57:19.401Z\",\"service\":\"media-business-operations\",\"level\":\"warn\",\"event\":\"source_missing\",\"filePath\":\"/var/folders/pg/w_wrpl9n5pxbx6rz8rt0xb600000gn/T/mbo-sources-i7M65d/data/post-performance-snapshots.json\"}\n{\"at\":\"2026-08-14T16:57:19.402Z\",\"service\":\"media-business-operations\",\"level\":\"warn\",\"event\":\"source_missing\",\"filePath\":\"/var/folders/pg/w_wrpl9n5pxbx6rz8rt0xb600000gn/T/mbo-sources-i7M65d/data/business-work-order-ledger.json\"}\n{\"at\":\"2026-08-14T16:57:19.402Z\",\"service\":\"media-business-operations\",\"level\":\"warn\",\"event\":\"source_missing\",\"filePath\":\"/var/folders/pg/w_wrpl9n5pxbx6rz8rt0xb600000gn/T/mbo-sources-i7M65d/data/human-video-production-feed.json\"}\n{\"at\":\"2026-08-14T16:57:19.402Z\",\"service\":\"media-business-operations\",\"level\":\"warn\",\"event\":\"source_missing\",\"filePath\":\"/var/folders/pg/w_wrpl9n5pxbx6rz8rt0xb600000gn/T/mbo-sources-i7M65d/data/human-video-publish-ledger.json\"}\n{\"at\":\"2026-08-14T16:57:19.402Z\",\"service\":\"media-business-operations\",\"level\":\"warn\",\"event\":\"source_missing\",\"filePath\":\"/var/folders/pg/w_wrpl9n5pxbx6rz8rt0xb600000gn/T/mbo-sources-i7M65d/data/business-work-order-ledger.json\"}"
         }
       ],
       "missingRequired": [],
@@ -185,7 +158,7 @@
           "status": "passed",
           "exitCode": 0,
           "signal": null,
-          "stdoutTail": "> business-mapper-dashboard@0.1.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"business-mapper\",\n  \"checkedAt\": \"2026-08-14T16:57:19.599Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
+          "stdoutTail": "> business-mapper-dashboard@0.1.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"business-mapper\",\n  \"checkedAt\": \"2026-08-14T17:36:36.275Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
           "stderrTail": ""
         }
       ],
@@ -215,7 +188,7 @@
           "status": "passed",
           "exitCode": 0,
           "signal": null,
-          "stdoutTail": "> hermes-meal-assistant@0.1.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"meal-assistant\",\n  \"checkedAt\": \"2026-08-14T16:57:19.798Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
+          "stdoutTail": "> hermes-meal-assistant@0.1.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"meal-assistant\",\n  \"checkedAt\": \"2026-08-14T17:36:36.467Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
           "stderrTail": ""
         },
         {
@@ -228,33 +201,9 @@
           "server": {
             "command": "npm start",
             "healthUrl": "http://localhost:4184/health",
-            "startedForProof": true,
-            "alreadyHealthy": false
+            "startedForProof": false,
+            "alreadyHealthy": true
           }
-        },
-        {
-          "script": "test",
-          "status": "passed",
-          "exitCode": 0,
-          "signal": null,
-          "stdoutTail": "  duration_ms: 2.473\n  type: 'test'\n  ...\n# Subtest: command router covers recipe, planning, shopping, logs, dining, and ratings\nok 36 - command router covers recipe, planning, shopping, logs, dining, and ratings\n  ---\n  duration_ms: 1.182625\n  type: 'test'\n  ...\n1..36\n# tests 36\n# suites 0\n# pass 36\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 110.992333",
-          "stderrTail": ""
-        },
-        {
-          "script": "smoke",
-          "status": "passed",
-          "exitCode": 0,
-          "signal": null,
-          "stdoutTail": "> hermes-meal-assistant@0.1.0 smoke\n> node src/smoke.js\n\n{\n  \"planId\": \"plan_0034\",\n  \"shoppingItems\": 4,\n  \"topMeals\": 1\n}",
-          "stderrTail": ""
-        },
-        {
-          "script": "release:check",
-          "status": "passed",
-          "exitCode": 0,
-          "signal": null,
-          "stdoutTail": "    }\n  }\n}\n\n> hermes-meal-assistant@0.1.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"meal-assistant\",\n  \"checkedAt\": \"2026-08-14T16:57:21.496Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
-          "stderrTail": ""
         }
       ],
       "missingRequired": [],
@@ -283,23 +232,7 @@
           "status": "passed",
           "exitCode": 0,
           "signal": null,
-          "stdoutTail": "> hermes@1.0.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"hermes-os\",\n  \"checkedAt\": \"2026-08-14T16:57:21.701Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
-          "stderrTail": ""
-        },
-        {
-          "script": "test",
-          "status": "passed",
-          "exitCode": 0,
-          "signal": null,
-          "stdoutTail": "   ✓ recurring operations install report > tracks reviewed install decisions for recurring operations  3075ms\n   ✓ recurring operations install report > recommends task creation for undecided recurring operation installs  2783ms\n ✓ tests/workspace/operational-audit.test.ts (3 tests) 8373ms\n   ✓ operational audit report > summarizes operational findings and writes durable artifacts  3025ms\n   ✓ operational audit report > flags recurring operations that have not been reviewed for install  2786ms\n   ✓ operational audit report > does not flag recurring operations after they are installed  2561ms\n ✓ tests/hardening/infrastructure-hardening.test.ts (10 tests) 18437ms\n   ✓ infrastructure hardening > generates hardening artifacts for all infrastructure controls  3040ms\n   ✓ infrastructure hardening > attaches task evidence, writes burn-down tasks, schedule, inheritance, and dashboard  2713ms\n   ✓ infrastructure hardening > writes hardening schedule due/overdue status  2615ms\n   ✓ infrastructure hardening > marks restore drill evidence ready when required paths and scripts exist  2488ms\n   ✓ infrastructure hardening > turns hardening gaps into task recommendations  2482ms\n   ✓ infrastructure hardening > chains evidence hashes across repeated runs  4946ms\n\n Test Files  75 passed (75)\n      Tests  301 passed (301)\n   Start at  11:57:21\n   Duration  18.91s (transform 1.91s, setup 0ms, collect 6.36s, tests 40.87s, environment 8ms, prepare 3.86s)",
-          "stderrTail": ""
-        },
-        {
-          "script": "smoke",
-          "status": "passed",
-          "exitCode": 0,
-          "signal": null,
-          "stdoutTail": "> hermes@1.0.0 smoke\n> tsx src/index.ts smoke run\n\n\n╔══════════════════════════════════════════════════════════╗\n║ Smoke degraded                                        ║\n╚══════════════════════════════════════════════════════════╝\n  • Run: smoke-mst6x77f\n  • Summary: 3 pass, 1 warn, 0 fail\n  • Report: .hermes/smoke/runs/smoke-mst6x77f/report.json\n  • Evidence: .hermes/smoke/runs/smoke-mst6x77f/evidence.md\n\n✓ package-scripts — Required and recommended package scripts are present.\n✓ hermes-entrypoints — Core CLI, workspace, and delegation entrypoints exist.\n⚠ deploy-doctor — Deploy doctor has 1 failing check(s): tracked-secret-scan. Smoke can continue, but deploy promotion remains blocked until deploy doctor passes.\n✓ agent-delegation — Registered agents delegated, replied, and traced a two-message thread.\n\n  Smoke passed without blocking failures.",
+          "stdoutTail": "> hermes@1.0.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"hermes-os\",\n  \"checkedAt\": \"2026-08-14T17:36:36.784Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
           "stderrTail": ""
         }
       ],
@@ -329,31 +262,7 @@
           "status": "passed",
           "exitCode": 0,
           "signal": null,
-          "stdoutTail": "> tlc-capital-group-os@0.1.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"tlc-capital-group-os\",\n  \"checkedAt\": \"2026-08-14T16:57:41.661Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
-          "stderrTail": ""
-        },
-        {
-          "script": "test",
-          "status": "passed",
-          "exitCode": 0,
-          "signal": null,
-          "stdoutTail": "  duration_ms: 4.471125\n  type: 'test'\n  ...\n# Subtest: API exposes unauthenticated TLC feed endpoints\nok 97 - API exposes unauthenticated TLC feed endpoints\n  ---\n  duration_ms: 14.031292\n  type: 'test'\n  ...\n1..97\n# tests 97\n# suites 0\n# pass 97\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 384.35525",
-          "stderrTail": ""
-        },
-        {
-          "script": "smoke",
-          "status": "passed",
-          "exitCode": 0,
-          "signal": null,
-          "stdoutTail": "> tlc-capital-group-os@0.1.0 smoke\n> node src/smoke.js\n\n{\n  \"workGraphId\": \"wg_628f7cf7-aec7-4103-a556-1adb1ac9a6cf\",\n  \"artifactId\": \"art_513b6ce6-0798-4688-9dd2-e237d682e02f\",\n  \"artifactCreatedBy\": \"media\",\n  \"artifactReviewStatus\": \"approved\",\n  \"outcomeId\": \"out_ddec9317-293b-42f6-a9a0-a0df15703f03\",\n  \"pendingApprovals\": 0,\n  \"memoryEvents\": 1\n}",
-          "stderrTail": ""
-        },
-        {
-          "script": "release:check",
-          "status": "passed",
-          "exitCode": 0,
-          "signal": null,
-          "stdoutTail": "    }\n  ]\n}\n\n> tlc-capital-group-os@0.1.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"tlc-capital-group-os\",\n  \"checkedAt\": \"2026-08-14T16:57:42.473Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
+          "stdoutTail": "> tlc-capital-group-os@0.1.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"tlc-capital-group-os\",\n  \"checkedAt\": \"2026-08-14T17:36:36.977Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
           "stderrTail": ""
         }
       ],
@@ -375,31 +284,7 @@
           "status": "passed",
           "exitCode": 0,
           "signal": null,
-          "stdoutTail": "> rinseables-os@0.1.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"rinseables-os\",\n  \"checkedAt\": \"2026-08-14T16:57:42.582Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
-          "stderrTail": ""
-        },
-        {
-          "script": "test",
-          "status": "passed",
-          "exitCode": 0,
-          "signal": null,
-          "stdoutTail": "  duration_ms: 0.168583\n  type: 'test'\n  ...\n# Subtest: smoke flow links observation to recommendation to approval to artifact to outcome memory\nok 44 - smoke flow links observation to recommendation to approval to artifact to outcome memory\n  ---\n  duration_ms: 0.395416\n  type: 'test'\n  ...\n1..44\n# tests 44\n# suites 0\n# pass 44\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 122.505292",
-          "stderrTail": ""
-        },
-        {
-          "script": "smoke",
-          "status": "passed",
-          "exitCode": 0,
-          "signal": null,
-          "stdoutTail": "> rinseables-os@0.1.0 smoke\n> node src/smoke.js\n\n{\n  \"workGraphId\": \"wg_9ee7b0ec-a4ce-4269-bdc6-72879f7bbe20\",\n  \"artifactId\": \"art_d7b9dccd-614d-4f21-a9e7-6b1c4a9b8271\",\n  \"artifactCreatedBy\": \"media\",\n  \"artifactReviewStatus\": \"approved\",\n  \"outcomeId\": \"out_6a01fa54-e723-430c-a8e2-91d259c7f1b6\",\n  \"pendingApprovals\": 0,\n  \"memoryEvents\": 1\n}",
-          "stderrTail": ""
-        },
-        {
-          "script": "release:check",
-          "status": "passed",
-          "exitCode": 0,
-          "signal": null,
-          "stdoutTail": "    }\n  ]\n}\n\n> rinseables-os@0.1.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"rinseables-os\",\n  \"checkedAt\": \"2026-08-14T16:57:43.115Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
+          "stdoutTail": "> rinseables-os@0.1.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"rinseables-os\",\n  \"checkedAt\": \"2026-08-14T17:36:37.074Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
           "stderrTail": ""
         }
       ],
@@ -421,32 +306,8 @@
           "status": "passed",
           "exitCode": 0,
           "signal": null,
-          "stdoutTail": "> investment-system@1.0.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"investing-system\",\n  \"checkedAt\": \"2026-08-14T16:57:43.219Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
+          "stdoutTail": "> investment-system@1.0.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"investing-system\",\n  \"checkedAt\": \"2026-08-14T17:36:37.170Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
           "stderrTail": ""
-        },
-        {
-          "script": "test",
-          "status": "passed",
-          "exitCode": 0,
-          "signal": null,
-          "stdoutTail": "      duration_ms: 0.143833\n      type: 'test'\n      ...\n    1..9\nok 59 - universe threshold screen\n  ---\n  duration_ms: 12.670041\n  type: 'suite'\n  ...\n1..59\n# tests 218\n# suites 59\n# pass 218\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 41072.688583",
-          "stderrTail": ""
-        },
-        {
-          "script": "smoke",
-          "status": "passed",
-          "exitCode": 0,
-          "signal": null,
-          "stdoutTail": "      \"message\": \"Analysis completed for SMOKE\",\n      \"metadata\": {\n        \"depth\": \"level_0\",\n        \"finalScore\": 46,\n        \"masterScore\": 60,\n        \"phase2Available\": true,\n        \"dataQualityWarnings\": [\n          \"No full earnings-call transcript available\",\n          \"No ownership or insider records available\",\n          \"No peer set available\"\n        ]\n      },\n      \"occurredAt\": \"2026-08-14T16:58:25.287Z\"\n    }\n[11:58:25.293] INFO (97328): Pipeline: Level 0 analysis complete\n    symbol: \"SMOKE\"\n    score: 46\n    recommendation: \"needs_review\"",
-          "stderrTail": ""
-        },
-        {
-          "script": "release:check",
-          "status": "passed",
-          "exitCode": 0,
-          "signal": null,
-          "stdoutTail": "ok 59 - universe threshold screen\n  ---\n  duration_ms: 13.127042\n  type: 'suite'\n  ...\n1..59\n# tests 218\n# suites 59\n# pass 218\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 39050.439125\nok npm test\nPrisma schema loaded from prisma/schema.prisma\nThe schema at prisma/schema.prisma is valid 🚀\nok npx prisma validate",
-          "stderrTail": "Environment variables loaded from .env"
         }
       ],
       "missingRequired": [],
@@ -467,7 +328,7 @@
           "status": "passed",
           "exitCode": 0,
           "signal": null,
-          "stdoutTail": "  duration_ms: 26.076083\n  type: 'test'\n  ...\n# Subtest: local override scanner blocks protected dashboard CSS without a manifest exception\nok 21 - local override scanner blocks protected dashboard CSS without a manifest exception\n  ---\n  duration_ms: 25.573417\n  type: 'test'\n  ...\n1..21\n# tests 21\n# suites 0\n# pass 21\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 188.933917",
+          "stdoutTail": "  duration_ms: 23.971\n  type: 'test'\n  ...\n# Subtest: local override scanner blocks protected dashboard CSS without a manifest exception\nok 21 - local override scanner blocks protected dashboard CSS without a manifest exception\n  ---\n  duration_ms: 25.871041\n  type: 'test'\n  ...\n1..21\n# tests 21\n# suites 0\n# pass 21\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 181.14475",
           "stderrTail": ""
         }
       ],

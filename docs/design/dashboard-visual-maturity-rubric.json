@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "version": "V1",
+  "title": "Dashboard Visual Maturity Rubric",
+  "status": "active",
+  "purpose": "Separate technical dashboard compliance from visual product quality so a route cannot be called done only because source markers pass.",
+  "visualTiers": [
+    {
+      "tier": "V0",
+      "label": "Raw functional surface",
+      "minimumScore": 0,
+      "meaning": "The route renders and may be usable, but visual hierarchy, spacing, interaction polish, and product fit are not yet approved."
+    },
+    {
+      "tier": "V1",
+      "label": "Readable organized surface",
+      "minimumScore": 55,
+      "meaning": "One-shell and readable, with no catastrophic overflow, but still visually generic or uneven."
+    },
+    {
+      "tier": "V2",
+      "label": "Consistent system surface",
+      "minimumScore": 72,
+      "meaning": "Uses shared shell, spacing, cards, tables, forms, and states consistently, but still needs product-grade hierarchy and polish."
+    },
+    {
+      "tier": "V3",
+      "label": "Product-grade cockpit",
+      "minimumScore": 88,
+      "meaning": "Modern, task-oriented, polished, responsive, interaction-complete, and visually aligned with approved reference families."
+    },
+    {
+      "tier": "V4",
+      "label": "Reference-grade pattern leader",
+      "minimumScore": 96,
+      "meaning": "Approved as a reusable visual reference for future dashboards and component-kit evolution."
+    }
+  ],
+  "criteria": [
+    {
+      "id": "sidebar-navigation",
+      "weight": 10,
+      "checks": [
+        "one sidebar only",
+        "clear grouping and active state",
+        "collapsed and expanded states are polished",
+        "labels never overflow",
+        "project identity is visible but not bulky"
+      ]
+    },
+    {
+      "id": "page-hierarchy",
+      "weight": 10,
+      "checks": [
+        "primary task is obvious in first viewport",
+        "supporting information is secondary",
+        "no repeated hero/banner clutter",
+        "non-actionable status is collapsed or moved out of the way"
+      ]
+    },
+    {
+      "id": "spacing-rhythm",
+      "weight": 10,
+      "checks": [
+        "horizontal and vertical spacing use the same rhythm",
+        "cards do not touch or crowd",
+        "page edges align consistently",
+        "dense sections remain breathable"
+      ]
+    },
+    {
+      "id": "card-composition",
+      "weight": 8,
+      "checks": [
+        "headers, badges, controls, and body content align inside the card",
+        "cards are not dropped behind old content",
+        "no nested-card clutter",
+        "card density matches the content type"
+      ]
+    },
+    {
+      "id": "typography-copy",
+      "weight": 8,
+      "checks": [
+        "headings match their container scale",
+        "secondary copy is useful and not generic",
+        "helper text moves into approved help affordances when needed",
+        "labels are scannable"
+      ]
+    },
+    {
+      "id": "tables-data-surfaces",
+      "weight": 10,
+      "checks": [
+        "tables sit inside a proper surface",
+        "pagination exists above threshold",
+        "sort/filter controls are consolidated",
+        "wide data uses horizontal scroll inside the table surface only",
+        "tabs consolidate related tables"
+      ]
+    },
+    {
+      "id": "charts-visualizations",
+      "weight": 10,
+      "checks": [
+        "real chart component is used",
+        "axes/labels/tooltips are present where applicable",
+        "empty/stale/error/loading states are honest",
+        "comparison modes are clear",
+        "visual style is modern and not hand-drawn"
+      ]
+    },
+    {
+      "id": "forms-drawers-actions",
+      "weight": 9,
+      "checks": [
+        "forms are compact and modern",
+        "drawers have clear titles, actions, and persistence behavior",
+        "buttons have predictable results",
+        "interactive controls are verified"
+      ]
+    },
+    {
+      "id": "responsive-containment",
+      "weight": 9,
+      "checks": [
+        "desktop, tablet, mobile, and collapsed-sidebar states are captured",
+        "no text clips or overflows",
+        "fixed regions do not hide content",
+        "scroll behavior is intentional"
+      ]
+    },
+    {
+      "id": "reference-alignment",
+      "weight": 8,
+      "checks": [
+        "Mobbin/reference family is cited",
+        "patterns are translated, not copied",
+        "approved screenshots are compared",
+        "rejected patterns are not repeated"
+      ]
+    },
+    {
+      "id": "product-workflow-fit",
+      "weight": 8,
+      "checks": [
+        "the surface supports a real workflow",
+        "critical actions are clickable and verified",
+        "state persists or clearly explains why not",
+        "the user can resume work later"
+      ]
+    }
+  ],
+  "promotionRules": [
+    {
+      "target": "V2",
+      "required": ["technical gate passed", "desktop screenshot", "no catastrophic overflow", "rubric score >= 72"]
+    },
+    {
+      "target": "V3",
+      "required": ["V2 passed", "desktop/tablet/mobile screenshots", "drawer/modal state proof where relevant", "human review queue item approved", "rubric score >= 88"]
+    },
+    {
+      "target": "V4",
+      "required": ["V3 passed", "approved as reusable reference", "component or pattern promoted to dashboard kit", "rubric score >= 96"]
+    }
+  ]
+}

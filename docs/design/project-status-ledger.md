@@ -1,13 +1,13 @@
 # Project Status Ledger
 
-Generated: 2026-08-05T13:53:18.429Z
+Generated: 2026-08-14T20:37:13.536Z
 
 This is the consolidated operating ledger for the current workspace. It intentionally separates reported status from honest interpretation because several source reports are at different freshness levels.
 
 ## Cross-Project Status
 
-- Dirty repos: none
-- Repos ahead of remote: none
+- Dirty repos: tlc-capital-group-os, nous-hermes-agent, hermes-os, media-engine, media-business-os, khashi-vc, business-mapper, meal-assistant, rinseables-os, investing-system
+- Repos ahead of remote: tlc-capital-group-os +1, nous-hermes-agent +1, hermes-os +1, media-engine +1, media-business-os +1, khashi-vc +1, business-mapper +1, meal-assistant +1, rinseables-os +1, investing-system +1
 - Enterprise backlog items: 6
 
 ## Recommended Next Actions
@@ -24,9 +24,12 @@ This is the consolidated operating ledger for the current workspace. It intentio
 
 - Role: Enterprise source of truth, readiness, OKRs, portfolio governance.
 - Readiness: 88 enterprise readiness in the portfolio hub.
-- Dashboard: current; reported band T3C; mode package-native
-- Interpretation: Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers.
-- Git: ## main...origin/main; clean
+- Dashboard: stale; reported band T3C; mode package-native
+- Visual maturity: V4 -> V4; score 100; current
+- Product maturity: P2 -> P4; in-progress
+- Company OS maturity: C2 -> C5; in-progress
+- Interpretation: Adoption status is stale; needs follow-up.
+- Git: ## main...origin/main [ahead 1]; 5 dirty file(s)
 - Enterprise backlog: shared-dns-and-dashboard-manifest-audit (ready_to_verify, medium)
 
 Built:
@@ -43,9 +46,12 @@ Still needed:
 
 - Role: Shared dashboard kit, governance, standards, adoption, and proof infrastructure.
 - Readiness: 65 software integration in the portfolio hub; dashboard governance is much stronger than child-project adoption.
-- Dashboard: unregistered; reported band unknown; mode unknown
-- Interpretation: No current dashboard adoption record; needs inventory.
-- Git: ## main...ai-builder/main; clean
+- Dashboard: current; reported band T3C; mode package-native
+- Visual maturity: V2 -> V3; score 83; needs-review
+- Product maturity: P3 -> P5; in-progress
+- Company OS maturity: C2 -> C5; in-progress
+- Interpretation: Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers.
+- Git: ## main...ai-builder/main [ahead 1]; 56 dirty file(s)
 - Enterprise backlog: hermes-agent-model-provider-credentials (deferred, medium)
 
 Built:
@@ -60,9 +66,12 @@ Still needed:
 
 - Role: Runtime, deploy, operator access, diagnostics, and shared control-plane layer.
 - Readiness: 40 business readiness in the portfolio hub.
-- Dashboard: current; reported band T3C; mode package-native
-- Interpretation: Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers.
-- Git: ## deploy/hermes-workspace-hetzner...origin/deploy/hermes-workspace-hetzner; clean
+- Dashboard: stale; reported band T3C; mode package-native
+- Visual maturity: V4 -> V4; score 100; current
+- Product maturity: P2 -> P4; in-progress
+- Company OS maturity: C1 -> C4; in-progress
+- Interpretation: Adoption status is stale; needs follow-up.
+- Git: ## deploy/hermes-workspace-hetzner...origin/deploy/hermes-workspace-hetzner [ahead 1]; 5 dirty file(s)
 
 Built:
 - Deployment/source-of-truth docs and shared control-plane direction exist.
@@ -76,8 +85,11 @@ Still needed:
 - Role: Content production, thumbnails, transcription, social packaging, Discord handoff, and media operations.
 - Readiness: 56 business readiness and 45.5 plan completion in the portfolio hub.
 - Dashboard: current; reported band T3C; mode package-native
+- Visual maturity: V4 -> V4; score 100; current
+- Product maturity: P3 -> P4; in-progress
+- Company OS maturity: C1 -> C4; in-progress
 - Interpretation: Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers.
-- Git: ## main...origin/main; clean
+- Git: ## main...origin/main [ahead 1]; 5 dirty file(s)
 - Enterprise backlog: media-engine-platform-credentials (deferred, high); media-engine-provider-balance-credentials (deferred, medium)
 
 Built:
@@ -92,9 +104,12 @@ Still needed:
 
 - Role: Brand/business operations, cross-brand decisions, posting governance, QA, and performance operating cockpit.
 - Readiness: 60 business readiness in the portfolio hub.
-- Dashboard: current; reported band T3C; mode package-native
-- Interpretation: Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers.
-- Git: ## main...origin/main; clean
+- Dashboard: stale; reported band T3C; mode package-native
+- Visual maturity: V4 -> V4; score 100; current
+- Product maturity: P2 -> P4; in-progress
+- Company OS maturity: C1 -> C4; in-progress
+- Interpretation: Adoption status is stale; needs follow-up.
+- Git: ## main...origin/main [ahead 1]; 5 dirty file(s)
 
 Built:
 - Dashboard has been upgraded toward the standard with light-mode cleanup, loading/performance expectations, and package-native dependency alignment.
@@ -107,9 +122,12 @@ Still needed:
 
 - Role: Live market intelligence, volatility scanning, market browser, streaming capacity, and strategy evidence.
 - Readiness: 90 software plan completion in the portfolio hub.
-- Dashboard: current; reported band T3C; mode package-native
-- Interpretation: Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers.
-- Git: ## main...origin/main; clean
+- Dashboard: stale; reported band T3C; mode package-native
+- Visual maturity: V4 -> V4; score 100; current
+- Product maturity: P3 -> P4; in-progress
+- Company OS maturity: C1 -> C4; in-progress
+- Interpretation: Adoption status is stale; needs follow-up.
+- Git: ## main...origin/main [ahead 1]; 6 dirty file(s)
 - Enterprise backlog: khashi-vc-production-diagnostics (ready_to_verify, high)
 
 Built:
@@ -124,9 +142,12 @@ Still needed:
 
 - Role: Consulting/business mapping, offers, operating maps, and client-facing planning.
 - Readiness: 32 business readiness and 82 tool completion in the portfolio hub.
-- Dashboard: current; reported band T2B; mode package-native
-- Interpretation: Registered/current by latest dashboard adoption report.
-- Git: ## main...origin/main; clean
+- Dashboard: current; reported band T3C; mode package-native
+- Visual maturity: V4 -> V4; score 100; current
+- Product maturity: P1 -> P3; needs-migration
+- Company OS maturity: C0 -> C3; not-started
+- Interpretation: Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers.
+- Git: ## main...origin/main [ahead 1]; 4 dirty file(s)
 
 Built:
 - Dashboard-kit dependency and shared-component target are recognized.
@@ -138,9 +159,13 @@ Still needed:
 
 - Role: Household meal planning, meal library, calendar, checklist, review, and household workflows.
 - Readiness: 90 software plan completion in the portfolio hub.
-- Dashboard: current; reported band T3C; mode package-native
-- Interpretation: Dashboard standard is current at T3C with no adoption issues; remaining notes are product or operating maturity, not dashboard-standard blockers.
-- Git: ## main...origin/main; clean
+- Dashboard: stale; reported band T3C; mode package-native
+- Visual maturity: V1 -> V3; score 60; needs-migration
+- Product maturity: P1 -> P3; needs-migration
+- Company OS maturity: C0 -> C2; not-started
+- Interpretation: Adoption status is stale; needs follow-up.
+- Visual review queue: visual-review-meal-assistant-planner-v3
+- Git: ## main...origin/main [ahead 1]; 4 dirty file(s)
 
 Built:
 - Planner/calendar/dashboard MVP exists with local development workflow.
@@ -153,9 +178,12 @@ Still needed:
 
 - Role: Rinseables SaaS/product operating system and related audience layer.
 - Readiness: 40 business readiness and 90 software plan completion in the portfolio hub.
-- Dashboard: unregistered; reported band unknown; mode unknown
-- Interpretation: No current dashboard adoption record; needs inventory.
-- Git: ## main...origin/main; clean
+- Dashboard: stale; reported band T3C; mode package-native
+- Visual maturity: V4 -> V4; score 100; current
+- Product maturity: P1 -> P3; needs-migration
+- Company OS maturity: C0 -> C3; not-started
+- Interpretation: Adoption status is stale; needs follow-up.
+- Git: ## main...origin/main [ahead 1]; 4 dirty file(s)
 
 Built:
 - Software plan is mature enough to be tracked as a serious product candidate.
@@ -167,9 +195,12 @@ Still needed:
 
 - Role: Investment research, external data, execution governance, and voice/audio investment workflow.
 - Readiness: 90 software plan completion in the portfolio hub.
-- Dashboard: unregistered; reported band unknown; mode unknown
-- Interpretation: No current dashboard adoption record; needs inventory.
-- Git: ## main...origin/main; clean
+- Dashboard: stale; reported band T3C; mode package-native
+- Visual maturity: V4 -> V4; score 100; current
+- Product maturity: P3 -> P4; in-progress
+- Company OS maturity: C1 -> C4; in-progress
+- Interpretation: Adoption status is stale; needs follow-up.
+- Git: ## main...origin/main [ahead 1]; 4 dirty file(s)
 
 Built:
 - Strategic plan and core system direction exist.

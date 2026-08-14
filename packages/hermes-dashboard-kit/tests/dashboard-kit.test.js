@@ -74,6 +74,7 @@ import {
   renderMealWeekDrawer,
   renderMobileDashboardShell,
   renderMobileFilterSheet,
+  renderMultiSeriesLineChart,
   renderNarrativeBriefing,
   renderNetworkGraph,
   renderOperationsFunnel,
@@ -476,6 +477,60 @@ test("renders approved charts with axes and component markers", () => {
     assert.match(html, /hdk-chart__axis/);
     assert.match(html, /hdk-chart__label/);
   }
+});
+
+test("renders multi-series line chart with axis and legend contract", () => {
+  const html =
+    renderMultiSeriesLineChart({
+      title:
+        "QA decisions",
+      data:
+        [
+          {
+            date:
+              "2026-08-12",
+            approved:
+              4,
+            rejected:
+              1
+          },
+          {
+            date:
+              "2026-08-13",
+            approved:
+              7,
+            rejected:
+              2
+          }
+        ],
+      series:
+        [
+          {
+            key:
+              "approved",
+            label:
+              "Approved"
+          },
+          {
+            key:
+              "rejected",
+            label:
+              "Rejected"
+          }
+        ],
+      xKey:
+        "date",
+      xLabel:
+        "Date",
+      yLabel:
+        "Decision count"
+    });
+
+  assert.match(html, /data-hdk-component="MultiSeriesLineChart"/);
+  assert.match(html, /data-x-axis="date"/);
+  assert.match(html, /data-y-axis-label="Decision count"/);
+  assert.match(html, /Approved/);
+  assert.match(html, /Rejected/);
 });
 
 test("renders financial trading terminal workspace anatomy", () => {

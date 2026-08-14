@@ -35,9 +35,13 @@
   --hdk-space-6: 24px;
   --hdk-space-8: 32px;
   --hdk-space-page-x: clamp(20px, 3vw, 40px);
+  --hdk-space-page-y: clamp(20px, 2.6vw, 36px);
   --hdk-space-section: var(--hdk-space-5);
   --hdk-space-card: var(--hdk-space-4);
   --hdk-space-grid: var(--hdk-space-3);
+  --hdk-radius-card: 8px;
+  --hdk-radius-control: 8px;
+  --hdk-max-content: 1480px;
   --hdk-sidebar-width: 264px;
   --hdk-sidebar-collapsed-width: 78px;
   --hdk-sidebar-padding: 14px;
@@ -172,18 +176,23 @@
   text-transform: uppercase;
 }
 
-.hdk-nav a {
+.hdk-nav-item {
   min-height: var(--hdk-sidebar-item-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
   padding: 9px 11px;
+  border: 0;
   border-radius: 8px;
+  background: transparent;
   color: var(--hdk-text-secondary);
+  cursor: pointer;
   font-size: 13px;
   font-weight: 750;
+  font-family: inherit;
   text-decoration: none;
+  text-align: left;
 }
 
 .hdk-sidebar-toggle {
@@ -220,12 +229,12 @@
 
 .hdk-shell.sidebar-collapsed .hdk-brand span:not(.hdk-brand__mark),
 .hdk-shell.sidebar-collapsed .hdk-nav-group-title,
-.hdk-shell.sidebar-collapsed .hdk-nav a > span,
+.hdk-shell.sidebar-collapsed .hdk-nav-item > span,
 .hdk-shell.sidebar-collapsed .hdk-sidebar-footer {
   display: none;
 }
 
-.hdk-shell.sidebar-collapsed .hdk-nav a {
+.hdk-shell.sidebar-collapsed .hdk-nav-item {
   aspect-ratio: 1;
   color: transparent;
   font-size: 0;
@@ -234,17 +243,17 @@
   padding: 0;
 }
 
-.hdk-shell.sidebar-collapsed .hdk-nav a::before {
+.hdk-shell.sidebar-collapsed .hdk-nav-item::before {
   color: var(--hdk-text-primary);
   content: attr(data-short);
   font-size: 12px;
   font-weight: 900;
 }
 
-.hdk-nav a:hover,
-.hdk-nav a:focus-visible,
-.hdk-nav a.is-active,
-.hdk-nav a[aria-current="page"] {
+.hdk-nav-item:hover,
+.hdk-nav-item:focus-visible,
+.hdk-nav-item.is-active,
+.hdk-nav-item[aria-current="page"] {
   background: var(--hdk-surface-panel-strong);
   color: var(--hdk-text-primary);
   outline: 0;
@@ -270,7 +279,17 @@
   min-width: 0;
   min-height: 0;
   overflow: auto;
-  padding: 24px;
+  padding: var(--hdk-space-page-y) var(--hdk-space-page-x);
+  scroll-behavior: smooth;
+}
+
+.hdk-main > :not(.hdk-header) {
+  width: min(100%, var(--hdk-max-content));
+  margin-inline: auto;
+}
+
+.hdk-main > :not(.hdk-header) + :not(.hdk-header) {
+  margin-top: var(--hdk-space-section);
 }
 
 .hdk-header {
@@ -278,7 +297,8 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 18px;
-  margin-bottom: 20px;
+  width: min(100%, var(--hdk-max-content));
+  margin: 0 auto var(--hdk-space-section);
 }
 
 .hdk-header h1 {
@@ -295,6 +315,60 @@
 .hdk-metric p {
   margin: 8px 0 0;
   color: var(--hdk-text-secondary);
+}
+
+.hdk-page-frame,
+.hdk-page,
+.hdk-route,
+.hdk-query-boundary {
+  width: min(100%, var(--hdk-max-content));
+  margin-inline: auto;
+}
+
+.hdk-page,
+.hdk-route,
+.hdk-section-stack,
+.hdk-query-boundary {
+  display: grid;
+  gap: var(--hdk-space-section);
+  align-content: start;
+}
+
+.hdk-section-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: var(--hdk-space-grid);
+  align-items: stretch;
+}
+
+.hdk-section-grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.hdk-section-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.hdk-section-full,
+.hdk-card-full {
+  grid-column: 1 / -1;
+}
+
+.hdk-page-section,
+.hdk-section {
+  min-width: 0;
+}
+
+.hdk-page-section > .hdk-card,
+.hdk-section > .hdk-card {
+  height: 100%;
+}
+
+.hdk-query-boundary > * + *,
+.hdk-page-frame > * + *,
+.hdk-page > * + *,
+.hdk-route > * + * {
+  margin-top: var(--hdk-space-section);
 }
 
 .hdk-eyebrow {
@@ -320,7 +394,7 @@
   gap: 8px;
   padding: 8px 12px;
   border: 1px solid var(--hdk-border-subtle);
-  border-radius: 8px;
+  border-radius: var(--hdk-radius-control);
   background: var(--hdk-surface-panel);
   color: var(--hdk-text-primary);
   font-size: 13px;
@@ -337,9 +411,129 @@
 .hdk-card {
   min-width: 0;
   border: 1px solid var(--hdk-border-subtle);
-  border-radius: 8px;
+  border-radius: var(--hdk-radius-card);
   background: var(--hdk-surface-panel);
   box-shadow: var(--hdk-shadow);
+  overflow-wrap: anywhere;
+}
+
+.hdk-card > :last-child {
+  margin-bottom: 0;
+}
+
+/*
+  Compatibility layer for legacy dashboards.
+
+  These selectors intentionally apply shared dashboard-kit rhythm to older
+  project-owned names while route markup is decomposed into real kit
+  components. They are not an excuse to mark a project component-native:
+  audits still flag local primitives until the rendered route is migrated.
+*/
+ :where(.hdk-shell, [data-component="DashboardShell"]) :where(.workspace, .layout, .meal-content, .view, .meal-page, .dashboard-view, .page, .route),
+:where(.hdk-page-frame, .hdk-page, .hdk-route, .hdk-query-boundary) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+ :where(.hdk-main, [data-component="DashboardShell"]) :where(.workspace, .meal-content, .view, .meal-page, .dashboard-view, .page, .route),
+ :where(.hdk-shell, [data-component="DashboardShell"]) :where(.hdk-section-stack, .panel-grid, .metric-strip, .metric-row, .proof-grid, .card-grid, .dashboard-grid, .two-column, .research-grid, .mbo-grid) {
+  display: grid;
+  gap: var(--hdk-space-section);
+  align-content: start;
+}
+
+ :where(.hdk-shell, [data-component="DashboardShell"]) :where(.panel-grid, .metric-strip, .metric-row, .proof-grid, .card-grid, .dashboard-grid, .two-column, .research-grid, .mbo-grid) {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+}
+
+ :where(.hdk-shell, [data-component="DashboardShell"]) :where(.span-2, .span-3, .wide, .full-width, .hdk-section-full) {
+  grid-column: 1 / -1;
+}
+
+ :where(.hdk-shell, [data-component="DashboardShell"]) :where(.panel, .card, .mbo-card, .state-card, .metric, .dashboard-row, .meal-section, .row, .table-wrap, .graph-canvas, .report, .ops-result):not(.hdk-nav):not(.hdk-sidebar):not(.hdk-main) {
+  min-width: 0;
+  border: 1px solid var(--hdk-border-subtle);
+  border-radius: var(--hdk-radius-card);
+  background: var(--hdk-surface-panel);
+  box-shadow: var(--hdk-shadow);
+  color: var(--hdk-text-primary);
+  overflow-wrap: anywhere;
+}
+
+ :where(.hdk-shell, [data-component="DashboardShell"]) :where(.panel, .card, .mbo-card, .state-card, .metric, .dashboard-row, .meal-section, .row):not(.hdk-card) {
+  padding: var(--hdk-space-card);
+}
+
+ :where(.hdk-shell, [data-component="DashboardShell"]) :where(.panel-header, .card-header, .section-head, .topbar, .metric-header, .table-header) {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--hdk-space-3);
+  min-width: 0;
+}
+
+ :where(.hdk-shell, [data-component="DashboardShell"]) :where(.panel-header, .card-header, .section-head, .metric-header, .table-header) + * {
+  margin-top: var(--hdk-space-3);
+}
+
+ :where(.hdk-shell, [data-component="DashboardShell"]) :where(.panel, .card, .mbo-card, .state-card, .meal-section, .hdk-card) :where(h2, h3, p) {
+  overflow-wrap: anywhere;
+}
+
+ :where(.hdk-shell, [data-component="DashboardShell"]) :where(.panel, .card, .mbo-card, .state-card, .meal-section, .hdk-card) :where(h2, h3) {
+  margin-block-start: 0;
+  letter-spacing: 0;
+}
+
+ :where(.hdk-shell, [data-component="DashboardShell"]) :where(.muted, .helper, .helper-text, .eyebrow, small) {
+  color: var(--hdk-text-muted);
+}
+
+ :where(.hdk-shell, [data-component="DashboardShell"]) :where(table) {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+ :where(.hdk-shell, [data-component="DashboardShell"]) :where(th, td) {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--hdk-border-subtle);
+  text-align: left;
+  vertical-align: top;
+}
+
+ :where(.hdk-shell, [data-component="DashboardShell"]) :where(th) {
+  color: var(--hdk-text-muted);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+ :where(.hdk-shell, [data-component="DashboardShell"]) :where(input, select, textarea) {
+  max-width: 100%;
+  min-height: 36px;
+  border: 1px solid var(--hdk-border-subtle);
+  border-radius: var(--hdk-radius-control);
+  background: var(--hdk-surface-panel);
+  color: var(--hdk-text-primary);
+  font: inherit;
+}
+
+ :where(.hdk-shell, [data-component="DashboardShell"]) :where(button, .button, .secondary) {
+  border-radius: var(--hdk-radius-control);
+}
+
+ :where(.hdk-shell, [data-component="DashboardShell"]) :where(form, .input-row, .toolbar, .dcf-grid, .meal-form-grid, .topbar-actions, .button-row) {
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--hdk-space-3);
+  align-items: center;
+}
+
+ :where(.hdk-shell, [data-component="DashboardShell"]) :where(textarea) {
+  min-height: 96px;
+  resize: vertical;
 }
 
 .hdk-gallery-hero {
@@ -638,7 +832,7 @@
 
 .hdk-chart__line {
   fill: none;
-  stroke: var(--hdk-chart-line);
+  stroke: var(--hdk-series-color, var(--hdk-chart-line));
   stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -650,7 +844,7 @@
 
 .hdk-chart__point,
 .hdk-chart__bar {
-  fill: var(--hdk-chart-line);
+  fill: var(--hdk-series-color, var(--hdk-chart-line));
 }
 
 .hdk-sparkline {
@@ -696,7 +890,8 @@
   list-style: none;
 }
 
-.hdk-legend li {
+.hdk-legend li,
+.hdk-legend span {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -709,6 +904,7 @@
   width: 10px;
   height: 10px;
   border-radius: 999px;
+  background: var(--hdk-series-color, var(--hdk-chart-line));
 }
 
 .hdk-heatmap {
@@ -741,6 +937,33 @@
 
 .hdk-table-card {
   overflow: hidden;
+}
+
+.hdk-table-toolbar {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--hdk-space-2);
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.hdk-table-toolbar label {
+  display: inline-flex;
+  gap: var(--hdk-space-2);
+  align-items: center;
+  color: var(--hdk-text-muted);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.hdk-table-toolbar select {
+  min-height: 32px;
+  border: 1px solid var(--hdk-border-subtle);
+  border-radius: var(--hdk-radius-control);
+  background: var(--hdk-surface-panel);
+  color: var(--hdk-text-primary);
+  font: inherit;
+  padding: 5px 28px 5px 10px;
 }
 
 .hdk-table-wrap {
@@ -897,6 +1120,90 @@
 
 .hdk-info-popover__panel p {
   margin: 0;
+}
+
+.hdk-ai-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--hdk-space-card);
+  align-items: center;
+}
+
+.hdk-ai-panel__body {
+  min-width: 0;
+}
+
+.hdk-ai-panel__body h3,
+.hdk-entity-card h3 {
+  margin: 0;
+  color: var(--hdk-text-primary);
+  font-size: 18px;
+  line-height: 1.16;
+  text-wrap: balance;
+}
+
+.hdk-ai-panel__body p,
+.hdk-entity-card p,
+.hdk-muted {
+  color: var(--hdk-text-secondary);
+  font-size: 13px;
+  line-height: 1.42;
+}
+
+.hdk-ai-panel details {
+  margin-top: var(--hdk-space-3);
+}
+
+.hdk-ai-panel summary {
+  cursor: pointer;
+  color: var(--hdk-text-muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.hdk-ai-panel pre {
+  max-height: 180px;
+  overflow: auto;
+  margin: var(--hdk-space-2) 0 0;
+  padding: var(--hdk-space-3);
+  border: 1px solid var(--hdk-border-subtle);
+  border-radius: var(--hdk-radius-control);
+  background: var(--hdk-surface-panel-strong);
+  color: var(--hdk-text-primary);
+  font: 12px/1.45 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  white-space: pre-wrap;
+}
+
+.hdk-ai-panel__actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--hdk-space-2);
+  justify-content: flex-end;
+}
+
+.hdk-entity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: var(--hdk-space-grid);
+}
+
+.hdk-entity-card {
+  display: grid;
+  gap: var(--hdk-space-3);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.hdk-entity-card__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--hdk-space-3);
+  align-items: start;
+}
+
+.hdk-entity-card__header p {
+  margin: 4px 0 0;
+  color: var(--hdk-text-muted);
 }
 
 .hdk-segmented {
@@ -2615,12 +2922,12 @@
 
   .hdk-shell.sidebar-collapsed .hdk-brand span:not(.hdk-brand__mark),
   .hdk-shell.sidebar-collapsed .hdk-nav-group-title,
-  .hdk-shell.sidebar-collapsed .hdk-nav a > span,
+  .hdk-shell.sidebar-collapsed .hdk-nav-item > span,
   .hdk-shell.sidebar-collapsed .hdk-sidebar-footer {
     display: initial;
   }
 
-  .hdk-shell.sidebar-collapsed .hdk-nav a {
+  .hdk-shell.sidebar-collapsed .hdk-nav-item {
     aspect-ratio: auto;
     color: var(--hdk-text-secondary);
     font-size: 13px;
@@ -2629,7 +2936,7 @@
     padding: 9px 11px;
   }
 
-  .hdk-shell.sidebar-collapsed .hdk-nav a::before {
+  .hdk-shell.sidebar-collapsed .hdk-nav-item::before {
     content: none;
   }
 

@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-11T17:06:37.650Z",
+  "generatedAt": "2026-08-14T19:08:05.653Z",
   "purpose": "Live E2E evidence registry for primary production dashboard workflows.",
   "statusMeaning": {
     "current": "A recent live E2E run passed and latestRun evidence is present.",
-    "declared": "The route/proof/snapshot contract exists, but no recent live E2E run is recorded or the latest run failed.",
+    "declared": "The route/proof/snapshot contract exists, but no recent live E2E run is recorded.",
     "missing": "The project lacks enough route/proof/snapshot contract evidence to run live E2E."
   },
   "entries": [
@@ -49,7 +49,7 @@
           }
         }
       },
-      "recommendedFix": "Repair failing health/proof/snapshot checks, then rerun dashboard:live-e2e:check."
+      "recommendedFix": "Add a Playwright or API-backed live E2E run and persist latestRun status/capturedAt evidence."
     },
     {
       "schemaVersion": 1,
@@ -92,7 +92,7 @@
           }
         }
       },
-      "recommendedFix": "Repair failing health/proof/snapshot checks, then rerun dashboard:live-e2e:check."
+      "recommendedFix": "Add a Playwright or API-backed live E2E run and persist latestRun status/capturedAt evidence."
     },
     {
       "schemaVersion": 1,
@@ -135,7 +135,7 @@
           }
         }
       },
-      "recommendedFix": "Repair failing health/proof/snapshot checks, then rerun dashboard:live-e2e:check."
+      "recommendedFix": "Add a Playwright or API-backed live E2E run and persist latestRun status/capturedAt evidence."
     },
     {
       "schemaVersion": 1,
@@ -178,7 +178,7 @@
           }
         }
       },
-      "recommendedFix": "Repair failing health/proof/snapshot checks, then rerun dashboard:live-e2e:check."
+      "recommendedFix": "Add a Playwright or API-backed live E2E run and persist latestRun status/capturedAt evidence."
     },
     {
       "schemaVersion": 1,
@@ -221,7 +221,7 @@
           }
         }
       },
-      "recommendedFix": "Repair failing health/proof/snapshot checks, then rerun dashboard:live-e2e:check."
+      "recommendedFix": "Add a Playwright or API-backed live E2E run and persist latestRun status/capturedAt evidence."
     },
     {
       "schemaVersion": 1,
@@ -264,7 +264,7 @@
           }
         }
       },
-      "recommendedFix": "Repair failing health/proof/snapshot checks, then rerun dashboard:live-e2e:check."
+      "recommendedFix": "Add a Playwright or API-backed live E2E run and persist latestRun status/capturedAt evidence."
     },
     {
       "schemaVersion": 1,
@@ -307,7 +307,7 @@
           }
         }
       },
-      "recommendedFix": "Repair failing health/proof/snapshot checks, then rerun dashboard:live-e2e:check."
+      "recommendedFix": "Add a Playwright or API-backed live E2E run and persist latestRun status/capturedAt evidence."
     },
     {
       "schemaVersion": 1,
@@ -350,7 +350,7 @@
           }
         }
       },
-      "recommendedFix": "Repair failing health/proof/snapshot checks, then rerun dashboard:live-e2e:check."
+      "recommendedFix": "Add a Playwright or API-backed live E2E run and persist latestRun status/capturedAt evidence."
     },
     {
       "schemaVersion": 1,
@@ -393,7 +393,7 @@
           }
         }
       },
-      "recommendedFix": "Repair failing health/proof/snapshot checks, then rerun dashboard:live-e2e:check."
+      "recommendedFix": "Add a Playwright or API-backed live E2E run and persist latestRun status/capturedAt evidence."
     },
     {
       "schemaVersion": 1,
@@ -436,7 +436,7 @@
           }
         }
       },
-      "recommendedFix": "Repair failing health/proof/snapshot checks, then rerun dashboard:live-e2e:check."
+      "recommendedFix": "Add a Playwright or API-backed live E2E run and persist latestRun status/capturedAt evidence."
     }
   ]
 }

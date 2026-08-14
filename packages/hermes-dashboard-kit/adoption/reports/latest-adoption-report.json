@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-12T14:36:27.131Z",
+  "generatedAt": "2026-08-14T19:39:48.766Z",
   "source": {
     "package": "@hermes/dashboard-kit",
     "version": "0.1.0",
@@ -64,12 +64,12 @@
       "meaning": "Highest maturity: audited Tier 3 cockpit implemented directly with shared package components and complete proof/validation."
     }
   ],
-  "sourceHash": "47d216e4494116d6d4c13013d713a5d0f4307d6e1b2f0c03d09c6b57c3c8eb05",
+  "sourceHash": "52e7bed9291628424cf731b5420868a69ac9dd5f704edc0466692d940d9b2083",
   "results": [
     {
       "project": "khashi-vc",
       "name": "Kashi VC",
-      "status": "current",
+      "status": "stale",
       "experienceTier": {
         "current": 3,
         "target": 3,
@@ -87,8 +87,25 @@
         "dependencyVersion": "file:vendor/hermes-dashboard-kit",
         "packageJson": "../khashi-vc/package.json"
       },
-      "issues": [],
-      "externalWorkItems": []
+      "issues": [
+        {
+          "severity": "error",
+          "code": "packageNative.implementationIncomplete",
+          "message": "Project claims T3C/package-native, but registry or surface notes still describe static, compatibility, bridge, local primitive, or pending migration work.",
+          "implementationMode": "package-native",
+          "targetExperienceBand": "T3C",
+          "bridgeStatus": "package-native"
+        }
+      ],
+      "externalWorkItems": [
+        {
+          "ownerProject": "khashi-vc",
+          "scope": "external-project",
+          "priority": "P0",
+          "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+          "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+        }
+      ]
     },
     {
       "project": "media-engine",
@@ -103,8 +120,8 @@
         "targetBandLabel": "Package-native product cockpit (T3C)",
         "implementationMode": "package-native",
         "migrationRequired": false,
-        "nextAction": "Media Engine production renderer now imports @hermes/dashboard-kit directly, resolves shared CSS from the package export, and renders package metric primitives. Remaining local chart/table/drawer/state primitives are compatibility code pending full component decomposition.",
-        "note": "Media Engine production renderer now imports @hermes/dashboard-kit directly, resolves shared CSS from the package export, and renders package metric primitives. Remaining local chart/table/drawer/state primitives are compatibility code pending full component decomposition."
+        "nextAction": "Media Engine production renderer imports @hermes/dashboard-kit directly, resolves shared CSS from the package export, and passes the strict rendered implementation audit with zero local implementation signals.",
+        "note": "Media Engine production renderer imports @hermes/dashboard-kit directly, resolves shared CSS from the package export, and passes the strict rendered implementation audit with zero local implementation signals."
       },
       "packageNative": {
         "dependencyDeclared": true,
@@ -117,7 +134,7 @@
     {
       "project": "media-business-os",
       "name": "Media Business OS",
-      "status": "current",
+      "status": "stale",
       "experienceTier": {
         "current": 3,
         "target": 3,
@@ -135,8 +152,25 @@
         "dependencyVersion": "file:vendor/hermes-dashboard-kit",
         "packageJson": "../media-business-operations/package.json"
       },
-      "issues": [],
-      "externalWorkItems": []
+      "issues": [
+        {
+          "severity": "error",
+          "code": "packageNative.implementationIncomplete",
+          "message": "Project claims T3C/package-native, but registry or surface notes still describe static, compatibility, bridge, local primitive, or pending migration work.",
+          "implementationMode": "package-native",
+          "targetExperienceBand": "T3C",
+          "bridgeStatus": "package-native"
+        }
+      ],
+      "externalWorkItems": [
+        {
+          "ownerProject": "media-business-os",
+          "scope": "external-project",
+          "priority": "P0",
+          "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+          "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+        }
+      ]
     },
     {
       "project": "business-mapper",
@@ -165,7 +199,7 @@
     {
       "project": "meal-assistant",
       "name": "Meal Assistant",
-      "status": "current",
+      "status": "stale",
       "experienceTier": {
         "current": 3,
         "target": 3,
@@ -183,13 +217,30 @@
         "dependencyVersion": "file:vendor/hermes-dashboard-kit",
         "packageJson": "../Meal-assistant/package.json"
       },
-      "issues": [],
-      "externalWorkItems": []
+      "issues": [
+        {
+          "severity": "error",
+          "code": "packageNative.implementationIncomplete",
+          "message": "Project claims T3C/package-native, but registry or surface notes still describe static, compatibility, bridge, local primitive, or pending migration work.",
+          "implementationMode": "package-native",
+          "targetExperienceBand": "T3C",
+          "bridgeStatus": "package-native"
+        }
+      ],
+      "externalWorkItems": [
+        {
+          "ownerProject": "meal-assistant",
+          "scope": "external-project",
+          "priority": "P0",
+          "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+          "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+        }
+      ]
     },
     {
       "project": "hermes-os",
       "name": "Hermes OS",
-      "status": "current",
+      "status": "stale",
       "experienceTier": {
         "current": 3,
         "target": 3,
@@ -207,13 +258,30 @@
         "dependencyVersion": "file:vendor/hermes-dashboard-kit",
         "packageJson": "../hermes/package.json"
       },
-      "issues": [],
-      "externalWorkItems": []
+      "issues": [
+        {
+          "severity": "error",
+          "code": "packageNative.implementationIncomplete",
+          "message": "Project claims T3C/package-native, but registry or surface notes still describe static, compatibility, bridge, local primitive, or pending migration work.",
+          "implementationMode": "package-native",
+          "targetExperienceBand": "T3C",
+          "bridgeStatus": "package-native"
+        }
+      ],
+      "externalWorkItems": [
+        {
+          "ownerProject": "hermes-os",
+          "scope": "external-project",
+          "priority": "P0",
+          "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+          "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+        }
+      ]
     },
     {
       "project": "tlc-capital-group-os",
       "name": "TLC Capital Group OS",
-      "status": "current",
+      "status": "stale",
       "experienceTier": {
         "current": 3,
         "target": 3,
@@ -231,13 +299,30 @@
         "dependencyVersion": "file:vendor/hermes-dashboard-kit",
         "packageJson": "../tlc-capital-group-os/package.json"
       },
-      "issues": [],
-      "externalWorkItems": []
+      "issues": [
+        {
+          "severity": "error",
+          "code": "packageNative.implementationIncomplete",
+          "message": "Project claims T3C/package-native, but registry or surface notes still describe static, compatibility, bridge, local primitive, or pending migration work.",
+          "implementationMode": "package-native",
+          "targetExperienceBand": "T3C",
+          "bridgeStatus": "package-native"
+        }
+      ],
+      "externalWorkItems": [
+        {
+          "ownerProject": "tlc-capital-group-os",
+          "scope": "external-project",
+          "priority": "P0",
+          "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+          "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+        }
+      ]
     },
     {
       "project": "rinseables-os",
       "name": "Rinseables OS",
-      "status": "current",
+      "status": "stale",
       "experienceTier": {
         "current": 3,
         "target": 3,
@@ -255,13 +340,30 @@
         "dependencyVersion": "file:vendor/hermes-dashboard-kit",
         "packageJson": "../rinseables-os/package.json"
       },
-      "issues": [],
-      "externalWorkItems": []
+      "issues": [
+        {
+          "severity": "error",
+          "code": "packageNative.implementationIncomplete",
+          "message": "Project claims T3C/package-native, but registry or surface notes still describe static, compatibility, bridge, local primitive, or pending migration work.",
+          "implementationMode": "package-native",
+          "targetExperienceBand": "T3C",
+          "bridgeStatus": "package-native"
+        }
+      ],
+      "externalWorkItems": [
+        {
+          "ownerProject": "rinseables-os",
+          "scope": "external-project",
+          "priority": "P0",
+          "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+          "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+        }
+      ]
     },
     {
       "project": "investing-system",
       "name": "Investing System",
-      "status": "current",
+      "status": "stale",
       "experienceTier": {
         "current": 3,
         "target": 3,
@@ -279,8 +381,25 @@
         "dependencyVersion": "file:vendor/hermes-dashboard-kit",
         "packageJson": "../investing-system/package.json"
       },
-      "issues": [],
-      "externalWorkItems": []
+      "issues": [
+        {
+          "severity": "error",
+          "code": "packageNative.implementationIncomplete",
+          "message": "Project claims T3C/package-native, but registry or surface notes still describe static, compatibility, bridge, local primitive, or pending migration work.",
+          "implementationMode": "package-native",
+          "targetExperienceBand": "T3C",
+          "bridgeStatus": "package-native"
+        }
+      ],
+      "externalWorkItems": [
+        {
+          "ownerProject": "investing-system",
+          "scope": "external-project",
+          "priority": "P0",
+          "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+          "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+        }
+      ]
     },
     {
       "project": "nous-hermes-agent",

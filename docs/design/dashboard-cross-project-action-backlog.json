@@ -1,6 +1,103 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-12T14:36:27.131Z",
+  "generatedAt": "2026-08-14T17:16:35.078Z",
   "sourceReport": "packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json",
-  "items": []
+  "items": [
+    {
+      "project": "khashi-vc",
+      "projectName": "Kashi VC",
+      "currentBand": "T3C",
+      "targetBand": "T3C",
+      "auditStatus": "stale",
+      "ownerProject": "khashi-vc",
+      "scope": "external-project",
+      "priority": "P0",
+      "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+      "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+    },
+    {
+      "project": "media-engine",
+      "projectName": "Media Engine",
+      "currentBand": "T3C",
+      "targetBand": "T3C",
+      "auditStatus": "stale",
+      "ownerProject": "media-engine",
+      "scope": "external-project",
+      "priority": "P0",
+      "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+      "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+    },
+    {
+      "project": "media-business-os",
+      "projectName": "Media Business OS",
+      "currentBand": "T3C",
+      "targetBand": "T3C",
+      "auditStatus": "stale",
+      "ownerProject": "media-business-os",
+      "scope": "external-project",
+      "priority": "P0",
+      "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+      "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+    },
+    {
+      "project": "meal-assistant",
+      "projectName": "Meal Assistant",
+      "currentBand": "T3C",
+      "targetBand": "T3C",
+      "auditStatus": "stale",
+      "ownerProject": "meal-assistant",
+      "scope": "external-project",
+      "priority": "P0",
+      "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+      "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+    },
+    {
+      "project": "hermes-os",
+      "projectName": "Hermes OS",
+      "currentBand": "T3C",
+      "targetBand": "T3C",
+      "auditStatus": "stale",
+      "ownerProject": "hermes-os",
+      "scope": "external-project",
+      "priority": "P0",
+      "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+      "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "projectName": "TLC Capital Group OS",
+      "currentBand": "T3C",
+      "targetBand": "T3C",
+      "auditStatus": "stale",
+      "ownerProject": "tlc-capital-group-os",
+      "scope": "external-project",
+      "priority": "P0",
+      "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+      "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+    },
+    {
+      "project": "rinseables-os",
+      "projectName": "Rinseables OS",
+      "currentBand": "T3C",
+      "targetBand": "T3C",
+      "auditStatus": "stale",
+      "ownerProject": "rinseables-os",
+      "scope": "external-project",
+      "priority": "P0",
+      "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+      "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+    },
+    {
+      "project": "investing-system",
+      "projectName": "Investing System",
+      "currentBand": "T3C",
+      "targetBand": "T3C",
+      "auditStatus": "stale",
+      "ownerProject": "investing-system",
+      "scope": "external-project",
+      "priority": "P0",
+      "action": "Replace the production surface's local/static/bridge rendering with package-native dashboard-kit primitives, then update the manifest notes only after proof passes.",
+      "reason": "A dashboard cannot be marked T3C/current while its registry or surface notes still describe compatibility rendering, local primitives, or pending migration."
+    }
+  ]
 }

@@ -1,14 +1,83 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-08T21:55:55.117Z",
+  "generatedAt": "2026-08-14T20:37:19.728Z",
   "purpose": "Structured fleet maturity work graph, including cross-project triggers and closure evidence.",
   "summary": {
-    "total": 13,
-    "open": 13,
+    "total": 61,
+    "open": 61,
     "humanDecision": 2,
     "crossProject": 5
   },
   "items": [
+    {
+      "id": "tlc-capital-group-os.dashboard-standard.maturity",
+      "title": "TLC Capital Group OS: dashboard standard is needs-review",
+      "type": "dashboard-standard",
+      "ownerProject": "tlc-capital-group-os",
+      "affectedProjects": [
+        "tlc-capital-group-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found dashboard-standard=needs-review.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "dashboard-standard"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "tlc-capital-group-os.product-maturity.maturity",
+      "title": "TLC Capital Group OS: product maturity is needs-review",
+      "type": "product-maturity",
+      "ownerProject": "tlc-capital-group-os",
+      "affectedProjects": [
+        "tlc-capital-group-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found product-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "product-maturity"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "tlc-capital-group-os.company-os-maturity.maturity",
+      "title": "TLC Capital Group OS: company os maturity is needs-review",
+      "type": "company-os-maturity",
+      "ownerProject": "tlc-capital-group-os",
+      "affectedProjects": [
+        "tlc-capital-group-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found company-os-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "company-os-maturity"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
     {
       "id": "tlc-capital-group-os.static-route-debt.maturity",
       "title": "TLC Capital Group OS: static route debt is needs-review",
@@ -25,6 +94,167 @@
       "requiresHumanDecision": false,
       "evidenceRequiredToClose": [
         "static-route-debt"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "tlc-capital-group-os.live-e2e.maturity",
+      "title": "TLC Capital Group OS: live e2e is needs-review",
+      "type": "live-e2e",
+      "ownerProject": "tlc-capital-group-os",
+      "affectedProjects": [
+        "tlc-capital-group-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found live-e2e=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "live-e2e"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "tlc-capital-group-os.monitoring.maturity",
+      "title": "TLC Capital Group OS: monitoring is needs-review",
+      "type": "monitoring",
+      "ownerProject": "tlc-capital-group-os",
+      "affectedProjects": [
+        "tlc-capital-group-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found monitoring=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "nous-hermes-agent.visual-maturity.maturity",
+      "title": "Nous Hermes Agent: visual maturity is needs-review",
+      "type": "visual-maturity",
+      "ownerProject": "nous-hermes-agent",
+      "affectedProjects": [
+        "nous-hermes-agent"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found visual-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "visual-maturity"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "nous-hermes-agent.product-maturity.maturity",
+      "title": "Nous Hermes Agent: product maturity is needs-review",
+      "type": "product-maturity",
+      "ownerProject": "nous-hermes-agent",
+      "affectedProjects": [
+        "nous-hermes-agent"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found product-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "product-maturity"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "nous-hermes-agent.company-os-maturity.maturity",
+      "title": "Nous Hermes Agent: company os maturity is needs-review",
+      "type": "company-os-maturity",
+      "ownerProject": "nous-hermes-agent",
+      "affectedProjects": [
+        "nous-hermes-agent"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found company-os-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "company-os-maturity"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "nous-hermes-agent.live-e2e.maturity",
+      "title": "Nous Hermes Agent: live e2e is needs-review",
+      "type": "live-e2e",
+      "ownerProject": "nous-hermes-agent",
+      "affectedProjects": [
+        "nous-hermes-agent"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found live-e2e=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "live-e2e"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "nous-hermes-agent.monitoring.maturity",
+      "title": "Nous Hermes Agent: monitoring is needs-review",
+      "type": "monitoring",
+      "ownerProject": "nous-hermes-agent",
+      "affectedProjects": [
+        "nous-hermes-agent"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found monitoring=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "monitoring"
       ],
       "dependencies": [],
       "suggestedNextAfterClose": [
@@ -56,6 +286,213 @@
       ]
     },
     {
+      "id": "hermes-os.dashboard-standard.maturity",
+      "title": "Hermes OS: dashboard standard is needs-review",
+      "type": "dashboard-standard",
+      "ownerProject": "hermes-os",
+      "affectedProjects": [
+        "hermes-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found dashboard-standard=needs-review.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "dashboard-standard"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "hermes-os.product-maturity.maturity",
+      "title": "Hermes OS: product maturity is needs-review",
+      "type": "product-maturity",
+      "ownerProject": "hermes-os",
+      "affectedProjects": [
+        "hermes-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found product-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "product-maturity"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "hermes-os.company-os-maturity.maturity",
+      "title": "Hermes OS: company os maturity is needs-review",
+      "type": "company-os-maturity",
+      "ownerProject": "hermes-os",
+      "affectedProjects": [
+        "hermes-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found company-os-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "company-os-maturity"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "hermes-os.live-e2e.maturity",
+      "title": "Hermes OS: live e2e is needs-review",
+      "type": "live-e2e",
+      "ownerProject": "hermes-os",
+      "affectedProjects": [
+        "hermes-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found live-e2e=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "live-e2e"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "hermes-os.monitoring.maturity",
+      "title": "Hermes OS: monitoring is needs-review",
+      "type": "monitoring",
+      "ownerProject": "hermes-os",
+      "affectedProjects": [
+        "hermes-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found monitoring=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "media-engine.product-maturity.maturity",
+      "title": "Media Engine: product maturity is needs-review",
+      "type": "product-maturity",
+      "ownerProject": "media-engine",
+      "affectedProjects": [
+        "media-engine"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found product-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "product-maturity"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "media-engine.company-os-maturity.maturity",
+      "title": "Media Engine: company os maturity is needs-review",
+      "type": "company-os-maturity",
+      "ownerProject": "media-engine",
+      "affectedProjects": [
+        "media-engine"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found company-os-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "company-os-maturity"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "media-engine.live-e2e.maturity",
+      "title": "Media Engine: live e2e is needs-review",
+      "type": "live-e2e",
+      "ownerProject": "media-engine",
+      "affectedProjects": [
+        "media-engine"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found live-e2e=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "live-e2e"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "media-engine.monitoring.maturity",
+      "title": "Media Engine: monitoring is needs-review",
+      "type": "monitoring",
+      "ownerProject": "media-engine",
+      "affectedProjects": [
+        "media-engine"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found monitoring=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
       "id": "media-engine.external-credentials.maturity",
       "title": "Media Engine: external credentials is blocked",
       "type": "external-credentials",
@@ -71,6 +508,190 @@
       "requiresHumanDecision": true,
       "evidenceRequiredToClose": [
         "external-credentials"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "media-business-operations.dashboard-standard.maturity",
+      "title": "Media Business Operations: dashboard standard is needs-review",
+      "type": "dashboard-standard",
+      "ownerProject": "media-business-operations",
+      "affectedProjects": [
+        "media-business-operations"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found dashboard-standard=needs-review.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "dashboard-standard"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "media-business-operations.product-maturity.maturity",
+      "title": "Media Business Operations: product maturity is needs-review",
+      "type": "product-maturity",
+      "ownerProject": "media-business-operations",
+      "affectedProjects": [
+        "media-business-operations"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found product-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "product-maturity"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "media-business-operations.company-os-maturity.maturity",
+      "title": "Media Business Operations: company os maturity is needs-review",
+      "type": "company-os-maturity",
+      "ownerProject": "media-business-operations",
+      "affectedProjects": [
+        "media-business-operations"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found company-os-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "company-os-maturity"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "media-business-operations.live-e2e.maturity",
+      "title": "Media Business Operations: live e2e is needs-review",
+      "type": "live-e2e",
+      "ownerProject": "media-business-operations",
+      "affectedProjects": [
+        "media-business-operations"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found live-e2e=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "live-e2e"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "media-business-operations.monitoring.maturity",
+      "title": "Media Business Operations: monitoring is needs-review",
+      "type": "monitoring",
+      "ownerProject": "media-business-operations",
+      "affectedProjects": [
+        "media-business-operations"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found monitoring=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "khashi-vc.dashboard-standard.maturity",
+      "title": "Khashi VC: dashboard standard is needs-review",
+      "type": "dashboard-standard",
+      "ownerProject": "khashi-vc",
+      "affectedProjects": [
+        "khashi-vc"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found dashboard-standard=needs-review.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "dashboard-standard"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "khashi-vc.product-maturity.maturity",
+      "title": "Khashi VC: product maturity is needs-review",
+      "type": "product-maturity",
+      "ownerProject": "khashi-vc",
+      "affectedProjects": [
+        "khashi-vc"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found product-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "product-maturity"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "khashi-vc.company-os-maturity.maturity",
+      "title": "Khashi VC: company os maturity is needs-review",
+      "type": "company-os-maturity",
+      "ownerProject": "khashi-vc",
+      "affectedProjects": [
+        "khashi-vc"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found company-os-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "company-os-maturity"
       ],
       "dependencies": [],
       "suggestedNextAfterClose": [
@@ -125,6 +746,75 @@
       ]
     },
     {
+      "id": "khashi-vc.monitoring.maturity",
+      "title": "Khashi VC: monitoring is needs-review",
+      "type": "monitoring",
+      "ownerProject": "khashi-vc",
+      "affectedProjects": [
+        "khashi-vc"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found monitoring=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "business-mapper.product-maturity.maturity",
+      "title": "Business Mapper / Consulting: product maturity is needs-review",
+      "type": "product-maturity",
+      "ownerProject": "business-mapper",
+      "affectedProjects": [
+        "business-mapper"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found product-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "product-maturity"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "business-mapper.company-os-maturity.maturity",
+      "title": "Business Mapper / Consulting: company os maturity is needs-review",
+      "type": "company-os-maturity",
+      "ownerProject": "business-mapper",
+      "affectedProjects": [
+        "business-mapper"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found company-os-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "company-os-maturity"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
       "id": "business-mapper.static-route-debt.maturity",
       "title": "Business Mapper / Consulting: static route debt is needs-review",
       "type": "static-route-debt",
@@ -140,6 +830,259 @@
       "requiresHumanDecision": false,
       "evidenceRequiredToClose": [
         "static-route-debt"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "business-mapper.live-e2e.maturity",
+      "title": "Business Mapper / Consulting: live e2e is needs-review",
+      "type": "live-e2e",
+      "ownerProject": "business-mapper",
+      "affectedProjects": [
+        "business-mapper"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found live-e2e=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "live-e2e"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "business-mapper.monitoring.maturity",
+      "title": "Business Mapper / Consulting: monitoring is needs-review",
+      "type": "monitoring",
+      "ownerProject": "business-mapper",
+      "affectedProjects": [
+        "business-mapper"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found monitoring=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "meal-assistant.dashboard-standard.maturity",
+      "title": "Meal Assistant: dashboard standard is needs-review",
+      "type": "dashboard-standard",
+      "ownerProject": "meal-assistant",
+      "affectedProjects": [
+        "meal-assistant"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found dashboard-standard=needs-review.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "dashboard-standard"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "meal-assistant.visual-maturity.maturity",
+      "title": "Meal Assistant: visual maturity is needs-review",
+      "type": "visual-maturity",
+      "ownerProject": "meal-assistant",
+      "affectedProjects": [
+        "meal-assistant"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found visual-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "visual-maturity"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "meal-assistant.product-maturity.maturity",
+      "title": "Meal Assistant: product maturity is needs-review",
+      "type": "product-maturity",
+      "ownerProject": "meal-assistant",
+      "affectedProjects": [
+        "meal-assistant"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found product-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "product-maturity"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "meal-assistant.company-os-maturity.maturity",
+      "title": "Meal Assistant: company os maturity is needs-review",
+      "type": "company-os-maturity",
+      "ownerProject": "meal-assistant",
+      "affectedProjects": [
+        "meal-assistant"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found company-os-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "company-os-maturity"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "meal-assistant.live-e2e.maturity",
+      "title": "Meal Assistant: live e2e is needs-review",
+      "type": "live-e2e",
+      "ownerProject": "meal-assistant",
+      "affectedProjects": [
+        "meal-assistant"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found live-e2e=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "live-e2e"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "meal-assistant.monitoring.maturity",
+      "title": "Meal Assistant: monitoring is needs-review",
+      "type": "monitoring",
+      "ownerProject": "meal-assistant",
+      "affectedProjects": [
+        "meal-assistant"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found monitoring=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "rinseables-os.dashboard-standard.maturity",
+      "title": "Rinseables OS: dashboard standard is needs-review",
+      "type": "dashboard-standard",
+      "ownerProject": "rinseables-os",
+      "affectedProjects": [
+        "rinseables-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found dashboard-standard=needs-review.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "dashboard-standard"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "rinseables-os.product-maturity.maturity",
+      "title": "Rinseables OS: product maturity is needs-review",
+      "type": "product-maturity",
+      "ownerProject": "rinseables-os",
+      "affectedProjects": [
+        "rinseables-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found product-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "product-maturity"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "rinseables-os.company-os-maturity.maturity",
+      "title": "Rinseables OS: company os maturity is needs-review",
+      "type": "company-os-maturity",
+      "ownerProject": "rinseables-os",
+      "affectedProjects": [
+        "rinseables-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found company-os-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "company-os-maturity"
       ],
       "dependencies": [],
       "suggestedNextAfterClose": [
@@ -171,6 +1114,121 @@
       ]
     },
     {
+      "id": "rinseables-os.live-e2e.maturity",
+      "title": "Rinseables OS: live e2e is needs-review",
+      "type": "live-e2e",
+      "ownerProject": "rinseables-os",
+      "affectedProjects": [
+        "rinseables-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found live-e2e=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "live-e2e"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "rinseables-os.monitoring.maturity",
+      "title": "Rinseables OS: monitoring is needs-review",
+      "type": "monitoring",
+      "ownerProject": "rinseables-os",
+      "affectedProjects": [
+        "rinseables-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found monitoring=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "investing-system.dashboard-standard.maturity",
+      "title": "Investing System: dashboard standard is needs-review",
+      "type": "dashboard-standard",
+      "ownerProject": "investing-system",
+      "affectedProjects": [
+        "investing-system"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found dashboard-standard=needs-review.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "dashboard-standard"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "investing-system.product-maturity.maturity",
+      "title": "Investing System: product maturity is needs-review",
+      "type": "product-maturity",
+      "ownerProject": "investing-system",
+      "affectedProjects": [
+        "investing-system"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found product-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "product-maturity"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "investing-system.company-os-maturity.maturity",
+      "title": "Investing System: company os maturity is needs-review",
+      "type": "company-os-maturity",
+      "ownerProject": "investing-system",
+      "affectedProjects": [
+        "investing-system"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found company-os-maturity=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "company-os-maturity"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
       "id": "investing-system.static-route-debt.maturity",
       "title": "Investing System: static route debt is needs-review",
       "type": "static-route-debt",
@@ -186,6 +1244,52 @@
       "requiresHumanDecision": false,
       "evidenceRequiredToClose": [
         "static-route-debt"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "investing-system.live-e2e.maturity",
+      "title": "Investing System: live e2e is needs-review",
+      "type": "live-e2e",
+      "ownerProject": "investing-system",
+      "affectedProjects": [
+        "investing-system"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found live-e2e=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "live-e2e"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "investing-system.monitoring.maturity",
+      "title": "Investing System: monitoring is needs-review",
+      "type": "monitoring",
+      "ownerProject": "investing-system",
+      "affectedProjects": [
+        "investing-system"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found monitoring=needs-review.",
+      "status": "open",
+      "priority": "medium",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "monitoring"
       ],
       "dependencies": [],
       "suggestedNextAfterClose": [
@@ -258,15 +1362,17 @@
       ],
       "sourceProject": "rinseables-os",
       "trigger": "Rinseables product model, KPI, revenue, or audience layer changes.",
-      "status": "recommended",
-      "priority": "low",
+      "status": "waiting-on-evidence",
+      "priority": "medium",
       "canCodexProceed": true,
       "requiresHumanDecision": false,
       "evidenceRequiredToClose": [
         "rinseables-os.outcome-feed",
         "rinseables-os.dashboard-standard"
       ],
-      "dependencies": [],
+      "dependencies": [
+        "rinseables-os.dashboard-standard"
+      ],
       "suggestedNextAfterClose": [
         "Refresh TLC portfolio readiness if affected.",
         "Refresh Nous fleet maturity tracker.",

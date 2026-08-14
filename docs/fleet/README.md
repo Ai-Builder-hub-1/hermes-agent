@@ -17,6 +17,10 @@ The fleet maturity tracker is the Nous Hermes Agent control-plane record for pro
 
 ## Generated Files
 
+- `tlc-operating-system-maturity-build-plan.md` is the trackable build plan for the full maturity ladder from dashboard technical compliance through compound-learning enterprise operations.
+- `tlc-operating-system-maturity-build-plan.json` is the machine-readable companion plan for turning those maturity layers into task records, dashboards, and governance checks.
+- `tlc-operating-system-maturity-build-assessment.md` records the latest assessment of what the current maturity-control build packet completed and what remains.
+- `tlc-operating-system-maturity-build-assessment.json` is the machine-readable companion assessment.
 - `fleet-registry.json` is the structured project registry with production URLs, Hetzner service names, dashboard status, proof status, repo status, and project relationships.
 - `fleet-evidence-ledger.json` tracks one evidence record per project per required evidence kind.
 - `fleet-maturity-work-graph.json` converts non-current evidence and cross-project triggers into actionable maturity work.

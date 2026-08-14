@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "version": "V1",
+  "title": "Dashboard Visual Review Queue",
+  "status": "active",
+  "purpose": "Track dashboards that need human taste review before visual maturity promotion.",
+  "states": ["queued", "in-review", "changes-requested", "approved", "excepted"],
+  "items": [
+    {
+      "id": "visual-review-meal-assistant-planner-v3",
+      "project": "meal-assistant",
+      "route": "/",
+      "surface": "meal-dashboard-shell",
+      "state": "in-review",
+      "targetVisualTier": "V3",
+      "currentVisualTier": "V3-candidate",
+      "priority": "high",
+      "reason": "The project has completed its first V3 visual redesign pass and now needs human review against captured desktop, drawer, library, mobile, and proof screenshots.",
+      "requiredEvidence": [
+        "current desktop screenshot",
+        "current mobile screenshot",
+        "planner drawer screenshot",
+        "Mobbin/reference intake for calendar/planner and household operations",
+        "rubric score before and after",
+        "human approval or changes-requested decision"
+      ],
+      "capturedEvidence": [
+        "projects/Meal-assistant/docs/design/dashboard-visual-redesign-assessment.md",
+        "projects/Meal-assistant/docs/design/dashboard-visual-redesign-assessment.json",
+        "projects/Meal-assistant/docs/design/visual-review/planner-desktop.png",
+        "projects/Meal-assistant/docs/design/visual-review/planner-drawer-desktop.png",
+        "projects/Meal-assistant/docs/design/visual-review/library-desktop.png",
+        "projects/Meal-assistant/docs/design/visual-review/planner-mobile.png",
+        "projects/Meal-assistant/docs/design/proof/meal-dashboard-proof-expanded.png",
+        "projects/Meal-assistant/docs/design/proof/meal-dashboard-proof-mobile.png"
+      ],
+      "blockedBy": [],
+      "nextAction": "Human review should approve the V3 candidate or request changes; reusable planner/sidebar/drawer learnings should then be promoted back into the dashboard kit."
+    }
+  ]
+}

@@ -61,6 +61,18 @@ for (const project of registry.projects ?? []) {
   for (const field of ["id", "name", "repo", "ownerSystem", "maturityRole"]) {
     if (!project[field]) issues.push(issue("error", "project.fieldMissing", `${project.id ?? "unknown"} missing ${field}.`));
   }
+  for (const field of ["visual", "productMaturity", "companyOsMaturity"]) {
+    if (!project[field]) issues.push(issue("error", "project.maturityFieldMissing", `${project.id} missing ${field}.`));
+  }
+  if (project.visual && (!project.visual.visualTier || !project.visual.targetVisualTier || !project.visual.status)) {
+    issues.push(issue("error", "project.visualInvalid", `${project.id} visual maturity must include visualTier, targetVisualTier, and status.`));
+  }
+  if (project.productMaturity && (!project.productMaturity.productTier || !project.productMaturity.targetProductTier || !project.productMaturity.status)) {
+    issues.push(issue("error", "project.productMaturityInvalid", `${project.id} product maturity must include productTier, targetProductTier, and status.`));
+  }
+  if (project.companyOsMaturity && (!project.companyOsMaturity.companyOsTier || !project.companyOsMaturity.targetCompanyOsTier || !project.companyOsMaturity.status)) {
+    issues.push(issue("error", "project.companyOsMaturityInvalid", `${project.id} company OS maturity must include companyOsTier, targetCompanyOsTier, and status.`));
+  }
   for (const field of ["service", "url", "healthUrl"]) {
     if (!project.production?.[field]) issues.push(issue("warning", "production.fieldMissing", `${project.id} missing production.${field}.`));
   }
@@ -87,6 +99,11 @@ for (const projectId of projectIds) {
   for (const kind of evidence.evidenceKinds ?? []) {
     if (!evidenceKeys.has(`${projectId}.${kind}`)) {
       issues.push(issue("error", "evidence.kindMissing", `${projectId} missing evidence kind ${kind}.`));
+    }
+  }
+  for (const kind of ["visual-maturity", "product-maturity", "company-os-maturity"]) {
+    if (!evidenceKeys.has(`${projectId}.${kind}`)) {
+      issues.push(issue("error", "evidence.maturityKindMissing", `${projectId} missing maturity evidence kind ${kind}.`));
     }
   }
 }

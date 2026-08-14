@@ -1,0 +1,932 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-14T19:08:04.703Z",
+  "standard": {
+    "definition": "Component-native means the production dashboard route is implemented with @hermes/dashboard-kit primitives across shell, navigation, state, metrics/cards, tables, charts/workflow surfaces, and proof. A project is not component-native simply because the package is installed, CSS is copied, or hdk markers are present.",
+    "requiredFamilies": [
+      "shell",
+      "sidebar",
+      "header",
+      "state",
+      "metrics",
+      "tables",
+      "charts",
+      "workflow",
+      "proof"
+    ],
+    "falseNativeSignals": [
+      "manifest or surface notes mention compatibility/static/hybrid bridge delivery",
+      "T3C project still has local chart/table/drawer/state primitives",
+      "surface has mostly local card/table/chart/sidebar classes without kit component evidence",
+      "proof is limited to CSS/vendor sync instead of rendered component evidence"
+    ]
+  },
+  "summary": {
+    "totalProjects": 10,
+    "componentNative": 2,
+    "needsImplementationMigration": 8,
+    "blockedFalseNativeClaims": 8
+  },
+  "projects": [
+    {
+      "project": "khashi-vc",
+      "name": "Kashi VC",
+      "path": "projects/khashi-vc",
+      "adoptionMode": "package-native",
+      "implementationMode": "package-built",
+      "targetBand": "T3C",
+      "registryBridgeStatus": "package-native",
+      "status": "needs-implementation-migration",
+      "componentCoverage": {
+        "presentFamilies": [
+          "charts",
+          "header",
+          "metrics",
+          "proof",
+          "shell",
+          "sidebar",
+          "state",
+          "tables",
+          "workflow"
+        ],
+        "missingFamilies": [],
+        "score": 100
+      },
+      "visibleRouteCoverage": {
+        "presentFamilies": [
+          "charts",
+          "header",
+          "metrics",
+          "proof",
+          "shell",
+          "sidebar",
+          "state",
+          "tables",
+          "workflow"
+        ],
+        "missingFamilies": [],
+        "score": 100
+      },
+      "blockers": [
+        "implementationMode is package-built, expected package-native",
+        "T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language"
+      ],
+      "warnings": [
+        "13 local primitive signals found; route likely needs deeper decomposition"
+      ],
+      "surfaces": [
+        {
+          "id": "roc-server-primary-route",
+          "path": "src/web/server.ts",
+          "role": "server-route",
+          "status": "package-native",
+          "exists": true,
+          "importEvidence": true,
+          "familyEvidence": [],
+          "localPrimitiveFindings": [
+            "local-card-class",
+            "inline-svg-chart",
+            "hand-authored-table",
+            "hardcoded-spacing",
+            "hardcoded-color"
+          ],
+          "noteFlags": 0
+        },
+        {
+          "id": "roc-shell",
+          "path": "public/roc/index.html",
+          "role": "compatibility-route",
+          "status": "package-native",
+          "exists": true,
+          "importEvidence": true,
+          "familyEvidence": [
+            "shell",
+            "sidebar",
+            "header",
+            "state"
+          ],
+          "localPrimitiveFindings": [
+            "local-sidebar-class",
+            "local-topbar-class",
+            "local-card-class"
+          ],
+          "noteFlags": 2
+        },
+        {
+          "id": "market-intelligence-live",
+          "path": "public/roc/market-intelligence-live.html",
+          "role": "legacy-compatibility-route",
+          "status": "compatibility-review-surface",
+          "exists": true,
+          "importEvidence": true,
+          "familyEvidence": [
+            "shell",
+            "sidebar",
+            "header",
+            "state",
+            "metrics",
+            "tables",
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "localPrimitiveFindings": [
+            "local-sidebar-class",
+            "local-card-class",
+            "inline-svg-chart",
+            "hardcoded-spacing",
+            "hardcoded-color"
+          ],
+          "noteFlags": 2
+        }
+      ]
+    },
+    {
+      "project": "media-engine",
+      "name": "Media Engine",
+      "path": "projects/media-engine",
+      "adoptionMode": "package-native",
+      "implementationMode": "package-native",
+      "targetBand": "T3C",
+      "registryBridgeStatus": "package-native-step-1",
+      "status": "needs-implementation-migration",
+      "componentCoverage": {
+        "presentFamilies": [
+          "charts",
+          "header",
+          "metrics",
+          "proof",
+          "shell",
+          "state",
+          "tables",
+          "workflow"
+        ],
+        "missingFamilies": [
+          "sidebar"
+        ],
+        "score": 89
+      },
+      "visibleRouteCoverage": {
+        "presentFamilies": [
+          "charts",
+          "header",
+          "metrics",
+          "proof",
+          "shell",
+          "state",
+          "tables",
+          "workflow"
+        ],
+        "missingFamilies": [
+          "sidebar"
+        ],
+        "score": 89
+      },
+      "blockers": [
+        "T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language",
+        "missing core kit component evidence: sidebar"
+      ],
+      "warnings": [],
+      "surfaces": [
+        {
+          "id": "media-engine-ops-active",
+          "path": "core/operations/unified-publishing-dashboard.js",
+          "role": "ui",
+          "status": "production",
+          "exists": true,
+          "importEvidence": true,
+          "familyEvidence": [
+            "shell",
+            "header",
+            "state",
+            "metrics",
+            "tables",
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "localPrimitiveFindings": [
+            "local-sidebar-class",
+            "local-card-class",
+            "hand-authored-table",
+            "hardcoded-spacing",
+            "hardcoded-color"
+          ],
+          "noteFlags": 0
+        }
+      ]
+    },
+    {
+      "project": "media-business-os",
+      "name": "Media Business OS",
+      "path": "projects/media-business-operations",
+      "adoptionMode": "package-native",
+      "implementationMode": "package-native",
+      "targetBand": "T3C",
+      "registryBridgeStatus": "package-native",
+      "status": "needs-implementation-migration",
+      "componentCoverage": {
+        "presentFamilies": [
+          "charts",
+          "header",
+          "metrics",
+          "proof",
+          "shell",
+          "sidebar",
+          "state",
+          "tables",
+          "workflow"
+        ],
+        "missingFamilies": [],
+        "score": 100
+      },
+      "visibleRouteCoverage": {
+        "presentFamilies": [
+          "charts",
+          "header",
+          "metrics",
+          "proof",
+          "shell",
+          "sidebar",
+          "state",
+          "tables",
+          "workflow"
+        ],
+        "missingFamilies": [],
+        "score": 100
+      },
+      "blockers": [
+        "T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language"
+      ],
+      "warnings": [],
+      "surfaces": [
+        {
+          "id": "media-business-main",
+          "path": "public/dashboard/index.html",
+          "role": "ui",
+          "status": "package-runtime-bridge",
+          "exists": true,
+          "importEvidence": true,
+          "familyEvidence": [
+            "shell",
+            "sidebar",
+            "header",
+            "state"
+          ],
+          "localPrimitiveFindings": [
+            "local-sidebar-class"
+          ],
+          "noteFlags": 1
+        },
+        {
+          "id": "media-business-renderer",
+          "path": "public/dashboard/app.js",
+          "role": "ui",
+          "status": "package-runtime-bridge",
+          "exists": true,
+          "importEvidence": true,
+          "familyEvidence": [
+            "sidebar",
+            "state",
+            "metrics",
+            "tables",
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "localPrimitiveFindings": [
+            "local-sidebar-class",
+            "local-card-class"
+          ],
+          "noteFlags": 1
+        }
+      ]
+    },
+    {
+      "project": "business-mapper",
+      "name": "Business Mapper",
+      "path": "projects/business-mapper",
+      "adoptionMode": "package-native",
+      "implementationMode": "package-native",
+      "targetBand": "T3C",
+      "registryBridgeStatus": "package-native",
+      "status": "component-native",
+      "componentCoverage": {
+        "presentFamilies": [
+          "charts",
+          "header",
+          "metrics",
+          "proof",
+          "shell",
+          "sidebar",
+          "state",
+          "tables",
+          "workflow"
+        ],
+        "missingFamilies": [],
+        "score": 100
+      },
+      "visibleRouteCoverage": {
+        "presentFamilies": [
+          "charts",
+          "header",
+          "metrics",
+          "proof",
+          "shell",
+          "sidebar",
+          "state",
+          "tables",
+          "workflow"
+        ],
+        "missingFamilies": [],
+        "score": 100
+      },
+      "blockers": [],
+      "warnings": [],
+      "surfaces": [
+        {
+          "id": "business-mapper-workspace",
+          "path": "business_mapper/static/index.html",
+          "role": "ui",
+          "status": "package-native",
+          "exists": true,
+          "importEvidence": true,
+          "familyEvidence": [
+            "shell",
+            "sidebar",
+            "header",
+            "state",
+            "metrics",
+            "tables",
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "localPrimitiveFindings": [
+            "local-sidebar-class",
+            "local-topbar-class",
+            "local-card-class"
+          ],
+          "noteFlags": 0
+        }
+      ]
+    },
+    {
+      "project": "meal-assistant",
+      "name": "Meal Assistant",
+      "path": "projects/Meal-assistant",
+      "adoptionMode": "package-native",
+      "implementationMode": "package-native",
+      "targetBand": "T3C",
+      "registryBridgeStatus": "package-native",
+      "status": "needs-implementation-migration",
+      "componentCoverage": {
+        "presentFamilies": [
+          "charts",
+          "header",
+          "metrics",
+          "proof",
+          "shell",
+          "sidebar",
+          "state",
+          "tables",
+          "workflow"
+        ],
+        "missingFamilies": [],
+        "score": 100
+      },
+      "visibleRouteCoverage": {
+        "presentFamilies": [
+          "charts",
+          "header",
+          "metrics",
+          "proof",
+          "shell",
+          "sidebar",
+          "state",
+          "tables",
+          "workflow"
+        ],
+        "missingFamilies": [],
+        "score": 100
+      },
+      "blockers": [
+        "T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language"
+      ],
+      "warnings": [],
+      "surfaces": [
+        {
+          "id": "meal-dashboard-shell",
+          "path": "src/server.js",
+          "role": "ui",
+          "status": "package-native",
+          "exists": true,
+          "importEvidence": true,
+          "familyEvidence": [
+            "shell",
+            "sidebar",
+            "header",
+            "state",
+            "metrics",
+            "tables",
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "localPrimitiveFindings": [
+            "local-card-class",
+            "hardcoded-spacing",
+            "hardcoded-color"
+          ],
+          "noteFlags": 0
+        }
+      ]
+    },
+    {
+      "project": "hermes-os",
+      "name": "Hermes OS",
+      "path": "projects/hermes",
+      "adoptionMode": "package-native",
+      "implementationMode": "package-native",
+      "targetBand": "T3C",
+      "registryBridgeStatus": "package-native",
+      "status": "needs-implementation-migration",
+      "componentCoverage": {
+        "presentFamilies": [
+          "charts",
+          "header",
+          "metrics",
+          "proof",
+          "shell",
+          "sidebar",
+          "state",
+          "tables",
+          "workflow"
+        ],
+        "missingFamilies": [],
+        "score": 100
+      },
+      "visibleRouteCoverage": {
+        "presentFamilies": [
+          "charts",
+          "header",
+          "metrics",
+          "proof",
+          "shell",
+          "sidebar",
+          "state",
+          "tables",
+          "workflow"
+        ],
+        "missingFamilies": [],
+        "score": 100
+      },
+      "blockers": [
+        "T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language"
+      ],
+      "warnings": [
+        "15 local primitive signals found; route likely needs deeper decomposition"
+      ],
+      "surfaces": [
+        {
+          "id": "hermes-dashboard-hub",
+          "path": "src/workspace/workspace-server.ts",
+          "role": "ui",
+          "status": "package-native",
+          "exists": true,
+          "importEvidence": true,
+          "familyEvidence": [
+            "shell",
+            "sidebar",
+            "header",
+            "state",
+            "metrics",
+            "tables",
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "localPrimitiveFindings": [
+            "local-sidebar-class",
+            "local-card-class",
+            "hand-authored-table",
+            "hardcoded-spacing",
+            "hardcoded-color"
+          ],
+          "noteFlags": 1
+        },
+        {
+          "id": "hermes-operator-dashboard-artifact",
+          "path": "src/operator/operator-state.ts",
+          "role": "ui",
+          "status": "package-native",
+          "exists": true,
+          "importEvidence": true,
+          "familyEvidence": [
+            "shell",
+            "sidebar",
+            "header",
+            "state",
+            "metrics",
+            "tables",
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "localPrimitiveFindings": [
+            "local-sidebar-class",
+            "local-card-class",
+            "hand-authored-table",
+            "hardcoded-spacing",
+            "hardcoded-color"
+          ],
+          "noteFlags": 1
+        },
+        {
+          "id": "hermes-control-plane-artifact",
+          "path": "src/operator/control-plane.ts",
+          "role": "ui",
+          "status": "package-native",
+          "exists": true,
+          "importEvidence": true,
+          "familyEvidence": [
+            "shell",
+            "sidebar",
+            "header",
+            "state",
+            "metrics",
+            "tables",
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "localPrimitiveFindings": [
+            "local-sidebar-class",
+            "local-card-class",
+            "hand-authored-table",
+            "hardcoded-spacing",
+            "hardcoded-color"
+          ],
+          "noteFlags": 1
+        }
+      ]
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "name": "TLC Capital Group OS",
+      "path": "projects/tlc-capital-group-os",
+      "adoptionMode": "package-native",
+      "implementationMode": "package-native",
+      "targetBand": "T3C",
+      "registryBridgeStatus": "package-native",
+      "status": "needs-implementation-migration",
+      "componentCoverage": {
+        "presentFamilies": [
+          "charts",
+          "header",
+          "metrics",
+          "proof",
+          "shell",
+          "sidebar",
+          "state",
+          "tables",
+          "workflow"
+        ],
+        "missingFamilies": [],
+        "score": 100
+      },
+      "visibleRouteCoverage": {
+        "presentFamilies": [
+          "charts",
+          "header",
+          "metrics",
+          "proof",
+          "shell",
+          "sidebar",
+          "state",
+          "tables",
+          "workflow"
+        ],
+        "missingFamilies": [],
+        "score": 100
+      },
+      "blockers": [
+        "T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language"
+      ],
+      "warnings": [],
+      "surfaces": [
+        {
+          "id": "tlc-dashboard-shell",
+          "path": "public/dashboard/index.html",
+          "role": "ui",
+          "status": "package-native",
+          "exists": true,
+          "importEvidence": true,
+          "familyEvidence": [
+            "shell",
+            "sidebar",
+            "header",
+            "state",
+            "metrics",
+            "tables",
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "localPrimitiveFindings": [
+            "local-sidebar-class",
+            "local-card-class"
+          ],
+          "noteFlags": 1
+        },
+        {
+          "id": "tlc-dashboard-api",
+          "path": "src/api.js",
+          "role": "api",
+          "status": "package-native",
+          "exists": true,
+          "importEvidence": true,
+          "familyEvidence": [
+            "sidebar"
+          ],
+          "localPrimitiveFindings": [],
+          "noteFlags": 0
+        },
+        {
+          "id": "tlc-dashboard-models",
+          "path": "src/dashboards.js",
+          "role": "data-contract",
+          "status": "package-native",
+          "exists": true,
+          "importEvidence": true,
+          "familyEvidence": [
+            "sidebar"
+          ],
+          "localPrimitiveFindings": [],
+          "noteFlags": 0
+        }
+      ]
+    },
+    {
+      "project": "rinseables-os",
+      "name": "Rinseables OS",
+      "path": "projects/rinseables-os",
+      "adoptionMode": "package-native",
+      "implementationMode": "package-native",
+      "targetBand": "T3C",
+      "registryBridgeStatus": "package-native",
+      "status": "needs-implementation-migration",
+      "componentCoverage": {
+        "presentFamilies": [
+          "charts",
+          "header",
+          "metrics",
+          "proof",
+          "shell",
+          "sidebar",
+          "state",
+          "tables",
+          "workflow"
+        ],
+        "missingFamilies": [],
+        "score": 100
+      },
+      "visibleRouteCoverage": {
+        "presentFamilies": [
+          "charts",
+          "header",
+          "metrics",
+          "proof",
+          "shell",
+          "sidebar",
+          "state",
+          "tables",
+          "workflow"
+        ],
+        "missingFamilies": [],
+        "score": 100
+      },
+      "blockers": [
+        "T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language"
+      ],
+      "warnings": [],
+      "surfaces": [
+        {
+          "id": "rinseables-dashboard-shell",
+          "path": "public/dashboard/index.html",
+          "role": "compatibility",
+          "status": "package-native",
+          "exists": true,
+          "importEvidence": true,
+          "familyEvidence": [
+            "shell",
+            "sidebar",
+            "header",
+            "state",
+            "metrics",
+            "tables",
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "localPrimitiveFindings": [
+            "local-sidebar-class",
+            "local-card-class"
+          ],
+          "noteFlags": 2
+        },
+        {
+          "id": "rinseables-dashboard-proof",
+          "path": "src/api.js",
+          "role": "proof-endpoint",
+          "status": "package-native",
+          "exists": true,
+          "importEvidence": true,
+          "familyEvidence": [],
+          "localPrimitiveFindings": [],
+          "noteFlags": 0
+        }
+      ]
+    },
+    {
+      "project": "investing-system",
+      "name": "Investing System",
+      "path": "projects/investing-system",
+      "adoptionMode": "package-native",
+      "implementationMode": "package-native",
+      "targetBand": "T3C",
+      "registryBridgeStatus": "package-native",
+      "status": "needs-implementation-migration",
+      "componentCoverage": {
+        "presentFamilies": [
+          "charts",
+          "header",
+          "metrics",
+          "proof",
+          "shell",
+          "sidebar",
+          "state",
+          "tables",
+          "workflow"
+        ],
+        "missingFamilies": [],
+        "score": 100
+      },
+      "visibleRouteCoverage": {
+        "presentFamilies": [
+          "charts",
+          "header",
+          "metrics",
+          "proof",
+          "shell",
+          "sidebar",
+          "state",
+          "tables",
+          "workflow"
+        ],
+        "missingFamilies": [],
+        "score": 100
+      },
+      "blockers": [
+        "T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language"
+      ],
+      "warnings": [],
+      "surfaces": [
+        {
+          "id": "investing-system-roc",
+          "path": "public/roc/index.html",
+          "role": "compatibility",
+          "status": "package-native",
+          "exists": true,
+          "importEvidence": true,
+          "familyEvidence": [
+            "shell",
+            "sidebar",
+            "header",
+            "state",
+            "metrics",
+            "tables",
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "localPrimitiveFindings": [
+            "local-sidebar-class",
+            "local-card-class",
+            "hardcoded-spacing"
+          ],
+          "noteFlags": 2
+        },
+        {
+          "id": "investing-system-proof",
+          "path": "src/api/server.ts",
+          "role": "proof-endpoint",
+          "status": "package-native",
+          "exists": true,
+          "importEvidence": false,
+          "familyEvidence": [],
+          "localPrimitiveFindings": [
+            "local-card-class",
+            "hardcoded-spacing",
+            "hardcoded-color"
+          ],
+          "noteFlags": 0
+        }
+      ]
+    },
+    {
+      "project": "nous-hermes-agent",
+      "name": "Nous Hermes Agent",
+      "path": "projects/nous-hermes-agent",
+      "adoptionMode": "package-native",
+      "implementationMode": "package-native",
+      "targetBand": "T3C",
+      "registryBridgeStatus": "package-native",
+      "status": "component-native",
+      "componentCoverage": {
+        "presentFamilies": [
+          "charts",
+          "header",
+          "metrics",
+          "proof",
+          "shell",
+          "sidebar",
+          "state",
+          "tables",
+          "workflow"
+        ],
+        "missingFamilies": [],
+        "score": 100
+      },
+      "visibleRouteCoverage": {
+        "presentFamilies": [
+          "charts",
+          "header",
+          "metrics",
+          "proof",
+          "shell",
+          "sidebar",
+          "state",
+          "tables",
+          "workflow"
+        ],
+        "missingFamilies": [],
+        "score": 100
+      },
+      "blockers": [],
+      "warnings": [],
+      "surfaces": [
+        {
+          "id": "hermes-dashboard-kit-gallery",
+          "path": "packages/hermes-dashboard-kit/src/index.js",
+          "role": "kit-source",
+          "status": "production",
+          "exists": true,
+          "importEvidence": true,
+          "familyEvidence": [
+            "shell",
+            "sidebar",
+            "header",
+            "state",
+            "metrics",
+            "tables",
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "localPrimitiveFindings": [
+            "local-sidebar-class",
+            "local-card-class",
+            "inline-svg-chart",
+            "hand-authored-table",
+            "hardcoded-color"
+          ],
+          "noteFlags": 0
+        },
+        {
+          "id": "hermes-dashboard-kit-gallery-web-route",
+          "path": "web/src/pages/DashboardKitGalleryPage.tsx",
+          "role": "page-content",
+          "status": "production",
+          "exists": true,
+          "importEvidence": true,
+          "familyEvidence": [
+            "shell",
+            "sidebar",
+            "header",
+            "state",
+            "metrics",
+            "tables",
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "localPrimitiveFindings": [
+            "hand-authored-table"
+          ],
+          "noteFlags": 0
+        }
+      ]
+    }
+  ]
+}
