@@ -11,6 +11,10 @@ const registry = JSON.parse(fs.readFileSync(registryPath, "utf8"));
 const scorecard = readJsonIfExists(path.join(designDir, "dashboard-fleet-ui-maturity-scorecard.json"));
 const debtReport = readJsonIfExists(path.join(designDir, "dashboard-design-debt-report.json"));
 const visualMatrix = readJsonIfExists(path.join(designDir, "dashboard-visual-regression-matrix.json"));
+const designIntelligence = readJsonIfExists(path.join(designDir, "dashboard-design-intelligence-report.json"));
+const productQuality = readJsonIfExists(path.join(designDir, "dashboard-product-quality-control-plane-report.json"));
+const platformIntelligence = readJsonIfExists(path.join(designDir, "dashboard-platform-intelligence-report.json"));
+const downstreamPlatform = readJsonIfExists(path.join(designDir, "dashboard-downstream-platform-assessment.json"));
 const layers = registry.layers ?? [];
 const statusCounts = layers.reduce((counts, layer) => {
   counts[layer.status] = (counts[layer.status] ?? 0) + 1;
@@ -48,6 +52,40 @@ const report = {
           baselineReadyCount: visualMatrix.summary?.baselineReadyCount,
           dashboardCount: visualMatrix.summary?.dashboardCount,
           missingProofRouteCount: visualMatrix.summary?.missingProofRouteCount
+        }
+      : null,
+    designIntelligence: designIntelligence
+      ? {
+          layerCount: designIntelligence.summary?.layerCount,
+          screenIntentCount: designIntelligence.summary?.screenIntentCount,
+          blueprintCount: designIntelligence.summary?.blueprintCount,
+          mappedRouteCount: designIntelligence.summary?.mappedRouteCount,
+          target: designIntelligence.summary?.target
+        }
+      : null,
+    productQuality: productQuality
+      ? {
+          capabilityCount: productQuality.summary?.capabilityCount,
+          fleetRouteCount: productQuality.summary?.fleetRouteCount,
+          gateCount: productQuality.summary?.gateCount,
+          blockingGateCount: productQuality.summary?.blockingGateCount,
+          target: productQuality.summary?.target
+        }
+      : null,
+    platformIntelligence: platformIntelligence
+      ? {
+          layerCount: platformIntelligence.summary?.layerCount,
+          dashboardCount: platformIntelligence.summary?.dashboardCount,
+          strategyWorkflowCount: platformIntelligence.summary?.strategyWorkflowCount,
+          target: platformIntelligence.summary?.target
+        }
+      : null,
+    downstreamPlatform: downstreamPlatform
+      ? {
+          projectCount: downstreamPlatform.summary?.projectCount,
+          highPriorityCount: downstreamPlatform.summary?.highPriorityCount,
+          needsRenderedProofCount: downstreamPlatform.summary?.needsRenderedProofCount,
+          packageNativeUnknownCount: downstreamPlatform.summary?.packageNativeUnknownCount
         }
       : null
   },
@@ -92,6 +130,30 @@ ${markdownTable(
       "Visual regression",
       report.centralReports.visualRegression
         ? `${report.centralReports.visualRegression.baselineReadyCount}/${report.centralReports.visualRegression.dashboardCount} baseline-ready; ${report.centralReports.visualRegression.missingProofRouteCount} missing proof routes`
+        : "missing"
+    ],
+    [
+      "Design intelligence",
+      report.centralReports.designIntelligence
+        ? `${report.centralReports.designIntelligence.layerCount} layers; ${report.centralReports.designIntelligence.screenIntentCount} intents; ${report.centralReports.designIntelligence.blueprintCount} blueprints; ${report.centralReports.designIntelligence.mappedRouteCount} mapped routes`
+        : "missing"
+    ],
+    [
+      "Product quality control plane",
+      report.centralReports.productQuality
+        ? `${report.centralReports.productQuality.capabilityCount} capabilities; ${report.centralReports.productQuality.fleetRouteCount} routes; ${report.centralReports.productQuality.gateCount} gates; ${report.centralReports.productQuality.blockingGateCount} blocking`
+        : "missing"
+    ],
+    [
+      "Platform intelligence",
+      report.centralReports.platformIntelligence
+        ? `${report.centralReports.platformIntelligence.layerCount} layers; ${report.centralReports.platformIntelligence.dashboardCount} dashboards; ${report.centralReports.platformIntelligence.strategyWorkflowCount} workflows`
+        : "missing"
+    ],
+    [
+      "Downstream platform assessment",
+      report.centralReports.downstreamPlatform
+        ? `${report.centralReports.downstreamPlatform.projectCount} projects; ${report.centralReports.downstreamPlatform.highPriorityCount} high priority; ${report.centralReports.downstreamPlatform.needsRenderedProofCount} need rendered proof`
         : "missing"
     ]
   ]

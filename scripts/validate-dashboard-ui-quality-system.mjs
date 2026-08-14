@@ -14,6 +14,13 @@ const renderedImplementationPath = path.join(root, "docs/design/rendered-visual-
 const visualRubricPath = path.join(root, "docs/design/dashboard-visual-maturity-rubric.json");
 const visualReviewQueuePath = path.join(root, "docs/design/dashboard-visual-review-queue.json");
 const designPreferenceMemoryPath = path.join(root, "docs/design/dashboard-design-preference-memory.json");
+const designIntelligencePath = path.join(root, "docs/design/dashboard-design-intelligence-registry.json");
+const designIntelligenceReportPath = path.join(root, "docs/design/dashboard-design-intelligence-report.json");
+const productQualityPath = path.join(root, "docs/design/dashboard-product-quality-control-plane.json");
+const productQualityReportPath = path.join(root, "docs/design/dashboard-product-quality-control-plane-report.json");
+const platformIntelligencePath = path.join(root, "docs/design/dashboard-platform-intelligence-system.json");
+const platformIntelligenceReportPath = path.join(root, "docs/design/dashboard-platform-intelligence-report.json");
+const downstreamPlatformPath = path.join(root, "docs/design/dashboard-downstream-platform-assessment.json");
 const operatingMaturityPlanPath = path.join(root, "docs/fleet/tlc-operating-system-maturity-build-plan.json");
 const issues = [];
 
@@ -63,6 +70,13 @@ for (const file of [
   visualRubricPath,
   visualReviewQueuePath,
   designPreferenceMemoryPath,
+  designIntelligencePath,
+  designIntelligenceReportPath,
+  productQualityPath,
+  productQualityReportPath,
+  platformIntelligencePath,
+  platformIntelligenceReportPath,
+  downstreamPlatformPath,
   operatingMaturityPlanPath,
 ]) {
   if (!fs.existsSync(file)) issue("error", `missing:${path.relative(root, file)}`, `${path.relative(root, file)} is required.`);
@@ -75,6 +89,14 @@ if (registry.schemaVersion !== 1) issue("error", "registry.schemaVersion", "UI q
 if (registry.version !== "V14") issue("error", "registry.version", "UI quality registry must declare version V14.");
 if (!nonEmptyArray(registry.minimumTier3CRequirements) || registry.minimumTier3CRequirements.length < 10) {
   issue("error", "registry.minimumTier3CRequirements", "UI quality registry must declare robust Tier 3C requirements.");
+}
+for (const phrase of [
+  "every production dashboard route registered",
+  "approved spacing and card-content tokens"
+]) {
+  if (!registry.minimumTier3CRequirements?.some((requirement) => requirement.includes(phrase))) {
+    issue("error", `registry.minimumTier3CRequirements.${phrase}`, `Tier 3C requirements must include ${phrase}.`);
+  }
 }
 
 const layers = registry.layers ?? [];
@@ -93,6 +115,18 @@ for (const layer of layers) {
   }
   for (const field of ["sourceArtifacts", "requiredCapabilities", "enforcementCommands", "proofSignals"]) {
     if (!nonEmptyArray(layer[field])) issue("error", `layer:${layer.id}.${field}`, `${layer.id} must declare non-empty ${field}.`);
+  }
+  if (layer.id === "density-responsiveness-system") {
+    for (const capability of ["page-level route registration", "spacing token contract", "card content contract", "full-width table/card containment contract"]) {
+      if (!layer.requiredCapabilities?.includes(capability)) {
+        issue("error", `layer:${layer.id}.${capability}`, `${layer.id} must require ${capability}.`);
+      }
+    }
+    for (const signal of ["registered pages declare density and blueprint", "cards prove header/body/action/footer spacing", "table surfaces prove pagination and horizontal scroll containment"]) {
+      if (!layer.proofSignals?.includes(signal)) {
+        issue("error", `layer:${layer.id}.${signal}`, `${layer.id} must prove ${signal}.`);
+      }
+    }
   }
   for (const artifact of layer.sourceArtifacts ?? []) {
     if (!exists(artifact)) issue("error", `layer:${layer.id}.artifact`, `${layer.id} references missing source artifact ${artifact}.`);
@@ -172,6 +206,54 @@ if (!designPreferenceMemory.globalPreferences?.some((item) => item.id === "avoid
   issue("error", "designPreferenceMemory.genericDashboard", "Design preference memory must record the generic dashboard rejection.");
 }
 
+const designIntelligence = readJson(designIntelligencePath);
+if (designIntelligence.version !== "V1") issue("error", "designIntelligence.version", "Design intelligence registry must declare V1.");
+if (designIntelligence.status !== "active") issue("error", "designIntelligence.status", "Design intelligence registry must be active.");
+if ((designIntelligence.screenIntents ?? []).length < 7) issue("error", "designIntelligence.screenIntents", "Design intelligence must define core screen intents.");
+if ((designIntelligence.blueprints ?? []).length < 6) issue("error", "designIntelligence.blueprints", "Design intelligence must define core experience blueprints.");
+if ((designIntelligence.maturityLayers ?? []).length < 20) issue("error", "designIntelligence.maturityLayers", "Design intelligence must define the full 20-layer maturity model.");
+if ((designIntelligence.routeIntentMap ?? []).length < 7) issue("error", "designIntelligence.routeIntentMap", "Design intelligence must map primary fleet routes to intent and blueprint.");
+for (const key of ["tier3RequiresIntent", "tier3RequiresBlueprint", "tier3RequiresWorkflowProof", "tier3RequiresScreenshotReview", "tier3RequiresHumanDecision"]) {
+  if (designIntelligence.promotionPolicy?.[key] !== true) issue("error", `designIntelligence.promotionPolicy.${key}`, `Design intelligence promotion policy must require ${key}.`);
+}
+const designIntelligenceReport = readJson(designIntelligenceReportPath);
+if (designIntelligenceReport.summary?.layerCount !== (designIntelligence.maturityLayers ?? []).length) {
+  issue("error", "designIntelligenceReport.stale", "Design intelligence report is stale; rerun npm run dashboard:design-intelligence:generate.");
+}
+
+const productQuality = readJson(productQualityPath);
+if (productQuality.version !== "V1") issue("error", "productQuality.version", "Product quality control plane must declare V1.");
+if (productQuality.status !== "active") issue("error", "productQuality.status", "Product quality control plane must be active.");
+if ((productQuality.capabilities ?? []).length < 15) issue("error", "productQuality.capabilities", "Product quality control plane must define the full capability set.");
+if ((productQuality.fleetRoutes ?? []).length < 10) issue("error", "productQuality.fleetRoutes", "Product quality control plane must cover the current dashboard fleet.");
+if ((productQuality.gates ?? []).length < 5) issue("error", "productQuality.gates", "Product quality control plane must define promotion gates.");
+for (const key of ["everyRouteRequiresControlPlaneSignals", "tier3RequiresQualityGatePass", "productionPromotionRequiresFreshProof", "componentChangesRequireBlastRadius", "safeAutopatchesRequireProofRerun", "userRejectedPatternsBecomeFleetMemory"]) {
+  if (productQuality.policy?.[key] !== true) issue("error", `productQuality.policy.${key}`, `Product quality policy must require ${key}.`);
+}
+const productQualityReport = readJson(productQualityReportPath);
+if (productQualityReport.summary?.capabilityCount !== (productQuality.capabilities ?? []).length) {
+  issue("error", "productQualityReport.stale", "Product quality report is stale; rerun npm run dashboard:product-quality:generate.");
+}
+
+const platformIntelligence = readJson(platformIntelligencePath);
+if (platformIntelligence.version !== "V1") issue("error", "platformIntelligence.version", "Platform intelligence system must declare V1.");
+if (platformIntelligence.status !== "active") issue("error", "platformIntelligence.status", "Platform intelligence system must be active.");
+if ((platformIntelligence.platformLayers ?? []).length < 15) issue("error", "platformIntelligence.platformLayers", "Platform intelligence must define the full layer set.");
+if ((platformIntelligence.dashboards ?? []).length < 10) issue("error", "platformIntelligence.dashboards", "Platform intelligence must cover the dashboard fleet.");
+if ((platformIntelligence.strategyWorkflows ?? []).length < 6) issue("error", "platformIntelligence.strategyWorkflows", "Platform intelligence must define strategy workflows.");
+for (const key of ["everyDashboardRequiresProductPurpose", "everyDashboardRequiresBusinessObjectiveLinkage", "roadmapRequiresValueRiskEffortScore", "releasesRequireBusinessAndQualityGates", "productionTelemetryFeedsRoadmap", "humanReviewFeedsOrgMemory", "staleDashboardsEnterRefactorQueue"]) {
+  if (platformIntelligence.policy?.[key] !== true) issue("error", `platformIntelligence.policy.${key}`, `Platform intelligence policy must require ${key}.`);
+}
+const platformIntelligenceReport = readJson(platformIntelligenceReportPath);
+if (platformIntelligenceReport.summary?.layerCount !== (platformIntelligence.platformLayers ?? []).length) {
+  issue("error", "platformIntelligenceReport.stale", "Platform intelligence report is stale; rerun npm run dashboard:platform-intelligence:generate.");
+}
+
+const downstreamPlatform = readJson(downstreamPlatformPath);
+if (downstreamPlatform.version !== "V1") issue("error", "downstreamPlatform.version", "Downstream platform assessment must declare V1.");
+if ((downstreamPlatform.projects ?? []).length < 10) issue("error", "downstreamPlatform.projects", "Downstream platform assessment must cover the dashboard fleet.");
+if ((downstreamPlatform.requiredFleetMoves ?? []).length < 5) issue("error", "downstreamPlatform.requiredFleetMoves", "Downstream platform assessment must define required fleet moves.");
+
 const operatingPlan = readJson(operatingMaturityPlanPath);
 if (operatingPlan.schemaVersion !== 1) issue("error", "operatingPlan.schemaVersion", "Operating maturity plan must declare schemaVersion 1.");
 if ((operatingPlan.levels ?? []).length < 6) issue("error", "operatingPlan.levels", "Operating maturity plan must cover L0 through L5.");
@@ -179,6 +261,9 @@ if ((operatingPlan.workstreams ?? []).length < 10) issue("error", "operatingPlan
 
 const handbook = fs.readFileSync(handbookPath, "utf8");
 for (const phrase of ["Content And Copy Standard", "Information Priority Model", "Density And Responsiveness", "Design Debt", "Pattern Deprecation", "Human Review", "Agent Protocol"]) {
+  if (!handbook.includes(phrase)) issue("error", `handbook.${phrase}`, `Handbook must include ${phrase}.`);
+}
+for (const phrase of ["Route registration is mandatory", "standard card anatomy", "Tables with more than ten rows require pagination", "cannot be promoted to Tier 3C when any production page is unregistered"]) {
   if (!handbook.includes(phrase)) issue("error", `handbook.${phrase}`, `Handbook must include ${phrase}.`);
 }
 

@@ -1,0 +1,286 @@
+{
+  "schemaVersion": 1,
+  "version": "V1",
+  "generatedAt": "2026-08-14T22:49:31.954Z",
+  "summary": {
+    "layerCount": 20,
+    "activeLayerCount": 10,
+    "definedLayerCount": 10,
+    "screenIntentCount": 7,
+    "blueprintCount": 6,
+    "mappedRouteCount": 7,
+    "target": "Move from component presence to experience correctness."
+  },
+  "nextActions": [
+    "Require every Tier 3 route to declare screen intent and blueprint.",
+    "Add workflow proof scripts for mapped primary routes.",
+    "Connect screenshot review results to preference memory.",
+    "Promote approved project patterns into @hermes/dashboard-kit.",
+    "Use the route intent map to generate project-specific redesign packets."
+  ],
+  "routeIntentMap": [
+    {
+      "routeId": "meal-assistant.main",
+      "intent": "planner-workspace",
+      "blueprint": "calendar-planner",
+      "density": "comfortable",
+      "targetVisualTier": "V3",
+      "status": "mapped",
+      "pageContract": {
+        "requiredForEveryProductionPage": true,
+        "requiresRouteRegistration": true,
+        "requiresSpacingTokenProof": true,
+        "requiresCardDensityProof": true,
+        "requiresTableContainmentProof": true,
+        "requiresDrawerAndOverlayProof": true,
+        "requiresScreenshotStates": [
+          "desktop-expanded",
+          "desktop-collapsed",
+          "overflow-scan",
+          "primary-workflow"
+        ]
+      },
+      "nextProof": "capture screenshot, score rubric, run workflow proof, record approval state, prove page-level spacing and card-density contract"
+    },
+    {
+      "routeId": "media-engine.ops",
+      "intent": "approval-queue",
+      "blueprint": "review-queue",
+      "density": "standard",
+      "targetVisualTier": "V3",
+      "status": "mapped",
+      "pageContract": {
+        "requiredForEveryProductionPage": true,
+        "requiresRouteRegistration": true,
+        "requiresSpacingTokenProof": true,
+        "requiresCardDensityProof": true,
+        "requiresTableContainmentProof": true,
+        "requiresDrawerAndOverlayProof": true,
+        "requiresScreenshotStates": [
+          "desktop-expanded",
+          "desktop-collapsed",
+          "overflow-scan",
+          "primary-workflow"
+        ]
+      },
+      "nextProof": "capture screenshot, score rubric, run workflow proof, record approval state, prove page-level spacing and card-density contract"
+    },
+    {
+      "routeId": "media-business-operations.main",
+      "intent": "research-workspace",
+      "blueprint": "research-desk",
+      "density": "comfortable",
+      "targetVisualTier": "V3",
+      "status": "mapped",
+      "pageContract": {
+        "requiredForEveryProductionPage": true,
+        "requiresRouteRegistration": true,
+        "requiresSpacingTokenProof": true,
+        "requiresCardDensityProof": true,
+        "requiresTableContainmentProof": true,
+        "requiresDrawerAndOverlayProof": true,
+        "requiresScreenshotStates": [
+          "desktop-expanded",
+          "desktop-collapsed",
+          "overflow-scan",
+          "primary-workflow"
+        ]
+      },
+      "nextProof": "capture screenshot, score rubric, run workflow proof, record approval state, prove page-level spacing and card-density contract"
+    },
+    {
+      "routeId": "khashi-vc.roc",
+      "intent": "market-browser",
+      "blueprint": "market-browser",
+      "density": "standard",
+      "targetVisualTier": "V3",
+      "status": "mapped",
+      "pageContract": {
+        "requiredForEveryProductionPage": true,
+        "requiresRouteRegistration": true,
+        "requiresSpacingTokenProof": true,
+        "requiresCardDensityProof": true,
+        "requiresTableContainmentProof": true,
+        "requiresDrawerAndOverlayProof": true,
+        "requiresScreenshotStates": [
+          "desktop-expanded",
+          "desktop-collapsed",
+          "overflow-scan",
+          "primary-workflow"
+        ]
+      },
+      "nextProof": "capture screenshot, score rubric, run workflow proof, record approval state, prove page-level spacing and card-density contract"
+    },
+    {
+      "routeId": "investing-system.roc",
+      "intent": "trading-terminal",
+      "blueprint": "trading-terminal",
+      "density": "compact",
+      "targetVisualTier": "V3",
+      "status": "mapped",
+      "pageContract": {
+        "requiredForEveryProductionPage": true,
+        "requiresRouteRegistration": true,
+        "requiresSpacingTokenProof": true,
+        "requiresCardDensityProof": true,
+        "requiresTableContainmentProof": true,
+        "requiresDrawerAndOverlayProof": true,
+        "requiresScreenshotStates": [
+          "desktop-expanded",
+          "desktop-collapsed",
+          "overflow-scan",
+          "primary-workflow"
+        ]
+      },
+      "nextProof": "capture screenshot, score rubric, run workflow proof, record approval state, prove page-level spacing and card-density contract"
+    },
+    {
+      "routeId": "tlc-capital-group-os.main",
+      "intent": "okr-kpi-cockpit",
+      "blueprint": "command-center",
+      "density": "standard",
+      "targetVisualTier": "V3",
+      "status": "mapped",
+      "pageContract": {
+        "requiredForEveryProductionPage": true,
+        "requiresRouteRegistration": true,
+        "requiresSpacingTokenProof": true,
+        "requiresCardDensityProof": true,
+        "requiresTableContainmentProof": true,
+        "requiresDrawerAndOverlayProof": true,
+        "requiresScreenshotStates": [
+          "desktop-expanded",
+          "desktop-collapsed",
+          "overflow-scan",
+          "primary-workflow"
+        ]
+      },
+      "nextProof": "capture screenshot, score rubric, run workflow proof, record approval state, prove page-level spacing and card-density contract"
+    },
+    {
+      "routeId": "nous-hermes-agent.dashboard",
+      "intent": "command-cockpit",
+      "blueprint": "command-center",
+      "density": "standard",
+      "targetVisualTier": "V4",
+      "status": "mapped",
+      "pageContract": {
+        "requiredForEveryProductionPage": true,
+        "requiresRouteRegistration": true,
+        "requiresSpacingTokenProof": true,
+        "requiresCardDensityProof": true,
+        "requiresTableContainmentProof": true,
+        "requiresDrawerAndOverlayProof": true,
+        "requiresScreenshotStates": [
+          "desktop-expanded",
+          "desktop-collapsed",
+          "overflow-scan",
+          "primary-workflow"
+        ]
+      },
+      "nextProof": "capture screenshot, score rubric, run workflow proof, record approval state, prove page-level spacing and card-density contract"
+    }
+  ],
+  "maturityLayers": [
+    {
+      "id": "design-intent-engine",
+      "status": "active",
+      "acceptance": "Every primary route declares intent, density, primary question, and forbidden patterns."
+    },
+    {
+      "id": "experience-blueprints",
+      "status": "active",
+      "acceptance": "Each Tier 3 route maps to an approved blueprint."
+    },
+    {
+      "id": "component-recommendation-system",
+      "status": "active",
+      "acceptance": "Migration packets list required/missing components before build."
+    },
+    {
+      "id": "design-memory",
+      "status": "active",
+      "acceptance": "Preference memory is loaded by review packets and validation."
+    },
+    {
+      "id": "taste-calibration-loop",
+      "status": "active",
+      "acceptance": "Every material redesign records feedback as repeat/block rules."
+    },
+    {
+      "id": "screenshot-aware-review",
+      "status": "active",
+      "acceptance": "Screenshots are required before visual promotion."
+    },
+    {
+      "id": "reference-matching",
+      "status": "active",
+      "acceptance": "Blueprints cite reference families and extraction notes."
+    },
+    {
+      "id": "visual-diff-intelligence",
+      "status": "active",
+      "acceptance": "Review packets include before/after delta notes."
+    },
+    {
+      "id": "design-system-ci-blockers",
+      "status": "active",
+      "acceptance": "Validation fails when Tier 3 routes lack intent/blueprint/proof."
+    },
+    {
+      "id": "production-ux-monitoring",
+      "status": "active",
+      "acceptance": "Production UX metrics feed scorecards and stale queues."
+    },
+    {
+      "id": "design-debt-autopatcher",
+      "status": "defined",
+      "acceptance": "Next-action reports include patchable selectors and component replacements."
+    },
+    {
+      "id": "cross-project-pattern-reuse",
+      "status": "defined",
+      "acceptance": "Reusable learnings are promoted into dashboard kit then fleet packets."
+    },
+    {
+      "id": "product-workflow-proof",
+      "status": "defined",
+      "acceptance": "Primary workflows have executable proof scripts or explicit manual proof."
+    },
+    {
+      "id": "design-to-data-contract",
+      "status": "defined",
+      "acceptance": "Components declare data contracts, freshness, empty, partial, and error states."
+    },
+    {
+      "id": "operator-outcome-metrics",
+      "status": "defined",
+      "acceptance": "Scorecards include outcome metrics beyond visual pass/fail."
+    },
+    {
+      "id": "auto-tier-promotion",
+      "status": "defined",
+      "acceptance": "Tier approval command consumes all required evidence."
+    },
+    {
+      "id": "design-system-release-train",
+      "status": "defined",
+      "acceptance": "Kit releases include affected projects and adoption deadlines."
+    },
+    {
+      "id": "project-creation-gate",
+      "status": "defined",
+      "acceptance": "Starter generator requires intent, target tier, and proof route."
+    },
+    {
+      "id": "autonomous-fleet-refactor-loop",
+      "status": "defined",
+      "acceptance": "Fleet backlog ranks redesign debt by severity and expected score gain."
+    },
+    {
+      "id": "human-taste-console",
+      "status": "defined",
+      "acceptance": "Dashboard Kit Gallery shows queue, memory, rubric, blueprints, and decisions."
+    }
+  ]
+}

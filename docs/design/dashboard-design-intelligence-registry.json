@@ -1,0 +1,875 @@
+{
+  "schemaVersion": 1,
+  "version": "V1",
+  "generatedAt": "2026-08-14T22:49:31.954Z",
+  "title": "Dashboard Design Intelligence Registry",
+  "status": "active",
+  "owner": "nous-hermes-agent",
+  "purpose": "Make visual quality enforce screen intent, experience blueprints, taste memory, reference matching, workflow proof, production UX monitoring, and auto-promotion across the dashboard fleet.",
+  "promotionPolicy": {
+    "tier3RequiresIntent": true,
+    "tier3RequiresBlueprint": true,
+    "tier3RequiresPageRegistration": true,
+    "tier3RequiresSpacingContract": true,
+    "tier3RequiresCardDensityContract": true,
+    "tier3RequiresTableContainmentContract": true,
+    "tier3RequiresWorkflowProof": true,
+    "tier3RequiresScreenshotReview": true,
+    "tier3RequiresHumanDecision": true,
+    "tier4RequiresReusablePatternPromotion": true
+  },
+  "screenIntents": [
+    {
+      "id": "command-cockpit",
+      "label": "Command cockpit",
+      "density": "standard",
+      "primaryQuestion": "What needs attention now?",
+      "requiredBlueprints": [
+        "command-center",
+        "proof-strip",
+        "priority-queue"
+      ],
+      "forbiddenPatterns": [
+        "fat-repeated-banner",
+        "debug-first-layout",
+        "equal-weight-card-wall"
+      ]
+    },
+    {
+      "id": "planner-workspace",
+      "label": "Planner workspace",
+      "density": "comfortable",
+      "primaryQuestion": "What is being planned, for whom, and what happens next?",
+      "requiredBlueprints": [
+        "calendar-planner",
+        "right-drawer-workflow",
+        "checklist-export"
+      ],
+      "forbiddenPatterns": [
+        "compact-ops-density",
+        "card-calendar-grid",
+        "unpersisted-form"
+      ]
+    },
+    {
+      "id": "research-workspace",
+      "label": "Research workspace",
+      "density": "comfortable",
+      "primaryQuestion": "What is the project, what evidence exists, and what decision is next?",
+      "requiredBlueprints": [
+        "project-navigator",
+        "evidence-board",
+        "inspector-drawer"
+      ],
+      "forbiddenPatterns": [
+        "static-report-only",
+        "unclickable-action-card",
+        "hidden-evidence"
+      ]
+    },
+    {
+      "id": "approval-queue",
+      "label": "Approval queue",
+      "density": "standard",
+      "primaryQuestion": "What is waiting for review and what can be approved, revised, or declined?",
+      "requiredBlueprints": [
+        "review-queue",
+        "state-tabs",
+        "decision-buttons"
+      ],
+      "forbiddenPatterns": [
+        "missing-pagination",
+        "visible-long-helper-copy",
+        "duplicate-table-header"
+      ]
+    },
+    {
+      "id": "market-browser",
+      "label": "Market browser",
+      "density": "standard",
+      "primaryQuestion": "Which market/category should be inspected and why?",
+      "requiredBlueprints": [
+        "category-browser",
+        "detail-drawer",
+        "live-chart-panel"
+      ],
+      "forbiddenPatterns": [
+        "search-only-default",
+        "blank-selected-state",
+        "hand-drawn-chart"
+      ]
+    },
+    {
+      "id": "trading-terminal",
+      "label": "Trading terminal",
+      "density": "compact",
+      "primaryQuestion": "What is the instrument state, strategy signal, risk state, and execution state?",
+      "requiredBlueprints": [
+        "terminal-chart",
+        "watchlist-rail",
+        "order-ticket",
+        "risk-panel"
+      ],
+      "forbiddenPatterns": [
+        "small-chart-in-card",
+        "axisless-financial-chart",
+        "unconfirmed-execution"
+      ]
+    },
+    {
+      "id": "okr-kpi-cockpit",
+      "label": "OKR/KPI cockpit",
+      "density": "standard",
+      "primaryQuestion": "Are objectives on track, what changed, and who owns the next action?",
+      "requiredBlueprints": [
+        "objective-tree",
+        "key-result-scorecard",
+        "task-attribution"
+      ],
+      "forbiddenPatterns": [
+        "metric-only-dashboard",
+        "no-owner-governance",
+        "stale-progress"
+      ]
+    }
+  ],
+  "blueprints": [
+    {
+      "id": "command-center",
+      "intent": "command-cockpit",
+      "requiredSections": [
+        "decision summary",
+        "priority queue",
+        "proof/freshness",
+        "current blockers"
+      ],
+      "optionalSections": [
+        "trend chart",
+        "recent activity",
+        "drilldown drawer"
+      ],
+      "requiredComponents": [
+        "DashboardShell",
+        "MetricCard",
+        "ActionQueue",
+        "ProofStrip",
+        "DataFreshnessStrip"
+      ],
+      "proofRequirements": [
+        "desktop screenshot",
+        "collapsed-sidebar screenshot",
+        "priority action click proof",
+        "stale/error state proof"
+      ]
+    },
+    {
+      "id": "calendar-planner",
+      "intent": "planner-workspace",
+      "requiredSections": [
+        "month grid",
+        "selection state",
+        "right drawer",
+        "library/search",
+        "export checklist"
+      ],
+      "optionalSections": [
+        "generation rules",
+        "household preferences",
+        "pantry state"
+      ],
+      "requiredComponents": [
+        "MealPlannerCalendar",
+        "MealWeekDrawer",
+        "MealLibrary",
+        "ShoppingListExportPanel"
+      ],
+      "proofRequirements": [
+        "month screenshot",
+        "drawer-open screenshot",
+        "multi-select proof",
+        "save/reload proof"
+      ]
+    },
+    {
+      "id": "research-desk",
+      "intent": "research-workspace",
+      "requiredSections": [
+        "project navigator",
+        "active project brief",
+        "evidence board",
+        "workflow actions",
+        "inspector"
+      ],
+      "optionalSections": [
+        "story tree",
+        "source map",
+        "quote bank",
+        "clip list"
+      ],
+      "requiredComponents": [
+        "ResearchDeskWorkspace",
+        "DrilldownPanel",
+        "DataTable",
+        "AlertQueue"
+      ],
+      "proofRequirements": [
+        "new project proof",
+        "resume project proof",
+        "evidence review proof",
+        "workflow save proof"
+      ]
+    },
+    {
+      "id": "review-queue",
+      "intent": "approval-queue",
+      "requiredSections": [
+        "queue status",
+        "tabs",
+        "full-width table",
+        "decision controls",
+        "posting/result status"
+      ],
+      "optionalSections": [
+        "trend chart",
+        "brand filter",
+        "rejection reason drawer"
+      ],
+      "requiredComponents": [
+        "ContentPackageWorkspace",
+        "DataTable",
+        "TimeWindowSelector",
+        "StatePanel"
+      ],
+      "proofRequirements": [
+        "approval screenshot",
+        "decline reason proof",
+        "pagination proof",
+        "post result proof"
+      ]
+    },
+    {
+      "id": "market-browser",
+      "intent": "market-browser",
+      "requiredSections": [
+        "category rail",
+        "market list",
+        "live chart/detail",
+        "freshness/stale state",
+        "pagination"
+      ],
+      "optionalSections": [
+        "stream capacity",
+        "category heatmap",
+        "opportunity matrix"
+      ],
+      "requiredComponents": [
+        "PremiumMarketBrowser",
+        "DataTable",
+        "LineChart",
+        "Drawer",
+        "ProofStrip"
+      ],
+      "proofRequirements": [
+        "category navigation proof",
+        "market selection proof",
+        "real-data chart proof",
+        "insufficient-data state proof"
+      ]
+    },
+    {
+      "id": "trading-terminal",
+      "intent": "trading-terminal",
+      "requiredSections": [
+        "instrument toolbar",
+        "primary chart",
+        "watchlist",
+        "order ticket",
+        "risk/signal sidecar",
+        "positions"
+      ],
+      "optionalSections": [
+        "indicator library",
+        "strategy simulator",
+        "paper/live gate"
+      ],
+      "requiredComponents": [
+        "CandlestickChart",
+        "TradingTerminal",
+        "ActionQueue",
+        "ProofStrip",
+        "DataTable"
+      ],
+      "proofRequirements": [
+        "chart screenshot",
+        "indicator toggle proof",
+        "paper-order rehearsal proof",
+        "risk gate proof"
+      ]
+    }
+  ],
+  "maturityLayers": [
+    {
+      "id": "design-intent-engine",
+      "number": 1,
+      "status": "active",
+      "purpose": "Infer screen intent before judging layout.",
+      "acceptance": "Every primary route declares intent, density, primary question, and forbidden patterns.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-design-intelligence-registry.json",
+        "docs/design/dashboard-design-preference-memory.json",
+        "docs/design/dashboard-visual-maturity-rubric.json",
+        "docs/design/dashboard-visual-review-queue.json"
+      ],
+      "enforcementSignals": [
+        "intent declared",
+        "blueprint mapped",
+        "required components listed",
+        "proof requirements declared",
+        "human review status known"
+      ]
+    },
+    {
+      "id": "experience-blueprints",
+      "number": 2,
+      "status": "active",
+      "purpose": "Use canonical page/workflow blueprints instead of one-off route structures.",
+      "acceptance": "Each Tier 3 route maps to an approved blueprint.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-design-intelligence-registry.json",
+        "docs/design/dashboard-design-preference-memory.json",
+        "docs/design/dashboard-visual-maturity-rubric.json",
+        "docs/design/dashboard-visual-review-queue.json"
+      ],
+      "enforcementSignals": [
+        "intent declared",
+        "blueprint mapped",
+        "required components listed",
+        "proof requirements declared",
+        "human review status known"
+      ]
+    },
+    {
+      "id": "component-recommendation-system",
+      "number": 3,
+      "status": "active",
+      "purpose": "Recommend required kit components and missing component families for a route.",
+      "acceptance": "Migration packets list required/missing components before build.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-design-intelligence-registry.json",
+        "docs/design/dashboard-design-preference-memory.json",
+        "docs/design/dashboard-visual-maturity-rubric.json",
+        "docs/design/dashboard-visual-review-queue.json"
+      ],
+      "enforcementSignals": [
+        "intent declared",
+        "blueprint mapped",
+        "required components listed",
+        "proof requirements declared",
+        "human review status known"
+      ]
+    },
+    {
+      "id": "design-memory",
+      "number": 4,
+      "status": "active",
+      "purpose": "Persist approved and rejected user design preferences.",
+      "acceptance": "Preference memory is loaded by review packets and validation.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-design-intelligence-registry.json",
+        "docs/design/dashboard-design-preference-memory.json",
+        "docs/design/dashboard-visual-maturity-rubric.json",
+        "docs/design/dashboard-visual-review-queue.json"
+      ],
+      "enforcementSignals": [
+        "intent declared",
+        "blueprint mapped",
+        "required components listed",
+        "proof requirements declared",
+        "human review status known"
+      ]
+    },
+    {
+      "id": "taste-calibration-loop",
+      "number": 5,
+      "status": "active",
+      "purpose": "Turn screenshot approvals/rejections into future acceptance criteria.",
+      "acceptance": "Every material redesign records feedback as repeat/block rules.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-design-intelligence-registry.json",
+        "docs/design/dashboard-design-preference-memory.json",
+        "docs/design/dashboard-visual-maturity-rubric.json",
+        "docs/design/dashboard-visual-review-queue.json"
+      ],
+      "enforcementSignals": [
+        "intent declared",
+        "blueprint mapped",
+        "required components listed",
+        "proof requirements declared",
+        "human review status known"
+      ]
+    },
+    {
+      "id": "screenshot-aware-review",
+      "number": 6,
+      "status": "active",
+      "purpose": "Review rendered screenshots, not only DOM/source markers.",
+      "acceptance": "Screenshots are required before visual promotion.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-design-intelligence-registry.json",
+        "docs/design/dashboard-design-preference-memory.json",
+        "docs/design/dashboard-visual-maturity-rubric.json",
+        "docs/design/dashboard-visual-review-queue.json"
+      ],
+      "enforcementSignals": [
+        "intent declared",
+        "blueprint mapped",
+        "required components listed",
+        "proof requirements declared",
+        "human review status known"
+      ]
+    },
+    {
+      "id": "reference-matching",
+      "number": 7,
+      "status": "active",
+      "purpose": "Map route intent to Mobbin/reference families automatically.",
+      "acceptance": "Blueprints cite reference families and extraction notes.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-design-intelligence-registry.json",
+        "docs/design/dashboard-design-preference-memory.json",
+        "docs/design/dashboard-visual-maturity-rubric.json",
+        "docs/design/dashboard-visual-review-queue.json"
+      ],
+      "enforcementSignals": [
+        "intent declared",
+        "blueprint mapped",
+        "required components listed",
+        "proof requirements declared",
+        "human review status known"
+      ]
+    },
+    {
+      "id": "visual-diff-intelligence",
+      "number": 8,
+      "status": "active",
+      "purpose": "Summarize visual changes and regressions between captures.",
+      "acceptance": "Review packets include before/after delta notes.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-design-intelligence-registry.json",
+        "docs/design/dashboard-design-preference-memory.json",
+        "docs/design/dashboard-visual-maturity-rubric.json",
+        "docs/design/dashboard-visual-review-queue.json"
+      ],
+      "enforcementSignals": [
+        "intent declared",
+        "blueprint mapped",
+        "required components listed",
+        "proof requirements declared",
+        "human review status known"
+      ]
+    },
+    {
+      "id": "design-system-ci-blockers",
+      "number": 9,
+      "status": "active",
+      "purpose": "Block promotion when visual intelligence requirements are missing.",
+      "acceptance": "Validation fails when Tier 3 routes lack intent/blueprint/proof.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-design-intelligence-registry.json",
+        "docs/design/dashboard-design-preference-memory.json",
+        "docs/design/dashboard-visual-maturity-rubric.json",
+        "docs/design/dashboard-visual-review-queue.json"
+      ],
+      "enforcementSignals": [
+        "intent declared",
+        "blueprint mapped",
+        "required components listed",
+        "proof requirements declared",
+        "human review status known"
+      ]
+    },
+    {
+      "id": "production-ux-monitoring",
+      "number": 10,
+      "status": "active",
+      "purpose": "Track slow loads, stale states, dead clicks, and proof freshness.",
+      "acceptance": "Production UX metrics feed scorecards and stale queues.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-design-intelligence-registry.json",
+        "docs/design/dashboard-design-preference-memory.json",
+        "docs/design/dashboard-visual-maturity-rubric.json",
+        "docs/design/dashboard-visual-review-queue.json"
+      ],
+      "enforcementSignals": [
+        "intent declared",
+        "blueprint mapped",
+        "required components listed",
+        "proof requirements declared",
+        "human review status known"
+      ]
+    },
+    {
+      "id": "design-debt-autopatcher",
+      "number": 11,
+      "status": "defined",
+      "purpose": "Generate concrete safe patches for known visual debt.",
+      "acceptance": "Next-action reports include patchable selectors and component replacements.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-design-intelligence-registry.json",
+        "docs/design/dashboard-design-preference-memory.json",
+        "docs/design/dashboard-visual-maturity-rubric.json",
+        "docs/design/dashboard-visual-review-queue.json"
+      ],
+      "enforcementSignals": [
+        "intent declared",
+        "blueprint mapped",
+        "required components listed",
+        "proof requirements declared",
+        "human review status known"
+      ]
+    },
+    {
+      "id": "cross-project-pattern-reuse",
+      "number": 12,
+      "status": "defined",
+      "purpose": "Propagate a fixed pattern to similar routes in other projects.",
+      "acceptance": "Reusable learnings are promoted into dashboard kit then fleet packets.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-design-intelligence-registry.json",
+        "docs/design/dashboard-design-preference-memory.json",
+        "docs/design/dashboard-visual-maturity-rubric.json",
+        "docs/design/dashboard-visual-review-queue.json"
+      ],
+      "enforcementSignals": [
+        "intent declared",
+        "blueprint mapped",
+        "required components listed",
+        "proof requirements declared",
+        "human review status known"
+      ]
+    },
+    {
+      "id": "product-workflow-proof",
+      "number": 13,
+      "status": "defined",
+      "purpose": "Prove the route supports its core task end to end.",
+      "acceptance": "Primary workflows have executable proof scripts or explicit manual proof.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-design-intelligence-registry.json",
+        "docs/design/dashboard-design-preference-memory.json",
+        "docs/design/dashboard-visual-maturity-rubric.json",
+        "docs/design/dashboard-visual-review-queue.json"
+      ],
+      "enforcementSignals": [
+        "intent declared",
+        "blueprint mapped",
+        "required components listed",
+        "proof requirements declared",
+        "human review status known"
+      ]
+    },
+    {
+      "id": "design-to-data-contract",
+      "number": 14,
+      "status": "defined",
+      "purpose": "Tie visual components to required data shapes and states.",
+      "acceptance": "Components declare data contracts, freshness, empty, partial, and error states.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-design-intelligence-registry.json",
+        "docs/design/dashboard-design-preference-memory.json",
+        "docs/design/dashboard-visual-maturity-rubric.json",
+        "docs/design/dashboard-visual-review-queue.json"
+      ],
+      "enforcementSignals": [
+        "intent declared",
+        "blueprint mapped",
+        "required components listed",
+        "proof requirements declared",
+        "human review status known"
+      ]
+    },
+    {
+      "id": "operator-outcome-metrics",
+      "number": 15,
+      "status": "defined",
+      "purpose": "Judge dashboards by decision speed, trust, recovery, and workflow completion.",
+      "acceptance": "Scorecards include outcome metrics beyond visual pass/fail.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-design-intelligence-registry.json",
+        "docs/design/dashboard-design-preference-memory.json",
+        "docs/design/dashboard-visual-maturity-rubric.json",
+        "docs/design/dashboard-visual-review-queue.json"
+      ],
+      "enforcementSignals": [
+        "intent declared",
+        "blueprint mapped",
+        "required components listed",
+        "proof requirements declared",
+        "human review status known"
+      ]
+    },
+    {
+      "id": "auto-tier-promotion",
+      "number": 16,
+      "status": "defined",
+      "purpose": "Promote only when technical, visual, workflow, production, and human gates pass.",
+      "acceptance": "Tier approval command consumes all required evidence.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-design-intelligence-registry.json",
+        "docs/design/dashboard-design-preference-memory.json",
+        "docs/design/dashboard-visual-maturity-rubric.json",
+        "docs/design/dashboard-visual-review-queue.json"
+      ],
+      "enforcementSignals": [
+        "intent declared",
+        "blueprint mapped",
+        "required components listed",
+        "proof requirements declared",
+        "human review status known"
+      ]
+    },
+    {
+      "id": "design-system-release-train",
+      "number": 17,
+      "status": "defined",
+      "purpose": "Version design-system standards and migration requirements.",
+      "acceptance": "Kit releases include affected projects and adoption deadlines.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-design-intelligence-registry.json",
+        "docs/design/dashboard-design-preference-memory.json",
+        "docs/design/dashboard-visual-maturity-rubric.json",
+        "docs/design/dashboard-visual-review-queue.json"
+      ],
+      "enforcementSignals": [
+        "intent declared",
+        "blueprint mapped",
+        "required components listed",
+        "proof requirements declared",
+        "human review status known"
+      ]
+    },
+    {
+      "id": "project-creation-gate",
+      "number": 18,
+      "status": "defined",
+      "purpose": "Prevent new dashboards from starting without blueprint, data, and proof contracts.",
+      "acceptance": "Starter generator requires intent, target tier, and proof route.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-design-intelligence-registry.json",
+        "docs/design/dashboard-design-preference-memory.json",
+        "docs/design/dashboard-visual-maturity-rubric.json",
+        "docs/design/dashboard-visual-review-queue.json"
+      ],
+      "enforcementSignals": [
+        "intent declared",
+        "blueprint mapped",
+        "required components listed",
+        "proof requirements declared",
+        "human review status known"
+      ]
+    },
+    {
+      "id": "autonomous-fleet-refactor-loop",
+      "number": 19,
+      "status": "defined",
+      "purpose": "Scan fleet, rank safe patches, and produce deployable migration packets.",
+      "acceptance": "Fleet backlog ranks redesign debt by severity and expected score gain.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-design-intelligence-registry.json",
+        "docs/design/dashboard-design-preference-memory.json",
+        "docs/design/dashboard-visual-maturity-rubric.json",
+        "docs/design/dashboard-visual-review-queue.json"
+      ],
+      "enforcementSignals": [
+        "intent declared",
+        "blueprint mapped",
+        "required components listed",
+        "proof requirements declared",
+        "human review status known"
+      ]
+    },
+    {
+      "id": "human-taste-console",
+      "number": 20,
+      "status": "defined",
+      "purpose": "Expose screenshots, approvals, rejections, and preferences in a review UI.",
+      "acceptance": "Dashboard Kit Gallery shows queue, memory, rubric, blueprints, and decisions.",
+      "sourceArtifacts": [
+        "docs/design/dashboard-design-intelligence-registry.json",
+        "docs/design/dashboard-design-preference-memory.json",
+        "docs/design/dashboard-visual-maturity-rubric.json",
+        "docs/design/dashboard-visual-review-queue.json"
+      ],
+      "enforcementSignals": [
+        "intent declared",
+        "blueprint mapped",
+        "required components listed",
+        "proof requirements declared",
+        "human review status known"
+      ]
+    }
+  ],
+  "routeIntentMap": [
+    {
+      "routeId": "meal-assistant.main",
+      "intent": "planner-workspace",
+      "blueprint": "calendar-planner",
+      "density": "comfortable",
+      "targetVisualTier": "V3",
+      "status": "mapped",
+      "pageContract": {
+        "requiredForEveryProductionPage": true,
+        "requiresRouteRegistration": true,
+        "requiresSpacingTokenProof": true,
+        "requiresCardDensityProof": true,
+        "requiresTableContainmentProof": true,
+        "requiresDrawerAndOverlayProof": true,
+        "requiresScreenshotStates": [
+          "desktop-expanded",
+          "desktop-collapsed",
+          "overflow-scan",
+          "primary-workflow"
+        ]
+      },
+      "nextProof": "capture screenshot, score rubric, run workflow proof, record approval state, prove page-level spacing and card-density contract"
+    },
+    {
+      "routeId": "media-engine.ops",
+      "intent": "approval-queue",
+      "blueprint": "review-queue",
+      "density": "standard",
+      "targetVisualTier": "V3",
+      "status": "mapped",
+      "pageContract": {
+        "requiredForEveryProductionPage": true,
+        "requiresRouteRegistration": true,
+        "requiresSpacingTokenProof": true,
+        "requiresCardDensityProof": true,
+        "requiresTableContainmentProof": true,
+        "requiresDrawerAndOverlayProof": true,
+        "requiresScreenshotStates": [
+          "desktop-expanded",
+          "desktop-collapsed",
+          "overflow-scan",
+          "primary-workflow"
+        ]
+      },
+      "nextProof": "capture screenshot, score rubric, run workflow proof, record approval state, prove page-level spacing and card-density contract"
+    },
+    {
+      "routeId": "media-business-operations.main",
+      "intent": "research-workspace",
+      "blueprint": "research-desk",
+      "density": "comfortable",
+      "targetVisualTier": "V3",
+      "status": "mapped",
+      "pageContract": {
+        "requiredForEveryProductionPage": true,
+        "requiresRouteRegistration": true,
+        "requiresSpacingTokenProof": true,
+        "requiresCardDensityProof": true,
+        "requiresTableContainmentProof": true,
+        "requiresDrawerAndOverlayProof": true,
+        "requiresScreenshotStates": [
+          "desktop-expanded",
+          "desktop-collapsed",
+          "overflow-scan",
+          "primary-workflow"
+        ]
+      },
+      "nextProof": "capture screenshot, score rubric, run workflow proof, record approval state, prove page-level spacing and card-density contract"
+    },
+    {
+      "routeId": "khashi-vc.roc",
+      "intent": "market-browser",
+      "blueprint": "market-browser",
+      "density": "standard",
+      "targetVisualTier": "V3",
+      "status": "mapped",
+      "pageContract": {
+        "requiredForEveryProductionPage": true,
+        "requiresRouteRegistration": true,
+        "requiresSpacingTokenProof": true,
+        "requiresCardDensityProof": true,
+        "requiresTableContainmentProof": true,
+        "requiresDrawerAndOverlayProof": true,
+        "requiresScreenshotStates": [
+          "desktop-expanded",
+          "desktop-collapsed",
+          "overflow-scan",
+          "primary-workflow"
+        ]
+      },
+      "nextProof": "capture screenshot, score rubric, run workflow proof, record approval state, prove page-level spacing and card-density contract"
+    },
+    {
+      "routeId": "investing-system.roc",
+      "intent": "trading-terminal",
+      "blueprint": "trading-terminal",
+      "density": "compact",
+      "targetVisualTier": "V3",
+      "status": "mapped",
+      "pageContract": {
+        "requiredForEveryProductionPage": true,
+        "requiresRouteRegistration": true,
+        "requiresSpacingTokenProof": true,
+        "requiresCardDensityProof": true,
+        "requiresTableContainmentProof": true,
+        "requiresDrawerAndOverlayProof": true,
+        "requiresScreenshotStates": [
+          "desktop-expanded",
+          "desktop-collapsed",
+          "overflow-scan",
+          "primary-workflow"
+        ]
+      },
+      "nextProof": "capture screenshot, score rubric, run workflow proof, record approval state, prove page-level spacing and card-density contract"
+    },
+    {
+      "routeId": "tlc-capital-group-os.main",
+      "intent": "okr-kpi-cockpit",
+      "blueprint": "command-center",
+      "density": "standard",
+      "targetVisualTier": "V3",
+      "status": "mapped",
+      "pageContract": {
+        "requiredForEveryProductionPage": true,
+        "requiresRouteRegistration": true,
+        "requiresSpacingTokenProof": true,
+        "requiresCardDensityProof": true,
+        "requiresTableContainmentProof": true,
+        "requiresDrawerAndOverlayProof": true,
+        "requiresScreenshotStates": [
+          "desktop-expanded",
+          "desktop-collapsed",
+          "overflow-scan",
+          "primary-workflow"
+        ]
+      },
+      "nextProof": "capture screenshot, score rubric, run workflow proof, record approval state, prove page-level spacing and card-density contract"
+    },
+    {
+      "routeId": "nous-hermes-agent.dashboard",
+      "intent": "command-cockpit",
+      "blueprint": "command-center",
+      "density": "standard",
+      "targetVisualTier": "V4",
+      "status": "mapped",
+      "pageContract": {
+        "requiredForEveryProductionPage": true,
+        "requiresRouteRegistration": true,
+        "requiresSpacingTokenProof": true,
+        "requiresCardDensityProof": true,
+        "requiresTableContainmentProof": true,
+        "requiresDrawerAndOverlayProof": true,
+        "requiresScreenshotStates": [
+          "desktop-expanded",
+          "desktop-collapsed",
+          "overflow-scan",
+          "primary-workflow"
+        ]
+      },
+      "nextProof": "capture screenshot, score rubric, run workflow proof, record approval state, prove page-level spacing and card-density contract"
+    }
+  ]
+}

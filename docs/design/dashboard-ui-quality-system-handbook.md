@@ -39,12 +39,33 @@ Approved density modes:
 - compact: operating cockpits and dashboards
 - dense: tables, logs, queues, and analyst workspaces
 
+Route registration is mandatory. Every production dashboard route must declare:
+
+- project and route id
+- page list
+- screen intent
+- experience blueprint
+- density mode
+- required card, table, chart, drawer, and shell components
+- proof route and screenshot states
+- allowed exceptions and expiry dates
+
 Rules:
 
 - Sidebar collapse must preserve navigation access.
 - Tables own horizontal scroll inside the table surface.
 - Wide charts/tables should use full-width rows unless a split layout is selected.
 - Mobile views use drawers or bottom sheets for detail.
+- Page, section, card, drawer, and table spacing must come from approved dashboard tokens.
+- Cards must use the standard card anatomy: header, optional actions/help, body, optional footer.
+- Card content cannot be dropped directly into a background surface without internal spacing.
+- Adjacent cards must use the approved section/grid gap for the route density.
+- Tables with more than ten rows require pagination or virtualization inside a card-contained table surface.
+- Full-width data tables and charts should not be squeezed beside unrelated cards unless the blueprint explicitly calls for a split pane.
+
+Promotion rule:
+
+- A dashboard cannot be promoted to Tier 3C when any production page is unregistered, uses local spacing/card-density overrides, has card content overflow, hides content behind cards, or lacks screenshot proof for the declared density mode.
 
 ## Accessibility And Keyboard Operation
 

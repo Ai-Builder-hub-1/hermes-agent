@@ -1,0 +1,306 @@
+{
+  "schemaVersion": 1,
+  "version": "V1",
+  "generatedAt": "2026-08-14T23:24:16.208Z",
+  "summary": {
+    "capabilityCount": 15,
+    "activeCapabilityCount": 3,
+    "definedCapabilityCount": 12,
+    "fleetRouteCount": 10,
+    "gateCount": 5,
+    "blockingGateCount": 5,
+    "target": "Move dashboard quality from standards enforcement to a closed-loop product-quality control plane."
+  },
+  "nextActions": [
+    "Generate route-level acceptance criteria before each dashboard build.",
+    "Create component dependency graphs from import and surface manifests.",
+    "Attach rendered visual proof, workflow proof, and human review state to every route.",
+    "Score component health and use it to drive upgrade campaigns.",
+    "Promote approved project patterns into the dashboard kit and deprecate local imitations."
+  ],
+  "capabilityStatus": [
+    {
+      "id": "autonomous-product-architect",
+      "status": "defined",
+      "purpose": "Infer product surface type, operator workflow, required components, applicable standards, and proof needs before implementation starts."
+    },
+    {
+      "id": "design-system-dependency-graph",
+      "status": "defined",
+      "purpose": "Track how every route depends on components, tokens, charts, tables, data contracts, and proof routes."
+    },
+    {
+      "id": "component-health-scores",
+      "status": "defined",
+      "purpose": "Score shared components by proof coverage, usage, accessibility, interaction completeness, defects, and overrides."
+    },
+    {
+      "id": "real-user-ux-analytics",
+      "status": "defined",
+      "purpose": "Measure production operator behavior, failures, slow paths, and ignored UI regions."
+    },
+    {
+      "id": "design-regression-root-cause",
+      "status": "defined",
+      "purpose": "Explain why a rendered UI regressed by linking screenshots to component, token, data, viewport, or shell changes."
+    },
+    {
+      "id": "automated-component-upgrade-campaigns",
+      "status": "defined",
+      "purpose": "Generate ordered project migrations when the dashboard kit adds better certified components."
+    },
+    {
+      "id": "cross-fleet-ux-benchmarking",
+      "status": "defined",
+      "purpose": "Compare similar surfaces across projects and promote the strongest implementation as the fleet reference."
+    },
+    {
+      "id": "reference-driven-generation",
+      "status": "defined",
+      "purpose": "Convert approved reference patterns into component anatomy, layout constraints, state coverage, and acceptance criteria."
+    },
+    {
+      "id": "operator-persona-modeling",
+      "status": "defined",
+      "purpose": "Adjust dashboard density, defaults, copy, and proof by operator persona."
+    },
+    {
+      "id": "workflow-outcome-learning",
+      "status": "defined",
+      "purpose": "Learn which UI patterns reduce decision time, dead clicks, and manual workarounds."
+    },
+    {
+      "id": "design-experiment-framework",
+      "status": "defined",
+      "purpose": "Run governed UI experiments for layout, chart, table, sidebar, drawer, and copy variations."
+    },
+    {
+      "id": "acceptance-criteria-generator",
+      "status": "active",
+      "purpose": "Generate required visibility, interaction, data-state, screenshot, and workflow proof criteria for every dashboard change."
+    },
+    {
+      "id": "product-quality-ledger",
+      "status": "active",
+      "purpose": "Persist what changed, why it changed, proof before/after, user feedback, regression risk, and follow-up obligations."
+    },
+    {
+      "id": "self-healing-ui-layer",
+      "status": "defined",
+      "purpose": "Automatically apply safe repairs for known issues like missing pagination, duplicate helper text, deprecated classes, and old sidebar patterns."
+    },
+    {
+      "id": "org-level-design-governance",
+      "status": "active",
+      "purpose": "Expose TLC-level ownership, exceptions, release gates, signoffs, and design-system roadmap across all products."
+    }
+  ],
+  "fleetRoutes": [
+    {
+      "routeId": "nous-hermes-agent.dashboard",
+      "domain": "control-plane",
+      "intent": "command-cockpit",
+      "targetTier": "V4",
+      "proofFocus": "own the fleet quality console and review state",
+      "requiredControlPlaneSignals": [
+        "route registered",
+        "component dependencies known",
+        "visual score known",
+        "workflow proof known",
+        "design debt known",
+        "promotion blockers known"
+      ]
+    },
+    {
+      "routeId": "media-engine.ops",
+      "domain": "media-operations",
+      "intent": "approval-queue",
+      "targetTier": "V3",
+      "proofFocus": "prove package generation, approval, rejection, and posting status",
+      "requiredControlPlaneSignals": [
+        "route registered",
+        "component dependencies known",
+        "visual score known",
+        "workflow proof known",
+        "design debt known",
+        "promotion blockers known"
+      ]
+    },
+    {
+      "routeId": "media-business-operations.main",
+      "domain": "media-business",
+      "intent": "research-workspace",
+      "targetTier": "V3",
+      "proofFocus": "prove project creation, evidence review, and story workflow",
+      "requiredControlPlaneSignals": [
+        "route registered",
+        "component dependencies known",
+        "visual score known",
+        "workflow proof known",
+        "design debt known",
+        "promotion blockers known"
+      ]
+    },
+    {
+      "routeId": "meal-assistant.main",
+      "domain": "household-planning",
+      "intent": "planner-workspace",
+      "targetTier": "V3",
+      "proofFocus": "prove month calendar, multi-day planning, drawer save, and checklist export",
+      "requiredControlPlaneSignals": [
+        "route registered",
+        "component dependencies known",
+        "visual score known",
+        "workflow proof known",
+        "design debt known",
+        "promotion blockers known"
+      ]
+    },
+    {
+      "routeId": "khashi-vc.roc",
+      "domain": "market-intelligence",
+      "intent": "market-browser",
+      "targetTier": "V3",
+      "proofFocus": "prove category browse, live chart data, stale states, and pagination",
+      "requiredControlPlaneSignals": [
+        "route registered",
+        "component dependencies known",
+        "visual score known",
+        "workflow proof known",
+        "design debt known",
+        "promotion blockers known"
+      ]
+    },
+    {
+      "routeId": "investing-system.roc",
+      "domain": "trading",
+      "intent": "trading-terminal",
+      "targetTier": "V3",
+      "proofFocus": "prove chart, indicators, paper execution, risk gate, and no live trade without promotion",
+      "requiredControlPlaneSignals": [
+        "route registered",
+        "component dependencies known",
+        "visual score known",
+        "workflow proof known",
+        "design debt known",
+        "promotion blockers known"
+      ]
+    },
+    {
+      "routeId": "tlc-capital-group-os.main",
+      "domain": "holding-company",
+      "intent": "okr-kpi-cockpit",
+      "targetTier": "V3",
+      "proofFocus": "prove OKR/KPI hierarchy, ownership, task attribution, and review cadence",
+      "requiredControlPlaneSignals": [
+        "route registered",
+        "component dependencies known",
+        "visual score known",
+        "workflow proof known",
+        "design debt known",
+        "promotion blockers known"
+      ]
+    },
+    {
+      "routeId": "business-mapper.workspace",
+      "domain": "mapping",
+      "intent": "research-workspace",
+      "targetTier": "V3",
+      "proofFocus": "prove graph workspace, validation queue, deliverables, and advisory flow",
+      "requiredControlPlaneSignals": [
+        "route registered",
+        "component dependencies known",
+        "visual score known",
+        "workflow proof known",
+        "design debt known",
+        "promotion blockers known"
+      ]
+    },
+    {
+      "routeId": "hermes-os.main",
+      "domain": "platform",
+      "intent": "command-cockpit",
+      "targetTier": "V3",
+      "proofFocus": "prove deployment, routing, health, and adoption governance",
+      "requiredControlPlaneSignals": [
+        "route registered",
+        "component dependencies known",
+        "visual score known",
+        "workflow proof known",
+        "design debt known",
+        "promotion blockers known"
+      ]
+    },
+    {
+      "routeId": "rinseables-os.main",
+      "domain": "commerce-ops",
+      "intent": "command-cockpit",
+      "targetTier": "V3",
+      "proofFocus": "prove operations cockpit and proof route",
+      "requiredControlPlaneSignals": [
+        "route registered",
+        "component dependencies known",
+        "visual score known",
+        "workflow proof known",
+        "design debt known",
+        "promotion blockers known"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "id": "pre-build-quality-plan",
+      "stage": "before-build",
+      "blocksPromotion": true,
+      "checks": [
+        "route intent selected",
+        "blueprint selected",
+        "required components listed",
+        "proof plan generated"
+      ]
+    },
+    {
+      "id": "implementation-quality-gate",
+      "stage": "during-build",
+      "blocksPromotion": true,
+      "checks": [
+        "package-native components used",
+        "local overrides justified",
+        "data states implemented",
+        "workflow controls clickable"
+      ]
+    },
+    {
+      "id": "rendered-proof-gate",
+      "stage": "after-build",
+      "blocksPromotion": true,
+      "checks": [
+        "screenshots captured",
+        "visual score meets target",
+        "overflow scan clean",
+        "sidebar states clean"
+      ]
+    },
+    {
+      "id": "production-quality-gate",
+      "stage": "after-deploy",
+      "blocksPromotion": true,
+      "checks": [
+        "proof route fresh",
+        "production load healthy",
+        "runtime errors clean",
+        "workflow telemetry available"
+      ]
+    },
+    {
+      "id": "human-taste-gate",
+      "stage": "promotion",
+      "blocksPromotion": true,
+      "checks": [
+        "approved or excepted review decision",
+        "rejections recorded",
+        "preference memory updated"
+      ]
+    }
+  ]
+}

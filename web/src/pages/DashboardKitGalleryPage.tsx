@@ -14,6 +14,30 @@ import { useState } from "react";
 import "./dashboard-kit-gallery-kit.css";
 import { dashboardKitGalleryReport } from "./dashboard-kit-gallery-data";
 import {
+  dashboardDesignIntelligenceBlueprints,
+  dashboardDesignIntelligenceLayers,
+  dashboardDesignIntelligenceRouteMap,
+  dashboardDesignIntelligenceScreenIntents,
+  dashboardDesignIntelligenceSummary,
+} from "./dashboard-design-intelligence-data";
+import {
+  dashboardProductQualityControlPlaneCapabilities,
+  dashboardProductQualityControlPlaneFleetRoutes,
+  dashboardProductQualityControlPlaneGates,
+  dashboardProductQualityControlPlaneSummary,
+} from "./dashboard-product-quality-control-plane-data";
+import {
+  dashboardDownstreamPlatformAssessmentProjects,
+  dashboardDownstreamPlatformAssessmentSummary,
+  dashboardDownstreamPlatformRequiredFleetMoves,
+} from "./dashboard-downstream-platform-assessment-data";
+import {
+  dashboardPlatformIntelligenceDashboards,
+  dashboardPlatformIntelligenceLayers,
+  dashboardPlatformIntelligenceSummary,
+  dashboardPlatformIntelligenceWorkflows,
+} from "./dashboard-platform-intelligence-data";
+import {
   dashboardDesignPreferences,
   dashboardVisualCriteria,
   dashboardVisualMaturityGeneratedAt,
@@ -95,6 +119,15 @@ export default function DashboardKitGalleryPage() {
             </a>
             <a className="rounded-lg border border-border bg-background px-3 py-2 text-sm font-medium text-foreground hover:bg-muted" href="#visual-maturity">
               Visual maturity
+            </a>
+            <a className="rounded-lg border border-border bg-background px-3 py-2 text-sm font-medium text-foreground hover:bg-muted" href="#design-intelligence">
+              Design intelligence
+            </a>
+            <a className="rounded-lg border border-border bg-background px-3 py-2 text-sm font-medium text-foreground hover:bg-muted" href="#product-quality">
+              Product quality
+            </a>
+            <a className="rounded-lg border border-border bg-background px-3 py-2 text-sm font-medium text-foreground hover:bg-muted" href="#platform-intelligence">
+              Platform intelligence
             </a>
             <a className="rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90" href="#component-families">
               Component families
@@ -281,6 +314,334 @@ export default function DashboardKitGalleryPage() {
                     <span key={check} className="rounded-full border border-border bg-background px-2 py-1 text-[0.7rem] font-medium text-muted-foreground">{check}</span>
                   ))}
                 </div>
+              </div>
+            ))}
+          </div>
+        </article>
+      </section>
+
+      <section id="design-intelligence" className="hdk-card hdk-section rounded-2xl border border-border bg-card p-5 shadow-sm" data-review-id="hermes.dashboard-kit-gallery.design-intelligence">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Design Intelligence</div>
+            <h2 className="mt-2 text-xl font-semibold text-foreground">Intent, blueprints, and fleet route mapping</h2>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
+              This layer prevents technically valid dashboards from reverting to dense generic pages by requiring screen intent, blueprint fit, workflow proof, screenshot review, and human decision state.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+            <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground">
+              {dashboardDesignIntelligenceSummary.layerCount} layers
+            </span>
+            <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground">
+              {dashboardDesignIntelligenceSummary.screenIntentCount} intents
+            </span>
+            <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground">
+              {dashboardDesignIntelligenceSummary.blueprintCount} blueprints
+            </span>
+            <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground">
+              {dashboardDesignIntelligenceSummary.mappedRouteCount} mapped routes
+            </span>
+          </div>
+        </div>
+
+        <div className="mt-5 grid gap-4 xl:grid-cols-[minmax(0,0.95fr)_minmax(360px,0.55fr)]">
+          <article className="rounded-2xl border border-border bg-background p-4">
+            <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Experience blueprints</div>
+            <div className="mt-3 grid gap-3">
+              {dashboardDesignIntelligenceBlueprints.map((blueprint) => (
+                <div key={blueprint.id} className="rounded-xl border border-border bg-card p-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="text-sm font-semibold text-foreground">{blueprint.id.replaceAll("-", " ")}</div>
+                    <span className="rounded-full border border-border bg-background px-2 py-0.5 text-xs font-semibold text-muted-foreground">{blueprint.intent}</span>
+                  </div>
+                  <div className="mt-3 grid gap-2 md:grid-cols-2">
+                    <ReviewNotes title="Sections" values={blueprint.requiredSections} />
+                    <ReviewNotes title="Proof" values={blueprint.proofRequirements} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </article>
+
+          <aside className="rounded-2xl border border-border bg-background p-4">
+            <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Screen intents</div>
+            <div className="mt-3 grid gap-2">
+              {dashboardDesignIntelligenceScreenIntents.map((intent) => (
+                <div key={intent.id} className="rounded-xl border border-border bg-card p-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="text-sm font-semibold text-foreground">{intent.label}</div>
+                    <span className="rounded-full border border-border bg-background px-2 py-0.5 text-xs font-semibold text-muted-foreground">{intent.density}</span>
+                  </div>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{intent.primaryQuestion}</p>
+                </div>
+              ))}
+            </div>
+          </aside>
+        </div>
+
+        <article className="mt-4 rounded-2xl border border-border bg-background p-4">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Fleet Route Intent Map</div>
+              <h3 className="mt-2 text-lg font-semibold text-foreground">Primary routes now require page-level contracts</h3>
+            </div>
+            <span className="rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold text-muted-foreground">
+              {dashboardDesignIntelligenceRouteMap.length} routes
+            </span>
+          </div>
+          <div className="mt-4 overflow-x-auto rounded-xl border border-border bg-card">
+            <table className="w-full min-w-[920px] text-left text-sm">
+              <thead className="border-b border-border text-xs uppercase tracking-wide text-muted-foreground">
+                <tr>
+                  <th className="px-3 py-3">Route</th>
+                  <th className="px-3 py-3">Intent</th>
+                  <th className="px-3 py-3">Blueprint</th>
+                  <th className="px-3 py-3">Density</th>
+                  <th className="px-3 py-3">Target</th>
+                  <th className="px-3 py-3">Page contract</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {dashboardDesignIntelligenceRouteMap.map((route) => (
+                  <tr key={route.routeId}>
+                    <td className="px-3 py-3 font-semibold text-foreground">{route.routeId}</td>
+                    <td className="px-3 py-3 text-muted-foreground">{route.intent}</td>
+                    <td className="px-3 py-3 text-muted-foreground">{route.blueprint}</td>
+                    <td className="px-3 py-3 text-muted-foreground">{route.density}</td>
+                    <td className="px-3 py-3 text-muted-foreground">{route.targetVisualTier}</td>
+                    <td className="px-3 py-3 text-muted-foreground">
+                      {route.pageContract?.requiredForEveryProductionPage ? "spacing, card density, tables, drawers, screenshots" : "missing"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article className="mt-4 rounded-2xl border border-border bg-background p-4">
+          <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Maturity layers</div>
+          <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-4">
+            {dashboardDesignIntelligenceLayers.map((layer) => (
+              <div key={layer.id} className="rounded-xl border border-border bg-card p-3">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="text-sm font-semibold text-foreground">{layer.number}. {layer.id.replaceAll("-", " ")}</div>
+                  <span className="rounded-full border border-border bg-background px-2 py-0.5 text-xs font-semibold text-muted-foreground">{layer.status}</span>
+                </div>
+                <p className="mt-2 text-xs leading-5 text-muted-foreground">{layer.acceptance}</p>
+              </div>
+            ))}
+          </div>
+        </article>
+      </section>
+
+      <section id="product-quality" className="hdk-card hdk-section rounded-2xl border border-border bg-card p-5 shadow-sm" data-review-id="hermes.dashboard-kit-gallery.product-quality-control-plane">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Product Quality Control Plane</div>
+            <h2 className="mt-2 text-xl font-semibold text-foreground">Closed-loop quality governance</h2>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
+              This layer moves the fleet from static standards into measurable product quality: dependency graphs, component health, UX telemetry, regression root cause, upgrade campaigns, acceptance criteria, and promotion gates.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+            <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground">
+              {dashboardProductQualityControlPlaneSummary.capabilityCount} capabilities
+            </span>
+            <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground">
+              {dashboardProductQualityControlPlaneSummary.fleetRouteCount} routes
+            </span>
+            <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground">
+              {dashboardProductQualityControlPlaneSummary.gateCount} gates
+            </span>
+            <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground">
+              {dashboardProductQualityControlPlaneSummary.blockingGateCount} blocking
+            </span>
+          </div>
+        </div>
+
+        <div className="mt-5 grid gap-4 xl:grid-cols-[minmax(0,0.7fr)_minmax(320px,0.3fr)]">
+          <article className="rounded-2xl border border-border bg-background p-4">
+            <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Capability map</div>
+            <div className="mt-3 grid gap-2 md:grid-cols-2">
+              {dashboardProductQualityControlPlaneCapabilities.map((capability) => (
+                <div key={capability.id} className="rounded-xl border border-border bg-card p-3">
+                  <div className="flex flex-wrap items-start justify-between gap-2">
+                    <div className="text-sm font-semibold text-foreground">{capability.id.replaceAll("-", " ")}</div>
+                    <span className="rounded-full border border-border bg-background px-2 py-0.5 text-xs font-semibold text-muted-foreground">{capability.status}</span>
+                  </div>
+                  <p className="mt-2 text-xs leading-5 text-muted-foreground">{capability.purpose}</p>
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {capability.outputs.slice(0, 3).map((output) => (
+                      <span key={output} className="rounded-full border border-border bg-background px-2 py-1 text-[0.68rem] font-medium text-muted-foreground">{output}</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </article>
+
+          <aside className="rounded-2xl border border-border bg-background p-4">
+            <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Promotion gates</div>
+            <div className="mt-3 grid gap-2">
+              {dashboardProductQualityControlPlaneGates.map((gate) => (
+                <div key={gate.id} className="rounded-xl border border-border bg-card p-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="text-sm font-semibold text-foreground">{gate.id.replaceAll("-", " ")}</div>
+                    <span className="rounded-full border border-rose-500/30 bg-rose-500/10 px-2 py-0.5 text-xs font-semibold text-rose-700">blocks</span>
+                  </div>
+                  <p className="mt-2 text-xs leading-5 text-muted-foreground">{gate.stage}</p>
+                </div>
+              ))}
+            </div>
+          </aside>
+        </div>
+
+        <article className="mt-4 rounded-2xl border border-border bg-background p-4">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Fleet route control signals</div>
+              <h3 className="mt-2 text-lg font-semibold text-foreground">Every dashboard route must expose quality state</h3>
+            </div>
+            <span className="rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold text-muted-foreground">
+              {dashboardProductQualityControlPlaneFleetRoutes.length} routes
+            </span>
+          </div>
+          <div className="mt-4 overflow-x-auto rounded-xl border border-border bg-card">
+            <table className="w-full min-w-[980px] text-left text-sm">
+              <thead className="border-b border-border text-xs uppercase tracking-wide text-muted-foreground">
+                <tr>
+                  <th className="px-3 py-3">Route</th>
+                  <th className="px-3 py-3">Domain</th>
+                  <th className="px-3 py-3">Intent</th>
+                  <th className="px-3 py-3">Target</th>
+                  <th className="px-3 py-3">Proof focus</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {dashboardProductQualityControlPlaneFleetRoutes.map((route) => (
+                  <tr key={route.routeId}>
+                    <td className="px-3 py-3 font-semibold text-foreground">{route.routeId}</td>
+                    <td className="px-3 py-3 text-muted-foreground">{route.domain}</td>
+                    <td className="px-3 py-3 text-muted-foreground">{route.intent}</td>
+                    <td className="px-3 py-3 text-muted-foreground">{route.targetTier}</td>
+                    <td className="px-3 py-3 text-muted-foreground">{route.proofFocus}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <section id="platform-intelligence" className="hdk-card hdk-section rounded-2xl border border-border bg-card p-5 shadow-sm" data-review-id="hermes.dashboard-kit-gallery.platform-intelligence">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Platform Intelligence</div>
+            <h2 className="mt-2 text-xl font-semibold text-foreground">Product operating system layer</h2>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
+              This layer connects dashboard quality to business objectives, roadmap decisions, product architecture, release governance, production learning, and downstream project work.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+            <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground">
+              {dashboardPlatformIntelligenceSummary.layerCount} layers
+            </span>
+            <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground">
+              {dashboardPlatformIntelligenceSummary.dashboardCount} dashboards
+            </span>
+            <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground">
+              {dashboardPlatformIntelligenceSummary.strategyWorkflowCount} workflows
+            </span>
+            <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-700">
+              {dashboardDownstreamPlatformAssessmentSummary.highPriorityCount} high priority
+            </span>
+          </div>
+        </div>
+
+        <div className="mt-5 grid gap-4 xl:grid-cols-[minmax(0,0.7fr)_minmax(320px,0.3fr)]">
+          <article className="rounded-2xl border border-border bg-background p-4">
+            <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Platform layers</div>
+            <div className="mt-3 grid gap-2 md:grid-cols-2">
+              {dashboardPlatformIntelligenceLayers.map((layer) => (
+                <div key={layer.id} className="rounded-xl border border-border bg-card p-3">
+                  <div className="flex flex-wrap items-start justify-between gap-2">
+                    <div className="text-sm font-semibold text-foreground">{layer.number}. {layer.id.replaceAll("-", " ")}</div>
+                    <span className="rounded-full border border-border bg-background px-2 py-0.5 text-xs font-semibold text-muted-foreground">{layer.status}</span>
+                  </div>
+                  <p className="mt-2 text-xs leading-5 text-muted-foreground">{layer.purpose}</p>
+                </div>
+              ))}
+            </div>
+          </article>
+
+          <aside className="rounded-2xl border border-border bg-background p-4">
+            <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Closed-loop workflows</div>
+            <div className="mt-3 grid gap-2">
+              {dashboardPlatformIntelligenceWorkflows.map((workflow) => (
+                <div key={workflow.id} className="rounded-xl border border-border bg-card p-3">
+                  <div className="text-sm font-semibold text-foreground">{workflow.id.replaceAll("-", " ")}</div>
+                  <p className="mt-2 text-xs leading-5 text-muted-foreground">{workflow.flow}</p>
+                </div>
+              ))}
+            </div>
+          </aside>
+        </div>
+
+        <article className="mt-4 rounded-2xl border border-border bg-background p-4">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Downstream assessment</div>
+              <h3 className="mt-2 text-lg font-semibold text-foreground">Project work required after central maturity</h3>
+            </div>
+            <span className="rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold text-muted-foreground">
+              {dashboardDownstreamPlatformAssessmentSummary.projectCount} projects
+            </span>
+          </div>
+          <div className="mt-3 rounded-xl border border-border bg-card p-3">
+            <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Required fleet moves</div>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {dashboardDownstreamPlatformRequiredFleetMoves.map((move) => (
+                <span key={move} className="rounded-full border border-border bg-background px-2 py-1 text-[0.68rem] font-medium text-muted-foreground">{move}</span>
+              ))}
+            </div>
+          </div>
+          <div className="mt-4 overflow-x-auto rounded-xl border border-border bg-card">
+            <table className="w-full min-w-[1080px] text-left text-sm">
+              <thead className="border-b border-border text-xs uppercase tracking-wide text-muted-foreground">
+                <tr>
+                  <th className="px-3 py-3">Project</th>
+                  <th className="px-3 py-3">Mode</th>
+                  <th className="px-3 py-3">Visual</th>
+                  <th className="px-3 py-3">Priority</th>
+                  <th className="px-3 py-3">Readiness</th>
+                  <th className="px-3 py-3">Top work</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {dashboardDownstreamPlatformAssessmentProjects.map((project) => (
+                  <tr key={project.id}>
+                    <td className="px-3 py-3 font-semibold text-foreground">{project.projectName}</td>
+                    <td className="px-3 py-3 text-muted-foreground">{project.implementationMode}</td>
+                    <td className="px-3 py-3 text-muted-foreground">{project.currentVisualTier} {"->"} {project.targetVisualTier}</td>
+                    <td className="px-3 py-3 text-muted-foreground">{project.priority}</td>
+                    <td className="px-3 py-3 text-muted-foreground">{project.readiness}</td>
+                    <td className="px-3 py-3 text-muted-foreground">{project.downstreamWork[0]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article className="mt-4 rounded-2xl border border-border bg-background p-4">
+          <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Portfolio dashboard coverage</div>
+          <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-3">
+            {dashboardPlatformIntelligenceDashboards.map((dashboard) => (
+              <div key={dashboard.id} className="rounded-xl border border-border bg-card p-3">
+                <div className="text-sm font-semibold text-foreground">{dashboard.projectName}</div>
+                <p className="mt-2 text-xs leading-5 text-muted-foreground">{dashboard.nextIntelligenceWork}</p>
               </div>
             ))}
           </div>

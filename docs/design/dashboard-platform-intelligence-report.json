@@ -1,0 +1,321 @@
+{
+  "schemaVersion": 1,
+  "version": "V1",
+  "generatedAt": "2026-08-14T23:24:16.175Z",
+  "summary": {
+    "layerCount": 15,
+    "activeLayerCount": 6,
+    "definedLayerCount": 9,
+    "dashboardCount": 10,
+    "strategyWorkflowCount": 6,
+    "target": "Move from dashboard quality control to portfolio-level product intelligence and roadmap governance."
+  },
+  "nextActions": [
+    "Attach business objective links to each production dashboard route.",
+    "Generate value/risk/effort scores for each downstream dashboard maturity task.",
+    "Create a fleet roadmap view from quality debt, component gaps, proof status, and business priority.",
+    "Feed production telemetry and human review decisions into org memory.",
+    "Use closed-loop operating cycles before any project is promoted as complete."
+  ],
+  "platformLayers": [
+    {
+      "id": "product-strategy-intelligence",
+      "status": "active",
+      "purpose": "Understand what each dashboard exists to accomplish, which workflows matter, and what data proves business value."
+    },
+    {
+      "id": "portfolio-product-map",
+      "status": "active",
+      "purpose": "Map every project, dashboard, workflow, data source, component dependency, maturity score, and business objective."
+    },
+    {
+      "id": "autonomous-roadmap-builder",
+      "status": "active",
+      "purpose": "Propose roadmap work from business priority, maturity, debt, missing components, usage telemetry, revenue/risk impact, and feedback."
+    },
+    {
+      "id": "investment-roi-scoring",
+      "status": "active",
+      "purpose": "Score potential work by expected value, effort, risk, reuse potential, urgency, dependencies, and cost of delay."
+    },
+    {
+      "id": "business-objective-alignment",
+      "status": "active",
+      "purpose": "Connect dashboard work to TLC OKRs, business-unit OKRs, KPIs, bottlenecks, active projects, and task queues."
+    },
+    {
+      "id": "adaptive-product-architecture",
+      "status": "active",
+      "purpose": "Detect when pages should merge, split, retire, change mode, or move into a new domain subkit."
+    },
+    {
+      "id": "autonomous-task-generation",
+      "status": "defined",
+      "purpose": "Convert gaps into engineering, design, data-contract, QA, proof, documentation, and deployment tasks."
+    },
+    {
+      "id": "cross-functional-review-layer",
+      "status": "defined",
+      "purpose": "Run design, engineering, business, compliance/risk, data-quality, and operator-workflow reviews before promotion."
+    },
+    {
+      "id": "production-learning-loop",
+      "status": "defined",
+      "purpose": "Feed production telemetry back into roadmap, component evolution, workflow redesign, OKR progress, and retirement decisions."
+    },
+    {
+      "id": "autonomous-product-council",
+      "status": "defined",
+      "purpose": "Answer what should be built, fixed, retired, unblocked, or promoted next across the whole fleet."
+    },
+    {
+      "id": "scenario-planning",
+      "status": "defined",
+      "purpose": "Simulate migration cost, operator improvement, rollout risk, dependency conflict, and delay impact before build."
+    },
+    {
+      "id": "continuous-product-refactoring",
+      "status": "defined",
+      "purpose": "Continuously detect stale dashboards, low-use pages, failed workflows, redundant features, outdated components, and weak alignment."
+    },
+    {
+      "id": "autonomous-release-governance",
+      "status": "defined",
+      "purpose": "Control releases through quality gates, business-value gates, risk gates, proof gates, rollback readiness, and post-release monitoring."
+    },
+    {
+      "id": "org-memory",
+      "status": "defined",
+      "purpose": "Persist why products exist, why decisions were made, which experiments worked, which patterns failed, and what the business values."
+    },
+    {
+      "id": "closed-loop-operating-system",
+      "status": "defined",
+      "purpose": "Connect business objective, product strategy, dashboard/workflow design, build, proof, deploy, telemetry, learning, and roadmap update."
+    }
+  ],
+  "dashboards": [
+    {
+      "id": "nous-hermes-agent.dashboard",
+      "projectName": "Nous Hermes Agent",
+      "category": "hermes-governance",
+      "owner": "Hermes",
+      "url": "https://agent.tlccapitalgroup.com",
+      "proofUrl": "https://agent.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
+      "platformSignals": [
+        "product purpose",
+        "operator workflow",
+        "business objective linkage",
+        "quality score",
+        "roadmap priority",
+        "production proof",
+        "learning loop"
+      ],
+      "nextIntelligenceWork": "Operate the product-quality console and closed-loop fleet roadmap."
+    },
+    {
+      "id": "khashi-vc.roc",
+      "projectName": "Khashi VC",
+      "category": "research-operations",
+      "owner": "Khashi VC",
+      "url": "https://roc.tlccapitalgroup.com/",
+      "proofUrl": "https://roc.tlccapitalgroup.com/dashboard/proof?view=live-market-intelligence",
+      "healthUrl": "https://roc.tlccapitalgroup.com/readyz",
+      "platformSignals": [
+        "product purpose",
+        "operator workflow",
+        "business objective linkage",
+        "quality score",
+        "roadmap priority",
+        "production proof",
+        "learning loop"
+      ],
+      "nextIntelligenceWork": "Link research/market workflows to decision quality, evidence confidence, and experiment readiness."
+    },
+    {
+      "id": "media-engine.ops",
+      "projectName": "Media Engine",
+      "category": "media-operations",
+      "owner": "Media Engine",
+      "url": "https://media.tlccapitalgroup.com/dashboard",
+      "proofUrl": "https://media.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://media.tlccapitalgroup.com/health",
+      "platformSignals": [
+        "product purpose",
+        "operator workflow",
+        "business objective linkage",
+        "quality score",
+        "roadmap priority",
+        "production proof",
+        "learning loop"
+      ],
+      "nextIntelligenceWork": "Link media workflow quality to publishing throughput, QA outcomes, and production learning."
+    },
+    {
+      "id": "media-business-operations.main",
+      "projectName": "Media Business Operations",
+      "category": "business-operations",
+      "owner": "Media Business Operations",
+      "url": "https://media-business-operations.tlccapitalgroup.com/dashboard",
+      "proofUrl": "https://media-business-operations.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://media-business-operations.tlccapitalgroup.com/health",
+      "platformSignals": [
+        "product purpose",
+        "operator workflow",
+        "business objective linkage",
+        "quality score",
+        "roadmap priority",
+        "production proof",
+        "learning loop"
+      ],
+      "nextIntelligenceWork": "Link workspace quality to evidence coverage, validation throughput, and deliverable completion."
+    },
+    {
+      "id": "business-mapper.workspace",
+      "projectName": "Business Mapper",
+      "category": "business-intelligence",
+      "owner": "Business Mapper",
+      "url": "https://business-mapper.tlccapitalgroup.com/dashboard",
+      "proofUrl": "https://business-mapper.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://business-mapper.tlccapitalgroup.com/health",
+      "platformSignals": [
+        "product purpose",
+        "operator workflow",
+        "business objective linkage",
+        "quality score",
+        "roadmap priority",
+        "production proof",
+        "learning loop"
+      ],
+      "nextIntelligenceWork": "Link workspace quality to evidence coverage, validation throughput, and deliverable completion."
+    },
+    {
+      "id": "meal-assistant.main",
+      "projectName": "Meal Assistant",
+      "category": "consumer-operations",
+      "owner": "Meal Assistant",
+      "url": "https://meal.tlccapitalgroup.com/",
+      "proofUrl": "https://meal.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://meal.tlccapitalgroup.com/health",
+      "platformSignals": [
+        "product purpose",
+        "operator workflow",
+        "business objective linkage",
+        "quality score",
+        "roadmap priority",
+        "production proof",
+        "learning loop"
+      ],
+      "nextIntelligenceWork": "Link planner/workflow completion to retention, fulfillment quality, and operator friction."
+    },
+    {
+      "id": "rinseables-os.main",
+      "projectName": "Rinseables OS",
+      "category": "consumer-operations",
+      "owner": "Rinseables",
+      "url": "https://rinseables.tlccapitalgroup.com",
+      "proofUrl": "https://rinseables.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://rinseables.tlccapitalgroup.com/health",
+      "platformSignals": [
+        "product purpose",
+        "operator workflow",
+        "business objective linkage",
+        "quality score",
+        "roadmap priority",
+        "production proof",
+        "learning loop"
+      ],
+      "nextIntelligenceWork": "Link planner/workflow completion to retention, fulfillment quality, and operator friction."
+    },
+    {
+      "id": "investing-system.roc",
+      "projectName": "Investing System",
+      "category": "research-operations",
+      "owner": "Investing System",
+      "url": "https://investing.tlccapitalgroup.com/roc",
+      "proofUrl": "https://investing.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://investing.tlccapitalgroup.com/health",
+      "platformSignals": [
+        "product purpose",
+        "operator workflow",
+        "business objective linkage",
+        "quality score",
+        "roadmap priority",
+        "production proof",
+        "learning loop"
+      ],
+      "nextIntelligenceWork": "Link research/market workflows to decision quality, evidence confidence, and experiment readiness."
+    },
+    {
+      "id": "hermes.workspace",
+      "projectName": "Hermes Workspace",
+      "category": "hermes-governance",
+      "owner": "Hermes",
+      "url": "https://hermes.tlccapitalgroup.com/",
+      "proofUrl": "https://hermes.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+      "platformSignals": [
+        "product purpose",
+        "operator workflow",
+        "business objective linkage",
+        "quality score",
+        "roadmap priority",
+        "production proof",
+        "learning loop"
+      ],
+      "nextIntelligenceWork": "Attach business objective, workflow proof, visual score, and production telemetry."
+    },
+    {
+      "id": "tlc-capital-group-os.main",
+      "projectName": "TLC Capital Group OS",
+      "category": "enterprise-operations",
+      "owner": "TLC Capital Group",
+      "url": "https://tlc.tlccapitalgroup.com/dashboard",
+      "proofUrl": "https://tlc.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://tlc.tlccapitalgroup.com/health",
+      "platformSignals": [
+        "product purpose",
+        "operator workflow",
+        "business objective linkage",
+        "quality score",
+        "roadmap priority",
+        "production proof",
+        "learning loop"
+      ],
+      "nextIntelligenceWork": "Link OKR/KPI outcomes to business-unit dashboards and owner task queues."
+    }
+  ],
+  "strategyWorkflows": [
+    {
+      "id": "objective-to-dashboard",
+      "flow": "business objective -> dashboard/workflow design -> component/data requirements -> proof",
+      "status": "required"
+    },
+    {
+      "id": "dashboard-to-roadmap",
+      "flow": "dashboard maturity + telemetry + debt -> ranked roadmap work",
+      "status": "required"
+    },
+    {
+      "id": "component-to-fleet",
+      "flow": "component health + usage + defects -> upgrade campaign",
+      "status": "required"
+    },
+    {
+      "id": "production-to-learning",
+      "flow": "production usage + failures + proof freshness -> learning item and standard update",
+      "status": "required"
+    },
+    {
+      "id": "review-to-memory",
+      "flow": "human approval/rejection -> design memory and future build rules",
+      "status": "required"
+    },
+    {
+      "id": "release-to-governance",
+      "flow": "release candidate -> gates -> deploy -> post-release proof",
+      "status": "required"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-13T23:48:20.502Z",
+  "generatedAt": "2026-08-14T23:25:08.292Z",
   "version": "V14",
   "layerCount": 12,
   "implementedCount": 3,
@@ -9,10 +9,10 @@
     "implemented": 3,
     "new-standard": 9
   },
-  "tier3CRequirementCount": 12,
+  "tier3CRequirementCount": 14,
   "centralReports": {
     "fleetUiMaturity": {
-      "averageScore": 98.4,
+      "averageScore": 92.8,
       "tier3cReadyCount": 0,
       "needsMigrationCount": 0,
       "needsEvidenceCount": 0
@@ -27,6 +27,32 @@
       "baselineReadyCount": 10,
       "dashboardCount": 10,
       "missingProofRouteCount": 0
+    },
+    "designIntelligence": {
+      "layerCount": 20,
+      "screenIntentCount": 7,
+      "blueprintCount": 6,
+      "mappedRouteCount": 7,
+      "target": "Move from component presence to experience correctness."
+    },
+    "productQuality": {
+      "capabilityCount": 15,
+      "fleetRouteCount": 10,
+      "gateCount": 5,
+      "blockingGateCount": 5,
+      "target": "Move dashboard quality from standards enforcement to a closed-loop product-quality control plane."
+    },
+    "platformIntelligence": {
+      "layerCount": 15,
+      "dashboardCount": 10,
+      "strategyWorkflowCount": 6,
+      "target": "Move from dashboard quality control to portfolio-level product intelligence and roadmap governance."
+    },
+    "downstreamPlatform": {
+      "projectCount": 10,
+      "highPriorityCount": 2,
+      "needsRenderedProofCount": 10,
+      "packageNativeUnknownCount": 0
     }
   },
   "layers": [
@@ -63,8 +89,8 @@
       "status": "new-standard",
       "commandCount": 2,
       "artifactCount": 3,
-      "proofSignalCount": 6,
-      "maturityOutput": "Rendered proof matrix covers required viewport and density expectations."
+      "proofSignalCount": 9,
+      "maturityOutput": "Rendered proof matrix covers required viewport, page registration, spacing, card-density, and table containment expectations."
     },
     {
       "id": "accessibility-keyboard-operation",
@@ -89,8 +115,8 @@
       "number": 19,
       "status": "new-standard",
       "commandCount": 3,
-      "artifactCount": 3,
-      "proofSignalCount": 4,
+      "artifactCount": 5,
+      "proofSignalCount": 6,
       "maturityOutput": "Monitoring registry records UI quality signals for production dashboards."
     },
     {
@@ -125,8 +151,8 @@
       "number": 23,
       "status": "new-standard",
       "commandCount": 1,
-      "artifactCount": 2,
-      "proofSignalCount": 3,
+      "artifactCount": 5,
+      "proofSignalCount": 5,
       "maturityOutput": "Material redesigns produce a validated review packet and signoff record."
     },
     {

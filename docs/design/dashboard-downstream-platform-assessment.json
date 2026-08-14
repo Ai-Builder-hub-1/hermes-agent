@@ -1,0 +1,304 @@
+{
+  "schemaVersion": 1,
+  "version": "V1",
+  "generatedAt": "2026-08-14T23:24:16.175Z",
+  "title": "Dashboard Downstream Platform Assessment",
+  "status": "active",
+  "purpose": "Translate central platform-intelligence standards into concrete downstream maturity work for each production dashboard project.",
+  "summary": {
+    "generatedAt": "2026-08-14T23:24:16.175Z",
+    "projectCount": 10,
+    "highPriorityCount": 2,
+    "mediumPriorityCount": 0,
+    "lowPriorityCount": 8,
+    "packageNativeUnknownCount": 0,
+    "needsRenderedProofCount": 10,
+    "platformLayerCount": 15,
+    "productQualityCapabilityCount": 15
+  },
+  "projects": [
+    {
+      "id": "nous-hermes-agent.dashboard",
+      "projectName": "Nous Hermes Agent",
+      "category": "hermes-governance",
+      "owner": "Hermes",
+      "productionUrl": "https://agent.tlccapitalgroup.com",
+      "currentVisualTier": "V2",
+      "targetVisualTier": "V3",
+      "visualScore": 83,
+      "dashboardStatus": "current",
+      "implementationMode": "package-native",
+      "readiness": "blocked",
+      "priority": "high",
+      "downstreamWork": [
+        "Add or verify project-local dashboard:standard:check against Nous Hermes validators.",
+        "Register every page with intent, blueprint, density, business objective, data states, and proof states.",
+        "Capture rendered visual proof for expanded/collapsed sidebar, overflow scan, and primary workflow.",
+        "Expose route quality state in dashboard snapshot: visual score, proof freshness, workflow proof, design debt, and blockers.",
+        "Run route redesign against the visual maturity rubric until V3 score is proven.",
+        "Connect route telemetry and proof to product-purpose, roadmap, and release-governance signals."
+      ],
+      "blockers": [
+        "visual score below V3 threshold or unknown"
+      ],
+      "proofRequired": [
+        "rendered visual proof",
+        "workflow proof",
+        "production proof freshness"
+      ]
+    },
+    {
+      "id": "khashi-vc.roc",
+      "projectName": "Khashi VC",
+      "category": "research-operations",
+      "owner": "Khashi VC",
+      "productionUrl": "https://roc.tlccapitalgroup.com/",
+      "currentVisualTier": "V4",
+      "targetVisualTier": "V4",
+      "visualScore": 100,
+      "dashboardStatus": "stale",
+      "implementationMode": "package-native",
+      "readiness": "monitor",
+      "priority": "low",
+      "downstreamWork": [
+        "Add or verify project-local dashboard:standard:check against Nous Hermes validators.",
+        "Register every page with intent, blueprint, density, business objective, data states, and proof states.",
+        "Capture rendered visual proof for expanded/collapsed sidebar, overflow scan, and primary workflow.",
+        "Expose route quality state in dashboard snapshot: visual score, proof freshness, workflow proof, design debt, and blockers.",
+        "Connect research/market workflows to evidence quality, category navigation, chart/detail proof, experiments, and decision readiness."
+      ],
+      "blockers": [],
+      "proofRequired": [
+        "rendered visual proof",
+        "workflow proof",
+        "production proof freshness"
+      ]
+    },
+    {
+      "id": "media-engine.ops",
+      "projectName": "Media Engine",
+      "category": "media-operations",
+      "owner": "Media Engine",
+      "productionUrl": "https://media.tlccapitalgroup.com/dashboard",
+      "currentVisualTier": "V4",
+      "targetVisualTier": "V4",
+      "visualScore": 100,
+      "dashboardStatus": "current",
+      "implementationMode": "package-native",
+      "readiness": "monitor",
+      "priority": "low",
+      "downstreamWork": [
+        "Add or verify project-local dashboard:standard:check against Nous Hermes validators.",
+        "Register every page with intent, blueprint, density, business objective, data states, and proof states.",
+        "Capture rendered visual proof for expanded/collapsed sidebar, overflow scan, and primary workflow.",
+        "Expose route quality state in dashboard snapshot: visual score, proof freshness, workflow proof, design debt, and blockers.",
+        "Connect publishing workflow outcomes to package generation, QA approval, rejection reason, posting result, and throughput metrics."
+      ],
+      "blockers": [],
+      "proofRequired": [
+        "rendered visual proof",
+        "workflow proof",
+        "production proof freshness"
+      ]
+    },
+    {
+      "id": "media-business-operations.main",
+      "projectName": "Media Business Operations",
+      "category": "business-operations",
+      "owner": "Media Business Operations",
+      "productionUrl": "https://media-business-operations.tlccapitalgroup.com/dashboard",
+      "currentVisualTier": "V4",
+      "targetVisualTier": "V4",
+      "visualScore": 100,
+      "dashboardStatus": "stale",
+      "implementationMode": "package-native",
+      "readiness": "monitor",
+      "priority": "low",
+      "downstreamWork": [
+        "Add or verify project-local dashboard:standard:check against Nous Hermes validators.",
+        "Register every page with intent, blueprint, density, business objective, data states, and proof states.",
+        "Capture rendered visual proof for expanded/collapsed sidebar, overflow scan, and primary workflow.",
+        "Expose route quality state in dashboard snapshot: visual score, proof freshness, workflow proof, design debt, and blockers.",
+        "Connect workspace workflows to validation queues, evidence coverage, deliverables, and advisory output proof."
+      ],
+      "blockers": [],
+      "proofRequired": [
+        "rendered visual proof",
+        "workflow proof",
+        "production proof freshness"
+      ]
+    },
+    {
+      "id": "business-mapper.workspace",
+      "projectName": "Business Mapper",
+      "category": "business-intelligence",
+      "owner": "Business Mapper",
+      "productionUrl": "https://business-mapper.tlccapitalgroup.com/dashboard",
+      "currentVisualTier": "V4",
+      "targetVisualTier": "V4",
+      "visualScore": 100,
+      "dashboardStatus": "current",
+      "implementationMode": "package-native",
+      "readiness": "monitor",
+      "priority": "low",
+      "downstreamWork": [
+        "Add or verify project-local dashboard:standard:check against Nous Hermes validators.",
+        "Register every page with intent, blueprint, density, business objective, data states, and proof states.",
+        "Capture rendered visual proof for expanded/collapsed sidebar, overflow scan, and primary workflow.",
+        "Expose route quality state in dashboard snapshot: visual score, proof freshness, workflow proof, design debt, and blockers.",
+        "Connect workspace workflows to validation queues, evidence coverage, deliverables, and advisory output proof."
+      ],
+      "blockers": [],
+      "proofRequired": [
+        "rendered visual proof",
+        "workflow proof",
+        "production proof freshness"
+      ]
+    },
+    {
+      "id": "meal-assistant.main",
+      "projectName": "Meal Assistant",
+      "category": "consumer-operations",
+      "owner": "Meal Assistant",
+      "productionUrl": "https://meal.tlccapitalgroup.com/",
+      "currentVisualTier": "V1",
+      "targetVisualTier": "V3",
+      "visualScore": 60,
+      "dashboardStatus": "stale",
+      "implementationMode": "package-native",
+      "readiness": "blocked",
+      "priority": "high",
+      "downstreamWork": [
+        "Add or verify project-local dashboard:standard:check against Nous Hermes validators.",
+        "Register every page with intent, blueprint, density, business objective, data states, and proof states.",
+        "Capture rendered visual proof for expanded/collapsed sidebar, overflow scan, and primary workflow.",
+        "Expose route quality state in dashboard snapshot: visual score, proof freshness, workflow proof, design debt, and blockers.",
+        "Run route redesign against the visual maturity rubric until V3 score is proven.",
+        "Connect planner workflows to saved state, calendar selection, drawer completion, checklist/export proof, and household outcome metrics."
+      ],
+      "blockers": [
+        "visual score below V3 threshold or unknown"
+      ],
+      "proofRequired": [
+        "rendered visual proof",
+        "workflow proof",
+        "production proof freshness"
+      ]
+    },
+    {
+      "id": "rinseables-os.main",
+      "projectName": "Rinseables OS",
+      "category": "consumer-operations",
+      "owner": "Rinseables",
+      "productionUrl": "https://rinseables.tlccapitalgroup.com",
+      "currentVisualTier": "V4",
+      "targetVisualTier": "V4",
+      "visualScore": 100,
+      "dashboardStatus": "stale",
+      "implementationMode": "package-native",
+      "readiness": "monitor",
+      "priority": "low",
+      "downstreamWork": [
+        "Add or verify project-local dashboard:standard:check against Nous Hermes validators.",
+        "Register every page with intent, blueprint, density, business objective, data states, and proof states.",
+        "Capture rendered visual proof for expanded/collapsed sidebar, overflow scan, and primary workflow.",
+        "Expose route quality state in dashboard snapshot: visual score, proof freshness, workflow proof, design debt, and blockers.",
+        "Connect planner workflows to saved state, calendar selection, drawer completion, checklist/export proof, and household outcome metrics."
+      ],
+      "blockers": [],
+      "proofRequired": [
+        "rendered visual proof",
+        "workflow proof",
+        "production proof freshness"
+      ]
+    },
+    {
+      "id": "investing-system.roc",
+      "projectName": "Investing System",
+      "category": "research-operations",
+      "owner": "Investing System",
+      "productionUrl": "https://investing.tlccapitalgroup.com/roc",
+      "currentVisualTier": "V4",
+      "targetVisualTier": "V4",
+      "visualScore": 100,
+      "dashboardStatus": "stale",
+      "implementationMode": "package-native",
+      "readiness": "monitor",
+      "priority": "low",
+      "downstreamWork": [
+        "Add or verify project-local dashboard:standard:check against Nous Hermes validators.",
+        "Register every page with intent, blueprint, density, business objective, data states, and proof states.",
+        "Capture rendered visual proof for expanded/collapsed sidebar, overflow scan, and primary workflow.",
+        "Expose route quality state in dashboard snapshot: visual score, proof freshness, workflow proof, design debt, and blockers.",
+        "Connect research/market workflows to evidence quality, category navigation, chart/detail proof, experiments, and decision readiness."
+      ],
+      "blockers": [],
+      "proofRequired": [
+        "rendered visual proof",
+        "workflow proof",
+        "production proof freshness"
+      ]
+    },
+    {
+      "id": "hermes.workspace",
+      "projectName": "Hermes Workspace",
+      "category": "hermes-governance",
+      "owner": "Hermes",
+      "productionUrl": "https://hermes.tlccapitalgroup.com/",
+      "currentVisualTier": "V4",
+      "targetVisualTier": "V4",
+      "visualScore": 100,
+      "dashboardStatus": "stale",
+      "implementationMode": "package-native",
+      "readiness": "monitor",
+      "priority": "low",
+      "downstreamWork": [
+        "Add or verify project-local dashboard:standard:check against Nous Hermes validators.",
+        "Register every page with intent, blueprint, density, business objective, data states, and proof states.",
+        "Capture rendered visual proof for expanded/collapsed sidebar, overflow scan, and primary workflow.",
+        "Expose route quality state in dashboard snapshot: visual score, proof freshness, workflow proof, design debt, and blockers.",
+        "Connect route telemetry and proof to product-purpose, roadmap, and release-governance signals."
+      ],
+      "blockers": [],
+      "proofRequired": [
+        "rendered visual proof",
+        "workflow proof",
+        "production proof freshness"
+      ]
+    },
+    {
+      "id": "tlc-capital-group-os.main",
+      "projectName": "TLC Capital Group OS",
+      "category": "enterprise-operations",
+      "owner": "TLC Capital Group",
+      "productionUrl": "https://tlc.tlccapitalgroup.com/dashboard",
+      "currentVisualTier": "V4",
+      "targetVisualTier": "V4",
+      "visualScore": 100,
+      "dashboardStatus": "stale",
+      "implementationMode": "package-native",
+      "readiness": "monitor",
+      "priority": "low",
+      "downstreamWork": [
+        "Add or verify project-local dashboard:standard:check against Nous Hermes validators.",
+        "Register every page with intent, blueprint, density, business objective, data states, and proof states.",
+        "Capture rendered visual proof for expanded/collapsed sidebar, overflow scan, and primary workflow.",
+        "Expose route quality state in dashboard snapshot: visual score, proof freshness, workflow proof, design debt, and blockers.",
+        "Connect OKR/KPI governance to business-unit ownership, task attribution, review cadence, and objective outcome proof."
+      ],
+      "blockers": [],
+      "proofRequired": [
+        "rendered visual proof",
+        "workflow proof",
+        "production proof freshness"
+      ]
+    }
+  ],
+  "requiredFleetMoves": [
+    "Every project must expose a project-local dashboard:standard:check command aligned to Nous Hermes.",
+    "Every production route must publish route/page manifests with intent, blueprint, density, business objective, components, data states, and proof states.",
+    "Every project must capture rendered proof for desktop expanded, desktop collapsed, overflow scan, and primary workflow.",
+    "Every route must expose quality state: visual score, workflow proof, design debt, component dependencies, promotion blockers, and production proof freshness.",
+    "Every project-specific improvement must either use existing dashboard-kit components or create a component enrichment RFC before local UI is accepted."
+  ]
+}

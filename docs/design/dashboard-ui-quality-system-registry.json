@@ -17,7 +17,9 @@
     "CI gate pass or explicit non-expired exception",
     "design debt and deprecated-pattern scan clean for the promoted route",
     "human review record for material visual changes",
-    "agent build protocol checklist completed"
+    "agent build protocol checklist completed",
+    "every production dashboard route registered with page-level intent, blueprint, density, spacing, card, table, drawer, and proof contracts",
+    "all governed pages use approved spacing and card-content tokens instead of local one-off card padding, grid gaps, or dense content dumps"
   ],
   "layers": [
     {
@@ -114,7 +116,12 @@
         "viewport rules",
         "sidebar collapse rules",
         "table responsive rules",
-        "drawer to bottom-sheet behavior"
+        "drawer to bottom-sheet behavior",
+        "page-level route registration",
+        "spacing token contract",
+        "card content contract",
+        "card-to-card gap contract",
+        "full-width table/card containment contract"
       ],
       "enforcementCommands": [
         "npm run dashboard:visual-evidence:validate",
@@ -126,9 +133,12 @@
         "mobile proof",
         "embedded panel proof",
         "visual-regression matrix",
-        "no overflow"
+        "no overflow",
+        "registered pages declare density and blueprint",
+        "cards prove header/body/action/footer spacing",
+        "table surfaces prove pagination and horizontal scroll containment"
       ],
-      "maturityOutput": "Rendered proof matrix covers required viewport and density expectations."
+      "maturityOutput": "Rendered proof matrix covers required viewport, page registration, spacing, card-density, and table containment expectations."
     },
     {
       "id": "accessibility-keyboard-operation",
