@@ -1,0 +1,1012 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-14T00:07:49.027Z",
+  "mode": "baseline",
+  "includeOptional": false,
+  "dashboardCount": 1,
+  "summary": {
+    "passCount": 0,
+    "needsReviewCount": 0,
+    "missingArtifactsCount": 0,
+    "failCount": 1,
+    "averageScore": 0
+  },
+  "items": [
+    {
+      "id": "nous-hermes-agent.dashboard",
+      "label": "Nous Hermes Agent",
+      "proofUrl": "https://agent.tlccapitalgroup.com/dashboard/proof",
+      "status": "fail",
+      "score": 0,
+      "requiredCaptureCount": 34,
+      "missingBaseline": 33,
+      "missingCurrent": 0,
+      "findingCount": 33,
+      "captures": [
+        {
+          "id": "nous-hermes-agent.dashboard.desktop.light.default",
+          "kind": "baseline",
+          "viewport": "desktop",
+          "theme": "light",
+          "state": "default",
+          "path": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/desktop/light/default.png",
+          "status": "captured",
+          "httpStatus": 200,
+          "textLength": 1114,
+          "overflowX": 0,
+          "passwordFields": 0
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.desktop.light.loading",
+          "viewport": "desktop",
+          "width": 1440,
+          "height": 1000,
+          "theme": "light",
+          "state": "loading",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/desktop/light/loading.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/desktop/light/loading.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.desktop.light.empty",
+          "viewport": "desktop",
+          "width": 1440,
+          "height": 1000,
+          "theme": "light",
+          "state": "empty",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/desktop/light/empty.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/desktop/light/empty.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.desktop.light.error",
+          "viewport": "desktop",
+          "width": 1440,
+          "height": 1000,
+          "theme": "light",
+          "state": "error",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/desktop/light/error.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/desktop/light/error.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.desktop.light.stale",
+          "viewport": "desktop",
+          "width": 1440,
+          "height": 1000,
+          "theme": "light",
+          "state": "stale",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/desktop/light/stale.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/desktop/light/stale.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.desktop.dark.default",
+          "viewport": "desktop",
+          "width": 1440,
+          "height": 1000,
+          "theme": "dark",
+          "state": "default",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/desktop/dark/default.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/desktop/dark/default.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.desktop.dark.loading",
+          "viewport": "desktop",
+          "width": 1440,
+          "height": 1000,
+          "theme": "dark",
+          "state": "loading",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/desktop/dark/loading.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/desktop/dark/loading.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.desktop.dark.empty",
+          "viewport": "desktop",
+          "width": 1440,
+          "height": 1000,
+          "theme": "dark",
+          "state": "empty",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/desktop/dark/empty.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/desktop/dark/empty.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.desktop.dark.error",
+          "viewport": "desktop",
+          "width": 1440,
+          "height": 1000,
+          "theme": "dark",
+          "state": "error",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/desktop/dark/error.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/desktop/dark/error.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.desktop.dark.stale",
+          "viewport": "desktop",
+          "width": 1440,
+          "height": 1000,
+          "theme": "dark",
+          "state": "stale",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/desktop/dark/stale.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/desktop/dark/stale.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.standard-desktop.light.default",
+          "viewport": "standard-desktop",
+          "width": 1280,
+          "height": 900,
+          "theme": "light",
+          "state": "default",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/standard-desktop/light/default.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/standard-desktop/light/default.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.standard-desktop.light.loading",
+          "viewport": "standard-desktop",
+          "width": 1280,
+          "height": 900,
+          "theme": "light",
+          "state": "loading",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/standard-desktop/light/loading.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/standard-desktop/light/loading.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.standard-desktop.light.empty",
+          "viewport": "standard-desktop",
+          "width": 1280,
+          "height": 900,
+          "theme": "light",
+          "state": "empty",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/standard-desktop/light/empty.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/standard-desktop/light/empty.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.standard-desktop.light.error",
+          "viewport": "standard-desktop",
+          "width": 1280,
+          "height": 900,
+          "theme": "light",
+          "state": "error",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/standard-desktop/light/error.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/standard-desktop/light/error.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.standard-desktop.light.stale",
+          "viewport": "standard-desktop",
+          "width": 1280,
+          "height": 900,
+          "theme": "light",
+          "state": "stale",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/standard-desktop/light/stale.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/standard-desktop/light/stale.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.standard-desktop.dark.default",
+          "viewport": "standard-desktop",
+          "width": 1280,
+          "height": 900,
+          "theme": "dark",
+          "state": "default",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/standard-desktop/dark/default.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/standard-desktop/dark/default.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.standard-desktop.dark.loading",
+          "viewport": "standard-desktop",
+          "width": 1280,
+          "height": 900,
+          "theme": "dark",
+          "state": "loading",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/standard-desktop/dark/loading.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/standard-desktop/dark/loading.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.standard-desktop.dark.empty",
+          "viewport": "standard-desktop",
+          "width": 1280,
+          "height": 900,
+          "theme": "dark",
+          "state": "empty",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/standard-desktop/dark/empty.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/standard-desktop/dark/empty.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.standard-desktop.dark.error",
+          "viewport": "standard-desktop",
+          "width": 1280,
+          "height": 900,
+          "theme": "dark",
+          "state": "error",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/standard-desktop/dark/error.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/standard-desktop/dark/error.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.standard-desktop.dark.stale",
+          "viewport": "standard-desktop",
+          "width": 1280,
+          "height": 900,
+          "theme": "dark",
+          "state": "stale",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/standard-desktop/dark/stale.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/standard-desktop/dark/stale.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.tablet.light.default",
+          "viewport": "tablet",
+          "width": 834,
+          "height": 1112,
+          "theme": "light",
+          "state": "default",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/tablet/light/default.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/tablet/light/default.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.tablet.dark.default",
+          "viewport": "tablet",
+          "width": 834,
+          "height": 1112,
+          "theme": "dark",
+          "state": "default",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/tablet/dark/default.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/tablet/dark/default.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.mobile.light.default",
+          "viewport": "mobile",
+          "width": 390,
+          "height": 844,
+          "theme": "light",
+          "state": "default",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/mobile/light/default.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/mobile/light/default.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.mobile.light.loading",
+          "viewport": "mobile",
+          "width": 390,
+          "height": 844,
+          "theme": "light",
+          "state": "loading",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/mobile/light/loading.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/mobile/light/loading.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.mobile.light.empty",
+          "viewport": "mobile",
+          "width": 390,
+          "height": 844,
+          "theme": "light",
+          "state": "empty",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/mobile/light/empty.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/mobile/light/empty.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.mobile.light.error",
+          "viewport": "mobile",
+          "width": 390,
+          "height": 844,
+          "theme": "light",
+          "state": "error",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/mobile/light/error.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/mobile/light/error.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.mobile.light.stale",
+          "viewport": "mobile",
+          "width": 390,
+          "height": 844,
+          "theme": "light",
+          "state": "stale",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/mobile/light/stale.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/mobile/light/stale.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.mobile.dark.default",
+          "viewport": "mobile",
+          "width": 390,
+          "height": 844,
+          "theme": "dark",
+          "state": "default",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/mobile/dark/default.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/mobile/dark/default.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.mobile.dark.loading",
+          "viewport": "mobile",
+          "width": 390,
+          "height": 844,
+          "theme": "dark",
+          "state": "loading",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/mobile/dark/loading.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/mobile/dark/loading.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.mobile.dark.empty",
+          "viewport": "mobile",
+          "width": 390,
+          "height": 844,
+          "theme": "dark",
+          "state": "empty",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/mobile/dark/empty.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/mobile/dark/empty.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.mobile.dark.error",
+          "viewport": "mobile",
+          "width": 390,
+          "height": 844,
+          "theme": "dark",
+          "state": "error",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/mobile/dark/error.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/mobile/dark/error.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.mobile.dark.stale",
+          "viewport": "mobile",
+          "width": 390,
+          "height": 844,
+          "theme": "dark",
+          "state": "stale",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/mobile/dark/stale.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/mobile/dark/stale.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.embedded-panel.light.default",
+          "viewport": "embedded-panel",
+          "width": 420,
+          "height": 900,
+          "theme": "light",
+          "state": "default",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/embedded-panel/light/default.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/embedded-panel/light/default.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.embedded-panel.dark.default",
+          "viewport": "embedded-panel",
+          "width": 420,
+          "height": 900,
+          "theme": "dark",
+          "state": "default",
+          "required": true,
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/embedded-panel/dark/default.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/embedded-panel/dark/default.png",
+          "status": "skipped-max-captures"
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.desktop.light.default",
+          "kind": "compare",
+          "viewport": "desktop",
+          "theme": "light",
+          "state": "default",
+          "status": "pass",
+          "baselinePath": "docs/design/visual-regression/nous-hermes-agent.dashboard/baseline/desktop/light/default.png",
+          "currentPath": "docs/design/visual-regression/nous-hermes-agent.dashboard/current/desktop/light/default.png",
+          "findings": []
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.desktop.light.loading",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.desktop.light.loading missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.desktop.light.empty",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.desktop.light.empty missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.desktop.light.error",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.desktop.light.error missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.desktop.light.stale",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.desktop.light.stale missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.desktop.dark.default",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.desktop.dark.default missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.desktop.dark.loading",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.desktop.dark.loading missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.desktop.dark.empty",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.desktop.dark.empty missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.desktop.dark.error",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.desktop.dark.error missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.desktop.dark.stale",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.desktop.dark.stale missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.standard-desktop.light.default",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.standard-desktop.light.default missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.standard-desktop.light.loading",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.standard-desktop.light.loading missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.standard-desktop.light.empty",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.standard-desktop.light.empty missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.standard-desktop.light.error",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.standard-desktop.light.error missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.standard-desktop.light.stale",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.standard-desktop.light.stale missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.standard-desktop.dark.default",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.standard-desktop.dark.default missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.standard-desktop.dark.loading",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.standard-desktop.dark.loading missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.standard-desktop.dark.empty",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.standard-desktop.dark.empty missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.standard-desktop.dark.error",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.standard-desktop.dark.error missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.standard-desktop.dark.stale",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.standard-desktop.dark.stale missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.tablet.light.default",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.tablet.light.default missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.tablet.dark.default",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.tablet.dark.default missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.mobile.light.default",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.mobile.light.default missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.mobile.light.loading",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.mobile.light.loading missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.mobile.light.empty",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.mobile.light.empty missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.mobile.light.error",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.mobile.light.error missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.mobile.light.stale",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.mobile.light.stale missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.mobile.dark.default",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.mobile.dark.default missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.mobile.dark.loading",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.mobile.dark.loading missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.mobile.dark.empty",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.mobile.dark.empty missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.mobile.dark.error",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.mobile.dark.error missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.mobile.dark.stale",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.mobile.dark.stale missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.embedded-panel.light.default",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.embedded-panel.light.default missing baseline artifact."
+            }
+          ]
+        },
+        {
+          "id": "nous-hermes-agent.dashboard.embedded-panel.dark.default",
+          "kind": "compare",
+          "status": "missing-baseline",
+          "findings": [
+            {
+              "severity": "error",
+              "code": "visual.baselineMissing",
+              "message": "nous-hermes-agent.dashboard.embedded-panel.dark.default missing baseline artifact."
+            }
+          ]
+        }
+      ],
+      "findings": [
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.desktop.light.loading missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.desktop.light.empty missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.desktop.light.error missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.desktop.light.stale missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.desktop.dark.default missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.desktop.dark.loading missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.desktop.dark.empty missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.desktop.dark.error missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.desktop.dark.stale missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.standard-desktop.light.default missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.standard-desktop.light.loading missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.standard-desktop.light.empty missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.standard-desktop.light.error missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.standard-desktop.light.stale missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.standard-desktop.dark.default missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.standard-desktop.dark.loading missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.standard-desktop.dark.empty missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.standard-desktop.dark.error missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.standard-desktop.dark.stale missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.tablet.light.default missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.tablet.dark.default missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.mobile.light.default missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.mobile.light.loading missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.mobile.light.empty missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.mobile.light.error missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.mobile.light.stale missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.mobile.dark.default missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.mobile.dark.loading missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.mobile.dark.empty missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.mobile.dark.error missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.mobile.dark.stale missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.embedded-panel.light.default missing baseline artifact."
+        },
+        {
+          "severity": "error",
+          "code": "visual.baselineMissing",
+          "message": "nous-hermes-agent.dashboard.embedded-panel.dark.default missing baseline artifact."
+        }
+      ]
+    }
+  ]
+}

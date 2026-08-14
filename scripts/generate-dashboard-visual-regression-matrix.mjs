@@ -26,8 +26,8 @@ const items = dashboards.map((dashboard) => {
           theme,
           state,
           required: state === "default" || ["desktop", "standard-desktop", "mobile"].includes(viewport.id),
-          baselinePath: `proof/dashboard-baseline/${viewport.id}/${theme}/${state}.png`,
-          currentPath: `proof/dashboard-current/${viewport.id}/${theme}/${state}.png`
+          baselinePath: `docs/design/visual-regression/${dashboard.id}/baseline/${viewport.id}/${theme}/${state}.png`,
+          currentPath: `docs/design/visual-regression/${dashboard.id}/current/${viewport.id}/${theme}/${state}.png`
         });
       }
     }

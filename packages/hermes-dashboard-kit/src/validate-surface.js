@@ -92,9 +92,29 @@ function validateFile(filePath, text) {
     !/--hdk-space|var\(--hdk-space|manifest exception|spacing exception/i.test(text);
   const inlinePayloadSize =
     Math.max(...(text.match(/\[[\s\S]{12000,}?\]|\{[\s\S]{12000,}?\}/g) || [""]).map((match) => match.length));
+  const localSidebarOverride =
+    /(?:\.|class(?:Name)?=["'][^"']*)(?:sidebar|sidebar-rail|sidebar-toggle|nav-item|topbar|app-shell|dashboard-shell|meal-sidebar|media-sidebar|kashi-sidebar|roc-sidebar)\b/i.test(text) &&
+    !/hdk-sidebar|hdk-sidebar-rail|hdk-sidebar-toggle|data-sidebar-toggle|manifest exception|sidebar exception/i.test(text);
+  const copiedKitCss =
+    /hermes-dashboard-kit\.css/i.test(filePath) &&
+    !/packages\/hermes-dashboard-kit\/(?:src|static)\/dashboard-kit\.css|packages\/hermes-dashboard-kit\/static\/hermes-dashboard-kit\.css/i.test(normalizedPath);
+  const sidebarRuntimeEvidence =
+    /renderSidebarRuntimeScript|data-hdk-component=["']SidebarRuntime|data-sidebar-toggle|sidebar-collapsed|hdkSidebarCollapsed|data-sidebar-state/i.test(text);
 
   if (claimsTier3 && !hasKit) {
     add("error", filePath, "tier3_without_dashboard_kit", "Tier 3 surfaces must use @hermes/dashboard-kit components or CSS.");
+  }
+
+  if (claimsTier3 && copiedKitCss) {
+    add("error", filePath, "tier3_copied_dashboard_kit_css", "Tier 3 projects must consume the package dashboard-kit CSS instead of maintaining a project-local copied CSS file.");
+  }
+
+  if (claimsTier3 && localSidebarOverride) {
+    add("error", filePath, "tier3_local_sidebar_override", "Tier 3 dashboards must declare routes and use the dashboard-kit sidebar instead of local sidebar/topbar/nav primitives.");
+  }
+
+  if (claimsTier3 && /DashboardSidebar|hdk-sidebar|hdk-sidebar-rail|data-hdk-component=["']Sidebar/i.test(text) && !sidebarRuntimeEvidence) {
+    add("warn", filePath, "tier3_sidebar_runtime_missing", "Tier 3 sidebars should include collapse/drawer runtime evidence through renderSidebarRuntimeScript or data-sidebar-toggle.");
   }
 
   if (hasChartLanguage && !hasApprovedChart) {

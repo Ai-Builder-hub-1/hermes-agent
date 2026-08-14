@@ -1,6 +1,6 @@
 # Dashboard UI Quality System Report
 
-Generated: 2026-08-12T14:39:29.605Z
+Generated: 2026-08-13T23:48:20.502Z
 
 Layer count: 12
 
@@ -10,7 +10,7 @@ Tier 3C requirements: 12
 
 | Report | Status |
 | --- | --- |
-| Fleet UI maturity | 100% average; 10 Tier 3C ready; 0 need migration; 0 need evidence |
+| Fleet UI maturity | 98.4% average; 0 Tier 3C ready; 0 need migration; 0 need evidence |
 | Design debt | pass; 0 active; 0 expired; 0 blocking |
 | Visual regression | 10/10 baseline-ready; 0 missing proof routes |
 

@@ -1,0 +1,2028 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-14T16:31:54.462Z",
+  "registryVersion": "V60",
+  "owner": "Nous Hermes Agent",
+  "summary": {
+    "totalLayers": 60,
+    "mapped": 60,
+    "needsWork": 0,
+    "operatingSystemMappedPercent": 100
+  },
+  "promotionPolicy": {
+    "tier3Requires": [
+      "layers-1-15",
+      "layers-16-35"
+    ],
+    "operatingSystemRequires": [
+      "layers-1-60"
+    ],
+    "staticAdaptersAllowedOnlyAs": [
+      "compatibility",
+      "archive",
+      "dev-review"
+    ],
+    "projectCompletionRequires": [
+      "canonical-kit-freshness",
+      "domain-required-components",
+      "visual-proof",
+      "workflow-proof",
+      "data-contract-proof",
+      "human-review-or-exception"
+    ]
+  },
+  "maturityBands": {
+    "foundation": {
+      "range": "1-15",
+      "meaning": "The dashboard standard exists, is versioned, can sync, can detect drift, and can prove basic visual/runtime compliance.",
+      "total": 15,
+      "mapped": 15,
+      "needsWork": 0
+    },
+    "operational-enforcement": {
+      "range": "16-35",
+      "meaning": "The standard becomes measurable, screenshot-aware, domain-aware, reviewable, and hard to drift from.",
+      "total": 20,
+      "mapped": 20,
+      "needsWork": 0
+    },
+    "product-operating-system": {
+      "range": "36-60",
+      "meaning": "Dashboards become outcome-driven business operating surfaces with workflow, evidence, risk, readiness, health, and learning loops.",
+      "total": 25,
+      "mapped": 25,
+      "needsWork": 0
+    }
+  },
+  "layers": [
+    {
+      "number": 1,
+      "id": "canonical-source",
+      "name": "Canonical Source",
+      "band": "foundation",
+      "status": "mapped",
+      "purpose": "Nous Hermes owns the dashboard source of truth.",
+      "maturityOutput": "One package, one design contract, one ownership model.",
+      "sourceArtifacts": [
+        {
+          "path": "packages/hermes-dashboard-kit/package.json",
+          "exists": true
+        },
+        {
+          "path": "packages/hermes-dashboard-kit/DESIGN.md",
+          "exists": true
+        },
+        {
+          "path": "docs/design/design-system-ownership.md",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:design-system:status",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "package exists",
+        "design contract exists",
+        "ownership exists"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 2,
+      "id": "versioned-kit",
+      "name": "Versioned Kit",
+      "band": "foundation",
+      "status": "mapped",
+      "purpose": "Projects know which kit version and contract they use.",
+      "maturityOutput": "Version, changelog, and dependency freshness are inspectable.",
+      "sourceArtifacts": [
+        {
+          "path": "packages/hermes-dashboard-kit/package.json",
+          "exists": true
+        },
+        {
+          "path": "packages/hermes-dashboard-kit/CHANGELOG.md",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-kit-distribution-report.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:kit-distribution:report",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "version present",
+        "distribution report"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 3,
+      "id": "sync-command",
+      "name": "Sync Command",
+      "band": "foundation",
+      "status": "mapped",
+      "purpose": "Projects can receive canonical kit updates deliberately.",
+      "maturityOutput": "A reusable sync path exists for downstream dashboards.",
+      "sourceArtifacts": [
+        {
+          "path": "packages/hermes-dashboard-kit/scripts/sync-project.mjs",
+          "exists": true
+        },
+        {
+          "path": "packages/hermes-dashboard-kit/adoption/registry.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard-kit:adoption:sync",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "sync script",
+        "registered targets"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 4,
+      "id": "local-override-gate",
+      "name": "Local Override Gate",
+      "band": "foundation",
+      "status": "mapped",
+      "purpose": "Projects cannot silently redefine kit-owned UI primitives.",
+      "maturityOutput": "Local overrides are scanned, reported, and excepted only with governance.",
+      "sourceArtifacts": [
+        {
+          "path": "scripts/scan-dashboard-local-overrides.mjs",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-local-visual-overrides-report.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-governance-exceptions.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:local-overrides:validate",
+          "exists": true
+        },
+        {
+          "name": "dashboard:governance-exceptions:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "override report",
+        "exception registry"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 5,
+      "id": "surface-registry",
+      "name": "Surface Registry",
+      "band": "foundation",
+      "status": "mapped",
+      "purpose": "Every dashboard route has an owner, target tier, proof route, and required surfaces.",
+      "maturityOutput": "Central adoption registry plus local manifests define reality.",
+      "sourceArtifacts": [
+        {
+          "path": "packages/hermes-dashboard-kit/adoption/registry.json",
+          "exists": true
+        },
+        {
+          "path": "packages/hermes-dashboard-kit/adoption/project-schema.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-project-validation-profiles.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard-kit:adoption:audit",
+          "exists": true
+        },
+        {
+          "name": "dashboard:project-profiles:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "registered project",
+        "manifest",
+        "surface list"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 6,
+      "id": "visual-proof",
+      "name": "Visual Proof",
+      "band": "foundation",
+      "status": "mapped",
+      "purpose": "Rendered dashboards are captured instead of judged by source alone.",
+      "maturityOutput": "Screenshot evidence exists for production/dashboard states.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-production-proof-registry.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-visual-evidence-layer.json",
+          "exists": true
+        },
+        {
+          "path": "scripts/capture-dashboard-production-screenshots.mjs",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:production-proof:registry",
+          "exists": true
+        },
+        {
+          "name": "dashboard:visual:check",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "screenshot artifact",
+        "proof route"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 7,
+      "id": "visual-regression",
+      "name": "Visual Regression",
+      "band": "foundation",
+      "status": "mapped",
+      "purpose": "Screenshots can be compared against approved baselines.",
+      "maturityOutput": "Regression matrix and latest run exist.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-visual-regression-matrix.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-fleet-visual-regression-run.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:visual-regression:matrix",
+          "exists": true
+        },
+        {
+          "name": "dashboard:visual-regression:run",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "baseline",
+        "current",
+        "comparison status"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 8,
+      "id": "component-adoption-score",
+      "name": "Component Adoption Score",
+      "band": "foundation",
+      "status": "mapped",
+      "purpose": "Dashboard maturity is scored from adoption, components, proof, and drift.",
+      "maturityOutput": "Fleet UI scorecard and Tier 3 scoring exist.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-fleet-ui-maturity-scorecard.json",
+          "exists": true
+        },
+        {
+          "path": "scripts/score-tier3-dashboard.mjs",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:tier3:score",
+          "exists": true
+        },
+        {
+          "name": "dashboard:ui-quality:scorecard",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "score",
+        "component gaps"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 9,
+      "id": "migration-command",
+      "name": "Migration Command",
+      "band": "foundation",
+      "status": "mapped",
+      "purpose": "Stale routes get concrete migration plans instead of vague advice.",
+      "maturityOutput": "Migration and codemod planning commands exist.",
+      "sourceArtifacts": [
+        {
+          "path": "packages/hermes-dashboard-kit/scripts/migrate-surface.mjs",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-migration-codemod-plan.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard-kit:adoption:migrate",
+          "exists": true
+        },
+        {
+          "name": "dashboard:migration-codemod:plan",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "migration plan",
+        "codemod candidates"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 10,
+      "id": "build-gate",
+      "name": "Build Gate",
+      "band": "foundation",
+      "status": "mapped",
+      "purpose": "Pre-deploy checks block known dashboard regressions.",
+      "maturityOutput": "CI and ship-check commands run dashboard gates.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-governance-ci-gates.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-tier3-ci-template.yml",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:governance-ci:validate",
+          "exists": true
+        },
+        {
+          "name": "fleet:ship-check",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "CI gate",
+        "ship readiness"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 11,
+      "id": "cross-project-adoption-dashboard",
+      "name": "Cross-Project Adoption Dashboard",
+      "band": "foundation",
+      "status": "mapped",
+      "purpose": "Nous Hermes can show every project status centrally.",
+      "maturityOutput": "Fleet maturity and project status ledgers are generated.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/project-status-ledger.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-maturity-report.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:project-status:ledger",
+          "exists": true
+        },
+        {
+          "name": "fleet:maturity:scan",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "project ledger",
+        "maturity report"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 12,
+      "id": "no-static-route-policy",
+      "name": "No Static Route Policy",
+      "band": "foundation",
+      "status": "mapped",
+      "purpose": "Static dashboards are compatibility bridges, not completion.",
+      "maturityOutput": "Static dashboard routes are audited and classified.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/static-dashboard-route-audit.json",
+          "exists": true
+        },
+        {
+          "path": "scripts/audit-static-dashboard-routes.mjs",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:static-routes:strict",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "static route audit"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 13,
+      "id": "design-reference-intake",
+      "name": "Design Reference Intake",
+      "band": "foundation",
+      "status": "mapped",
+      "purpose": "Mobbin/reference decisions are recorded before major UI work.",
+      "maturityOutput": "Reference map and intake workflow guide component quality.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-mobbin-reference-map.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/mobbin-reference-workflow.md",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:mobbin-reference-map:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "reference family",
+        "accepted pattern"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 14,
+      "id": "release-promotion",
+      "name": "Release Promotion",
+      "band": "foundation",
+      "status": "mapped",
+      "purpose": "Tier promotion requires proof, not optimistic completion labels.",
+      "maturityOutput": "Tier approval packets and promotion history exist.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-review-packets/latest-tier-approval.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-promotion-history.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:tier-approval:request",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "approval packet",
+        "promotion history"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 15,
+      "id": "continuous-drift-detection",
+      "name": "Continuous Drift Detection",
+      "band": "foundation",
+      "status": "mapped",
+      "purpose": "Dashboards are repeatedly checked for stale kit, overrides, and static drift.",
+      "maturityOutput": "World-class report, next actions, and drift scans exist.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/world-class-dashboard-system-audit-report.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-next-actions-report.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:world-class:report",
+          "exists": true
+        },
+        {
+          "name": "dashboard:next-actions:report",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "world-class score",
+        "next actions"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 16,
+      "id": "design-token-lockfile",
+      "name": "Design Token Lockfile",
+      "band": "operational-enforcement",
+      "status": "mapped",
+      "purpose": "Approved theme, spacing, typography, sidebar, table, and chart tokens are locked per release.",
+      "maturityOutput": "Token scan detects unauthorized token drift.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-token-enforcement.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-token-scan-report.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:token-enforcement:validate",
+          "exists": true
+        },
+        {
+          "name": "dashboard:token-scan:strict",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "token report",
+        "token suppressions"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 17,
+      "id": "component-capability-matrix",
+      "name": "Component Capability Matrix",
+      "band": "operational-enforcement",
+      "status": "mapped",
+      "purpose": "Nous Hermes knows which component families exist and which remain immature.",
+      "maturityOutput": "Component maturity and gap reports guide kit investment.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-component-maturity-registry.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-cross-project-component-audit.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:component-maturity:validate",
+          "exists": true
+        },
+        {
+          "name": "dashboard-kit:component-gaps:report",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "component status",
+        "gap list"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 18,
+      "id": "dashboard-type-requirements",
+      "name": "Required Component Per Dashboard Type",
+      "band": "operational-enforcement",
+      "status": "mapped",
+      "purpose": "Tier 3 means different required components for trading, media, meal, OKR, and operations dashboards.",
+      "maturityOutput": "Domain library registry maps archetypes to required components.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-domain-library-registry.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-domain-library-standard.md",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:domain-libraries:validate",
+          "exists": true
+        },
+        {
+          "name": "dashboard:domain-libraries:coverage",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "domain coverage",
+        "required components"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 19,
+      "id": "interaction-contract",
+      "name": "Interaction Contract",
+      "band": "operational-enforcement",
+      "status": "mapped",
+      "purpose": "Dashboards must prove clicks, drawers, tabs, forms, filters, pagination, and chart controls work.",
+      "maturityOutput": "Live E2E registry/checks cover route interactions.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-live-e2e-registry.json",
+          "exists": true
+        },
+        {
+          "path": "scripts/check-dashboard-live-e2e.mjs",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:live-e2e:registry",
+          "exists": true
+        },
+        {
+          "name": "dashboard:live-e2e:check",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "interaction check",
+        "route behavior"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 20,
+      "id": "data-contract-validation",
+      "name": "Data Contract Validation",
+      "band": "operational-enforcement",
+      "status": "mapped",
+      "purpose": "Each page declares and validates the data shape it expects.",
+      "maturityOutput": "Runtime data and telemetry contracts are explicit.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-data-contracts.md",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-runtime-data-report.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:runtime-data:strict",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "data contract",
+        "runtime data state"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 21,
+      "id": "proof-fixtures",
+      "name": "Proof Fixtures",
+      "band": "operational-enforcement",
+      "status": "mapped",
+      "purpose": "Known empty, loading, stale, error, full, overflow, and mobile states exist for visual proof.",
+      "maturityOutput": "Visual regression matrix includes required viewport/theme/state coverage.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-visual-regression-matrix.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-visual-evidence-tasks.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:visual-regression:matrix",
+          "exists": true
+        },
+        {
+          "name": "dashboard:visual-evidence:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "state matrix",
+        "fixture coverage"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 22,
+      "id": "golden-demo-mode",
+      "name": "Golden Demo Mode",
+      "band": "operational-enforcement",
+      "status": "mapped",
+      "purpose": "Every dashboard can render an approved ideal state with realistic data.",
+      "maturityOutput": "Production proof registry distinguishes real, fixture, and demo evidence.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-production-proof-registry.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/playwright-proof-standard.md",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:production-proof:registry",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "demo proof",
+        "real proof"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 23,
+      "id": "route-acceptance-criteria",
+      "name": "Route-Level Acceptance Criteria",
+      "band": "operational-enforcement",
+      "status": "mapped",
+      "purpose": "Every route has explicit done criteria tied to the operator workflow.",
+      "maturityOutput": "Review packets describe per-route evidence and approval status.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-review-packet-standard.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-review-packets/latest.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:review-packet:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "route criteria",
+        "review state"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 24,
+      "id": "human-review-workflow",
+      "name": "Human Review Workflow",
+      "band": "operational-enforcement",
+      "status": "mapped",
+      "purpose": "Human taste and acceptance feedback are recorded and reusable.",
+      "maturityOutput": "Review workflow states and required evidence are explicit.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-human-review-workflow.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-review-packets/latest.md",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:review-packet:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "approved",
+        "changes requested",
+        "excepted"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 25,
+      "id": "exception-governance",
+      "name": "Exception Governance",
+      "band": "operational-enforcement",
+      "status": "mapped",
+      "purpose": "Custom UI is allowed only with owner, reason, expiry, reviewer, and replacement plan.",
+      "maturityOutput": "Governance exceptions are validated.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-governance-exceptions.json",
+          "exists": true
+        },
+        {
+          "path": "scripts/validate-dashboard-governance-exceptions.mjs",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:governance-exceptions:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "exception owner",
+        "expiry"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 26,
+      "id": "automatic-upgrade-suggestions",
+      "name": "Automatic Upgrade Suggestions",
+      "band": "operational-enforcement",
+      "status": "mapped",
+      "purpose": "Projects receive concrete next actions when the kit changes.",
+      "maturityOutput": "Next-action reports and cross-project backlog are generated.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-next-actions-report.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-cross-project-action-backlog.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:next-actions:report",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "project next action"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 27,
+      "id": "migration-codemods",
+      "name": "Migration Codemods",
+      "band": "operational-enforcement",
+      "status": "mapped",
+      "purpose": "Legacy UI patterns can be detected and converted through planned codemods.",
+      "maturityOutput": "Codemod candidate plan exists.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-migration-codemod-plan.json",
+          "exists": true
+        },
+        {
+          "path": "scripts/generate-dashboard-migration-codemod-plan.mjs",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:migration-codemod:plan",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "candidate count",
+        "replacement plan"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 28,
+      "id": "dashboard-quality-budget",
+      "name": "Dashboard Quality Budget",
+      "band": "operational-enforcement",
+      "status": "mapped",
+      "purpose": "Projects have limits for local CSS, hardcoded colors, static routes, and missing proof.",
+      "maturityOutput": "Design debt and local override budgets are reportable.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-design-debt-registry.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-design-debt-report.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:ui-quality:debt:strict",
+          "exists": true
+        },
+        {
+          "name": "dashboard:local-overrides:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "debt count",
+        "override count"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 29,
+      "id": "screenshot-aware-ai-review",
+      "name": "Screenshot-Aware AI Review",
+      "band": "operational-enforcement",
+      "status": "mapped",
+      "purpose": "Rendered screenshots are inspected for overlap, clipping, contrast, awkward spacing, and fake-looking UI.",
+      "maturityOutput": "Visual quality and proof-rigor reports separate source checks from rendered evidence.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-visual-quality-report.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-visual-proof-rigor-report.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:visual-quality:score",
+          "exists": true
+        },
+        {
+          "name": "dashboard:visual-proof:rigor",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "visual score",
+        "proof rigor"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 30,
+      "id": "cross-project-pattern-memory",
+      "name": "Cross-Project Pattern Memory",
+      "band": "operational-enforcement",
+      "status": "mapped",
+      "purpose": "Lessons from one dashboard become standards for all dashboards.",
+      "maturityOutput": "Pattern library and deprecation registry capture accepted/rejected patterns.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/pattern-library-v1.md",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-pattern-deprecation-registry.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:ui-quality:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "approved pattern",
+        "deprecated pattern"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 31,
+      "id": "design-system-gallery-source",
+      "name": "Design System Gallery As Source Of Truth",
+      "band": "operational-enforcement",
+      "status": "mapped",
+      "purpose": "The gallery shows approved component combinations, not just isolated pieces.",
+      "maturityOutput": "Gallery and maturity report expose review queue, families, proof, and scoring.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-kit-gallery.html",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-kit-gallery-report.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:design-system:gallery",
+          "exists": true
+        },
+        {
+          "name": "dashboard:design-system:gallery:maturity",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "gallery",
+        "component family review"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 32,
+      "id": "production-readiness-ledger",
+      "name": "Production Readiness Ledger",
+      "band": "operational-enforcement",
+      "status": "mapped",
+      "purpose": "Each project has last kit sync, proof, deploy, tier, blockers, exceptions, and next upgrade tracked.",
+      "maturityOutput": "Deployment and promotion readiness ledgers exist.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-deployment-ledger.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-promotion-readiness.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:deployment-ledger:validate",
+          "exists": true
+        },
+        {
+          "name": "fleet:release-readiness:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "deployment record",
+        "promotion readiness"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 33,
+      "id": "real-user-workflow-tests",
+      "name": "Real User Workflow Tests",
+      "band": "operational-enforcement",
+      "status": "mapped",
+      "purpose": "Dashboards are tested by actual operator jobs, not only render checks.",
+      "maturityOutput": "Live E2E and monitoring registries describe user workflows.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-live-e2e-registry.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-monitoring-registry.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:live-e2e:check",
+          "exists": true
+        },
+        {
+          "name": "dashboard:monitoring:check",
+          "exists": true
+        },
+        {
+          "name": "dashboard:fleet:v60:e2e",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "workflow pass",
+        "monitoring check",
+        "project command pass"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 34,
+      "id": "performance-standard",
+      "name": "Performance Standard",
+      "band": "operational-enforcement",
+      "status": "mapped",
+      "purpose": "Dashboards load shell first, defer heavy work, and handle large data without feeling slow.",
+      "maturityOutput": "Loading performance standard and build budget checks exist.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-loading-performance-standard.md",
+          "exists": true
+        },
+        {
+          "path": "scripts/check-web-build-budget.mjs",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:web:build-budget",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "nonblank shell",
+        "budget"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 35,
+      "id": "promotion-board",
+      "name": "Promotion Board",
+      "band": "operational-enforcement",
+      "status": "mapped",
+      "purpose": "Project maturity, blockers, target tiers, and next actions are centrally visible.",
+      "maturityOutput": "Fleet maturity tracker and review data exist.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/project-status-ledger.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-maturity-report.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "fleet:maturity:scan",
+          "exists": true
+        },
+        {
+          "name": "fleet:maturity:review-data",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "current tier",
+        "target tier",
+        "blocker"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 36,
+      "id": "product-archetype-system",
+      "name": "Product Archetype System",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Dashboards declare whether they are command centers, trading terminals, planners, approval queues, research desks, or KPI boards.",
+      "maturityOutput": "Operating interface taxonomy maps product archetypes.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/operating-interface-system-taxonomy.md",
+          "exists": true
+        },
+        {
+          "path": "docs/design/operating-interface-system-registry.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:interface-system:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "archetype",
+        "required pattern"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 37,
+      "id": "outcome-based-standards",
+      "name": "Outcome-Based Standards",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Dashboards prove the outcome they support, not just the UI they render.",
+      "maturityOutput": "Readiness impact ties dashboard work to business outcomes.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-readiness-impact.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/product-architecture-system-handbook.md",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:readiness-impact:report",
+          "exists": true
+        },
+        {
+          "name": "architecture:standards:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "outcome",
+        "readiness impact"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 38,
+      "id": "workflow-completion-score",
+      "name": "Workflow Completion Score",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Each route is scored by whether the operator can complete the job.",
+      "maturityOutput": "Live E2E registry plus review packet status capture workflow completion.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-live-e2e-registry.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-review-packets/latest.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:live-e2e:check",
+          "exists": true
+        },
+        {
+          "name": "dashboard:review-packet:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "workflow completed",
+        "route approved"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 39,
+      "id": "business-criticality-tier",
+      "name": "Business Criticality Tier",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Mission-critical, revenue-critical, decision-critical, support, experimental, and archive surfaces get different rigor.",
+      "maturityOutput": "Project validation profiles and readiness impact classify criticality.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-project-validation-profiles.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-readiness-impact.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:project-profiles:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "criticality",
+        "required rigor"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 40,
+      "id": "data-freshness-sla",
+      "name": "Data Freshness SLA",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Every dashboard declares how fresh its data must be for its job.",
+      "maturityOutput": "Health and runtime reports expose freshness states.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-health-report.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-runtime-data-report.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:health:validate",
+          "exists": true
+        },
+        {
+          "name": "dashboard:runtime-data:strict",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "freshness age",
+        "stale state"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 41,
+      "id": "trust-level",
+      "name": "Trust Level",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Widgets declare real, cached, fixture, demo, estimated, manual, model-generated, or unverified data.",
+      "maturityOutput": "Runtime data report and data contracts distinguish state provenance.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-runtime-data-report.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-data-contracts.md",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:runtime-data:report",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "data provenance",
+        "mock/demo marker"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 42,
+      "id": "human-in-loop-contract",
+      "name": "Human-In-The-Loop Contract",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Workflows identify where humans approve, reject, edit, assign, publish, trade, or override.",
+      "maturityOutput": "Human review workflow and operating interface state coverage define human actions.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-human-review-workflow.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/operating-interface-state-coverage.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:interface-system:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "human action",
+        "approval state"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 43,
+      "id": "agent-in-loop-contract",
+      "name": "Agent-In-The-Loop Contract",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Workflows identify where agents monitor, summarize, recommend, generate options, analyze, draft, or request approval.",
+      "maturityOutput": "Agent build protocol defines agent responsibilities before completion claims.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-agent-build-protocol.md",
+          "exists": true
+        },
+        {
+          "path": "docs/design/design-agent-specification.md",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:ui-quality:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "agent role",
+        "blocked actions"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 44,
+      "id": "evidence-chain",
+      "name": "Evidence Chain",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Important outputs show what data was used, when, what changed, who approved, and what happened after.",
+      "maturityOutput": "Review packets and proof registry preserve evidence links.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-review-packet-standard.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-production-proof-registry.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:review-packet:validate",
+          "exists": true
+        },
+        {
+          "name": "dashboard:production-proof:registry",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "evidence path",
+        "approval"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 45,
+      "id": "decision-ledger",
+      "name": "Decision Ledger",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Meaningful decisions record options, reason, evidence, owner, timestamp, outcome, and follow-up.",
+      "maturityOutput": "Promotion history and review packets provide the first decision ledger surface.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-promotion-history.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-review-packets/latest.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:tier-approval:request",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "decision",
+        "owner",
+        "follow-up"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 46,
+      "id": "outcome-feedback-loop",
+      "name": "Outcome Feedback Loop",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Results feed back into dashboards after posts, trades, meals, OKRs, or signals happen.",
+      "maturityOutput": "Telemetry and monitoring registries define outcome signals.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-telemetry-contract-report.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-monitoring-registry.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:telemetry-contract:report",
+          "exists": true
+        },
+        {
+          "name": "dashboard:monitoring:registry",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "outcome metric",
+        "feedback channel"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 47,
+      "id": "learning-memory",
+      "name": "Learning Memory",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Reusable lessons about layouts, hooks, charts, signals, investment buckets, and constraints are preserved.",
+      "maturityOutput": "Pattern library and component evidence backlog become memory.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/pattern-library-v1.md",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-component-evidence-backlog.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:component-maturity:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "lesson",
+        "evidence"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 48,
+      "id": "governance-mode",
+      "name": "Governance Mode",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Surfaces declare exploration, draft, review, production, rehearsal, live execution, or archived mode.",
+      "maturityOutput": "Review packets and project profiles encode mode-specific gates.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-review-packet-standard.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-project-validation-profiles.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:review-packet:validate",
+          "exists": true
+        },
+        {
+          "name": "dashboard:project-profiles:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "mode",
+        "permission gate"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 49,
+      "id": "promotion-path",
+      "name": "Promotion Path",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Features move prototype to package-native to proofed to reviewed to production to monitored to improved.",
+      "maturityOutput": "Promotion readiness and history make lifecycle visible.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-promotion-readiness.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-promotion-history.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:tier-assessment:validate",
+          "exists": true
+        },
+        {
+          "name": "fleet:release-readiness:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "promotion stage",
+        "monitoring"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 50,
+      "id": "cross-system-dependency-map",
+      "name": "Cross-System Dependency Map",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Dashboards know dependencies across projects, data feeds, workers, and shared kit versions.",
+      "maturityOutput": "Bridge coverage, runtime data, and deployment metadata describe dependencies.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-bridge-coverage-report.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-deployment-metadata-report.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:bridge:coverage",
+          "exists": true
+        },
+        {
+          "name": "dashboard:deployment-metadata:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "dependency",
+        "bridge"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 51,
+      "id": "operational-incidents",
+      "name": "Operational Incidents",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Failures become incidents with root cause and prevention, not repeated chat surprises.",
+      "maturityOutput": "Health, monitoring, and design debt reports expose repeated failures.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-health-report.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-design-debt-report.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:health:validate",
+          "exists": true
+        },
+        {
+          "name": "dashboard:ui-quality:debt",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "incident",
+        "root cause"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 52,
+      "id": "readiness-gates",
+      "name": "Readiness Gates",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Systems pass visual, data, workflow, operational, security, rollback, and approval readiness.",
+      "maturityOutput": "Fleet release readiness and ship checks gate promotion.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-promotion-readiness.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-release-review-checklist.md",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "fleet:release-readiness:strict",
+          "exists": true
+        },
+        {
+          "name": "fleet:ship-check:full",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "gate status",
+        "release checklist"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 53,
+      "id": "role-based-views",
+      "name": "Role-Based Views",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Owner, VA, editor, analyst, reviewer, trader, household user, and executive views expose appropriate actions.",
+      "maturityOutput": "Operating interface taxonomy and state coverage define role needs.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/operating-interface-system-taxonomy.md",
+          "exists": true
+        },
+        {
+          "path": "docs/design/operating-interface-state-coverage.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:interface-system:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "role",
+        "allowed action"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 54,
+      "id": "permission-risk-controls",
+      "name": "Permission And Risk Controls",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "High-risk actions such as posting, trading, deleting, deploying, and OKR changes require stronger gates.",
+      "maturityOutput": "Product architecture and review packet standards declare risk control evidence.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/product-architecture-system-handbook.md",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-review-packet-standard.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "architecture:standards:validate",
+          "exists": true
+        },
+        {
+          "name": "dashboard:review-packet:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "permission",
+        "risk control"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 55,
+      "id": "auditability",
+      "name": "Auditability",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "The system can answer what changed, who approved, what data supported it, what deployed, what failed, and what retried.",
+      "maturityOutput": "Deployment ledger, promotion history, and proof registry are auditable.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-deployment-ledger.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-promotion-history.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:deployment-ledger:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "audit trail",
+        "deployment proof"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 56,
+      "id": "system-health-capacity",
+      "name": "System Health And Capacity",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Every project exposes freshness, queue depth, error rate, processing time, API capacity, cost, incidents, and last success.",
+      "maturityOutput": "Health, monitoring, telemetry, and runtime reports describe system capacity.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-health-report.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-monitoring-registry.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:health:validate",
+          "exists": true
+        },
+        {
+          "name": "dashboard:monitoring:check",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "health",
+        "capacity"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 57,
+      "id": "simulation-rehearsal",
+      "name": "Simulation And Rehearsal",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Posting, trading, research, OKR review, migration, and market analysis can rehearse before live action.",
+      "maturityOutput": "Governance mode and live E2E checks distinguish rehearsal from live production.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-live-e2e-registry.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-review-packet-standard.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:live-e2e:check",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "rehearsal",
+        "live gate"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 58,
+      "id": "rollback-recovery",
+      "name": "Rollback And Recovery",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Each project knows how to roll back UI deploys, data migrations, content packages, strategy state, kit syncs, and workers.",
+      "maturityOutput": "Release review checklist and deploy anti-loop standard require recovery thinking.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-release-review-checklist.md",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-deploy-anti-loop-standard.md",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:deploy-anti-loop:check",
+          "exists": true
+        },
+        {
+          "name": "fleet:release-readiness:validate",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "rollback plan",
+        "anti-loop"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 59,
+      "id": "cross-project-review-council",
+      "name": "Cross-Project Review Council",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Nous Hermes periodically reviews stale, drifting, blocked, archived, and high-investment projects.",
+      "maturityOutput": "Fleet maturity review data and project status ledger support review rhythm.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/project-status-ledger.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/dashboard-cross-project-action-backlog.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "fleet:maturity:review-data",
+          "exists": true
+        },
+        {
+          "name": "dashboard:project-status:ledger",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "review data",
+        "backlog"
+      ],
+      "gaps": []
+    },
+    {
+      "number": 60,
+      "id": "operating-rhythm",
+      "name": "Operating Rhythm",
+      "band": "product-operating-system",
+      "status": "mapped",
+      "purpose": "Daily health, daily analysis, weekly maturity, weekly OKR, monthly quality, and quarterly strategy reviews become recurring work.",
+      "maturityOutput": "Fleet maturity and release readiness reports anchor the operating cadence.",
+      "sourceArtifacts": [
+        {
+          "path": "docs/design/dashboard-governance-refresh-report.json",
+          "exists": true
+        },
+        {
+          "path": "docs/design/project-status-ledger.json",
+          "exists": true
+        }
+      ],
+      "enforcementCommands": [
+        {
+          "name": "dashboard:governance:refresh-all",
+          "exists": true
+        },
+        {
+          "name": "fleet:maturity:scan",
+          "exists": true
+        }
+      ],
+      "proofSignals": [
+        "cadence",
+        "refresh report"
+      ],
+      "gaps": []
+    }
+  ]
+}

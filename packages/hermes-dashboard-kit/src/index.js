@@ -299,8 +299,10 @@ export const DASHBOARD_KIT_COMPONENT_INVENTORY =
 export function renderDashboardShell({
   title,
   subtitle = "",
+  mark = "H",
   nav = [],
   navGroups = [],
+  sidebarCollapsible = true,
   sidebarFooter = "",
   sidebarStatus = "",
   activeId = "",
@@ -313,8 +315,11 @@ export function renderDashboardShell({
     renderOperationalSidebar({
       title,
       subtitle,
+      mark,
       nav,
       navGroups,
+      collapsible:
+        sidebarCollapsible,
       activeId,
       footer:
         sidebarFooter,
@@ -345,6 +350,7 @@ export function renderOperationalSidebar({
   mark = "H",
   nav = [],
   navGroups = [],
+  collapsible = true,
   activeId = "",
   status = "",
   footer = "",
@@ -372,6 +378,7 @@ export function renderOperationalSidebar({
             <strong>${escapeHtml(title)}</strong>
             ${subtitle ? `<small>${escapeHtml(subtitle)}</small>` : ""}
           </span>
+          ${collapsible ? `<button class="hdk-sidebar-toggle" type="button" data-sidebar-toggle aria-label="Collapse sidebar" aria-expanded="true">‹</button>` : ""}
         </div>
         <nav class="hdk-nav" aria-label="${escapeAttr(ariaLabel)}">
           ${groups.map((group) => `
@@ -388,6 +395,32 @@ export function renderOperationalSidebar({
           </div>
         ` : ""}
       </aside>`;
+}
+
+export function renderSidebarRuntimeScript() {
+  return `
+    <script data-hdk-component="SidebarRuntime">
+      (() => {
+        const shell = document.querySelector(".hdk-shell");
+        const toggle = document.querySelector("[data-sidebar-toggle]");
+        if (!shell || !toggle) return;
+        const storageKey = "hdkSidebarCollapsed";
+        const apply = (collapsed) => {
+          shell.classList.toggle("sidebar-collapsed", collapsed);
+          shell.setAttribute("data-sidebar-state", collapsed ? "collapsed" : "expanded");
+          toggle.setAttribute("aria-label", collapsed ? "Expand sidebar" : "Collapse sidebar");
+          toggle.setAttribute("aria-expanded", collapsed ? "false" : "true");
+          toggle.textContent = collapsed ? "›" : "‹";
+        };
+        apply(localStorage.getItem(storageKey) === "true");
+        toggle.addEventListener("click", () => {
+          const collapsed = !shell.classList.contains("sidebar-collapsed");
+          localStorage.setItem(storageKey, collapsed ? "true" : "false");
+          apply(collapsed);
+        });
+      })();
+    </script>
+  `;
 }
 
 export function renderMetricCard({
@@ -1469,6 +1502,35 @@ export function renderEnvironmentHealthMatrix(options = {}) {
 
 export function renderCandlestickChart(options = {}) {
   return renderAdvancedViz({ component: "CandlestickChart", title: "Candlestick chart", ...options });
+}
+
+export function renderTradingTerminalWorkspace({
+  title = "Trading terminal",
+  subtitle = "Dominant chart workspace with compact controls, watchlist/details rail, and bottom broker state.",
+  toolbar = "",
+  toolRail = "",
+  chart = "",
+  rightRail = "",
+  bottomPanel = "",
+  reviewId = "hdk.trading-terminal-workspace"
+} = {}) {
+  return `
+    <section class="hdk-trading-terminal" data-hdk-component="TradingTerminalWorkspace" data-domain-library="lightweight-charts" data-domain-library-family="financial-trading-charts" data-proof-signals="terminal-toolbar-visible dominant-chart-visible right-watchlist-visible bottom-orders-panel-visible candlestick-visible x-axis-visible y-axis-visible" data-review-id="${escapeHtml(reviewId)}">
+      <header class="hdk-trading-terminal__toolbar" data-hdk-component="TradingTopToolbar">
+        <div>
+          <h2>${escapeHtml(title)}</h2>
+          <p>${escapeHtml(subtitle)}</p>
+        </div>
+        <div class="hdk-trading-terminal__toolbar-actions">${toolbar}</div>
+      </header>
+      <div class="hdk-trading-terminal__workspace" data-terminal-anatomy="tool-rail chart right-rail bottom-panel">
+        <aside class="hdk-trading-terminal__tool-rail" data-hdk-component="TradingLeftToolRail">${toolRail}</aside>
+        <main class="hdk-trading-terminal__chart" data-hdk-component="FinancialCandlestickChart" data-chart-role="dominant">${chart || renderCandlestickChart({ title: "Price chart" })}</main>
+        <aside class="hdk-trading-terminal__right-rail" data-hdk-component="TradingWatchlistPanel">${rightRail}</aside>
+        <section class="hdk-trading-terminal__bottom-panel" data-hdk-component="PositionsOrdersPanel">${bottomPanel}</section>
+      </div>
+    </section>
+  `;
 }
 
 export function renderSankeyFlow(options = {}) {

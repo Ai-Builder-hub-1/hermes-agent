@@ -17,6 +17,45 @@ The standard is:
 5. Capture proof that the component behaves correctly.
 6. Block Tier 3C promotion if the project bypasses the wrapper without an exception.
 
+## Domain-Native Workspace Rule
+
+Tier 3 dashboards must use the product workspace pattern that matches the operator's job. A page does not become product-grade just because it uses a chart, table, sidebar, and cards. The dominant workflow must control the page anatomy.
+
+Required workspace families:
+
+| Product domain | Required workspace anatomy | Anti-pattern |
+| --- | --- | --- |
+| Trading / investing | terminal toolbar, dominant chart canvas, slim tool rail, right watchlist/details rail, bottom positions/orders/account panel | primary chart inside a generic dashboard card with unrelated cards crowding the viewport |
+| Market intelligence | category browser, live tape, selected-market detail, volatility/proof states, search/filter rail | blank search-first page with no browseable market hierarchy |
+| Media operations | review queue, approval actions, brand output status, issue triage, evidence drilldowns | repeated summary cards and duplicate banners on every page |
+| Research desk | project navigator, question/planning drawer, evidence workspace, source ledger, story/script artifact | textareas and static cards with no clickable workflow |
+| Planning / calendar | month/week/day calendar, selection state, drawer planner, library, export/checklist | disconnected day cards instead of calendar behavior |
+| OKR / KPI | objective tree, key-result ledger, task attribution, cadence review, proof stream | generic KPI cards without ownership or update workflow |
+
+The workspace anatomy must be extracted from Mobbin/reference screenshots before implementation. The extraction must name:
+
+- the primary viewport owner
+- persistent rails or panels
+- compact controls vs expanded detail
+- drilldown pattern
+- data states
+- components that must not be rendered as generic cards
+
+Skipping this extraction is allowed only for emergency fixes. Emergency fixes do not increase the experience tier.
+
+### Reference Parity Proof
+
+When a user provides a target screenshot or Mobbin screen, the implementation must include screenshot proof that the rendered dashboard has the same broad product anatomy. The proof is not pixel-copying. It verifies that the design translated the reference into the right operating shape:
+
+- dominant surface takes the same role and approximate screen share
+- persistent rails/panels appear in the same conceptual zones
+- controls use the same density class: terminal, cockpit, planner, review queue, editor, or browser
+- old dashboard cards do not surround the primary workflow unless the reference uses cards
+- unnecessary banners or summary cards do not push the primary workflow below the fold
+- mobile/tablet states preserve the same workflow priority
+
+For trading terminal surfaces, reference parity proof must show the chart in the first viewport with no generic dashboard card wrapper around it. A chart renderer upgrade without a terminal workspace upgrade is not sufficient for Tier 3C.
+
 ## Why This Exists
 
 The current failure mode is predictable:
@@ -112,7 +151,11 @@ Projects will keep falling back to generic UI until the kit supplies better prim
 
 Required wrappers:
 
+- `TradingTerminalWorkspace`
 - `FinancialCandlestickChart`
+- `TradingTopToolbar`
+- `TradingWatchlistPanel`
+- `PositionsOrdersPanel`
 - `MetricTimelineChart`
 - `PaginatedTableCard`
 - `DashboardCalendar`

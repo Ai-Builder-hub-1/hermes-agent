@@ -19,7 +19,8 @@ Agent work should not begin with local patching. It must follow the standards pa
 7. Build with package-native `@hermes/dashboard-kit` components.
 8. Run local validation and rendered proof where available.
 9. Update design debt or deprecation records for any compromise.
-10. Produce a final maturity report that names what improved and what remains.
+10. Run or refresh visual proof rigor when the work changes layout, charts, tables, shell, theme, or interaction density.
+11. Produce a final maturity report that names what improved and what remains.
 
 ## Blocked Actions
 
@@ -33,6 +34,8 @@ An agent should not call a dashboard Tier 3C complete when:
 - actions are visual-only
 - proof states are missing
 - no rendered proof exists for material visual work
+- only lexical/source checks passed but no screenshot or visual proof rigor exists
+- a single desktop screenshot is treated as full responsive/theme/state regression proof
 - expired design debt exists for the route
 
 ## Final Response Requirements
@@ -43,5 +46,6 @@ For dashboard work, the final response should state:
 - selected registry entries
 - validation commands run
 - proof captured or not captured
+- visual proof rigor status when relevant
 - maturity impact
 - remaining blockers

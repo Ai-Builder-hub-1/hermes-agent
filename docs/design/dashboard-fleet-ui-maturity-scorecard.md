@@ -1,21 +1,21 @@
 # Dashboard Fleet UI Maturity Scorecard
 
-Generated: 2026-08-12T15:24:57.842Z
+Generated: 2026-08-14T00:08:06.254Z
 
-Average score: 100%
-Tier 3C ready: 10
+Average score: 92.8%
+Tier 3C ready: 0
 Needs migration: 0
 Needs evidence: 0
 
 | Dashboard | Status | Score | Band | Next Move |
 | --- | --- | --- | --- | --- |
-| Nous Hermes Agent | tier3c-ready | 100% | T3C | Maintain visual regression and proof freshness. |
-| Khashi VC ROC | tier3c-ready | 100% | T3C | Maintain visual regression and proof freshness. |
-| Media Engine Ops | tier3c-ready | 100% | T3C | Maintain visual regression and proof freshness. |
-| Media Business Operations | tier3c-ready | 100% | T3C | Maintain visual regression and proof freshness. |
-| Business Mapper Workspace | tier3c-ready | 100% | T3C | Maintain visual regression and proof freshness. |
-| Meal Assistant | tier3c-ready | 100% | T3C | Maintain visual regression and proof freshness. |
-| Rinseables OS | tier3c-ready | 100% | T3C | Maintain visual regression and proof freshness. |
-| Investing System ROC | tier3c-ready | 100% | T3C | Maintain visual regression and proof freshness. |
-| Hermes Workspace | tier3c-ready | 100% | T3C | Maintain visual regression and proof freshness. |
-| TLC Capital Group OS | tier3c-ready | 100% | T3C | Maintain visual regression and proof freshness. |
+| Nous Hermes Agent | needs-proof-hardening | 91% | T3C | Execute and store baseline/current visual regression artifacts for required viewports, themes, and states. |
+| Khashi VC ROC | needs-proof-hardening | 94% | T3C | Execute and store baseline/current visual regression artifacts for required viewports, themes, and states. |
+| Media Engine Ops | needs-proof-hardening | 94% | T3C | Execute and store baseline/current visual regression artifacts for required viewports, themes, and states. |
+| Media Business Operations | needs-proof-hardening | 91% | T3C | Execute and store baseline/current visual regression artifacts for required viewports, themes, and states. |
+| Business Mapper Workspace | needs-proof-hardening | 94% | T3C | Execute and store baseline/current visual regression artifacts for required viewports, themes, and states. |
+| Meal Assistant | needs-proof-hardening | 94% | T3C | Execute and store baseline/current visual regression artifacts for required viewports, themes, and states. |
+| Rinseables OS | needs-proof-hardening | 91% | T3C | Execute and store baseline/current visual regression artifacts for required viewports, themes, and states. |
+| Investing System ROC | needs-proof-hardening | 94% | T3C | Execute and store baseline/current visual regression artifacts for required viewports, themes, and states. |
+| Hermes Workspace | needs-proof-hardening | 91% | T3C | Execute and store baseline/current visual regression artifacts for required viewports, themes, and states. |
+| TLC Capital Group OS | needs-proof-hardening | 94% | T3C | Execute and store baseline/current visual regression artifacts for required viewports, themes, and states. |

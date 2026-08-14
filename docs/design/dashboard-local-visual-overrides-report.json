@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-02T19:55:30.138Z",
+  "generatedAt": "2026-08-14T15:54:11.051Z",
   "strict": false,
   "rule": "no-local-visual-overrides-without-declared-exception",
   "results": [
     {
       "project": "khashi-vc",
       "name": "Kashi VC",
-      "status": "stale",
+      "status": "current",
       "policy": {
         "policy": "declared-exceptions-only",
         "enabled": true
@@ -16,303 +16,7 @@
       "cssFilesScanned": [
         "public/roc/styles.css"
       ],
-      "issues": [
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 157,
-          "selector": ".topbar",
-          "protectedSelector": ".topbar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 170,
-          "selector": ".topbar .eyebrow",
-          "protectedSelector": ".topbar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 180,
-          "selector": ".topbar",
-          "protectedSelector": ".topbar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 187,
-          "selector": ".topbar",
-          "protectedSelector": ".topbar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 193,
-          "selector": ".topbar-actions",
-          "protectedSelector": ".topbar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 209,
-          "selector": ".topbar",
-          "protectedSelector": ".topbar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 213,
-          "selector": ".app-shell",
-          "protectedSelector": ".app-shell"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 223,
-          "selector": ".sidebar",
-          "protectedSelector": ".sidebar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 234,
-          "selector": ".sidebar-collapse-toggle",
-          "protectedSelector": ".sidebar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 245,
-          "selector": ".sidebar-collapse-toggle",
-          "protectedSelector": ".sidebar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 258,
-          "selector": ".sidebar-collapse-toggle",
-          "protectedSelector": ".sidebar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 476,
-          "selector": ".sidebar-note",
-          "protectedSelector": ".sidebar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 1377,
-          "selector": ".metric-grid",
-          "protectedSelector": ".metric"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 1384,
-          "selector": ".metric",
-          "protectedSelector": ".metric"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 1392,
-          "selector": ".metric",
-          "protectedSelector": ".metric"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 1419,
-          "selector": ".metric",
-          "protectedSelector": ".metric"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 1425,
-          "selector": ".metric",
-          "protectedSelector": ".metric"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 1432,
-          "selector": ".metric-filter",
-          "protectedSelector": ".metric"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 1656,
-          "selector": ".topbar",
-          "protectedSelector": ".topbar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 1664,
-          "selector": ".topbar",
-          "protectedSelector": ".topbar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 1785,
-          "selector": ".table-wrap",
-          "protectedSelector": ".table"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 2051,
-          "selector": ".drawer-section",
-          "protectedSelector": ".drawer"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 2063,
-          "selector": ".drawer-section",
-          "protectedSelector": ".drawer"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 2598,
-          "selector": ".topbar",
-          "protectedSelector": ".topbar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 2603,
-          "selector": ".topbar",
-          "protectedSelector": ".topbar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedToken",
-          "message": "Local dashboard CSS is redefining a protected theme or component token without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 2,
-          "token": "--bg"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedToken",
-          "message": "Local dashboard CSS is redefining a protected theme or component token without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 4,
-          "token": "--surface-muted"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedToken",
-          "message": "Local dashboard CSS is redefining a protected theme or component token without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 5,
-          "token": "--line"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedToken",
-          "message": "Local dashboard CSS is redefining a protected theme or component token without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 8,
-          "token": "--muted"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedToken",
-          "message": "Local dashboard CSS is redefining a protected theme or component token without a declared exception.",
-          "project": "khashi-vc",
-          "path": "public/roc/styles.css",
-          "line": 9,
-          "token": "--accent"
-        }
-      ]
+      "issues": []
     },
     {
       "project": "media-engine",
@@ -329,7 +33,7 @@
     {
       "project": "media-business-os",
       "name": "Media Business OS",
-      "status": "stale",
+      "status": "current",
       "policy": {
         "policy": "declared-exceptions-only",
         "enabled": true
@@ -338,450 +42,7 @@
       "cssFilesScanned": [
         "public/dashboard/styles.css"
       ],
-      "issues": [
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 37,
-          "selector": ".shell",
-          "protectedSelector": ".shell"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 45,
-          "selector": ".sidebar",
-          "protectedSelector": ".sidebar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 142,
-          "selector": ".sidebar-note",
-          "protectedSelector": ".sidebar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 155,
-          "selector": ".sidebar-title",
-          "protectedSelector": ".sidebar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 250,
-          "selector": ".sidebar-note",
-          "protectedSelector": ".sidebar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 256,
-          "selector": ".sidebar-note",
-          "protectedSelector": ".sidebar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 269,
-          "selector": ".topbar",
-          "protectedSelector": ".topbar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 365,
-          "selector": ".proof-strip",
-          "protectedSelector": ".proof-strip"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 397,
-          "selector": ".metrics",
-          "protectedSelector": ".metric"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 414,
-          "selector": ".cards",
-          "protectedSelector": ".card"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 435,
-          "selector": ".card",
-          "protectedSelector": ".card"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 439,
-          "selector": ".metric",
-          "protectedSelector": ".metric"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 473,
-          "selector": ".metric",
-          "protectedSelector": ".metric"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 478,
-          "selector": ".metric",
-          "protectedSelector": ".metric"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 543,
-          "selector": ".table",
-          "protectedSelector": ".table"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 549,
-          "selector": ".table",
-          "protectedSelector": ".table"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 554,
-          "selector": ".table-row",
-          "protectedSelector": ".table"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 571,
-          "selector": ".table-row",
-          "protectedSelector": ".table"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 577,
-          "selector": ".table-row",
-          "protectedSelector": ".table"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 607,
-          "selector": ".table-head",
-          "protectedSelector": ".table"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 681,
-          "selector": ".chart-panel",
-          "protectedSelector": ".chart"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 690,
-          "selector": ".chart-head",
-          "protectedSelector": ".chart"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 698,
-          "selector": ".chart-head",
-          "protectedSelector": ".chart"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 703,
-          "selector": ".chart-head",
-          "protectedSelector": ".chart"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 708,
-          "selector": ".chart-frame",
-          "protectedSelector": ".chart"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 720,
-          "selector": ".chart-svg",
-          "protectedSelector": ".chart"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 726,
-          "selector": ".chart-grid-line",
-          "protectedSelector": ".chart"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 731,
-          "selector": ".chart-axis",
-          "protectedSelector": ".chart"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 736,
-          "selector": ".chart-line",
-          "protectedSelector": ".chart"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 744,
-          "selector": ".chart-area",
-          "protectedSelector": ".chart"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 748,
-          "selector": ".chart-dot",
-          "protectedSelector": ".chart"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 754,
-          "selector": ".chart-label",
-          "protectedSelector": ".chart"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 761,
-          "selector": ".chart-y-label",
-          "protectedSelector": ".chart"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 839,
-          "selector": ".sidebar",
-          "protectedSelector": ".sidebar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 848,
-          "selector": ".metrics",
-          "protectedSelector": ".metric"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 857,
-          "selector": ".table-row",
-          "protectedSelector": ".table"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 865,
-          "selector": ".topbar",
-          "protectedSelector": ".topbar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedToken",
-          "message": "Local dashboard CSS is redefining a protected theme or component token without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 3,
-          "token": "--bg"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedToken",
-          "message": "Local dashboard CSS is redefining a protected theme or component token without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 4,
-          "token": "--sidebar"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedToken",
-          "message": "Local dashboard CSS is redefining a protected theme or component token without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 5,
-          "token": "--panel"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedToken",
-          "message": "Local dashboard CSS is redefining a protected theme or component token without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 6,
-          "token": "--panel-2"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedToken",
-          "message": "Local dashboard CSS is redefining a protected theme or component token without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 7,
-          "token": "--panel-3"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedToken",
-          "message": "Local dashboard CSS is redefining a protected theme or component token without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 8,
-          "token": "--line"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedToken",
-          "message": "Local dashboard CSS is redefining a protected theme or component token without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 11,
-          "token": "--muted"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedToken",
-          "message": "Local dashboard CSS is redefining a protected theme or component token without a declared exception.",
-          "project": "media-business-os",
-          "path": "public/dashboard/styles.css",
-          "line": 17,
-          "token": "--accent"
-        }
-      ]
+      "issues": []
     },
     {
       "project": "business-mapper",
@@ -791,7 +52,7 @@
         "policy": "declared-exceptions-only",
         "enabled": true
       },
-      "targetExperienceTier": 2,
+      "targetExperienceTier": 3,
       "cssFilesScanned": [],
       "issues": []
     },
@@ -822,7 +83,7 @@
     {
       "project": "tlc-capital-group-os",
       "name": "TLC Capital Group OS",
-      "status": "stale",
+      "status": "current",
       "policy": {
         "policy": "declared-exceptions-only",
         "enabled": true
@@ -831,58 +92,47 @@
       "cssFilesScanned": [
         "public/dashboard/styles.css"
       ],
-      "issues": [
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "tlc-capital-group-os",
-          "path": "public/dashboard/styles.css",
-          "line": 147,
-          "selector": ".metric",
-          "protectedSelector": ".metric"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "tlc-capital-group-os",
-          "path": "public/dashboard/styles.css",
-          "line": 154,
-          "selector": ".metric",
-          "protectedSelector": ".metric"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "tlc-capital-group-os",
-          "path": "public/dashboard/styles.css",
-          "line": 159,
-          "selector": ".metric",
-          "protectedSelector": ".metric"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "tlc-capital-group-os",
-          "path": "public/dashboard/styles.css",
-          "line": 163,
-          "selector": ".metric",
-          "protectedSelector": ".metric"
-        },
-        {
-          "severity": "error",
-          "code": "localVisualOverride.protectedSelector",
-          "message": "Local dashboard CSS is overriding a kit-owned visual primitive without a declared exception.",
-          "project": "tlc-capital-group-os",
-          "path": "public/dashboard/styles.css",
-          "line": 187,
-          "selector": ".button-group",
-          "protectedSelector": ".button"
-        }
-      ]
+      "issues": []
+    },
+    {
+      "project": "rinseables-os",
+      "name": "Rinseables OS",
+      "status": "current",
+      "policy": {
+        "policy": "declared-exceptions-only",
+        "enabled": true
+      },
+      "targetExperienceTier": 3,
+      "cssFilesScanned": [
+        "public/dashboard/styles.css"
+      ],
+      "issues": []
+    },
+    {
+      "project": "investing-system",
+      "name": "Investing System",
+      "status": "current",
+      "policy": {
+        "policy": "declared-exceptions-only",
+        "enabled": true
+      },
+      "targetExperienceTier": 3,
+      "cssFilesScanned": [
+        "public/roc/styles.css"
+      ],
+      "issues": []
+    },
+    {
+      "project": "nous-hermes-agent",
+      "name": "Nous Hermes Agent",
+      "status": "current",
+      "policy": {
+        "policy": "declared-exceptions-only",
+        "enabled": true
+      },
+      "targetExperienceTier": 3,
+      "cssFilesScanned": [],
+      "issues": []
     }
   ]
 }

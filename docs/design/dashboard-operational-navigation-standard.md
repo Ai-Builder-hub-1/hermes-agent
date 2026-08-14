@@ -15,6 +15,47 @@ Every Tier 3 sidebar must include:
 - **Keyboard state**: nav items and the collapse control must expose visible hover/focus/pressed/active treatment.
 - **Mobile behavior**: mobile must become a usable top nav, drawer, stacked rail, or collapsed rail. It cannot remain a cramped desktop sidebar.
 
+## Ownership Rule
+
+Tier 3 projects do not build sidebars. They declare routes and navigation groups;
+`@hermes/dashboard-kit` renders the sidebar, controls its spacing, owns its
+expanded/collapsed/mobile behavior, and supplies the scroll contract.
+
+Project-local sidebar primitives are not allowed in Tier 3 unless there is an
+approved, expiring exception:
+
+- local `.sidebar`, `.topbar`, `.nav-item`, `.dashboard-shell`, or
+  project-prefixed equivalents,
+- copied `hermes-dashboard-kit.css` files used as the primary runtime style,
+- hidden sidebar markers that exist only to satisfy validators,
+- project-specific sidebar width, gap, active-state, theme, or scroll tokens.
+
+If a project needs a different sidebar look, the work belongs in
+`@hermes/dashboard-kit` as an approved variant. The project should not fork the
+sidebar standard locally.
+
+## Route Declaration Contract
+
+Dashboard routes should be supplied to the kit as route data, not hand-written
+navigation markup:
+
+```js
+{
+  id: "planner",
+  label: "Planner",
+  shortLabel: "PL",
+  href: "#planner",
+  group: "Planning",
+  badge: "3",
+  status: "ready",
+  description: "Plan meals by day or week"
+}
+```
+
+Dashboards with five or more routes must use at least two named groups. Short
+labels are required for collapsed mode. Badges should be counts or states, not
+secondary descriptions that make the rail noisy.
+
 ## Visual Craft Bar
 
 A sidebar fails Tier 3 when it is only a list of plain buttons, even if it uses `DashboardSidebar` or `.hdk-sidebar-rail`.
@@ -53,6 +94,14 @@ Tier 3 proof must include:
 - collapsed labels or icons visible in collapsed mode,
 - footer/status area visible or intentionally moved into mobile navigation.
 
+The proof is not complete unless the rendered DOM also shows:
+
+- exactly one production shell candidate,
+- one primary sidebar candidate,
+- `data-sidebar-toggle` or an approved mobile drawer trigger,
+- collapsed labels through `data-short`, `data-short-label`, or equivalent,
+- a main content pane that owns desktop vertical scroll.
+
 ## Enforcement
 
 The following checks must be part of Tier 3 validation:
@@ -61,3 +110,5 @@ The following checks must be part of Tier 3 validation:
 - Tier 3 score includes operational navigation quality;
 - package-native surface validation inspects source for the required sidebar contract;
 - visual baseline capture includes desktop-expanded, desktop-collapsed, and mobile screenshots.
+- local override scanning fails Tier 3 when a project maintains its own sidebar
+  primitive or copied kit CSS instead of consuming the package.

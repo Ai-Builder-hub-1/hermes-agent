@@ -1,20 +1,21 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-12T15:24:57.842Z",
+  "generatedAt": "2026-08-14T00:08:06.254Z",
   "purpose": "Aggregates central UI maturity signals for every registered production dashboard.",
   "scoringModel": {
-    "tierBand": 20,
+    "tierBand": 15,
     "packageDistribution": 15,
-    "visualEvidence": 20,
-    "proofRoute": 10,
+    "visualProofRigor": 30,
+    "proofRoute": 5,
     "runtimeDataPolicy": 10,
-    "debtAndDeprecation": 15,
-    "uiQualitySystem": 10
+    "debtAndDeprecation": 10,
+    "uiQualitySystem": 10,
+    "domainWrapperProof": 5
   },
   "summary": {
     "dashboardCount": 10,
-    "averageScore": 100,
-    "tier3cReadyCount": 10,
+    "averageScore": 92.8,
+    "tier3cReadyCount": 0,
     "needsEvidenceCount": 0,
     "needsMigrationCount": 0
   },
@@ -25,15 +26,15 @@
       "owner": "Hermes",
       "url": "https://agent.tlccapitalgroup.com",
       "proofUrl": "https://agent.tlccapitalgroup.com/dashboard/proof",
-      "score": 100,
-      "status": "tier3c-ready",
+      "score": 91,
+      "status": "needs-proof-hardening",
       "currentBand": "T3C",
       "implementationMode": "package-native",
       "checks": [
         {
           "id": "tier-band",
-          "weight": 20,
-          "earned": 20,
+          "weight": 15,
+          "earned": 15,
           "status": "pass",
           "note": "T3C"
         },
@@ -45,16 +46,16 @@
           "note": "ready"
         },
         {
-          "id": "visual-evidence",
-          "weight": 20,
-          "earned": 20,
-          "status": "pass",
-          "note": "covered"
+          "id": "visual-proof-rigor",
+          "weight": 30,
+          "earned": 21,
+          "status": "partial",
+          "note": "needs-regression-execution"
         },
         {
           "id": "proof-route",
-          "weight": 10,
-          "earned": 10,
+          "weight": 5,
+          "earned": 5,
           "status": "pass",
           "note": "proof route registered"
         },
@@ -67,8 +68,8 @@
         },
         {
           "id": "debt-and-deprecation",
-          "weight": 15,
-          "earned": 15,
+          "weight": 10,
+          "earned": 10,
           "status": "pass",
           "note": "no blocking/expired central design debt"
         },
@@ -78,9 +79,16 @@
           "earned": 10,
           "status": "pass",
           "note": "V14 report present"
+        },
+        {
+          "id": "domain-wrapper-proof",
+          "weight": 5,
+          "earned": 5,
+          "status": "pass",
+          "note": "domain wrappers proof-ready"
         }
       ],
-      "nextMove": "Maintain visual regression and proof freshness."
+      "nextMove": "Execute and store baseline/current visual regression artifacts for required viewports, themes, and states."
     },
     {
       "id": "khashi-vc.roc",
@@ -88,15 +96,15 @@
       "owner": "Khashi VC",
       "url": "https://roc.tlccapitalgroup.com/",
       "proofUrl": "https://roc.tlccapitalgroup.com/dashboard/proof?view=live-market-intelligence",
-      "score": 100,
-      "status": "tier3c-ready",
+      "score": 94,
+      "status": "needs-proof-hardening",
       "currentBand": "T3C",
       "implementationMode": "package-native",
       "checks": [
         {
           "id": "tier-band",
-          "weight": 20,
-          "earned": 20,
+          "weight": 15,
+          "earned": 15,
           "status": "pass",
           "note": "T3C"
         },
@@ -108,16 +116,16 @@
           "note": "ready"
         },
         {
-          "id": "visual-evidence",
-          "weight": 20,
-          "earned": 20,
-          "status": "pass",
-          "note": "covered"
+          "id": "visual-proof-rigor",
+          "weight": 30,
+          "earned": 24,
+          "status": "partial",
+          "note": "needs-regression-execution"
         },
         {
           "id": "proof-route",
-          "weight": 10,
-          "earned": 10,
+          "weight": 5,
+          "earned": 5,
           "status": "pass",
           "note": "proof route registered"
         },
@@ -130,8 +138,8 @@
         },
         {
           "id": "debt-and-deprecation",
-          "weight": 15,
-          "earned": 15,
+          "weight": 10,
+          "earned": 10,
           "status": "pass",
           "note": "no blocking/expired central design debt"
         },
@@ -141,9 +149,16 @@
           "earned": 10,
           "status": "pass",
           "note": "V14 report present"
+        },
+        {
+          "id": "domain-wrapper-proof",
+          "weight": 5,
+          "earned": 5,
+          "status": "pass",
+          "note": "domain wrappers proof-ready"
         }
       ],
-      "nextMove": "Maintain visual regression and proof freshness."
+      "nextMove": "Execute and store baseline/current visual regression artifacts for required viewports, themes, and states."
     },
     {
       "id": "media-engine.ops",
@@ -151,15 +166,15 @@
       "owner": "Media Engine",
       "url": "https://media.tlccapitalgroup.com/dashboard",
       "proofUrl": "https://media.tlccapitalgroup.com/dashboard/proof",
-      "score": 100,
-      "status": "tier3c-ready",
+      "score": 94,
+      "status": "needs-proof-hardening",
       "currentBand": "T3C",
       "implementationMode": "package-native",
       "checks": [
         {
           "id": "tier-band",
-          "weight": 20,
-          "earned": 20,
+          "weight": 15,
+          "earned": 15,
           "status": "pass",
           "note": "T3C"
         },
@@ -171,16 +186,16 @@
           "note": "ready"
         },
         {
-          "id": "visual-evidence",
-          "weight": 20,
-          "earned": 20,
-          "status": "pass",
-          "note": "covered"
+          "id": "visual-proof-rigor",
+          "weight": 30,
+          "earned": 24,
+          "status": "partial",
+          "note": "needs-regression-execution"
         },
         {
           "id": "proof-route",
-          "weight": 10,
-          "earned": 10,
+          "weight": 5,
+          "earned": 5,
           "status": "pass",
           "note": "proof route registered"
         },
@@ -193,8 +208,8 @@
         },
         {
           "id": "debt-and-deprecation",
-          "weight": 15,
-          "earned": 15,
+          "weight": 10,
+          "earned": 10,
           "status": "pass",
           "note": "no blocking/expired central design debt"
         },
@@ -204,9 +219,16 @@
           "earned": 10,
           "status": "pass",
           "note": "V14 report present"
+        },
+        {
+          "id": "domain-wrapper-proof",
+          "weight": 5,
+          "earned": 5,
+          "status": "pass",
+          "note": "domain wrappers proof-ready"
         }
       ],
-      "nextMove": "Maintain visual regression and proof freshness."
+      "nextMove": "Execute and store baseline/current visual regression artifacts for required viewports, themes, and states."
     },
     {
       "id": "media-business-operations.main",
@@ -214,15 +236,15 @@
       "owner": "Media Business Operations",
       "url": "https://media-business-operations.tlccapitalgroup.com/dashboard",
       "proofUrl": "https://media-business-operations.tlccapitalgroup.com/dashboard/proof",
-      "score": 100,
-      "status": "tier3c-ready",
+      "score": 91,
+      "status": "needs-proof-hardening",
       "currentBand": "T3C",
       "implementationMode": "package-native",
       "checks": [
         {
           "id": "tier-band",
-          "weight": 20,
-          "earned": 20,
+          "weight": 15,
+          "earned": 15,
           "status": "pass",
           "note": "T3C"
         },
@@ -234,16 +256,16 @@
           "note": "ready"
         },
         {
-          "id": "visual-evidence",
-          "weight": 20,
-          "earned": 20,
-          "status": "pass",
-          "note": "covered"
+          "id": "visual-proof-rigor",
+          "weight": 30,
+          "earned": 21,
+          "status": "partial",
+          "note": "needs-regression-execution"
         },
         {
           "id": "proof-route",
-          "weight": 10,
-          "earned": 10,
+          "weight": 5,
+          "earned": 5,
           "status": "pass",
           "note": "proof route registered"
         },
@@ -256,8 +278,8 @@
         },
         {
           "id": "debt-and-deprecation",
-          "weight": 15,
-          "earned": 15,
+          "weight": 10,
+          "earned": 10,
           "status": "pass",
           "note": "no blocking/expired central design debt"
         },
@@ -267,9 +289,16 @@
           "earned": 10,
           "status": "pass",
           "note": "V14 report present"
+        },
+        {
+          "id": "domain-wrapper-proof",
+          "weight": 5,
+          "earned": 5,
+          "status": "pass",
+          "note": "domain wrappers proof-ready"
         }
       ],
-      "nextMove": "Maintain visual regression and proof freshness."
+      "nextMove": "Execute and store baseline/current visual regression artifacts for required viewports, themes, and states."
     },
     {
       "id": "business-mapper.workspace",
@@ -277,15 +306,15 @@
       "owner": "Business Mapper",
       "url": "https://business-mapper.tlccapitalgroup.com/dashboard",
       "proofUrl": "https://business-mapper.tlccapitalgroup.com/dashboard/proof",
-      "score": 100,
-      "status": "tier3c-ready",
+      "score": 94,
+      "status": "needs-proof-hardening",
       "currentBand": "T3C",
       "implementationMode": "package-native",
       "checks": [
         {
           "id": "tier-band",
-          "weight": 20,
-          "earned": 20,
+          "weight": 15,
+          "earned": 15,
           "status": "pass",
           "note": "T3C"
         },
@@ -297,16 +326,16 @@
           "note": "ready"
         },
         {
-          "id": "visual-evidence",
-          "weight": 20,
-          "earned": 20,
-          "status": "pass",
-          "note": "covered"
+          "id": "visual-proof-rigor",
+          "weight": 30,
+          "earned": 24,
+          "status": "partial",
+          "note": "needs-regression-execution"
         },
         {
           "id": "proof-route",
-          "weight": 10,
-          "earned": 10,
+          "weight": 5,
+          "earned": 5,
           "status": "pass",
           "note": "proof route registered"
         },
@@ -319,8 +348,8 @@
         },
         {
           "id": "debt-and-deprecation",
-          "weight": 15,
-          "earned": 15,
+          "weight": 10,
+          "earned": 10,
           "status": "pass",
           "note": "no blocking/expired central design debt"
         },
@@ -330,9 +359,16 @@
           "earned": 10,
           "status": "pass",
           "note": "V14 report present"
+        },
+        {
+          "id": "domain-wrapper-proof",
+          "weight": 5,
+          "earned": 5,
+          "status": "pass",
+          "note": "domain wrappers proof-ready"
         }
       ],
-      "nextMove": "Maintain visual regression and proof freshness."
+      "nextMove": "Execute and store baseline/current visual regression artifacts for required viewports, themes, and states."
     },
     {
       "id": "meal-assistant.main",
@@ -340,15 +376,15 @@
       "owner": "Meal Assistant",
       "url": "https://meal.tlccapitalgroup.com/",
       "proofUrl": "https://meal.tlccapitalgroup.com/dashboard/proof",
-      "score": 100,
-      "status": "tier3c-ready",
+      "score": 94,
+      "status": "needs-proof-hardening",
       "currentBand": "T3C",
       "implementationMode": "package-native",
       "checks": [
         {
           "id": "tier-band",
-          "weight": 20,
-          "earned": 20,
+          "weight": 15,
+          "earned": 15,
           "status": "pass",
           "note": "T3C"
         },
@@ -360,16 +396,16 @@
           "note": "ready"
         },
         {
-          "id": "visual-evidence",
-          "weight": 20,
-          "earned": 20,
-          "status": "pass",
-          "note": "covered"
+          "id": "visual-proof-rigor",
+          "weight": 30,
+          "earned": 24,
+          "status": "partial",
+          "note": "needs-regression-execution"
         },
         {
           "id": "proof-route",
-          "weight": 10,
-          "earned": 10,
+          "weight": 5,
+          "earned": 5,
           "status": "pass",
           "note": "proof route registered"
         },
@@ -382,8 +418,8 @@
         },
         {
           "id": "debt-and-deprecation",
-          "weight": 15,
-          "earned": 15,
+          "weight": 10,
+          "earned": 10,
           "status": "pass",
           "note": "no blocking/expired central design debt"
         },
@@ -393,9 +429,16 @@
           "earned": 10,
           "status": "pass",
           "note": "V14 report present"
+        },
+        {
+          "id": "domain-wrapper-proof",
+          "weight": 5,
+          "earned": 5,
+          "status": "pass",
+          "note": "domain wrappers proof-ready"
         }
       ],
-      "nextMove": "Maintain visual regression and proof freshness."
+      "nextMove": "Execute and store baseline/current visual regression artifacts for required viewports, themes, and states."
     },
     {
       "id": "rinseables-os.main",
@@ -403,15 +446,15 @@
       "owner": "Rinseables",
       "url": "https://rinseables.tlccapitalgroup.com",
       "proofUrl": "https://rinseables.tlccapitalgroup.com/dashboard/proof",
-      "score": 100,
-      "status": "tier3c-ready",
+      "score": 91,
+      "status": "needs-proof-hardening",
       "currentBand": "T3C",
       "implementationMode": "package-native",
       "checks": [
         {
           "id": "tier-band",
-          "weight": 20,
-          "earned": 20,
+          "weight": 15,
+          "earned": 15,
           "status": "pass",
           "note": "T3C"
         },
@@ -423,16 +466,16 @@
           "note": "ready"
         },
         {
-          "id": "visual-evidence",
-          "weight": 20,
-          "earned": 20,
-          "status": "pass",
-          "note": "covered"
+          "id": "visual-proof-rigor",
+          "weight": 30,
+          "earned": 21,
+          "status": "partial",
+          "note": "needs-regression-execution"
         },
         {
           "id": "proof-route",
-          "weight": 10,
-          "earned": 10,
+          "weight": 5,
+          "earned": 5,
           "status": "pass",
           "note": "proof route registered"
         },
@@ -445,8 +488,8 @@
         },
         {
           "id": "debt-and-deprecation",
-          "weight": 15,
-          "earned": 15,
+          "weight": 10,
+          "earned": 10,
           "status": "pass",
           "note": "no blocking/expired central design debt"
         },
@@ -456,9 +499,16 @@
           "earned": 10,
           "status": "pass",
           "note": "V14 report present"
+        },
+        {
+          "id": "domain-wrapper-proof",
+          "weight": 5,
+          "earned": 5,
+          "status": "pass",
+          "note": "domain wrappers proof-ready"
         }
       ],
-      "nextMove": "Maintain visual regression and proof freshness."
+      "nextMove": "Execute and store baseline/current visual regression artifacts for required viewports, themes, and states."
     },
     {
       "id": "investing-system.roc",
@@ -466,15 +516,15 @@
       "owner": "Investing System",
       "url": "https://investing.tlccapitalgroup.com/roc",
       "proofUrl": "https://investing.tlccapitalgroup.com/dashboard/proof",
-      "score": 100,
-      "status": "tier3c-ready",
+      "score": 94,
+      "status": "needs-proof-hardening",
       "currentBand": "T3C",
       "implementationMode": "package-native",
       "checks": [
         {
           "id": "tier-band",
-          "weight": 20,
-          "earned": 20,
+          "weight": 15,
+          "earned": 15,
           "status": "pass",
           "note": "T3C"
         },
@@ -486,16 +536,16 @@
           "note": "ready"
         },
         {
-          "id": "visual-evidence",
-          "weight": 20,
-          "earned": 20,
-          "status": "pass",
-          "note": "covered"
+          "id": "visual-proof-rigor",
+          "weight": 30,
+          "earned": 24,
+          "status": "partial",
+          "note": "needs-regression-execution"
         },
         {
           "id": "proof-route",
-          "weight": 10,
-          "earned": 10,
+          "weight": 5,
+          "earned": 5,
           "status": "pass",
           "note": "proof route registered"
         },
@@ -508,8 +558,8 @@
         },
         {
           "id": "debt-and-deprecation",
-          "weight": 15,
-          "earned": 15,
+          "weight": 10,
+          "earned": 10,
           "status": "pass",
           "note": "no blocking/expired central design debt"
         },
@@ -519,9 +569,16 @@
           "earned": 10,
           "status": "pass",
           "note": "V14 report present"
+        },
+        {
+          "id": "domain-wrapper-proof",
+          "weight": 5,
+          "earned": 5,
+          "status": "pass",
+          "note": "domain wrappers proof-ready"
         }
       ],
-      "nextMove": "Maintain visual regression and proof freshness."
+      "nextMove": "Execute and store baseline/current visual regression artifacts for required viewports, themes, and states."
     },
     {
       "id": "hermes.workspace",
@@ -529,15 +586,15 @@
       "owner": "Hermes",
       "url": "https://hermes.tlccapitalgroup.com/",
       "proofUrl": "https://hermes.tlccapitalgroup.com/dashboard/proof",
-      "score": 100,
-      "status": "tier3c-ready",
+      "score": 91,
+      "status": "needs-proof-hardening",
       "currentBand": "T3C",
       "implementationMode": "package-native",
       "checks": [
         {
           "id": "tier-band",
-          "weight": 20,
-          "earned": 20,
+          "weight": 15,
+          "earned": 15,
           "status": "pass",
           "note": "T3C"
         },
@@ -549,16 +606,16 @@
           "note": "ready"
         },
         {
-          "id": "visual-evidence",
-          "weight": 20,
-          "earned": 20,
-          "status": "pass",
-          "note": "covered"
+          "id": "visual-proof-rigor",
+          "weight": 30,
+          "earned": 21,
+          "status": "partial",
+          "note": "needs-regression-execution"
         },
         {
           "id": "proof-route",
-          "weight": 10,
-          "earned": 10,
+          "weight": 5,
+          "earned": 5,
           "status": "pass",
           "note": "proof route registered"
         },
@@ -571,8 +628,8 @@
         },
         {
           "id": "debt-and-deprecation",
-          "weight": 15,
-          "earned": 15,
+          "weight": 10,
+          "earned": 10,
           "status": "pass",
           "note": "no blocking/expired central design debt"
         },
@@ -582,9 +639,16 @@
           "earned": 10,
           "status": "pass",
           "note": "V14 report present"
+        },
+        {
+          "id": "domain-wrapper-proof",
+          "weight": 5,
+          "earned": 5,
+          "status": "pass",
+          "note": "domain wrappers proof-ready"
         }
       ],
-      "nextMove": "Maintain visual regression and proof freshness."
+      "nextMove": "Execute and store baseline/current visual regression artifacts for required viewports, themes, and states."
     },
     {
       "id": "tlc-capital-group-os.main",
@@ -592,15 +656,15 @@
       "owner": "TLC Capital Group",
       "url": "https://tlc.tlccapitalgroup.com/dashboard",
       "proofUrl": "https://tlc.tlccapitalgroup.com/dashboard/proof",
-      "score": 100,
-      "status": "tier3c-ready",
+      "score": 94,
+      "status": "needs-proof-hardening",
       "currentBand": "T3C",
       "implementationMode": "package-native",
       "checks": [
         {
           "id": "tier-band",
-          "weight": 20,
-          "earned": 20,
+          "weight": 15,
+          "earned": 15,
           "status": "pass",
           "note": "T3C"
         },
@@ -612,16 +676,16 @@
           "note": "ready"
         },
         {
-          "id": "visual-evidence",
-          "weight": 20,
-          "earned": 20,
-          "status": "pass",
-          "note": "covered"
+          "id": "visual-proof-rigor",
+          "weight": 30,
+          "earned": 24,
+          "status": "partial",
+          "note": "needs-regression-execution"
         },
         {
           "id": "proof-route",
-          "weight": 10,
-          "earned": 10,
+          "weight": 5,
+          "earned": 5,
           "status": "pass",
           "note": "proof route registered"
         },
@@ -634,8 +698,8 @@
         },
         {
           "id": "debt-and-deprecation",
-          "weight": 15,
-          "earned": 15,
+          "weight": 10,
+          "earned": 10,
           "status": "pass",
           "note": "no blocking/expired central design debt"
         },
@@ -645,9 +709,16 @@
           "earned": 10,
           "status": "pass",
           "note": "V14 report present"
+        },
+        {
+          "id": "domain-wrapper-proof",
+          "weight": 5,
+          "earned": 5,
+          "status": "pass",
+          "note": "domain wrappers proof-ready"
         }
       ],
-      "nextMove": "Maintain visual regression and proof freshness."
+      "nextMove": "Execute and store baseline/current visual regression artifacts for required viewports, themes, and states."
     }
   ]
 }

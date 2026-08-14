@@ -49,6 +49,7 @@ import {
   renderBottomSheetDrawer,
   renderBoxPlot,
   renderCandlestickChart,
+  renderTradingTerminalWorkspace,
   renderCompactActionRail,
   renderComponentQualityMaturityGraph,
   renderComponentIntakeBoard,
@@ -105,6 +106,7 @@ import {
   renderSankeyFlow,
   renderScheduleTimeline,
   renderScatterQuadrantChart,
+  renderSidebarRuntimeScript,
   renderSignalClusterPanel,
   renderSkeletonChart,
   renderSkeletonTable,
@@ -156,9 +158,20 @@ test("renders a tier 3 dashboard shell with one shell marker", () => {
   assert.equal((html.match(/data-hdk-component="DashboardShell"/g) || []).length, 1);
   assert.match(html, /data-component="DashboardSidebar"/);
   assert.match(html, /data-sidebar-brand/);
+  assert.match(html, /data-sidebar-toggle/);
   assert.match(html, /data-nav-group="main"/);
   assert.match(html, /data-short="Live"/);
   assert.match(html, /aria-current="page"/);
+});
+
+test("renders sidebar runtime script for shared collapse behavior", () => {
+  const html =
+    renderSidebarRuntimeScript();
+
+  assert.match(html, /data-hdk-component="SidebarRuntime"/);
+  assert.match(html, /hdkSidebarCollapsed/);
+  assert.match(html, /data-sidebar-state/);
+  assert.match(html, /sidebar-collapsed/);
 });
 
 test("renders product-grade operational sidebar contract", () => {
@@ -463,6 +476,25 @@ test("renders approved charts with axes and component markers", () => {
     assert.match(html, /hdk-chart__axis/);
     assert.match(html, /hdk-chart__label/);
   }
+});
+
+test("renders financial trading terminal workspace anatomy", () => {
+  const html = renderTradingTerminalWorkspace({
+    title: "OANDA terminal",
+    toolbar: "<button>Indicators</button>",
+    toolRail: "<button>Crosshair</button>",
+    rightRail: "<div>Watchlist</div>",
+    bottomPanel: "<div>Positions</div>"
+  });
+
+  assert.match(html, /data-hdk-component="TradingTerminalWorkspace"/);
+  assert.match(html, /data-hdk-component="TradingTopToolbar"/);
+  assert.match(html, /data-hdk-component="FinancialCandlestickChart"/);
+  assert.match(html, /data-hdk-component="TradingWatchlistPanel"/);
+  assert.match(html, /data-hdk-component="PositionsOrdersPanel"/);
+  assert.match(html, /data-terminal-anatomy="tool-rail chart right-rail bottom-panel"/);
+  assert.match(html, /dominant-chart-visible/);
+  assert.match(html, /data-domain-library="lightweight-charts"/);
 });
 
 test("renders level 5 maturity graph and premium dashboard components", () => {

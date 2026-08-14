@@ -26,10 +26,10 @@ const skippedDirs = new Set([
   "test-results"
 ]);
 
-const allowedSharedCssBasenames = new Set([
-  "dashboard-kit.css",
-  "hermes-dashboard-kit.css"
-]);
+const allowedSharedCssPaths = [
+  /(?:^|\/)vendor\/hermes-dashboard-kit\/(?:src\/dashboard-kit|static\/hermes-dashboard-kit)\.css$/,
+  /(?:^|\/)packages\/hermes-dashboard-kit\/(?:src\/dashboard-kit|static\/hermes-dashboard-kit)\.css$/
+];
 
 const protectedSelectors = [
   ".hdk-",
@@ -208,16 +208,32 @@ function fallbackCssFiles(projectRoot) {
   return files;
 }
 
-function isSharedCss(file) {
-  return allowedSharedCssBasenames.has(path.basename(file));
+function isSharedCss(file, projectRoot = root) {
+  const relativePath =
+    path.relative(projectRoot, file).split(path.sep).join("/");
+  const absolutePath =
+    path.resolve(file).split(path.sep).join("/");
+  return allowedSharedCssPaths.some((pattern) => pattern.test(relativePath) || pattern.test(absolutePath));
 }
 
 function scanCssFile({ project, file, manifest, projectRoot }) {
-  if (isSharedCss(file)) return [];
+  if (isSharedCss(file, projectRoot)) return [];
   const findings = [];
   const content = fs.readFileSync(file, "utf8");
   const exceptions = localOverrideExceptions(manifest);
   const relativePath = path.relative(projectRoot, file);
+  if (/hermes-dashboard-kit\.css$|dashboard-kit\.css$/.test(relativePath) && !isSharedCss(file, projectRoot)) {
+    findings.push(issue(
+      targetTier(manifest, project) >= 3 ? "error" : "warning",
+      "localVisualOverride.copiedKitCss",
+      "Project-local copied dashboard kit CSS is not allowed for Tier 3; consume the package CSS directly.",
+      {
+        project: project.id,
+        path: relativePath,
+        line: 1
+      }
+    ));
+  }
   const selectorPattern =
     /(^|})\s*([.#][\w-]+(?:\s+[.#][\w-]+)?)(?=[\s,{])/g;
 
@@ -225,9 +241,7 @@ function scanCssFile({ project, file, manifest, projectRoot }) {
   while ((match = selectorPattern.exec(content))) {
     const selector = match[2];
     const protectedMatch = protectedSelectors.find((protectedSelector) =>
-      selector === protectedSelector ||
-      selector.startsWith(`${protectedSelector} `) ||
-      selector.startsWith(protectedSelector)
+      selectorMatchesProtectedSelector(selector, protectedSelector)
     );
     if (!protectedMatch) continue;
     const finding = {
@@ -277,6 +291,17 @@ function scanCssFile({ project, file, manifest, projectRoot }) {
   return findings;
 }
 
+function selectorMatchesProtectedSelector(selector, protectedSelector) {
+  if (protectedSelector.endsWith("-")) return selector.startsWith(protectedSelector);
+  return (
+    selector === protectedSelector ||
+    selector.startsWith(`${protectedSelector} `) ||
+    selector.startsWith(`${protectedSelector}.`) ||
+    selector.startsWith(`${protectedSelector}:`) ||
+    selector.startsWith(`${protectedSelector}[`)
+  );
+}
+
 function evaluateProject(project) {
   const issues = [];
   if (!fs.existsSync(project.path)) {
@@ -301,7 +326,7 @@ function evaluateProject(project) {
       ...cssFilesFromSurfaces(project.path, manifest),
       ...fallbackCssFiles(project.path)
     ])
-  ].filter((file) => !isSharedCss(file));
+  ].filter((file) => !isSharedCss(file, project.path));
 
   if (policy.enabled && policy.policy !== "allow-local-overrides") {
     for (const file of cssFiles) {

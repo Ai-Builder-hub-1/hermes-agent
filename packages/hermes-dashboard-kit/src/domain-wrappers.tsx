@@ -90,6 +90,41 @@ export function FinancialCandlestickChart({
   );
 }
 
+export function TradingTerminalWorkspace({
+  title = "Trading terminal",
+  description = "Terminal-grade trading workspace with a dominant chart, compact controls, watchlist/details rail, and bottom broker state panel.",
+  children,
+  reviewId = "hdk.trading-terminal-workspace",
+}: Partial<DomainWrapperProps>) {
+  return (
+    <section
+      className="grid min-h-[760px] gap-2 rounded-lg border border-border bg-background p-2"
+      data-domain-library="lightweight-charts"
+      data-domain-library-family="financial-trading-charts"
+      data-hdk-component="TradingTerminalWorkspace"
+      data-proof-signals="terminal-toolbar-visible dominant-chart-visible right-watchlist-visible bottom-orders-panel-visible candlestick-visible x-axis-visible y-axis-visible"
+      data-review-id={reviewId}
+    >
+      <header className="flex min-h-10 flex-wrap items-center justify-between gap-2 rounded-md border border-border bg-card px-3 py-2">
+        <div className="min-w-0">
+          <h2 className="truncate text-sm font-semibold text-foreground">{title}</h2>
+          {description ? <p className="truncate text-xs text-muted-foreground">{description}</p> : null}
+        </div>
+        <StatusPill tone="info">lightweight-charts</StatusPill>
+      </header>
+      <div className="grid min-h-[620px] grid-cols-[48px_minmax(0,1fr)_280px] grid-rows-[minmax(420px,1fr)_220px] gap-2" data-terminal-anatomy="tool-rail chart right-rail bottom-panel">
+        {children ?? (
+          <DashboardEmptyState
+            title="Trading terminal runtime not connected"
+            description="Mount the chart, watchlist, tool rail, and positions/orders panel inside this workspace."
+            className="col-span-3 row-span-2 min-h-[620px]"
+          />
+        )}
+      </div>
+    </section>
+  );
+}
+
 export function MetricTimelineChart({
   title,
   description,

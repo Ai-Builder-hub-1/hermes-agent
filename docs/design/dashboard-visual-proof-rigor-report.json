@@ -1,0 +1,724 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-14T00:08:06.253Z",
+  "purpose": "Turns visual proof from a checklist into a rigor score. Tier 3C requires rendered evidence, not just registered routes or lexical source checks.",
+  "scoringModel": {
+    "freshProductionScreenshot": 15,
+    "screenshotArtifactHealthy": 10,
+    "proofAndHealthRoutes": 10,
+    "lexicalVisualQuality": 10,
+    "regressionContract": 15,
+    "stateViewportThemeCoverage": 10,
+    "productionProofRegistry": 10,
+    "executedRegressionArtifacts": 20
+  },
+  "summary": {
+    "dashboardCount": 10,
+    "proofReadyCount": 0,
+    "needsRegressionExecutionCount": 10,
+    "needsEvidenceCount": 0,
+    "averageScore": 76
+  },
+  "items": [
+    {
+      "id": "nous-hermes-agent.dashboard",
+      "label": "Nous Hermes Agent",
+      "score": 70,
+      "status": "needs-regression-execution",
+      "hasExecutedRegressionArtifacts": false,
+      "regressionRequiredCaptureCount": 50,
+      "regressionDefaultRequiredCount": 34,
+      "regressionBaselineArtifactCount": 1,
+      "regressionCurrentArtifactCount": 1,
+      "checks": [
+        {
+          "id": "fresh-production-screenshot",
+          "weight": 15,
+          "earned": 15,
+          "status": "pass",
+          "note": "8d old"
+        },
+        {
+          "id": "screenshot-artifact-healthy",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "79KB"
+        },
+        {
+          "id": "proof-and-health-routes",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "proof=true, health=true"
+        },
+        {
+          "id": "lexical-visual-quality",
+          "weight": 10,
+          "earned": 0,
+          "status": "fail",
+          "note": "83% source heuristic"
+        },
+        {
+          "id": "regression-contract",
+          "weight": 15,
+          "earned": 15,
+          "status": "pass",
+          "note": "50 required captures"
+        },
+        {
+          "id": "state-viewport-theme-coverage",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "34 default-required captures"
+        },
+        {
+          "id": "production-proof-registry",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "baseline-present"
+        },
+        {
+          "id": "executed-regression-artifacts",
+          "weight": 20,
+          "earned": 0,
+          "status": "fail",
+          "note": "fail; baseline=1, current=1"
+        }
+      ],
+      "nextMove": "Execute and store baseline/current visual regression artifacts for required viewports, themes, and states."
+    },
+    {
+      "id": "khashi-vc.roc",
+      "label": "Khashi VC ROC",
+      "score": 80,
+      "status": "needs-regression-execution",
+      "hasExecutedRegressionArtifacts": false,
+      "regressionRequiredCaptureCount": 50,
+      "regressionDefaultRequiredCount": 34,
+      "regressionBaselineArtifactCount": 0,
+      "regressionCurrentArtifactCount": 0,
+      "checks": [
+        {
+          "id": "fresh-production-screenshot",
+          "weight": 15,
+          "earned": 15,
+          "status": "pass",
+          "note": "8d old"
+        },
+        {
+          "id": "screenshot-artifact-healthy",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "2398KB"
+        },
+        {
+          "id": "proof-and-health-routes",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "proof=true, health=true"
+        },
+        {
+          "id": "lexical-visual-quality",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "100% source heuristic"
+        },
+        {
+          "id": "regression-contract",
+          "weight": 15,
+          "earned": 15,
+          "status": "pass",
+          "note": "50 required captures"
+        },
+        {
+          "id": "state-viewport-theme-coverage",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "34 default-required captures"
+        },
+        {
+          "id": "production-proof-registry",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "baseline-present"
+        },
+        {
+          "id": "executed-regression-artifacts",
+          "weight": 20,
+          "earned": 0,
+          "status": "fail",
+          "note": "missing run; baseline=0, current=0"
+        }
+      ],
+      "nextMove": "Execute and store baseline/current visual regression artifacts for required viewports, themes, and states."
+    },
+    {
+      "id": "media-engine.ops",
+      "label": "Media Engine Ops",
+      "score": 80,
+      "status": "needs-regression-execution",
+      "hasExecutedRegressionArtifacts": false,
+      "regressionRequiredCaptureCount": 50,
+      "regressionDefaultRequiredCount": 34,
+      "regressionBaselineArtifactCount": 0,
+      "regressionCurrentArtifactCount": 0,
+      "checks": [
+        {
+          "id": "fresh-production-screenshot",
+          "weight": 15,
+          "earned": 15,
+          "status": "pass",
+          "note": "8d old"
+        },
+        {
+          "id": "screenshot-artifact-healthy",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "101KB"
+        },
+        {
+          "id": "proof-and-health-routes",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "proof=true, health=true"
+        },
+        {
+          "id": "lexical-visual-quality",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "100% source heuristic"
+        },
+        {
+          "id": "regression-contract",
+          "weight": 15,
+          "earned": 15,
+          "status": "pass",
+          "note": "50 required captures"
+        },
+        {
+          "id": "state-viewport-theme-coverage",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "34 default-required captures"
+        },
+        {
+          "id": "production-proof-registry",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "baseline-present"
+        },
+        {
+          "id": "executed-regression-artifacts",
+          "weight": 20,
+          "earned": 0,
+          "status": "fail",
+          "note": "missing run; baseline=0, current=0"
+        }
+      ],
+      "nextMove": "Execute and store baseline/current visual regression artifacts for required viewports, themes, and states."
+    },
+    {
+      "id": "media-business-operations.main",
+      "label": "Media Business Operations",
+      "score": 70,
+      "status": "needs-regression-execution",
+      "hasExecutedRegressionArtifacts": false,
+      "regressionRequiredCaptureCount": 50,
+      "regressionDefaultRequiredCount": 34,
+      "regressionBaselineArtifactCount": 0,
+      "regressionCurrentArtifactCount": 0,
+      "checks": [
+        {
+          "id": "fresh-production-screenshot",
+          "weight": 15,
+          "earned": 15,
+          "status": "pass",
+          "note": "8d old"
+        },
+        {
+          "id": "screenshot-artifact-healthy",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "87KB"
+        },
+        {
+          "id": "proof-and-health-routes",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "proof=true, health=true"
+        },
+        {
+          "id": "lexical-visual-quality",
+          "weight": 10,
+          "earned": 0,
+          "status": "fail",
+          "note": "0% source heuristic"
+        },
+        {
+          "id": "regression-contract",
+          "weight": 15,
+          "earned": 15,
+          "status": "pass",
+          "note": "50 required captures"
+        },
+        {
+          "id": "state-viewport-theme-coverage",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "34 default-required captures"
+        },
+        {
+          "id": "production-proof-registry",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "baseline-present"
+        },
+        {
+          "id": "executed-regression-artifacts",
+          "weight": 20,
+          "earned": 0,
+          "status": "fail",
+          "note": "missing run; baseline=0, current=0"
+        }
+      ],
+      "nextMove": "Execute and store baseline/current visual regression artifacts for required viewports, themes, and states."
+    },
+    {
+      "id": "business-mapper.workspace",
+      "label": "Business Mapper Workspace",
+      "score": 80,
+      "status": "needs-regression-execution",
+      "hasExecutedRegressionArtifacts": false,
+      "regressionRequiredCaptureCount": 50,
+      "regressionDefaultRequiredCount": 34,
+      "regressionBaselineArtifactCount": 0,
+      "regressionCurrentArtifactCount": 0,
+      "checks": [
+        {
+          "id": "fresh-production-screenshot",
+          "weight": 15,
+          "earned": 15,
+          "status": "pass",
+          "note": "8d old"
+        },
+        {
+          "id": "screenshot-artifact-healthy",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "74KB"
+        },
+        {
+          "id": "proof-and-health-routes",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "proof=true, health=true"
+        },
+        {
+          "id": "lexical-visual-quality",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "100% source heuristic"
+        },
+        {
+          "id": "regression-contract",
+          "weight": 15,
+          "earned": 15,
+          "status": "pass",
+          "note": "50 required captures"
+        },
+        {
+          "id": "state-viewport-theme-coverage",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "34 default-required captures"
+        },
+        {
+          "id": "production-proof-registry",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "baseline-present"
+        },
+        {
+          "id": "executed-regression-artifacts",
+          "weight": 20,
+          "earned": 0,
+          "status": "fail",
+          "note": "missing run; baseline=0, current=0"
+        }
+      ],
+      "nextMove": "Execute and store baseline/current visual regression artifacts for required viewports, themes, and states."
+    },
+    {
+      "id": "meal-assistant.main",
+      "label": "Meal Assistant",
+      "score": 80,
+      "status": "needs-regression-execution",
+      "hasExecutedRegressionArtifacts": false,
+      "regressionRequiredCaptureCount": 50,
+      "regressionDefaultRequiredCount": 34,
+      "regressionBaselineArtifactCount": 0,
+      "regressionCurrentArtifactCount": 0,
+      "checks": [
+        {
+          "id": "fresh-production-screenshot",
+          "weight": 15,
+          "earned": 15,
+          "status": "pass",
+          "note": "8d old"
+        },
+        {
+          "id": "screenshot-artifact-healthy",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "74KB"
+        },
+        {
+          "id": "proof-and-health-routes",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "proof=true, health=true"
+        },
+        {
+          "id": "lexical-visual-quality",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "100% source heuristic"
+        },
+        {
+          "id": "regression-contract",
+          "weight": 15,
+          "earned": 15,
+          "status": "pass",
+          "note": "50 required captures"
+        },
+        {
+          "id": "state-viewport-theme-coverage",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "34 default-required captures"
+        },
+        {
+          "id": "production-proof-registry",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "baseline-present"
+        },
+        {
+          "id": "executed-regression-artifacts",
+          "weight": 20,
+          "earned": 0,
+          "status": "fail",
+          "note": "missing run; baseline=0, current=0"
+        }
+      ],
+      "nextMove": "Execute and store baseline/current visual regression artifacts for required viewports, themes, and states."
+    },
+    {
+      "id": "rinseables-os.main",
+      "label": "Rinseables OS",
+      "score": 70,
+      "status": "needs-regression-execution",
+      "hasExecutedRegressionArtifacts": false,
+      "regressionRequiredCaptureCount": 50,
+      "regressionDefaultRequiredCount": 34,
+      "regressionBaselineArtifactCount": 0,
+      "regressionCurrentArtifactCount": 0,
+      "checks": [
+        {
+          "id": "fresh-production-screenshot",
+          "weight": 15,
+          "earned": 15,
+          "status": "pass",
+          "note": "4d old"
+        },
+        {
+          "id": "screenshot-artifact-healthy",
+          "weight": 10,
+          "earned": 0,
+          "status": "fail",
+          "note": "44KB"
+        },
+        {
+          "id": "proof-and-health-routes",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "proof=true, health=true"
+        },
+        {
+          "id": "lexical-visual-quality",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "100% source heuristic"
+        },
+        {
+          "id": "regression-contract",
+          "weight": 15,
+          "earned": 15,
+          "status": "pass",
+          "note": "50 required captures"
+        },
+        {
+          "id": "state-viewport-theme-coverage",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "34 default-required captures"
+        },
+        {
+          "id": "production-proof-registry",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "baseline-present"
+        },
+        {
+          "id": "executed-regression-artifacts",
+          "weight": 20,
+          "earned": 0,
+          "status": "fail",
+          "note": "missing run; baseline=0, current=0"
+        }
+      ],
+      "nextMove": "Execute and store baseline/current visual regression artifacts for required viewports, themes, and states."
+    },
+    {
+      "id": "investing-system.roc",
+      "label": "Investing System ROC",
+      "score": 80,
+      "status": "needs-regression-execution",
+      "hasExecutedRegressionArtifacts": false,
+      "regressionRequiredCaptureCount": 50,
+      "regressionDefaultRequiredCount": 34,
+      "regressionBaselineArtifactCount": 0,
+      "regressionCurrentArtifactCount": 0,
+      "checks": [
+        {
+          "id": "fresh-production-screenshot",
+          "weight": 15,
+          "earned": 15,
+          "status": "pass",
+          "note": "8d old"
+        },
+        {
+          "id": "screenshot-artifact-healthy",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "144KB"
+        },
+        {
+          "id": "proof-and-health-routes",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "proof=true, health=true"
+        },
+        {
+          "id": "lexical-visual-quality",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "100% source heuristic"
+        },
+        {
+          "id": "regression-contract",
+          "weight": 15,
+          "earned": 15,
+          "status": "pass",
+          "note": "50 required captures"
+        },
+        {
+          "id": "state-viewport-theme-coverage",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "34 default-required captures"
+        },
+        {
+          "id": "production-proof-registry",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "baseline-present"
+        },
+        {
+          "id": "executed-regression-artifacts",
+          "weight": 20,
+          "earned": 0,
+          "status": "fail",
+          "note": "missing run; baseline=0, current=0"
+        }
+      ],
+      "nextMove": "Execute and store baseline/current visual regression artifacts for required viewports, themes, and states."
+    },
+    {
+      "id": "hermes.workspace",
+      "label": "Hermes Workspace",
+      "score": 70,
+      "status": "needs-regression-execution",
+      "hasExecutedRegressionArtifacts": false,
+      "regressionRequiredCaptureCount": 50,
+      "regressionDefaultRequiredCount": 34,
+      "regressionBaselineArtifactCount": 0,
+      "regressionCurrentArtifactCount": 0,
+      "checks": [
+        {
+          "id": "fresh-production-screenshot",
+          "weight": 15,
+          "earned": 15,
+          "status": "pass",
+          "note": "8d old"
+        },
+        {
+          "id": "screenshot-artifact-healthy",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "74KB"
+        },
+        {
+          "id": "proof-and-health-routes",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "proof=true, health=true"
+        },
+        {
+          "id": "lexical-visual-quality",
+          "weight": 10,
+          "earned": 0,
+          "status": "fail",
+          "note": "0% source heuristic"
+        },
+        {
+          "id": "regression-contract",
+          "weight": 15,
+          "earned": 15,
+          "status": "pass",
+          "note": "50 required captures"
+        },
+        {
+          "id": "state-viewport-theme-coverage",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "34 default-required captures"
+        },
+        {
+          "id": "production-proof-registry",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "baseline-present"
+        },
+        {
+          "id": "executed-regression-artifacts",
+          "weight": 20,
+          "earned": 0,
+          "status": "fail",
+          "note": "missing run; baseline=0, current=0"
+        }
+      ],
+      "nextMove": "Execute and store baseline/current visual regression artifacts for required viewports, themes, and states."
+    },
+    {
+      "id": "tlc-capital-group-os.main",
+      "label": "TLC Capital Group OS",
+      "score": 80,
+      "status": "needs-regression-execution",
+      "hasExecutedRegressionArtifacts": false,
+      "regressionRequiredCaptureCount": 50,
+      "regressionDefaultRequiredCount": 34,
+      "regressionBaselineArtifactCount": 0,
+      "regressionCurrentArtifactCount": 0,
+      "checks": [
+        {
+          "id": "fresh-production-screenshot",
+          "weight": 15,
+          "earned": 15,
+          "status": "pass",
+          "note": "8d old"
+        },
+        {
+          "id": "screenshot-artifact-healthy",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "154KB"
+        },
+        {
+          "id": "proof-and-health-routes",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "proof=true, health=true"
+        },
+        {
+          "id": "lexical-visual-quality",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "100% source heuristic"
+        },
+        {
+          "id": "regression-contract",
+          "weight": 15,
+          "earned": 15,
+          "status": "pass",
+          "note": "50 required captures"
+        },
+        {
+          "id": "state-viewport-theme-coverage",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "34 default-required captures"
+        },
+        {
+          "id": "production-proof-registry",
+          "weight": 10,
+          "earned": 10,
+          "status": "pass",
+          "note": "baseline-present"
+        },
+        {
+          "id": "executed-regression-artifacts",
+          "weight": 20,
+          "earned": 0,
+          "status": "fail",
+          "note": "missing run; baseline=0, current=0"
+        }
+      ],
+      "nextMove": "Execute and store baseline/current visual regression artifacts for required viewports, themes, and states."
+    }
+  ]
+}

@@ -44,9 +44,9 @@
           "tradeoffs": ["heavier integration", "commercial/licensing review required", "less owned design control"]
         }
       ],
-      "approvedWrappers": ["FinancialCandlestickChart", "MarketTapeChart", "VolumeHistogram", "IndicatorOverlay", "PriceLineOverlay"],
-      "requiredProof": ["candlestick-visible", "x-axis-visible", "y-axis-visible", "crosshair-or-hover-visible", "volume-visible-when-volume-data-exists"],
-      "bannedFallbacks": ["hand-drawn svg price chart", "div-based sparkline as primary trading chart", "chart without y-axis price scale"]
+      "approvedWrappers": ["TradingTerminalWorkspace", "FinancialCandlestickChart", "TradingTopToolbar", "TradingWatchlistPanel", "PositionsOrdersPanel", "MarketTapeChart", "VolumeHistogram", "IndicatorOverlay", "PriceLineOverlay"],
+      "requiredProof": ["terminal-toolbar-visible", "dominant-chart-visible", "right-watchlist-visible", "bottom-orders-panel-visible", "candlestick-visible", "x-axis-visible", "y-axis-visible", "crosshair-or-hover-visible", "volume-visible-when-volume-data-exists"],
+      "bannedFallbacks": ["hand-drawn svg price chart", "div-based sparkline as primary trading chart", "chart without y-axis price scale", "primary trading chart trapped in a generic dashboard card", "trading workspace without a bottom positions or orders panel"]
     },
     {
       "id": "general-dashboard-charts",
