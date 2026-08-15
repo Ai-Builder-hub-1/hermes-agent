@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "version": "V1",
+  "status": "active",
+  "generatedAt": "2026-08-15T01:00:00.272Z",
+  "projectId": "nous-hermes-agent",
+  "dashboardId": "nous-hermes-agent.dashboard",
+  "owner": "Hermes",
+  "productionUrl": "https://agent.tlccapitalgroup.com",
+  "proofUrl": "https://agent.tlccapitalgroup.com/dashboard/proof",
+  "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
+  "screenIntent": "command-cockpit",
+  "experienceBlueprint": "command-center",
+  "density": "standard",
+  "businessObjective": "Operate the dashboard/design-system control plane and fleet maturity console.",
+  "targetVisualTier": "V4",
+  "pages": [
+    {
+      "id": "dashboard-kit-gallery",
+      "intent": "command-cockpit",
+      "blueprint": "command-center",
+      "density": "standard",
+      "requiresSpacingContract": true,
+      "requiresCardDensityContract": true,
+      "requiresTableContainmentContract": true,
+      "requiresDrawerOverlayProof": true,
+      "requiresWorkflowProof": true
+    },
+    {
+      "id": "fleet-maturity-review",
+      "intent": "command-cockpit",
+      "blueprint": "command-center",
+      "density": "standard",
+      "requiresSpacingContract": true,
+      "requiresCardDensityContract": true,
+      "requiresTableContainmentContract": true,
+      "requiresDrawerOverlayProof": true,
+      "requiresWorkflowProof": true
+    },
+    {
+      "id": "system",
+      "intent": "command-cockpit",
+      "blueprint": "command-center",
+      "density": "standard",
+      "requiresSpacingContract": true,
+      "requiresCardDensityContract": true,
+      "requiresTableContainmentContract": true,
+      "requiresDrawerOverlayProof": true,
+      "requiresWorkflowProof": true
+    },
+    {
+      "id": "sessions",
+      "intent": "command-cockpit",
+      "blueprint": "command-center",
+      "density": "standard",
+      "requiresSpacingContract": true,
+      "requiresCardDensityContract": true,
+      "requiresTableContainmentContract": true,
+      "requiresDrawerOverlayProof": true,
+      "requiresWorkflowProof": true
+    }
+  ],
+  "requiredComponents": [
+    "DashboardShell",
+    "DashboardSidebar",
+    "DashboardHeader",
+    "DashboardQueryBoundary",
+    "DataFreshnessStrip",
+    "ProofStrip",
+    "StatePanel",
+    "MetricCard",
+    "ActionQueue"
+  ],
+  "dataStates": [
+    "loading",
+    "empty",
+    "partial",
+    "stale",
+    "error",
+    "ready"
+  ],
+  "proofStates": [
+    "desktop-expanded",
+    "desktop-collapsed",
+    "overflow-scan",
+    "primary-workflow",
+    "production-proof"
+  ],
+  "workflowActions": [
+    "review standards",
+    "inspect downstream blockers",
+    "generate reports",
+    "validate promotion gates"
+  ],
+  "qualitySignals": [
+    "visual score",
+    "workflow proof",
+    "design debt",
+    "component dependencies",
+    "promotion blockers",
+    "proof freshness"
+  ],
+  "downstreamRequirements": [
+    "project-local dashboard:standard:check",
+    "route/page manifest",
+    "rendered visual proof",
+    "workflow proof",
+    "quality snapshot",
+    "component enrichment RFC for missing local UI"
+  ],
+  "componentEnrichmentPolicy": {
+    "missingComponentRequiresRfc": true,
+    "localUiRequiresExpiry": true,
+    "approvedComponentsComeFromDashboardKit": true,
+    "proofRerunRequiredAfterAutopatch": true
+  }
+}

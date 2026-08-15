@@ -24,7 +24,7 @@
     "audit:fix:tui": "npm audit fix --workspace ui-tui",
     "dashboard:design-system:status": "node packages/hermes-dashboard-kit/scripts/status.mjs",
     "dashboard:design-system:test": "node --test packages/hermes-dashboard-kit/tests/dashboard-kit.test.js",
-    "dashboard:standard:check": "npm run dashboard:operating-system:validate && npm run dashboard:design-intelligence:validate && npm run dashboard:product-quality:validate && npm run dashboard:platform-intelligence:validate && npm run dashboard:downstream-platform:validate && npm run dashboard:ui-quality:validate && npm run dashboard:design-system:test",
+    "dashboard:standard:check": "npm run dashboard:operating-system:validate && npm run dashboard:design-intelligence:validate && npm run dashboard:product-quality:validate && npm run dashboard:platform-intelligence:validate && npm run dashboard:downstream-platform:validate && npm run dashboard:ui-quality:validate && npm run dashboard:design-system:test && npm run dashboard:platform:check",
     "dashboard:design-system:gallery": "node packages/hermes-dashboard-kit/scripts/generate-gallery.mjs",
     "dashboard:design-system:gallery:maturity": "node scripts/validate-dashboard-kit-gallery-maturity.mjs",
     "dashboard:web:build-budget": "node scripts/check-web-build-budget.mjs",
@@ -158,7 +158,9 @@
     "dashboard-kit:served-css:strict": "node scripts/validate-dashboard-kit-served-css.mjs --write --strict",
     "dashboard:rendered-implementation:audit": "node scripts/audit-dashboard-rendered-implementation.mjs",
     "dashboard:rendered-implementation:report": "node scripts/audit-dashboard-rendered-implementation.mjs --write",
-    "dashboard:rendered-implementation:strict": "node scripts/audit-dashboard-rendered-implementation.mjs --strict"
+    "dashboard:rendered-implementation:strict": "node scripts/audit-dashboard-rendered-implementation.mjs --strict",
+    "dashboard:platform:check": "node scripts/check-dashboard-platform-standard.mjs",
+    "dashboard:proof": "node scripts/capture-dashboard-platform-proof.mjs"
   },
   "repository": {
     "type": "git",

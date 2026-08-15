@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-14T17:36:28.205Z",
+  "generatedAt": "2026-08-15T01:00:11.698Z",
   "sourceRegistry": "packages/hermes-dashboard-kit/adoption/registry.json",
   "commandPlan": [
     "dashboard:kit:check",
@@ -40,7 +40,7 @@
           "status": "passed",
           "exitCode": 0,
           "signal": null,
-          "stdoutTail": "> kalshi-fetcher@1.0.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"khashi-vc\",\n  \"checkedAt\": \"2026-08-14T17:36:28.399Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-built\",\n  \"errors\": [],\n  \"warnings\": []\n}",
+          "stdoutTail": "  \"warnings\": []\n}\n\n> kalshi-fetcher@1.0.0 dashboard:platform:check\n> node scripts/check-dashboard-platform-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"khashi-vc\",\n  \"dashboardId\": \"khashi-vc.roc\",\n  \"checkedAt\": \"2026-08-15T01:00:12.038Z\",\n  \"screenIntent\": \"market-browser\",\n  \"experienceBlueprint\": \"market-browser\",\n  \"density\": \"standard\",\n  \"targetVisualTier\": \"V3\",\n  \"errors\": [],\n  \"warnings\": []\n}",
           "stderrTail": ""
         },
         {
@@ -66,7 +66,7 @@
       "name": "Media Engine",
       "path": "../media-engine",
       "targetExperienceBand": "T3C",
-      "bridgeStatus": "package-native-step-1",
+      "bridgeStatus": "package-native",
       "manifestExists": true,
       "packageExists": true,
       "status": "passed",
@@ -84,8 +84,36 @@
           "status": "passed",
           "exitCode": 0,
           "signal": null,
-          "stdoutTail": "> hermes@1.0.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"media-engine\",\n  \"checkedAt\": \"2026-08-14T17:36:31.268Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
+          "stdoutTail": "  \"warnings\": []\n}\n\n> hermes@1.0.0 dashboard:platform:check\n> node scripts/check-dashboard-platform-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"media-engine\",\n  \"dashboardId\": \"media-engine.ops\",\n  \"checkedAt\": \"2026-08-15T01:00:15.061Z\",\n  \"screenIntent\": \"approval-queue\",\n  \"experienceBlueprint\": \"review-queue\",\n  \"density\": \"standard\",\n  \"targetVisualTier\": \"V3\",\n  \"errors\": [],\n  \"warnings\": []\n}",
           "stderrTail": ""
+        },
+        {
+          "script": "dashboard:proof:capture",
+          "status": "passed",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "> hermes@1.0.0 dashboard:proof:capture\n> npm run proof:capture\n\n\n> hermes@1.0.0 proof:capture\n> node tasks/capture-dashboard-proof.js\n\n{\n  \"status\": \"pass\",\n  \"runDir\": \"/Users/hq/Workspace/projects/media-engine/artifacts/proof/media-engine.ops/20260815T010015Z\",\n  \"warnings\": [],\n  \"screenshots\": [\n    \"/Users/hq/Workspace/projects/media-engine/artifacts/proof/media-engine.ops/20260815T010015Z/desktop.png\",\n    \"/Users/hq/Workspace/projects/media-engine/artifacts/proof/media-engine.ops/20260815T010015Z/mobile.png\"\n  ]\n}",
+          "stderrTail": "",
+          "server": {
+            "command": "npm run ops:dashboard:server",
+            "healthUrl": "http://localhost:4200/health",
+            "startedForProof": true,
+            "alreadyHealthy": false
+          }
+        },
+        {
+          "script": "dashboard:proof",
+          "status": "passed",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "  \"bytes\": 512801,\n  \"elapsedMs\": 539,\n  \"matchedMarkers\": [\n    \"data-component=\\\"DashboardShell\\\"\",\n    \"data-hdk-component\",\n    \"hdk-\",\n    \"dashboard\",\n    \"Dashboard\"\n  ],\n  \"proofStates\": [\n    \"desktop-expanded\",\n    \"desktop-collapsed\",\n    \"overflow-scan\",\n    \"primary-workflow\",\n    \"production-proof\"\n  ],\n  \"result\": \"passed\"\n}",
+          "stderrTail": "",
+          "server": {
+            "command": "npm run ops:dashboard:server",
+            "healthUrl": "http://localhost:4200/health",
+            "startedForProof": true,
+            "alreadyHealthy": false
+          }
         }
       ],
       "missingRequired": [],
@@ -114,7 +142,7 @@
           "status": "passed",
           "exitCode": 0,
           "signal": null,
-          "stdoutTail": "> media-business-operations@0.1.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"media-business-os\",\n  \"checkedAt\": \"2026-08-14T17:36:31.485Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
+          "stdoutTail": "  \"warnings\": []\n}\n\n> media-business-operations@0.1.0 dashboard:platform:check\n> node scripts/check-dashboard-platform-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"media-business-os\",\n  \"dashboardId\": \"media-business-operations.main\",\n  \"checkedAt\": \"2026-08-15T01:00:19.844Z\",\n  \"screenIntent\": \"research-workspace\",\n  \"experienceBlueprint\": \"research-desk\",\n  \"density\": \"comfortable\",\n  \"targetVisualTier\": \"V3\",\n  \"errors\": [],\n  \"warnings\": []\n}",
           "stderrTail": ""
         },
         {
@@ -158,8 +186,22 @@
           "status": "passed",
           "exitCode": 0,
           "signal": null,
-          "stdoutTail": "> business-mapper-dashboard@0.1.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"business-mapper\",\n  \"checkedAt\": \"2026-08-14T17:36:36.275Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
+          "stdoutTail": "  \"warnings\": []\n}\n\n> business-mapper-dashboard@0.1.0 dashboard:platform:check\n> node scripts/check-dashboard-platform-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"business-mapper\",\n  \"dashboardId\": \"business-mapper.workspace\",\n  \"checkedAt\": \"2026-08-15T01:00:24.517Z\",\n  \"screenIntent\": \"research-workspace\",\n  \"experienceBlueprint\": \"research-desk\",\n  \"density\": \"standard\",\n  \"targetVisualTier\": \"V3\",\n  \"errors\": [],\n  \"warnings\": []\n}",
           "stderrTail": ""
+        },
+        {
+          "script": "dashboard:proof",
+          "status": "passed",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "  \"bytes\": 13034,\n  \"elapsedMs\": 19,\n  \"matchedMarkers\": [\n    \"data-component=\\\"DashboardShell\\\"\",\n    \"data-hdk-component\",\n    \"hdk-\",\n    \"dashboard\",\n    \"Dashboard\"\n  ],\n  \"proofStates\": [\n    \"desktop-expanded\",\n    \"desktop-collapsed\",\n    \"overflow-scan\",\n    \"primary-workflow\",\n    \"production-proof\"\n  ],\n  \"result\": \"passed\"\n}",
+          "stderrTail": "",
+          "server": {
+            "command": "python3 -m business_mapper.web --port 8765",
+            "healthUrl": "http://localhost:8765/health",
+            "startedForProof": true,
+            "alreadyHealthy": false
+          }
         }
       ],
       "missingRequired": [],
@@ -188,7 +230,7 @@
           "status": "passed",
           "exitCode": 0,
           "signal": null,
-          "stdoutTail": "> hermes-meal-assistant@0.1.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"meal-assistant\",\n  \"checkedAt\": \"2026-08-14T17:36:36.467Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
+          "stdoutTail": "  \"warnings\": []\n}\n\n> hermes-meal-assistant@0.1.0 dashboard:platform:check\n> node scripts/check-dashboard-platform-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"meal-assistant\",\n  \"dashboardId\": \"meal-assistant.main\",\n  \"checkedAt\": \"2026-08-15T01:00:26.001Z\",\n  \"screenIntent\": \"planner-workspace\",\n  \"experienceBlueprint\": \"calendar-planner\",\n  \"density\": \"comfortable\",\n  \"targetVisualTier\": \"V3\",\n  \"errors\": [],\n  \"warnings\": []\n}",
           "stderrTail": ""
         },
         {
@@ -201,8 +243,8 @@
           "server": {
             "command": "npm start",
             "healthUrl": "http://localhost:4184/health",
-            "startedForProof": false,
-            "alreadyHealthy": true
+            "startedForProof": true,
+            "alreadyHealthy": false
           }
         }
       ],
@@ -232,8 +274,22 @@
           "status": "passed",
           "exitCode": 0,
           "signal": null,
-          "stdoutTail": "> hermes@1.0.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"hermes-os\",\n  \"checkedAt\": \"2026-08-14T17:36:36.784Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
+          "stdoutTail": "  \"warnings\": []\n}\n\n> hermes@1.0.0 dashboard:platform:check\n> node scripts/check-dashboard-platform-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"hermes-os\",\n  \"dashboardId\": \"hermes.workspace\",\n  \"checkedAt\": \"2026-08-15T01:00:33.521Z\",\n  \"screenIntent\": \"command-cockpit\",\n  \"experienceBlueprint\": \"command-center\",\n  \"density\": \"standard\",\n  \"targetVisualTier\": \"V3\",\n  \"errors\": [],\n  \"warnings\": []\n}",
           "stderrTail": ""
+        },
+        {
+          "script": "dashboard:proof",
+          "status": "passed",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "  \"bytes\": 194424,\n  \"elapsedMs\": 20,\n  \"matchedMarkers\": [\n    \"data-component=\\\"DashboardShell\\\"\",\n    \"data-hdk-component\",\n    \"hdk-\",\n    \"dashboard\",\n    \"Dashboard\"\n  ],\n  \"proofStates\": [\n    \"desktop-expanded\",\n    \"desktop-collapsed\",\n    \"overflow-scan\",\n    \"primary-workflow\",\n    \"production-proof\"\n  ],\n  \"result\": \"passed\"\n}",
+          "stderrTail": "",
+          "server": {
+            "command": "npm run workspace",
+            "healthUrl": "http://localhost:3920/api/dashboard-summary",
+            "startedForProof": true,
+            "alreadyHealthy": false
+          }
         }
       ],
       "missingRequired": [],
@@ -262,7 +318,15 @@
           "status": "passed",
           "exitCode": 0,
           "signal": null,
-          "stdoutTail": "> tlc-capital-group-os@0.1.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"tlc-capital-group-os\",\n  \"checkedAt\": \"2026-08-14T17:36:36.977Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
+          "stdoutTail": "  \"warnings\": []\n}\n\n> tlc-capital-group-os@0.1.0 dashboard:platform:check\n> node scripts/check-dashboard-platform-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"tlc-capital-group-os\",\n  \"dashboardId\": \"tlc-capital-group-os.main\",\n  \"checkedAt\": \"2026-08-15T01:00:35.025Z\",\n  \"screenIntent\": \"okr-kpi-cockpit\",\n  \"experienceBlueprint\": \"command-center\",\n  \"density\": \"standard\",\n  \"targetVisualTier\": \"V3\",\n  \"errors\": [],\n  \"warnings\": []\n}",
+          "stderrTail": ""
+        },
+        {
+          "script": "dashboard:proof",
+          "status": "passed",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "  \"bytes\": 7009,\n  \"elapsedMs\": 164,\n  \"matchedMarkers\": [\n    \"data-component=\\\"DashboardShell\\\"\",\n    \"data-hdk-component\",\n    \"hdk-\",\n    \"dashboard\",\n    \"Dashboard\"\n  ],\n  \"proofStates\": [\n    \"desktop-expanded\",\n    \"desktop-collapsed\",\n    \"overflow-scan\",\n    \"primary-workflow\",\n    \"production-proof\"\n  ],\n  \"result\": \"passed\"\n}",
           "stderrTail": ""
         }
       ],
@@ -284,8 +348,22 @@
           "status": "passed",
           "exitCode": 0,
           "signal": null,
-          "stdoutTail": "> rinseables-os@0.1.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"rinseables-os\",\n  \"checkedAt\": \"2026-08-14T17:36:37.074Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
+          "stdoutTail": "  \"warnings\": []\n}\n\n> rinseables-os@0.1.0 dashboard:platform:check\n> node scripts/check-dashboard-platform-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"rinseables-os\",\n  \"dashboardId\": \"rinseables-os.main\",\n  \"checkedAt\": \"2026-08-15T01:00:35.491Z\",\n  \"screenIntent\": \"command-cockpit\",\n  \"experienceBlueprint\": \"command-center\",\n  \"density\": \"standard\",\n  \"targetVisualTier\": \"V3\",\n  \"errors\": [],\n  \"warnings\": []\n}",
           "stderrTail": ""
+        },
+        {
+          "script": "dashboard:proof",
+          "status": "passed",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "  \"bytes\": 3789,\n  \"elapsedMs\": 18,\n  \"matchedMarkers\": [\n    \"data-component=\\\"DashboardShell\\\"\",\n    \"data-hdk-component\",\n    \"hdk-\",\n    \"dashboard\",\n    \"Dashboard\"\n  ],\n  \"proofStates\": [\n    \"desktop-expanded\",\n    \"desktop-collapsed\",\n    \"overflow-scan\",\n    \"primary-workflow\",\n    \"production-proof\"\n  ],\n  \"result\": \"passed\"\n}",
+          "stderrTail": "",
+          "server": {
+            "command": "npm run api",
+            "healthUrl": "http://localhost:3100/health",
+            "startedForProof": true,
+            "alreadyHealthy": false
+          }
         }
       ],
       "missingRequired": [],
@@ -306,8 +384,22 @@
           "status": "passed",
           "exitCode": 0,
           "signal": null,
-          "stdoutTail": "> investment-system@1.0.0 dashboard:standard:check\n> node scripts/check-dashboard-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"investing-system\",\n  \"checkedAt\": \"2026-08-14T17:36:37.170Z\",\n  \"currentExperienceBand\": \"T3C\",\n  \"targetExperienceBand\": \"T3C\",\n  \"adoptionMode\": \"package-native\",\n  \"implementationMode\": \"package-native\",\n  \"errors\": [],\n  \"warnings\": []\n}",
+          "stdoutTail": "  \"warnings\": []\n}\n\n> investment-system@1.0.0 dashboard:platform:check\n> node scripts/check-dashboard-platform-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"investing-system\",\n  \"dashboardId\": \"investing-system.roc\",\n  \"checkedAt\": \"2026-08-15T01:00:36.891Z\",\n  \"screenIntent\": \"trading-terminal\",\n  \"experienceBlueprint\": \"trading-terminal\",\n  \"density\": \"compact\",\n  \"targetVisualTier\": \"V3\",\n  \"errors\": [],\n  \"warnings\": []\n}",
           "stderrTail": ""
+        },
+        {
+          "script": "dashboard:proof",
+          "status": "passed",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "  \"bytes\": 72353,\n  \"elapsedMs\": 19,\n  \"matchedMarkers\": [\n    \"data-component=\\\"DashboardShell\\\"\",\n    \"data-hdk-component\",\n    \"hdk-\",\n    \"dashboard\",\n    \"Dashboard\"\n  ],\n  \"proofStates\": [\n    \"desktop-expanded\",\n    \"desktop-collapsed\",\n    \"overflow-scan\",\n    \"primary-workflow\",\n    \"production-proof\"\n  ],\n  \"result\": \"passed\"\n}",
+          "stderrTail": "",
+          "server": {
+            "command": "npm run dashboard:server",
+            "healthUrl": "http://localhost:3102/health",
+            "startedForProof": true,
+            "alreadyHealthy": false
+          }
         }
       ],
       "missingRequired": [],
@@ -328,7 +420,15 @@
           "status": "passed",
           "exitCode": 0,
           "signal": null,
-          "stdoutTail": "  duration_ms: 23.971\n  type: 'test'\n  ...\n# Subtest: local override scanner blocks protected dashboard CSS without a manifest exception\nok 21 - local override scanner blocks protected dashboard CSS without a manifest exception\n  ---\n  duration_ms: 25.871041\n  type: 'test'\n  ...\n1..21\n# tests 21\n# suites 0\n# pass 21\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 181.14475",
+          "stdoutTail": "# todo 0\n# duration_ms 175.802292\n\n> hermes-agent@1.0.0 dashboard:platform:check\n> node scripts/check-dashboard-platform-standard.mjs\n\n{\n  \"schemaVersion\": 1,\n  \"projectId\": \"nous-hermes-agent\",\n  \"dashboardId\": \"nous-hermes-agent.dashboard\",\n  \"checkedAt\": \"2026-08-15T01:00:39.141Z\",\n  \"screenIntent\": \"command-cockpit\",\n  \"experienceBlueprint\": \"command-center\",\n  \"density\": \"standard\",\n  \"targetVisualTier\": \"V4\",\n  \"errors\": [],\n  \"warnings\": []\n}",
+          "stderrTail": ""
+        },
+        {
+          "script": "dashboard:proof",
+          "status": "passed",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "  \"url\": \"https://agent.tlccapitalgroup.com\",\n  \"status\": 200,\n  \"ok\": true,\n  \"contentType\": \"text/html; charset=utf-8\",\n  \"bytes\": 10045,\n  \"elapsedMs\": 302,\n  \"matchedMarkers\": [\n    \"dashboard\"\n  ],\n  \"proofStates\": [\n    \"desktop-expanded\",\n    \"desktop-collapsed\",\n    \"overflow-scan\",\n    \"primary-workflow\",\n    \"production-proof\"\n  ],\n  \"result\": \"passed\"\n}",
           "stderrTail": ""
         }
       ],

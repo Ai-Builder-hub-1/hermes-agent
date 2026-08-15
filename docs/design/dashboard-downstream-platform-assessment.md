@@ -1,6 +1,6 @@
 # Dashboard Downstream Platform Assessment
 
-Generated: 2026-08-14T23:24:16.175Z
+Generated: 2026-08-15T01:02:28.723Z
 
 Purpose: Translate central platform-intelligence standards into concrete downstream maturity work for each production dashboard project.
 
@@ -8,13 +8,15 @@ Purpose: Translate central platform-intelligence standards into concrete downstr
 
 | Metric | Value |
 | --- | --- |
-| generatedAt | 2026-08-14T23:24:16.175Z |
+| generatedAt | 2026-08-15T01:02:28.723Z |
 | projectCount | 10 |
 | highPriorityCount | 2 |
 | mediumPriorityCount | 0 |
 | lowPriorityCount | 8 |
 | packageNativeUnknownCount | 0 |
-| needsRenderedProofCount | 10 |
+| needsRenderedProofCount | 0 |
+| e2ePassedCount | 10 |
+| proofPassedCount | 10 |
 | platformLayerCount | 15 |
 | productQualityCapabilityCount | 15 |
 
@@ -28,15 +30,15 @@ Purpose: Translate central platform-intelligence standards into concrete downstr
 
 ## Project Work
 
-| Project | Status | Mode | Visual | Priority | Readiness | Top downstream work |
-| --- | --- | --- | --- | --- | --- | --- |
-| Nous Hermes Agent | current | package-native | V2 -> V3 (83) | high | blocked | Add or verify project-local dashboard:standard:check against Nous Hermes validators.<br>Register every page with intent, blueprint, density, business objective, data states, and proof states.<br>Capture rendered visual proof for expanded/collapsed sidebar, overflow scan, and primary workflow. |
-| Khashi VC | stale | package-native | V4 -> V4 (100) | low | monitor | Add or verify project-local dashboard:standard:check against Nous Hermes validators.<br>Register every page with intent, blueprint, density, business objective, data states, and proof states.<br>Capture rendered visual proof for expanded/collapsed sidebar, overflow scan, and primary workflow. |
-| Media Engine | current | package-native | V4 -> V4 (100) | low | monitor | Add or verify project-local dashboard:standard:check against Nous Hermes validators.<br>Register every page with intent, blueprint, density, business objective, data states, and proof states.<br>Capture rendered visual proof for expanded/collapsed sidebar, overflow scan, and primary workflow. |
-| Media Business Operations | stale | package-native | V4 -> V4 (100) | low | monitor | Add or verify project-local dashboard:standard:check against Nous Hermes validators.<br>Register every page with intent, blueprint, density, business objective, data states, and proof states.<br>Capture rendered visual proof for expanded/collapsed sidebar, overflow scan, and primary workflow. |
-| Business Mapper | current | package-native | V4 -> V4 (100) | low | monitor | Add or verify project-local dashboard:standard:check against Nous Hermes validators.<br>Register every page with intent, blueprint, density, business objective, data states, and proof states.<br>Capture rendered visual proof for expanded/collapsed sidebar, overflow scan, and primary workflow. |
-| Meal Assistant | stale | package-native | V1 -> V3 (60) | high | blocked | Add or verify project-local dashboard:standard:check against Nous Hermes validators.<br>Register every page with intent, blueprint, density, business objective, data states, and proof states.<br>Capture rendered visual proof for expanded/collapsed sidebar, overflow scan, and primary workflow. |
-| Rinseables OS | stale | package-native | V4 -> V4 (100) | low | monitor | Add or verify project-local dashboard:standard:check against Nous Hermes validators.<br>Register every page with intent, blueprint, density, business objective, data states, and proof states.<br>Capture rendered visual proof for expanded/collapsed sidebar, overflow scan, and primary workflow. |
-| Investing System | stale | package-native | V4 -> V4 (100) | low | monitor | Add or verify project-local dashboard:standard:check against Nous Hermes validators.<br>Register every page with intent, blueprint, density, business objective, data states, and proof states.<br>Capture rendered visual proof for expanded/collapsed sidebar, overflow scan, and primary workflow. |
-| Hermes Workspace | stale | package-native | V4 -> V4 (100) | low | monitor | Add or verify project-local dashboard:standard:check against Nous Hermes validators.<br>Register every page with intent, blueprint, density, business objective, data states, and proof states.<br>Capture rendered visual proof for expanded/collapsed sidebar, overflow scan, and primary workflow. |
-| TLC Capital Group OS | stale | package-native | V4 -> V4 (100) | low | monitor | Add or verify project-local dashboard:standard:check against Nous Hermes validators.<br>Register every page with intent, blueprint, density, business objective, data states, and proof states.<br>Capture rendered visual proof for expanded/collapsed sidebar, overflow scan, and primary workflow. |
+| Project | Status | Mode | Proof | Visual | Priority | Readiness | Top downstream work |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Nous Hermes Agent | current | package-native | passed | V2 -> V3 (83) | high | blocked | Maintain project-local dashboard:standard:check as the release gate for this dashboard.<br>Maintain passing dashboard proof command in fleet E2E.<br>Expose route quality state in dashboard snapshot: visual score, proof freshness, workflow proof, design debt, and blockers. |
+| Khashi VC | stale | package-native | passed | V4 -> V4 (100) | low | monitor | Maintain project-local dashboard:standard:check as the release gate for this dashboard.<br>Maintain passing dashboard proof command in fleet E2E.<br>Expose route quality state in dashboard snapshot: visual score, proof freshness, workflow proof, design debt, and blockers. |
+| Media Engine | current | package-native | passed | V4 -> V4 (100) | low | monitor | Maintain project-local dashboard:standard:check as the release gate for this dashboard.<br>Maintain passing dashboard proof command in fleet E2E.<br>Expose route quality state in dashboard snapshot: visual score, proof freshness, workflow proof, design debt, and blockers. |
+| Media Business Operations | stale | package-native | passed | V4 -> V4 (100) | low | monitor | Maintain project-local dashboard:standard:check as the release gate for this dashboard.<br>Maintain passing dashboard proof command in fleet E2E.<br>Expose route quality state in dashboard snapshot: visual score, proof freshness, workflow proof, design debt, and blockers. |
+| Business Mapper | current | package-native | passed | V4 -> V4 (100) | low | monitor | Maintain project-local dashboard:standard:check as the release gate for this dashboard.<br>Maintain passing dashboard proof command in fleet E2E.<br>Expose route quality state in dashboard snapshot: visual score, proof freshness, workflow proof, design debt, and blockers. |
+| Meal Assistant | stale | package-native | passed | V1 -> V3 (60) | high | blocked | Maintain project-local dashboard:standard:check as the release gate for this dashboard.<br>Maintain passing dashboard proof command in fleet E2E.<br>Expose route quality state in dashboard snapshot: visual score, proof freshness, workflow proof, design debt, and blockers. |
+| Rinseables OS | stale | package-native | passed | V4 -> V4 (100) | low | monitor | Maintain project-local dashboard:standard:check as the release gate for this dashboard.<br>Maintain passing dashboard proof command in fleet E2E.<br>Expose route quality state in dashboard snapshot: visual score, proof freshness, workflow proof, design debt, and blockers. |
+| Investing System | stale | package-native | passed | V4 -> V4 (100) | low | monitor | Maintain project-local dashboard:standard:check as the release gate for this dashboard.<br>Maintain passing dashboard proof command in fleet E2E.<br>Expose route quality state in dashboard snapshot: visual score, proof freshness, workflow proof, design debt, and blockers. |
+| Hermes Workspace | stale | package-native | passed | V4 -> V4 (100) | low | monitor | Maintain project-local dashboard:standard:check as the release gate for this dashboard.<br>Maintain passing dashboard proof command in fleet E2E.<br>Expose route quality state in dashboard snapshot: visual score, proof freshness, workflow proof, design debt, and blockers. |
+| TLC Capital Group OS | stale | package-native | passed | V4 -> V4 (100) | low | monitor | Maintain project-local dashboard:standard:check as the release gate for this dashboard.<br>Maintain passing dashboard proof command in fleet E2E.<br>Expose route quality state in dashboard snapshot: visual score, proof freshness, workflow proof, design debt, and blockers. |

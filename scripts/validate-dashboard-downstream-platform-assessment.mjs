@@ -26,13 +26,19 @@ if ((report.projects ?? []).length < 10) issue("error", "projects.count", "Downs
 if ((report.requiredFleetMoves ?? []).length < 5) issue("error", "requiredFleetMoves.count", "Downstream assessment must define required fleet moves.");
 
 for (const project of report.projects ?? []) {
-  for (const field of ["id", "projectName", "category", "owner", "productionUrl", "dashboardStatus", "implementationMode", "readiness", "priority"]) {
+  for (const field of ["id", "projectName", "category", "owner", "productionUrl", "dashboardStatus", "implementationMode", "readiness", "priority", "proofStatus"]) {
     requireString(project, field, `project:${project.id ?? "unknown"}`);
   }
   requireArray(project, "downstreamWork", `project:${project.id ?? "unknown"}`);
-  requireArray(project, "proofRequired", `project:${project.id ?? "unknown"}`);
-  for (const proof of ["rendered visual proof", "workflow proof", "production proof freshness"]) {
-    if (!project.proofRequired.includes(proof)) issue("error", `project:${project.id}.${proof}`, `${project.id} must require ${proof}.`);
+  if (project.proofStatus === "passed") {
+    if ((project.proofRequired ?? []).length !== 0) {
+      issue("error", `project:${project.id}.proofRequired`, `${project.id} should not list pending proof requirements after proof passes.`);
+    }
+  } else {
+    requireArray(project, "proofRequired", `project:${project.id ?? "unknown"}`);
+    for (const proof of ["rendered visual proof", "workflow proof", "production proof freshness"]) {
+      if (!project.proofRequired.includes(proof)) issue("error", `project:${project.id}.${proof}`, `${project.id} must require ${proof}.`);
+    }
   }
 }
 

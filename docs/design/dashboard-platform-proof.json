@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-15T01:00:39.534Z",
+  "projectId": "nous-hermes-agent",
+  "dashboardId": "nous-hermes-agent.dashboard",
+  "url": "https://agent.tlccapitalgroup.com",
+  "status": 200,
+  "ok": true,
+  "contentType": "text/html; charset=utf-8",
+  "bytes": 10045,
+  "elapsedMs": 302,
+  "matchedMarkers": [
+    "dashboard"
+  ],
+  "proofStates": [
+    "desktop-expanded",
+    "desktop-collapsed",
+    "overflow-scan",
+    "primary-workflow",
+    "production-proof"
+  ],
+  "result": "passed"
+}

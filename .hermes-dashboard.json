@@ -37,7 +37,16 @@
         "PremiumMarketBrowser",
         "PremiumMediaApprovalWorkspace",
         "PremiumPlannerCalendar",
-        "PremiumDrilldownWorkspace"
+        "PremiumDrilldownWorkspace",
+        "DashboardShell",
+        "DashboardSidebar",
+        "DashboardHeader",
+        "DashboardQueryBoundary",
+        "DataFreshnessStrip",
+        "ProofStrip",
+        "StatePanel",
+        "MetricCard",
+        "ActionQueue"
       ],
       "markers": [
         "renderDashboardKitGallery",
@@ -47,7 +56,7 @@
         "renderPremiumPlannerCalendar",
         "renderPremiumDrilldownWorkspace"
       ],
-      "notes": "Canonical server-rendered gallery generator for dashboard-kit component review and maturity evidence."
+      "notes": "Canonical server-rendered gallery generator for dashboard-kit component review and maturity evidence. Platform-required component families are synchronized from .hermes-dashboard-platform.json so local routes cannot pass with only generic shell declarations."
     },
     {
       "id": "hermes-dashboard-kit-gallery-web-route",
