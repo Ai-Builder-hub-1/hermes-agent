@@ -23,6 +23,7 @@ import {
   renderCostAttributionTable,
   renderCoverageGapMatrix,
   renderDashboardShell,
+  renderDashboardSessionControl,
   renderDashboardKitGallery,
   renderDashboardKitGalleryDocument,
   renderDataTable,
@@ -163,6 +164,28 @@ test("renders a tier 3 dashboard shell with one shell marker", () => {
   assert.match(html, /data-nav-group="main"/);
   assert.match(html, /data-short="Live"/);
   assert.match(html, /aria-current="page"/);
+});
+
+test("renders the professional dashboard session control contract", () => {
+  const html =
+    renderDashboardSessionControl({
+      state:
+        "locked",
+      inputId:
+        "api-token",
+      saveId:
+        "save-token",
+      clearId:
+        "clear-token",
+      placeholder:
+        "Local password or API token"
+    });
+
+  assert.match(html, /data-hdk-component="DashboardSessionControl"/);
+  assert.match(html, /data-session-state="locked"/);
+  assert.match(html, /class="hdk-form-control hdk-session-field"/);
+  assert.match(html, /id="save-token"/);
+  assert.match(html, /id="clear-token"/);
 });
 
 test("renders sidebar runtime script for shared collapse behavior", () => {

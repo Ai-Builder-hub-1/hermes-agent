@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-14T20:37:19.728Z",
+  "generatedAt": "2026-08-15T18:51:30.612Z",
   "purpose": "Fleet-wide project, production, dashboard, and relationship registry for Nous Hermes Agent.",
   "projects": [
     {
@@ -27,7 +27,7 @@
         "currentBand": "T3C",
         "targetBand": "T3C",
         "implementationMode": "package-native",
-        "issueCount": 1
+        "issueCount": 3
       },
       "readiness": {
         "text": "88 enterprise readiness in the portfolio hub.",
@@ -55,21 +55,18 @@
       },
       "repoState": {
         "path": "../tlc-capital-group-os",
-        "branch": "## main...origin/main [ahead 1]",
-        "commit": "2a345b2803bbc88b0d41487af32eef310fa9821e",
-        "shortCommit": "2a345b2803bb",
-        "clean": false,
-        "dirtyCount": 5,
-        "ahead": 1,
+        "branch": "## main...origin/main",
+        "commit": "9c47d7c6cf23743711ef3738d2fe5469340daee8",
+        "shortCommit": "9c47d7c6cf23",
+        "clean": true,
+        "dirtyCount": 0,
+        "ahead": 0,
         "behind": 0
       },
       "latestPromotion": {
-        "available": true,
-        "status": "succeeded",
-        "target": "6853f88d0961754be40cf8ee8c741266bd7351af",
-        "eventId": "tlc-capital-group-os-2026-08-12T15-24-48Z",
-        "resolvedCommit": "6853f88d0961754be40cf8ee8c741266bd7351af",
-        "finishedAt": "2026-08-12T15:24:48Z",
+        "available": false,
+        "status": "missing",
+        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/tlc-capital-group-os.json",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/tlc-capital-group-os.json"
       },
       "proof": {
@@ -165,21 +162,18 @@
       },
       "repoState": {
         "path": "",
-        "branch": "## main...ai-builder/main [ahead 1]",
-        "commit": "6077c4139330ef5124b81717eaac4baab81ca265",
-        "shortCommit": "6077c4139330",
+        "branch": "## main...ai-builder/main",
+        "commit": "5b02b3034161ca179218c1c25a9b13fb3a97c422",
+        "shortCommit": "5b02b3034161",
         "clean": false,
-        "dirtyCount": 56,
-        "ahead": 1,
+        "dirtyCount": 44,
+        "ahead": 0,
         "behind": 0
       },
       "latestPromotion": {
-        "available": true,
-        "status": "succeeded",
-        "target": "f331b9668",
-        "eventId": "nous-hermes-agent-2026-08-12T16-28-20Z",
-        "resolvedCommit": "f331b96688907a0b87d34fd51127c54af4562cfd",
-        "finishedAt": "2026-08-12T16:28:20Z",
+        "available": false,
+        "status": "missing",
+        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/nous-hermes-agent.json",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/nous-hermes-agent.json"
       },
       "proof": {
@@ -239,7 +233,7 @@
         "currentBand": "T3C",
         "targetBand": "T3C",
         "implementationMode": "package-native",
-        "issueCount": 1
+        "issueCount": 3
       },
       "readiness": {
         "text": "40 business readiness in the portfolio hub.",
@@ -267,21 +261,18 @@
       },
       "repoState": {
         "path": "../hermes",
-        "branch": "## deploy/hermes-workspace-hetzner...origin/deploy/hermes-workspace-hetzner [ahead 1]",
-        "commit": "037b8457a3be76e4d9bd7502b6c3521fe02ebfbb",
-        "shortCommit": "037b8457a3be",
-        "clean": false,
-        "dirtyCount": 5,
-        "ahead": 1,
+        "branch": "## deploy/hermes-workspace-hetzner...origin/deploy/hermes-workspace-hetzner",
+        "commit": "70a222df8dd786e0000bd043f83d3695408ed569",
+        "shortCommit": "70a222df8dd7",
+        "clean": true,
+        "dirtyCount": 0,
+        "ahead": 0,
         "behind": 0
       },
       "latestPromotion": {
-        "available": true,
-        "status": "succeeded",
-        "target": "8f09a95",
-        "eventId": "hermes-2026-08-12T16-21-41Z",
-        "resolvedCommit": "8f09a950b728f3ebfd20374201842c989201b96b",
-        "finishedAt": "2026-08-12T16:21:41Z",
+        "available": false,
+        "status": "missing",
+        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/hermes.json",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/hermes.json"
       },
       "proof": {
@@ -326,11 +317,11 @@
       "dashboard": {
         "registered": true,
         "dashboardId": "media-engine.ops",
-        "status": "current",
+        "status": "stale",
         "currentBand": "T3C",
         "targetBand": "T3C",
         "implementationMode": "package-native",
-        "issueCount": 0
+        "issueCount": 2
       },
       "readiness": {
         "text": "56 business readiness and 45.5 plan completion in the portfolio hub.",
@@ -358,21 +349,18 @@
       },
       "repoState": {
         "path": "../media-engine",
-        "branch": "## main...origin/main [ahead 1]",
-        "commit": "c1cd4bf8022ad41e2f4b5141adb2210841b1a576",
-        "shortCommit": "c1cd4bf8022a",
-        "clean": false,
-        "dirtyCount": 5,
-        "ahead": 1,
+        "branch": "## main...origin/main",
+        "commit": "400025ed4968b6137dbdf1b3340ca70d6f8cbd03",
+        "shortCommit": "400025ed4968",
+        "clean": true,
+        "dirtyCount": 0,
+        "ahead": 0,
         "behind": 0
       },
       "latestPromotion": {
-        "available": true,
-        "status": "succeeded",
-        "target": "439b7f2",
-        "eventId": "media-engine-dashboard-2026-08-12T15-59-36Z",
-        "resolvedCommit": "439b7f272f85b17ee2822c620d99dc10351ebe36",
-        "finishedAt": "2026-08-12T15:59:36Z",
+        "available": false,
+        "status": "missing",
+        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/media-engine-dashboard.json",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/media-engine-dashboard.json"
       },
       "proof": {
@@ -438,7 +426,7 @@
         "currentBand": "T3C",
         "targetBand": "T3C",
         "implementationMode": "package-native",
-        "issueCount": 1
+        "issueCount": 5
       },
       "readiness": {
         "text": "60 business readiness in the portfolio hub.",
@@ -466,21 +454,18 @@
       },
       "repoState": {
         "path": "../media-business-operations",
-        "branch": "## main...origin/main [ahead 1]",
-        "commit": "3d304db1a034f8c0b52fb81df3df4192cea4b3ef",
-        "shortCommit": "3d304db1a034",
-        "clean": false,
-        "dirtyCount": 5,
-        "ahead": 1,
+        "branch": "## main...origin/main",
+        "commit": "fdef7405ffbfe34e5c75044e47a66649d73e7d86",
+        "shortCommit": "fdef7405ffbf",
+        "clean": true,
+        "dirtyCount": 0,
+        "ahead": 0,
         "behind": 0
       },
       "latestPromotion": {
-        "available": true,
-        "status": "succeeded",
-        "target": "f7cf37c724271fb31c11166fa49f36db0afbbbdf",
-        "eventId": "media-business-operations-2026-08-12T15-19-24Z",
-        "resolvedCommit": "f7cf37c724271fb31c11166fa49f36db0afbbbdf",
-        "finishedAt": "2026-08-12T15:19:24Z",
+        "available": false,
+        "status": "missing",
+        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/media-business-operations.json",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/media-business-operations.json"
       },
       "proof": {
@@ -536,7 +521,7 @@
         "currentBand": "T3C",
         "targetBand": "T3C",
         "implementationMode": "package-native",
-        "issueCount": 1
+        "issueCount": 11
       },
       "readiness": {
         "text": "90 software plan completion in the portfolio hub.",
@@ -564,21 +549,18 @@
       },
       "repoState": {
         "path": "../khashi-vc",
-        "branch": "## main...origin/main [ahead 1]",
-        "commit": "52450442407b629c793d0c1f20fcea323df43ee4",
-        "shortCommit": "52450442407b",
-        "clean": false,
-        "dirtyCount": 6,
-        "ahead": 1,
+        "branch": "## main...origin/main",
+        "commit": "e9fad336458e473e072dcbae14a5a373cdda7978",
+        "shortCommit": "e9fad336458e",
+        "clean": true,
+        "dirtyCount": 0,
+        "ahead": 0,
         "behind": 0
       },
       "latestPromotion": {
-        "available": true,
-        "status": "succeeded",
-        "target": "99ed31466d85f0dcae28001afd947889e880d899",
-        "eventId": "khashi-2026-08-12T15-16-57Z",
-        "resolvedCommit": "99ed31466d85f0dcae28001afd947889e880d899",
-        "finishedAt": "2026-08-12T15:16:57Z",
+        "available": false,
+        "status": "missing",
+        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/khashi.json",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/khashi.json"
       },
       "proof": {
@@ -626,11 +608,11 @@
       "dashboard": {
         "registered": true,
         "dashboardId": "business-mapper.workspace",
-        "status": "current",
+        "status": "stale",
         "currentBand": "T3C",
         "targetBand": "T3C",
         "implementationMode": "package-native",
-        "issueCount": 0
+        "issueCount": 2
       },
       "readiness": {
         "text": "32 business readiness and 82 tool completion in the portfolio hub.",
@@ -658,21 +640,18 @@
       },
       "repoState": {
         "path": "../business-mapper",
-        "branch": "## main...origin/main [ahead 1]",
-        "commit": "fceb11535980971a8373cd86372451125c60fb39",
-        "shortCommit": "fceb11535980",
-        "clean": false,
-        "dirtyCount": 4,
-        "ahead": 1,
+        "branch": "## main...origin/main",
+        "commit": "542e829ed0d2ef5de9430b49fcf132b4d6481014",
+        "shortCommit": "542e829ed0d2",
+        "clean": true,
+        "dirtyCount": 0,
+        "ahead": 0,
         "behind": 0
       },
       "latestPromotion": {
-        "available": true,
-        "status": "succeeded",
-        "target": "515d7f063ac5bffa344ec94e6e5ce898dbd60e3c",
-        "eventId": "business-mapper-2026-08-12T15-19-53Z",
-        "resolvedCommit": "515d7f063ac5bffa344ec94e6e5ce898dbd60e3c",
-        "finishedAt": "2026-08-12T15:19:53Z",
+        "available": false,
+        "status": "missing",
+        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/business-mapper.json",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/business-mapper.json"
       },
       "proof": {
@@ -717,7 +696,7 @@
         "currentBand": "T3C",
         "targetBand": "T3C",
         "implementationMode": "package-native",
-        "issueCount": 1
+        "issueCount": 2
       },
       "readiness": {
         "text": "90 software plan completion in the portfolio hub.",
@@ -747,21 +726,18 @@
       },
       "repoState": {
         "path": "../Meal-assistant",
-        "branch": "## main...origin/main [ahead 1]",
-        "commit": "6578d0fd1611fb171b327a9ebe6b234dcf05d4f8",
-        "shortCommit": "6578d0fd1611",
-        "clean": false,
-        "dirtyCount": 4,
-        "ahead": 1,
+        "branch": "## main...origin/main",
+        "commit": "340c0179f3326d08bc887383fbe4b15d2e56c5d8",
+        "shortCommit": "340c0179f332",
+        "clean": true,
+        "dirtyCount": 0,
+        "ahead": 0,
         "behind": 0
       },
       "latestPromotion": {
-        "available": true,
-        "status": "succeeded",
-        "target": "55c3e48e9674ab8fb2171ef838e7b8566ee11aea",
-        "eventId": "meal-assistant-2026-08-12T15-20-18Z",
-        "resolvedCommit": "55c3e48e9674ab8fb2171ef838e7b8566ee11aea",
-        "finishedAt": "2026-08-12T15:20:18Z",
+        "available": false,
+        "status": "missing",
+        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/meal-assistant.json",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/meal-assistant.json"
       },
       "proof": {
@@ -806,7 +782,7 @@
         "currentBand": "T3C",
         "targetBand": "T3C",
         "implementationMode": "package-native",
-        "issueCount": 1
+        "issueCount": 2
       },
       "readiness": {
         "text": "40 business readiness and 90 software plan completion in the portfolio hub.",
@@ -834,21 +810,18 @@
       },
       "repoState": {
         "path": "../rinseables-os",
-        "branch": "## main...origin/main [ahead 1]",
-        "commit": "23673e5e25421d0be7b3b63cba6c2056c0cec35b",
-        "shortCommit": "23673e5e2542",
-        "clean": false,
-        "dirtyCount": 4,
-        "ahead": 1,
+        "branch": "## main...origin/main",
+        "commit": "0c312d8ea2b8aa2caf24af238da4f3f3ce168b11",
+        "shortCommit": "0c312d8ea2b8",
+        "clean": true,
+        "dirtyCount": 0,
+        "ahead": 0,
         "behind": 0
       },
       "latestPromotion": {
-        "available": true,
-        "status": "succeeded",
-        "target": "cc4ee3441a7101211757bda172a4f7868f5bc90a",
-        "eventId": "rinseables-os-2026-08-12T15-20-43Z",
-        "resolvedCommit": "cc4ee3441a7101211757bda172a4f7868f5bc90a",
-        "finishedAt": "2026-08-12T15:20:43Z",
+        "available": false,
+        "status": "missing",
+        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/rinseables-os.json",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/rinseables-os.json"
       },
       "proof": {
@@ -894,10 +867,10 @@
         "registered": true,
         "dashboardId": "investing-system.roc",
         "status": "stale",
-        "currentBand": "T3C",
+        "currentBand": "T3A",
         "targetBand": "T3C",
         "implementationMode": "package-native",
-        "issueCount": 1
+        "issueCount": 6
       },
       "readiness": {
         "text": "90 software plan completion in the portfolio hub.",
@@ -925,21 +898,18 @@
       },
       "repoState": {
         "path": "../investing-system",
-        "branch": "## main...origin/main [ahead 1]",
-        "commit": "8bc775e57762aeb7962fc24cdf16973d93e49078",
-        "shortCommit": "8bc775e57762",
+        "branch": "## main...origin/main",
+        "commit": "8de8519f2258d18f66c05d5c3e2338745ad4a473",
+        "shortCommit": "8de8519f2258",
         "clean": false,
-        "dirtyCount": 4,
-        "ahead": 1,
+        "dirtyCount": 3,
+        "ahead": 0,
         "behind": 0
       },
       "latestPromotion": {
-        "available": true,
-        "status": "succeeded",
-        "target": "main",
-        "eventId": "investing-system-2026-08-13T16-12-27Z",
-        "resolvedCommit": "089adb81d5d0db0c94de6947864794912bcd426f",
-        "finishedAt": "2026-08-13T16:12:27Z",
+        "available": false,
+        "status": "missing",
+        "error": "Command failed: ssh hermes-os cat /root/apps/deploy/deployment-evidence/latest/investing-system.json",
         "remotePath": "/root/apps/deploy/deployment-evidence/latest/investing-system.json"
       },
       "proof": {

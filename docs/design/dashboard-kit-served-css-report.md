@@ -1,6 +1,6 @@
 # Dashboard Kit Served CSS Report
 
-Generated: 2026-08-14T19:08:04.292Z
+Generated: 2026-08-15T18:51:28.397Z
 
 This report catches the specific regression where a project has @hermes/dashboard-kit installed or vendored, but the visible dashboard route does not actually load the kit stylesheet.
 

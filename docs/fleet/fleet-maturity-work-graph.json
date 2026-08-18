@@ -1,14 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-14T20:37:19.728Z",
+  "generatedAt": "2026-08-15T18:51:30.612Z",
   "purpose": "Structured fleet maturity work graph, including cross-project triggers and closure evidence.",
   "summary": {
-    "total": 61,
-    "open": 61,
+    "total": 73,
+    "open": 73,
     "humanDecision": 2,
     "crossProject": 5
   },
   "items": [
+    {
+      "id": "tlc-capital-group-os.deployment-evidence.maturity",
+      "title": "TLC Capital Group OS: deployment evidence is missing",
+      "type": "deployment-evidence",
+      "ownerProject": "tlc-capital-group-os",
+      "affectedProjects": [
+        "tlc-capital-group-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found deployment-evidence=missing.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "deployment-evidence"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
     {
       "id": "tlc-capital-group-os.dashboard-standard.maturity",
       "title": "TLC Capital Group OS: dashboard standard is needs-review",
@@ -140,6 +163,29 @@
       "requiresHumanDecision": false,
       "evidenceRequiredToClose": [
         "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "nous-hermes-agent.deployment-evidence.maturity",
+      "title": "Nous Hermes Agent: deployment evidence is missing",
+      "type": "deployment-evidence",
+      "ownerProject": "nous-hermes-agent",
+      "affectedProjects": [
+        "nous-hermes-agent"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found deployment-evidence=missing.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "deployment-evidence"
       ],
       "dependencies": [],
       "suggestedNextAfterClose": [
@@ -286,6 +332,29 @@
       ]
     },
     {
+      "id": "hermes-os.deployment-evidence.maturity",
+      "title": "Hermes OS: deployment evidence is missing",
+      "type": "deployment-evidence",
+      "ownerProject": "hermes-os",
+      "affectedProjects": [
+        "hermes-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found deployment-evidence=missing.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "deployment-evidence"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
       "id": "hermes-os.dashboard-standard.maturity",
       "title": "Hermes OS: dashboard standard is needs-review",
       "type": "dashboard-standard",
@@ -393,6 +462,52 @@
       "requiresHumanDecision": false,
       "evidenceRequiredToClose": [
         "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "media-engine.deployment-evidence.maturity",
+      "title": "Media Engine: deployment evidence is missing",
+      "type": "deployment-evidence",
+      "ownerProject": "media-engine",
+      "affectedProjects": [
+        "media-engine"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found deployment-evidence=missing.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "deployment-evidence"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "media-engine.dashboard-standard.maturity",
+      "title": "Media Engine: dashboard standard is needs-review",
+      "type": "dashboard-standard",
+      "ownerProject": "media-engine",
+      "affectedProjects": [
+        "media-engine"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found dashboard-standard=needs-review.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "dashboard-standard"
       ],
       "dependencies": [],
       "suggestedNextAfterClose": [
@@ -516,6 +631,29 @@
       ]
     },
     {
+      "id": "media-business-operations.deployment-evidence.maturity",
+      "title": "Media Business Operations: deployment evidence is missing",
+      "type": "deployment-evidence",
+      "ownerProject": "media-business-operations",
+      "affectedProjects": [
+        "media-business-operations"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found deployment-evidence=missing.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "deployment-evidence"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
       "id": "media-business-operations.dashboard-standard.maturity",
       "title": "Media Business Operations: dashboard standard is needs-review",
       "type": "dashboard-standard",
@@ -623,6 +761,29 @@
       "requiresHumanDecision": false,
       "evidenceRequiredToClose": [
         "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "khashi-vc.deployment-evidence.maturity",
+      "title": "Khashi VC: deployment evidence is missing",
+      "type": "deployment-evidence",
+      "ownerProject": "khashi-vc",
+      "affectedProjects": [
+        "khashi-vc"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found deployment-evidence=missing.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "deployment-evidence"
       ],
       "dependencies": [],
       "suggestedNextAfterClose": [
@@ -769,6 +930,52 @@
       ]
     },
     {
+      "id": "business-mapper.deployment-evidence.maturity",
+      "title": "Business Mapper / Consulting: deployment evidence is missing",
+      "type": "deployment-evidence",
+      "ownerProject": "business-mapper",
+      "affectedProjects": [
+        "business-mapper"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found deployment-evidence=missing.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "deployment-evidence"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "business-mapper.dashboard-standard.maturity",
+      "title": "Business Mapper / Consulting: dashboard standard is needs-review",
+      "type": "dashboard-standard",
+      "ownerProject": "business-mapper",
+      "affectedProjects": [
+        "business-mapper"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found dashboard-standard=needs-review.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "dashboard-standard"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
       "id": "business-mapper.product-maturity.maturity",
       "title": "Business Mapper / Consulting: product maturity is needs-review",
       "type": "product-maturity",
@@ -876,6 +1083,29 @@
       "requiresHumanDecision": false,
       "evidenceRequiredToClose": [
         "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "meal-assistant.deployment-evidence.maturity",
+      "title": "Meal Assistant: deployment evidence is missing",
+      "type": "deployment-evidence",
+      "ownerProject": "meal-assistant",
+      "affectedProjects": [
+        "meal-assistant"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found deployment-evidence=missing.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "deployment-evidence"
       ],
       "dependencies": [],
       "suggestedNextAfterClose": [
@@ -1022,6 +1252,29 @@
       ]
     },
     {
+      "id": "rinseables-os.deployment-evidence.maturity",
+      "title": "Rinseables OS: deployment evidence is missing",
+      "type": "deployment-evidence",
+      "ownerProject": "rinseables-os",
+      "affectedProjects": [
+        "rinseables-os"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found deployment-evidence=missing.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "deployment-evidence"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
       "id": "rinseables-os.dashboard-standard.maturity",
       "title": "Rinseables OS: dashboard standard is needs-review",
       "type": "dashboard-standard",
@@ -1152,6 +1405,29 @@
       "requiresHumanDecision": false,
       "evidenceRequiredToClose": [
         "monitoring"
+      ],
+      "dependencies": [],
+      "suggestedNextAfterClose": [
+        "Refresh fleet maturity tracker.",
+        "Check downstream cross-project trigger rules."
+      ]
+    },
+    {
+      "id": "investing-system.deployment-evidence.maturity",
+      "title": "Investing System: deployment evidence is missing",
+      "type": "deployment-evidence",
+      "ownerProject": "investing-system",
+      "affectedProjects": [
+        "investing-system"
+      ],
+      "sourceProject": "nous-hermes-agent",
+      "trigger": "Fleet evidence scan found deployment-evidence=missing.",
+      "status": "open",
+      "priority": "high",
+      "canCodexProceed": true,
+      "requiresHumanDecision": false,
+      "evidenceRequiredToClose": [
+        "deployment-evidence"
       ],
       "dependencies": [],
       "suggestedNextAfterClose": [
@@ -1309,15 +1585,17 @@
       ],
       "sourceProject": "media-engine",
       "trigger": "Media Engine production, cost, or publishing evidence changes.",
-      "status": "recommended",
-      "priority": "low",
+      "status": "waiting-on-evidence",
+      "priority": "medium",
       "canCodexProceed": true,
       "requiresHumanDecision": false,
       "evidenceRequiredToClose": [
         "media-engine.deployment-evidence",
         "media-engine.outcome-feed"
       ],
-      "dependencies": [],
+      "dependencies": [
+        "media-engine.deployment-evidence"
+      ],
       "suggestedNextAfterClose": [
         "Refresh TLC portfolio readiness if affected.",
         "Refresh Nous fleet maturity tracker.",
@@ -1400,7 +1678,8 @@
         "khashi-vc.deployment-evidence"
       ],
       "dependencies": [
-        "khashi-vc.live-e2e"
+        "khashi-vc.live-e2e",
+        "khashi-vc.deployment-evidence"
       ],
       "suggestedNextAfterClose": [
         "Refresh TLC portfolio readiness if affected.",
@@ -1427,14 +1706,16 @@
       ],
       "sourceProject": "hermes-os",
       "trigger": "Hermes promotion rail, Caddy route, deploy script, or evidence schema changes.",
-      "status": "recommended",
-      "priority": "low",
+      "status": "waiting-on-evidence",
+      "priority": "medium",
       "canCodexProceed": true,
       "requiresHumanDecision": false,
       "evidenceRequiredToClose": [
         "hermes-os.deployment-evidence"
       ],
-      "dependencies": [],
+      "dependencies": [
+        "hermes-os.deployment-evidence"
+      ],
       "suggestedNextAfterClose": [
         "Refresh TLC portfolio readiness if affected.",
         "Refresh Nous fleet maturity tracker.",

@@ -208,7 +208,10 @@ function packageJsonTemplate({ packageName }) {
       build: "tsc -p tsconfig.json && vite build",
       preview: "vite preview --host 127.0.0.1",
       test: "playwright test",
-      "proof:screenshots": "node scripts/capture-proof-screenshots.mjs"
+      "proof:screenshots": "node scripts/capture-proof-screenshots.mjs",
+      "hdk:check": "node ../nous-hermes-agent/scripts/enforce-dashboard-creation-gate.mjs --project-dir .",
+      "hdk:proof": "npm run test && npm run proof:screenshots",
+      "hdk:visual": "npm run proof:screenshots"
     },
     dependencies: {
       "@hermes/dashboard-kit": "file:../nous-hermes-agent/packages/hermes-dashboard-kit",
@@ -416,6 +419,7 @@ function adoptionManifestTemplate({ projectId, cssHash }) {
     schemaVersion: 1,
     projectId,
     dashboardKit: {
+      baseline: "hdk-first",
       package: "@hermes/dashboard-kit",
       requiredVersion: "0.1.0",
       adoptionMode: "package-native",
@@ -426,6 +430,13 @@ function adoptionManifestTemplate({ projectId, cssHash }) {
       packageNativeRequired: true,
       staticAdapterAllowed: false,
       mobbinReferenceRequired: true,
+      customComponentsPolicy: "allowed-only-inside-hdk-shell-and-token-contracts",
+      shell: "hdk",
+      sidebar: "hdk",
+      header: "hdk",
+      theme: "hdk",
+      spacing: "hdk",
+      auth: "hdk-compatible",
       canonicalCssHash: cssHash
     },
     surfaces: [
@@ -465,6 +476,12 @@ function adoptionManifestTemplate({ projectId, cssHash }) {
       captureScript: "scripts/capture-proof-screenshots.mjs",
       screenshotStates: ["light", "dark", "system"],
       status: "starter"
+    },
+    enforcement: {
+      localScripts: ["hdk:check", "hdk:proof", "hdk:visual"],
+      creationGate: "hdk:check",
+      deployGate: "hdk:check",
+      exceptionsRequireExpiry: true
     },
     exceptions: []
   }, null, 2)}\n`;

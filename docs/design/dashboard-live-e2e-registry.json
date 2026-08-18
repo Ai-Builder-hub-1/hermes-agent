@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-14T19:08:05.653Z",
+  "generatedAt": "2026-08-15T18:51:30.432Z",
   "purpose": "Live E2E evidence registry for primary production dashboard workflows.",
   "statusMeaning": {
     "current": "A recent live E2E run passed and latestRun evidence is present.",

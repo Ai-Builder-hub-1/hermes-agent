@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-15T18:51:38.531Z",
+  "failureClasses": [
+    {
+      "id": "manifest-truth",
+      "lane": "manual-or-assisted",
+      "safeAutofix": false,
+      "severity": 100,
+      "description": "Declared maturity does not match actual implementation state.",
+      "repairPattern": "Split target maturity from certified maturity, then complete package-native route migration before restoring T3C.",
+      "requiredProof": [
+        "manifest diff proves certified state is not overstated",
+        "dashboard:certify:strict",
+        "fleet:ship-check"
+      ]
+    },
+    {
+      "id": "shell-anatomy",
+      "lane": "assisted-code-migration",
+      "safeAutofix": false,
+      "severity": 90,
+      "description": "Rendered shell/sidebar/header anatomy is local, nested, duplicated, or incomplete.",
+      "repairPattern": "Use a real DashboardShell with one direct sidebar child, one main child, one header region, and one scroll owner.",
+      "requiredProof": [
+        "desktop expanded screenshot",
+        "desktop collapsed screenshot",
+        "mobile screenshot",
+        "DOM anatomy check",
+        "dashboard:certify:strict",
+        "fleet:ship-check"
+      ]
+    },
+    {
+      "id": "hidden-marker",
+      "lane": "assisted-code-migration",
+      "safeAutofix": false,
+      "severity": 85,
+      "description": "Hidden markers are satisfying old validators without rendering real components.",
+      "repairPattern": "Remove hidden markers and render the actual kit components or direct package imports.",
+      "requiredProof": [
+        "source scan shows no hidden hdk/component markers",
+        "dashboard:certify:strict",
+        "fleet:ship-check"
+      ]
+    },
+    {
+      "id": "static-route-retirement",
+      "lane": "manual-or-assisted",
+      "safeAutofix": false,
+      "severity": 80,
+      "description": "Compatibility/static route is still treated as package-native production UI.",
+      "repairPattern": "Demote static routes to dev-review/redirect status and register the true package-native operator route.",
+      "requiredProof": [
+        "production nav points to package-native route",
+        "compatibility route is dev-review or redirect only",
+        "dashboard:certify:strict",
+        "fleet:ship-check"
+      ]
+    },
+    {
+      "id": "local-visual-debt",
+      "lane": "assisted-component-replacement",
+      "safeAutofix": false,
+      "severity": 65,
+      "description": "Local CSS/spacing/colors/layout primitives still control the dashboard.",
+      "repairPattern": "Replace local primitives with kit components/tokens or add expiring exceptions for narrow domain accents.",
+      "requiredProof": [
+        "local override scan",
+        "spacing/card/table proof screenshots",
+        "dashboard:certify:strict",
+        "fleet:ship-check"
+      ]
+    },
+    {
+      "id": "chart-contract",
+      "lane": "assisted-component-replacement",
+      "safeAutofix": false,
+      "severity": 55,
+      "description": "Charts are fake, hand-drawn, missing axes/states, or not backed by approved chart components.",
+      "repairPattern": "Use approved chart wrappers with x/y units, hover/legend/state contracts, and proof screenshots.",
+      "requiredProof": [
+        "chart proof screenshot",
+        "axis/unit/state contract",
+        "dashboard:certify:strict",
+        "fleet:ship-check"
+      ]
+    },
+    {
+      "id": "proof-gap",
+      "lane": "safe-infra-repair",
+      "safeAutofix": true,
+      "severity": 45,
+      "description": "Proof capture or Playwright evidence is missing.",
+      "repairPattern": "Restore proof script/config and run local screenshot/workflow capture.",
+      "requiredProof": [
+        "Playwright proof output exists",
+        "dashboard:certify:strict",
+        "fleet:ship-check"
+      ]
+    },
+    {
+      "id": "dev-tool-production-risk",
+      "lane": "safe-code-guard",
+      "safeAutofix": true,
+      "severity": 35,
+      "description": "Development-only visual selector can load in production.",
+      "repairPattern": "Guard selector scripts behind localhost/dev checks and assert production exclusion.",
+      "requiredProof": [
+        "production source excludes visual-selection bridge",
+        "dashboard:certify:strict",
+        "fleet:ship-check"
+      ]
+    }
+  ]
+}

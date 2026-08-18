@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-08-14",
+  "updatedAt": "2026-08-15",
   "owner": "nous-hermes-agent",
   "scope": [
     "tlc-capital-group",
@@ -64,6 +64,46 @@
       "status": "not-started",
       "project": "nous-hermes-agent",
       "acceptance": "Local visual primitive overrides require reason, expiration, proof, and promotion path."
+    },
+    {
+      "id": "P1.7",
+      "phase": "P1",
+      "name": "Central dashboard certification gate",
+      "status": "complete",
+      "project": "nous-hermes-agent",
+      "acceptance": "dashboard:certify generates fleet certification, repair packets, attempt ledger, and blocks fleet:ship-check before deployment when false-native or shell/rendered implementation debt exists."
+    },
+    {
+      "id": "P1.8",
+      "phase": "P1",
+      "name": "Self-healing repair packet protocol",
+      "status": "in-progress",
+      "project": "nous-hermes-agent",
+      "acceptance": "Certification creates per-project repair packets and rerun commands; next maturity is automated safe repair and retry loops."
+    },
+    {
+      "id": "P1.9",
+      "phase": "P1",
+      "name": "Certification repair supervisor",
+      "status": "complete",
+      "project": "nous-hermes-agent",
+      "acceptance": "dashboard:certify:repair classifies failures, creates repair playbooks, separates safe from assisted repairs, and produces a prioritized execution order."
+    },
+    {
+      "id": "P1.10",
+      "phase": "P1",
+      "name": "Repair supervisor validation",
+      "status": "complete",
+      "project": "nous-hermes-agent",
+      "acceptance": "Repair playbooks and supervisor outputs validate with dashboard:certify:repair:validate:strict."
+    },
+    {
+      "id": "P1.11",
+      "phase": "P1",
+      "name": "Automated repair execution",
+      "status": "in-progress",
+      "project": "nous-hermes-agent",
+      "acceptance": "dashboard:certify:repair:execute records safe execution state, queues assisted migrations, and is wired into ship check before the final strict certification gate."
     },
     {
       "id": "P2.1",
@@ -163,23 +203,43 @@
     }
   ],
   "nextBuildPacket": [
-    "Review the Meal Assistant V3 candidate screenshots and approve or request changes.",
-    "Promote reusable Meal Assistant sidebar, planner, drawer, proof-route, and visual-review learnings into dashboard-kit guidance/components where needed.",
+    "Clear dashboard-certification repair packets project by project, starting with the highest operational pain or smallest repair surface.",
+    "Automate safe repair/retry loops for known certification failure classes.",
     "Add screenshot-aware visual regression comparison for approved baselines.",
     "Repeat the visual-quality migration loop for Media Engine, Kashi VC, Media Business Ops, Investing System, TLC OS, Hermes OS, Business Mapper, and Rinseables."
   ],
   "latestBuildPacket": {
     "status": "complete",
-    "completedAt": "2026-08-14",
+    "completedAt": "2026-08-15",
     "items": [
-      "Added visual/product/company-OS maturity fields to project status ledger generator.",
-      "Created visual maturity rubric.",
-      "Created visual review queue.",
-      "Created screenshot approval/rejection preference memory.",
-      "Generated Meal Assistant V3 visual migration packet.",
-      "Updated UI quality validator to enforce the new artifacts.",
-      "Added visual maturity review lane to Dashboard Kit Gallery.",
-      "Completed Meal Assistant project-side V3 candidate redesign with proof, visual-review screenshots, local Playwright capture, and zero uncontained overflow diagnostics."
+      "Added central dashboard certification gate.",
+      "Added dashboard certification artifact validator.",
+      "Added certification repair supervisor.",
+      "Added repair playbooks and validation.",
+      "Generated fleet certification report.",
+      "Generated per-project repair packets.",
+      "Generated prioritized repair execution order.",
+      "Generated certification attempt ledger.",
+      "Added dashboard certification standard.",
+      "Wired certification strict gate into fleet ship check.",
+      "Added dashboard certification repair execution ledger.",
+      "Tightened visual-selector production-risk detection to ignore guarded local-only dev selectors.",
+      "Scoped local visual debt certification to UI surfaces instead of server/data surfaces.",
+      "Updated maturity plan baseline to show certification-blocked false-native fleet state."
     ]
+  },
+  "latestCertificationBaseline": {
+    "generatedAt": "2026-08-15",
+    "releaseAuthority": "dashboard-certification-gate",
+    "totalProjects": 10,
+    "certified": 0,
+    "needsReview": 0,
+    "blocked": 10,
+    "falseNativeClaims": 9,
+    "repairPackets": 10,
+    "repairWorkItems": 53,
+    "safeAutofixItems": 0,
+    "assistedRepairItems": 53,
+    "note": "The prior rendered-implementation audit remains a source scan only. Strict certification is now the dashboard promotion authority."
   }
 }

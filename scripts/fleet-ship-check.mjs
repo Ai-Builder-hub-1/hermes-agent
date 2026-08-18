@@ -38,6 +38,36 @@ const requiredSteps = [
     id: "dashboard-governance",
     label: "Dashboard governance",
     command: ["npm", ["run", "dashboard:governance:validate"]]
+  },
+  {
+    id: "dashboard-certification-report",
+    label: "Dashboard certification report",
+    command: ["npm", ["run", "dashboard:certify"]]
+  },
+  {
+    id: "dashboard-certification-artifacts",
+    label: "Dashboard certification artifact validation",
+    command: ["npm", ["run", "dashboard:certify:validate:strict"]]
+  },
+  {
+    id: "dashboard-certification-repair",
+    label: "Dashboard certification repair supervisor",
+    command: ["npm", ["run", "dashboard:certify:repair"]]
+  },
+  {
+    id: "dashboard-certification-repair-validation",
+    label: "Dashboard certification repair validation",
+    command: ["npm", ["run", "dashboard:certify:repair:validate:strict"]]
+  },
+  {
+    id: "dashboard-certification-repair-execution",
+    label: "Dashboard certification repair execution ledger",
+    command: ["npm", ["run", "dashboard:certify:repair:execute:strict"]]
+  },
+  {
+    id: "dashboard-certification",
+    label: "Dashboard certification pre-deploy gate",
+    command: ["npm", ["run", "dashboard:certify:strict"]]
   }
 ];
 

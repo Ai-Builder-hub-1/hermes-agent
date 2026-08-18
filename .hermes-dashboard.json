@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "projectId": "nous-hermes-agent",
   "dashboardKit": {
+    "baseline": "hdk-first",
     "package": "@hermes/dashboard-kit",
     "requiredVersion": "0.1.0",
     "adoptionMode": "package-native",
@@ -12,18 +13,49 @@
     "targetExperienceBand": "T3C",
     "packageNativeRequired": true,
     "mobbinReferenceRequired": true,
+    "customComponentsPolicy": "allowed-only-inside-hdk-shell-and-token-contracts",
+    "shell": "hdk",
+    "sidebar": "hdk",
+    "header": "hdk",
+    "theme": "hdk",
+    "spacing": "hdk",
+    "auth": "hdk-compatible",
     "tierMigrationRequired": false,
     "tierMigrationNote": "Nous Hermes Agent owns the dashboard standards/control-plane surface and must follow the same package-native evidence contract as downstream dashboards."
   },
   "referenceIntake": {
-    "path": "docs/design/dashboard-kit-reference-intake.md"
+    "path": "docs/design/dashboard-kit-reference-intake.md",
+    "required": true
   },
   "designReview": {
-    "path": "docs/design/dashboard-kit-design-review.md"
+    "path": "docs/design/dashboard-kit-design-review.md",
+    "required": true
   },
   "proof": {
     "playwrightConfig": "web/playwright.config.ts",
-    "captureScript": "scripts/capture-dashboard-visual-baseline.mjs"
+    "captureScript": "scripts/capture-dashboard-visual-baseline.mjs",
+    "screenshotStates": [
+      "light",
+      "dark",
+      "system"
+    ]
+  },
+  "enforcement": {
+    "localScripts": [
+      "hdk:check",
+      "hdk:proof",
+      "hdk:visual"
+    ],
+    "creationGate": "hdk:check",
+    "deployGate": "hdk:check",
+    "exceptionsRequireExpiry": true,
+    "staticEntrypointAllowlist": [
+      "apps/bootstrap-installer/**",
+      "docs/**",
+      "hermes_cli/**",
+      "skills/**",
+      "web/index.html"
+    ]
   },
   "surfaces": [
     {

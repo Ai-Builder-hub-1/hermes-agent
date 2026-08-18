@@ -1,0 +1,532 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-18T12:59:21.981Z",
+  "purpose": "Audits whether each dashboard project is HDK-first by dependency, manifest, local implementation, and production delivery.",
+  "standard": {
+    "baseline": "Every dashboard must start from the @hermes/dashboard-kit shell, tokens, sidebar, spacing, card, table, chart, state, and proof contracts.",
+    "customComponentPolicy": "Custom project components are allowed only inside HDK layout slots and must use HDK tokens, sizing contracts, data states, and visual proof.",
+    "completionDefinition": "Package-native by implementation means the route imports/renders HDK primitives directly; dependency-only and static/runtime bridges are not enough."
+  },
+  "summary": {
+    "projectCount": 10,
+    "hdkDependencyCount": 10,
+    "hdkBaselineCompliantCount": 1,
+    "hdkFirstReadyCount": 0,
+    "needsMigrationCount": 2,
+    "hdkFirstWithDebtCount": 8,
+    "productionReachableCount": 0,
+    "productionFindingCount": 0,
+    "localDebtFindingCount": 106
+  },
+  "projects": [
+    {
+      "projectName": "business-mapper",
+      "projectPath": "business-mapper",
+      "scan": {
+        "filesScanned": 10,
+        "hdkImports": 8,
+        "hdkComponentMarkers": 1328,
+        "shellMarkers": 96,
+        "externalKitCssRefs": 1,
+        "localCssMarkers": 138,
+        "rawHtmlRoutes": 2,
+        "visualSelectorRefs": 1,
+        "oneOffSidebarMarkers": 56,
+        "hardcodedStyleMarkers": 422
+      },
+      "classification": {
+        "dependency": "file:vendor/hermes-dashboard-kit",
+        "baseline": "missing",
+        "hdkBaselineCompliant": false,
+        "adoptionMode": "package-native",
+        "implementationMode": "package-native",
+        "currentTier": 3,
+        "targetTier": 3,
+        "surfaceCount": 1,
+        "productionUrl": "https://business-mapper.tlccapitalgroup.com/dashboard",
+        "proofUrl": "https://business-mapper.tlccapitalgroup.com/dashboard/proof",
+        "packageNativeByManifest": true,
+        "packageNativeByImplementation": true,
+        "status": "hdk-first-with-debt",
+        "findings": [
+          "dashboardKit.baseline is not hdk-first",
+          "dashboardKit.shell is not hdk",
+          "dashboardKit.sidebar is not hdk",
+          "dashboardKit.header is not hdk",
+          "dashboardKit.theme is not hdk",
+          "dashboardKit.spacing is not hdk",
+          "missing HDK baseline script(s): hdk:check, hdk:proof, hdk:visual",
+          "reference intake is not required",
+          "design review checklist is not required",
+          "2 raw HTML route marker(s) remain"
+        ]
+      },
+      "production": {
+        "status": "skipped",
+        "findings": []
+      },
+      "recommendations": [
+        "Keep HDK first, add visual regression baselines, and only build custom components behind explicit component contracts."
+      ]
+    },
+    {
+      "projectName": "hermes",
+      "projectPath": "hermes",
+      "scan": {
+        "filesScanned": 345,
+        "hdkImports": 13,
+        "hdkComponentMarkers": 445,
+        "shellMarkers": 26,
+        "externalKitCssRefs": 0,
+        "localCssMarkers": 526,
+        "rawHtmlRoutes": 19,
+        "visualSelectorRefs": 3,
+        "oneOffSidebarMarkers": 14,
+        "hardcodedStyleMarkers": 384
+      },
+      "classification": {
+        "dependency": "file:vendor/hermes-dashboard-kit",
+        "baseline": "missing",
+        "hdkBaselineCompliant": false,
+        "adoptionMode": "package-native",
+        "implementationMode": "package-native",
+        "currentTier": 3,
+        "targetTier": 3,
+        "surfaceCount": 3,
+        "productionUrl": "https://hermes.tlccapitalgroup.com/",
+        "proofUrl": "https://hermes.tlccapitalgroup.com/dashboard/proof",
+        "packageNativeByManifest": true,
+        "packageNativeByImplementation": true,
+        "status": "hdk-first-with-debt",
+        "findings": [
+          "dashboardKit.baseline is not hdk-first",
+          "dashboardKit.shell is not hdk",
+          "dashboardKit.sidebar is not hdk",
+          "dashboardKit.header is not hdk",
+          "dashboardKit.theme is not hdk",
+          "dashboardKit.spacing is not hdk",
+          "missing HDK baseline script(s): hdk:check, hdk:proof, hdk:visual",
+          "reference intake is not required",
+          "design review checklist is not required",
+          "19 raw HTML route marker(s) remain",
+          "high local CSS/HTML styling surface"
+        ]
+      },
+      "production": {
+        "status": "skipped",
+        "findings": []
+      },
+      "recommendations": [
+        "Move shell, spacing, theme, card, table, and chart primitives into HDK tokens/components; keep project CSS to domain-only variants."
+      ]
+    },
+    {
+      "projectName": "investing-system",
+      "projectPath": "investing-system",
+      "scan": {
+        "filesScanned": 287,
+        "hdkImports": 7,
+        "hdkComponentMarkers": 1886,
+        "shellMarkers": 106,
+        "externalKitCssRefs": 1,
+        "localCssMarkers": 715,
+        "rawHtmlRoutes": 5,
+        "visualSelectorRefs": 0,
+        "oneOffSidebarMarkers": 54,
+        "hardcodedStyleMarkers": 1406
+      },
+      "classification": {
+        "dependency": "file:vendor/hermes-dashboard-kit",
+        "baseline": "missing",
+        "hdkBaselineCompliant": false,
+        "adoptionMode": "package-native",
+        "implementationMode": "package-native",
+        "currentTier": 3,
+        "targetTier": 3,
+        "surfaceCount": 2,
+        "productionUrl": "https://investing.tlccapitalgroup.com/roc",
+        "proofUrl": "https://investing.tlccapitalgroup.com/dashboard/proof",
+        "packageNativeByManifest": true,
+        "packageNativeByImplementation": true,
+        "status": "hdk-first-with-debt",
+        "findings": [
+          "dashboardKit.baseline is not hdk-first",
+          "dashboardKit.shell is not hdk",
+          "dashboardKit.sidebar is not hdk",
+          "dashboardKit.header is not hdk",
+          "dashboardKit.theme is not hdk",
+          "dashboardKit.spacing is not hdk",
+          "missing HDK baseline script(s): hdk:check, hdk:proof, hdk:visual",
+          "reference intake is not required",
+          "design review checklist is not required",
+          "5 raw HTML route marker(s) remain",
+          "high local CSS/HTML styling surface",
+          "high hardcoded color/style surface"
+        ]
+      },
+      "production": {
+        "status": "skipped",
+        "findings": []
+      },
+      "recommendations": [
+        "Move shell, spacing, theme, card, table, and chart primitives into HDK tokens/components; keep project CSS to domain-only variants."
+      ]
+    },
+    {
+      "projectName": "khashi-vc",
+      "projectPath": "khashi-vc",
+      "scan": {
+        "filesScanned": 319,
+        "hdkImports": 12,
+        "hdkComponentMarkers": 1454,
+        "shellMarkers": 84,
+        "externalKitCssRefs": 6,
+        "localCssMarkers": 3349,
+        "rawHtmlRoutes": 26,
+        "visualSelectorRefs": 8,
+        "oneOffSidebarMarkers": 182,
+        "hardcodedStyleMarkers": 1469
+      },
+      "classification": {
+        "dependency": "file:vendor/hermes-dashboard-kit",
+        "baseline": "missing",
+        "hdkBaselineCompliant": false,
+        "adoptionMode": "package-native",
+        "implementationMode": "package-native-runtime",
+        "currentTier": 3,
+        "targetTier": 3,
+        "surfaceCount": 3,
+        "productionUrl": "https://roc.tlccapitalgroup.com/",
+        "proofUrl": "https://roc.tlccapitalgroup.com/dashboard/proof?view=live-market-intelligence",
+        "packageNativeByManifest": false,
+        "packageNativeByImplementation": false,
+        "status": "needs-migration",
+        "findings": [
+          "dashboardKit.baseline is not hdk-first",
+          "dashboardKit.shell is not hdk",
+          "dashboardKit.sidebar is not hdk",
+          "dashboardKit.header is not hdk",
+          "dashboardKit.theme is not hdk",
+          "dashboardKit.spacing is not hdk",
+          "missing HDK baseline script(s): hdk:check, hdk:proof, hdk:visual",
+          "reference intake is not required",
+          "design review checklist is not required",
+          "runtime bridge still present",
+          "compatibility or mount surface remains",
+          "26 raw HTML route marker(s) remain",
+          "high local CSS/HTML styling surface",
+          "high hardcoded color/style surface"
+        ]
+      },
+      "production": {
+        "status": "skipped",
+        "findings": []
+      },
+      "recommendations": [
+        "Replace runtime bridge route with a package-native frontend entry that imports HDK components directly.",
+        "Promote one HDK-first route as canonical and demote compatibility routes from operator navigation.",
+        "Move shell, spacing, theme, card, table, and chart primitives into HDK tokens/components; keep project CSS to domain-only variants."
+      ]
+    },
+    {
+      "projectName": "Meal-assistant",
+      "projectPath": "Meal-assistant",
+      "scan": {
+        "filesScanned": 30,
+        "hdkImports": 7,
+        "hdkComponentMarkers": 802,
+        "shellMarkers": 49,
+        "externalKitCssRefs": 8,
+        "localCssMarkers": 586,
+        "rawHtmlRoutes": 10,
+        "visualSelectorRefs": 3,
+        "oneOffSidebarMarkers": 53,
+        "hardcodedStyleMarkers": 391
+      },
+      "classification": {
+        "dependency": "file:vendor/hermes-dashboard-kit",
+        "baseline": "missing",
+        "hdkBaselineCompliant": false,
+        "adoptionMode": "package-native",
+        "implementationMode": "package-native",
+        "currentTier": 3,
+        "targetTier": 3,
+        "surfaceCount": 1,
+        "productionUrl": "https://meal.tlccapitalgroup.com/",
+        "proofUrl": "https://meal.tlccapitalgroup.com/dashboard/proof",
+        "packageNativeByManifest": true,
+        "packageNativeByImplementation": true,
+        "status": "hdk-first-with-debt",
+        "findings": [
+          "dashboardKit.baseline is not hdk-first",
+          "dashboardKit.shell is not hdk",
+          "dashboardKit.sidebar is not hdk",
+          "dashboardKit.header is not hdk",
+          "dashboardKit.theme is not hdk",
+          "dashboardKit.spacing is not hdk",
+          "missing HDK baseline script(s): hdk:check, hdk:proof, hdk:visual",
+          "reference intake is not required",
+          "design review checklist is not required",
+          "10 raw HTML route marker(s) remain",
+          "high local CSS/HTML styling surface"
+        ]
+      },
+      "production": {
+        "status": "skipped",
+        "findings": []
+      },
+      "recommendations": [
+        "Move shell, spacing, theme, card, table, and chart primitives into HDK tokens/components; keep project CSS to domain-only variants."
+      ]
+    },
+    {
+      "projectName": "media-business-operations",
+      "projectPath": "media-business-operations",
+      "scan": {
+        "filesScanned": 41,
+        "hdkImports": 11,
+        "hdkComponentMarkers": 2211,
+        "shellMarkers": 122,
+        "externalKitCssRefs": 3,
+        "localCssMarkers": 903,
+        "rawHtmlRoutes": 6,
+        "visualSelectorRefs": 3,
+        "oneOffSidebarMarkers": 137,
+        "hardcodedStyleMarkers": 637
+      },
+      "classification": {
+        "dependency": "file:vendor/hermes-dashboard-kit",
+        "baseline": "missing",
+        "hdkBaselineCompliant": false,
+        "adoptionMode": "package-native",
+        "implementationMode": "package-native",
+        "currentTier": 3,
+        "targetTier": 3,
+        "surfaceCount": 2,
+        "productionUrl": "https://media-business-operations.tlccapitalgroup.com/dashboard",
+        "proofUrl": "https://media-business-operations.tlccapitalgroup.com/dashboard/proof",
+        "packageNativeByManifest": false,
+        "packageNativeByImplementation": false,
+        "status": "needs-migration",
+        "findings": [
+          "dashboardKit.baseline is not hdk-first",
+          "dashboardKit.shell is not hdk",
+          "dashboardKit.sidebar is not hdk",
+          "dashboardKit.header is not hdk",
+          "dashboardKit.theme is not hdk",
+          "dashboardKit.spacing is not hdk",
+          "missing HDK baseline script(s): hdk:check, hdk:proof, hdk:visual",
+          "reference intake is not required",
+          "design review checklist is not required",
+          "compatibility or mount surface remains",
+          "6 raw HTML route marker(s) remain",
+          "high local CSS/HTML styling surface",
+          "high hardcoded color/style surface"
+        ]
+      },
+      "production": {
+        "status": "skipped",
+        "findings": []
+      },
+      "recommendations": [
+        "Promote one HDK-first route as canonical and demote compatibility routes from operator navigation.",
+        "Move shell, spacing, theme, card, table, and chart primitives into HDK tokens/components; keep project CSS to domain-only variants."
+      ]
+    },
+    {
+      "projectName": "media-engine",
+      "projectPath": "media-engine",
+      "scan": {
+        "filesScanned": 771,
+        "hdkImports": 9,
+        "hdkComponentMarkers": 171467,
+        "shellMarkers": 3754,
+        "externalKitCssRefs": 1,
+        "localCssMarkers": 130187,
+        "rawHtmlRoutes": 671,
+        "visualSelectorRefs": 134,
+        "oneOffSidebarMarkers": 8580,
+        "hardcodedStyleMarkers": 66157
+      },
+      "classification": {
+        "dependency": "file:vendor/hermes-dashboard-kit",
+        "baseline": "missing",
+        "hdkBaselineCompliant": false,
+        "adoptionMode": "package-native",
+        "implementationMode": "package-native",
+        "currentTier": 3,
+        "targetTier": 3,
+        "surfaceCount": 1,
+        "productionUrl": "https://media.tlccapitalgroup.com/dashboard",
+        "proofUrl": "https://media.tlccapitalgroup.com/dashboard/proof",
+        "packageNativeByManifest": true,
+        "packageNativeByImplementation": true,
+        "status": "hdk-first-with-debt",
+        "findings": [
+          "dashboardKit.baseline is not hdk-first",
+          "dashboardKit.shell is not hdk",
+          "dashboardKit.sidebar is not hdk",
+          "dashboardKit.header is not hdk",
+          "dashboardKit.theme is not hdk",
+          "dashboardKit.spacing is not hdk",
+          "missing HDK baseline script(s): hdk:check, hdk:proof, hdk:visual",
+          "reference intake is not required",
+          "design review checklist is not required",
+          "671 raw HTML route marker(s) remain",
+          "high local CSS/HTML styling surface",
+          "high hardcoded color/style surface"
+        ]
+      },
+      "production": {
+        "status": "skipped",
+        "findings": []
+      },
+      "recommendations": [
+        "Move shell, spacing, theme, card, table, and chart primitives into HDK tokens/components; keep project CSS to domain-only variants."
+      ]
+    },
+    {
+      "projectName": "nous-hermes-agent",
+      "projectPath": "nous-hermes-agent",
+      "scan": {
+        "filesScanned": 1737,
+        "hdkImports": 75,
+        "hdkComponentMarkers": 5713,
+        "shellMarkers": 333,
+        "externalKitCssRefs": 29,
+        "localCssMarkers": 8031,
+        "rawHtmlRoutes": 41,
+        "visualSelectorRefs": 9,
+        "oneOffSidebarMarkers": 2504,
+        "hardcodedStyleMarkers": 3862
+      },
+      "classification": {
+        "dependency": "file:packages/hermes-dashboard-kit",
+        "baseline": "hdk-first",
+        "hdkBaselineCompliant": true,
+        "adoptionMode": "package-native",
+        "implementationMode": "package-native",
+        "currentTier": 3,
+        "targetTier": 3,
+        "surfaceCount": 2,
+        "productionUrl": "https://agent.tlccapitalgroup.com",
+        "proofUrl": "https://agent.tlccapitalgroup.com/dashboard/proof",
+        "packageNativeByManifest": true,
+        "packageNativeByImplementation": true,
+        "status": "hdk-first-with-debt",
+        "findings": [
+          "41 raw HTML route marker(s) remain",
+          "high local CSS/HTML styling surface",
+          "high hardcoded color/style surface"
+        ]
+      },
+      "production": {
+        "status": "skipped",
+        "findings": []
+      },
+      "recommendations": [
+        "Move shell, spacing, theme, card, table, and chart primitives into HDK tokens/components; keep project CSS to domain-only variants."
+      ]
+    },
+    {
+      "projectName": "rinseables-os",
+      "projectPath": "rinseables-os",
+      "scan": {
+        "filesScanned": 28,
+        "hdkImports": 8,
+        "hdkComponentMarkers": 1261,
+        "shellMarkers": 99,
+        "externalKitCssRefs": 1,
+        "localCssMarkers": 66,
+        "rawHtmlRoutes": 2,
+        "visualSelectorRefs": 0,
+        "oneOffSidebarMarkers": 50,
+        "hardcodedStyleMarkers": 376
+      },
+      "classification": {
+        "dependency": "file:vendor/hermes-dashboard-kit",
+        "baseline": "missing",
+        "hdkBaselineCompliant": false,
+        "adoptionMode": "package-native",
+        "implementationMode": "package-native",
+        "currentTier": 3,
+        "targetTier": 3,
+        "surfaceCount": 2,
+        "productionUrl": "https://rinseables.tlccapitalgroup.com",
+        "proofUrl": "https://rinseables.tlccapitalgroup.com/dashboard/proof",
+        "packageNativeByManifest": true,
+        "packageNativeByImplementation": true,
+        "status": "hdk-first-with-debt",
+        "findings": [
+          "dashboardKit.baseline is not hdk-first",
+          "dashboardKit.shell is not hdk",
+          "dashboardKit.sidebar is not hdk",
+          "dashboardKit.header is not hdk",
+          "dashboardKit.theme is not hdk",
+          "dashboardKit.spacing is not hdk",
+          "missing HDK baseline script(s): hdk:check, hdk:proof, hdk:visual",
+          "reference intake is not required",
+          "design review checklist is not required",
+          "2 raw HTML route marker(s) remain"
+        ]
+      },
+      "production": {
+        "status": "skipped",
+        "findings": []
+      },
+      "recommendations": [
+        "Keep HDK first, add visual regression baselines, and only build custom components behind explicit component contracts."
+      ]
+    },
+    {
+      "projectName": "tlc-capital-group-os",
+      "projectPath": "tlc-capital-group-os",
+      "scan": {
+        "filesScanned": 72,
+        "hdkImports": 10,
+        "hdkComponentMarkers": 1451,
+        "shellMarkers": 100,
+        "externalKitCssRefs": 1,
+        "localCssMarkers": 388,
+        "rawHtmlRoutes": 2,
+        "visualSelectorRefs": 3,
+        "oneOffSidebarMarkers": 52,
+        "hardcodedStyleMarkers": 485
+      },
+      "classification": {
+        "dependency": "file:vendor/hermes-dashboard-kit",
+        "baseline": "missing",
+        "hdkBaselineCompliant": false,
+        "adoptionMode": "package-native",
+        "implementationMode": "package-native",
+        "currentTier": 3,
+        "targetTier": 3,
+        "surfaceCount": 3,
+        "productionUrl": "https://tlc.tlccapitalgroup.com/dashboard",
+        "proofUrl": "https://tlc.tlccapitalgroup.com/dashboard/proof",
+        "packageNativeByManifest": true,
+        "packageNativeByImplementation": true,
+        "status": "hdk-first-with-debt",
+        "findings": [
+          "dashboardKit.baseline is not hdk-first",
+          "dashboardKit.shell is not hdk",
+          "dashboardKit.sidebar is not hdk",
+          "dashboardKit.header is not hdk",
+          "dashboardKit.theme is not hdk",
+          "dashboardKit.spacing is not hdk",
+          "missing HDK baseline script(s): hdk:check, hdk:proof, hdk:visual",
+          "reference intake is not required",
+          "design review checklist is not required",
+          "2 raw HTML route marker(s) remain"
+        ]
+      },
+      "production": {
+        "status": "skipped",
+        "findings": []
+      },
+      "recommendations": [
+        "Keep HDK first, add visual regression baselines, and only build custom components behind explicit component contracts."
+      ]
+    }
+  ]
+}

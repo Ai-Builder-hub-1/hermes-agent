@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-15T18:51:38.843Z",
+  "attempts": [
+    {
+      "project": "khashi-vc",
+      "state": "repair-needed",
+      "verdict": "blocked",
+      "blockers": [
+        "tier3c.implementationMode",
+        "falseNative.migrationLanguage",
+        "surface.compatibilityClaim",
+        "hidden-compliance-marker",
+        "local-shell-class",
+        "anatomy.secondShellLayout",
+        "localDebt.excessive"
+      ],
+      "warnings": [
+        "anatomy.multipleShellMarkers",
+        "anatomy.multipleSidebarMarkers",
+        "raw-svg-or-hand-chart",
+        "hardcoded-visual-token",
+        "anatomy.multipleSidebarMarkers"
+      ],
+      "nextRepairPacket": "khashi-vc.repair.2026-08-15"
+    },
+    {
+      "project": "media-engine",
+      "state": "repair-needed",
+      "verdict": "blocked",
+      "blockers": [
+        "localDebt.excessive"
+      ],
+      "warnings": [
+        "raw-svg-or-hand-chart",
+        "hardcoded-visual-token"
+      ],
+      "nextRepairPacket": "media-engine.repair.2026-08-15"
+    },
+    {
+      "project": "media-business-os",
+      "state": "repair-needed",
+      "verdict": "blocked",
+      "blockers": [
+        "falseNative.migrationLanguage",
+        "hidden-compliance-marker"
+      ],
+      "warnings": [
+        "anatomy.multipleSidebarMarkers",
+        "anatomy.multipleSidebarMarkers"
+      ],
+      "nextRepairPacket": "media-business-os.repair.2026-08-15"
+    },
+    {
+      "project": "business-mapper",
+      "state": "repair-needed",
+      "verdict": "blocked",
+      "blockers": [
+        "falseNative.migrationLanguage",
+        "hidden-compliance-marker",
+        "anatomy.secondShellLayout"
+      ],
+      "warnings": [
+        "anatomy.multipleSidebarMarkers"
+      ],
+      "nextRepairPacket": "business-mapper.repair.2026-08-15"
+    },
+    {
+      "project": "meal-assistant",
+      "state": "repair-needed",
+      "verdict": "blocked",
+      "blockers": [
+        "falseNative.migrationLanguage",
+        "localDebt.excessive"
+      ],
+      "warnings": [
+        "hardcoded-visual-token",
+        "anatomy.multipleShellMarkers",
+        "anatomy.multipleSidebarMarkers"
+      ],
+      "nextRepairPacket": "meal-assistant.repair.2026-08-15"
+    },
+    {
+      "project": "hermes-os",
+      "state": "repair-needed",
+      "verdict": "blocked",
+      "blockers": [
+        "falseNative.migrationLanguage",
+        "hidden-compliance-marker",
+        "hidden-compliance-marker",
+        "surface.compatibilityClaim",
+        "hidden-compliance-marker",
+        "localDebt.excessive"
+      ],
+      "warnings": [
+        "hardcoded-visual-token",
+        "anatomy.multipleShellMarkers",
+        "hardcoded-visual-token",
+        "anatomy.multipleShellMarkers",
+        "hardcoded-visual-token",
+        "anatomy.multipleShellMarkers"
+      ],
+      "nextRepairPacket": "hermes-os.repair.2026-08-15"
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "state": "repair-needed",
+      "verdict": "blocked",
+      "blockers": [
+        "falseNative.migrationLanguage",
+        "hidden-compliance-marker",
+        "anatomy.secondShellLayout"
+      ],
+      "warnings": [],
+      "nextRepairPacket": "tlc-capital-group-os.repair.2026-08-15"
+    },
+    {
+      "project": "rinseables-os",
+      "state": "repair-needed",
+      "verdict": "blocked",
+      "blockers": [
+        "falseNative.migrationLanguage",
+        "surface.compatibilityClaim",
+        "hidden-compliance-marker",
+        "anatomy.secondShellLayout"
+      ],
+      "warnings": [],
+      "nextRepairPacket": "rinseables-os.repair.2026-08-15"
+    },
+    {
+      "project": "investing-system",
+      "state": "repair-needed",
+      "verdict": "blocked",
+      "blockers": [
+        "falseNative.migrationLanguage",
+        "surface.compatibilityClaim"
+      ],
+      "warnings": [],
+      "nextRepairPacket": "investing-system.repair.2026-08-15"
+    },
+    {
+      "project": "nous-hermes-agent",
+      "state": "repair-needed",
+      "verdict": "blocked",
+      "blockers": [
+        "falseNative.migrationLanguage",
+        "hidden-compliance-marker"
+      ],
+      "warnings": [
+        "raw-svg-or-hand-chart",
+        "anatomy.multipleSidebarMarkers"
+      ],
+      "nextRepairPacket": "nous-hermes-agent.repair.2026-08-15"
+    }
+  ]
+}

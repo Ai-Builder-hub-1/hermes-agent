@@ -42,6 +42,9 @@
   --hdk-radius-card: 8px;
   --hdk-radius-control: 8px;
   --hdk-max-content: 1480px;
+  --hdk-page-max: 1440px;
+  --hdk-page-wide-max: 1680px;
+  --hdk-page-fluid-max: none;
   --hdk-sidebar-width: 264px;
   --hdk-sidebar-collapsed-width: 78px;
   --hdk-sidebar-padding: 14px;
@@ -323,6 +326,80 @@
 .hdk-query-boundary {
   width: min(100%, var(--hdk-max-content));
   margin-inline: auto;
+}
+
+.hdk-page-frame--wide,
+.hdk-page--wide,
+.hdk-route--wide {
+  width: min(100%, var(--hdk-page-wide-max));
+}
+
+.hdk-page-frame--fluid,
+.hdk-page--fluid,
+.hdk-route--fluid {
+  width: 100%;
+  max-width: var(--hdk-page-fluid-max);
+}
+
+.hdk-session-control {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  min-width: min(100%, 320px);
+  padding: 6px;
+  border: 1px solid var(--hdk-border-subtle);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--hdk-surface-panel) 94%, transparent);
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+}
+
+.hdk-session-control[data-session-state="locked"] {
+  border-color: color-mix(in srgb, var(--hdk-warning) 32%, var(--hdk-border-subtle));
+  background: color-mix(in srgb, var(--hdk-warning-soft) 42%, var(--hdk-surface-panel));
+}
+
+.hdk-session-control[data-session-state="ready"] {
+  border-color: color-mix(in srgb, var(--hdk-success) 24%, var(--hdk-border-subtle));
+}
+
+.hdk-session-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 0 8px;
+  border-radius: 8px;
+  color: var(--hdk-text-secondary);
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.hdk-session-status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--hdk-warning);
+}
+
+.hdk-session-control[data-session-state="ready"] .hdk-session-status::before {
+  background: var(--hdk-success);
+}
+
+.hdk-session-field {
+  min-width: 0;
+  width: clamp(150px, 18vw, 220px);
+}
+
+.hdk-session-control[data-session-state="ready"] .hdk-session-field {
+  width: 0;
+  min-width: 0;
+  padding-inline: 0;
+  border-width: 0;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .hdk-page,

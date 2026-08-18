@@ -1,14 +1,42 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-14T20:37:19.728Z",
+  "generatedAt": "2026-08-15T18:51:30.612Z",
   "purpose": "Ranked next maturity suggestions generated after fleet evidence and cross-project trigger analysis.",
   "summary": {
-    "total": 61,
-    "readyToBuild": 57,
+    "total": 73,
+    "readyToBuild": 67,
     "needsHumanDecision": 2,
-    "recommended": 2
+    "recommended": 4
   },
   "suggestions": [
+    {
+      "id": "suggest.business-mapper.dashboard-standard.maturity",
+      "workItemId": "business-mapper.dashboard-standard.maturity",
+      "title": "Business Mapper / Consulting: dashboard standard is needs-review",
+      "ownerProject": "business-mapper",
+      "affectedProjects": [
+        "business-mapper"
+      ],
+      "status": "ready-to-build",
+      "priority": "high",
+      "score": 100,
+      "reason": "Fleet evidence scan found dashboard-standard=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.business-mapper.deployment-evidence.maturity",
+      "workItemId": "business-mapper.deployment-evidence.maturity",
+      "title": "Business Mapper / Consulting: deployment evidence is missing",
+      "ownerProject": "business-mapper",
+      "affectedProjects": [
+        "business-mapper"
+      ],
+      "status": "ready-to-build",
+      "priority": "high",
+      "score": 100,
+      "reason": "Fleet evidence scan found deployment-evidence=missing.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
     {
       "id": "suggest.business-mapper.static-route-debt.maturity",
       "workItemId": "business-mapper.static-route-debt.maturity",
@@ -38,6 +66,20 @@
       "nextAction": "Codex can build or refresh this maturity work."
     },
     {
+      "id": "suggest.hermes-os.deployment-evidence.maturity",
+      "workItemId": "hermes-os.deployment-evidence.maturity",
+      "title": "Hermes OS: deployment evidence is missing",
+      "ownerProject": "hermes-os",
+      "affectedProjects": [
+        "hermes-os"
+      ],
+      "status": "ready-to-build",
+      "priority": "high",
+      "score": 100,
+      "reason": "Fleet evidence scan found deployment-evidence=missing.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
       "id": "suggest.investing-system.dashboard-standard.maturity",
       "workItemId": "investing-system.dashboard-standard.maturity",
       "title": "Investing System: dashboard standard is needs-review",
@@ -49,6 +91,20 @@
       "priority": "high",
       "score": 100,
       "reason": "Fleet evidence scan found dashboard-standard=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.investing-system.deployment-evidence.maturity",
+      "workItemId": "investing-system.deployment-evidence.maturity",
+      "title": "Investing System: deployment evidence is missing",
+      "ownerProject": "investing-system",
+      "affectedProjects": [
+        "investing-system"
+      ],
+      "status": "ready-to-build",
+      "priority": "high",
+      "score": 100,
+      "reason": "Fleet evidence scan found deployment-evidence=missing.",
       "nextAction": "Codex can build or refresh this maturity work."
     },
     {
@@ -80,6 +136,20 @@
       "nextAction": "Codex can build or refresh this maturity work."
     },
     {
+      "id": "suggest.khashi-vc.deployment-evidence.maturity",
+      "workItemId": "khashi-vc.deployment-evidence.maturity",
+      "title": "Khashi VC: deployment evidence is missing",
+      "ownerProject": "khashi-vc",
+      "affectedProjects": [
+        "khashi-vc"
+      ],
+      "status": "ready-to-build",
+      "priority": "high",
+      "score": 100,
+      "reason": "Fleet evidence scan found deployment-evidence=missing.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
       "id": "suggest.khashi-vc.static-route-debt.maturity",
       "workItemId": "khashi-vc.static-route-debt.maturity",
       "title": "Khashi VC: static route debt is needs-review",
@@ -108,6 +178,20 @@
       "nextAction": "Codex can build or refresh this maturity work."
     },
     {
+      "id": "suggest.meal-assistant.deployment-evidence.maturity",
+      "workItemId": "meal-assistant.deployment-evidence.maturity",
+      "title": "Meal Assistant: deployment evidence is missing",
+      "ownerProject": "meal-assistant",
+      "affectedProjects": [
+        "meal-assistant"
+      ],
+      "status": "ready-to-build",
+      "priority": "high",
+      "score": 100,
+      "reason": "Fleet evidence scan found deployment-evidence=missing.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
       "id": "suggest.media-business-operations.dashboard-standard.maturity",
       "workItemId": "media-business-operations.dashboard-standard.maturity",
       "title": "Media Business Operations: dashboard standard is needs-review",
@@ -122,6 +206,62 @@
       "nextAction": "Codex can build or refresh this maturity work."
     },
     {
+      "id": "suggest.media-business-operations.deployment-evidence.maturity",
+      "workItemId": "media-business-operations.deployment-evidence.maturity",
+      "title": "Media Business Operations: deployment evidence is missing",
+      "ownerProject": "media-business-operations",
+      "affectedProjects": [
+        "media-business-operations"
+      ],
+      "status": "ready-to-build",
+      "priority": "high",
+      "score": 100,
+      "reason": "Fleet evidence scan found deployment-evidence=missing.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.media-engine.dashboard-standard.maturity",
+      "workItemId": "media-engine.dashboard-standard.maturity",
+      "title": "Media Engine: dashboard standard is needs-review",
+      "ownerProject": "media-engine",
+      "affectedProjects": [
+        "media-engine"
+      ],
+      "status": "ready-to-build",
+      "priority": "high",
+      "score": 100,
+      "reason": "Fleet evidence scan found dashboard-standard=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.media-engine.deployment-evidence.maturity",
+      "workItemId": "media-engine.deployment-evidence.maturity",
+      "title": "Media Engine: deployment evidence is missing",
+      "ownerProject": "media-engine",
+      "affectedProjects": [
+        "media-engine"
+      ],
+      "status": "ready-to-build",
+      "priority": "high",
+      "score": 100,
+      "reason": "Fleet evidence scan found deployment-evidence=missing.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.nous-hermes-agent.deployment-evidence.maturity",
+      "workItemId": "nous-hermes-agent.deployment-evidence.maturity",
+      "title": "Nous Hermes Agent: deployment evidence is missing",
+      "ownerProject": "nous-hermes-agent",
+      "affectedProjects": [
+        "nous-hermes-agent"
+      ],
+      "status": "ready-to-build",
+      "priority": "high",
+      "score": 100,
+      "reason": "Fleet evidence scan found deployment-evidence=missing.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
       "id": "suggest.rinseables-os.dashboard-standard.maturity",
       "workItemId": "rinseables-os.dashboard-standard.maturity",
       "title": "Rinseables OS: dashboard standard is needs-review",
@@ -133,6 +273,20 @@
       "priority": "high",
       "score": 100,
       "reason": "Fleet evidence scan found dashboard-standard=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.rinseables-os.deployment-evidence.maturity",
+      "workItemId": "rinseables-os.deployment-evidence.maturity",
+      "title": "Rinseables OS: deployment evidence is missing",
+      "ownerProject": "rinseables-os",
+      "affectedProjects": [
+        "rinseables-os"
+      ],
+      "status": "ready-to-build",
+      "priority": "high",
+      "score": 100,
+      "reason": "Fleet evidence scan found deployment-evidence=missing.",
       "nextAction": "Codex can build or refresh this maturity work."
     },
     {
@@ -161,6 +315,20 @@
       "priority": "high",
       "score": 100,
       "reason": "Fleet evidence scan found dashboard-standard=needs-review.",
+      "nextAction": "Codex can build or refresh this maturity work."
+    },
+    {
+      "id": "suggest.tlc-capital-group-os.deployment-evidence.maturity",
+      "workItemId": "tlc-capital-group-os.deployment-evidence.maturity",
+      "title": "TLC Capital Group OS: deployment evidence is missing",
+      "ownerProject": "tlc-capital-group-os",
+      "affectedProjects": [
+        "tlc-capital-group-os"
+      ],
+      "status": "ready-to-build",
+      "priority": "high",
+      "score": 100,
+      "reason": "Fleet evidence scan found deployment-evidence=missing.",
       "nextAction": "Codex can build or refresh this maturity work."
     },
     {
@@ -766,6 +934,29 @@
       "nextAction": "Codex can build or refresh this maturity work."
     },
     {
+      "id": "suggest.hermes-rail-change-to-fleet-evidence",
+      "workItemId": "hermes-rail-change-to-fleet-evidence",
+      "title": "After Hermes deploy rail changes, refresh fleet deployment evidence and anti-loop status.",
+      "ownerProject": "nous-hermes-agent",
+      "affectedProjects": [
+        "tlc-capital-group-os",
+        "nous-hermes-agent",
+        "hermes-os",
+        "media-engine",
+        "media-business-operations",
+        "khashi-vc",
+        "business-mapper",
+        "meal-assistant",
+        "rinseables-os",
+        "investing-system"
+      ],
+      "status": "recommended",
+      "priority": "medium",
+      "score": 50,
+      "reason": "Hermes promotion rail, Caddy route, deploy script, or evidence schema changes.",
+      "nextAction": "Close dependency evidence first, then execute the cross-project maturity item."
+    },
+    {
       "id": "suggest.rinseables-product-to-media-and-tlc",
       "workItemId": "rinseables-product-to-media-and-tlc",
       "title": "Connect Rinseables product/audience maturity to Media Business, Media Engine, and TLC reporting.",
@@ -783,6 +974,22 @@
       "nextAction": "Close dependency evidence first, then execute the cross-project maturity item."
     },
     {
+      "id": "suggest.media-engine-output-to-media-business-readiness",
+      "workItemId": "media-engine-output-to-media-business-readiness",
+      "title": "Propagate Media Engine output/deploy maturity into Media Business readiness and TLC rollups.",
+      "ownerProject": "media-business-operations",
+      "affectedProjects": [
+        "media-engine",
+        "media-business-operations",
+        "tlc-capital-group-os"
+      ],
+      "status": "recommended",
+      "priority": "medium",
+      "score": 50,
+      "reason": "Media Engine production, cost, or publishing evidence changes.",
+      "nextAction": "Close dependency evidence first, then execute the cross-project maturity item."
+    },
+    {
       "id": "suggest.khashi-diagnostics-to-hermes-runtime",
       "workItemId": "khashi-diagnostics-to-hermes-runtime",
       "title": "Promote Khashi production diagnostics into Hermes runtime evidence and TLC readiness.",
@@ -794,7 +1001,7 @@
       ],
       "status": "recommended",
       "priority": "medium",
-      "score": 50,
+      "score": 40,
       "reason": "Khashi production diagnostics, scheduler capacity, or live E2E evidence changes.",
       "nextAction": "Close dependency evidence first, then execute the cross-project maturity item."
     },
@@ -825,45 +1032,6 @@
       "score": 35,
       "reason": "Fleet evidence scan found external-credentials=blocked.",
       "nextAction": "Get human authority/credential decision before implementation."
-    },
-    {
-      "id": "suggest.hermes-rail-change-to-fleet-evidence",
-      "workItemId": "hermes-rail-change-to-fleet-evidence",
-      "title": "After Hermes deploy rail changes, refresh fleet deployment evidence and anti-loop status.",
-      "ownerProject": "nous-hermes-agent",
-      "affectedProjects": [
-        "tlc-capital-group-os",
-        "nous-hermes-agent",
-        "hermes-os",
-        "media-engine",
-        "media-business-operations",
-        "khashi-vc",
-        "business-mapper",
-        "meal-assistant",
-        "rinseables-os",
-        "investing-system"
-      ],
-      "status": "ready-to-build",
-      "priority": "low",
-      "score": 30,
-      "reason": "Hermes promotion rail, Caddy route, deploy script, or evidence schema changes.",
-      "nextAction": "Codex can build or refresh this maturity work."
-    },
-    {
-      "id": "suggest.media-engine-output-to-media-business-readiness",
-      "workItemId": "media-engine-output-to-media-business-readiness",
-      "title": "Propagate Media Engine output/deploy maturity into Media Business readiness and TLC rollups.",
-      "ownerProject": "media-business-operations",
-      "affectedProjects": [
-        "media-engine",
-        "media-business-operations",
-        "tlc-capital-group-os"
-      ],
-      "status": "ready-to-build",
-      "priority": "low",
-      "score": 30,
-      "reason": "Media Engine production, cost, or publishing evidence changes.",
-      "nextAction": "Codex can build or refresh this maturity work."
     },
     {
       "id": "suggest.media-business-readiness-to-tlc-portfolio",

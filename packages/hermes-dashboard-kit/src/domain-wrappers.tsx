@@ -69,10 +69,10 @@ export function FinancialCandlestickChart({
   reviewId = "hdk.financial-candlestick-chart",
 }: Partial<DomainWrapperProps>) {
   return (
-    <DomainPanel
+      <DomainPanel
       component="FinancialCandlestickChart"
       domain="financial-trading-charts"
-      library="lightweight-charts"
+      library="klinecharts"
       title={title}
       description={description}
       reviewId={reviewId}
@@ -81,7 +81,7 @@ export function FinancialCandlestickChart({
         {children ?? (
           <DashboardEmptyState
             title="Financial chart runtime not connected"
-            description="Mount Lightweight Charts in this surface and provide candle, volume, and price-line series."
+            description="Mount KLineChart or another approved financial renderer in this surface and provide candle, volume, axis, and overlay proof."
             className="min-h-72 border-0 bg-transparent"
           />
         )}
@@ -99,7 +99,7 @@ export function TradingTerminalWorkspace({
   return (
     <section
       className="grid min-h-[760px] gap-2 rounded-lg border border-border bg-background p-2"
-      data-domain-library="lightweight-charts"
+      data-domain-library="klinecharts"
       data-domain-library-family="financial-trading-charts"
       data-hdk-component="TradingTerminalWorkspace"
       data-proof-signals="terminal-toolbar-visible dominant-chart-visible right-watchlist-visible bottom-orders-panel-visible candlestick-visible x-axis-visible y-axis-visible"
@@ -110,7 +110,7 @@ export function TradingTerminalWorkspace({
           <h2 className="truncate text-sm font-semibold text-foreground">{title}</h2>
           {description ? <p className="truncate text-xs text-muted-foreground">{description}</p> : null}
         </div>
-        <StatusPill tone="info">lightweight-charts</StatusPill>
+        <StatusPill tone="info">klinecharts</StatusPill>
       </header>
       <div className="grid min-h-[620px] grid-cols-[48px_minmax(0,1fr)_280px] grid-rows-[minmax(420px,1fr)_220px] gap-2" data-terminal-anatomy="tool-rail chart right-rail bottom-panel">
         {children ?? (

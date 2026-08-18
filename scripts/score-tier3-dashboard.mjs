@@ -10,6 +10,8 @@ const manifest = readJson(path.join(projectDir, ".hermes-dashboard.json"));
 const checks = [];
 const navigationQuality =
   operationalNavigationQuality();
+const shellVisualQuality =
+  operationalShellVisualQuality();
 
 score("package-native implementation", 16, manifest.dashboardKit?.adoptionMode === "package-native" || manifest.dashboardKit?.implementationMode === "package-native");
 score("Tier 3 target and current", 10, Number(manifest.dashboardKit?.targetExperienceTier) >= 3 && Number(manifest.dashboardKit?.currentExperienceTier) >= 3);
@@ -21,6 +23,7 @@ score("proof capture script present", 6, fileExists(manifest.proof?.captureScrip
 score("surface imports dashboard kit", 10, surfacesContain("@hermes/dashboard-kit"));
 score("one-shell primitives present", 8, surfacesContain("DashboardShell") && surfacesContain("DashboardSidebar") && surfacesContain("DashboardHeader"));
 score("operational navigation quality", 10, navigationQuality.passed, navigationQuality.note);
+score("professional shell auth and workspace width", 8, shellVisualQuality.passed, shellVisualQuality.note);
 score("state coverage declared", 6, surfacesContain("DashboardEmptyState") || surfacesContain("VisualizationStateFrame"));
 score("chart/table coverage", 5, surfacesContain("ChartPanel") && surfacesContain("DataTable"));
 score("theme mode present", 5, surfacesContain("data-theme=") || surfacesContain("hdk-theme-scope"));
@@ -100,6 +103,42 @@ function operationalNavigationQuality() {
       missing.length === 0,
     note:
       missing.length ? `Missing sidebar evidence: ${missing.join(", ")}` : "Brand, groups, active state, collapsed labels, footer/status, and mobile behavior found."
+  };
+}
+
+function operationalShellVisualQuality() {
+  const source =
+    (manifest.surfaces ?? [])
+      .map((surface) => {
+        const file = path.join(projectDir, surface.path || "");
+        return fs.existsSync(file) ? fs.readFileSync(file, "utf8") : "";
+      })
+      .join("\n");
+  const looseAuthForm =
+    /class=["'][^"']*\bauth\b/i.test(source) && !/class=["'][^"']*\bauth\b[^"']*\bhdk-session-control\b/i.test(source);
+  const apiTokenInput =
+    source.match(/<input[^>]*id=["']api-token["'][^>]*>|<input(?=[^>]*id=["']api-token["'])[^>]*>/i)?.[0] || "";
+  const looseApiTokenInput =
+    Boolean(apiTokenInput) && !/\bhdk-session-field\b/i.test(apiTokenInput);
+  const checks = {
+    sessionControl:
+      /DashboardSessionControl|hdk-session-control|data-session-state|session control/i.test(source),
+    noLooseAuthForm:
+      !looseAuthForm && !looseApiTokenInput,
+    wideOrFluidWorkspace:
+      /hdk-page-frame--wide|hdk-page-frame--fluid|hdk-page--wide|hdk-route--wide|1680px|fluid canvas|wide bounded canvas/i.test(source)
+  };
+  const missing =
+    Object.entries(checks)
+      .filter(([, passed]) => !passed)
+      .map(([key]) => key);
+  return {
+    passed:
+      missing.length === 0,
+    note:
+      missing.length
+        ? `Missing shell visual evidence: ${missing.join(", ")}`
+        : "Professional session control and density-appropriate workspace width found."
   };
 }
 

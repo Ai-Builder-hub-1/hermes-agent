@@ -1,9 +1,9 @@
 # TLC Operating System Maturity Build Plan
 
-Status: Draft trackable plan  
+Status: Active trackable plan
 Owner: Nous Hermes Agent  
 Scope: TLC Capital Group, Nous Hermes Agent, and all business-unit dashboards/products  
-Last updated: 2026-08-14
+Last updated: 2026-08-15
 
 ## Purpose
 
@@ -59,6 +59,11 @@ Goal: Make standards executable, not just written.
 | P1.4 | No local override policy | not-started | Nous Hermes Agent | Local visual primitive overrides require reason, expiration, proof, and promotion path. |
 | P1.5 | CI/adoption gates | not-started | Fleet | Dependency, shell, route, proof, theme, and visual-selector checks run before promotion/deploy. |
 | P1.6 | Vendor sync enforcement | not-started | Fleet | Projects consume the same dashboard-kit version and report drift automatically. |
+| P1.7 | Central dashboard certification gate | complete | Nous Hermes Agent | `npm run dashboard:certify` generates fleet certification, repair packets, attempt ledger, and blocks `fleet:ship-check` before deployment when false-native or shell/rendered implementation debt exists. |
+| P1.8 | Self-healing repair packet protocol | in-progress | Nous Hermes Agent / Fleet | Certification creates per-project repair packets and rerun commands; next maturity is automated safe repair and retry loops. |
+| P1.9 | Certification repair supervisor | complete | Nous Hermes Agent | `npm run dashboard:certify:repair` classifies failures, creates repair playbooks, separates safe from assisted repairs, and produces a prioritized execution order. |
+| P1.10 | Repair supervisor validation | complete | Nous Hermes Agent | Repair playbooks and supervisor outputs validate with `npm run dashboard:certify:repair:validate:strict`. |
+| P1.11 | Automated repair execution | in-progress | Nous Hermes Agent / Fleet | `npm run dashboard:certify:repair:execute` records safe execution state, queues assisted migrations, and is wired into ship check before the final strict certification gate. |
 
 ### Phase 2: Visual Quality Migration System
 
@@ -202,23 +207,30 @@ The plan is intentionally large. Build in this order:
 
 ## Current Known Baseline
 
-As of the latest strict rendered-implementation audit:
+The older rendered-implementation audit can report a clean source-level baseline, but the stricter dashboard certification gate is now the release authority for dashboard maturity. That gate intentionally checks for false-native claims, hidden marker compliance, nested shell anatomy, static compatibility routes, local visual debt, proof gaps, chart contract gaps, and dev-only tooling leaking into production.
+
+Latest certification baseline:
 
 ```text
 totalProjects: 10
-pass: 10
-findings: 0
-fullyDecomposed: 10
-bridgeAligned: 0
-falseNativeRisk: 0
+certified: 0
+needsReview: 0
+blocked: 10
+falseNativeClaims: 9
+repairPackets: 10
+repairWorkItems: 53
+safeAutofixItems: 0
+assistedRepairItems: 53
 ```
 
-This means the technical compliance baseline is clean. It does not mean every dashboard is visually excellent. The next maturity milestone is visual quality scoring and screenshot-based approval.
+This means the system now has a real pre-deploy enforcement layer. The next maturity milestone is clearing each repair packet until projects are certified by implementation, not only by declaration. The previous "10/10 fully decomposed" audit remains useful as a source scan, but it is no longer sufficient proof that a dashboard is visually, structurally, or package-native complete.
 
 ## Promotion Gates
 
 ### Technical Gate
 
+- Central certification gate passes.
+- Repair packet ledger is empty or only contains approved non-blocking exceptions.
 - Strict rendered-implementation audit passes.
 - No false-native risk.
 - No unapproved local shell/sidebar/card/table/chart/form debt.

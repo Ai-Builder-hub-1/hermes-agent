@@ -1,0 +1,1751 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-15T18:51:38.843Z",
+  "standard": {
+    "name": "Nous Hermes Dashboard Certification Gate",
+    "purpose": "Fail dashboard promotion before deployment when declared package-native/Tier 3 status is not proven by source, manifest, rendered-anatomy, visual-proof, workflow, data, and chart contracts.",
+    "layers": [
+      "central-certification-layer",
+      "rendered-dom-anatomy-validator",
+      "hidden-marker-ban",
+      "component-native-proof",
+      "static-route-retirement",
+      "css-override-budget",
+      "visual-proof-standard",
+      "screenshot-aware-quality-gate",
+      "visual-regression-baselines",
+      "workflow-interaction-tests",
+      "data-ux-contracts",
+      "chart-contract-enforcement",
+      "self-healing-promotion-supervisor",
+      "failure-classifier",
+      "repair-playbooks",
+      "promotion-state-machine",
+      "attempt-ledger",
+      "tool-agnostic-integration",
+      "fleet-enforcement-registry",
+      "tier-claim-approval-gate"
+    ],
+    "promotionStateMachine": [
+      "pending",
+      "preflight",
+      "certifying",
+      "repair-needed",
+      "repairing",
+      "certified",
+      "committed",
+      "deployed",
+      "production-verifying",
+      "verified",
+      "blocked",
+      "rolled-back"
+    ]
+  },
+  "summary": {
+    "totalProjects": 10,
+    "certified": 0,
+    "review": 0,
+    "blocked": 10,
+    "falseNativeClaims": 9,
+    "repairPackets": 10
+  },
+  "projects": [
+    {
+      "project": "khashi-vc",
+      "name": "Kashi VC",
+      "path": "khashi-vc",
+      "declared": {
+        "adoptionMode": "package-native",
+        "implementationMode": "package-built",
+        "targetExperienceTier": 3,
+        "targetExperienceBand": "T3C"
+      },
+      "production": {
+        "url": "https://roc.tlccapitalgroup.com/",
+        "proofUrl": "https://roc.tlccapitalgroup.com/dashboard/proof?view=live-market-intelligence",
+        "healthUrl": "https://roc.tlccapitalgroup.com/readyz",
+        "deploymentProvider": "hetzner"
+      },
+      "verdict": "blocked",
+      "falseNativeClaim": true,
+      "blockers": [
+        {
+          "code": "tier3c.implementationMode",
+          "message": "T3C requires implementationMode package-native, not package-built/runtime/static bridge."
+        },
+        {
+          "code": "falseNative.migrationLanguage",
+          "message": "Package-native/T3C claim conflicts with notes that admit static, bridge, compatibility, planned migration, or local renderer debt."
+        },
+        {
+          "code": "surface.compatibilityClaim",
+          "message": "Compatibility/legacy/bridge UI surface cannot be certified as package-native production surface.",
+          "surface": "roc-shell",
+          "path": "public/roc/index.html"
+        },
+        {
+          "code": "hidden-compliance-marker",
+          "message": "Hidden compliance markers cannot satisfy component-native certification. (4 occurrence(s).)",
+          "surface": "market-intelligence-live",
+          "path": "public/roc/market-intelligence-live.html"
+        },
+        {
+          "code": "local-shell-class",
+          "message": "Primary shell/sidebar/header layout is still controlled by local primitives. (1 occurrence(s).)",
+          "surface": "market-intelligence-live",
+          "path": "public/roc/market-intelligence-live.html"
+        },
+        {
+          "code": "anatomy.secondShellLayout",
+          "message": "Surface has a local .layout grid that can create an inner shell inside the dashboard shell.",
+          "surface": "market-intelligence-live",
+          "path": "public/roc/market-intelligence-live.html"
+        },
+        {
+          "code": "localDebt.excessive",
+          "message": "T3C route has 178 local visual/layout signals; decompose into kit components or register expiring exceptions."
+        }
+      ],
+      "warnings": [
+        {
+          "code": "anatomy.multipleShellMarkers",
+          "message": "Surface has 2 shell markers; confirm exactly one real app shell.",
+          "surface": "roc-shell",
+          "path": "public/roc/index.html"
+        },
+        {
+          "code": "anatomy.multipleSidebarMarkers",
+          "message": "Surface has 2 sidebar markers; confirm exactly one primary sidebar.",
+          "surface": "roc-shell",
+          "path": "public/roc/index.html"
+        },
+        {
+          "code": "raw-svg-or-hand-chart",
+          "message": "Charts need approved dashboard-kit/domain chart components with axis and state contracts. (3 occurrence(s).)",
+          "surface": "market-intelligence-live",
+          "path": "public/roc/market-intelligence-live.html"
+        },
+        {
+          "code": "hardcoded-visual-token",
+          "message": "Local hardcoded visual tokens must be replaced by dashboard-kit tokens or approved exceptions. (170 occurrence(s).)",
+          "surface": "market-intelligence-live",
+          "path": "public/roc/market-intelligence-live.html"
+        },
+        {
+          "code": "anatomy.multipleSidebarMarkers",
+          "message": "Surface has 6 sidebar markers; confirm exactly one primary sidebar.",
+          "surface": "market-intelligence-live",
+          "path": "public/roc/market-intelligence-live.html"
+        }
+      ],
+      "packageAudit": {
+        "packageJsonExists": true,
+        "hasDashboardKitDependency": true,
+        "dependencySpec": "file:vendor/hermes-dashboard-kit"
+      },
+      "proofAudit": {
+        "hasProofConfig": true,
+        "captureScript": "scripts/capture-dashboard-proof.mjs",
+        "playwrightConfig": "playwright.config.mjs",
+        "captureScriptExists": true,
+        "playwrightConfigExists": true
+      },
+      "surfaces": [
+        {
+          "id": "roc-server-primary-route",
+          "path": "src/web/server.ts",
+          "role": "server-route",
+          "status": "package-native",
+          "exists": true,
+          "isUiSurface": false,
+          "bytes": 96318,
+          "evidence": {
+            "shell": false,
+            "sidebar": false,
+            "header": false,
+            "state": false,
+            "table": false,
+            "chart": true,
+            "workflow": false,
+            "directPackageImport": false,
+            "kitCssOnly": true
+          },
+          "localDebt": {
+            "total": 138,
+            "byRule": {
+              "hidden-compliance-marker": 0,
+              "visual-selector-production-risk": 0,
+              "raw-svg-or-hand-chart": 3,
+              "local-shell-class": 2,
+              "hardcoded-visual-token": 133
+            }
+          },
+          "blockers": [],
+          "warnings": []
+        },
+        {
+          "id": "roc-shell",
+          "path": "public/roc/index.html",
+          "role": "compatibility-route",
+          "status": "package-native",
+          "exists": true,
+          "isUiSurface": true,
+          "bytes": 14095,
+          "evidence": {
+            "shell": true,
+            "sidebar": true,
+            "header": true,
+            "state": true,
+            "table": false,
+            "chart": true,
+            "workflow": true,
+            "directPackageImport": false,
+            "kitCssOnly": false
+          },
+          "localDebt": {
+            "total": 0,
+            "byRule": {
+              "hidden-compliance-marker": 0,
+              "visual-selector-production-risk": 0,
+              "raw-svg-or-hand-chart": 0,
+              "local-shell-class": 0,
+              "hardcoded-visual-token": 0
+            }
+          },
+          "blockers": [
+            {
+              "code": "surface.compatibilityClaim",
+              "message": "Compatibility/legacy/bridge UI surface cannot be certified as package-native production surface."
+            }
+          ],
+          "warnings": [
+            {
+              "code": "anatomy.multipleShellMarkers",
+              "message": "Surface has 2 shell markers; confirm exactly one real app shell."
+            },
+            {
+              "code": "anatomy.multipleSidebarMarkers",
+              "message": "Surface has 2 sidebar markers; confirm exactly one primary sidebar."
+            }
+          ]
+        },
+        {
+          "id": "market-intelligence-live",
+          "path": "public/roc/market-intelligence-live.html",
+          "role": "legacy-compatibility-route",
+          "status": "compatibility-review-surface",
+          "exists": true,
+          "isUiSurface": true,
+          "bytes": 65811,
+          "evidence": {
+            "shell": true,
+            "sidebar": true,
+            "header": true,
+            "state": true,
+            "table": true,
+            "chart": true,
+            "workflow": true,
+            "directPackageImport": false,
+            "kitCssOnly": false
+          },
+          "localDebt": {
+            "total": 178,
+            "byRule": {
+              "hidden-compliance-marker": 4,
+              "visual-selector-production-risk": 0,
+              "raw-svg-or-hand-chart": 3,
+              "local-shell-class": 1,
+              "hardcoded-visual-token": 170
+            }
+          },
+          "blockers": [
+            {
+              "code": "hidden-compliance-marker",
+              "message": "Hidden compliance markers cannot satisfy component-native certification. (4 occurrence(s).)"
+            },
+            {
+              "code": "local-shell-class",
+              "message": "Primary shell/sidebar/header layout is still controlled by local primitives. (1 occurrence(s).)"
+            },
+            {
+              "code": "anatomy.secondShellLayout",
+              "message": "Surface has a local .layout grid that can create an inner shell inside the dashboard shell."
+            }
+          ],
+          "warnings": [
+            {
+              "code": "raw-svg-or-hand-chart",
+              "message": "Charts need approved dashboard-kit/domain chart components with axis and state contracts. (3 occurrence(s).)"
+            },
+            {
+              "code": "hardcoded-visual-token",
+              "message": "Local hardcoded visual tokens must be replaced by dashboard-kit tokens or approved exceptions. (170 occurrence(s).)"
+            },
+            {
+              "code": "anatomy.multipleSidebarMarkers",
+              "message": "Surface has 6 sidebar markers; confirm exactly one primary sidebar."
+            }
+          ]
+        }
+      ],
+      "repairPacket": {
+        "id": "khashi-vc.repair.2026-08-15",
+        "project": "khashi-vc",
+        "verdict": "blocked",
+        "priority": "blocking",
+        "actions": [
+          "Correct the manifest to separate declared target from certified state, or complete the package-native migration before claiming T3C.",
+          "Restructure the production route so DashboardShell has one direct sidebar child and one direct main child; move headers inside the main pane.",
+          "Demote compatibility/static routes to dev-review or redirect status and register the real package-native operator route.",
+          "Remove hidden compliance markers and replace them with rendered kit components or direct package imports.",
+          "Replace local visual primitives with dashboard-kit component variants or create an expiring governance exception."
+        ],
+        "affectedSurfaces": [
+          {
+            "id": "roc-shell",
+            "path": "public/roc/index.html",
+            "blockers": 1,
+            "warnings": 2
+          },
+          {
+            "id": "market-intelligence-live",
+            "path": "public/roc/market-intelligence-live.html",
+            "blockers": 3,
+            "warnings": 3
+          }
+        ],
+        "rerun": "npm run dashboard:certify:strict"
+      }
+    },
+    {
+      "project": "media-engine",
+      "name": "Media Engine",
+      "path": "media-engine",
+      "declared": {
+        "adoptionMode": "package-native",
+        "implementationMode": "package-native",
+        "targetExperienceTier": 3,
+        "targetExperienceBand": "T3C"
+      },
+      "production": {
+        "url": "https://media.tlccapitalgroup.com/dashboard",
+        "proofUrl": "https://media.tlccapitalgroup.com/dashboard/proof",
+        "healthUrl": "https://media.tlccapitalgroup.com/health",
+        "deploymentProvider": "hetzner"
+      },
+      "verdict": "blocked",
+      "falseNativeClaim": false,
+      "blockers": [
+        {
+          "code": "localDebt.excessive",
+          "message": "T3C route has 125 local visual/layout signals; decompose into kit components or register expiring exceptions."
+        }
+      ],
+      "warnings": [
+        {
+          "code": "raw-svg-or-hand-chart",
+          "message": "Charts need approved dashboard-kit/domain chart components with axis and state contracts. (2 occurrence(s).)",
+          "surface": "media-engine-ops-active",
+          "path": "core/operations/unified-publishing-dashboard.js"
+        },
+        {
+          "code": "hardcoded-visual-token",
+          "message": "Local hardcoded visual tokens must be replaced by dashboard-kit tokens or approved exceptions. (123 occurrence(s).)",
+          "surface": "media-engine-ops-active",
+          "path": "core/operations/unified-publishing-dashboard.js"
+        }
+      ],
+      "packageAudit": {
+        "packageJsonExists": true,
+        "hasDashboardKitDependency": true,
+        "dependencySpec": "file:vendor/hermes-dashboard-kit"
+      },
+      "proofAudit": {
+        "hasProofConfig": true,
+        "captureScript": "tasks/capture-dashboard-proof.js",
+        "playwrightConfig": "playwright.config.mjs",
+        "captureScriptExists": true,
+        "playwrightConfigExists": true
+      },
+      "surfaces": [
+        {
+          "id": "media-engine-ops-active",
+          "path": "core/operations/unified-publishing-dashboard.js",
+          "role": "ui",
+          "status": "production",
+          "exists": true,
+          "isUiSurface": true,
+          "bytes": 200351,
+          "evidence": {
+            "shell": true,
+            "sidebar": true,
+            "header": true,
+            "state": true,
+            "table": true,
+            "chart": true,
+            "workflow": true,
+            "directPackageImport": true,
+            "kitCssOnly": false
+          },
+          "localDebt": {
+            "total": 125,
+            "byRule": {
+              "hidden-compliance-marker": 0,
+              "visual-selector-production-risk": 0,
+              "raw-svg-or-hand-chart": 2,
+              "local-shell-class": 0,
+              "hardcoded-visual-token": 123
+            }
+          },
+          "blockers": [],
+          "warnings": [
+            {
+              "code": "raw-svg-or-hand-chart",
+              "message": "Charts need approved dashboard-kit/domain chart components with axis and state contracts. (2 occurrence(s).)"
+            },
+            {
+              "code": "hardcoded-visual-token",
+              "message": "Local hardcoded visual tokens must be replaced by dashboard-kit tokens or approved exceptions. (123 occurrence(s).)"
+            }
+          ]
+        }
+      ],
+      "repairPacket": {
+        "id": "media-engine.repair.2026-08-15",
+        "project": "media-engine",
+        "verdict": "blocked",
+        "priority": "blocking",
+        "actions": [
+          "Replace local visual primitives with dashboard-kit component variants or create an expiring governance exception."
+        ],
+        "affectedSurfaces": [
+          {
+            "id": "media-engine-ops-active",
+            "path": "core/operations/unified-publishing-dashboard.js",
+            "blockers": 0,
+            "warnings": 2
+          }
+        ],
+        "rerun": "npm run dashboard:certify:strict"
+      }
+    },
+    {
+      "project": "media-business-os",
+      "name": "Media Business OS",
+      "path": "media-business-operations",
+      "declared": {
+        "adoptionMode": "package-native",
+        "implementationMode": "package-native",
+        "targetExperienceTier": 3,
+        "targetExperienceBand": "T3C"
+      },
+      "production": {
+        "url": "https://media-business-operations.tlccapitalgroup.com/dashboard",
+        "proofUrl": "https://media-business-operations.tlccapitalgroup.com/dashboard/proof",
+        "healthUrl": "https://media-business-operations.tlccapitalgroup.com/health",
+        "deploymentProvider": "hetzner"
+      },
+      "verdict": "blocked",
+      "falseNativeClaim": true,
+      "blockers": [
+        {
+          "code": "falseNative.migrationLanguage",
+          "message": "Package-native/T3C claim conflicts with notes that admit static, bridge, compatibility, planned migration, or local renderer debt."
+        },
+        {
+          "code": "hidden-compliance-marker",
+          "message": "Hidden compliance markers cannot satisfy component-native certification. (3 occurrence(s).)",
+          "surface": "media-business-renderer",
+          "path": "public/dashboard/app.js"
+        }
+      ],
+      "warnings": [
+        {
+          "code": "anatomy.multipleSidebarMarkers",
+          "message": "Surface has 7 sidebar markers; confirm exactly one primary sidebar.",
+          "surface": "media-business-main",
+          "path": "public/dashboard/index.html"
+        },
+        {
+          "code": "anatomy.multipleSidebarMarkers",
+          "message": "Surface has 6 sidebar markers; confirm exactly one primary sidebar.",
+          "surface": "media-business-renderer",
+          "path": "public/dashboard/app.js"
+        }
+      ],
+      "packageAudit": {
+        "packageJsonExists": true,
+        "hasDashboardKitDependency": true,
+        "dependencySpec": "file:vendor/hermes-dashboard-kit"
+      },
+      "proofAudit": {
+        "hasProofConfig": true,
+        "captureScript": "scripts/capture-dashboard-proof.mjs",
+        "playwrightConfig": "playwright.config.mjs",
+        "captureScriptExists": true,
+        "playwrightConfigExists": true
+      },
+      "surfaces": [
+        {
+          "id": "media-business-main",
+          "path": "public/dashboard/index.html",
+          "role": "ui",
+          "status": "package-runtime-bridge",
+          "exists": true,
+          "isUiSurface": true,
+          "bytes": 6254,
+          "evidence": {
+            "shell": true,
+            "sidebar": true,
+            "header": true,
+            "state": true,
+            "table": false,
+            "chart": false,
+            "workflow": false,
+            "directPackageImport": false,
+            "kitCssOnly": false
+          },
+          "localDebt": {
+            "total": 0,
+            "byRule": {
+              "hidden-compliance-marker": 0,
+              "visual-selector-production-risk": 0,
+              "raw-svg-or-hand-chart": 0,
+              "local-shell-class": 0,
+              "hardcoded-visual-token": 0
+            }
+          },
+          "blockers": [],
+          "warnings": [
+            {
+              "code": "anatomy.multipleSidebarMarkers",
+              "message": "Surface has 7 sidebar markers; confirm exactly one primary sidebar."
+            }
+          ]
+        },
+        {
+          "id": "media-business-renderer",
+          "path": "public/dashboard/app.js",
+          "role": "ui",
+          "status": "package-runtime-bridge",
+          "exists": true,
+          "isUiSurface": true,
+          "bytes": 149440,
+          "evidence": {
+            "shell": false,
+            "sidebar": true,
+            "header": true,
+            "state": true,
+            "table": true,
+            "chart": true,
+            "workflow": true,
+            "directPackageImport": false,
+            "kitCssOnly": false
+          },
+          "localDebt": {
+            "total": 3,
+            "byRule": {
+              "hidden-compliance-marker": 3,
+              "visual-selector-production-risk": 0,
+              "raw-svg-or-hand-chart": 0,
+              "local-shell-class": 0,
+              "hardcoded-visual-token": 0
+            }
+          },
+          "blockers": [
+            {
+              "code": "hidden-compliance-marker",
+              "message": "Hidden compliance markers cannot satisfy component-native certification. (3 occurrence(s).)"
+            }
+          ],
+          "warnings": [
+            {
+              "code": "anatomy.multipleSidebarMarkers",
+              "message": "Surface has 6 sidebar markers; confirm exactly one primary sidebar."
+            }
+          ]
+        }
+      ],
+      "repairPacket": {
+        "id": "media-business-os.repair.2026-08-15",
+        "project": "media-business-os",
+        "verdict": "blocked",
+        "priority": "blocking",
+        "actions": [
+          "Correct the manifest to separate declared target from certified state, or complete the package-native migration before claiming T3C.",
+          "Remove hidden compliance markers and replace them with rendered kit components or direct package imports."
+        ],
+        "affectedSurfaces": [
+          {
+            "id": "media-business-main",
+            "path": "public/dashboard/index.html",
+            "blockers": 0,
+            "warnings": 1
+          },
+          {
+            "id": "media-business-renderer",
+            "path": "public/dashboard/app.js",
+            "blockers": 1,
+            "warnings": 1
+          }
+        ],
+        "rerun": "npm run dashboard:certify:strict"
+      }
+    },
+    {
+      "project": "business-mapper",
+      "name": "Business Mapper",
+      "path": "business-mapper",
+      "declared": {
+        "adoptionMode": "package-native",
+        "implementationMode": "package-native",
+        "targetExperienceTier": 3,
+        "targetExperienceBand": "T3C"
+      },
+      "production": {
+        "url": "https://business-mapper.tlccapitalgroup.com/dashboard",
+        "proofUrl": "https://business-mapper.tlccapitalgroup.com/dashboard/proof",
+        "healthUrl": "https://business-mapper.tlccapitalgroup.com/health",
+        "deploymentProvider": "hetzner"
+      },
+      "verdict": "blocked",
+      "falseNativeClaim": true,
+      "blockers": [
+        {
+          "code": "falseNative.migrationLanguage",
+          "message": "Package-native/T3C claim conflicts with notes that admit static, bridge, compatibility, planned migration, or local renderer debt."
+        },
+        {
+          "code": "hidden-compliance-marker",
+          "message": "Hidden compliance markers cannot satisfy component-native certification. (5 occurrence(s).)",
+          "surface": "business-mapper-workspace",
+          "path": "business_mapper/static/index.html"
+        },
+        {
+          "code": "anatomy.secondShellLayout",
+          "message": "Surface has a local .layout grid that can create an inner shell inside the dashboard shell.",
+          "surface": "business-mapper-workspace",
+          "path": "business_mapper/static/index.html"
+        }
+      ],
+      "warnings": [
+        {
+          "code": "anatomy.multipleSidebarMarkers",
+          "message": "Surface has 2 sidebar markers; confirm exactly one primary sidebar.",
+          "surface": "business-mapper-workspace",
+          "path": "business_mapper/static/index.html"
+        }
+      ],
+      "packageAudit": {
+        "packageJsonExists": true,
+        "hasDashboardKitDependency": true,
+        "dependencySpec": "file:vendor/hermes-dashboard-kit"
+      },
+      "proofAudit": {
+        "hasProofConfig": true,
+        "captureScript": "scripts/capture-dashboard-proof.mjs",
+        "playwrightConfig": "playwright.config.mjs",
+        "captureScriptExists": true,
+        "playwrightConfigExists": true
+      },
+      "surfaces": [
+        {
+          "id": "business-mapper-workspace",
+          "path": "business_mapper/static/index.html",
+          "role": "ui",
+          "status": "package-native",
+          "exists": true,
+          "isUiSurface": true,
+          "bytes": 13034,
+          "evidence": {
+            "shell": true,
+            "sidebar": true,
+            "header": true,
+            "state": true,
+            "table": true,
+            "chart": true,
+            "workflow": true,
+            "directPackageImport": false,
+            "kitCssOnly": false
+          },
+          "localDebt": {
+            "total": 5,
+            "byRule": {
+              "hidden-compliance-marker": 5,
+              "visual-selector-production-risk": 0,
+              "raw-svg-or-hand-chart": 0,
+              "local-shell-class": 0,
+              "hardcoded-visual-token": 0
+            }
+          },
+          "blockers": [
+            {
+              "code": "hidden-compliance-marker",
+              "message": "Hidden compliance markers cannot satisfy component-native certification. (5 occurrence(s).)"
+            },
+            {
+              "code": "anatomy.secondShellLayout",
+              "message": "Surface has a local .layout grid that can create an inner shell inside the dashboard shell."
+            }
+          ],
+          "warnings": [
+            {
+              "code": "anatomy.multipleSidebarMarkers",
+              "message": "Surface has 2 sidebar markers; confirm exactly one primary sidebar."
+            }
+          ]
+        }
+      ],
+      "repairPacket": {
+        "id": "business-mapper.repair.2026-08-15",
+        "project": "business-mapper",
+        "verdict": "blocked",
+        "priority": "blocking",
+        "actions": [
+          "Correct the manifest to separate declared target from certified state, or complete the package-native migration before claiming T3C.",
+          "Restructure the production route so DashboardShell has one direct sidebar child and one direct main child; move headers inside the main pane.",
+          "Remove hidden compliance markers and replace them with rendered kit components or direct package imports."
+        ],
+        "affectedSurfaces": [
+          {
+            "id": "business-mapper-workspace",
+            "path": "business_mapper/static/index.html",
+            "blockers": 2,
+            "warnings": 1
+          }
+        ],
+        "rerun": "npm run dashboard:certify:strict"
+      }
+    },
+    {
+      "project": "meal-assistant",
+      "name": "Meal Assistant",
+      "path": "Meal-assistant",
+      "declared": {
+        "adoptionMode": "package-native",
+        "implementationMode": "package-native",
+        "targetExperienceTier": 3,
+        "targetExperienceBand": "T3C"
+      },
+      "production": {
+        "url": "https://meal.tlccapitalgroup.com/",
+        "proofUrl": "https://meal.tlccapitalgroup.com/dashboard/proof",
+        "healthUrl": "https://meal.tlccapitalgroup.com/health",
+        "deploymentProvider": "hetzner"
+      },
+      "verdict": "blocked",
+      "falseNativeClaim": true,
+      "blockers": [
+        {
+          "code": "falseNative.migrationLanguage",
+          "message": "Package-native/T3C claim conflicts with notes that admit static, bridge, compatibility, planned migration, or local renderer debt."
+        },
+        {
+          "code": "localDebt.excessive",
+          "message": "T3C route has 334 local visual/layout signals; decompose into kit components or register expiring exceptions."
+        }
+      ],
+      "warnings": [
+        {
+          "code": "hardcoded-visual-token",
+          "message": "Local hardcoded visual tokens must be replaced by dashboard-kit tokens or approved exceptions. (334 occurrence(s).)",
+          "surface": "meal-dashboard-shell",
+          "path": "src/server.js"
+        },
+        {
+          "code": "anatomy.multipleShellMarkers",
+          "message": "Surface has 5 shell markers; confirm exactly one real app shell.",
+          "surface": "meal-dashboard-shell",
+          "path": "src/server.js"
+        },
+        {
+          "code": "anatomy.multipleSidebarMarkers",
+          "message": "Surface has 6 sidebar markers; confirm exactly one primary sidebar.",
+          "surface": "meal-dashboard-shell",
+          "path": "src/server.js"
+        }
+      ],
+      "packageAudit": {
+        "packageJsonExists": true,
+        "hasDashboardKitDependency": true,
+        "dependencySpec": "file:vendor/hermes-dashboard-kit"
+      },
+      "proofAudit": {
+        "hasProofConfig": true,
+        "captureScript": "scripts/capture-dashboard-proof.mjs",
+        "playwrightConfig": "playwright.config.mjs",
+        "captureScriptExists": true,
+        "playwrightConfigExists": true
+      },
+      "surfaces": [
+        {
+          "id": "meal-dashboard-shell",
+          "path": "src/server.js",
+          "role": "ui",
+          "status": "package-native",
+          "exists": true,
+          "isUiSurface": true,
+          "bytes": 152977,
+          "evidence": {
+            "shell": true,
+            "sidebar": true,
+            "header": true,
+            "state": true,
+            "table": true,
+            "chart": true,
+            "workflow": true,
+            "directPackageImport": true,
+            "kitCssOnly": false
+          },
+          "localDebt": {
+            "total": 334,
+            "byRule": {
+              "hidden-compliance-marker": 0,
+              "visual-selector-production-risk": 0,
+              "raw-svg-or-hand-chart": 0,
+              "local-shell-class": 0,
+              "hardcoded-visual-token": 334
+            }
+          },
+          "blockers": [],
+          "warnings": [
+            {
+              "code": "hardcoded-visual-token",
+              "message": "Local hardcoded visual tokens must be replaced by dashboard-kit tokens or approved exceptions. (334 occurrence(s).)"
+            },
+            {
+              "code": "anatomy.multipleShellMarkers",
+              "message": "Surface has 5 shell markers; confirm exactly one real app shell."
+            },
+            {
+              "code": "anatomy.multipleSidebarMarkers",
+              "message": "Surface has 6 sidebar markers; confirm exactly one primary sidebar."
+            }
+          ]
+        }
+      ],
+      "repairPacket": {
+        "id": "meal-assistant.repair.2026-08-15",
+        "project": "meal-assistant",
+        "verdict": "blocked",
+        "priority": "blocking",
+        "actions": [
+          "Correct the manifest to separate declared target from certified state, or complete the package-native migration before claiming T3C.",
+          "Replace local visual primitives with dashboard-kit component variants or create an expiring governance exception."
+        ],
+        "affectedSurfaces": [
+          {
+            "id": "meal-dashboard-shell",
+            "path": "src/server.js",
+            "blockers": 0,
+            "warnings": 3
+          }
+        ],
+        "rerun": "npm run dashboard:certify:strict"
+      }
+    },
+    {
+      "project": "hermes-os",
+      "name": "Hermes OS",
+      "path": "hermes",
+      "declared": {
+        "adoptionMode": "package-native",
+        "implementationMode": "package-native",
+        "targetExperienceTier": 3,
+        "targetExperienceBand": "T3C"
+      },
+      "production": {
+        "url": "https://hermes.tlccapitalgroup.com/",
+        "proofUrl": "https://hermes.tlccapitalgroup.com/dashboard/proof",
+        "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+        "deploymentProvider": "hetzner"
+      },
+      "verdict": "blocked",
+      "falseNativeClaim": true,
+      "blockers": [
+        {
+          "code": "falseNative.migrationLanguage",
+          "message": "Package-native/T3C claim conflicts with notes that admit static, bridge, compatibility, planned migration, or local renderer debt."
+        },
+        {
+          "code": "hidden-compliance-marker",
+          "message": "Hidden compliance markers cannot satisfy component-native certification. (5 occurrence(s).)",
+          "surface": "hermes-dashboard-hub",
+          "path": "src/workspace/workspace-server.ts"
+        },
+        {
+          "code": "hidden-compliance-marker",
+          "message": "Hidden compliance markers cannot satisfy component-native certification. (5 occurrence(s).)",
+          "surface": "hermes-operator-dashboard-artifact",
+          "path": "src/operator/operator-state.ts"
+        },
+        {
+          "code": "surface.compatibilityClaim",
+          "message": "Compatibility/legacy/bridge UI surface cannot be certified as package-native production surface.",
+          "surface": "hermes-control-plane-artifact",
+          "path": "src/operator/control-plane.ts"
+        },
+        {
+          "code": "hidden-compliance-marker",
+          "message": "Hidden compliance markers cannot satisfy component-native certification. (5 occurrence(s).)",
+          "surface": "hermes-control-plane-artifact",
+          "path": "src/operator/control-plane.ts"
+        },
+        {
+          "code": "localDebt.excessive",
+          "message": "T3C route has 356 local visual/layout signals; decompose into kit components or register expiring exceptions."
+        }
+      ],
+      "warnings": [
+        {
+          "code": "hardcoded-visual-token",
+          "message": "Local hardcoded visual tokens must be replaced by dashboard-kit tokens or approved exceptions. (310 occurrence(s).)",
+          "surface": "hermes-dashboard-hub",
+          "path": "src/workspace/workspace-server.ts"
+        },
+        {
+          "code": "anatomy.multipleShellMarkers",
+          "message": "Surface has 3 shell markers; confirm exactly one real app shell.",
+          "surface": "hermes-dashboard-hub",
+          "path": "src/workspace/workspace-server.ts"
+        },
+        {
+          "code": "hardcoded-visual-token",
+          "message": "Local hardcoded visual tokens must be replaced by dashboard-kit tokens or approved exceptions. (22 occurrence(s).)",
+          "surface": "hermes-operator-dashboard-artifact",
+          "path": "src/operator/operator-state.ts"
+        },
+        {
+          "code": "anatomy.multipleShellMarkers",
+          "message": "Surface has 2 shell markers; confirm exactly one real app shell.",
+          "surface": "hermes-operator-dashboard-artifact",
+          "path": "src/operator/operator-state.ts"
+        },
+        {
+          "code": "hardcoded-visual-token",
+          "message": "Local hardcoded visual tokens must be replaced by dashboard-kit tokens or approved exceptions. (9 occurrence(s).)",
+          "surface": "hermes-control-plane-artifact",
+          "path": "src/operator/control-plane.ts"
+        },
+        {
+          "code": "anatomy.multipleShellMarkers",
+          "message": "Surface has 2 shell markers; confirm exactly one real app shell.",
+          "surface": "hermes-control-plane-artifact",
+          "path": "src/operator/control-plane.ts"
+        }
+      ],
+      "packageAudit": {
+        "packageJsonExists": true,
+        "hasDashboardKitDependency": true,
+        "dependencySpec": "file:vendor/hermes-dashboard-kit"
+      },
+      "proofAudit": {
+        "hasProofConfig": true,
+        "captureScript": "scripts/capture-dashboard-proof.mjs",
+        "playwrightConfig": "playwright.config.mjs",
+        "captureScriptExists": true,
+        "playwrightConfigExists": true
+      },
+      "surfaces": [
+        {
+          "id": "hermes-dashboard-hub",
+          "path": "src/workspace/workspace-server.ts",
+          "role": "ui",
+          "status": "package-native",
+          "exists": true,
+          "isUiSurface": true,
+          "bytes": 384065,
+          "evidence": {
+            "shell": true,
+            "sidebar": true,
+            "header": true,
+            "state": true,
+            "table": true,
+            "chart": true,
+            "workflow": true,
+            "directPackageImport": false,
+            "kitCssOnly": false
+          },
+          "localDebt": {
+            "total": 315,
+            "byRule": {
+              "hidden-compliance-marker": 5,
+              "visual-selector-production-risk": 0,
+              "raw-svg-or-hand-chart": 0,
+              "local-shell-class": 0,
+              "hardcoded-visual-token": 310
+            }
+          },
+          "blockers": [
+            {
+              "code": "hidden-compliance-marker",
+              "message": "Hidden compliance markers cannot satisfy component-native certification. (5 occurrence(s).)"
+            }
+          ],
+          "warnings": [
+            {
+              "code": "hardcoded-visual-token",
+              "message": "Local hardcoded visual tokens must be replaced by dashboard-kit tokens or approved exceptions. (310 occurrence(s).)"
+            },
+            {
+              "code": "anatomy.multipleShellMarkers",
+              "message": "Surface has 3 shell markers; confirm exactly one real app shell."
+            }
+          ]
+        },
+        {
+          "id": "hermes-operator-dashboard-artifact",
+          "path": "src/operator/operator-state.ts",
+          "role": "ui",
+          "status": "package-native",
+          "exists": true,
+          "isUiSurface": true,
+          "bytes": 19457,
+          "evidence": {
+            "shell": true,
+            "sidebar": true,
+            "header": true,
+            "state": true,
+            "table": true,
+            "chart": true,
+            "workflow": true,
+            "directPackageImport": false,
+            "kitCssOnly": false
+          },
+          "localDebt": {
+            "total": 27,
+            "byRule": {
+              "hidden-compliance-marker": 5,
+              "visual-selector-production-risk": 0,
+              "raw-svg-or-hand-chart": 0,
+              "local-shell-class": 0,
+              "hardcoded-visual-token": 22
+            }
+          },
+          "blockers": [
+            {
+              "code": "hidden-compliance-marker",
+              "message": "Hidden compliance markers cannot satisfy component-native certification. (5 occurrence(s).)"
+            }
+          ],
+          "warnings": [
+            {
+              "code": "hardcoded-visual-token",
+              "message": "Local hardcoded visual tokens must be replaced by dashboard-kit tokens or approved exceptions. (22 occurrence(s).)"
+            },
+            {
+              "code": "anatomy.multipleShellMarkers",
+              "message": "Surface has 2 shell markers; confirm exactly one real app shell."
+            }
+          ]
+        },
+        {
+          "id": "hermes-control-plane-artifact",
+          "path": "src/operator/control-plane.ts",
+          "role": "ui",
+          "status": "package-native",
+          "exists": true,
+          "isUiSurface": true,
+          "bytes": 27199,
+          "evidence": {
+            "shell": true,
+            "sidebar": true,
+            "header": true,
+            "state": true,
+            "table": true,
+            "chart": true,
+            "workflow": true,
+            "directPackageImport": false,
+            "kitCssOnly": false
+          },
+          "localDebt": {
+            "total": 14,
+            "byRule": {
+              "hidden-compliance-marker": 5,
+              "visual-selector-production-risk": 0,
+              "raw-svg-or-hand-chart": 0,
+              "local-shell-class": 0,
+              "hardcoded-visual-token": 9
+            }
+          },
+          "blockers": [
+            {
+              "code": "surface.compatibilityClaim",
+              "message": "Compatibility/legacy/bridge UI surface cannot be certified as package-native production surface."
+            },
+            {
+              "code": "hidden-compliance-marker",
+              "message": "Hidden compliance markers cannot satisfy component-native certification. (5 occurrence(s).)"
+            }
+          ],
+          "warnings": [
+            {
+              "code": "hardcoded-visual-token",
+              "message": "Local hardcoded visual tokens must be replaced by dashboard-kit tokens or approved exceptions. (9 occurrence(s).)"
+            },
+            {
+              "code": "anatomy.multipleShellMarkers",
+              "message": "Surface has 2 shell markers; confirm exactly one real app shell."
+            }
+          ]
+        }
+      ],
+      "repairPacket": {
+        "id": "hermes-os.repair.2026-08-15",
+        "project": "hermes-os",
+        "verdict": "blocked",
+        "priority": "blocking",
+        "actions": [
+          "Correct the manifest to separate declared target from certified state, or complete the package-native migration before claiming T3C.",
+          "Demote compatibility/static routes to dev-review or redirect status and register the real package-native operator route.",
+          "Remove hidden compliance markers and replace them with rendered kit components or direct package imports.",
+          "Replace local visual primitives with dashboard-kit component variants or create an expiring governance exception."
+        ],
+        "affectedSurfaces": [
+          {
+            "id": "hermes-dashboard-hub",
+            "path": "src/workspace/workspace-server.ts",
+            "blockers": 1,
+            "warnings": 2
+          },
+          {
+            "id": "hermes-operator-dashboard-artifact",
+            "path": "src/operator/operator-state.ts",
+            "blockers": 1,
+            "warnings": 2
+          },
+          {
+            "id": "hermes-control-plane-artifact",
+            "path": "src/operator/control-plane.ts",
+            "blockers": 2,
+            "warnings": 2
+          }
+        ],
+        "rerun": "npm run dashboard:certify:strict"
+      }
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "name": "TLC Capital Group OS",
+      "path": "tlc-capital-group-os",
+      "declared": {
+        "adoptionMode": "package-native",
+        "implementationMode": "package-native",
+        "targetExperienceTier": 3,
+        "targetExperienceBand": "T3C"
+      },
+      "production": {
+        "url": "https://tlc.tlccapitalgroup.com/dashboard",
+        "proofUrl": "https://tlc.tlccapitalgroup.com/dashboard/proof",
+        "healthUrl": "https://tlc.tlccapitalgroup.com/health",
+        "deploymentProvider": "hetzner"
+      },
+      "verdict": "blocked",
+      "falseNativeClaim": true,
+      "blockers": [
+        {
+          "code": "falseNative.migrationLanguage",
+          "message": "Package-native/T3C claim conflicts with notes that admit static, bridge, compatibility, planned migration, or local renderer debt."
+        },
+        {
+          "code": "hidden-compliance-marker",
+          "message": "Hidden compliance markers cannot satisfy component-native certification. (6 occurrence(s).)",
+          "surface": "tlc-dashboard-shell",
+          "path": "public/dashboard/index.html"
+        },
+        {
+          "code": "anatomy.secondShellLayout",
+          "message": "Surface has a local .layout grid that can create an inner shell inside the dashboard shell.",
+          "surface": "tlc-dashboard-shell",
+          "path": "public/dashboard/index.html"
+        }
+      ],
+      "warnings": [],
+      "packageAudit": {
+        "packageJsonExists": true,
+        "hasDashboardKitDependency": true,
+        "dependencySpec": "file:vendor/hermes-dashboard-kit"
+      },
+      "proofAudit": {
+        "hasProofConfig": true,
+        "captureScript": "scripts/capture-dashboard-proof.mjs",
+        "playwrightConfig": "playwright.config.mjs",
+        "captureScriptExists": true,
+        "playwrightConfigExists": true
+      },
+      "surfaces": [
+        {
+          "id": "tlc-dashboard-shell",
+          "path": "public/dashboard/index.html",
+          "role": "ui",
+          "status": "package-native",
+          "exists": true,
+          "isUiSurface": true,
+          "bytes": 28160,
+          "evidence": {
+            "shell": true,
+            "sidebar": true,
+            "header": true,
+            "state": true,
+            "table": true,
+            "chart": true,
+            "workflow": true,
+            "directPackageImport": false,
+            "kitCssOnly": false
+          },
+          "localDebt": {
+            "total": 6,
+            "byRule": {
+              "hidden-compliance-marker": 6,
+              "visual-selector-production-risk": 0,
+              "raw-svg-or-hand-chart": 0,
+              "local-shell-class": 0,
+              "hardcoded-visual-token": 0
+            }
+          },
+          "blockers": [
+            {
+              "code": "hidden-compliance-marker",
+              "message": "Hidden compliance markers cannot satisfy component-native certification. (6 occurrence(s).)"
+            },
+            {
+              "code": "anatomy.secondShellLayout",
+              "message": "Surface has a local .layout grid that can create an inner shell inside the dashboard shell."
+            }
+          ],
+          "warnings": []
+        },
+        {
+          "id": "tlc-dashboard-api",
+          "path": "src/api.js",
+          "role": "api",
+          "status": "package-native",
+          "exists": true,
+          "isUiSurface": false,
+          "bytes": 79280,
+          "evidence": {
+            "shell": true,
+            "sidebar": true,
+            "header": true,
+            "state": true,
+            "table": false,
+            "chart": false,
+            "workflow": false,
+            "directPackageImport": false,
+            "kitCssOnly": false
+          },
+          "localDebt": {
+            "total": 0,
+            "byRule": {
+              "hidden-compliance-marker": 0,
+              "visual-selector-production-risk": 0,
+              "raw-svg-or-hand-chart": 0,
+              "local-shell-class": 0,
+              "hardcoded-visual-token": 0
+            }
+          },
+          "blockers": [],
+          "warnings": []
+        },
+        {
+          "id": "tlc-dashboard-models",
+          "path": "src/dashboards.js",
+          "role": "data-contract",
+          "status": "package-native",
+          "exists": true,
+          "isUiSurface": false,
+          "bytes": 37369,
+          "evidence": {
+            "shell": true,
+            "sidebar": true,
+            "header": true,
+            "state": true,
+            "table": false,
+            "chart": false,
+            "workflow": false,
+            "directPackageImport": false,
+            "kitCssOnly": false
+          },
+          "localDebt": {
+            "total": 0,
+            "byRule": {
+              "hidden-compliance-marker": 0,
+              "visual-selector-production-risk": 0,
+              "raw-svg-or-hand-chart": 0,
+              "local-shell-class": 0,
+              "hardcoded-visual-token": 0
+            }
+          },
+          "blockers": [],
+          "warnings": []
+        }
+      ],
+      "repairPacket": {
+        "id": "tlc-capital-group-os.repair.2026-08-15",
+        "project": "tlc-capital-group-os",
+        "verdict": "blocked",
+        "priority": "blocking",
+        "actions": [
+          "Correct the manifest to separate declared target from certified state, or complete the package-native migration before claiming T3C.",
+          "Restructure the production route so DashboardShell has one direct sidebar child and one direct main child; move headers inside the main pane.",
+          "Remove hidden compliance markers and replace them with rendered kit components or direct package imports."
+        ],
+        "affectedSurfaces": [
+          {
+            "id": "tlc-dashboard-shell",
+            "path": "public/dashboard/index.html",
+            "blockers": 2,
+            "warnings": 0
+          }
+        ],
+        "rerun": "npm run dashboard:certify:strict"
+      }
+    },
+    {
+      "project": "rinseables-os",
+      "name": "Rinseables OS",
+      "path": "rinseables-os",
+      "declared": {
+        "adoptionMode": "package-native",
+        "implementationMode": "package-native",
+        "targetExperienceTier": 3,
+        "targetExperienceBand": "T3C"
+      },
+      "production": {
+        "url": "https://rinseables.tlccapitalgroup.com",
+        "proofUrl": "https://rinseables.tlccapitalgroup.com/dashboard/proof",
+        "healthUrl": "https://rinseables.tlccapitalgroup.com/health",
+        "deploymentProvider": "hetzner"
+      },
+      "verdict": "blocked",
+      "falseNativeClaim": true,
+      "blockers": [
+        {
+          "code": "falseNative.migrationLanguage",
+          "message": "Package-native/T3C claim conflicts with notes that admit static, bridge, compatibility, planned migration, or local renderer debt."
+        },
+        {
+          "code": "surface.compatibilityClaim",
+          "message": "Compatibility/legacy/bridge UI surface cannot be certified as package-native production surface.",
+          "surface": "rinseables-dashboard-shell",
+          "path": "public/dashboard/index.html"
+        },
+        {
+          "code": "hidden-compliance-marker",
+          "message": "Hidden compliance markers cannot satisfy component-native certification. (6 occurrence(s).)",
+          "surface": "rinseables-dashboard-shell",
+          "path": "public/dashboard/index.html"
+        },
+        {
+          "code": "anatomy.secondShellLayout",
+          "message": "Surface has a local .layout grid that can create an inner shell inside the dashboard shell.",
+          "surface": "rinseables-dashboard-shell",
+          "path": "public/dashboard/index.html"
+        }
+      ],
+      "warnings": [],
+      "packageAudit": {
+        "packageJsonExists": true,
+        "hasDashboardKitDependency": true,
+        "dependencySpec": "file:vendor/hermes-dashboard-kit"
+      },
+      "proofAudit": {
+        "hasProofConfig": true,
+        "captureScript": "scripts/capture-dashboard-proof.mjs",
+        "playwrightConfig": "playwright.config.mjs",
+        "captureScriptExists": true,
+        "playwrightConfigExists": true
+      },
+      "surfaces": [
+        {
+          "id": "rinseables-dashboard-shell",
+          "path": "public/dashboard/index.html",
+          "role": "compatibility",
+          "status": "package-native",
+          "exists": true,
+          "isUiSurface": true,
+          "bytes": 3789,
+          "evidence": {
+            "shell": true,
+            "sidebar": true,
+            "header": true,
+            "state": true,
+            "table": true,
+            "chart": true,
+            "workflow": true,
+            "directPackageImport": false,
+            "kitCssOnly": false
+          },
+          "localDebt": {
+            "total": 6,
+            "byRule": {
+              "hidden-compliance-marker": 6,
+              "visual-selector-production-risk": 0,
+              "raw-svg-or-hand-chart": 0,
+              "local-shell-class": 0,
+              "hardcoded-visual-token": 0
+            }
+          },
+          "blockers": [
+            {
+              "code": "surface.compatibilityClaim",
+              "message": "Compatibility/legacy/bridge UI surface cannot be certified as package-native production surface."
+            },
+            {
+              "code": "hidden-compliance-marker",
+              "message": "Hidden compliance markers cannot satisfy component-native certification. (6 occurrence(s).)"
+            },
+            {
+              "code": "anatomy.secondShellLayout",
+              "message": "Surface has a local .layout grid that can create an inner shell inside the dashboard shell."
+            }
+          ],
+          "warnings": []
+        },
+        {
+          "id": "rinseables-dashboard-proof",
+          "path": "src/api.js",
+          "role": "proof-endpoint",
+          "status": "package-native",
+          "exists": true,
+          "isUiSurface": false,
+          "bytes": 17197,
+          "evidence": {
+            "shell": true,
+            "sidebar": true,
+            "header": true,
+            "state": true,
+            "table": false,
+            "chart": false,
+            "workflow": false,
+            "directPackageImport": false,
+            "kitCssOnly": false
+          },
+          "localDebt": {
+            "total": 0,
+            "byRule": {
+              "hidden-compliance-marker": 0,
+              "visual-selector-production-risk": 0,
+              "raw-svg-or-hand-chart": 0,
+              "local-shell-class": 0,
+              "hardcoded-visual-token": 0
+            }
+          },
+          "blockers": [],
+          "warnings": []
+        }
+      ],
+      "repairPacket": {
+        "id": "rinseables-os.repair.2026-08-15",
+        "project": "rinseables-os",
+        "verdict": "blocked",
+        "priority": "blocking",
+        "actions": [
+          "Correct the manifest to separate declared target from certified state, or complete the package-native migration before claiming T3C.",
+          "Restructure the production route so DashboardShell has one direct sidebar child and one direct main child; move headers inside the main pane.",
+          "Demote compatibility/static routes to dev-review or redirect status and register the real package-native operator route.",
+          "Remove hidden compliance markers and replace them with rendered kit components or direct package imports."
+        ],
+        "affectedSurfaces": [
+          {
+            "id": "rinseables-dashboard-shell",
+            "path": "public/dashboard/index.html",
+            "blockers": 3,
+            "warnings": 0
+          }
+        ],
+        "rerun": "npm run dashboard:certify:strict"
+      }
+    },
+    {
+      "project": "investing-system",
+      "name": "Investing System",
+      "path": "investing-system",
+      "declared": {
+        "adoptionMode": "package-native",
+        "implementationMode": "package-native",
+        "targetExperienceTier": 3,
+        "targetExperienceBand": "T3C"
+      },
+      "production": {
+        "url": "https://investing.tlccapitalgroup.com/roc",
+        "proofUrl": "https://investing.tlccapitalgroup.com/dashboard/proof",
+        "healthUrl": "https://investing.tlccapitalgroup.com/health",
+        "deploymentProvider": "hetzner"
+      },
+      "verdict": "blocked",
+      "falseNativeClaim": true,
+      "blockers": [
+        {
+          "code": "falseNative.migrationLanguage",
+          "message": "Package-native/T3C claim conflicts with notes that admit static, bridge, compatibility, planned migration, or local renderer debt."
+        },
+        {
+          "code": "surface.compatibilityClaim",
+          "message": "Compatibility/legacy/bridge UI surface cannot be certified as package-native production surface.",
+          "surface": "investing-system-roc",
+          "path": "public/roc/index.html"
+        }
+      ],
+      "warnings": [],
+      "packageAudit": {
+        "packageJsonExists": true,
+        "hasDashboardKitDependency": true,
+        "dependencySpec": "file:vendor/hermes-dashboard-kit"
+      },
+      "proofAudit": {
+        "hasProofConfig": true,
+        "captureScript": "scripts/capture-dashboard-platform-proof.mjs",
+        "playwrightConfig": "playwright.config.mjs",
+        "captureScriptExists": true,
+        "playwrightConfigExists": true
+      },
+      "surfaces": [
+        {
+          "id": "investing-system-roc",
+          "path": "public/roc/index.html",
+          "role": "compatibility",
+          "status": "package-native",
+          "exists": true,
+          "isUiSurface": true,
+          "bytes": 71254,
+          "evidence": {
+            "shell": true,
+            "sidebar": true,
+            "header": true,
+            "state": true,
+            "table": true,
+            "chart": true,
+            "workflow": false,
+            "directPackageImport": false,
+            "kitCssOnly": false
+          },
+          "localDebt": {
+            "total": 0,
+            "byRule": {
+              "hidden-compliance-marker": 0,
+              "visual-selector-production-risk": 0,
+              "raw-svg-or-hand-chart": 0,
+              "local-shell-class": 0,
+              "hardcoded-visual-token": 0
+            }
+          },
+          "blockers": [
+            {
+              "code": "surface.compatibilityClaim",
+              "message": "Compatibility/legacy/bridge UI surface cannot be certified as package-native production surface."
+            }
+          ],
+          "warnings": []
+        },
+        {
+          "id": "investing-system-proof",
+          "path": "src/api/server.ts",
+          "role": "proof-endpoint",
+          "status": "package-native",
+          "exists": true,
+          "isUiSurface": false,
+          "bytes": 145097,
+          "evidence": {
+            "shell": false,
+            "sidebar": false,
+            "header": false,
+            "state": false,
+            "table": false,
+            "chart": false,
+            "workflow": true,
+            "directPackageImport": false,
+            "kitCssOnly": false
+          },
+          "localDebt": {
+            "total": 23,
+            "byRule": {
+              "hidden-compliance-marker": 0,
+              "visual-selector-production-risk": 0,
+              "raw-svg-or-hand-chart": 0,
+              "local-shell-class": 0,
+              "hardcoded-visual-token": 23
+            }
+          },
+          "blockers": [],
+          "warnings": []
+        }
+      ],
+      "repairPacket": {
+        "id": "investing-system.repair.2026-08-15",
+        "project": "investing-system",
+        "verdict": "blocked",
+        "priority": "blocking",
+        "actions": [
+          "Correct the manifest to separate declared target from certified state, or complete the package-native migration before claiming T3C.",
+          "Demote compatibility/static routes to dev-review or redirect status and register the real package-native operator route."
+        ],
+        "affectedSurfaces": [
+          {
+            "id": "investing-system-roc",
+            "path": "public/roc/index.html",
+            "blockers": 1,
+            "warnings": 0
+          }
+        ],
+        "rerun": "npm run dashboard:certify:strict"
+      }
+    },
+    {
+      "project": "nous-hermes-agent",
+      "name": "Nous Hermes Agent",
+      "path": "nous-hermes-agent",
+      "declared": {
+        "adoptionMode": "package-native",
+        "implementationMode": "package-native",
+        "targetExperienceTier": 3,
+        "targetExperienceBand": "T3C"
+      },
+      "production": {
+        "url": "https://agent.tlccapitalgroup.com",
+        "proofUrl": "https://agent.tlccapitalgroup.com/dashboard/proof",
+        "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
+        "deploymentProvider": "hetzner"
+      },
+      "verdict": "blocked",
+      "falseNativeClaim": true,
+      "blockers": [
+        {
+          "code": "falseNative.migrationLanguage",
+          "message": "Package-native/T3C claim conflicts with notes that admit static, bridge, compatibility, planned migration, or local renderer debt."
+        },
+        {
+          "code": "hidden-compliance-marker",
+          "message": "Hidden compliance markers cannot satisfy component-native certification. (8 occurrence(s).)",
+          "surface": "hermes-dashboard-kit-gallery-web-route",
+          "path": "web/src/pages/DashboardKitGalleryPage.tsx"
+        }
+      ],
+      "warnings": [
+        {
+          "code": "raw-svg-or-hand-chart",
+          "message": "Charts need approved dashboard-kit/domain chart components with axis and state contracts. (1 occurrence(s).)",
+          "surface": "hermes-dashboard-kit-gallery-web-route",
+          "path": "web/src/pages/DashboardKitGalleryPage.tsx"
+        },
+        {
+          "code": "anatomy.multipleSidebarMarkers",
+          "message": "Surface has 2 sidebar markers; confirm exactly one primary sidebar.",
+          "surface": "hermes-dashboard-kit-gallery-web-route",
+          "path": "web/src/pages/DashboardKitGalleryPage.tsx"
+        }
+      ],
+      "packageAudit": {
+        "packageJsonExists": true,
+        "hasDashboardKitDependency": true,
+        "dependencySpec": "file:packages/hermes-dashboard-kit"
+      },
+      "proofAudit": {
+        "hasProofConfig": true,
+        "captureScript": "scripts/capture-dashboard-visual-baseline.mjs",
+        "playwrightConfig": "web/playwright.config.ts",
+        "captureScriptExists": true,
+        "playwrightConfigExists": false
+      },
+      "surfaces": [
+        {
+          "id": "hermes-dashboard-kit-gallery",
+          "path": "packages/hermes-dashboard-kit/src/index.js",
+          "role": "kit-source",
+          "status": "production",
+          "exists": true,
+          "isUiSurface": false,
+          "bytes": 157969,
+          "evidence": {
+            "shell": true,
+            "sidebar": true,
+            "header": true,
+            "state": true,
+            "table": true,
+            "chart": true,
+            "workflow": true,
+            "directPackageImport": false,
+            "kitCssOnly": false
+          },
+          "localDebt": {
+            "total": 13,
+            "byRule": {
+              "hidden-compliance-marker": 0,
+              "visual-selector-production-risk": 0,
+              "raw-svg-or-hand-chart": 5,
+              "local-shell-class": 0,
+              "hardcoded-visual-token": 8
+            }
+          },
+          "blockers": [],
+          "warnings": []
+        },
+        {
+          "id": "hermes-dashboard-kit-gallery-web-route",
+          "path": "web/src/pages/DashboardKitGalleryPage.tsx",
+          "role": "page-content",
+          "status": "production",
+          "exists": true,
+          "isUiSurface": true,
+          "bytes": 71151,
+          "evidence": {
+            "shell": true,
+            "sidebar": true,
+            "header": true,
+            "state": true,
+            "table": true,
+            "chart": true,
+            "workflow": true,
+            "directPackageImport": false,
+            "kitCssOnly": false
+          },
+          "localDebt": {
+            "total": 9,
+            "byRule": {
+              "hidden-compliance-marker": 8,
+              "visual-selector-production-risk": 0,
+              "raw-svg-or-hand-chart": 1,
+              "local-shell-class": 0,
+              "hardcoded-visual-token": 0
+            }
+          },
+          "blockers": [
+            {
+              "code": "hidden-compliance-marker",
+              "message": "Hidden compliance markers cannot satisfy component-native certification. (8 occurrence(s).)"
+            }
+          ],
+          "warnings": [
+            {
+              "code": "raw-svg-or-hand-chart",
+              "message": "Charts need approved dashboard-kit/domain chart components with axis and state contracts. (1 occurrence(s).)"
+            },
+            {
+              "code": "anatomy.multipleSidebarMarkers",
+              "message": "Surface has 2 sidebar markers; confirm exactly one primary sidebar."
+            }
+          ]
+        }
+      ],
+      "repairPacket": {
+        "id": "nous-hermes-agent.repair.2026-08-15",
+        "project": "nous-hermes-agent",
+        "verdict": "blocked",
+        "priority": "blocking",
+        "actions": [
+          "Correct the manifest to separate declared target from certified state, or complete the package-native migration before claiming T3C.",
+          "Remove hidden compliance markers and replace them with rendered kit components or direct package imports."
+        ],
+        "affectedSurfaces": [
+          {
+            "id": "hermes-dashboard-kit-gallery-web-route",
+            "path": "web/src/pages/DashboardKitGalleryPage.tsx",
+            "blockers": 1,
+            "warnings": 2
+          }
+        ],
+        "rerun": "npm run dashboard:certify:strict"
+      }
+    }
+  ]
+}

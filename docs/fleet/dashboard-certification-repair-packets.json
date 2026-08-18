@@ -1,0 +1,228 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-15T18:51:38.843Z",
+  "packets": [
+    {
+      "id": "khashi-vc.repair.2026-08-15",
+      "project": "khashi-vc",
+      "verdict": "blocked",
+      "priority": "blocking",
+      "actions": [
+        "Correct the manifest to separate declared target from certified state, or complete the package-native migration before claiming T3C.",
+        "Restructure the production route so DashboardShell has one direct sidebar child and one direct main child; move headers inside the main pane.",
+        "Demote compatibility/static routes to dev-review or redirect status and register the real package-native operator route.",
+        "Remove hidden compliance markers and replace them with rendered kit components or direct package imports.",
+        "Replace local visual primitives with dashboard-kit component variants or create an expiring governance exception."
+      ],
+      "affectedSurfaces": [
+        {
+          "id": "roc-shell",
+          "path": "public/roc/index.html",
+          "blockers": 1,
+          "warnings": 2
+        },
+        {
+          "id": "market-intelligence-live",
+          "path": "public/roc/market-intelligence-live.html",
+          "blockers": 3,
+          "warnings": 3
+        }
+      ],
+      "rerun": "npm run dashboard:certify:strict"
+    },
+    {
+      "id": "media-engine.repair.2026-08-15",
+      "project": "media-engine",
+      "verdict": "blocked",
+      "priority": "blocking",
+      "actions": [
+        "Replace local visual primitives with dashboard-kit component variants or create an expiring governance exception."
+      ],
+      "affectedSurfaces": [
+        {
+          "id": "media-engine-ops-active",
+          "path": "core/operations/unified-publishing-dashboard.js",
+          "blockers": 0,
+          "warnings": 2
+        }
+      ],
+      "rerun": "npm run dashboard:certify:strict"
+    },
+    {
+      "id": "media-business-os.repair.2026-08-15",
+      "project": "media-business-os",
+      "verdict": "blocked",
+      "priority": "blocking",
+      "actions": [
+        "Correct the manifest to separate declared target from certified state, or complete the package-native migration before claiming T3C.",
+        "Remove hidden compliance markers and replace them with rendered kit components or direct package imports."
+      ],
+      "affectedSurfaces": [
+        {
+          "id": "media-business-main",
+          "path": "public/dashboard/index.html",
+          "blockers": 0,
+          "warnings": 1
+        },
+        {
+          "id": "media-business-renderer",
+          "path": "public/dashboard/app.js",
+          "blockers": 1,
+          "warnings": 1
+        }
+      ],
+      "rerun": "npm run dashboard:certify:strict"
+    },
+    {
+      "id": "business-mapper.repair.2026-08-15",
+      "project": "business-mapper",
+      "verdict": "blocked",
+      "priority": "blocking",
+      "actions": [
+        "Correct the manifest to separate declared target from certified state, or complete the package-native migration before claiming T3C.",
+        "Restructure the production route so DashboardShell has one direct sidebar child and one direct main child; move headers inside the main pane.",
+        "Remove hidden compliance markers and replace them with rendered kit components or direct package imports."
+      ],
+      "affectedSurfaces": [
+        {
+          "id": "business-mapper-workspace",
+          "path": "business_mapper/static/index.html",
+          "blockers": 2,
+          "warnings": 1
+        }
+      ],
+      "rerun": "npm run dashboard:certify:strict"
+    },
+    {
+      "id": "meal-assistant.repair.2026-08-15",
+      "project": "meal-assistant",
+      "verdict": "blocked",
+      "priority": "blocking",
+      "actions": [
+        "Correct the manifest to separate declared target from certified state, or complete the package-native migration before claiming T3C.",
+        "Replace local visual primitives with dashboard-kit component variants or create an expiring governance exception."
+      ],
+      "affectedSurfaces": [
+        {
+          "id": "meal-dashboard-shell",
+          "path": "src/server.js",
+          "blockers": 0,
+          "warnings": 3
+        }
+      ],
+      "rerun": "npm run dashboard:certify:strict"
+    },
+    {
+      "id": "hermes-os.repair.2026-08-15",
+      "project": "hermes-os",
+      "verdict": "blocked",
+      "priority": "blocking",
+      "actions": [
+        "Correct the manifest to separate declared target from certified state, or complete the package-native migration before claiming T3C.",
+        "Demote compatibility/static routes to dev-review or redirect status and register the real package-native operator route.",
+        "Remove hidden compliance markers and replace them with rendered kit components or direct package imports.",
+        "Replace local visual primitives with dashboard-kit component variants or create an expiring governance exception."
+      ],
+      "affectedSurfaces": [
+        {
+          "id": "hermes-dashboard-hub",
+          "path": "src/workspace/workspace-server.ts",
+          "blockers": 1,
+          "warnings": 2
+        },
+        {
+          "id": "hermes-operator-dashboard-artifact",
+          "path": "src/operator/operator-state.ts",
+          "blockers": 1,
+          "warnings": 2
+        },
+        {
+          "id": "hermes-control-plane-artifact",
+          "path": "src/operator/control-plane.ts",
+          "blockers": 2,
+          "warnings": 2
+        }
+      ],
+      "rerun": "npm run dashboard:certify:strict"
+    },
+    {
+      "id": "tlc-capital-group-os.repair.2026-08-15",
+      "project": "tlc-capital-group-os",
+      "verdict": "blocked",
+      "priority": "blocking",
+      "actions": [
+        "Correct the manifest to separate declared target from certified state, or complete the package-native migration before claiming T3C.",
+        "Restructure the production route so DashboardShell has one direct sidebar child and one direct main child; move headers inside the main pane.",
+        "Remove hidden compliance markers and replace them with rendered kit components or direct package imports."
+      ],
+      "affectedSurfaces": [
+        {
+          "id": "tlc-dashboard-shell",
+          "path": "public/dashboard/index.html",
+          "blockers": 2,
+          "warnings": 0
+        }
+      ],
+      "rerun": "npm run dashboard:certify:strict"
+    },
+    {
+      "id": "rinseables-os.repair.2026-08-15",
+      "project": "rinseables-os",
+      "verdict": "blocked",
+      "priority": "blocking",
+      "actions": [
+        "Correct the manifest to separate declared target from certified state, or complete the package-native migration before claiming T3C.",
+        "Restructure the production route so DashboardShell has one direct sidebar child and one direct main child; move headers inside the main pane.",
+        "Demote compatibility/static routes to dev-review or redirect status and register the real package-native operator route.",
+        "Remove hidden compliance markers and replace them with rendered kit components or direct package imports."
+      ],
+      "affectedSurfaces": [
+        {
+          "id": "rinseables-dashboard-shell",
+          "path": "public/dashboard/index.html",
+          "blockers": 3,
+          "warnings": 0
+        }
+      ],
+      "rerun": "npm run dashboard:certify:strict"
+    },
+    {
+      "id": "investing-system.repair.2026-08-15",
+      "project": "investing-system",
+      "verdict": "blocked",
+      "priority": "blocking",
+      "actions": [
+        "Correct the manifest to separate declared target from certified state, or complete the package-native migration before claiming T3C.",
+        "Demote compatibility/static routes to dev-review or redirect status and register the real package-native operator route."
+      ],
+      "affectedSurfaces": [
+        {
+          "id": "investing-system-roc",
+          "path": "public/roc/index.html",
+          "blockers": 1,
+          "warnings": 0
+        }
+      ],
+      "rerun": "npm run dashboard:certify:strict"
+    },
+    {
+      "id": "nous-hermes-agent.repair.2026-08-15",
+      "project": "nous-hermes-agent",
+      "verdict": "blocked",
+      "priority": "blocking",
+      "actions": [
+        "Correct the manifest to separate declared target from certified state, or complete the package-native migration before claiming T3C.",
+        "Remove hidden compliance markers and replace them with rendered kit components or direct package imports."
+      ],
+      "affectedSurfaces": [
+        {
+          "id": "hermes-dashboard-kit-gallery-web-route",
+          "path": "web/src/pages/DashboardKitGalleryPage.tsx",
+          "blockers": 1,
+          "warnings": 2
+        }
+      ],
+      "rerun": "npm run dashboard:certify:strict"
+    }
+  ]
+}

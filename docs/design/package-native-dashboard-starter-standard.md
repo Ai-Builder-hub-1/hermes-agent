@@ -5,15 +5,21 @@ must import `@hermes/dashboard-kit` directly for its production dashboard
 surface. Static adapters are a legacy bridge for existing dashboards, not the
 default build path and not an acceptable completion state.
 
+This standard now depends on
+`docs/design/hdk-first-dashboard-baseline-standard.md`. The HDK-first baseline
+is the default creation and enforcement contract for future dashboard projects.
+
 ## Rule
 
 Any dashboard surface moving toward production completion must:
 
 - use React/Vite or another approved component frontend
 - depend on `@hermes/dashboard-kit`
+- declare `dashboardKit.baseline="hdk-first"` in `.hermes-dashboard.json`
 - import `@hermes/dashboard-kit` directly in the production dashboard route
 - render `DashboardShell`, `DashboardSidebar`, `DashboardHeader`, and
   dashboard-kit page primitives directly
+- expose `npm run hdk:check`, `npm run hdk:proof`, and `npm run hdk:visual`
 - satisfy `docs/design/dashboard-operational-navigation-standard.md` for the
   primary navigation rail
 - declare `data-theme="light"`, `data-theme="dark"`, or `data-theme="system"`
@@ -187,6 +193,18 @@ The scaffold creates:
 - `scripts/capture-proof-screenshots.mjs`
 - `playwright.config.ts`
 
+The generated `package.json` must include:
+
+```json
+{
+  "scripts": {
+    "hdk:check": "node ../nous-hermes-agent/scripts/enforce-dashboard-creation-gate.mjs --project-dir .",
+    "hdk:proof": "npm run test && npm run proof:screenshots",
+    "hdk:visual": "npm run proof:screenshots"
+  }
+}
+```
+
 Validate a package-native surface with:
 
 ```bash
@@ -197,6 +215,7 @@ npm run dashboard:package-native:surface:validate -- --project-dir ../new-dashbo
 
 A new Tier 3 dashboard is not complete until:
 
+- the HDK-first baseline gate passes
 - adoption mode is `package-native`
 - production route imports `@hermes/dashboard-kit` directly
 - current and target tiers are both `3`

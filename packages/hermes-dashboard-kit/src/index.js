@@ -142,13 +142,13 @@ export const DASHBOARD_KIT_COMPONENT_INVENTORY =
       targetTier:
         "tier-3",
       components:
-        ["DashboardShell", "OperationalSidebar", "DashboardHeader", "ProofStrip", "DataFreshnessStrip"],
+        ["DashboardShell", "OperationalSidebar", "DashboardHeader", "DashboardSessionControl", "ProofStrip", "DataFreshnessStrip"],
       references:
         ["Linear", "Asana", "Vercel"],
       good:
-        "One shell, one sidebar, one route model, compact command header, bounded scroll owner, and proof/freshness visible above the primary work surface.",
+        "One shell, one sidebar, one route model, compact command header, professional session control, density-appropriate workspace width, bounded scroll owner, and proof/freshness visible above the primary work surface.",
       userRole:
-        "Approve the navigation grouping, naming, density, collapsed behavior, and whether the page question is obvious."
+        "Approve the navigation grouping, naming, density, collapsed behavior, session/auth placement, workspace width, and whether the page question is obvious."
     },
     {
       id:
@@ -342,6 +342,26 @@ export function renderDashboardShell({
           ${children}
         </div>
       </main>
+    </div>
+  `;
+}
+
+export function renderDashboardSessionControl({
+  state = "locked",
+  label = state === "ready" ? "Session saved" : "Session required",
+  inputId = "dashboard-session-token",
+  saveId = "dashboard-session-save",
+  clearId = "dashboard-session-clear",
+  placeholder = "Password or token",
+  reviewId = "hdk.session-control"
+} = {}) {
+  const normalizedState = state === "ready" ? "ready" : "locked";
+  return `
+    <div class="hdk-session-control" data-hdk-component="DashboardSessionControl" data-session-state="${escapeAttr(normalizedState)}" data-review-id="${escapeAttr(reviewId)}">
+      <span class="hdk-session-status">${escapeHtml(label)}</span>
+      <input class="hdk-form-control hdk-session-field" id="${escapeAttr(inputId)}" type="password" placeholder="${escapeAttr(placeholder)}" autocomplete="current-password">
+      <button id="${escapeAttr(saveId)}" type="button">${normalizedState === "ready" ? "Update" : "Unlock"}</button>
+      <button id="${escapeAttr(clearId)}" type="button" class="hdk-button-secondary">Clear</button>
     </div>
   `;
 }

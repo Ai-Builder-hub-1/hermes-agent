@@ -1,6 +1,6 @@
 # Dashboard Rendered Implementation Report
 
-Generated: 2026-08-14T20:35:53.892Z
+Generated: 2026-08-15T18:51:28.968Z
 
 This report checks whether visible dashboard routes are still controlled by local layout/component primitives instead of dashboard-kit primitives.
 
@@ -13,9 +13,9 @@ This report checks whether visible dashboard routes are still controlled by loca
 
 ## Decomposition Summary
 
-- Fully decomposed: 10
-- Bridge aligned: 0
-- False-native risk: 0
+- Fully decomposed: 8
+- Bridge aligned: 2
+- False-native risk: 2
 
 | Project | Status | Decomposition | Local signals | False-native risk | Findings | Sample |
 | --- | --- | --- | ---: | --- | ---: | --- |
@@ -23,12 +23,12 @@ This report checks whether visible dashboard routes are still controlled by loca
 | media-engine | pass | fully-decomposed | 0 | no | 0 | None |
 | media-business-os | pass | fully-decomposed | 0 | no | 0 | None |
 | business-mapper | pass | fully-decomposed | 0 | no | 0 | None |
-| meal-assistant | pass | fully-decomposed | 0 | no | 0 | None |
+| meal-assistant | pass | bridge-aligned | 35 | yes | 0 | None |
 | hermes-os | pass | fully-decomposed | 0 | no | 0 | None |
 | tlc-capital-group-os | pass | fully-decomposed | 0 | no | 0 | None |
 | rinseables-os | pass | fully-decomposed | 0 | no | 0 | None |
 | investing-system | pass | fully-decomposed | 0 | no | 0 | None |
-| nous-hermes-agent | pass | fully-decomposed | 0 | no | 0 | None |
+| nous-hermes-agent | pass | bridge-aligned | 7 | yes | 0 | None |
 
 ## Kashi VC
 
@@ -101,17 +101,17 @@ Surface local signal counts:
 
 Status: **pass**
 
-Decomposition: **fully-decomposed**
+Decomposition: **bridge-aligned**
 
-Local signal count: 0
+Local signal count: 35
 
-False-native risk: no
+False-native risk: yes
 
 Findings:
 - None
 
 Surface local signal counts:
-- `meal-dashboard-shell` `src/server.js`: 0 local signal(s) (none)
+- `meal-dashboard-shell` `src/server.js`: 35 local signal(s) (local-sidebar: 2, local-card: 9, local-grid-spacing: 24)
 
 ## Hermes OS
 
@@ -187,15 +187,15 @@ Surface local signal counts:
 
 Status: **pass**
 
-Decomposition: **fully-decomposed**
+Decomposition: **bridge-aligned**
 
-Local signal count: 0
+Local signal count: 7
 
-False-native risk: no
+False-native risk: yes
 
 Findings:
 - None
 
 Surface local signal counts:
 - `hermes-dashboard-kit-gallery` `packages/hermes-dashboard-kit/src/index.js`: 0 local signal(s) (none)
-- `hermes-dashboard-kit-gallery-web-route` `web/src/pages/DashboardKitGalleryPage.tsx`: 0 local signal(s) (none)
+- `hermes-dashboard-kit-gallery-web-route` `web/src/pages/DashboardKitGalleryPage.tsx`: 7 local signal(s) (local-card: 1, local-table: 6)

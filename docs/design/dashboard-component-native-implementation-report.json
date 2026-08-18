@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-14T19:08:04.703Z",
+  "generatedAt": "2026-08-15T18:51:28.820Z",
   "standard": {
     "definition": "Component-native means the production dashboard route is implemented with @hermes/dashboard-kit primitives across shell, navigation, state, metrics/cards, tables, charts/workflow surfaces, and proof. A project is not component-native simply because the package is installed, CSS is copied, or hdk markers are present.",
     "requiredFamilies": [
@@ -148,7 +148,7 @@
       "adoptionMode": "package-native",
       "implementationMode": "package-native",
       "targetBand": "T3C",
-      "registryBridgeStatus": "package-native-step-1",
+      "registryBridgeStatus": "package-native",
       "status": "needs-implementation-migration",
       "componentCoverage": {
         "presentFamilies": [
@@ -183,7 +183,6 @@
         "score": 89
       },
       "blockers": [
-        "T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language",
         "missing core kit component evidence: sidebar"
       ],
       "warnings": [],
@@ -206,10 +205,7 @@
             "proof"
           ],
           "localPrimitiveFindings": [
-            "local-sidebar-class",
             "local-card-class",
-            "hand-authored-table",
-            "hardcoded-spacing",
             "hardcoded-color"
           ],
           "noteFlags": 0
@@ -761,34 +757,38 @@
         "presentFamilies": [
           "charts",
           "header",
-          "metrics",
-          "proof",
           "shell",
           "sidebar",
           "state",
-          "tables",
-          "workflow"
+          "tables"
         ],
-        "missingFamilies": [],
-        "score": 100
+        "missingFamilies": [
+          "metrics",
+          "workflow",
+          "proof"
+        ],
+        "score": 67
       },
       "visibleRouteCoverage": {
         "presentFamilies": [
           "charts",
           "header",
-          "metrics",
-          "proof",
           "shell",
           "sidebar",
           "state",
-          "tables",
-          "workflow"
+          "tables"
         ],
-        "missingFamilies": [],
-        "score": 100
+        "missingFamilies": [
+          "metrics",
+          "workflow",
+          "proof"
+        ],
+        "score": 67
       },
       "blockers": [
-        "T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language"
+        "T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language",
+        "insufficient Tier 3 component family evidence: workflow, proof",
+        "operator-facing routes are not decomposed with Tier 3 component families: workflow, proof"
       ],
       "warnings": [],
       "surfaces": [
@@ -804,16 +804,12 @@
             "sidebar",
             "header",
             "state",
-            "metrics",
             "tables",
-            "charts",
-            "workflow",
-            "proof"
+            "charts"
           ],
           "localPrimitiveFindings": [
             "local-sidebar-class",
-            "local-card-class",
-            "hardcoded-spacing"
+            "local-card-class"
           ],
           "noteFlags": 2
         },

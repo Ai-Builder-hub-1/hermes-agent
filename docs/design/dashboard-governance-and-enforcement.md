@@ -332,9 +332,11 @@ One shell is necessary, but not sufficient. A production shell must be good enou
 
 - The sidebar must be a real navigation rail, not a stack of cards. It needs bounded width, active-route treatment, overflow-safe labels, scroll-safe long navs, and footer/status content that cannot spill out of the rail.
 - The global header must be a compact command header, not a marketing hero or fat banner. It should state the current operator question, keep copy short, and place actions/filters in a compact row or responsive grid.
+- Authentication must not be a loose password/token form floating in the primary work header. Dashboards need one professional auth surface: a dedicated login screen before entry, a compact top-right session control after entry, or a readonly proof bypass route. Missing or expired auth should render a composed locked state, not leave raw token inputs as permanent page furniture.
+- Workspace width must match the dashboard density. Default operator dashboards should use a wide bounded canvas; data-heavy and trading surfaces should use a fluid canvas with guarded gutters so cards, charts, and tables use the available screen instead of reading like a narrow centered report.
 - Page banners are reserved for alerts, proof states, onboarding empty states, or material warnings. They should not be used as the default top container for every view.
 - Sidebar cards, badges, and buttons must not overflow horizontally. If a label cannot fit, it truncates, wraps intentionally, or moves into a tooltip/detail panel.
-- Tier 3 dashboards must show evidence of the rail/header contract through `DashboardSidebar`/`.hdk-sidebar-rail`, `DashboardHeader`/`.hdk-command-header`, and overflow protection.
+- Tier 3 dashboards must show evidence of the rail/header/auth/width contract through `DashboardSidebar`/`.hdk-sidebar-rail`, `DashboardHeader`/`.hdk-command-header`, `DashboardSessionControl`/`.hdk-session-control`, `.hdk-page-frame--wide` or `.hdk-page-frame--fluid`, and overflow protection.
 
 If this rule is not met, the dashboard can be Tier 1 or Tier 2, but it cannot be considered Tier 3.
 

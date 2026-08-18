@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-14T19:08:04.595Z",
+  "generatedAt": "2026-08-15T18:51:28.711Z",
   "kit": {
     "package": "@hermes/dashboard-kit",
     "version": "0.1.0",
@@ -95,6 +95,7 @@
       "DrilldownPanel",
       "EntityRelationshipGraph",
       "EntitySummaryCard",
+      "EntitySummaryGrid",
       "EnvironmentHealthMatrix",
       "EvidenceAnnotationEditor",
       "EvidenceDataTable",
@@ -228,6 +229,7 @@
       "SkeletonDashboardGrid",
       "SkeletonMetricCard",
       "SkeletonTable",
+      "SortableDataTable",
       "SortableMetricTable",
       "SortableQueue",
       "SourceContractHealthTable",
@@ -307,8 +309,8 @@
   },
   "aggregate": {
     "projectCount": 10,
-    "coveredProjects": 9,
-    "adoptionGapProjects": 1,
+    "coveredProjects": 1,
+    "adoptionGapProjects": 9,
     "kitGapProjects": 0,
     "missingSharedComponents": []
   },
@@ -327,29 +329,99 @@
       "currentTier": 3,
       "targetTier": 3,
       "requiredComponents": [
+        "DashboardHeader",
+        "DashboardQueryBoundary",
         "DashboardShell",
+        "DashboardSidebar",
+        "DataFreshnessStrip",
+        "DataTable",
+        "Drawer",
+        "LineChart",
         "LiquidityDepthChart",
         "LiveCommandPage",
         "MarketBrowserPage",
         "MarketTape",
         "MarketVolatilityDrawer",
+        "PremiumMarketBrowser",
         "PriceMovementChart",
         "ProofStrip",
         "SpreadBandChart",
+        "StatePanel",
         "TimeWindowSelector"
       ],
       "requestedComponents": [],
       "sharedComponentsReady": [],
       "missingSharedComponents": [],
-      "missingSurfaceEvidence": [],
-      "status": "covered",
+      "missingSurfaceEvidence": [
+        {
+          "surface": "roc-server-primary-route",
+          "component": "DashboardShell"
+        },
+        {
+          "surface": "roc-server-primary-route",
+          "component": "DashboardSidebar"
+        },
+        {
+          "surface": "roc-server-primary-route",
+          "component": "DashboardHeader"
+        },
+        {
+          "surface": "roc-server-primary-route",
+          "component": "DashboardQueryBoundary"
+        },
+        {
+          "surface": "roc-server-primary-route",
+          "component": "DataFreshnessStrip"
+        },
+        {
+          "surface": "roc-server-primary-route",
+          "component": "ProofStrip"
+        },
+        {
+          "surface": "roc-server-primary-route",
+          "component": "StatePanel"
+        },
+        {
+          "surface": "roc-server-primary-route",
+          "component": "DataTable"
+        },
+        {
+          "surface": "roc-server-primary-route",
+          "component": "PremiumMarketBrowser"
+        }
+      ],
+      "status": "adoption-gap",
       "surfaces": [
         {
           "id": "roc-server-primary-route",
           "path": "src/web/server.ts",
           "status": "package-native",
-          "requiredComponents": [],
-          "declaredComponents": [],
+          "requiredComponents": [
+            "DashboardShell",
+            "DashboardSidebar",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DataFreshnessStrip",
+            "ProofStrip",
+            "StatePanel",
+            "DataTable",
+            "PremiumMarketBrowser",
+            "LineChart",
+            "Drawer"
+          ],
+          "declaredComponents": [
+            "DashboardShell",
+            "DashboardSidebar",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DataFreshnessStrip",
+            "ProofStrip",
+            "StatePanel",
+            "DataTable",
+            "PremiumMarketBrowser",
+            "LineChart",
+            "Drawer"
+          ],
           "usedKnownComponents": [
             "AreaChart",
             "Card",
@@ -364,7 +436,17 @@
             "Sidebar",
             "SpreadBandChart"
           ],
-          "missingEvidence": [],
+          "missingEvidence": [
+            "DashboardShell",
+            "DashboardSidebar",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DataFreshnessStrip",
+            "ProofStrip",
+            "StatePanel",
+            "DataTable",
+            "PremiumMarketBrowser"
+          ],
           "fileExists": true
         },
         {
@@ -478,16 +560,22 @@
       "currentTier": 3,
       "targetTier": 3,
       "requiredComponents": [
+        "ActionQueue",
         "AiAssistantPanel",
         "ChartPanel",
+        "ContentPackageWorkspace",
         "DashboardHeader",
+        "DashboardQueryBoundary",
         "DashboardShell",
         "DashboardSidebar",
+        "DataFreshnessStrip",
         "DataTable",
         "DataTableTabs",
         "DetailDrawerShell",
         "EntitySummaryCard",
-        "StateChecklist"
+        "ProofStrip",
+        "StateChecklist",
+        "StatePanel"
       ],
       "requestedComponents": [],
       "sharedComponentsReady": [],
@@ -496,6 +584,18 @@
         {
           "surface": "media-engine-ops-active",
           "component": "DashboardSidebar"
+        },
+        {
+          "surface": "media-engine-ops-active",
+          "component": "EntitySummaryCard"
+        },
+        {
+          "surface": "media-engine-ops-active",
+          "component": "StatePanel"
+        },
+        {
+          "surface": "media-engine-ops-active",
+          "component": "ContentPackageWorkspace"
         }
       ],
       "status": "adoption-gap",
@@ -514,7 +614,13 @@
             "DetailDrawerShell",
             "EntitySummaryCard",
             "AiAssistantPanel",
-            "StateChecklist"
+            "StateChecklist",
+            "DashboardQueryBoundary",
+            "DataFreshnessStrip",
+            "ProofStrip",
+            "StatePanel",
+            "ContentPackageWorkspace",
+            "ActionQueue"
           ],
           "declaredComponents": [
             "DashboardShell",
@@ -526,7 +632,13 @@
             "DetailDrawerShell",
             "EntitySummaryCard",
             "AiAssistantPanel",
-            "StateChecklist"
+            "StateChecklist",
+            "DashboardQueryBoundary",
+            "DataFreshnessStrip",
+            "ProofStrip",
+            "StatePanel",
+            "ContentPackageWorkspace",
+            "ActionQueue"
           ],
           "usedKnownComponents": [
             "ActionQueue",
@@ -547,7 +659,7 @@
             "DetailDrawerShell",
             "DonutChart",
             "Drawer",
-            "EntitySummaryCard",
+            "EntitySummaryGrid",
             "Header",
             "HelpTip",
             "LineChart",
@@ -561,13 +673,17 @@
             "ProofStrip",
             "Shell",
             "Sidebar",
+            "SortableDataTable",
             "StateChecklist",
             "TableWrap",
             "assessDashboardArchitecture",
             "dashboardHealthScore"
           ],
           "missingEvidence": [
-            "DashboardSidebar"
+            "DashboardSidebar",
+            "EntitySummaryCard",
+            "StatePanel",
+            "ContentPackageWorkspace"
           ],
           "fileExists": true
         }
@@ -593,16 +709,22 @@
         "Card",
         "ChartPanel",
         "CommandHeader",
+        "DashboardHeader",
         "DashboardQueryBoundary",
+        "DashboardShell",
+        "DashboardSidebar",
         "DataFreshnessStrip",
         "DataTable",
+        "DrilldownPanel",
         "Header",
         "MetricGrid",
         "Pagination",
         "PartialDataBanner",
         "Pill",
         "ProofStateStrip",
+        "ProofStrip",
         "QaReviewPanel",
+        "ResearchDeskWorkspace",
         "Section",
         "Shell",
         "Sidebar",
@@ -759,8 +881,29 @@
         "WorkOrderQueue"
       ],
       "missingSharedComponents": [],
-      "missingSurfaceEvidence": [],
-      "status": "covered",
+      "missingSurfaceEvidence": [
+        {
+          "surface": "media-business-main",
+          "component": "ProofStrip"
+        },
+        {
+          "surface": "media-business-main",
+          "component": "StatePanel"
+        },
+        {
+          "surface": "media-business-main",
+          "component": "DataTable"
+        },
+        {
+          "surface": "media-business-main",
+          "component": "ResearchDeskWorkspace"
+        },
+        {
+          "surface": "media-business-main",
+          "component": "DrilldownPanel"
+        }
+      ],
+      "status": "adoption-gap",
       "surfaces": [
         {
           "id": "media-business-main",
@@ -771,7 +914,17 @@
             "Sidebar",
             "Header",
             "Button",
-            "CommandHeader"
+            "CommandHeader",
+            "DashboardShell",
+            "DashboardSidebar",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DataFreshnessStrip",
+            "ProofStrip",
+            "StatePanel",
+            "DataTable",
+            "ResearchDeskWorkspace",
+            "DrilldownPanel"
           ],
           "declaredComponents": [
             "Shell",
@@ -779,7 +932,16 @@
             "Header",
             "Button",
             "CommandHeader",
-            "DashboardShell"
+            "DashboardShell",
+            "DashboardSidebar",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DataFreshnessStrip",
+            "ProofStrip",
+            "StatePanel",
+            "DataTable",
+            "ResearchDeskWorkspace",
+            "DrilldownPanel"
           ],
           "usedKnownComponents": [
             "CommandHeader",
@@ -794,7 +956,13 @@
             "Sidebar",
             "SidebarRail"
           ],
-          "missingEvidence": [],
+          "missingEvidence": [
+            "ProofStrip",
+            "StatePanel",
+            "DataTable",
+            "ResearchDeskWorkspace",
+            "DrilldownPanel"
+          ],
           "fileExists": true
         },
         {
@@ -917,22 +1085,41 @@
         "AdvisoryPanel",
         "Button",
         "Card",
+        "DashboardHeader",
+        "DashboardQueryBoundary",
+        "DashboardShell",
+        "DashboardSidebar",
+        "DataFreshnessStrip",
+        "DataTable",
         "DeliverablesPanel",
+        "DrilldownPanel",
         "Header",
         "MetricGrid",
+        "ProofStrip",
+        "ResearchDeskWorkspace",
         "ReviewCenter",
         "RoadmapBoard",
         "Section",
         "Shell",
         "Sidebar",
+        "StatePanel",
         "ValidationQueue",
         "WorkspaceGraph"
       ],
       "requestedComponents": [],
       "sharedComponentsReady": [],
       "missingSharedComponents": [],
-      "missingSurfaceEvidence": [],
-      "status": "covered",
+      "missingSurfaceEvidence": [
+        {
+          "surface": "business-mapper-workspace",
+          "component": "StatePanel"
+        },
+        {
+          "surface": "business-mapper-workspace",
+          "component": "ResearchDeskWorkspace"
+        }
+      ],
+      "status": "adoption-gap",
       "surfaces": [
         {
           "id": "business-mapper-workspace",
@@ -951,7 +1138,17 @@
             "ValidationQueue",
             "RoadmapBoard",
             "AdvisoryPanel",
-            "DeliverablesPanel"
+            "DeliverablesPanel",
+            "DashboardShell",
+            "DashboardSidebar",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DataFreshnessStrip",
+            "ProofStrip",
+            "StatePanel",
+            "DataTable",
+            "ResearchDeskWorkspace",
+            "DrilldownPanel"
           ],
           "declaredComponents": [
             "Shell",
@@ -969,7 +1166,14 @@
             "DeliverablesPanel",
             "DashboardShell",
             "DashboardSidebar",
-            "DashboardHeader"
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DataFreshnessStrip",
+            "ProofStrip",
+            "StatePanel",
+            "DataTable",
+            "ResearchDeskWorkspace",
+            "DrilldownPanel"
           ],
           "usedKnownComponents": [
             "Card",
@@ -992,7 +1196,10 @@
             "Sidebar",
             "StaleDataBadge"
           ],
-          "missingEvidence": [],
+          "missingEvidence": [
+            "StatePanel",
+            "ResearchDeskWorkspace"
+          ],
           "fileExists": true
         }
       ]
@@ -1012,14 +1219,30 @@
       "targetTier": 3,
       "requiredComponents": [
         "CommandHeader",
+        "DashboardHeader",
+        "DashboardQueryBoundary",
+        "DashboardShell",
+        "DashboardSidebar",
+        "DataFreshnessStrip",
+        "MealLibrary",
+        "MealPlannerCalendar",
+        "MealWeekDrawer",
+        "ProofStrip",
         "Shell",
-        "SidebarRail"
+        "ShoppingListExportPanel",
+        "SidebarRail",
+        "StatePanel"
       ],
       "requestedComponents": [],
       "sharedComponentsReady": [],
       "missingSharedComponents": [],
-      "missingSurfaceEvidence": [],
-      "status": "covered",
+      "missingSurfaceEvidence": [
+        {
+          "surface": "meal-dashboard-shell",
+          "component": "StatePanel"
+        }
+      ],
+      "status": "adoption-gap",
       "surfaces": [
         {
           "id": "meal-dashboard-shell",
@@ -1028,7 +1251,18 @@
           "requiredComponents": [
             "Shell",
             "SidebarRail",
-            "CommandHeader"
+            "CommandHeader",
+            "DashboardShell",
+            "DashboardSidebar",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DataFreshnessStrip",
+            "ProofStrip",
+            "StatePanel",
+            "MealPlannerCalendar",
+            "MealWeekDrawer",
+            "MealLibrary",
+            "ShoppingListExportPanel"
           ],
           "declaredComponents": [
             "Shell",
@@ -1036,8 +1270,15 @@
             "CommandHeader",
             "DashboardShell",
             "DashboardSidebar",
+            "DashboardHeader",
             "DashboardQueryBoundary",
-            "DataFreshnessStrip"
+            "DataFreshnessStrip",
+            "ProofStrip",
+            "StatePanel",
+            "MealPlannerCalendar",
+            "MealWeekDrawer",
+            "MealLibrary",
+            "ShoppingListExportPanel"
           ],
           "usedKnownComponents": [
             "BarChart",
@@ -1066,7 +1307,9 @@
             "SidebarRail",
             "SidebarRuntimeScript"
           ],
-          "missingEvidence": [],
+          "missingEvidence": [
+            "StatePanel"
+          ],
           "fileExists": true
         }
       ]
@@ -1084,23 +1327,57 @@
       "implementationMode": "package-native",
       "currentTier": 3,
       "targetTier": 3,
-      "requiredComponents": [],
+      "requiredComponents": [
+        "ActionQueue",
+        "DashboardHeader",
+        "DashboardQueryBoundary",
+        "DashboardShell",
+        "DashboardSidebar",
+        "DataFreshnessStrip",
+        "MetricCard",
+        "ProofStrip",
+        "StatePanel"
+      ],
       "requestedComponents": [],
       "sharedComponentsReady": [],
       "missingSharedComponents": [],
-      "missingSurfaceEvidence": [],
-      "status": "covered",
+      "missingSurfaceEvidence": [
+        {
+          "surface": "hermes-dashboard-hub",
+          "component": "StatePanel"
+        },
+        {
+          "surface": "hermes-dashboard-hub",
+          "component": "ActionQueue"
+        }
+      ],
+      "status": "adoption-gap",
       "surfaces": [
         {
           "id": "hermes-dashboard-hub",
           "path": "src/workspace/workspace-server.ts",
           "status": "package-native",
-          "requiredComponents": [],
+          "requiredComponents": [
+            "DashboardShell",
+            "DashboardSidebar",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DataFreshnessStrip",
+            "ProofStrip",
+            "StatePanel",
+            "MetricCard",
+            "ActionQueue"
+          ],
           "declaredComponents": [
             "DashboardShell",
             "DashboardSidebar",
             "DashboardHeader",
-            "DashboardQueryBoundary"
+            "DashboardQueryBoundary",
+            "DataFreshnessStrip",
+            "ProofStrip",
+            "StatePanel",
+            "MetricCard",
+            "ActionQueue"
           ],
           "usedKnownComponents": [
             "Card",
@@ -1124,7 +1401,10 @@
             "Sidebar",
             "SidebarRail"
           ],
-          "missingEvidence": [],
+          "missingEvidence": [
+            "StatePanel",
+            "ActionQueue"
+          ],
           "fileExists": true
         },
         {
@@ -1214,23 +1494,64 @@
       "implementationMode": "package-native",
       "currentTier": 3,
       "targetTier": 3,
-      "requiredComponents": [],
+      "requiredComponents": [
+        "ActionQueue",
+        "DashboardHeader",
+        "DashboardQueryBoundary",
+        "DashboardShell",
+        "DashboardSidebar",
+        "DataFreshnessStrip",
+        "DataTable",
+        "GovernanceChecklist",
+        "ProofStrip",
+        "StatePanel"
+      ],
       "requestedComponents": [],
       "sharedComponentsReady": [],
       "missingSharedComponents": [],
-      "missingSurfaceEvidence": [],
-      "status": "covered",
+      "missingSurfaceEvidence": [
+        {
+          "surface": "tlc-dashboard-shell",
+          "component": "StatePanel"
+        },
+        {
+          "surface": "tlc-dashboard-shell",
+          "component": "GovernanceChecklist"
+        },
+        {
+          "surface": "tlc-dashboard-shell",
+          "component": "ActionQueue"
+        }
+      ],
+      "status": "adoption-gap",
       "surfaces": [
         {
           "id": "tlc-dashboard-shell",
           "path": "public/dashboard/index.html",
           "status": "package-native",
-          "requiredComponents": [],
+          "requiredComponents": [
+            "DashboardShell",
+            "DashboardSidebar",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DataFreshnessStrip",
+            "ProofStrip",
+            "StatePanel",
+            "DataTable",
+            "GovernanceChecklist",
+            "ActionQueue"
+          ],
           "declaredComponents": [
             "DashboardShell",
             "DashboardSidebar",
             "DashboardHeader",
-            "DashboardQueryBoundary"
+            "DashboardQueryBoundary",
+            "DataFreshnessStrip",
+            "ProofStrip",
+            "StatePanel",
+            "DataTable",
+            "GovernanceChecklist",
+            "ActionQueue"
           ],
           "usedKnownComponents": [
             "Card",
@@ -1253,7 +1574,11 @@
             "SidebarRail",
             "cn"
           ],
-          "missingEvidence": [],
+          "missingEvidence": [
+            "StatePanel",
+            "GovernanceChecklist",
+            "ActionQueue"
+          ],
           "fileExists": true
         },
         {
@@ -1312,17 +1637,30 @@
       "currentTier": 3,
       "targetTier": 3,
       "requiredComponents": [
+        "ActionQueue",
         "DashboardHeader",
         "DashboardQueryBoundary",
         "DashboardShell",
         "DashboardSidebar",
-        "DataFreshnessStrip"
+        "DataFreshnessStrip",
+        "MetricCard",
+        "ProofStrip",
+        "StatePanel"
       ],
       "requestedComponents": [],
       "sharedComponentsReady": [],
       "missingSharedComponents": [],
-      "missingSurfaceEvidence": [],
-      "status": "covered",
+      "missingSurfaceEvidence": [
+        {
+          "surface": "rinseables-dashboard-shell",
+          "component": "StatePanel"
+        },
+        {
+          "surface": "rinseables-dashboard-shell",
+          "component": "ActionQueue"
+        }
+      ],
+      "status": "adoption-gap",
       "surfaces": [
         {
           "id": "rinseables-dashboard-shell",
@@ -1333,14 +1671,22 @@
             "DashboardSidebar",
             "DashboardHeader",
             "DashboardQueryBoundary",
-            "DataFreshnessStrip"
+            "DataFreshnessStrip",
+            "ProofStrip",
+            "StatePanel",
+            "MetricCard",
+            "ActionQueue"
           ],
           "declaredComponents": [
             "DashboardShell",
             "DashboardSidebar",
             "DashboardHeader",
             "DashboardQueryBoundary",
-            "DataFreshnessStrip"
+            "DataFreshnessStrip",
+            "ProofStrip",
+            "StatePanel",
+            "MetricCard",
+            "ActionQueue"
           ],
           "usedKnownComponents": [
             "Card",
@@ -1361,7 +1707,10 @@
             "Sidebar",
             "SidebarRail"
           ],
-          "missingEvidence": [],
+          "missingEvidence": [
+            "StatePanel",
+            "ActionQueue"
+          ],
           "fileExists": true
         },
         {
@@ -1399,6 +1748,8 @@
       "currentTier": 3,
       "targetTier": 3,
       "requiredComponents": [
+        "ActionQueue",
+        "CandlestickChart",
         "ChartPanel",
         "DashboardHeader",
         "DashboardQueryBoundary",
@@ -1406,13 +1757,28 @@
         "DashboardSidebar",
         "DataFreshnessStrip",
         "DataTable",
-        "StatePanel"
+        "ProofStrip",
+        "StatePanel",
+        "TradingTerminal"
       ],
       "requestedComponents": [],
       "sharedComponentsReady": [],
       "missingSharedComponents": [],
-      "missingSurfaceEvidence": [],
-      "status": "covered",
+      "missingSurfaceEvidence": [
+        {
+          "surface": "investing-system-roc",
+          "component": "StatePanel"
+        },
+        {
+          "surface": "investing-system-roc",
+          "component": "ProofStrip"
+        },
+        {
+          "surface": "investing-system-roc",
+          "component": "ActionQueue"
+        }
+      ],
+      "status": "adoption-gap",
       "surfaces": [
         {
           "id": "investing-system-roc",
@@ -1426,7 +1792,11 @@
             "DataFreshnessStrip",
             "DataTable",
             "StatePanel",
-            "ChartPanel"
+            "ChartPanel",
+            "ProofStrip",
+            "CandlestickChart",
+            "TradingTerminal",
+            "ActionQueue"
           ],
           "declaredComponents": [
             "DashboardShell",
@@ -1436,7 +1806,11 @@
             "DataFreshnessStrip",
             "DataTable",
             "StatePanel",
-            "ChartPanel"
+            "ChartPanel",
+            "ProofStrip",
+            "CandlestickChart",
+            "TradingTerminal",
+            "ActionQueue"
           ],
           "usedKnownComponents": [
             "CandlestickChart",
@@ -1448,22 +1822,21 @@
             "DashboardSidebar",
             "DataFreshnessStrip",
             "DataTable",
-            "DrilldownPanel",
             "FinancialCandlestickChart",
             "Header",
             "Heatmap",
             "LineChart",
-            "MetricCard",
-            "Pagination",
-            "ProofStrip",
             "Shell",
             "Sidebar",
             "SidebarRail",
-            "StatePanel",
             "TableWrap",
             "TradingTerminalWorkspace"
           ],
-          "missingEvidence": [],
+          "missingEvidence": [
+            "StatePanel",
+            "ProofStrip",
+            "ActionQueue"
+          ],
           "fileExists": true
         },
         {
@@ -1499,15 +1872,23 @@
       "currentTier": 3,
       "targetTier": 3,
       "requiredComponents": [
+        "ActionQueue",
         "ChartPanel",
+        "DashboardHeader",
         "DashboardKitGallery",
+        "DashboardQueryBoundary",
+        "DashboardShell",
+        "DashboardSidebar",
+        "DataFreshnessStrip",
         "DataTable",
+        "MetricCard",
         "PremiumComparisonChart",
         "PremiumDrilldownWorkspace",
         "PremiumMarketBrowser",
         "PremiumMediaApprovalWorkspace",
         "PremiumPlannerCalendar",
-        "ProofStrip"
+        "ProofStrip",
+        "StatePanel"
       ],
       "requestedComponents": [],
       "sharedComponentsReady": [],
@@ -1525,7 +1906,16 @@
             "PremiumMarketBrowser",
             "PremiumMediaApprovalWorkspace",
             "PremiumPlannerCalendar",
-            "PremiumDrilldownWorkspace"
+            "PremiumDrilldownWorkspace",
+            "DashboardShell",
+            "DashboardSidebar",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DataFreshnessStrip",
+            "ProofStrip",
+            "StatePanel",
+            "MetricCard",
+            "ActionQueue"
           ],
           "declaredComponents": [
             "DashboardKitGallery",
@@ -1533,10 +1923,20 @@
             "PremiumMarketBrowser",
             "PremiumMediaApprovalWorkspace",
             "PremiumPlannerCalendar",
-            "PremiumDrilldownWorkspace"
+            "PremiumDrilldownWorkspace",
+            "DashboardShell",
+            "DashboardSidebar",
+            "DashboardHeader",
+            "DashboardQueryBoundary",
+            "DataFreshnessStrip",
+            "ProofStrip",
+            "StatePanel",
+            "MetricCard",
+            "ActionQueue"
           ],
           "usedKnownComponents": [
             "ActionQueue",
+            "AiAssistantPanel",
             "AlertQueue",
             "AnomalyBandChart",
             "ApprovalQueue",
@@ -1586,6 +1986,7 @@
             "DrilldownPanel",
             "EntityRelationshipGraph",
             "EntitySummaryCard",
+            "EntitySummaryGrid",
             "EnvironmentHealthMatrix",
             "EvidenceStack",
             "ExpandableDataList",
@@ -1662,6 +2063,7 @@
             "SkeletonDashboardGrid",
             "SkeletonMetricCard",
             "SkeletonTable",
+            "SortableDataTable",
             "SourceContractHealthTable",
             "Sparkline",
             "StageBlockerMatrix",
@@ -1672,6 +2074,7 @@
             "StrategicInitiativeTimeline",
             "Sunburst",
             "SwipeableQueue",
+            "TableToolbar",
             "TableWrap",
             "TerritoryMatrix",
             "TimeWindowSelector",

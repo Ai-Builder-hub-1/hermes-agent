@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-14T19:39:48.766Z",
+  "generatedAt": "2026-08-15T18:51:28.243Z",
   "source": {
     "package": "@hermes/dashboard-kit",
     "version": "0.1.0",
@@ -95,6 +95,66 @@
           "implementationMode": "package-native",
           "targetExperienceBand": "T3C",
           "bridgeStatus": "package-native"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface roc-server-primary-route does not show adoption evidence for DashboardShell.",
+          "path": "src/web/server.ts"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface roc-server-primary-route does not show adoption evidence for DashboardSidebar.",
+          "path": "src/web/server.ts"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface roc-server-primary-route does not show adoption evidence for DashboardHeader.",
+          "path": "src/web/server.ts"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface roc-server-primary-route does not show adoption evidence for DashboardQueryBoundary.",
+          "path": "src/web/server.ts"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface roc-server-primary-route does not show adoption evidence for DataFreshnessStrip.",
+          "path": "src/web/server.ts"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface roc-server-primary-route does not show adoption evidence for ProofStrip.",
+          "path": "src/web/server.ts"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface roc-server-primary-route does not show adoption evidence for StatePanel.",
+          "path": "src/web/server.ts"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface roc-server-primary-route does not show adoption evidence for DataTable.",
+          "path": "src/web/server.ts"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface roc-server-primary-route does not show adoption evidence for PremiumMarketBrowser.",
+          "path": "src/web/server.ts"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface roc-server-primary-route does not show adoption evidence for Drawer.",
+          "path": "src/web/server.ts"
         }
       ],
       "externalWorkItems": [
@@ -110,7 +170,7 @@
     {
       "project": "media-engine",
       "name": "Media Engine",
-      "status": "current",
+      "status": "stale",
       "experienceTier": {
         "current": 3,
         "target": 3,
@@ -128,7 +188,20 @@
         "dependencyVersion": "file:vendor/hermes-dashboard-kit",
         "packageJson": "../media-engine/package.json"
       },
-      "issues": [],
+      "issues": [
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface media-engine-ops-active does not show adoption evidence for StatePanel.",
+          "path": "core/operations/unified-publishing-dashboard.js"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface media-engine-ops-active does not show adoption evidence for ContentPackageWorkspace.",
+          "path": "core/operations/unified-publishing-dashboard.js"
+        }
+      ],
       "externalWorkItems": []
     },
     {
@@ -160,6 +233,30 @@
           "implementationMode": "package-native",
           "targetExperienceBand": "T3C",
           "bridgeStatus": "package-native"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface media-business-main does not show adoption evidence for StatePanel.",
+          "path": "public/dashboard/index.html"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface media-business-main does not show adoption evidence for DataTable.",
+          "path": "public/dashboard/index.html"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface media-business-main does not show adoption evidence for ResearchDeskWorkspace.",
+          "path": "public/dashboard/index.html"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface media-business-main does not show adoption evidence for DrilldownPanel.",
+          "path": "public/dashboard/index.html"
         }
       ],
       "externalWorkItems": [
@@ -175,7 +272,7 @@
     {
       "project": "business-mapper",
       "name": "Business Mapper",
-      "status": "current",
+      "status": "stale",
       "experienceTier": {
         "current": 3,
         "target": 3,
@@ -193,7 +290,20 @@
         "dependencyVersion": "file:vendor/hermes-dashboard-kit",
         "packageJson": "../business-mapper/package.json"
       },
-      "issues": [],
+      "issues": [
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface business-mapper-workspace does not show adoption evidence for StatePanel.",
+          "path": "business_mapper/static/index.html"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface business-mapper-workspace does not show adoption evidence for ResearchDeskWorkspace.",
+          "path": "business_mapper/static/index.html"
+        }
+      ],
       "externalWorkItems": []
     },
     {
@@ -225,6 +335,12 @@
           "implementationMode": "package-native",
           "targetExperienceBand": "T3C",
           "bridgeStatus": "package-native"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface meal-dashboard-shell does not show adoption evidence for StatePanel.",
+          "path": "src/server.js"
         }
       ],
       "externalWorkItems": [
@@ -266,6 +382,18 @@
           "implementationMode": "package-native",
           "targetExperienceBand": "T3C",
           "bridgeStatus": "package-native"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface hermes-dashboard-hub does not show adoption evidence for StatePanel.",
+          "path": "src/workspace/workspace-server.ts"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface hermes-dashboard-hub does not show adoption evidence for ActionQueue.",
+          "path": "src/workspace/workspace-server.ts"
         }
       ],
       "externalWorkItems": [
@@ -307,6 +435,18 @@
           "implementationMode": "package-native",
           "targetExperienceBand": "T3C",
           "bridgeStatus": "package-native"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface tlc-dashboard-shell does not show adoption evidence for StatePanel.",
+          "path": "public/dashboard/index.html"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface tlc-dashboard-shell does not show adoption evidence for GovernanceChecklist.",
+          "path": "public/dashboard/index.html"
         }
       ],
       "externalWorkItems": [
@@ -348,6 +488,12 @@
           "implementationMode": "package-native",
           "targetExperienceBand": "T3C",
           "bridgeStatus": "package-native"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface rinseables-dashboard-shell does not show adoption evidence for StatePanel.",
+          "path": "public/dashboard/index.html"
         }
       ],
       "externalWorkItems": [
@@ -367,13 +513,13 @@
       "experienceTier": {
         "current": 3,
         "target": 3,
-        "currentBand": "T3C",
-        "currentBandLabel": "Package-native product cockpit (T3C)",
+        "currentBand": "T3A",
+        "currentBandLabel": "Cockpit candidate with review gaps (T3A)",
         "targetBand": "T3C",
         "targetBandLabel": "Package-native product cockpit (T3C)",
         "implementationMode": "package-native",
         "migrationRequired": false,
-        "nextAction": "Investing System is now visible to the central adoption audit. The ROC dashboard declares package-native shell/proof contracts while deeper component decomposition remains the next maturity step.",
+        "nextAction": "Repair Tier 3 shell, command-header, chart, overflow, table, and proof evidence in the audited surface.",
         "note": "Investing System is now visible to the central adoption audit. The ROC dashboard declares package-native shell/proof contracts while deeper component decomposition remains the next maturity step."
       },
       "packageNative": {
@@ -389,9 +535,47 @@
           "implementationMode": "package-native",
           "targetExperienceBand": "T3C",
           "bridgeStatus": "package-native"
+        },
+        {
+          "severity": "error",
+          "code": "surface.markerMissing",
+          "message": "Surface investing-system-roc is missing required marker: data-component=\"DataTable\"",
+          "path": "public/roc/index.html"
+        },
+        {
+          "severity": "error",
+          "code": "surface.markerMissing",
+          "message": "Surface investing-system-roc is missing required marker: data-component=\"StatePanel\"",
+          "path": "public/roc/index.html"
+        },
+        {
+          "severity": "error",
+          "code": "surface.markerMissing",
+          "message": "Surface investing-system-roc is missing required marker: data-component=\"ChartPanel\"",
+          "path": "public/roc/index.html"
+        },
+        {
+          "severity": "error",
+          "code": "surface.componentMissing",
+          "message": "Surface investing-system-roc does not show adoption evidence for StatePanel.",
+          "path": "public/roc/index.html"
+        },
+        {
+          "severity": "warning",
+          "code": "tier3.tableCompositionMissing",
+          "message": "Tier 3 surfaces with data tables should show table composition evidence such as DataTableTabs, hdk-table-tabs, hdk-table-layout, or DataTable.",
+          "surface": "investing-system-roc",
+          "path": "public/roc/index.html"
         }
       ],
       "externalWorkItems": [
+        {
+          "ownerProject": "investing-system",
+          "scope": "external-project",
+          "priority": "P0",
+          "action": "Repair audited Tier 3 surface markers for shell rail, command header, chart panels, semantic chart contracts, and overflow protection.",
+          "reason": "A Tier 3 cockpit with review warnings must remain a candidate rather than current."
+        },
         {
           "ownerProject": "investing-system",
           "scope": "external-project",

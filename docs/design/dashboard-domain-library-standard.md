@@ -71,7 +71,7 @@ The fix is not only better taste. The fix is better primitives.
 
 | Domain | Default | Alternative | Primary Use |
 | --- | --- | --- | --- |
-| Financial / trading charts | `lightweight-charts` | TradingView Advanced Charts | OANDA, stock, market, Kashi live markets |
+| Financial / trading charts | `klinecharts` for terminal workspaces; `lightweight-charts` for simple market tapes | TradingView Advanced Charts | OANDA, stock, market, Kashi live markets |
 | General dashboard charts | `recharts` | `visx` | usage, issues, activity, cost, OKR/KPI trends |
 | Data tables and grids | `@tanstack/react-table` | `ag-grid-react` | evidence tables, queues, approvals, operations grids |
 | Calendar and scheduling | `@fullcalendar/*` | `react-big-calendar` | meal planning, publishing calendars, work schedules |
@@ -82,6 +82,31 @@ The fix is not only better taste. The fix is better primitives.
 | Interactive canvas editing | `react-konva` | Fabric.js | thumbnail editor, creative overlay adjustment |
 | Video template generation | Remotion | FFmpeg-only scripts | branded video templates, social clips, render queues |
 | Forms and validation | React Hook Form + Zod | Formik + Yup | approval forms, intake forms, settings, safety checks |
+
+## Financial Trading Chart Standard
+
+Financial and trading dashboards are not allowed to satisfy Tier 3 with generic SVG, div-based bars, or a chart that merely includes a library script. They need a financial terminal chart contract.
+
+Required behavior:
+
+- use `klinecharts`, `lightweight-charts`, or an approved financial-chart alternative through a dashboard-kit wrapper
+- prefer `klinecharts` when the surface is a broker/trading terminal with native indicators, panes, zooming, and a high-density price canvas
+- prefer `lightweight-charts` when the surface is a smaller market tape, compact snapshot, or dashboard chart that does not need terminal-grade indicator panes
+- render candlesticks with visible bodies, wicks, borders, right-side price scale, bottom time scale, and current price line
+- render volume as a governed histogram pane or bottom overlay with independent scale margins, muted opacity, and up/down bar colors matched to candle direction
+- reserve most of the first viewport for the chart on trading-terminal surfaces
+- keep chart controls in a compact terminal toolbar, not in oversized dashboard cards
+- support crosshair or hover readout for OHLC/time context
+- expose proof markers for renderer, price axis, time axis, crosshair/hover, and volume visibility when volume data exists
+- keep SVG fallback only for explicit degraded mode; fallback cannot be the primary Tier 3 route
+
+Blocked patterns:
+
+- reporting `static-svg` as the production renderer after a real library is available
+- volume bars with the same scale as price or no scale contract
+- candle charts trapped in a generic dashboard card with unrelated metrics crowding the viewport
+- chart areas that grow indefinitely during resize or route switching
+- loud ungoverned red/green colors that do not follow the financial-chart palette
 
 ## Enforcement Rules
 

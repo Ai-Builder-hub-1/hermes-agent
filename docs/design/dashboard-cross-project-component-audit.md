@@ -1,12 +1,12 @@
 # Dashboard Component Gap Audit
 
-Generated: 2026-08-14T19:08:04.595Z
+Generated: 2026-08-15T18:51:28.711Z
 
 ## Summary
 
 - Projects audited: 10
-- Covered projects: 9
-- Adoption-gap projects: 1
+- Covered projects: 1
+- Adoption-gap projects: 9
 - Kit-gap projects: 0
 
 ## Missing Shared Components
@@ -17,15 +17,15 @@ No missing shared components detected from project manifests or gap-audit docs.
 
 | Project | Status | Mode | Tier | Missing shared | Missing evidence | Gap audit |
 | --- | --- | --- | --- | ---: | ---: | --- |
-| Kashi VC | covered | package-built | 3->3 | 0 | 0 | missing |
-| Media Engine | adoption-gap | package-native | 3->3 | 0 | 1 | missing |
-| Media Business OS | covered | package-native | 3->3 | 0 | 0 | ../media-business-operations/docs/dashboard-component-gap-audit.md |
-| Business Mapper | covered | package-native | 3->3 | 0 | 0 | missing |
-| Meal Assistant | covered | package-native | 3->3 | 0 | 0 | missing |
-| Hermes OS | covered | package-native | 3->3 | 0 | 0 | missing |
-| TLC Capital Group OS | covered | package-native | 3->3 | 0 | 0 | missing |
-| Rinseables OS | covered | package-native | 3->3 | 0 | 0 | missing |
-| Investing System | covered | package-native | 3->3 | 0 | 0 | missing |
+| Kashi VC | adoption-gap | package-built | 3->3 | 0 | 9 | missing |
+| Media Engine | adoption-gap | package-native | 3->3 | 0 | 4 | missing |
+| Media Business OS | adoption-gap | package-native | 3->3 | 0 | 5 | ../media-business-operations/docs/dashboard-component-gap-audit.md |
+| Business Mapper | adoption-gap | package-native | 3->3 | 0 | 2 | missing |
+| Meal Assistant | adoption-gap | package-native | 3->3 | 0 | 1 | missing |
+| Hermes OS | adoption-gap | package-native | 3->3 | 0 | 2 | missing |
+| TLC Capital Group OS | adoption-gap | package-native | 3->3 | 0 | 3 | missing |
+| Rinseables OS | adoption-gap | package-native | 3->3 | 0 | 2 | missing |
+| Investing System | adoption-gap | package-native | 3->3 | 0 | 3 | missing |
 | Nous Hermes Agent | covered | package-native | 3->3 | 0 | 0 | missing |
 
 ## Next Actions

@@ -23,8 +23,17 @@
       "id": "financial-trading-charts",
       "label": "Financial And Trading Charts",
       "projectTypes": ["investing-system", "khashi-vc", "market-intelligence", "trading-desk"],
-      "defaultLibrary": "lightweight-charts",
+      "defaultLibrary": "klinecharts",
       "libraryCandidates": [
+        {
+          "id": "klinecharts",
+          "package": "klinecharts",
+          "source": "https://klinecharts.com/",
+          "licenseReview": "open-source-reviewed",
+          "bestFor": ["terminal-grade candlesticks", "native indicators", "multi-pane charting", "price axes", "crosshair", "scrolling and zooming"],
+          "whyUse": "Use as the default OSS renderer for broker/trading desks where the chart should feel closer to a real market terminal and not like a hand-built dashboard graphic.",
+          "tradeoffs": ["does not provide market data", "project must wrap data loading and streaming adapters", "custom overlays need explicit integration"]
+        },
         {
           "id": "lightweight-charts",
           "package": "lightweight-charts",
@@ -33,20 +42,11 @@
           "bestFor": ["candlesticks", "volume", "price lines", "crosshair", "streaming market updates"],
           "whyUse": "Financial-native chart behavior is a core requirement for market, OANDA, and trading screens. Generic SVG line charts are not acceptable for this domain.",
           "tradeoffs": ["does not provide market data", "does not provide built-in indicators", "dashboard kit must own indicator calculations and data adapters"]
-        },
-        {
-          "id": "tradingview-advanced-charts",
-          "package": "external-commercial-or-widget",
-          "source": "https://www.tradingview.com/charting-library-docs/latest/getting_started/product-comparison/",
-          "licenseReview": "requires-commercial-review",
-          "bestFor": ["terminal-grade charting", "advanced chart tools", "full trading-platform feel"],
-          "whyUse": "Use only when the product requires a full TradingView-like terminal and the licensing/integration constraints are accepted.",
-          "tradeoffs": ["heavier integration", "commercial/licensing review required", "less owned design control"]
         }
       ],
-      "approvedWrappers": ["TradingTerminalWorkspace", "FinancialCandlestickChart", "TradingTopToolbar", "TradingWatchlistPanel", "PositionsOrdersPanel", "MarketTapeChart", "VolumeHistogram", "IndicatorOverlay", "PriceLineOverlay"],
-      "requiredProof": ["terminal-toolbar-visible", "dominant-chart-visible", "right-watchlist-visible", "bottom-orders-panel-visible", "candlestick-visible", "x-axis-visible", "y-axis-visible", "crosshair-or-hover-visible", "volume-visible-when-volume-data-exists"],
-      "bannedFallbacks": ["hand-drawn svg price chart", "div-based sparkline as primary trading chart", "chart without y-axis price scale", "primary trading chart trapped in a generic dashboard card", "trading workspace without a bottom positions or orders panel"]
+      "approvedWrappers": ["TradingTerminalWorkspace", "FinancialCandlestickChart", "KLineTerminalChart", "TradingTopToolbar", "TradingWatchlistPanel", "PositionsOrdersPanel", "MarketTapeChart", "VolumeHistogram", "IndicatorOverlay", "PriceLineOverlay"],
+      "requiredProof": ["terminal-toolbar-visible", "dominant-chart-visible", "right-watchlist-visible", "bottom-orders-panel-visible", "financial-chart-renderer-visible", "candlestick-visible", "x-axis-visible", "y-axis-visible", "crosshair-or-hover-visible", "volume-histogram-visible-when-volume-data-exists", "volume-scale-independent-from-price"],
+      "bannedFallbacks": ["hand-drawn svg price chart", "div-based sparkline as primary trading chart", "chart without y-axis price scale", "primary trading chart trapped in a generic dashboard card", "volume plotted on the same visual scale as price", "trading workspace without a bottom positions or orders panel"]
     },
     {
       "id": "general-dashboard-charts",

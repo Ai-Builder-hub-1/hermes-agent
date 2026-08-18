@@ -112,6 +112,37 @@ export function DashboardHeader({
   );
 }
 
+export function DashboardSessionControl({
+  state = "locked",
+  label,
+  input,
+  save,
+  clear,
+  className,
+}: {
+  state?: "locked" | "ready";
+  label?: string;
+  input?: ReactNode;
+  save?: ReactNode;
+  clear?: ReactNode;
+  className?: string;
+}) {
+  const resolvedLabel = label ?? (state === "ready" ? "Session saved" : "Session required");
+
+  return (
+    <div
+      className={cn("hdk-session-control", className)}
+      data-hdk-component="DashboardSessionControl"
+      data-session-state={state}
+    >
+      <span className="hdk-session-status">{resolvedLabel}</span>
+      {input}
+      {save}
+      {clear}
+    </div>
+  );
+}
+
 export function DashboardSidebar({
   title,
   description,

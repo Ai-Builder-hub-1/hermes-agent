@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-14T20:35:53.892Z",
+  "generatedAt": "2026-08-15T18:51:28.968Z",
   "standard": {
     "definition": "Rendered implementation means the visible route is controlled by dashboard-kit shell, spacing, sidebar, card, table, chart, form, state, and proof primitives. Local classes may exist only as domain accents, not as primary layout machinery.",
     "decompositionDefinition": "Fully decomposed means visible UI surfaces have no significant local layout/component machinery. Bridge-aligned means kit evidence exists, but local primitives still control meaningful parts of the page. Needs migration means errors or missing required kit evidence remain.",
@@ -18,9 +18,9 @@
     "pass": 10,
     "needsMigration": 0,
     "findings": 0,
-    "fullyDecomposed": 10,
-    "bridgeAligned": 0,
-    "falseNativeRisk": 0
+    "fullyDecomposed": 8,
+    "bridgeAligned": 2,
+    "falseNativeRisk": 2
   },
   "items": [
     {
@@ -197,9 +197,9 @@
       "project": "meal-assistant",
       "name": "Meal Assistant",
       "status": "pass",
-      "decompositionStatus": "fully-decomposed",
-      "localSignalCount": 0,
-      "falseNativeRisk": false,
+      "decompositionStatus": "bridge-aligned",
+      "localSignalCount": 35,
+      "falseNativeRisk": true,
       "findings": [],
       "surfaces": [
         {
@@ -209,11 +209,11 @@
           "hasShellEvidence": true,
           "hasPageFrame": true,
           "localSignals": {
-            "total": 0,
+            "total": 35,
             "byRule": {
-              "local-sidebar": 0,
-              "local-card": 0,
-              "local-grid-spacing": 0,
+              "local-sidebar": 2,
+              "local-card": 9,
+              "local-grid-spacing": 24,
               "local-table": 0,
               "local-chart": 0,
               "local-form": 0
@@ -433,9 +433,9 @@
       "project": "nous-hermes-agent",
       "name": "Nous Hermes Agent",
       "status": "pass",
-      "decompositionStatus": "fully-decomposed",
-      "localSignalCount": 0,
-      "falseNativeRisk": false,
+      "decompositionStatus": "bridge-aligned",
+      "localSignalCount": 7,
+      "falseNativeRisk": true,
       "findings": [],
       "surfaces": [
         {
@@ -457,12 +457,12 @@
           "hasShellEvidence": true,
           "hasPageFrame": true,
           "localSignals": {
-            "total": 0,
+            "total": 7,
             "byRule": {
               "local-sidebar": 0,
-              "local-card": 0,
+              "local-card": 1,
               "local-grid-spacing": 0,
-              "local-table": 0,
+              "local-table": 6,
               "local-chart": 0,
               "local-form": 0
             }

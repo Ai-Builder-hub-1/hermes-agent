@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-14T19:08:05.744Z",
+  "generatedAt": "2026-08-15T18:51:30.520Z",
   "purpose": "Dashboard monitoring evidence registry for production health, freshness, and alert ownership.",
   "statusMeaning": {
     "current": "Monitoring is connected and latestCheck evidence is present.",
