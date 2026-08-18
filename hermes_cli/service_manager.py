@@ -848,6 +848,21 @@ class S6ServiceManager:
                 stderr=exc.stderr or "",
             ) from exc
 
+    def _clear_down_marker(self, name: str) -> None:
+        """Make a runtime-registered service normally-up.
+
+        Services registered with ``start_now=False`` carry an s6 ``down``
+        marker. ``s6-svc -u`` can temporarily raise such a service, but
+        ``s6-svstat`` still reports it as ``normally down``. Starting a
+        gateway is durable operator intent, so remove the marker first.
+        """
+        try:
+            (self.scandir / name / "down").unlink()
+        except FileNotFoundError:
+            pass
+        except OSError:
+            pass
+
     def start(self, name: str) -> None:
         """Bring up a registered service (``s6-svc -u``).
 
@@ -856,6 +871,7 @@ class S6ServiceManager:
             S6CommandError: s6-svc exited non-zero for any other reason
                 (permission denied on the supervise FIFO, timeout, etc.).
         """
+        self._clear_down_marker(name)
         self._run_svc("-u", "start", name)
         _write_gateway_desired_state(name, "running")
 
@@ -918,6 +934,7 @@ class S6ServiceManager:
             GatewayNotRegisteredError: no service directory for ``name``.
             S6CommandError: s6-svc exited non-zero for any other reason.
         """
+        self._clear_down_marker(name)
         self._run_svc("-t", "restart", name)
         _write_gateway_desired_state(name, "running")
 

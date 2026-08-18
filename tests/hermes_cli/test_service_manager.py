@@ -835,6 +835,42 @@ def test_s6_lifecycle_dispatches_to_s6_svc(
     assert flags == ["-u", "-d", "-t"]
 
 
+def test_s6_start_clears_down_marker(
+    s6_scandir, fake_subprocess_run,
+) -> None:
+    mgr = S6ServiceManager(scandir=s6_scandir)
+    mgr.register_profile_gateway("coder", start_now=False)
+
+    svc_dir = s6_scandir / "gateway-coder"
+    assert (svc_dir / "down").exists()
+
+    mgr.start("gateway-coder")
+
+    assert not (svc_dir / "down").exists()
+    assert any(
+        cmd[0] == "s6-svc" and cmd[1] == "-u"
+        for cmd in fake_subprocess_run
+    )
+
+
+def test_s6_restart_clears_down_marker(
+    s6_scandir, fake_subprocess_run,
+) -> None:
+    mgr = S6ServiceManager(scandir=s6_scandir)
+    mgr.register_profile_gateway("coder", start_now=False)
+
+    svc_dir = s6_scandir / "gateway-coder"
+    assert (svc_dir / "down").exists()
+
+    mgr.restart("gateway-coder")
+
+    assert not (svc_dir / "down").exists()
+    assert any(
+        cmd[0] == "s6-svc" and cmd[1] == "-t"
+        for cmd in fake_subprocess_run
+    )
+
+
 def test_s6_lifecycle_persists_named_profile_desired_state(
     s6_scandir,
     fake_subprocess_run,
