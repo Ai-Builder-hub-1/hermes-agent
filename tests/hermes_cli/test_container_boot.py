@@ -995,6 +995,35 @@ def test_main_skips_reconcile_in_dashboard_container(
     assert "skipping (dashboard container" in capsys.readouterr().out
 
 
+def test_main_reconciles_in_dashboard_container_when_gateway_enabled(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Control-plane dashboard containers can explicitly own the default
+    gateway. This keeps ordinary dashboard sidecars safe by default while
+    allowing single-container dashboard+gateway deployments."""
+    from hermes_cli import container_boot
+
+    scandir = tmp_path / "run-service"; scandir.mkdir()
+    (tmp_path / "gateway_state.json").write_text(
+        '{"desired_state":"running","gateway_state":"running"}'
+    )
+    monkeypatch.setenv("HERMES_HOME", str(tmp_path))
+    monkeypatch.setenv("S6_PROFILE_GATEWAY_SCANDIR", str(scandir))
+    monkeypatch.setenv("HERMES_DASHBOARD_GATEWAY_ENABLED", "true")
+    monkeypatch.setattr(
+        container_boot,
+        "_read_container_argv",
+        lambda: ("/init", "/opt/hermes/docker/main-wrapper.sh", "dashboard"),
+    )
+
+    rc = container_boot.main()
+
+    assert rc == 0
+    assert (scandir / "gateway-default").exists()
+    assert not (scandir / "gateway-default" / "down").exists()
+
+
 def test_main_skips_reconcile_in_dashboard_container_s6v3(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,

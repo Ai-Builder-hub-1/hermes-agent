@@ -358,6 +358,20 @@ def _is_dashboard_container(argv: Sequence[str]) -> bool:
     return bool(args) and args[0] == "dashboard"
 
 
+def _dashboard_gateway_enabled() -> bool:
+    """Return True when a dashboard container should own a gateway.
+
+    Dashboard-only containers skip gateway reconciliation by default to avoid
+    duplicate platform owners when a separate gateway container shares the
+    same ``HERMES_HOME``. Some deployments, including the Nous Hermes control
+    plane, intentionally run the dashboard and default gateway in one
+    container. Those deployments must opt in explicitly.
+    """
+    from utils import is_truthy_value
+
+    return is_truthy_value(os.environ.get("HERMES_DASHBOARD_GATEWAY_ENABLED"))
+
+
 def _read_desired_state(profile_dir: Path) -> str | None:
     """Read the persisted gateway desired state for reconciliation.
 
@@ -555,19 +569,17 @@ _LOG_ROTATE_BYTES = 256 * 1024
 
 def main() -> int:
     """Entry point invoked from /etc/cont-init.d/02-reconcile-profiles."""
-    # A dashboard-only container never spawns or supervises per-profile
-    # gateways, so reconciling their s6 slots here is pure waste — and
-    # actively harmful: when the gateway and dashboard containers share a
-    # bind-mounted HERMES_HOME, both race to flock() the same s6-log lock
-    # files under logs/gateways/<profile>/lock, producing "Resource busy"
-    # failures and a restart storm. Detect the role from PID 1 argv and
-    # skip reconciliation in the dashboard container. No operator flag:
-    # the role is a fact about the container's command, and a flag can be
-    # forgotten in a hand-written manifest, reintroducing the storm.
-    if _is_dashboard_container(_read_container_argv()):
+    # A dashboard-only container usually does not spawn or supervise
+    # per-profile gateways. Reconciling slots there can be actively harmful:
+    # when a separate gateway container shares the same HERMES_HOME, both
+    # containers can race to own the same logs/platform connections. The
+    # dashboard role is detected from PID 1 argv, and only explicit control
+    # plane deployments may opt back in.
+    if _is_dashboard_container(_read_container_argv()) and not _dashboard_gateway_enabled():
         print(
             "reconcile: skipping (dashboard container — does not need "
-            "per-profile gateways)"
+            "per-profile gateways; set HERMES_DASHBOARD_GATEWAY_ENABLED=true "
+            "for dashboard-owned gateway)"
         )
         return 0
 
