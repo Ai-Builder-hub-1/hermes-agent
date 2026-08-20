@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-13T23:23:03.881Z",
+  "generatedAt": "2026-08-20T14:20:25.916Z",
   "note": "This is a heuristic quality gate. Human/Mobbin review is still required for premium visual taste.",
   "items": [
     {
       "project": "khashi-vc",
       "surface": "roc-shell",
       "path": "public/roc/index.html",
-      "score": 100,
-      "status": "pass",
+      "score": 33,
+      "status": "needs-review",
       "checks": [
         {
           "id": "review-handles",
-          "passed": true
+          "passed": false
         },
         {
           "id": "kit-theme-scope",
@@ -20,15 +20,15 @@
         },
         {
           "id": "states",
-          "passed": true
+          "passed": false
         },
         {
           "id": "responsive",
-          "passed": true
+          "passed": false
         },
         {
           "id": "chart-language",
-          "passed": true
+          "passed": false
         },
         {
           "id": "not-placeholder",
@@ -104,6 +104,39 @@
     },
     {
       "project": "media-business-os",
+      "surface": "media-business-react-dashboard",
+      "path": "frontend/src/main.tsx",
+      "score": 67,
+      "status": "needs-review",
+      "checks": [
+        {
+          "id": "review-handles",
+          "passed": false
+        },
+        {
+          "id": "kit-theme-scope",
+          "passed": true
+        },
+        {
+          "id": "states",
+          "passed": true
+        },
+        {
+          "id": "responsive",
+          "passed": false
+        },
+        {
+          "id": "chart-language",
+          "passed": true
+        },
+        {
+          "id": "not-placeholder",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "project": "media-business-os",
       "surface": "media-business-main",
       "path": "public/dashboard/index.html",
       "score": 100,
@@ -139,8 +172,8 @@
       "project": "media-business-os",
       "surface": "media-business-renderer",
       "path": "public/dashboard/app.js",
-      "score": 100,
-      "status": "pass",
+      "score": 83,
+      "status": "needs-review",
       "checks": [
         {
           "id": "review-handles",
@@ -156,7 +189,7 @@
         },
         {
           "id": "responsive",
-          "passed": true
+          "passed": false
         },
         {
           "id": "chart-language",
@@ -367,72 +400,6 @@
       ]
     },
     {
-      "project": "tlc-capital-group-os",
-      "surface": "tlc-dashboard-api",
-      "path": "src/api.js",
-      "score": 100,
-      "status": "pass",
-      "checks": [
-        {
-          "id": "review-handles",
-          "passed": true
-        },
-        {
-          "id": "kit-theme-scope",
-          "passed": true
-        },
-        {
-          "id": "states",
-          "passed": true
-        },
-        {
-          "id": "responsive",
-          "passed": true
-        },
-        {
-          "id": "chart-language",
-          "passed": true
-        },
-        {
-          "id": "not-placeholder",
-          "passed": true
-        }
-      ]
-    },
-    {
-      "project": "tlc-capital-group-os",
-      "surface": "tlc-dashboard-models",
-      "path": "src/dashboards.js",
-      "score": 100,
-      "status": "pass",
-      "checks": [
-        {
-          "id": "review-handles",
-          "passed": true
-        },
-        {
-          "id": "kit-theme-scope",
-          "passed": true
-        },
-        {
-          "id": "states",
-          "passed": true
-        },
-        {
-          "id": "responsive",
-          "passed": true
-        },
-        {
-          "id": "chart-language",
-          "passed": true
-        },
-        {
-          "id": "not-placeholder",
-          "passed": true
-        }
-      ]
-    },
-    {
       "project": "rinseables-os",
       "surface": "rinseables-dashboard-shell",
       "path": "public/dashboard/index.html",
@@ -469,8 +436,8 @@
       "project": "investing-system",
       "surface": "investing-system-roc",
       "path": "public/roc/index.html",
-      "score": 100,
-      "status": "pass",
+      "score": 83,
+      "status": "needs-review",
       "checks": [
         {
           "id": "review-handles",
@@ -486,7 +453,7 @@
         },
         {
           "id": "responsive",
-          "passed": true
+          "passed": false
         },
         {
           "id": "chart-language",

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-14T00:08:06.253Z",
+  "generatedAt": "2026-08-20T14:21:34.105Z",
   "purpose": "Turns visual proof from a checklist into a rigor score. Tier 3C requires rendered evidence, not just registered routes or lexical source checks.",
   "scoringModel": {
     "freshProductionScreenshot": 15,
@@ -15,9 +15,9 @@
   "summary": {
     "dashboardCount": 10,
     "proofReadyCount": 0,
-    "needsRegressionExecutionCount": 10,
-    "needsEvidenceCount": 0,
-    "averageScore": 76
+    "needsRegressionExecutionCount": 9,
+    "needsEvidenceCount": 1,
+    "averageScore": 72
   },
   "items": [
     {
@@ -43,7 +43,7 @@
           "weight": 10,
           "earned": 10,
           "status": "pass",
-          "note": "79KB"
+          "note": "81KB"
         },
         {
           "id": "proof-and-health-routes",
@@ -93,8 +93,8 @@
     {
       "id": "khashi-vc.roc",
       "label": "Khashi VC ROC",
-      "score": 80,
-      "status": "needs-regression-execution",
+      "score": 50,
+      "status": "needs-evidence",
       "hasExecutedRegressionArtifacts": false,
       "regressionRequiredCaptureCount": 50,
       "regressionDefaultRequiredCount": 34,
@@ -111,9 +111,9 @@
         {
           "id": "screenshot-artifact-healthy",
           "weight": 10,
-          "earned": 10,
-          "status": "pass",
-          "note": "2398KB"
+          "earned": 0,
+          "status": "fail",
+          "note": "6KB"
         },
         {
           "id": "proof-and-health-routes",
@@ -125,8 +125,8 @@
         {
           "id": "lexical-visual-quality",
           "weight": 10,
-          "earned": 10,
-          "status": "pass",
+          "earned": 0,
+          "status": "fail",
           "note": "100% source heuristic"
         },
         {
@@ -146,9 +146,9 @@
         {
           "id": "production-proof-registry",
           "weight": 10,
-          "earned": 10,
-          "status": "pass",
-          "note": "baseline-present"
+          "earned": 0,
+          "status": "fail",
+          "note": "baseline-needed"
         },
         {
           "id": "executed-regression-artifacts",
@@ -183,7 +183,7 @@
           "weight": 10,
           "earned": 10,
           "status": "pass",
-          "note": "101KB"
+          "note": "100KB"
         },
         {
           "id": "proof-and-health-routes",
@@ -253,7 +253,7 @@
           "weight": 10,
           "earned": 10,
           "status": "pass",
-          "note": "87KB"
+          "note": "85KB"
         },
         {
           "id": "proof-and-health-routes",
@@ -323,7 +323,7 @@
           "weight": 10,
           "earned": 10,
           "status": "pass",
-          "note": "74KB"
+          "note": "73KB"
         },
         {
           "id": "proof-and-health-routes",
@@ -393,7 +393,7 @@
           "weight": 10,
           "earned": 10,
           "status": "pass",
-          "note": "74KB"
+          "note": "145KB"
         },
         {
           "id": "proof-and-health-routes",
@@ -513,7 +513,7 @@
     {
       "id": "investing-system.roc",
       "label": "Investing System ROC",
-      "score": 80,
+      "score": 70,
       "status": "needs-regression-execution",
       "hasExecutedRegressionArtifacts": false,
       "regressionRequiredCaptureCount": 50,
@@ -533,7 +533,7 @@
           "weight": 10,
           "earned": 10,
           "status": "pass",
-          "note": "144KB"
+          "note": "198KB"
         },
         {
           "id": "proof-and-health-routes",
@@ -545,9 +545,9 @@
         {
           "id": "lexical-visual-quality",
           "weight": 10,
-          "earned": 10,
-          "status": "pass",
-          "note": "100% source heuristic"
+          "earned": 0,
+          "status": "fail",
+          "note": "83% source heuristic"
         },
         {
           "id": "regression-contract",
@@ -603,7 +603,7 @@
           "weight": 10,
           "earned": 10,
           "status": "pass",
-          "note": "74KB"
+          "note": "73KB"
         },
         {
           "id": "proof-and-health-routes",

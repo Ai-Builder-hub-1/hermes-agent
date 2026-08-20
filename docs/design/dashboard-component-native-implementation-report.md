@@ -1,6 +1,6 @@
 # Dashboard Component-Native Implementation Report
 
-Generated: 2026-08-15T18:51:28.820Z
+Generated: 2026-08-20T14:28:42.533Z
 
 Component-native is an implementation standard, not an installation label. The production route must render with dashboard-kit primitives across the shell, sidebar, header, data states, metrics, tables, charts/workflow, and proof surfaces.
 
@@ -15,7 +15,7 @@ Component-native is an implementation standard, not an installation label. The p
 
 | Project | Status | Mode | Target | All Evidence | Visible Route | Blockers |
 | --- | --- | --- | --- | ---: | ---: | --- |
-| khashi-vc | needs-implementation-migration | package-built | T3C | 100% | 100% | implementationMode is package-built, expected package-native<br>T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language |
+| khashi-vc | needs-implementation-migration | package-native-runtime | T3C | 100% | 100% | implementationMode is package-native-runtime, expected package-native<br>T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language |
 | media-engine | needs-implementation-migration | package-native | T3C | 89% | 89% | missing core kit component evidence: sidebar |
 | media-business-os | needs-implementation-migration | package-native | T3C | 100% | 100% | T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language |
 | business-mapper | component-native | package-native | T3C | 100% | 100% | None |
@@ -39,15 +39,15 @@ Visible-route families: charts, header, metrics, proof, shell, sidebar, state, t
 Missing visible-route families: none
 
 Blockers:
-- implementationMode is package-built, expected package-native
+- implementationMode is package-native-runtime, expected package-native
 - T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language
 
 Warnings:
-- 13 local primitive signals found; route likely needs deeper decomposition
+- 10 local primitive signals found; route likely needs deeper decomposition
 
 Surfaces:
 - `roc-server-primary-route` `src/web/server.ts` (server-route): families none; local signals local-card-class, inline-svg-chart, hand-authored-table, hardcoded-spacing, hardcoded-color
-- `roc-shell` `public/roc/index.html` (compatibility-route): families shell, sidebar, header, state; local signals local-sidebar-class, local-topbar-class, local-card-class
+- `roc-shell` `public/roc/index.html` (mount-route): families shell; local signals none
 - `market-intelligence-live` `public/roc/market-intelligence-live.html` (legacy-compatibility-route): families shell, sidebar, header, state, metrics, tables, charts, workflow, proof; local signals local-sidebar-class, local-card-class, inline-svg-chart, hardcoded-spacing, hardcoded-color
 
 ### Media Engine
@@ -86,6 +86,7 @@ Warnings:
 - None
 
 Surfaces:
+- `media-business-react-dashboard` `frontend/src/main.tsx` (ui): families shell, sidebar, header, state, metrics, tables, charts, workflow, proof; local signals hand-authored-table
 - `media-business-main` `public/dashboard/index.html` (ui): families shell, sidebar, header, state; local signals local-sidebar-class
 - `media-business-renderer` `public/dashboard/app.js` (ui): families sidebar, state, metrics, tables, charts, workflow, proof; local signals local-sidebar-class, local-card-class
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-15T18:51:28.820Z",
+  "generatedAt": "2026-08-20T14:28:42.533Z",
   "standard": {
     "definition": "Component-native means the production dashboard route is implemented with @hermes/dashboard-kit primitives across shell, navigation, state, metrics/cards, tables, charts/workflow surfaces, and proof. A project is not component-native simply because the package is installed, CSS is copied, or hdk markers are present.",
     "requiredFamilies": [
@@ -33,7 +33,7 @@
       "name": "Kashi VC",
       "path": "projects/khashi-vc",
       "adoptionMode": "package-native",
-      "implementationMode": "package-built",
+      "implementationMode": "package-native-runtime",
       "targetBand": "T3C",
       "registryBridgeStatus": "package-native",
       "status": "needs-implementation-migration",
@@ -68,11 +68,11 @@
         "score": 100
       },
       "blockers": [
-        "implementationMode is package-built, expected package-native",
+        "implementationMode is package-native-runtime, expected package-native",
         "T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language"
       ],
       "warnings": [
-        "13 local primitive signals found; route likely needs deeper decomposition"
+        "10 local primitive signals found; route likely needs deeper decomposition"
       ],
       "surfaces": [
         {
@@ -95,22 +95,15 @@
         {
           "id": "roc-shell",
           "path": "public/roc/index.html",
-          "role": "compatibility-route",
-          "status": "package-native",
+          "role": "mount-route",
+          "status": "package-native-mount",
           "exists": true,
           "importEvidence": true,
           "familyEvidence": [
-            "shell",
-            "sidebar",
-            "header",
-            "state"
+            "shell"
           ],
-          "localPrimitiveFindings": [
-            "local-sidebar-class",
-            "local-topbar-class",
-            "local-card-class"
-          ],
-          "noteFlags": 2
+          "localPrimitiveFindings": [],
+          "noteFlags": 0
         },
         {
           "id": "market-intelligence-live",
@@ -256,6 +249,29 @@
       ],
       "warnings": [],
       "surfaces": [
+        {
+          "id": "media-business-react-dashboard",
+          "path": "frontend/src/main.tsx",
+          "role": "ui",
+          "status": "react-package-native",
+          "exists": true,
+          "importEvidence": true,
+          "familyEvidence": [
+            "shell",
+            "sidebar",
+            "header",
+            "state",
+            "metrics",
+            "tables",
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "localPrimitiveFindings": [
+            "hand-authored-table"
+          ],
+          "noteFlags": 1
+        },
         {
           "id": "media-business-main",
           "path": "public/dashboard/index.html",

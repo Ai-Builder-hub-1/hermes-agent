@@ -1,0 +1,159 @@
+{
+  "generatedAt": "2026-08-20T15:26:48.057Z",
+  "source": "actual-dashboard-url",
+  "results": [
+    {
+      "id": "nous-hermes-agent.dashboard",
+      "label": "Nous Hermes Agent",
+      "url": "https://agent.tlccapitalgroup.com",
+      "result": "review-needed",
+      "httpStatus": 200,
+      "ok": true,
+      "textLength": 176,
+      "passwordFields": 1,
+      "authWall": true,
+      "blank": false,
+      "issues": [
+        "auth-wall"
+      ],
+      "screenshot": "docs/design/production-dashboard-screenshots/nous-hermes-agent.dashboard.png"
+    },
+    {
+      "id": "khashi-vc.roc",
+      "label": "Khashi VC ROC",
+      "url": "https://roc.tlccapitalgroup.com/",
+      "result": "review-needed",
+      "httpStatus": 200,
+      "ok": true,
+      "textLength": 640,
+      "passwordFields": 1,
+      "authWall": true,
+      "blank": false,
+      "issues": [
+        "auth-wall"
+      ],
+      "screenshot": "docs/design/production-dashboard-screenshots/khashi-vc.roc.png"
+    },
+    {
+      "id": "media-engine.ops",
+      "label": "Media Engine Ops",
+      "url": "https://media.tlccapitalgroup.com/dashboard",
+      "result": "captured",
+      "httpStatus": 200,
+      "ok": true,
+      "textLength": 8789,
+      "passwordFields": 0,
+      "authWall": false,
+      "blank": false,
+      "issues": [],
+      "screenshot": "docs/design/production-dashboard-screenshots/media-engine.ops.png"
+    },
+    {
+      "id": "media-business-operations.main",
+      "label": "Media Business Operations",
+      "url": "https://media-business-operations.tlccapitalgroup.com/dashboard",
+      "result": "captured",
+      "httpStatus": 200,
+      "ok": true,
+      "textLength": 1397,
+      "passwordFields": 0,
+      "authWall": false,
+      "blank": false,
+      "issues": [],
+      "screenshot": "docs/design/production-dashboard-screenshots/media-business-operations.main.png"
+    },
+    {
+      "id": "business-mapper.workspace",
+      "label": "Business Mapper Workspace",
+      "url": "https://business-mapper.tlccapitalgroup.com/dashboard",
+      "result": "captured",
+      "httpStatus": 200,
+      "ok": true,
+      "textLength": 4293,
+      "passwordFields": 0,
+      "authWall": false,
+      "blank": false,
+      "issues": [],
+      "screenshot": "docs/design/production-dashboard-screenshots/business-mapper.workspace.png"
+    },
+    {
+      "id": "meal-assistant.main",
+      "label": "Meal Assistant",
+      "url": "https://meal.tlccapitalgroup.com/",
+      "result": "review-needed",
+      "httpStatus": 200,
+      "ok": true,
+      "textLength": 113,
+      "passwordFields": 1,
+      "authWall": true,
+      "blank": true,
+      "issues": [
+        "auth-wall",
+        "blank-or-low-content"
+      ],
+      "screenshot": "docs/design/production-dashboard-screenshots/meal-assistant.main.png"
+    },
+    {
+      "id": "rinseables-os.main",
+      "label": "Rinseables OS",
+      "url": "https://rinseables.tlccapitalgroup.com",
+      "result": "review-needed",
+      "httpStatus": 200,
+      "ok": true,
+      "textLength": 219,
+      "passwordFields": 1,
+      "authWall": true,
+      "blank": false,
+      "issues": [
+        "auth-wall"
+      ],
+      "screenshot": "docs/design/production-dashboard-screenshots/rinseables-os.main.png"
+    },
+    {
+      "id": "investing-system.roc",
+      "label": "Investing System ROC",
+      "url": "https://investing.tlccapitalgroup.com/roc",
+      "result": "review-needed",
+      "httpStatus": 200,
+      "ok": true,
+      "textLength": 718,
+      "passwordFields": 1,
+      "authWall": true,
+      "blank": false,
+      "issues": [
+        "auth-wall"
+      ],
+      "screenshot": "docs/design/production-dashboard-screenshots/investing-system.roc.png"
+    },
+    {
+      "id": "hermes.workspace",
+      "label": "Hermes Workspace",
+      "url": "https://hermes.tlccapitalgroup.com/",
+      "result": "captured",
+      "httpStatus": 200,
+      "ok": true,
+      "textLength": 405,
+      "passwordFields": 0,
+      "authWall": false,
+      "blank": false,
+      "issues": [],
+      "screenshot": "docs/design/production-dashboard-screenshots/hermes.workspace.png"
+    },
+    {
+      "id": "tlc-capital-group-os.main",
+      "label": "TLC Capital Group OS",
+      "url": "https://tlc.tlccapitalgroup.com/dashboard",
+      "result": "review-needed",
+      "httpStatus": 200,
+      "ok": true,
+      "textLength": 563,
+      "passwordFields": 1,
+      "authWall": true,
+      "blank": false,
+      "issues": [
+        "auth-wall"
+      ],
+      "screenshot": "docs/design/production-dashboard-screenshots/tlc-capital-group-os.main.png"
+    }
+  ]
+}

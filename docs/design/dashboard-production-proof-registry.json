@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-08T01:33:15.463Z",
+  "generatedAt": "2026-08-20T14:21:08.548Z",
   "entries": [
     {
       "id": "nous-hermes-agent.dashboard",
@@ -35,10 +35,10 @@
         "authWallDetected": false,
         "blankPrimaryDetected": false,
         "proofEndpointDeclared": true,
-        "capturedAt": "2026-08-03T20:43:29.659Z",
+        "capturedAt": "2026-08-20T14:20:33.966Z",
         "proofEndpointUsed": true,
         "proofAuthMissing": false,
-        "textLength": 1114,
+        "textLength": 1143,
         "httpStatus": 200
       },
       "status": "baseline-present"
@@ -73,20 +73,21 @@
         "primary-data-freshness-visible"
       ],
       "proof": {
-        "screenshotCaptured": true,
+        "screenshotCaptured": false,
         "screenshotBaselinePath": "docs/design/production-screenshots/khashi-vc.roc.png",
         "capturedAt": "2026-08-03T20:43:30.445Z",
         "authWallDetected": false,
-        "blankPrimaryDetected": false,
-        "textLength": 16392,
+        "blankPrimaryDetected": true,
+        "textLength": 50,
         "proofEndpointDeclared": true,
         "proofEndpointUsed": true,
         "localProofUsed": false,
-        "proofAuthMissing": false,
+        "proofAuthMissing": true,
         "proofAuthFailed": false,
-        "httpStatus": 200
+        "httpStatus": 401,
+        "lastError": "Proof endpoint returned HTTP 401"
       },
-      "status": "baseline-present"
+      "status": "baseline-needed"
     },
     {
       "id": "media-engine.ops",
@@ -116,10 +117,10 @@
       "proof": {
         "screenshotCaptured": true,
         "screenshotBaselinePath": "docs/design/production-screenshots/media-engine.ops.png",
-        "capturedAt": "2026-08-03T20:43:55.934Z",
+        "capturedAt": "2026-08-20T14:20:35.662Z",
         "authWallDetected": false,
         "blankPrimaryDetected": false,
-        "textLength": 1846,
+        "textLength": 1848,
         "proofEndpointDeclared": true,
         "proofEndpointUsed": true,
         "proofAuthMissing": false,
@@ -155,10 +156,10 @@
       "proof": {
         "screenshotCaptured": true,
         "screenshotBaselinePath": "docs/design/production-screenshots/media-business-operations.main.png",
-        "capturedAt": "2026-08-03T20:43:58.656Z",
+        "capturedAt": "2026-08-20T14:20:40.700Z",
         "authWallDetected": false,
         "blankPrimaryDetected": false,
-        "textLength": 1241,
+        "textLength": 1218,
         "proofEndpointDeclared": true,
         "proofEndpointUsed": true,
         "proofAuthMissing": false,
@@ -194,7 +195,7 @@
       "proof": {
         "screenshotCaptured": true,
         "screenshotBaselinePath": "docs/design/production-screenshots/business-mapper.workspace.png",
-        "capturedAt": "2026-08-03T20:43:59.513Z",
+        "capturedAt": "2026-08-20T14:20:42.300Z",
         "authWallDetected": false,
         "blankPrimaryDetected": false,
         "textLength": 1020,
@@ -248,9 +249,9 @@
         "proofEndpointDeclared": true,
         "proofEndpointUsed": true,
         "proofAuthMissing": false,
-        "capturedAt": "2026-08-03T20:44:00.270Z",
+        "capturedAt": "2026-08-20T14:20:43.067Z",
         "httpStatus": 200,
-        "textLength": 1163
+        "textLength": 331
       },
       "status": "baseline-present"
     },
@@ -285,7 +286,7 @@
         "screenshotBaselinePath": "docs/design/production-screenshots/rinseables-os.main.png",
         "authWallDetected": false,
         "blankPrimaryDetected": false,
-        "capturedAt": "2026-08-08T01:33:06.286Z",
+        "capturedAt": "2026-08-20T14:20:43.911Z",
         "proofEndpointUsed": true,
         "proofAuthMissing": false,
         "httpStatus": 200,
@@ -325,10 +326,10 @@
       "proof": {
         "screenshotCaptured": true,
         "screenshotBaselinePath": "docs/design/production-screenshots/investing-system.roc.png",
-        "capturedAt": "2026-08-03T20:44:01.030Z",
+        "capturedAt": "2026-08-20T14:21:06.302Z",
         "authWallDetected": false,
         "blankPrimaryDetected": false,
-        "textLength": 7878,
+        "textLength": 15350,
         "proofEndpointDeclared": true,
         "proofEndpointUsed": true,
         "proofAuthMissing": false,
@@ -364,10 +365,10 @@
       "proof": {
         "screenshotCaptured": true,
         "screenshotBaselinePath": "docs/design/production-screenshots/hermes.workspace.png",
-        "capturedAt": "2026-08-03T20:44:01.865Z",
+        "capturedAt": "2026-08-20T14:20:45.410Z",
         "authWallDetected": false,
         "blankPrimaryDetected": false,
-        "textLength": 939,
+        "textLength": 943,
         "proofEndpointDeclared": true,
         "proofEndpointUsed": true,
         "proofAuthMissing": false,
@@ -408,7 +409,7 @@
         "screenshotBaselinePath": "docs/design/production-screenshots/tlc-capital-group-os.main.png",
         "authWallDetected": false,
         "blankPrimaryDetected": false,
-        "capturedAt": "2026-08-03T20:44:02.605Z",
+        "capturedAt": "2026-08-20T14:20:46.152Z",
         "proofEndpointUsed": true,
         "proofAuthMissing": false,
         "httpStatus": 200,
@@ -416,5 +417,27 @@
       },
       "status": "baseline-present"
     }
-  ]
+  ],
+  "lastCapture": {
+    "generatedAt": "2026-08-20T14:21:08.548Z",
+    "requestedId": "investing-system.roc",
+    "capturedCount": 1,
+    "reviewNeededCount": 0,
+    "failedCount": 0,
+    "results": [
+      {
+        "id": "investing-system.roc",
+        "url": "https://investing.tlccapitalgroup.com/roc",
+        "status": "captured",
+        "screenshotBaselinePath": "docs/design/production-screenshots/investing-system.roc.png",
+        "capturedAt": "2026-08-20T14:21:06.302Z",
+        "proofEndpointUsed": true,
+        "proofAuthMissing": false,
+        "httpStatus": 200,
+        "authWallDetected": false,
+        "blankPrimaryDetected": false,
+        "textLength": 15350
+      }
+    ]
+  }
 }
