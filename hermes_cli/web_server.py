@@ -1737,6 +1737,41 @@ async def get_dashboard_snapshot():
     return _dashboard_snapshot_payload(status)
 
 
+@app.get("/api/trading-intelligence/summary")
+async def get_trading_intelligence_summary():
+    from hermes_cli.trading_intelligence import trading_intelligence_summary
+
+    return await trading_intelligence_summary()
+
+
+@app.get("/api/trading-intelligence/events")
+async def get_trading_intelligence_events(limit: int = 10):
+    from hermes_cli.trading_intelligence import trading_intelligence_events
+
+    return await trading_intelligence_events(limit)
+
+
+@app.get("/api/trading-intelligence/controls")
+async def get_trading_intelligence_controls():
+    from hermes_cli.trading_intelligence import trading_intelligence_controls
+
+    return await trading_intelligence_controls()
+
+
+@app.post("/api/trading-intelligence/control")
+async def post_trading_intelligence_control(payload: Dict[str, Any]):
+    from hermes_cli.trading_intelligence import trading_intelligence_control
+
+    return await trading_intelligence_control(payload)
+
+
+@app.get("/api/trading-intelligence/frontend-spec")
+async def get_trading_intelligence_frontend_spec():
+    from hermes_cli.trading_intelligence import trading_intelligence_frontend_spec
+
+    return trading_intelligence_frontend_spec()
+
+
 @app.get("/dashboard/proof")
 async def get_dashboard_proof():
     status = await get_status()

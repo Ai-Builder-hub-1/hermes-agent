@@ -1,6 +1,9 @@
 # Trading Intelligence Control Plane Frontend Spec
 
-Backend artifact: `scripts/trading-intelligence-control-plane-api.mjs`
+Backend artifacts:
+
+- Same-origin dashboard API: `hermes_cli/trading_intelligence.py` mounted through `hermes_cli/web_server.py`
+- Standalone/local contract server: `scripts/trading-intelligence-control-plane-api.mjs`
 
 Contract version: `2026-09-08.v1`
 
@@ -18,7 +21,16 @@ This page must not recreate the full Investing System or Khashi VC dashboards. I
 
 ## Backend Server
 
-Run:
+Primary production path:
+
+```text
+The routes are mounted inside the existing Nous Hermes dashboard server.
+Claude should call `/api/trading-intelligence/*` on the same origin as the Nous dashboard.
+```
+
+The same-origin routes inherit the existing dashboard auth gate. In production, an unauthenticated request may return `401`; the authenticated dashboard page can call the routes normally.
+
+Standalone local/dev fallback:
 
 ```bash
 node scripts/trading-intelligence-control-plane-api.mjs
@@ -36,13 +48,27 @@ Environment:
 TRADING_INTELLIGENCE_PORT=8791
 TRADING_INTELLIGENCE_CORS_ORIGIN=*
 
-INVESTING_SYSTEM_API_BASE_URL=http://127.0.0.1:3102
+INVESTING_SYSTEM_API_BASE_URL=
 INVESTING_SYSTEM_API_READ_TOKEN=
 INVESTING_SYSTEM_API_ADMIN_TOKEN=
 
-KHASHI_VC_API_BASE_URL=http://127.0.0.1:3101
+KHASHI_VC_API_BASE_URL=
 KHASHI_VC_API_READ_TOKEN=
 KHASHI_VC_API_ADMIN_TOKEN=
+```
+
+Production Docker defaults try service DNS first:
+
+```text
+http://investing-system:3102
+http://khashi:3101
+```
+
+Local development falls back to:
+
+```text
+http://127.0.0.1:3102
+http://127.0.0.1:3101
 ```
 
 If a token is present, the aggregator sends:
@@ -61,7 +87,7 @@ Base path:
 
 ### GET `/health`
 
-Path:
+Standalone server path only:
 
 ```text
 /health
@@ -86,6 +112,7 @@ Response shape:
 ```ts
 type TradingIntelligenceSummary = {
   id: "trading-intelligence-control-plane-summary";
+  contractVersion: "trading-intelligence-control-plane.v1";
   title: "Trading Intelligence Control Plane Summary";
   generatedAt: string;
   status: "ready" | "watch" | "blocked";
@@ -181,6 +208,7 @@ Response shape:
 ```ts
 type TradingEventsResponse = {
   id: "trading-intelligence-control-plane-events";
+  contractVersion: "trading-intelligence-control-plane.v1";
   title: "Trading Intelligence Control Plane Events";
   generatedAt: string;
   limit: number;
@@ -229,6 +257,7 @@ Response shape:
 ```ts
 type TradingControlsResponse = {
   id: "trading-intelligence-control-plane-controls";
+  contractVersion: "trading-intelligence-control-plane.v1";
   title: "Trading Intelligence Control Plane Controls";
   generatedAt: string;
   safety: {
@@ -317,6 +346,7 @@ Response:
 ```ts
 type ControlResponse = {
   id: "trading-intelligence-control-plane-control";
+  contractVersion: "trading-intelligence-control-plane.v1";
   generatedAt: string;
   status: "proxied" | "failed" | "rejected";
   projectId?: string;
@@ -444,6 +474,7 @@ If POST `/control` fails:
 Run:
 
 ```bash
+uv run pytest tests/test_trading_intelligence_dashboard_api.py
 node --test tests-js/trading-intelligence-control-plane-api.test.mjs
 ```
 
