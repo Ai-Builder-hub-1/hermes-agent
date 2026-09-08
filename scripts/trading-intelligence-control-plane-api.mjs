@@ -8,7 +8,7 @@ export const DEFAULT_SOURCES = [
     projectId: 'investing-system',
     label: 'Investing System',
     baseUrl: process.env.INVESTING_SYSTEM_API_BASE_URL ?? 'http://127.0.0.1:3102',
-    authToken: process.env.INVESTING_SYSTEM_API_READ_TOKEN ?? process.env.INVESTING_SYSTEM_API_TOKEN ?? '',
+    authToken: process.env.INVESTING_SYSTEM_API_READ_TOKEN ?? process.env.INVESTING_SYSTEM_API_ADMIN_TOKEN ?? process.env.INVESTING_SYSTEM_API_TOKEN ?? '',
     adminToken: process.env.INVESTING_SYSTEM_API_ADMIN_TOKEN ?? process.env.INVESTING_SYSTEM_API_TOKEN ?? '',
     routes: {
       summary: '/trading-desk/command-center/summary',
@@ -21,7 +21,7 @@ export const DEFAULT_SOURCES = [
     projectId: 'khashi-vc',
     label: 'Khashi VC',
     baseUrl: process.env.KHASHI_VC_API_BASE_URL ?? 'http://127.0.0.1:3101',
-    authToken: process.env.KHASHI_VC_API_READ_TOKEN ?? process.env.KHASHI_VC_API_TOKEN ?? '',
+    authToken: process.env.KHASHI_VC_API_READ_TOKEN ?? process.env.KHASHI_VC_API_ADMIN_TOKEN ?? process.env.KHASHI_VC_API_TOKEN ?? '',
     adminToken: process.env.KHASHI_VC_API_ADMIN_TOKEN ?? process.env.KHASHI_VC_API_TOKEN ?? '',
     routes: {
       summary: '/api/roc/trading-command-center/summary',

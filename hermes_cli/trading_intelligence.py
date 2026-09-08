@@ -30,6 +30,7 @@ def default_sources() -> list[dict[str, Any]]:
                 "http://127.0.0.1:3102",
             ],
             "authToken": _env("INVESTING_SYSTEM_API_READ_TOKEN")
+            or _env("INVESTING_SYSTEM_API_ADMIN_TOKEN")
             or _env("INVESTING_SYSTEM_API_TOKEN"),
             "adminToken": _env("INVESTING_SYSTEM_API_ADMIN_TOKEN")
             or _env("INVESTING_SYSTEM_API_TOKEN"),
@@ -48,7 +49,9 @@ def default_sources() -> list[dict[str, Any]]:
                 "http://khashi:3101",
                 "http://127.0.0.1:3101",
             ],
-            "authToken": _env("KHASHI_VC_API_READ_TOKEN") or _env("KHASHI_VC_API_TOKEN"),
+            "authToken": _env("KHASHI_VC_API_READ_TOKEN")
+            or _env("KHASHI_VC_API_ADMIN_TOKEN")
+            or _env("KHASHI_VC_API_TOKEN"),
             "adminToken": _env("KHASHI_VC_API_ADMIN_TOKEN") or _env("KHASHI_VC_API_TOKEN"),
             "routes": {
                 "summary": "/api/roc/trading-command-center/summary",

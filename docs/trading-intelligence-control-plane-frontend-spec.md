@@ -77,6 +77,8 @@ If a token is present, the aggregator sends:
 Authorization: Bearer <token>
 ```
 
+For read calls, the backend prefers a read token but may fall back to the admin token when a source project only exposes `API_ADMIN_TOKEN` or `AMARI_ADMIN_TOKEN` in production.
+
 ## Aggregator Endpoints
 
 Base path:
