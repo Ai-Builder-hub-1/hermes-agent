@@ -52,6 +52,7 @@ const DesignSystemPage = lazy(() => import("@/pages/GeneratedDashboardPages").th
 const DashboardKitGalleryPage = lazy(() => import("@/pages/DashboardKitGalleryPage"));
 const FleetMaturityReviewPage = lazy(() => import("@/pages/FleetMaturityReviewPage"));
 const TradingIntelligencePage = lazy(() => import("@/pages/TradingIntelligencePage"));
+const HeadTraderPage = lazy(() => import("@/pages/HeadTraderPage"));
 const DesignIntelligenceCommandCenterPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.DesignIntelligenceCommandCenterPage })));
 const PackageNativeMigrationsPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.PackageNativeMigrationsPage })));
 const MediaEnginePackageNativePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ProjectSnapshotsPage })));
@@ -168,6 +169,7 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/hermes-os": HermesOsPage,
   "/central-command": CentralCommandPage,
   "/trading-intelligence": TradingIntelligencePage,
+  "/head-trader": HeadTraderPage,
   "/executive-summary": ExecutiveSummaryPage,
   "/executive-briefing": ExecutiveBriefingRoomPage,
   "/dashboard-migrations": PackageNativeMigrationsPage,
@@ -351,6 +353,7 @@ export const BUILTIN_NAV_REST: BuiltinNavItem[] = [
   { path: "/design-system", label: "Design System", icon: GalleryVerticalEnd },
   { path: "/dashboard-kit-gallery", label: "Kit Gallery", icon: GalleryVerticalEnd },
   { path: "/trading-intelligence", label: "Trading Intel", icon: CandlestickChart },
+  { path: "/head-trader", label: "Head Trader", icon: MessageSquare },
   { path: "/fleet-maturity-review", label: "Fleet Review", icon: ListChecks },
   { path: "/models", labelKey: "models", label: "Models", icon: Cpu },
   { path: "/logs", labelKey: "logs", label: "Logs", icon: FileText },

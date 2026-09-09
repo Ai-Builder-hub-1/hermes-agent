@@ -19,6 +19,7 @@ const ROUTE_TITLES: Record<string, string> = {
   "/dashboard-kit-gallery": "Dashboard Kit Gallery",
   "/fleet-maturity-review": "Fleet Maturity Review",
   "/trading-intelligence": "Trading Intelligence",
+  "/head-trader": "Head Trader",
 };
 
 export function resolvePageTitle(

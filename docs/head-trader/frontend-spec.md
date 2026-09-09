@@ -294,3 +294,66 @@ The page should answer in under ten seconds:
 ```text
 What needs judgment, why, what does Head Trader recommend, and what can I safely do?
 ```
+
+## Implementation notes (added when the page shipped)
+
+The page lives at `/head-trader`:
+
+| Piece | Path |
+|---|---|
+| Page | `web/src/pages/HeadTraderPage.tsx` |
+| Typed client + derivations | `web/src/lib/head-trader.ts` |
+| Unit tests | `web/src/lib/head-trader.test.ts` |
+| Route + metadata | `web/src/dashboard-route-registry.tsx`, `web/src/dashboard-page-metadata.ts` |
+| Render evidence | `docs/head-trader/evidence/` |
+
+Three corrections to the fetch layer sketched above, all load-bearing:
+
+1. `credentials: "same-origin"` is not enough. The dashboard passes
+   `X-Hermes-Session-Token` from `window.__HERMES_SESSION_TOKEN__` on the
+   loopback path, uses cookies only when the OAuth gate is engaged, and
+   prefixes `window.__HERMES_BASE_PATH__` behind a reverse proxy. Use
+   `fetchJSON` from `@/lib/api`; the wrapper above 401s locally and 404s
+   behind a prefix.
+2. `hard_gate` and `forbidden` render, disabled, with the reason — never
+   hidden. An operator who cannot see the forbidden action does not learn
+   that it is forbidden.
+3. A decision is confirmable exactly once, from `waiting_for_confirmation`
+   or `approved`. The frontend mirrors the backend's
+   `CONFIRMABLE_DECISION_STATUSES` so the button disappears rather than
+   producing a rejection.
+
+### Channel wiring
+
+Inbound Discord/Telegram is off until three things are all true, and the
+Channels panel names whichever is missing:
+
+```sh
+HEAD_TRADER_TELEGRAM_ENABLED=true
+HEAD_TRADER_TELEGRAM_WEBHOOK_SECRET=<the secret passed to setWebhook>
+HEAD_TRADER_TELEGRAM_ALLOWED_SENDERS=<your telegram user id>
+
+HEAD_TRADER_DISCORD_ENABLED=true
+HEAD_TRADER_DISCORD_PUBLIC_KEY=<application public key, hex>
+HEAD_TRADER_DISCORD_ALLOWED_SENDERS=<your discord user id>
+```
+
+An inbound message must reference an incident id (reply to the alert, or
+include `incident-...` in the text). It can only ever draft a decision that
+still needs confirmation — chat can start a decision, chat can never finish
+one.
+
+### Re-running the render evidence
+
+```sh
+cd web && npm run build
+node docs/head-trader/evidence/page-harness.mjs &
+node docs/head-trader/evidence/page-verify.mjs
+```
+
+Drives Chromium over loaded / incident-selected / reply / refusal /
+cross-desk / confirm / empty / error / mobile and asserts the safety rules
+hold on screen: a reply never produces a backend result, a refusal never
+produces a confirmable decision, an OANDA incident never proposes a Khashi
+control, confirm is gated on a typed reason, and an executed decision cannot
+be confirmed again.

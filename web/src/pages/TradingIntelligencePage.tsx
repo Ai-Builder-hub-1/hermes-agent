@@ -405,7 +405,7 @@ export default function TradingIntelligencePage() {
               <EmptyNote>
                 Events are unavailable — the rest of the page is unaffected.
                 <p className="m-0 mt-2 font-mono text-[10px] text-destructive">{events.error}</p>
-                <Button type="button" size="xs" outlined className="mt-2" onClick={() => void loadEvents()}>
+                <Button type="button" size="sm" outlined className="mt-2" onClick={() => void loadEvents()}>
                   Retry events
                 </Button>
               </EmptyNote>
@@ -810,7 +810,7 @@ function ControlBar({
           <EmptyNote>
             Controls are unavailable.
             <p className="m-0 mt-2 font-mono text-[10px] text-destructive">{controls.error}</p>
-            <Button type="button" size="xs" outlined className="mt-2" onClick={onRetry}>
+            <Button type="button" size="sm" outlined className="mt-2" onClick={onRetry}>
               Retry controls
             </Button>
           </EmptyNote>
@@ -1065,7 +1065,7 @@ function PartialBanner({
       <AlertTriangle className="size-3.5 shrink-0" aria-hidden />
       <span className="font-semibold">{what}</span>
       <code className="font-mono text-[10.5px] opacity-80">{detail}</code>
-      <Button type="button" size="xs" outlined className="ml-auto" onClick={onRetry}>
+      <Button type="button" size="sm" outlined className="ml-auto" onClick={onRetry}>
         Retry
       </Button>
     </div>
