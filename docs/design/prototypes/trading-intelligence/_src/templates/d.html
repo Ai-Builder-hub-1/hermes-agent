@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trading Intelligence · Variant D — Event-Stream Ops Console</title>
+<style>{{TOKENS}}
+
+/* ---------- Variant D: what happened, then why, then what to do ---------- */
+.shell { display: grid; grid-template-columns: 252px minmax(0,1fr) 340px; gap: 1px;
+  background: var(--rule); min-height: calc(100vh - 33px); }
+.col { background: var(--plane); min-width: 0; }
+
+/* -- left rail: persistent system state -- */
+.rail { padding: 12px 12px 24px; position: sticky; top: 33px; align-self: start; max-height: calc(100vh - 33px); overflow: auto; }
+.rail h1 { margin: 0 0 3px; font-size: 15px; font-weight: 750; letter-spacing: -.01em; }
+.rail .stamp { font-size: 10.5px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.rail .stamp.stale { color: var(--serious-ink); font-weight: 700; }
+.rail .grp { margin-top: 15px; }
+.rail .grp > .lb { font-size: 9.5px; font-weight: 750; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-muted); margin-bottom: 6px; }
+
+.sysrow { display: flex; align-items: center; gap: 8px; padding: 7px 9px; border-radius: 5px;
+  border: 1px solid var(--rule); background: var(--surface); margin-bottom: 6px; }
+.sysrow .bar { width: 3px; align-self: stretch; border-radius: 2px; flex: none; }
+.sysrow .nm { font-size: 12px; font-weight: 700; }
+.sysrow .mt { font-size: 10px; color: var(--ink-muted); font-variant-numeric: tabular-nums; margin-top: 1px; }
+.sysrow .st { margin-left: auto; }
+
+.minilist { border: 1px solid var(--rule); border-radius: 5px; overflow: hidden; background: var(--surface); }
+.minilist .r { display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
+  padding: 5px 9px; border-bottom: 1px solid var(--rule); }
+.minilist .r:last-child { border-bottom: 0; }
+.minilist .k { font-size: 10px; color: var(--ink-muted); text-transform: uppercase; letter-spacing: .05em; }
+.minilist .v { font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.minilist .v.nodata { font-size: 10.5px; font-weight: 600; color: var(--ink-muted); }
+.minilist .r.hot { background: var(--critical-wash); } .minilist .r.hot .v { color: var(--critical-ink); }
+.pnl-up { color: var(--good-ink); } .pnl-down { color: var(--critical-ink); }
+
+/* -- centre: the stream -- */
+.stream { padding: 0 0 40px; }
+.streamhd { position: sticky; top: 33px; z-index: 20; background: var(--plane);
+  border-bottom: 1px solid var(--rule); padding: 11px 16px 8px; }
+.streamhd .t { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.streamhd .t h2 { margin: 0; font-size: 14px; font-weight: 700; }
+.streamhd .t .right { margin-left: auto; display: flex; gap: 7px; align-items: center; }
+.chips { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
+.chip { font: inherit; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px;
+  border: 1px solid var(--rule-strong); background: var(--surface); color: var(--ink-2); cursor: pointer;
+  display: inline-flex; align-items: center; gap: 5px; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--plane); border-color: var(--ink); }
+.chip .n { font-variant-numeric: tabular-nums; opacity: .7; }
+
+.bucket { padding: 14px 16px 0; }
+.bucket > .lb { font-size: 9.5px; font-weight: 750; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-muted); margin-bottom: 7px; display: flex; align-items: center; gap: 8px; }
+.bucket > .lb::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+
+.ev { display: grid; grid-template-columns: 62px 22px 1fr; gap: 10px; padding: 9px 10px;
+  border: 1px solid transparent; border-radius: 6px; cursor: pointer; }
+.ev:hover { background: var(--surface); border-color: var(--rule); }
+.ev[aria-current="true"] { background: var(--surface); border-color: var(--rule-strong); box-shadow: var(--shadow); }
+.ev .tm { font-size: 10.5px; color: var(--ink-muted); font-variant-numeric: tabular-nums; padding-top: 2px; text-align: right; }
+.ev .gut { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.ev .gut .pip { width: 9px; height: 9px; border-radius: 50%; margin-top: 3px; flex: none; }
+.ev .gut .line { flex: 1; width: 1px; background: var(--rule); }
+.ev .ttl { font-size: 13px; font-weight: 650; line-height: 1.3; }
+.ev .su { font-size: 11.5px; color: var(--ink-2); margin-top: 2px; line-height: 1.4; }
+.ev .mt { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; align-items: center; }
+.tag { font-size: 9.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 1px 5px;
+  border-radius: 3px; background: var(--neutral-wash); color: var(--ink-2); }
+.tag.inv { background: rgba(42,120,214,.13); color: var(--series-1); }
+.tag.kha { background: rgba(235,104,52,.14); color: var(--series-2); }
+.ev.sev-critical { background: var(--critical-wash); border-color: rgba(208,59,59,.28); }
+
+/* -- right: context + attention -- */
+.ctx { padding: 12px 12px 32px; position: sticky; top: 33px; align-self: start; max-height: calc(100vh - 33px); overflow: auto; }
+.card { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 10px; }
+.card > .hd { padding: 8px 10px; border-bottom: 1px solid var(--rule); display: flex; align-items: center; gap: 7px; }
+.card > .hd .nm { font-size: 11.5px; font-weight: 750; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-muted); }
+.card > .hd .ct { margin-left: auto; font-size: 11px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.card > .bd { padding: 10px; }
+ul.lines { list-style: none; margin: 0; padding: 0; }
+ul.lines li { display: flex; gap: 7px; padding: 7px 10px; border-bottom: 1px solid var(--rule); font-size: 11.5px; line-height: 1.45; }
+ul.lines li:last-child { border-bottom: 0; }
+ul.lines .mk { flex: none; width: 3px; border-radius: 2px; align-self: stretch; }
+.kv { display: grid; grid-template-columns: 78px 1fr; gap: 4px 10px; font-size: 11.5px; }
+.kv dt { color: var(--ink-muted); } .kv dd { margin: 0; word-break: break-word; }
+
+/* -- command palette -- */
+.palette { width: min(600px, 100%); max-height: 76vh; display: flex; flex-direction: column;
+  background: var(--surface); border: 1px solid var(--rule-strong); border-radius: 9px; box-shadow: var(--shadow); overflow: hidden; }
+.palette input { font: inherit; font-size: 14px; padding: 13px 15px; border: 0; border-bottom: 1px solid var(--rule);
+  background: transparent; color: var(--ink); outline: none; }
+.palette .list { overflow: auto; }
+.pitem { display: flex; align-items: center; gap: 9px; padding: 9px 14px; border-bottom: 1px solid var(--rule); cursor: pointer; }
+.pitem:last-child { border-bottom: 0; }
+.pitem:hover, .pitem[aria-selected="true"] { background: var(--surface-2); }
+.pitem .nm { font-size: 12.5px; font-weight: 650; }
+.pitem .it { font-size: 10.5px; color: var(--ink-muted); margin-top: 1px; }
+.pitem .rt { margin-left: auto; display: flex; gap: 5px; align-items: center; }
+.palette .foot { padding: 8px 14px; border-top: 1px solid var(--rule); font-size: 10.5px; color: var(--ink-muted);
+  display: flex; gap: 12px; align-items: center; }
+kbd { font: inherit; font-family: var(--mono); font-size: 10px; padding: 1px 5px; border-radius: 3px;
+  border: 1px solid var(--rule-strong); background: var(--surface-sunk); }
+
+@media (max-width: 1180px) { .shell { grid-template-columns: 220px minmax(0,1fr); } .ctx { display: none; } }
+@media (max-width: 840px) {
+  .shell { grid-template-columns: 1fr; }
+  .rail, .ctx { position: static; max-height: none; }
+  .ctx { display: block; }
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>{{FIXTURE}}</script>
+<script>{{COMMON}}</script>
+<script>
+const { el } = H;
+let state = "ready";
+let evFilter = "all";
+let selectedId = null;
+
+function render() {
+  const d = H.dataFor(state);
+  const root = document.getElementById("root");
+  root.replaceChildren();
+  root.append(H.stateBar(state, (s) => { state = s; selectedId = null; render(); }, "Variant D · Event-Stream Ops Console"));
+
+  if (state === "loading") { root.append(loadingShell()); return; }
+  if (d.error) { root.append(errorShell(d.error)); return; }
+
+  const s = d.summary;
+  const shell = el("div", { class: "shell" });
+  shell.append(el("div", { class: "col" }, leftRail(s, d)));
+  shell.append(el("div", { class: "col" }, streamCol(s, d)));
+  shell.append(el("div", { class: "col" }, contextCol(s, d)));
+  root.append(shell);
+}
+
+/* ---------------- left rail ---------------- */
+function leftRail(s, d) {
+  const stale = H.isStale(s.generatedAt, 90);
+  const r = el("div", { class: "rail" });
+  r.append(el("h1", {}, "Trading Intelligence"));
+  r.append(el("div", { class: `stamp${stale ? " stale" : ""}` }, `${H.relTime(s.generatedAt)}${stale ? " · STALE" : ""} · ${H.clockTime(s.generatedAt)}`));
+  r.append(el("div", { style: "display:flex;gap:5px;flex-wrap:wrap;margin-top:8px" }, H.statusBadge(s.status), H.lockBadge(s.liveTradingLocked)));
+  r.append(el("div", { class: "safety-banner", style: "margin-top:9px;font-size:10.5px;padding:6px 8px;align-items:flex-start", html:
+    `${H.ICON.lock}<span>Live trading locked. Inspect and proxy approved controls only — no live broker orders.</span>` }));
+
+  const g1 = el("div", { class: "grp" }, el("div", { class: "lb" }, "Systems"));
+  for (const p of s.projects) {
+    g1.append(el("div", { class: "sysrow" },
+      el("span", { class: `bar ${H.railClass(p.available ? p.status : "unavailable")}` }),
+      el("div", {}, el("div", { class: "nm" }, p.label),
+        el("div", { class: "mt" }, p.available ? `HTTP ${p.httpStatus} · ${p.latencyMs}ms` : "unreachable")),
+      el("span", { class: "st" }, H.statusBadge(p.available ? p.status : "unavailable"))));
+  }
+  r.append(g1);
+
+  const g2 = el("div", { class: "grp" }, el("div", { class: "lb" }, "Fleet"));
+  const ml = el("div", { class: "minilist" });
+  for (const c of H.kpiCards(s.kpis)) {
+    const nodata = c.value === H.NO_DATA;
+    ml.append(el("div", { class: `r ${c.label === "Blockers" && s.kpis.blockers > 0 ? "hot" : ""}` },
+      el("span", { class: "k", title: c.label }, c.label),
+      el("span", { class: `v ${nodata ? "nodata" : ""} ${c.pnl !== undefined ? H.pnlTone(c.pnl) : ""}` }, c.value)));
+  }
+  g2.append(ml);
+  r.append(g2);
+
+  const g3 = el("div", { class: "grp" }, el("div", { class: "lb" }, "Actions"));
+  g3.append(el("button", { class: "btn", style: "width:100%;justify-content:space-between", type: "button", onclick: () => openPalette(d) },
+    "Run a control…", el("kbd", {}, "⌘K")));
+  g3.append(el("button", { class: "btn", style: "width:100%;margin-top:6px;justify-content:center", type: "button", onclick: render }, "Refresh all"));
+  r.append(g3);
+  return r;
+}
+
+/* ---------------- centre stream ---------------- */
+function streamCol(s, d) {
+  const c = el("div", { class: "stream" });
+  const hd = el("div", { class: "streamhd" });
+  hd.append(el("div", { class: "t" },
+    el("h2", {}, "What happened"),
+    el("span", { class: "badge t-unknown", html: `${H.ICON.unknown}<span>polling 15s</span>` }),
+    el("div", { class: "right" }, el("span", { style: "font-size:11px;color:var(--ink-muted)" }, `limit ${d.events.limit}`))));
+  const chips = el("div", { class: "chips" });
+  for (const f of H.EVENT_FILTERS) {
+    const n = d.events.events.filter(f.test).length;
+    chips.append(el("button", { class: "chip", type: "button", "aria-pressed": String(f.id === evFilter), onclick: () => { evFilter = f.id; render(); } },
+      f.label, el("span", { class: "n num" }, String(n))));
+  }
+  hd.append(chips);
+  c.append(hd);
+
+  const filt = H.EVENT_FILTERS.find((x) => x.id === evFilter);
+  const evs = d.events.events.filter(filt.test)
+    .slice().sort((a, b) => new Date(b.occurredAt) - new Date(a.occurredAt));
+  if (!evs.length) { c.append(el("div", { style: "padding:24px 16px" }, el("div", { class: "empty" }, "No recent trading intelligence events found."))); return c; }
+
+  const buckets = new Map();
+  for (const e of evs) {
+    const mins = (Date.now() - new Date(e.occurredAt)) / 60000;
+    const key = mins < 15 ? "Last 15 minutes" : mins < 60 ? "Last hour" : mins < 180 ? "Last 3 hours" : "Earlier";
+    if (!buckets.has(key)) buckets.set(key, []);
+    buckets.get(key).push(e);
+  }
+  for (const [label, list] of buckets) {
+    const b = el("div", { class: "bucket" }, el("div", { class: "lb" }, label, el("span", { class: "num", style: "letter-spacing:0" }, String(list.length))));
+    list.forEach((e, i) => b.append(eventRow(e, i === list.length - 1)));
+    c.append(b);
+  }
+  return c;
+}
+
+function eventRow(e, last) {
+  const sev = H.eventSeverity(e);
+  return el("div", {
+    class: `ev sev-${sev}`, role: "button", tabindex: "0",
+    "aria-current": String(selectedId === e.id),
+    onclick: () => { selectedId = e.id; render(); },
+    onkeydown: (ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); selectedId = e.id; render(); } },
+  },
+    el("span", { class: "tm" }, H.relTime(e.occurredAt)),
+    el("span", { class: "gut" },
+      el("span", { class: `pip ${H.sevRail(sev)}` }),
+      last ? null : el("span", { class: "line" })),
+    el("div", {},
+      el("div", { class: "ttl" }, e.title),
+      el("div", { class: "su" }, e.summary),
+      el("div", { class: "mt" },
+        el("span", { class: `tag ${e.sourceProject === "investing-system" ? "inv" : "kha"}` }, H.projectShort(e.sourceProject)),
+        el("span", { class: `badge ${H.toneClass(H.sevTone(sev))}`, html: `${H.ICON[H.sevTone(sev)]}<span>${sev}</span>` }),
+        e.instrument ? el("span", { class: "tag mono" }, e.instrument) : null,
+        el("span", { class: "tag mono" }, e.type),
+        el("span", { class: "tag mono" }, e.sourceSystem))));
+}
+
+/* ---------------- right context ---------------- */
+function contextCol(s, d) {
+  const c = el("div", { class: "ctx" });
+  const sel = d.events.events.find((e) => e.id === selectedId);
+
+  const detail = el("div", { class: "card" }, el("div", { class: "hd" }, el("span", { class: "nm" }, "Event detail")));
+  if (!sel) {
+    detail.append(el("div", { class: "bd" }, el("div", { class: "empty" }, "Select an event in the stream to inspect its source, links and raw reference.")));
+  } else {
+    const sev = H.eventSeverity(sel);
+    const bd = el("div", { class: "bd" });
+    bd.append(el("div", { style: "display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px" },
+      el("span", { class: `badge ${H.toneClass(H.sevTone(sev))}`, html: `${H.ICON[H.sevTone(sev)]}<span>${sev}</span>` }),
+      el("span", { class: `tag ${sel.sourceProject === "investing-system" ? "inv" : "kha"}` }, sel.sourceProject)));
+    bd.append(el("div", { style: "font-size:13px;font-weight:700;margin-bottom:3px" }, sel.title));
+    bd.append(el("p", { style: "margin:0 0 10px;font-size:11.5px;color:var(--ink-2);line-height:1.45" }, sel.summary));
+    const kv = el("dl", { class: "kv" });
+    for (const [k, v] of [["Occurred", `${H.clockTime(sel.occurredAt)} · ${H.relTime(sel.occurredAt)}`], ["Stream", sel.stream], ["Type", sel.type],
+      ["Status", sel.status], ["System", sel.sourceSystem], ["Instrument", sel.instrument || "—"]]) {
+      kv.append(el("dt", {}, k), el("dd", { class: "mono" }, String(v)));
+    }
+    bd.append(kv);
+    if (Object.keys(sel.links || {}).length) {
+      bd.append(el("div", { class: "eyebrow", style: "margin:11px 0 5px" }, "Links"));
+      bd.append(el("div", { style: "display:flex;gap:5px;flex-wrap:wrap" },
+        Object.entries(sel.links).map(([k, v]) => el("a", { class: "tag mono", href: "#", title: v, onclick: (e) => e.preventDefault() }, k))));
+    }
+    bd.append(el("div", { class: "eyebrow", style: "margin:11px 0 5px" }, "Raw reference"));
+    bd.append(el("pre", { class: "payload" }, JSON.stringify(sel.rawRef, null, 2)));
+    detail.append(bd);
+  }
+  c.append(detail);
+
+  const att = el("div", { class: "card" },
+    el("div", { class: "hd" }, el("span", { class: "nm" }, "Needs attention"), el("span", { class: "ct" }, String(s.blockers.length))));
+  if (!s.blockers.length) att.append(el("div", { class: "bd" }, el("div", { class: "empty" }, "No blockers reported across the fleet.")));
+  else {
+    const ul = el("ul", { class: "lines" });
+    for (const b of s.blockers) ul.append(el("li", {}, el("span", { class: "mk rail-blocked" }), el("span", {}, b)));
+    att.append(ul);
+  }
+  c.append(att);
+
+  const rec = el("div", { class: "card" },
+    el("div", { class: "hd" }, el("span", { class: "nm" }, "Recommended next"), el("span", { class: "ct" }, String(s.recommendations.length))));
+  if (!s.recommendations.length) rec.append(el("div", { class: "bd" }, el("div", { class: "empty" }, "No recommendations reported.")));
+  else {
+    const ul = el("ul", { class: "lines" });
+    for (const b of s.recommendations.slice(0, 6)) ul.append(el("li", {}, el("span", { class: "mk", style: "background:var(--series-1)" }), el("span", {}, b)));
+    rec.append(ul);
+  }
+  c.append(rec);
+  return c;
+}
+
+/* ---------------- command palette ---------------- */
+function openPalette(d) {
+  let q = "";
+  let idx = 0;
+  const scrim = el("div", { class: "scrim", style: "align-items:flex-start;padding-top:12vh", onclick: (e) => { if (e.target === scrim) close(); } });
+  const list = el("div", { class: "list" });
+  const input = el("input", { type: "text", placeholder: "Run a control…  type to filter", oninput: (e) => { q = e.target.value; idx = 0; paint(); } });
+  const pal = el("div", { class: "palette", role: "dialog", "aria-modal": "true", "aria-label": "Control palette" },
+    input, list,
+    el("div", { class: "foot" },
+      el("span", {}, el("kbd", {}, "↑↓"), " navigate"), el("span", {}, el("kbd", {}, "↵"), " open preview"), el("span", {}, el("kbd", {}, "esc"), " close"),
+      el("span", { style: "margin-left:auto" }, "preview first · execute is a second request")));
+
+  function matches() {
+    const t = q.trim().toLowerCase();
+    return d.controls.controls.filter((c) => !t || `${c.label} ${c.namespacedId} ${c.intent || ""}`.toLowerCase().includes(t));
+  }
+  function paint() {
+    list.replaceChildren();
+    const ms = matches();
+    if (!ms.length) { list.append(el("div", { class: "empty", style: "margin:14px" }, "No controls are available from this project right now.")); return; }
+    ms.forEach((c, i) => {
+      const risk = H.riskLevel(c);
+      list.append(el("div", { class: "pitem", role: "option", "aria-selected": String(i === idx), onclick: () => { close(); openControlDialog(c); } },
+        el("span", { class: `tag ${c.projectId === "investing-system" ? "inv" : "kha"}` }, H.projectShort(c.projectId)),
+        el("div", {}, el("div", { class: "nm" }, c.label), el("div", { class: "it mono" }, c.namespacedId)),
+        el("span", { class: "rt" },
+          c.requiresServiceRestart ? el("span", { class: "tag" }, "restart") : null,
+          el("span", { class: `badge ${H.toneClass(H.riskTone(risk))}`, html: `${H.ICON[H.riskTone(risk)]}<span>${risk}</span>` }))));
+    });
+  }
+  function key(e) {
+    if (e.key === "Escape") { close(); return; }
+    const ms = matches();
+    if (e.key === "ArrowDown") { idx = Math.min(ms.length - 1, idx + 1); paint(); e.preventDefault(); }
+    if (e.key === "ArrowUp") { idx = Math.max(0, idx - 1); paint(); e.preventDefault(); }
+    if (e.key === "Enter" && ms[idx]) { close(); openControlDialog(ms[idx]); }
+  }
+  function close() { scrim.remove(); document.removeEventListener("keydown", key); }
+  document.addEventListener("keydown", key);
+  scrim.append(pal);
+  document.body.append(scrim);
+  paint();
+  input.focus();
+}
+
+document.addEventListener("keydown", (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); openPalette(H.dataFor(state)); }
+});
+
+function loadingShell() {
+  const sh = el("div", { class: "shell" });
+  const a = el("div", { class: "col", style: "padding:12px" });
+  for (let i = 0; i < 4; i++) a.append(el("div", { class: "sk", style: "height:54px;margin-bottom:8px" }));
+  const b = el("div", { class: "col", style: "padding:12px" });
+  for (let i = 0; i < 7; i++) b.append(el("div", { class: "sk", style: "height:62px;margin-bottom:8px" }));
+  const c = el("div", { class: "col", style: "padding:12px" });
+  for (let i = 0; i < 3; i++) c.append(el("div", { class: "sk", style: "height:120px;margin-bottom:9px" }));
+  sh.append(a, b, c);
+  return sh;
+}
+
+function errorShell(msg) {
+  return el("div", { style: "padding:64px 20px;display:flex;justify-content:center" },
+    el("div", { class: "card", style: "max-width:520px" }, el("div", { class: "bd", style: "padding:30px;text-align:center" },
+      el("div", { class: "badge t-blocked", style: "margin-bottom:10px", html: `${H.ICON.blocked}<span>summary unavailable</span>` }),
+      el("h2", { style: "margin:0 0 6px;font-size:16px" }, "Trading intelligence summary is unavailable."),
+      el("p", { style: "margin:0 0 12px;color:var(--ink-2);font-size:12.5px" }, "The stream and controls may still work — the fleet rollup did not return."),
+      el("code", { class: "mono", style: "display:block;margin-bottom:14px;color:var(--critical-ink)" }, msg),
+      el("button", { class: "btn btn-primary", type: "button", onclick: () => { state = "ready"; render(); } }, "Retry"))));
+}
+
+render();
+</script>
+</body>
+</html>

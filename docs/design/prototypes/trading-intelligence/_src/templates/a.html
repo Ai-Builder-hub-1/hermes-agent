@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trading Intelligence · Variant A — Tabbed Command Center</title>
+<style>{{TOKENS}}
+
+/* ---------- Variant A: tabbed command center ---------- */
+.wrap { max-width: 1440px; margin: 0 auto; padding: 0 20px 48px; }
+
+header.page {
+  position: sticky; top: 0; z-index: 40;
+  display: flex; align-items: flex-start; gap: 16px; flex-wrap: wrap;
+  padding: 14px 0 12px; margin-bottom: 14px;
+  background: var(--plane); border-bottom: 1px solid var(--rule);
+}
+header.page .title { font-size: 20px; font-weight: 750; letter-spacing: -.01em; margin: 0; }
+header.page .meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+header.page .right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.stamp { font-size: 11.5px; color: var(--ink-muted); }
+.stamp.stale { color: var(--serious-ink); font-weight: 650; }
+
+.ribbon { display: grid; grid-template-columns: repeat(8, 1fr); gap: 1px; background: var(--rule);
+  border: 1px solid var(--rule); border-radius: 7px; overflow: hidden; margin-bottom: 14px; }
+.kpi { background: var(--surface); padding: 9px 11px 10px; min-width: 0; }
+.kpi .l { font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--ink-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kpi .v { font-size: 21px; font-weight: 700; letter-spacing: -.02em; margin-top: 3px; line-height: 1.1; }
+.kpi .v.nodata { font-size: 13px; font-weight: 600; color: var(--ink-muted); padding: 5px 0 4px; }
+.kpi .n { font-size: 10.5px; color: var(--ink-muted); margin-top: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kpi.tone-blocked { box-shadow: inset 3px 0 0 var(--critical); }
+.kpi.tone-ready { box-shadow: inset 3px 0 0 var(--good); }
+.pnl-up { color: var(--good-ink); } .pnl-down { color: var(--critical-ink); }
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.card { background: var(--surface); border: 1px solid var(--rule); border-radius: 7px; overflow: hidden; }
+.card > .hd { display: flex; align-items: center; gap: 9px; padding: 10px 12px; border-bottom: 1px solid var(--rule); }
+.card > .bd { padding: 11px 12px; }
+.card.accent-ready { border-left: 3px solid var(--good); }
+.card.accent-watch { border-left: 3px solid var(--warning); }
+.card.accent-blocked { border-left: 3px solid var(--critical); }
+.card.accent-unavailable { border-left: 3px solid var(--serious); background: var(--serious-wash); }
+.card.accent-unknown { border-left: 3px solid var(--rule-strong); }
+.card .name { font-size: 14px; font-weight: 700; }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+
+.probe { display: flex; gap: 14px; flex-wrap: wrap; font-size: 11px; color: var(--ink-muted); margin-bottom: 9px; }
+.probe b { color: var(--ink-2); font-weight: 650; }
+
+.minikpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule);
+  border: 1px solid var(--rule); border-radius: 5px; overflow: hidden; margin-bottom: 10px; }
+.minikpis > div { background: var(--surface); padding: 7px 9px; }
+.minikpis .l { font-size: 9.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-muted); }
+.minikpis .v { font-size: 15px; font-weight: 700; margin-top: 1px; }
+
+ul.reasons { list-style: none; margin: 0; padding: 0; }
+ul.reasons li { display: flex; gap: 7px; padding: 5px 0; border-top: 1px solid var(--rule); font-size: 12px; line-height: 1.45; }
+ul.reasons li:first-child { border-top: 0; }
+ul.reasons .mk { flex: none; width: 3px; border-radius: 2px; align-self: stretch; }
+.sect-l { font-size: 10px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--ink-muted); margin: 10px 0 5px; }
+
+nav.tabs { display: flex; gap: 2px; overflow-x: auto; border-bottom: 1px solid var(--rule-strong); margin-bottom: 14px; }
+nav.tabs button { font: inherit; font-size: 12.5px; font-weight: 600; white-space: nowrap;
+  background: none; border: 0; border-bottom: 2px solid transparent; color: var(--ink-muted);
+  padding: 8px 12px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+nav.tabs button:hover { color: var(--ink); }
+nav.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+nav.tabs .pip { width: 6px; height: 6px; border-radius: 50%; }
+
+.split { display: grid; grid-template-columns: minmax(0,1fr) 372px; gap: 14px; align-items: start; }
+.evrow { display: grid; grid-template-columns: 3px 58px 1fr; gap: 9px; padding: 8px 0; border-top: 1px solid var(--rule); }
+.evrow:first-child { border-top: 0; }
+.evrow .mk { border-radius: 2px; }
+.evrow .t { font-size: 10.5px; color: var(--ink-muted); font-variant-numeric: tabular-nums; padding-top: 1px; }
+.evrow .ttl { font-size: 12.5px; font-weight: 650; }
+.evrow .sm { font-size: 11.5px; color: var(--ink-2); margin-top: 2px; line-height: 1.4; }
+.evrow .tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 4px; }
+.tag { font-size: 9.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+  padding: 1px 5px; border-radius: 3px; background: var(--neutral-wash); color: var(--ink-2); }
+.tag.inv { background: rgba(42,120,214,.13); color: var(--series-1); }
+.tag.kha { background: rgba(235,104,52,.14); color: var(--series-2); }
+
+.chips { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
+.chip { font: inherit; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px;
+  border: 1px solid var(--rule-strong); background: var(--surface); color: var(--ink-2); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--plane); border-color: var(--ink); }
+
+table.data { width: 100%; border-collapse: collapse; font-size: 12px; }
+table.data th { text-align: left; font-size: 10px; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--ink-muted); font-weight: 700; padding: 6px 9px; border-bottom: 1px solid var(--rule-strong); }
+table.data td { padding: 7px 9px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+table.data tr:last-child td { border-bottom: 0; }
+table.data td.n { text-align: right; font-variant-numeric: tabular-nums; }
+
+.ctlgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(276px, 1fr)); gap: 10px; }
+.ctl { border: 1px solid var(--rule); border-radius: 6px; padding: 10px 11px; background: var(--surface);
+  display: flex; flex-direction: column; gap: 7px; }
+.ctl.risk-blocked { border-color: rgba(208,59,59,.35); background: var(--critical-wash); }
+.ctl .lab { font-size: 13px; font-weight: 700; }
+.ctl .it { font-size: 11.5px; color: var(--ink-2); line-height: 1.4; flex: 1; }
+.ctl code { font-size: 10.5px; }
+
+.meter { height: 5px; background: var(--surface-sunk); border-radius: 3px; overflow: hidden; }
+.meter > i { display: block; height: 100%; border-radius: 3px; background: var(--series-1); }
+
+@media (max-width: 1180px) { .ribbon { grid-template-columns: repeat(4, 1fr); } .split { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .ribbon { grid-template-columns: repeat(2, 1fr); } .grid2 { grid-template-columns: 1fr; } .wrap { padding: 0 12px 40px; } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>{{FIXTURE}}</script>
+<script>{{COMMON}}</script>
+<script>
+const { el } = H;
+let state = "ready";
+let tab = "overview";
+let evFilter = "all";
+const log = [];
+
+function render() {
+  const d = H.dataFor(state);
+  const root = document.getElementById("root");
+  root.replaceChildren();
+  root.append(H.stateBar(state, (s) => { state = s; tab = "overview"; render(); }, "Variant A · Tabbed Command Center"));
+
+  const wrap = el("div", { class: "wrap" });
+  root.append(wrap);
+
+  if (state === "loading") { wrap.append(skeleton()); return; }
+  if (d.error) { wrap.append(errorShell(d.error)); return; }
+
+  const s = d.summary;
+  wrap.append(pageHeader(s));
+  wrap.append(el("div", { class: "safety-banner", style: "margin-bottom:14px", html:
+    `${H.ICON.lock}<span>Live trading is locked. This page can inspect systems and proxy approved controls, but it cannot submit live broker orders.</span>` }));
+  wrap.append(ribbon(s.kpis));
+  wrap.append(projectCards(s));
+  wrap.append(tabsNav(s));
+  wrap.append(tabBody(s, d));
+}
+
+function pageHeader(s) {
+  const stale = H.isStale(s.generatedAt, 90);
+  return el("header", { class: "page" },
+    el("div", {},
+      el("h1", { class: "title" }, "Trading Intelligence"),
+      el("div", { class: "meta" },
+        H.statusBadge(s.status),
+        H.lockBadge(s.liveTradingLocked),
+        el("span", { class: `stamp${stale ? " stale" : ""}` },
+          `Last updated ${H.relTime(s.generatedAt)}${stale ? " — stale" : ""} · ${H.clockTime(s.generatedAt)}`),
+        el("span", { class: "stamp mono" }, s.frontendContractVersion)
+      )
+    ),
+    el("div", { class: "right" },
+      el("button", { class: "btn", type: "button", onclick: render },
+        el("span", { html: '<svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M13.5 8a5.5 5.5 0 11-1.7-4"/><path d="M13.8 1.6V4.4H11"/></svg>' }),
+        "Refresh")
+    )
+  );
+}
+
+function ribbon(k) {
+  const r = el("div", { class: "ribbon" });
+  for (const c of H.kpiCards(k)) {
+    const nodata = c.value === H.NO_DATA;
+    r.append(el("div", { class: `kpi${c.tone ? " tone-" + c.tone : ""}` },
+      el("div", { class: "l", title: c.label }, c.label),
+      el("div", { class: `v num ${nodata ? "nodata" : ""} ${c.pnl !== undefined ? H.pnlTone(c.pnl) : ""}` }, c.value),
+      el("div", { class: "n", title: c.note }, c.note)
+    ));
+  }
+  return r;
+}
+
+function projectCards(s) {
+  const g = el("div", { class: "grid2" });
+  for (const p of s.projects) g.append(projectCard(p));
+  return g;
+}
+
+function projectCard(p) {
+  const topKpis = Object.entries(p.kpis || {})
+    .filter(([, v]) => typeof v === "number")
+    .slice(0, 3);
+  const c = el("div", { class: `card accent-${H.tone(p.status)}` },
+    el("div", { class: "hd" },
+      el("span", { class: "dot", style: `background:${H.projectColor(p.projectId)}` }),
+      el("span", { class: "name" }, p.label),
+      el("span", { style: "margin-left:auto;display:flex;gap:6px;align-items:center" },
+        H.statusBadge(p.available ? p.status : "unavailable"),
+        p.liveTradingLocked ? el("span", { class: "badge t-lock", html: `${H.ICON.lock}<span>locked</span>` }) : null)
+    )
+  );
+  const bd = el("div", { class: "bd" });
+  bd.append(el("div", { class: "probe" },
+    el("span", {}, "HTTP ", el("b", { class: "num" }, String(p.httpStatus || 0))),
+    el("span", {}, "Latency ", el("b", { class: "num" }, `${p.latencyMs} ms`)),
+    el("span", { class: "mono", title: p.sourceBaseUrl || "" }, p.sourceBaseUrl || "no base url")
+  ));
+
+  if (!p.available) {
+    bd.append(el("div", { class: "empty", style: "text-align:left" },
+      el("div", { style: "font-weight:700;color:var(--serious-ink);margin-bottom:4px" }, "Source unavailable — this stream is missing, not empty."),
+      el("code", { class: "mono", style: "font-size:11px" }, p.error || "no error text")));
+  } else if (topKpis.length) {
+    const mk = el("div", { class: "minikpis" });
+    for (const [key, v] of topKpis) {
+      mk.append(el("div", { title: key },
+        el("div", { class: "l" }, H.humanize(key)),
+        el("div", { class: `v num ${H.isSignedPnl(key) ? H.pnlTone(v) : ""}` }, H.isSignedPnl(key) || /risk/i.test(key) ? H.fmtCurrency(v) : H.fmtInt(v))));
+    }
+    bd.append(mk);
+    if (typeof p.kpis.learningProgressPct === "number") {
+      bd.append(el("div", { class: "sect-l" }, `Learning sample ${H.fmtPct(p.kpis.learningProgressPct)}`));
+      bd.append(el("div", { class: "meter" }, el("i", { style: `width:${Math.min(100, p.kpis.learningProgressPct)}%` })));
+    }
+  }
+
+  if (p.blockers.length) {
+    bd.append(el("div", { class: "sect-l" }, `Blockers · ${p.blockers.length}`));
+    bd.append(reasons(p.blockers.slice(0, 3), "var(--critical)"));
+  }
+  if (p.recommendations.length) {
+    bd.append(el("div", { class: "sect-l" }, "Recommended next"));
+    bd.append(reasons(p.recommendations.slice(0, 2), "var(--series-1)"));
+  }
+  bd.append(el("div", { class: "sect-l" }, "Source routes"));
+  bd.append(el("div", { style: "display:flex;gap:5px;flex-wrap:wrap" },
+    Object.entries(p.sourceRoutes || {}).slice(0, 5).map(([k2, v]) =>
+      el("span", { class: "tag mono", title: v }, k2))));
+  c.append(bd);
+  return c;
+}
+
+function reasons(items, color) {
+  const ul = el("ul", { class: "reasons" });
+  for (const t of items) ul.append(el("li", {}, el("span", { class: "mk", style: `background:${color}` }), el("span", {}, t)));
+  return ul;
+}
+
+function tabsNav(s) {
+  const n = el("nav", { class: "tabs" });
+  for (const t of s.tabs) {
+    n.append(el("button", { type: "button", role: "tab", "aria-selected": String(t.id === tab), onclick: () => { tab = t.id; render(); } },
+      el("span", { class: `pip ${H.railClass(t.status)}`, title: t.status }),
+      t.label));
+  }
+  return n;
+}
+
+function tabBody(s, d) {
+  const box = el("section", {});
+  if (tab === "overview") {
+    const sp = el("div", { class: "split" });
+    const left = el("div", {});
+    left.append(panel(`Needs attention · ${s.blockers.length}`, s.blockers.length
+      ? reasons(s.blockers, "var(--critical)")
+      : el("div", { class: "empty" }, "No blockers reported across the fleet.")));
+    left.append(el("div", { style: "height:12px" }));
+    left.append(panel("Recommended next actions", s.recommendations.length
+      ? reasons(s.recommendations, "var(--series-1)")
+      : el("div", { class: "empty" }, "No recommendations reported.")));
+    sp.append(left, panel("Latest events", eventsList(d.events.events.slice(0, 5))));
+    box.append(sp);
+  } else if (tab === "investing-system" || tab === "khashi-vc") {
+    const p = s.projects.find((x) => x.projectId === tab);
+    box.append(projectDetail(p, d));
+  } else if (tab === "pnl-risk") {
+    box.append(pnlRisk(s));
+  } else if (tab === "strategy-quality") {
+    box.append(strategy(s, d));
+  } else if (tab === "events") {
+    box.append(eventsTab(d));
+  } else if (tab === "controls") {
+    box.append(controlsTab(d));
+  }
+  return box;
+}
+
+function panel(title, node) {
+  return el("div", { class: "card" }, el("div", { class: "hd" }, el("span", { class: "name" }, title)), el("div", { class: "bd" }, node));
+}
+
+function projectDetail(p, d) {
+  if (!p) return el("div", { class: "empty" }, "Project not present in this summary.");
+  const box = el("div", {});
+  box.append(projectCard(p));
+  box.append(el("div", { style: "height:12px" }));
+  const rows = Object.entries(p.kpis || {});
+  box.append(panel(`${p.label} — published KPIs`, rows.length ? kvTable(rows) : el("div", { class: "empty" }, "No KPIs published while the source is unavailable.")));
+  box.append(el("div", { style: "height:12px" }));
+  box.append(panel(`${p.label} — source tabs`, (p.tabs || []).length
+    ? el("div", { style: "display:flex;gap:6px;flex-wrap:wrap" }, (p.tabs || []).map((t) =>
+        el("span", { class: `badge ${H.toneClass(t.status)}`, html: `${H.ICON[H.tone(t.status)]}<span>${t.label || t.id}</span>` })))
+    : el("div", { class: "empty" }, "No source tabs published.")));
+  box.append(el("div", { style: "height:12px" }));
+  const det = el("details", {}, el("summary", { style: "cursor:pointer;font-size:12px;font-weight:650;padding:4px 0" }, "Raw project payload (debug)"),
+    el("pre", { class: "payload", style: "margin-top:8px" }, JSON.stringify(p.summary, null, 2)));
+  box.append(panel("Raw payload", det));
+  return box;
+}
+
+function kvTable(rows) {
+  const t = el("table", { class: "data" }, el("thead", {}, el("tr", {}, el("th", {}, "Field"), el("th", { style: "text-align:right" }, "Value"))));
+  const tb = el("tbody", {});
+  for (const [k, v] of rows) {
+    tb.append(el("tr", {}, el("td", { title: k }, H.humanize(k), el("span", { class: "mono", style: "color:var(--ink-muted);margin-left:6px;font-size:10.5px" }, k)),
+      el("td", { class: "n" }, typeof v === "boolean" ? (v ? "true" : "false") : typeof v === "number" ? H.fmtInt(v) : String(v ?? H.NO_DATA))));
+  }
+  t.append(tb); return t;
+}
+
+function pnlRisk(s) {
+  const box = el("div", {});
+  box.append(ribbon({ ...s.kpis, liveMarkets: s.kpis.liveMarkets, strategyCandidates: s.kpis.strategyCandidates }));
+  const t = el("table", { class: "data" },
+    el("thead", {}, el("tr", {}, el("th", {}, "Project"), el("th", { style: "text-align:right" }, "Open trades"),
+      el("th", { style: "text-align:right" }, "Closed"), el("th", { style: "text-align:right" }, "Realized P/L"),
+      el("th", { style: "text-align:right" }, "Open risk"))));
+  const tb = el("tbody", {});
+  for (const p of s.projects) {
+    const k = p.kpis || {};
+    const pnl = H.isNum(k.realizedPnlUsd) ? k.realizedPnlUsd : H.isNum(k.realizedPnlToday) ? k.realizedPnlToday : null;
+    tb.append(el("tr", {},
+      el("td", {}, el("span", { class: "dot", style: `display:inline-block;margin-right:6px;background:${H.projectColor(p.projectId)}` }), p.label),
+      el("td", { class: "n" }, H.fmtInt(k.openTrades)),
+      el("td", { class: "n" }, H.fmtInt(H.isNum(k.closedTrades) ? k.closedTrades : k.reviewedTrades)),
+      el("td", { class: `n ${H.pnlTone(pnl)}` }, H.fmtCurrency(pnl)),
+      el("td", { class: "n" }, H.fmtCurrency(k.openRiskUsd))));
+  }
+  t.append(tb);
+  box.append(panel("Per-project P/L and risk", t));
+  box.append(el("div", { style: "height:12px" }));
+  box.append(panel("Contract note", el("p", { style: "margin:0;font-size:12px;color:var(--ink-2)" },
+    "investing-system publishes no openRiskUsd and no closedTrades — it publishes reviewedTrades and realizedPnlToday. Blank cells here are missing fields in the source contract, not zero values.")));
+  return box;
+}
+
+function strategy(s, d) {
+  const box = el("div", {});
+  const g = el("div", { class: "grid2" });
+  for (const p of s.projects) {
+    const k = p.kpis || {};
+    const bd = el("div", {});
+    if (H.isNum(k.learningProgressPct)) {
+      bd.append(el("div", { class: "sect-l" }, `Learning sample progress ${H.fmtPct(k.learningProgressPct)}`));
+      bd.append(el("div", { class: "meter" }, el("i", { style: `width:${Math.min(100, k.learningProgressPct)}%` })));
+      bd.append(el("div", { style: "height:9px" }));
+    }
+    const rows = Object.entries(k).filter(([kk]) => /strategy|learning|candidate|shadow|scan|indicator|reviewed/i.test(kk));
+    bd.append(rows.length ? kvTable(rows) : el("div", { class: "empty" }, "No strategy-quality fields published."));
+    g.append(panel(p.label, bd));
+  }
+  box.append(g);
+  const strategyEvents = d.events.events.filter((e) => H.EVENT_FILTERS.find((f) => f.id === "strategy").test(e));
+  box.append(panel("Strategy-related events", strategyEvents.length ? eventsList(strategyEvents) : el("div", { class: "empty" }, "No strategy-related events in the current window.")));
+  return box;
+}
+
+function eventsTab(d) {
+  const box = el("div", {});
+  const chips = el("div", { class: "chips" });
+  for (const f of H.EVENT_FILTERS) {
+    chips.append(el("button", { class: "chip", type: "button", "aria-pressed": String(f.id === evFilter), onclick: () => { evFilter = f.id; render(); } }, f.label));
+  }
+  box.append(chips);
+  const f = H.EVENT_FILTERS.find((x) => x.id === evFilter);
+  const list = d.events.events.filter(f.test);
+  box.append(panel(`Events · ${list.length} of ${d.events.events.length}`,
+    list.length ? eventsList(list) : el("div", { class: "empty" }, "No recent trading intelligence events found.")));
+  return box;
+}
+
+function eventsList(list) {
+  if (!list.length) return el("div", { class: "empty" }, "No recent trading intelligence events found.");
+  const box = el("div", {});
+  for (const e of list) {
+    const sev = H.eventSeverity(e);
+    box.append(el("div", { class: "evrow" },
+      el("span", { class: `mk ${H.sevRail(sev)}` }),
+      el("span", { class: "t" }, H.relTime(e.occurredAt)),
+      el("div", {},
+        el("div", { class: "ttl" }, e.title),
+        el("div", { class: "sm" }, e.summary),
+        el("div", { class: "tags" },
+          el("span", { class: `tag ${e.sourceProject === "investing-system" ? "inv" : "kha"}` }, H.projectShort(e.sourceProject)),
+          el("span", { class: `badge ${H.toneClass(H.sevTone(sev))}`, html: `${H.ICON[H.sevTone(sev)]}<span>${sev}</span>` }),
+          el("span", { class: "tag mono" }, e.type),
+          e.instrument ? el("span", { class: "tag mono" }, e.instrument) : null,
+          ...Object.keys(e.links || {}).map((k) => el("a", { class: "tag mono", href: "#", title: e.links[k], onclick: (ev) => ev.preventDefault() }, k))
+        ))));
+  }
+  return box;
+}
+
+function controlsTab(d) {
+  const box = el("div", {});
+  box.append(el("div", { class: "safety-banner", style: "margin-bottom:12px", html:
+    `${H.ICON.lock}<span>${d.controls.safety.note} Preview runs first; execute is a second, separate request.</span>` }));
+  for (const proj of d.controls.projects) {
+    const bd = el("div", {});
+    if (!proj.available) {
+      bd.append(el("div", { class: "empty", style: "text-align:left" }, `Source unavailable — ${proj.error}. No controls can be proxied for this project right now.`));
+    } else if (!proj.controls.length) {
+      bd.append(el("div", { class: "empty" }, "No controls are available from this project right now."));
+    } else {
+      const g = el("div", { class: "ctlgrid" });
+      for (const c of proj.controls) {
+        const risk = H.riskLevel(c);
+        g.append(el("div", { class: `ctl risk-${H.riskTone(risk)}` },
+          el("div", { style: "display:flex;align-items:center;gap:7px;flex-wrap:wrap" },
+            el("span", { class: `badge ${H.toneClass(H.riskTone(risk))}`, html: `${H.ICON[H.riskTone(risk)]}<span>${risk}</span>` }),
+            c.requiresServiceRestart ? el("span", { class: "tag" }, "restart") : null,
+            c.execution ? el("span", { class: "tag mono" }, c.execution) : null),
+          el("div", { class: "lab" }, c.label),
+          el("div", { class: "it" }, c.intent || ""),
+          el("code", { class: "mono", style: "color:var(--ink-muted)" }, c.namespacedId),
+          el("button", { class: `btn ${risk === "low" ? "" : "btn-danger"}`, type: "button", style: "align-self:flex-start",
+            onclick: () => openControlDialog(c, (ctl, res) => { log.unshift({ ctl, res }); render(); }) }, "Preview…")));
+      }
+      bd.append(g);
+    }
+    box.append(panel(`${proj.label} controls`, bd));
+    box.append(el("div", { style: "height:12px" }));
+  }
+  if (log.length) {
+    const t = el("table", { class: "data" }, el("thead", {}, el("tr", {}, el("th", {}, "Action"), el("th", {}, "Status"), el("th", {}, "HTTP"), el("th", {}, "When"))));
+    const tb = el("tbody", {});
+    for (const r of log.slice(0, 8)) {
+      const ok = H.executionSucceeded(r.res);
+      tb.append(el("tr", {}, el("td", { class: "mono" }, r.ctl.namespacedId),
+        el("td", {}, el("span", { class: `badge ${H.toneClass(ok ? "ready" : "blocked")}`, html: `${ok ? H.ICON.ready : H.ICON.blocked}<span>${r.res.status}</span>` })),
+        el("td", { class: "n" }, String(r.res.httpStatus)), el("td", {}, H.relTime(r.res.generatedAt))));
+    }
+    t.append(tb);
+    box.append(panel("This session's control requests", t));
+  }
+  return box;
+}
+
+function skeleton() {
+  const b = el("div", {});
+  b.append(el("div", { class: "sk", style: "height:44px;width:320px;margin:14px 0" }));
+  const r = el("div", { class: "ribbon" });
+  for (let i = 0; i < 8; i++) r.append(el("div", { class: "kpi" }, el("div", { class: "sk", style: "height:10px;width:70%" }), el("div", { class: "sk", style: "height:20px;width:52%;margin-top:6px" })));
+  b.append(r);
+  const g = el("div", { class: "grid2" });
+  for (let i = 0; i < 2; i++) g.append(el("div", { class: "card" }, el("div", { class: "bd" }, el("div", { class: "sk", style: "height:132px" }))));
+  b.append(g);
+  b.append(el("div", { class: "card" }, el("div", { class: "bd" }, el("div", { class: "sk", style: "height:180px" }))));
+  return b;
+}
+
+function errorShell(msg) {
+  return el("div", { style: "padding:44px 0" },
+    el("div", { class: "card" }, el("div", { class: "bd", style: "text-align:center;padding:36px 20px" },
+      el("div", { class: "badge t-blocked", style: "margin-bottom:10px", html: `${H.ICON.blocked}<span>summary unavailable</span>` }),
+      el("h2", { style: "margin:0 0 6px;font-size:17px" }, "Trading intelligence summary is unavailable."),
+      el("p", { style: "margin:0 0 14px;color:var(--ink-2);font-size:12.5px" },
+        "The dashboard shell is intact. Events and controls may still load — the fleet rollup did not."),
+      el("code", { class: "mono", style: "display:block;margin-bottom:14px;color:var(--critical-ink)" }, msg),
+      el("button", { class: "btn btn-primary", type: "button", onclick: () => { state = "ready"; render(); } }, "Retry"))));
+}
+
+render();
+setInterval(() => { if (state === "ready") { const st = document.querySelector(".stamp"); if (st) st.textContent = st.textContent.replace(/Last updated .*? ·/, `Last updated ${H.relTime(TI.summary.generatedAt)} ·`); } }, 15000);
+</script>
+</body>
+</html>

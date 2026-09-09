@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trading Intelligence · Variant C — Split Project Comparison</title>
+<style>{{TOKENS}}
+
+/* ---------- Variant C: two systems, aligned row by row ---------- */
+.wrap { max-width: 1320px; margin: 0 auto; padding: 0 20px 48px; }
+
+header.page { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 15px 0 12px; }
+header.page h1 { margin: 0; font-size: 19px; font-weight: 750; letter-spacing: -.01em; }
+header.page .right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.stamp { font-size: 11.5px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.stamp.stale { color: var(--serious-ink); font-weight: 650; }
+
+/* fleet strip — one line of eight, deliberately quieter than the comparison */
+.fleet { display: flex; gap: 1px; background: var(--rule); border: 1px solid var(--rule);
+  border-radius: 6px; overflow: hidden; margin-bottom: 16px; }
+.fleet > div { flex: 1 1 0; min-width: 0; background: var(--surface); padding: 7px 10px; }
+.fleet .l { font-size: 9.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-muted);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fleet .v { font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums; margin-top: 2px; }
+.fleet .v.nodata { font-size: 11.5px; font-weight: 600; color: var(--ink-muted); padding: 3px 0 2px; }
+.fleet > div.hot { background: var(--critical-wash); }
+.fleet > div.hot .v { color: var(--critical-ink); }
+.pnl-up { color: var(--good-ink); } .pnl-down { color: var(--critical-ink); }
+
+/* comparison table: value | metric | value
+   Wide content scrolls inside its own box — the page body never scrolls sideways. */
+.cmpwrap { overflow-x: auto; border-radius: 7px; }
+.cmp { width: 100%; min-width: 560px; border-collapse: collapse; background: var(--surface);
+  border: 1px solid var(--rule); border-radius: 7px; overflow: hidden; }
+.cmp th, .cmp td { padding: 8px 12px; border-bottom: 1px solid var(--rule); }
+.cmp tr:last-child td { border-bottom: 0; }
+.cmp thead th { background: var(--surface-sunk); border-bottom: 1px solid var(--rule-strong); vertical-align: top; }
+.cmp .side { width: 34%; }
+.cmp .gutter { width: 32%; text-align: center; background: var(--surface-sunk); }
+.cmp td.side { font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.cmp td.side.l { text-align: right; }
+.cmp td.side.r { text-align: left; }
+.cmp td.side .unit { font-size: 11px; font-weight: 600; color: var(--ink-muted); display: block; margin-top: 1px; }
+.cmp td.side.absent { font-size: 11.5px; font-weight: 600; color: var(--ink-muted); font-style: italic; }
+.cmp td.gutter { font-size: 11px; font-weight: 650; color: var(--ink-2); }
+.cmp td.gutter .sub { display: block; font-size: 9.5px; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--ink-muted); margin-top: 2px; }
+.cmp tr.asym td.gutter { background: var(--warning-wash); }
+.cmp tr.asym td.gutter .sub { color: var(--warning-ink); }
+
+.head-side { display: flex; flex-direction: column; gap: 6px; }
+.head-side.r { align-items: flex-end; text-align: right; }
+.head-side .nm { font-size: 15px; font-weight: 750; display: flex; align-items: center; gap: 7px; }
+.head-side .badges { display: flex; gap: 5px; flex-wrap: wrap; }
+.head-side.r .badges { justify-content: flex-end; }
+.head-side .probe { font-size: 10.5px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+
+.legend { display: flex; gap: 14px; flex-wrap: wrap; margin: 8px 0 18px; font-size: 11px; color: var(--ink-muted); }
+.legend span { display: inline-flex; align-items: center; gap: 5px; }
+.legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+.card { background: var(--surface); border: 1px solid var(--rule); border-radius: 7px; overflow: hidden; }
+.card > .hd { padding: 9px 12px; border-bottom: 1px solid var(--rule); display: flex; align-items: center; gap: 8px; }
+.card > .hd .name { font-size: 13px; font-weight: 700; }
+.card > .hd .ct { margin-left: auto; font-size: 11px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.card > .bd { padding: 0; }
+.card.side-l { border-top: 3px solid var(--series-1); }
+.card.side-r { border-top: 3px solid var(--series-2); }
+
+ul.lines { list-style: none; margin: 0; padding: 0; }
+ul.lines li { display: flex; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--rule); font-size: 12px; line-height: 1.45; }
+ul.lines li:last-child { border-bottom: 0; }
+ul.lines .mk { flex: none; width: 3px; border-radius: 2px; align-self: stretch; }
+
+.evrow { display: grid; grid-template-columns: 3px 54px 1fr; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--rule); }
+.evrow:last-child { border-bottom: 0; }
+.evrow .mk { border-radius: 2px; }
+.evrow .t { font-size: 10.5px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.evrow .ti { font-size: 12px; font-weight: 650; }
+.evrow .su { font-size: 11px; color: var(--ink-2); margin-top: 2px; line-height: 1.4; }
+.evrow .mt { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+.tag { font-size: 9.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 1px 5px;
+  border-radius: 3px; background: var(--neutral-wash); color: var(--ink-2); }
+
+.ctlwrap { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+.ctl { display: flex; align-items: center; gap: 9px; padding: 8px 12px; border-bottom: 1px solid var(--rule); }
+.ctl:last-child { border-bottom: 0; }
+.ctl .nm { font-size: 12.5px; font-weight: 650; }
+.ctl .it { font-size: 11px; color: var(--ink-muted); margin-top: 1px; line-height: 1.35; }
+.ctl .go { margin-left: auto; }
+
+@media (max-width: 1000px) {
+  .fleet { flex-wrap: wrap; } .fleet > div { flex: 1 1 25%; }
+  .two, .ctlwrap { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+  .wrap { padding: 0 12px 40px; }
+  .fleet > div { flex: 1 1 50%; }
+  .cmp td.side { font-size: 16px; }
+  .cmp th, .cmp td { padding: 7px 8px; }
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>{{FIXTURE}}</script>
+<script>{{COMMON}}</script>
+<script>
+const { el } = H;
+let state = "ready";
+
+/* The comparison rows. `both` marks metrics both systems publish — the
+   only rows where a side-by-side number is a fair comparison. Rows where
+   one side has no field at all are marked asymmetric, because "blank"
+   there means "not in the contract", not "zero". */
+const ROWS = [
+  { label: "Status",           kind: "status" },
+  { label: "Reachable",        kind: "probe" },
+  { label: "Open trades",      inv: "openTrades",        kha: "openTrades",       fmt: "int",  both: true },
+  { label: "Closed / reviewed",inv: "reviewedTrades",    kha: "closedTrades",     fmt: "int",  both: true, note: "reviewedTrades vs closedTrades" },
+  { label: "Realized P/L",     inv: "realizedPnlToday",  kha: "realizedPnlUsd",   fmt: "usd",  both: true, note: "today vs paper ledger" },
+  { label: "Open risk",        inv: null,                kha: "openRiskUsd",      fmt: "usd" },
+  { label: "Strategy gross P/L", inv: "strategyGrossPnl",kha: null,               fmt: "usd" },
+  { label: "Live markets",     inv: null,                kha: "liveMarkets",      fmt: "int" },
+  { label: "Strategy candidates", inv: "usableLearningTrades", kha: "paperCandidates", fmt: "int", note: "usableLearningTrades vs paperCandidates" },
+  { label: "Unprotected open trades", inv: "unprotectedOpenTrades", kha: null,    fmt: "int" },
+  { label: "Health score",     inv: null,                kha: "healthScore",      fmt: "int" },
+  { label: "Blockers",         kind: "blockers" },
+];
+
+function render() {
+  const d = H.dataFor(state);
+  const root = document.getElementById("root");
+  root.replaceChildren();
+  root.append(H.stateBar(state, (s) => { state = s; render(); }, "Variant C · Split Project Comparison"));
+
+  const wrap = el("div", { class: "wrap" });
+  root.append(wrap);
+  if (state === "loading") { wrap.append(skeleton()); return; }
+  if (d.error) { wrap.append(errorShell(d.error)); return; }
+
+  const s = d.summary;
+  const [L, R] = s.projects;
+
+  const stale = H.isStale(s.generatedAt, 90);
+  wrap.append(el("header", { class: "page" },
+    el("h1", {}, "Trading Intelligence"),
+    H.statusBadge(s.status), H.lockBadge(s.liveTradingLocked),
+    el("span", { class: `stamp${stale ? " stale" : ""}` }, `Last updated ${H.relTime(s.generatedAt)}${stale ? " — stale" : ""}`),
+    el("div", { class: "right" }, el("button", { class: "btn", type: "button", onclick: render }, "Refresh"))));
+
+  wrap.append(el("div", { class: "safety-banner", style: "margin-bottom:14px", html:
+    `${H.ICON.lock}<span>Live trading is locked. This page can inspect systems and proxy approved controls, but it cannot submit live broker orders.</span>` }));
+
+  wrap.append(fleetStrip(s.kpis));
+  wrap.append(comparison(L, R));
+  wrap.append(el("div", { class: "legend" },
+    el("span", {}, el("i", { style: "background:var(--series-1)" }), "Investing System"),
+    el("span", {}, el("i", { style: "background:var(--series-2)" }), "Khashi VC"),
+    el("span", {}, el("i", { style: "background:var(--warning)" }), "Asymmetric — only one system publishes this field"),
+    el("span", {}, "“Not published” is a missing contract field, not a zero.")));
+
+  wrap.append(el("div", { class: "two" },
+    sideCard(L, "l", "Blockers", L.blockers, "critical"),
+    sideCard(R, "r", "Blockers", R.blockers, "critical")));
+  wrap.append(el("div", { class: "two" },
+    sideCard(L, "l", "Recommended next", L.recommendations, "series"),
+    sideCard(R, "r", "Recommended next", R.recommendations, "series")));
+
+  const evL = d.events.events.filter((e) => e.sourceProject === "investing-system");
+  const evR = d.events.events.filter((e) => e.sourceProject === "khashi-vc");
+  wrap.append(el("div", { class: "two" }, eventCard(L, "l", evL), eventCard(R, "r", evR)));
+
+  wrap.append(el("div", { class: "ctlwrap" }, ...d.controls.projects.map((p, i) => controlCard(p, i === 0 ? "l" : "r"))));
+}
+
+function fleetStrip(k) {
+  const f = el("div", { class: "fleet" });
+  for (const c of H.kpiCards(k)) {
+    const nodata = c.value === H.NO_DATA;
+    f.append(el("div", { class: c.label === "Blockers" && k.blockers > 0 ? "hot" : "" },
+      el("div", { class: "l", title: c.label }, c.label),
+      el("div", { class: `v ${nodata ? "nodata" : ""} ${c.pnl !== undefined ? H.pnlTone(c.pnl) : ""}` }, c.value)));
+  }
+  return f;
+}
+
+function comparison(L, R) {
+  const t = el("table", { class: "cmp" });
+  t.append(el("thead", {}, el("tr", {},
+    el("th", { class: "side" }, headSide(L, "l")),
+    el("th", { class: "gutter" }, el("span", { class: "eyebrow" }, "Metric")),
+    el("th", { class: "side" }, headSide(R, "r")))));
+  const tb = el("tbody", {});
+  for (const row of ROWS) tb.append(cmpRow(row, L, R));
+  t.append(tb);
+  return el("div", { class: "cmpwrap" }, t);
+}
+
+function headSide(p, side) {
+  return el("div", { class: `head-side ${side}` },
+    el("div", { class: "nm" },
+      side === "r" ? null : el("span", { class: "dot", style: `background:${H.projectColor(p.projectId)}` }),
+      p.label,
+      side === "r" ? el("span", { class: "dot", style: `background:${H.projectColor(p.projectId)}` }) : null),
+    el("div", { class: "badges" },
+      H.statusBadge(p.available ? p.status : "unavailable"),
+      p.liveTradingLocked ? el("span", { class: "badge t-lock", html: `${H.ICON.lock}<span>locked</span>` }) : null),
+    el("div", { class: "probe mono" }, p.sourceBaseUrl || "no base url"));
+}
+
+function cell(p, key, fmt, side) {
+  if (!p.available) return el("td", { class: `side ${side} absent` }, "Source unavailable");
+  if (!key) return el("td", { class: `side ${side} absent` }, "Not published");
+  const v = p.kpis?.[key];
+  if (!H.isNum(v)) return el("td", { class: `side ${side} absent` }, "Not published");
+  const text = fmt === "usd" ? H.fmtCurrency(v) : H.fmtInt(v);
+  return el("td", { class: `side ${side} ${H.isSignedPnl(key) ? H.pnlTone(v) : ""}` },
+    text, el("span", { class: "unit mono", title: H.humanize(key) }, key));
+}
+
+function cmpRow(row, L, R) {
+  if (row.kind === "status") {
+    return el("tr", {},
+      el("td", { class: "side l" }, el("span", { style: "display:inline-flex;gap:6px" }, H.statusBadge(L.available ? L.status : "unavailable"))),
+      el("td", { class: "gutter" }, "Status", el("span", { class: "sub" }, "normalised")),
+      el("td", { class: "side r" }, el("span", { style: "display:inline-flex;gap:6px" }, H.statusBadge(R.available ? R.status : "unavailable"))));
+  }
+  if (row.kind === "probe") {
+    const probe = (p, side) => el("td", { class: `side ${side}`, style: "font-size:13px;font-weight:650" },
+      `HTTP ${p.httpStatus || 0}`, el("span", { class: "unit mono" }, `${p.latencyMs} ms probe`));
+    return el("tr", {}, probe(L, "l"), el("td", { class: "gutter" }, "Reachable", el("span", { class: "sub" }, "aggregator probe")), probe(R, "r"));
+  }
+  if (row.kind === "blockers") {
+    const b = (p, side) => el("td", { class: `side ${side}`, style: p.blockers.length ? "color:var(--critical-ink)" : "" },
+      String(p.blockers.length), el("span", { class: "unit" }, p.blockers.length === 1 ? "blocker" : "blockers"));
+    return el("tr", {}, b(L, "l"), el("td", { class: "gutter" }, "Blockers", el("span", { class: "sub" }, "source reported")), b(R, "r"));
+  }
+  const asym = !row.inv || !row.kha;
+  return el("tr", { class: asym ? "asym" : "" },
+    cell(L, row.inv, row.fmt, "l"),
+    el("td", { class: "gutter" }, row.label,
+      el("span", { class: "sub" }, asym ? "one side only" : (row.note || "comparable"))),
+    cell(R, row.kha, row.fmt, "r"));
+}
+
+function sideCard(p, side, title, items, kind) {
+  const c = el("div", { class: `card side-${side}` },
+    el("div", { class: "hd" }, el("span", { class: "dot", style: `background:${H.projectColor(p.projectId)}` }),
+      el("span", { class: "name" }, `${p.label} — ${title}`), el("span", { class: "ct" }, String(items.length))));
+  if (!items.length) { c.append(el("div", { class: "bd" }, el("div", { class: "empty", style: "margin:12px" }, `No ${title.toLowerCase()} reported.`))); return c; }
+  const ul = el("ul", { class: "lines" });
+  for (const t of items) ul.append(el("li", {},
+    el("span", { class: "mk", style: `background:${kind === "critical" ? "var(--critical)" : H.projectColor(p.projectId)}` }),
+    el("span", {}, t)));
+  c.append(el("div", { class: "bd" }, ul));
+  return c;
+}
+
+function eventCard(p, side, evs) {
+  const c = el("div", { class: `card side-${side}` },
+    el("div", { class: "hd" }, el("span", { class: "dot", style: `background:${H.projectColor(p.projectId)}` }),
+      el("span", { class: "name" }, `${p.label} — latest events`), el("span", { class: "ct" }, String(evs.length))));
+  const bd = el("div", { class: "bd" });
+  if (!evs.length) bd.append(el("div", { class: "empty", style: "margin:12px" }, "No recent trading intelligence events found."));
+  for (const e of evs.slice(0, 5)) {
+    const sev = H.eventSeverity(e);
+    bd.append(el("div", { class: "evrow" },
+      el("span", { class: `mk ${H.sevRail(sev)}` }),
+      el("span", { class: "t" }, H.relTime(e.occurredAt)),
+      el("div", {}, el("div", { class: "ti" }, e.title), el("div", { class: "su" }, e.summary),
+        el("div", { class: "mt" },
+          el("span", { class: `badge ${H.toneClass(H.sevTone(sev))}`, html: `${H.ICON[H.sevTone(sev)]}<span>${sev}</span>` }),
+          e.instrument ? el("span", { class: "tag mono" }, e.instrument) : null,
+          el("span", { class: "tag mono" }, e.type)))));
+  }
+  c.append(bd);
+  return c;
+}
+
+function controlCard(proj, side) {
+  const c = el("div", { class: `card side-${side}` },
+    el("div", { class: "hd" }, el("span", { class: "name" }, `${proj.label} — controls`),
+      el("span", { class: "badge t-lock", html: `${H.ICON.lock}<span>preview first</span>` }),
+      el("span", { class: "ct" }, String(proj.controls.length))));
+  const bd = el("div", { class: "bd" });
+  if (!proj.available) bd.append(el("div", { class: "empty", style: "margin:12px;text-align:left" }, `Source unavailable — ${proj.error}.`));
+  else if (!proj.controls.length) bd.append(el("div", { class: "empty", style: "margin:12px" }, "No controls are available from this project right now."));
+  else for (const ctl of proj.controls) {
+    const risk = H.riskLevel(ctl);
+    bd.append(el("div", { class: "ctl" },
+      el("span", { class: `badge ${H.toneClass(H.riskTone(risk))}`, html: `${H.ICON[H.riskTone(risk)]}<span>${risk}</span>` }),
+      el("div", {}, el("div", { class: "nm" }, ctl.label), el("div", { class: "it" }, ctl.intent || "")),
+      el("button", { class: `btn go ${risk === "low" ? "" : "btn-danger"}`, type: "button", onclick: () => openControlDialog(ctl) }, "Preview…")));
+  }
+  c.append(bd);
+  return c;
+}
+
+function skeleton() {
+  const b = el("div", { style: "padding-top:16px" });
+  b.append(el("div", { class: "sk", style: "height:38px;width:280px;margin-bottom:14px" }));
+  b.append(el("div", { class: "sk", style: "height:60px;margin-bottom:16px" }));
+  b.append(el("div", { class: "sk", style: "height:420px;margin-bottom:16px" }));
+  b.append(el("div", { class: "two" }, el("div", { class: "sk", style: "height:150px" }), el("div", { class: "sk", style: "height:150px" })));
+  return b;
+}
+
+function errorShell(msg) {
+  return el("div", { style: "padding:44px 0" }, el("div", { class: "card" },
+    el("div", { style: "padding:36px 20px;text-align:center" },
+      el("div", { class: "badge t-blocked", style: "margin-bottom:10px", html: `${H.ICON.blocked}<span>summary unavailable</span>` }),
+      el("h2", { style: "margin:0 0 6px;font-size:17px" }, "Trading intelligence summary is unavailable."),
+      el("p", { style: "margin:0 0 14px;color:var(--ink-2);font-size:12.5px" }, "Nothing can be compared without the fleet rollup."),
+      el("code", { class: "mono", style: "display:block;margin-bottom:14px;color:var(--critical-ink)" }, msg),
+      el("button", { class: "btn btn-primary", type: "button", onclick: () => { state = "ready"; render(); } }, "Retry"))));
+}
+
+render();
+</script>
+</body>
+</html>

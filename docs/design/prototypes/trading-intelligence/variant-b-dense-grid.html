@@ -1,0 +1,1162 @@
+<!doctype html>
+<!--
+  Trading Intelligence Control Plane — design prototype
+  Generated, self-contained, offline. No network calls, no build step.
+  Data is a fixture matching the real contract; see docs/design/prototypes/
+  trading-intelligence/README.md for what is real and what is mocked.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trading Intelligence · Variant B — Dense Single-Screen Grid</title>
+<style>/* ==================================================================
+ * Shared tokens — Trading Intelligence Control Plane prototypes
+ * Palette slots follow the Hermes dataviz reference palette.
+ * Status colours are RESERVED: never reused as a series colour.
+ * ================================================================== */
+:root {
+  color-scheme: light;
+
+  --plane:        #f9f9f7;
+  --surface:      #fcfcfb;
+  --surface-2:    #f2f1ed;
+  --surface-sunk: #eeede8;
+
+  --ink:          #0b0b0b;
+  --ink-2:        #52514e;
+  --ink-muted:    #898781;
+
+  --rule:         #e1e0d9;
+  --rule-strong:  #c3c2b7;
+
+  --good:         #0ca30c;
+  --warning:      #fab219;
+  --serious:      #ec835a;
+  --critical:     #d03b3b;
+
+  --good-ink:     #046a04;
+  --warning-ink:  #8a5c00;
+  --serious-ink:  #a8461c;
+  --critical-ink: #a02020;
+
+  --good-wash:     rgba(12,163,12,.09);
+  --warning-wash:  rgba(250,178,25,.14);
+  --serious-wash:  rgba(236,131,90,.13);
+  --critical-wash: rgba(208,59,59,.10);
+  --neutral-wash:  rgba(11,11,11,.05);
+
+  --series-1: #2a78d6;  /* investing-system */
+  --series-2: #eb6834;  /* khashi-vc */
+
+  --lock:      #4a3aa7;
+  --lock-wash: rgba(74,58,167,.10);
+
+  --shadow: 0 1px 2px rgba(11,11,11,.05), 0 8px 24px rgba(11,11,11,.06);
+
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --plane:        #0d0d0d;
+    --surface:      #1a1a19;
+    --surface-2:    #212120;
+    --surface-sunk: #131312;
+
+    --ink:          #ffffff;
+    --ink-2:        #c3c2b7;
+    --ink-muted:    #898781;
+
+    --rule:         #2c2c2a;
+    --rule-strong:  #383835;
+
+    --good-ink:     #4cc44c;
+    --warning-ink:  #fab219;
+    --serious-ink:  #ec835a;
+    --critical-ink: #e86a6a;
+
+    --good-wash:     rgba(12,163,12,.16);
+    --warning-wash:  rgba(250,178,25,.16);
+    --serious-wash:  rgba(236,131,90,.16);
+    --critical-wash: rgba(208,59,59,.20);
+    --neutral-wash:  rgba(255,255,255,.06);
+
+    --series-1: #3987e5;
+    --series-2: #d95926;
+
+    --lock:      #9085e9;
+    --lock-wash: rgba(144,133,233,.16);
+
+    --shadow: 0 1px 2px rgba(0,0,0,.5), 0 8px 24px rgba(0,0,0,.45);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --plane:        #0d0d0d;
+  --surface:      #1a1a19;
+  --surface-2:    #212120;
+  --surface-sunk: #131312;
+  --ink:          #ffffff;
+  --ink-2:        #c3c2b7;
+  --ink-muted:    #898781;
+  --rule:         #2c2c2a;
+  --rule-strong:  #383835;
+  --good-ink:     #4cc44c;
+  --warning-ink:  #fab219;
+  --serious-ink:  #ec835a;
+  --critical-ink: #e86a6a;
+  --good-wash:     rgba(12,163,12,.16);
+  --warning-wash:  rgba(250,178,25,.16);
+  --serious-wash:  rgba(236,131,90,.16);
+  --critical-wash: rgba(208,59,59,.20);
+  --neutral-wash:  rgba(255,255,255,.06);
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --lock:      #9085e9;
+  --lock-wash: rgba(144,133,233,.16);
+  --shadow: 0 1px 2px rgba(0,0,0,.5), 0 8px 24px rgba(0,0,0,.45);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--plane);
+  color: var(--ink);
+  font: 13px/1.45 var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- primitives shared by every variant ---------------------------- */
+.num { font-variant-numeric: tabular-nums; }
+.mono { font-family: var(--mono); }
+
+.eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--ink-muted);
+}
+
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 7px; border-radius: 4px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: .05em;
+  text-transform: uppercase; white-space: nowrap;
+  border: 1px solid transparent;
+}
+.badge svg { width: 11px; height: 11px; flex: none; }
+
+.t-ready    { background: var(--good-wash);     color: var(--good-ink);     border-color: rgba(12,163,12,.30); }
+.t-watch    { background: var(--warning-wash);  color: var(--warning-ink);  border-color: rgba(250,178,25,.40); }
+.t-blocked  { background: var(--critical-wash); color: var(--critical-ink); border-color: rgba(208,59,59,.35); }
+.t-unavailable { background: var(--serious-wash); color: var(--serious-ink); border-color: rgba(236,131,90,.38); }
+.t-unknown  { background: var(--neutral-wash);  color: var(--ink-2);        border-color: var(--rule); }
+.t-lock     { background: var(--lock-wash);     color: var(--lock);         border-color: rgba(74,58,167,.30); }
+
+.rail-ready { background: var(--good); }
+.rail-watch { background: var(--warning); }
+.rail-blocked { background: var(--critical); }
+.rail-unavailable { background: var(--serious); }
+.rail-unknown { background: var(--rule-strong); }
+
+.btn {
+  font: inherit; font-size: 12px; font-weight: 600;
+  color: var(--ink); background: var(--surface);
+  border: 1px solid var(--rule-strong); border-radius: 5px;
+  padding: 5px 10px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.btn:hover { background: var(--surface-2); }
+.btn:focus-visible { outline: 2px solid var(--series-1); outline-offset: 1px; }
+.btn[disabled] { opacity: .45; cursor: not-allowed; }
+.btn-danger { border-color: rgba(208,59,59,.5); color: var(--critical-ink); }
+.btn-danger:hover { background: var(--critical-wash); }
+.btn-primary { background: var(--series-1); border-color: var(--series-1); color: #fff; }
+.btn-primary:hover { filter: brightness(1.07); background: var(--series-1); }
+
+.safety-banner {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 12px; border-radius: 5px;
+  background: var(--lock-wash); border: 1px solid rgba(74,58,167,.28);
+  color: var(--lock); font-size: 12px; font-weight: 600;
+}
+.safety-banner svg { width: 14px; height: 14px; flex: none; }
+
+/* skeletons */
+@keyframes shimmer { 0%{opacity:.55} 50%{opacity:.9} 100%{opacity:.55} }
+.sk { background: var(--surface-sunk); border-radius: 4px; animation: shimmer 1.4s ease-in-out infinite; }
+
+/* dev-only state switcher — never ships in the real page */
+.statebar {
+  position: sticky; top: 0; z-index: 60;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  padding: 6px 14px;
+  background: repeating-linear-gradient(135deg, var(--surface-sunk) 0 8px, var(--surface-2) 8px 16px);
+  border-bottom: 1px solid var(--rule-strong);
+  font-size: 11px;
+}
+.statebar strong { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); }
+.statebar button {
+  font: inherit; font-size: 11px; padding: 3px 8px; cursor: pointer;
+  border: 1px solid var(--rule-strong); border-radius: 4px;
+  background: var(--surface); color: var(--ink-2);
+}
+.statebar button[aria-pressed="true"] { background: var(--ink); color: var(--plane); border-color: var(--ink); font-weight: 700; }
+.statebar .spacer { flex: 1 1 auto; }
+
+/* modal / drawer shell */
+.scrim {
+  position: fixed; inset: 0; z-index: 80;
+  background: rgba(11,11,11,.45); backdrop-filter: blur(2px);
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+}
+.dialog {
+  width: min(560px, 100%); max-height: 88vh; overflow: auto;
+  background: var(--surface); border: 1px solid var(--rule-strong);
+  border-radius: 8px; box-shadow: var(--shadow);
+}
+.dialog header { padding: 14px 16px; border-bottom: 1px solid var(--rule); }
+.dialog .body { padding: 14px 16px; }
+.dialog footer { padding: 12px 16px; border-top: 1px solid var(--rule); display: flex; gap: 8px; justify-content: flex-end; }
+
+.kv { display: grid; grid-template-columns: 132px 1fr; gap: 4px 12px; font-size: 12px; }
+.kv dt { color: var(--ink-muted); }
+.kv dd { margin: 0; color: var(--ink); }
+
+pre.payload {
+  margin: 0; padding: 10px; border-radius: 5px; overflow: auto; max-height: 220px;
+  background: var(--surface-sunk); border: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 11px; line-height: 1.5; color: var(--ink-2);
+}
+
+.empty {
+  padding: 22px 14px; text-align: center; color: var(--ink-muted);
+  font-size: 12px; border: 1px dashed var(--rule-strong); border-radius: 6px;
+}
+
+a { color: var(--series-1); }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--rule-strong); border-radius: 6px; border: 3px solid var(--plane); }
+
+
+/* ---------- Variant B: one screen, no tabs, terminal density ---------- */
+body { font-size: 12px; }
+.shell { height: calc(100vh - 33px); display: flex; flex-direction: column; overflow: hidden; }
+@media (max-width: 1080px) { .shell { height: auto; overflow: visible; } }
+
+.topbar {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  padding: 7px 14px; background: var(--surface); border-bottom: 1px solid var(--rule-strong);
+}
+.topbar h1 { margin: 0; font-size: 14px; font-weight: 750; letter-spacing: .01em; }
+.topbar .sep { width: 1px; height: 16px; background: var(--rule-strong); }
+.topbar .stamp { font-size: 11px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.topbar .stamp.stale { color: var(--serious-ink); font-weight: 700; }
+.topbar .right { margin-left: auto; display: flex; align-items: center; gap: 7px; }
+
+.lockstrip {
+  display: flex; align-items: center; gap: 7px; padding: 4px 14px;
+  background: var(--lock-wash); border-bottom: 1px solid rgba(74,58,167,.25);
+  color: var(--lock); font-size: 11px; font-weight: 650;
+}
+.lockstrip svg { width: 12px; height: 12px; }
+
+.board {
+  flex: 1; min-height: 0;
+  display: grid; grid-template-columns: 270px minmax(0,1fr) 340px;
+  gap: 1px; background: var(--rule);
+}
+.col { background: var(--plane); min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+.col > .scroll { overflow: auto; min-height: 0; flex: 1; }
+
+.blk { border-bottom: 1px solid var(--rule); }
+.blk > h2 {
+  margin: 0; padding: 5px 10px; font-size: 9.5px; font-weight: 750; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-muted);
+  background: var(--surface-sunk); border-bottom: 1px solid var(--rule);
+  display: flex; align-items: center; gap: 7px; position: sticky; top: 0; z-index: 2;
+}
+.blk > h2 .ct { margin-left: auto; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+
+/* KPI matrix — a table, not tiles: eight numbers scan faster in a column */
+table.matrix { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+table.matrix td { padding: 5px 10px; border-bottom: 1px solid var(--rule); }
+table.matrix tr:last-child td { border-bottom: 0; }
+table.matrix td.k { color: var(--ink-muted); font-size: 10.5px; text-transform: uppercase; letter-spacing: .05em; }
+table.matrix td.v { text-align: right; font-size: 15px; font-weight: 700; white-space: nowrap; }
+table.matrix td.v.nodata { font-size: 11px; font-weight: 600; color: var(--ink-muted); }
+table.matrix tr.hot td { background: var(--critical-wash); }
+table.matrix tr.hot td.v { color: var(--critical-ink); }
+.pnl-up { color: var(--good-ink); } .pnl-down { color: var(--critical-ink); }
+
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; }
+.psplit { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
+@media (max-width: 1080px) { .board { grid-template-columns: 1fr; } .psplit { grid-template-columns: 1fr; } }
+
+.phd { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-bottom: 1px solid var(--rule); }
+.phd .nm { font-size: 13px; font-weight: 700; }
+.phd .bar { width: 3px; align-self: stretch; border-radius: 2px; }
+.pbody { padding: 9px 10px; }
+.pmeta { display: flex; gap: 12px; flex-wrap: wrap; font-size: 10.5px; color: var(--ink-muted); margin-bottom: 8px; font-variant-numeric: tabular-nums; }
+.pmeta b { color: var(--ink-2); }
+
+.kpigrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+.kpigrid > div { background: var(--surface); padding: 5px 8px; display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.kpigrid .k { font-size: 10px; color: var(--ink-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kpigrid .v { font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+ul.lines { list-style: none; margin: 0; padding: 0; }
+ul.lines li { display: flex; gap: 7px; padding: 5px 10px; border-bottom: 1px solid var(--rule); font-size: 11.5px; line-height: 1.4; }
+ul.lines li:last-child { border-bottom: 0; }
+ul.lines .mk { flex: none; width: 3px; border-radius: 2px; align-self: stretch; }
+ul.lines .src { flex: none; font-size: 9.5px; font-weight: 750; letter-spacing: .05em; padding-top: 1px; width: 26px; }
+.src.inv { color: var(--series-1); } .src.kha { color: var(--series-2); }
+
+/* event tape */
+.tape { font-variant-numeric: tabular-nums; }
+.tape .row { display: grid; grid-template-columns: 3px 46px 1fr; gap: 7px; padding: 6px 10px; border-bottom: 1px solid var(--rule); }
+.tape .row:hover { background: var(--surface-2); }
+.tape .mk { border-radius: 2px; }
+.tape .tm { font-size: 10px; color: var(--ink-muted); }
+.tape .ti { font-size: 11.5px; font-weight: 650; line-height: 1.3; }
+.tape .su { font-size: 10.5px; color: var(--ink-2); margin-top: 2px; line-height: 1.35; }
+.tape .mt { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 3px; }
+.tag { font-size: 9px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 1px 4px; border-radius: 3px; background: var(--neutral-wash); color: var(--ink-2); }
+.tag.inv { background: rgba(42,120,214,.13); color: var(--series-1); }
+.tag.kha { background: rgba(235,104,52,.14); color: var(--series-2); }
+
+.chips { display: flex; gap: 4px; flex-wrap: wrap; padding: 6px 10px; border-bottom: 1px solid var(--rule); }
+.chip { font: inherit; font-size: 10px; font-weight: 650; padding: 2px 7px; border-radius: 20px; border: 1px solid var(--rule-strong); background: var(--surface); color: var(--ink-2); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--plane); border-color: var(--ink); }
+
+/* control bar docked to the bottom of the centre column */
+.ctlbar { border-top: 1px solid var(--rule-strong); background: var(--surface); padding: 7px 10px; }
+.ctlbar .hd { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.ctlrow { display: flex; gap: 6px; flex-wrap: wrap; }
+.ctlbtn { font: inherit; font-size: 11px; font-weight: 650; cursor: pointer; padding: 4px 8px; border-radius: 4px;
+  border: 1px solid var(--rule-strong); background: var(--surface); color: var(--ink);
+  display: inline-flex; align-items: center; gap: 5px; }
+.ctlbtn:hover { background: var(--surface-2); }
+.ctlbtn .rk { width: 6px; height: 6px; border-radius: 50%; flex: none; }
+.ctlbtn.k-blocked { border-color: rgba(208,59,59,.4); }
+.meter { height: 4px; background: var(--surface-sunk); border-radius: 3px; overflow: hidden; margin-top: 5px; }
+.meter > i { display: block; height: 100%; background: var(--series-1); }
+.empty { margin: 10px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>/* ------------------------------------------------------------------
+ * Trading Intelligence Control Plane — prototype fixture
+ *
+ * Field names are taken verbatim from the real producers, NOT from the
+ * handoff spec, so the prototypes fail the same way production will:
+ *   investing-system : src/trading-desk/oanda.ts
+ *                      getInvestingTradingCommandCenterSummary / Events / Controls
+ *   khashi-vc        : src/web/roc-api.ts
+ *                      tradingCommandCenterSummary / Events / Controls
+ *   aggregation      : hermes_cli/trading_intelligence.py
+ *
+ * Shape mirrors the state described in the handoff §24:
+ *   projectsAvailable 2/2 · investing=watch · khashi=blocked · fleet=blocked
+ * ------------------------------------------------------------------ */
+const TI = (() => {
+  const now = new Date();
+  const iso = (minutesAgo) => new Date(now.getTime() - minutesAgo * 60000).toISOString();
+
+  /* --- investing-system: note realizedPnlToday is a GENUINE 0. -------
+     Before the _first_number fix this collapsed through the `or` chain
+     into strategyGrossPnl and the ribbon showed -412.5 blended in. */
+  const investing = {
+    projectId: "investing-system",
+    label: "Investing System",
+    sourceBaseUrl: "http://investing-system:3102",
+    available: true,
+    httpStatus: 200,
+    latencyMs: 214,
+    error: null,
+    status: "watch",
+    liveTradingLocked: true,
+    kpis: {
+      runtimeRunning: true,
+      runtimeStale: false,
+      openTrades: 3,
+      openOrders: 1,
+      unprotectedOpenTrades: 0,
+      realizedPnlToday: 0,
+      strategyGrossPnl: -412.5,
+      reviewedTrades: 0,
+      usableLearningTrades: 4,
+      learningProgressPct: 26.7,
+      latestTradeExplanationReady: true,
+    },
+    tabs: [
+      { id: "overview", label: "Overview", status: "watch", sourceRoutes: ["/trading-desk/cross-broker/overview", "/trading-desk/oanda/system-truth"] },
+      { id: "oanda", label: "OANDA", status: "watch", sourceRoutes: ["/trading-desk/oanda/runtime-service-status"] },
+      { id: "risk", label: "Risk", status: "ready", sourceRoutes: ["/trading-desk/oanda/pnl-risk"] },
+      { id: "pnl", label: "P/L", status: "watch", sourceRoutes: ["/trading-desk/oanda/trading-reporting-command-center"] },
+      { id: "strategy", label: "Strategy", status: "blocked", sourceRoutes: ["/trading-desk/oanda/trade-explanation"] },
+      { id: "events", label: "Events", status: "ready", sourceRoutes: ["/trading-desk/command-center/events"] },
+      { id: "controls", label: "Controls", status: "ready", sourceRoutes: ["/trading-desk/command-center/controls"] },
+    ],
+    blockers: [
+      "Broker lifecycle sync has 2 exits submitted but not broker-confirmed.",
+      "Learning sample is below the minimum usable trade count; strategy scoring is not yet trustworthy.",
+    ],
+    recommendations: [
+      "Run broker lifecycle sync and reconcile submitted exits before treating exit automation as healthy.",
+      "Collect closed broker trades before judging strategy quality.",
+      "Backfill risk snapshots so R-multiple and risk-adjusted reporting are trustworthy.",
+    ],
+    sourceRoutes: {
+      overview: "/trading-desk/cross-broker/overview",
+      reporting: "/trading-desk/oanda/trading-reporting-command-center",
+      runtime: "/trading-desk/oanda/runtime-service-status",
+      controls: "/trading-desk/command-center/controls",
+      events: "/trading-desk/command-center/events",
+    },
+    summary: { mode: "practice", note: "Full source payload elided in the prototype fixture." },
+  };
+
+  const khashi = {
+    projectId: "khashi-vc",
+    label: "Khashi VC",
+    sourceBaseUrl: "http://khashi:3101",
+    available: true,
+    httpStatus: 200,
+    latencyMs: 486,
+    error: null,
+    status: "blocked",
+    liveTradingLocked: true,
+    kpis: {
+      healthScore: 62,
+      healthStatus: "degraded",
+      liveMarkets: 1462,
+      pricedLiveMarkets: 903,
+      orderbookSnapshots: 51820,
+      streamBuckets: 388,
+      technicalCandles: 240115,
+      indicatorSnapshots: 18904,
+      scanRuns: 76,
+      openTrades: 0,
+      closedTrades: 18,
+      realizedPnlUsd: 124.4,
+      openRiskUsd: 260,
+      winRate: 0.5,
+      paperCandidates: 7,
+      scoredShadowObservations: 341,
+    },
+    tabs: [
+      { id: "overview", label: "Overview", status: "blocked", sourceRoutes: ["/api/roc/production-health"] },
+      { id: "khashi", label: "Khashi", status: "watch", sourceRoutes: ["/api/roc/kalshi-trading-desk"] },
+      { id: "strategy", label: "Strategy", status: "watch", sourceRoutes: ["/api/roc/technical-strategy-quality"] },
+      { id: "paper", label: "Paper", status: "ready", sourceRoutes: ["/api/roc/paper-ledger"] },
+      { id: "market-data", label: "Market Data", status: "blocked", sourceRoutes: ["/api/roc/data-flow-health"] },
+      { id: "events", label: "Events", status: "ready", sourceRoutes: ["/api/roc/trading-command-center/events"] },
+      { id: "controls", label: "Controls", status: "ready", sourceRoutes: ["/api/roc/trading-command-center/controls"] },
+    ],
+    blockers: [
+      "Market collection is paused: storage pressure gate has not cleared since the last restart plan.",
+      "Freshness proof is stale — production freshness evidence is older than the collection window.",
+      "Paper ledger holds open exposure recorded from replay-only fills.",
+    ],
+    recommendations: [
+      "/api/roc/kalshi-paper-reconciliation-proof",
+      "Clear the storage pressure gate, then resume restricted collection before active.",
+      "Move beyond replay-only fills before treating paper results as live-trading evidence.",
+    ],
+    sourceRoutes: {
+      productionHealth: "/api/roc/production-health",
+      tradingDesk: "/api/roc/kalshi-trading-desk",
+      paperLedger: "/api/roc/paper-ledger",
+      controls: "/api/roc/trading-command-center/controls",
+      events: "/api/roc/trading-command-center/events",
+    },
+    summary: { mode: "shadow-paper-readonly", note: "Full source payload elided in the prototype fixture." },
+  };
+
+  const summary = {
+    id: "trading-intelligence-control-plane-summary",
+    contractVersion: "trading-intelligence-control-plane.v1",
+    frontendContractVersion: "2026-09-08.v1",
+    title: "Trading Intelligence Control Plane Summary",
+    generatedAt: iso(0),
+    status: "blocked",
+    liveTradingLocked: true,
+    kpis: {
+      projectsAvailable: 2,
+      projectsTotal: 2,
+      openTrades: 3,
+      closedTrades: 18,
+      // 0 (investing realizedPnlToday) + 124.4 (khashi realizedPnlUsd)
+      realizedPnlUsd: 124.4,
+      openRiskUsd: 260,       // khashi only — investing publishes no openRiskUsd
+      liveMarkets: 1462,      // khashi only
+      strategyCandidates: 7,  // khashi paperCandidates only
+      liveTradingLocked: true,
+      blockers: 5,
+    },
+    projects: [investing, khashi],
+    tabs: [
+      { id: "overview", label: "Overview", status: "blocked", projectIds: ["investing-system", "khashi-vc"] },
+      { id: "investing-system", label: "Investing System", status: "watch", projectIds: ["investing-system"] },
+      { id: "khashi-vc", label: "Khashi VC", status: "blocked", projectIds: ["khashi-vc"] },
+      { id: "pnl-risk", label: "P/L and Risk", status: "watch", projectIds: ["investing-system", "khashi-vc"] },
+      { id: "strategy-quality", label: "Strategy Quality", status: "watch", projectIds: ["investing-system", "khashi-vc"] },
+      // NOTE: backend emits "Latest Events", not "Events" as the handoff §15 says.
+      { id: "events", label: "Latest Events", status: "ready", projectIds: ["investing-system", "khashi-vc"] },
+      { id: "controls", label: "Controls", status: "ready", projectIds: ["investing-system", "khashi-vc"] },
+    ],
+    blockers: [
+      ...investing.blockers.map((b) => `Investing System: ${b}`),
+      ...khashi.blockers.map((b) => `Khashi VC: ${b}`),
+    ],
+    recommendations: [
+      ...investing.recommendations.map((r) => `Investing System: ${r}`),
+      ...khashi.recommendations.map((r) => `Khashi VC: ${r}`),
+    ],
+  };
+
+  const events = {
+    id: "trading-intelligence-control-plane-events",
+    contractVersion: "trading-intelligence-control-plane.v1",
+    title: "Trading Intelligence Control Plane Events",
+    generatedAt: iso(0),
+    limit: 10,
+    events: [
+      { id: "kh-9f21", sourceProject: "khashi-vc", sourceSystem: "roc", stream: "collection", type: "collection_gate_blocked", status: "blocked", severity: "critical", title: "collection_gate_blocked", occurredAt: iso(3), instrument: null, summary: "Storage pressure gate blocked the restricted-collection restart plan.", links: { sourceRoute: "/api/roc/trading-command-center/events", tradingDesk: "/api/roc/kalshi-trading-desk" }, rawRef: { activityId: "kh-9f21" } },
+      { id: "inv-7c04", sourceProject: "investing-system", sourceSystem: "oanda", stream: "broker-lifecycle-event", type: "broker-lifecycle-event", status: "submitted", severity: "warning", title: "EUR_USD broker lifecycle submitted", occurredAt: iso(11), instrument: "EUR_USD", summary: "Exit submitted but not broker-confirmed after 2 polling cycles.", links: { sourceRoute: "/trading-desk/command-center/events", tradeExplanation: "/trading-desk/oanda/trade-explanation" }, rawRef: { ledgerRecordId: "inv-7c04" } },
+      { id: "kh-8ab3", sourceProject: "khashi-vc", sourceSystem: "kalshi-paper", stream: "paper-ledger", type: "paper_trade_closed", status: "closed", severity: "info", title: "KXPRESPARTY-28 paper trade closed", occurredAt: iso(24), instrument: "KXPRESPARTY-28", summary: "Paper trade closed with realized P/L 41.2.", links: { sourceRoute: "/api/roc/trading-command-center/events", paperLedger: "/api/roc/paper-ledger" }, rawRef: { paperTradeId: "kh-8ab3" } },
+      { id: "inv-7be1", sourceProject: "investing-system", sourceSystem: "oanda", stream: "runtime-service-state", type: "runtime-service-state", status: "running", severity: "info", title: "OANDA runtime running", occurredAt: iso(38), instrument: null, summary: "Runtime heartbeat refreshed; practice mode, live submit locked.", links: { sourceRoute: "/trading-desk/command-center/events" }, rawRef: { ledgerRecordId: "inv-7be1" } },
+      { id: "kh-8a02", sourceProject: "khashi-vc", sourceSystem: "roc", stream: "freshness", type: "freshness_proof_stale", status: "stale", severity: "warning", title: "freshness_proof_stale", occurredAt: iso(52), instrument: null, summary: "Production freshness evidence is older than the collection window.", links: { sourceRoute: "/api/roc/trading-command-center/events" }, rawRef: { activityId: "kh-8a02" } },
+      { id: "inv-7ad9", sourceProject: "investing-system", sourceSystem: "oanda", stream: "strategy-exit-executor-run", type: "strategy-exit-executor-run", status: "partial", severity: "warning", title: "GBP_USD exit executor partial", occurredAt: iso(67), instrument: "GBP_USD", summary: "Exit executor completed with 1 unresolved candidate link.", links: { sourceRoute: "/trading-desk/command-center/events" }, rawRef: { ledgerRecordId: "inv-7ad9" } },
+      { id: "kh-89f7", sourceProject: "khashi-vc", sourceSystem: "roc", stream: "controls", type: "control_request_recorded", status: "recorded", severity: "info", title: "pause_collection", occurredAt: iso(88), instrument: null, summary: "Operator request recorded: pause_collection (runbook-required).", links: { sourceRoute: "/api/roc/trading-command-center/events" }, rawRef: { activityId: "kh-89f7" } },
+      { id: "inv-79c5", sourceProject: "investing-system", sourceSystem: "oanda", stream: "practice-execution", type: "practice-execution", status: "accepted", severity: "info", title: "USD_JPY practice execution accepted", occurredAt: iso(104), instrument: "USD_JPY", summary: "Practice entry accepted at 1.2 units, stop attached.", links: { sourceRoute: "/trading-desk/command-center/events" }, rawRef: { ledgerRecordId: "inv-79c5" } },
+      { id: "kh-8971", sourceProject: "khashi-vc", sourceSystem: "kalshi-paper", stream: "paper-ledger", type: "paper_trade_opened", status: "open", severity: "info", title: "KXFED-26SEP paper trade opened", occurredAt: iso(131), instrument: "KXFED-26SEP", summary: "Paper trade opened with max risk 60.", links: { sourceRoute: "/api/roc/trading-command-center/events" }, rawRef: { paperTradeId: "kh-8971" } },
+      { id: "inv-7942", sourceProject: "investing-system", sourceSystem: "oanda", stream: "trade-after-action-review", type: "trade-after-action-review", status: "candidate", severity: "warning", title: "AUD_USD trade review candidate", occurredAt: iso(160), instrument: "AUD_USD", summary: "Review linked by candidate match only; entry snapshot missing.", links: { sourceRoute: "/trading-desk/command-center/events" }, rawRef: { ledgerRecordId: "inv-7942" } },
+    ],
+  };
+
+  /* Control field sets differ per project — investing has dangerous/effect,
+     khashi has runbookCommand/requiresServiceRestart. Neither emits riskLevel
+     or requiresConfirmation, so the UI must derive them. */
+  const investingControls = [
+    { id: "refresh_daily_ops", namespacedId: "investing-system:refresh_daily_ops", projectId: "investing-system", projectLabel: "Investing System", label: "Run OANDA Daily Ops", intent: "Refresh OANDA evidence rollups, repair state, and autonomy readiness.", execution: "available", effect: "persists oanda-daily-ops-automation-report", dangerous: false },
+    { id: "pause_oanda_runtime", namespacedId: "investing-system:pause_oanda_runtime", projectId: "investing-system", projectLabel: "Investing System", label: "Pause OANDA Runtime", intent: "Mark the OANDA practice runtime stopped so dashboards and supervisors treat it as halted.", execution: "available", effect: "persists runtime-service-state=stopped; host process restart/stop remains owned by deployment automation", dangerous: true },
+    { id: "resume_oanda_runtime", namespacedId: "investing-system:resume_oanda_runtime", projectId: "investing-system", projectLabel: "Investing System", label: "Resume OANDA Runtime", intent: "Preview the host action required to restart the supervised OANDA runtime worker.", execution: "host_orchestrator_required", effect: "no process mutation from this API", dangerous: true },
+    { id: "emergency_lock_trading", namespacedId: "investing-system:emergency_lock_trading", projectId: "investing-system", projectLabel: "Investing System", label: "Emergency Lock Trading", intent: "Confirm live trading is locked and mark the practice runtime stopped.", execution: "available", effect: "persists runtime-service-state=stopped; live submit is already locked", dangerous: true },
+  ];
+  const khashiControls = [
+    ["pause_collection", "Pause Collection", "Stop new collection and stream writes.", "npm run khashi:collection:pause", true],
+    ["shadow_collection", "Shadow Collection", "Resume low-risk shadow collection without stream writes.", "npm run khashi:collection:shadow", false],
+    ["restricted_collection", "Restricted Collection", "Resume restricted collection after restart gates pass.", "npm run khashi:collection:restricted", true],
+    ["active_collection", "Active Collection", "Resume active collection after operator review and storage gates pass.", "npm run khashi:collection:active", true],
+    ["rollback_collection", "Rollback Collection", "Return collection to paused mode.", "npm run khashi:collection:rollback", true],
+    ["run_freshness_proof", "Run Freshness Proof", "Refresh production freshness evidence.", "npm run khashi:freshness:proof", false],
+  ].map(([id, label, intent, runbookCommand, requiresServiceRestart]) => ({
+    id, namespacedId: `khashi-vc:${id}`, projectId: "khashi-vc", projectLabel: "Khashi VC",
+    label, intent, runbookCommand, requiresServiceRestart,
+    execution: "runbook-required", brokerMutation: false, liveTradingLocked: true,
+  }));
+
+  const controls = {
+    id: "trading-intelligence-control-plane-controls",
+    contractVersion: "trading-intelligence-control-plane.v1",
+    title: "Trading Intelligence Control Plane Controls",
+    generatedAt: iso(0),
+    safety: {
+      liveTradingLocked: true,
+      submitLiveOrderAvailable: false,
+      projectOwnedControlsOnly: true,
+      note: "Nous proxies explicit project-owned control requests; it does not submit trades.",
+    },
+    projects: [
+      { projectId: "investing-system", label: "Investing System", available: true, error: null, safety: { liveTradingLocked: true, defaultDryRun: true, adminAuthRequired: true }, controls: investingControls },
+      { projectId: "khashi-vc", label: "Khashi VC", available: true, error: null, safety: { liveTradingLocked: true, dashboardMutatesBroker: false, adminAuthRequired: true }, controls: khashiControls },
+    ],
+    controls: [...investingControls, ...khashiControls],
+  };
+
+  /* A degraded variant used by the "one source down" state, so the
+     prototypes can prove the page stays usable with a dead source. */
+  const degradedSummary = (() => {
+    const clone = JSON.parse(JSON.stringify(summary));
+    const inv = clone.projects[0];
+    Object.assign(inv, {
+      available: false, httpStatus: 0, latencyMs: 8031, status: "unavailable",
+      error: "<urlopen error [Errno -2] Name or service not known>",
+      kpis: {}, tabs: [], liveTradingLocked: true,
+      blockers: ["Investing System command-center summary is unavailable: <urlopen error [Errno -2] Name or service not known>"],
+      recommendations: ["Check Investing System API base URL, auth token, and service health."],
+    });
+    clone.kpis = { ...clone.kpis, projectsAvailable: 1, openTrades: 0, closedTrades: 18, realizedPnlUsd: 124.4, blockers: 4 };
+    clone.blockers = [
+      "Investing System: Investing System command-center summary is unavailable: <urlopen error [Errno -2] Name or service not known>",
+      ...khashi.blockers.map((b) => `Khashi VC: ${b}`),
+    ];
+    clone.tabs = clone.tabs.map((t) => (t.id === "investing-system" ? { ...t, status: "unavailable" } : t));
+    return clone;
+  })();
+
+  return { summary, events, controls, degradedSummary };
+})();
+</script>
+<script>/* ==================================================================
+ * Shared helpers — Trading Intelligence Control Plane prototypes
+ * ================================================================== */
+const H = (() => {
+  const el = (tag, attrs = {}, ...kids) => {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (v == null || v === false) continue;
+      if (k === "class") n.className = v;
+      else if (k === "html") n.innerHTML = v;
+      else if (k.startsWith("on")) n.addEventListener(k.slice(2).toLowerCase(), v);
+      else n.setAttribute(k, v === true ? "" : String(v));
+    }
+    for (const kid of kids.flat()) {
+      if (kid == null || kid === false) continue;
+      n.append(kid.nodeType ? kid : document.createTextNode(String(kid)));
+    }
+    return n;
+  };
+
+  /* --- formatting -------------------------------------------------
+     null / undefined must read "No data", NEVER 0 (handoff §7).
+     A real 0 must read "0". These are different answers. */
+  const NO_DATA = "No data";
+  const isNum = (v) => typeof v === "number" && Number.isFinite(v);
+
+  const fmtInt = (v) => (isNum(v) ? v.toLocaleString("en-US") : NO_DATA);
+  const fmtCurrency = (v) =>
+    isNum(v)
+      ? (v < 0 ? "−" : "") + "$" + Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+      : NO_DATA;
+  const fmtPct = (v) => (isNum(v) ? `${v.toFixed(1)}%` : NO_DATA);
+  const fmtRatio = (a, b) => (isNum(a) && isNum(b) ? `${a}/${b}` : NO_DATA);
+
+  /* Only signed P/L gets up/down colour. Risk, exposure and counts must
+     stay neutral — green on "open risk $260" would read as "good". */
+  const pnlTone = (v) => (!isNum(v) ? "" : v > 0 ? "pnl-up" : v < 0 ? "pnl-down" : "pnl-flat");
+  const isSignedPnl = (key) => /pnl/i.test(String(key)) && !/risk/i.test(String(key));
+
+  /* camelCase field name -> readable label, raw key kept as the tooltip. */
+  const humanize = (key) =>
+    String(key)
+      .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+      .replace(/\bPnl\b/gi, "P/L")
+      .replace(/\bPct\b/gi, "%")
+      .replace(/\bUsd\b/gi, "USD")
+      .replace(/^./, (c) => c.toUpperCase());
+
+  const relTime = (iso) => {
+    const t = new Date(iso).getTime();
+    if (Number.isNaN(t)) return "unknown";
+    const s = Math.max(0, Math.round((Date.now() - t) / 1000));
+    if (s < 45) return "just now";
+    if (s < 3600) return `${Math.round(s / 60)}m ago`;
+    if (s < 86400) return `${Math.round(s / 3600)}h ago`;
+    return `${Math.round(s / 86400)}d ago`;
+  };
+  const clockTime = (iso) => {
+    const d = new Date(iso);
+    return Number.isNaN(d.getTime()) ? "--:--:--" : d.toTimeString().slice(0, 8);
+  };
+  /* Staleness: generatedAt older than the poll window means the numbers
+     on screen are not what the fleet looks like now. */
+  const isStale = (iso, seconds = 120) => (Date.now() - new Date(iso).getTime()) / 1000 > seconds;
+
+  /* --- status ------------------------------------------------------
+     _normalize_project_status passes unmatched source strings straight
+     through, so `status` is an open string, not a 4-value union. */
+  const KNOWN = ["ready", "watch", "blocked", "unavailable"];
+  const tone = (status) => (KNOWN.includes(String(status)) ? String(status) : "unknown");
+  const toneClass = (status) => `t-${tone(status)}`;
+  const railClass = (status) => `rail-${tone(status)}`;
+
+  const ICON = {
+    ready: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8.5l3.2 3.2L13 5"/></svg>',
+    watch: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2.5l6 11H2z"/><path d="M8 6.6v3"/><path d="M8 11.4v.1"/></svg>',
+    blocked: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="5.7"/><path d="M4 12L12 4"/></svg>',
+    unavailable: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="5.7"/><path d="M8 5v4"/><path d="M8 11v.1"/></svg>',
+    unknown: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="5.7"/><path d="M6.3 6.4a1.8 1.8 0 113 1.4v.7"/><path d="M8 11v.1"/></svg>',
+    lock: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="10" height="7" rx="1.6"/><path d="M5.6 7V5.2a2.4 2.4 0 014.8 0V7"/></svg>',
+  };
+
+  /* Status is never colour-alone: every badge carries an icon + the word. */
+  const statusBadge = (status, extra = "") =>
+    el("span", { class: `badge ${toneClass(status)}`, title: `status: ${status}`, html: `${ICON[tone(status)]}<span>${status}${extra}</span>` });
+
+  const lockBadge = (locked) =>
+    locked
+      ? el("span", { class: "badge t-lock", html: `${ICON.lock}<span>Live trading locked</span>` })
+      : el("span", { class: "badge t-watch", html: `${ICON.watch}<span>Live trading UNLOCKED</span>` });
+
+  /* --- events ------------------------------------------------------ */
+  const SEV_ORDER = { critical: 0, error: 1, warning: 2, info: 3 };
+  /* §9: source_unavailable renders critical even when the source's own
+     severity disagrees. */
+  const eventSeverity = (ev) => (ev.type === "source_unavailable" ? "critical" : String(ev.severity || "info"));
+  const sevTone = (sev) =>
+    ({ critical: "blocked", error: "blocked", warning: "watch", info: "unknown" }[sev] || "unknown");
+  const sevRail = (sev) =>
+    ({ critical: "rail-blocked", error: "rail-blocked", warning: "rail-watch", info: "rail-unknown" }[sev] || "rail-unknown");
+
+  const EVENT_FILTERS = [
+    { id: "all", label: "All", test: () => true },
+    { id: "investing-system", label: "Investing System", test: (e) => e.sourceProject === "investing-system" },
+    { id: "khashi-vc", label: "Khashi VC", test: (e) => e.sourceProject === "khashi-vc" },
+    { id: "warnings", label: "Warnings", test: (e) => eventSeverity(e) === "warning" },
+    { id: "errors", label: "Errors", test: (e) => ["error", "critical"].includes(eventSeverity(e)) },
+    { id: "trades", label: "Trades", test: (e) => /trade|execution|lifecycle|paper/i.test(`${e.stream} ${e.type}`) },
+    { id: "controls", label: "Controls", test: (e) => /control/i.test(`${e.stream} ${e.type}`) },
+    { id: "strategy", label: "Strategy", test: (e) => /strategy|exit|indicator|shadow/i.test(`${e.stream} ${e.type}`) },
+    { id: "source-health", label: "Source Health", test: (e) => /source|health|freshness|collection/i.test(`${e.stream} ${e.type}`) },
+  ];
+
+  /* --- controls ----------------------------------------------------
+     Neither source emits riskLevel or requiresConfirmation, so derive
+     both from the fields that ARE published. */
+  const riskLevel = (c) => {
+    if (c.brokerMutation) return "critical";
+    if (c.id === "emergency_lock_trading") return "critical";
+    if (c.dangerous || c.requiresServiceRestart) return "high";
+    if (c.execution === "host_orchestrator_required" || c.execution === "runbook-required") return "medium";
+    return "low";
+  };
+  const riskTone = (r) => ({ critical: "blocked", high: "blocked", medium: "watch", low: "ready" }[r] || "unknown");
+  const requiresConfirmation = (c) => riskLevel(c) !== "low";
+
+  /* Preview-first: the first request is always execute:false (§13). */
+  const buildRequest = (c, { execute, reason }) => ({
+    action: c.namespacedId,
+    execute,
+    reason,
+    actorId: "nous-dashboard-operator",
+    correlationId: `ti-${Date.now().toString(36)}`,
+  });
+
+  const mockControlResponse = (c, req) => ({
+    id: "trading-intelligence-control-plane-control",
+    contractVersion: "trading-intelligence-control-plane.v1",
+    generatedAt: new Date().toISOString(),
+    status: "proxied",
+    projectId: c.projectId,
+    action: c.id,
+    httpStatus: 200,
+    sourceBaseUrl: c.projectId === "khashi-vc" ? "http://khashi:3101" : "http://investing-system:3102",
+    error: null,
+    result: {
+      projectId: c.projectId,
+      status: req.execute ? "recorded" : "preview",
+      action: c.id,
+      execute: req.execute,
+      liveTradingLocked: true,
+      brokerMutation: false,
+      runbookCommand: c.runbookCommand ?? null,
+      effect: c.effect ?? null,
+      nextAction: req.execute
+        ? c.runbookCommand
+          ? `Run ${c.runbookCommand} on the production host and restart the project service if required.`
+          : "Operator request recorded to the project ledger."
+        : "Submit with execute=true to record an auditable operator request.",
+    },
+  });
+
+  /* Never claim success on transport alone (§20). */
+  const executionSucceeded = (res) =>
+    res.status === "proxied" &&
+    res.httpStatus >= 200 && res.httpStatus < 300 &&
+    !!res.result &&
+    !["rejected", "failed", "error"].includes(String(res.result.status));
+
+  /* --- KPI ribbon definition (shared across variants) --------------- */
+  const kpiCards = (k) => [
+    { label: "Projects available", value: fmtRatio(k.projectsAvailable, k.projectsTotal), tone: k.projectsAvailable === k.projectsTotal ? "ready" : "blocked", note: "sources reachable" },
+    { label: "Open trades", value: fmtInt(k.openTrades), note: "both systems" },
+    { label: "Closed / reviewed", value: fmtInt(k.closedTrades), note: "closedTrades ∪ reviewedTrades" },
+    { label: "Realized P/L", value: fmtCurrency(k.realizedPnlUsd), pnl: k.realizedPnlUsd, note: "today, attributed" },
+    { label: "Open risk", value: fmtCurrency(k.openRiskUsd), note: "khashi-vc only" },
+    { label: "Live markets", value: fmtInt(k.liveMarkets), note: "khashi-vc only" },
+    { label: "Strategy candidates", value: fmtInt(k.strategyCandidates), note: "paper candidates" },
+    { label: "Blockers", value: fmtInt(k.blockers), tone: k.blockers > 0 ? "blocked" : "ready", note: "across the fleet" },
+  ];
+
+  const projectColor = (id) => (id === "investing-system" ? "var(--series-1)" : "var(--series-2)");
+  const projectShort = (id) => (id === "investing-system" ? "INV" : id === "khashi-vc" ? "KHA" : "SRC");
+
+  /* --- dev-only state switcher ------------------------------------- */
+  const STATES = [
+    ["ready", "Loaded"],
+    ["loading", "Loading"],
+    ["degraded", "One source down"],
+    ["empty", "Empty"],
+    ["error", "Summary error"],
+  ];
+
+  function stateBar(current, onChange, variantName) {
+    const bar = el("div", { class: "statebar" }, el("strong", {}, "Prototype state"));
+    for (const [id, label] of STATES) {
+      bar.append(el("button", { type: "button", "aria-pressed": String(id === current), onclick: () => onChange(id) }, label));
+    }
+    bar.append(el("span", { class: "spacer" }));
+    bar.append(el("strong", {}, variantName));
+    bar.append(
+      el("button", {
+        type: "button",
+        onclick: () => {
+          const root = document.documentElement;
+          const dark = root.getAttribute("data-theme") === "dark" ||
+            (!root.getAttribute("data-theme") && matchMedia("(prefers-color-scheme: dark)").matches);
+          root.setAttribute("data-theme", dark ? "light" : "dark");
+        },
+      }, "Toggle theme")
+    );
+    return bar;
+  }
+
+  /* Resolve the fixture for a given prototype state. */
+  function dataFor(state) {
+    if (state === "error") return { summary: null, events: TI.events, controls: TI.controls, error: "Summary failed: 500" };
+    if (state === "degraded") return { summary: TI.degradedSummary, events: { ...TI.events, events: [
+      { id: "nous-inv-unavail", sourceProject: "investing-system", sourceSystem: "nous-hermes-agent", stream: "source-health", type: "source_unavailable", status: "blocked", severity: "info", title: "Investing System unavailable", occurredAt: new Date().toISOString(), instrument: null, summary: "Source command-center endpoint did not respond.", links: { summary: "/trading-desk/command-center/summary" }, rawRef: { baseUrls: ["http://investing-system:3102", "http://127.0.0.1:3102"] } },
+      ...TI.events.events.filter((e) => e.sourceProject === "khashi-vc"),
+    ] }, controls: { ...TI.controls, projects: TI.controls.projects.map((p) => p.projectId === "investing-system" ? { ...p, available: false, error: "source_unavailable", controls: [] } : p), controls: TI.controls.controls.filter((c) => c.projectId === "khashi-vc") }, error: null };
+    if (state === "empty") return { summary: { ...TI.summary, blockers: [], recommendations: [], status: "ready", kpis: { ...TI.summary.kpis, blockers: 0, openTrades: 0, closedTrades: 0, realizedPnlUsd: null, openRiskUsd: null, strategyCandidates: null } }, events: { ...TI.events, events: [] }, controls: { ...TI.controls, projects: TI.controls.projects.map((p) => ({ ...p, controls: [] })), controls: [] }, error: null };
+    return { summary: TI.summary, events: TI.events, controls: TI.controls, error: null };
+  }
+
+  return {
+    el, NO_DATA, isNum, fmtInt, fmtCurrency, fmtPct, fmtRatio, pnlTone,
+    isSignedPnl, humanize,
+    relTime, clockTime, isStale, tone, toneClass, railClass, ICON,
+    statusBadge, lockBadge, SEV_ORDER, eventSeverity, sevTone, sevRail, EVENT_FILTERS,
+    riskLevel, riskTone, requiresConfirmation, buildRequest, mockControlResponse, executionSucceeded,
+    kpiCards, projectColor, projectShort, STATES, stateBar, dataFor,
+  };
+})();
+
+/* ==================================================================
+ * Control confirmation dialog — preview-first, shared by all variants.
+ * ================================================================== */
+function openControlDialog(control, onDone) {
+  const { el } = H;
+  const risk = H.riskLevel(control);
+  let preview = null;
+  let executed = null;
+  let reason = "";
+
+  const scrim = el("div", { class: "scrim", onclick: (e) => { if (e.target === scrim) close(); } });
+  const body = el("div", { class: "body" });
+  const foot = el("footer");
+  const dialog = el("div", { class: "dialog", role: "dialog", "aria-modal": "true", "aria-label": `Control: ${control.label}` },
+    el("header", {},
+      el("div", { style: "display:flex;align-items:center;gap:8px;flex-wrap:wrap" },
+        el("span", { class: "eyebrow" }, control.projectLabel),
+        el("span", { class: `badge t-${H.riskTone(risk)}`, html: `${H.ICON[H.riskTone(risk)] || H.ICON.unknown}<span>${risk} risk</span>` }),
+        control.requiresServiceRestart ? el("span", { class: "badge t-watch", html: `${H.ICON.watch}<span>service restart</span>` }) : null,
+        el("span", { class: "badge t-lock", html: `${H.ICON.lock}<span>live locked</span>` })
+      ),
+      el("div", { style: "font-size:16px;font-weight:700;margin-top:6px" }, control.label),
+      el("code", { class: "mono", style: "font-size:11px;color:var(--ink-muted)" }, control.namespacedId)
+    ),
+    body, foot);
+
+  function render() {
+    body.replaceChildren();
+    body.append(el("p", { style: "margin:0 0 12px;color:var(--ink-2)" }, control.intent || control.description || ""));
+
+    const kv = el("dl", { class: "kv" });
+    const rows = [
+      ["Execution", control.execution || "—"],
+      ["Broker mutation", control.brokerMutation ? "possible" : "no"],
+      ["Live trading", "locked"],
+      ["Confirmation", H.requiresConfirmation(control) ? "required" : "not required"],
+    ];
+    if (control.effect) rows.push(["Effect", control.effect]);
+    if (control.runbookCommand) rows.push(["Runbook", el("code", { class: "mono" }, control.runbookCommand)]);
+    for (const [k, v] of rows) { kv.append(el("dt", {}, k), el("dd", {}, v)); }
+    body.append(kv);
+
+    body.append(el("label", { style: "display:block;margin:14px 0 5px", class: "eyebrow" }, "Reason (sent with the request)"));
+    const ta = el("textarea", {
+      rows: 2,
+      placeholder: "Why are you running this? Recorded on the project ledger.",
+      style: "width:100%;font:inherit;font-size:12px;padding:7px 8px;border:1px solid var(--rule-strong);border-radius:5px;background:var(--surface);color:var(--ink);resize:vertical",
+      oninput: (e) => { reason = e.target.value; sync(); },
+    });
+    ta.value = reason;
+    body.append(ta);
+
+    if (preview) {
+      body.append(el("div", { class: "eyebrow", style: "margin:14px 0 5px" }, "Preview response · execute:false"));
+      body.append(el("pre", { class: "payload" }, JSON.stringify(preview, null, 2)));
+    }
+    if (executed) {
+      const ok = H.executionSucceeded(executed);
+      body.append(el("div", { style: "margin:14px 0 5px;display:flex;align-items:center;gap:8px" },
+        el("span", { class: "eyebrow" }, "Execute response"),
+        el("span", { class: `badge t-${ok ? "ready" : "blocked"}`, html: `${ok ? H.ICON.ready : H.ICON.blocked}<span>${ok ? "proxied + source confirmed" : "not confirmed"}</span>` })
+      ));
+      body.append(el("pre", { class: "payload" }, JSON.stringify(executed, null, 2)));
+    }
+    sync();
+  }
+
+  function sync() {
+    foot.replaceChildren();
+    foot.append(el("span", { style: "flex:1;font-size:11px;color:var(--ink-muted)" },
+      executed ? "Refresh /summary, /events and /controls after completion." :
+      preview ? "Preview returned. Confirm to send execute:true." : "Step 1 of 2 — preview first."));
+    foot.append(el("button", { class: "btn", type: "button", onclick: close }, executed ? "Close" : "Cancel"));
+    if (!preview) {
+      foot.append(el("button", { class: "btn btn-primary", type: "button", onclick: () => { preview = H.mockControlResponse(control, H.buildRequest(control, { execute: false, reason })); render(); } }, "Preview"));
+    } else if (!executed) {
+      foot.append(el("button", {
+        class: `btn ${risk === "low" ? "btn-primary" : "btn-danger"}`, type: "button",
+        disabled: H.requiresConfirmation(control) && reason.trim().length < 8,
+        title: H.requiresConfirmation(control) && reason.trim().length < 8 ? "A reason of at least 8 characters is required for this risk level" : "",
+        onclick: () => { executed = H.mockControlResponse(control, H.buildRequest(control, { execute: true, reason })); render(); onDone && onDone(control, executed); },
+      }, `Execute ${control.label}`));
+    }
+  }
+
+  function close() { scrim.remove(); document.removeEventListener("keydown", esc); }
+  function esc(e) { if (e.key === "Escape") close(); }
+  document.addEventListener("keydown", esc);
+
+  scrim.append(dialog);
+  document.body.append(scrim);
+  render();
+  return scrim;
+}
+</script>
+<script>
+const { el } = H;
+let state = "ready";
+let evFilter = "all";
+
+function render() {
+  const d = H.dataFor(state);
+  const root = document.getElementById("root");
+  root.replaceChildren();
+  root.append(H.stateBar(state, (s) => { state = s; render(); }, "Variant B · Dense Single-Screen Grid"));
+
+  const shell = el("div", { class: "shell" });
+  root.append(shell);
+
+  if (state === "loading") { shell.append(loadingBoard()); return; }
+  if (d.error) { shell.append(errorBoard(d.error)); return; }
+
+  const s = d.summary;
+  shell.append(topbar(s));
+  shell.append(el("div", { class: "lockstrip", html: `${H.ICON.lock}<span>Live trading is locked · Nous cannot submit live broker orders · project-owned controls only</span>` }));
+
+  const board = el("div", { class: "board" });
+
+  /* ---- LEFT: fleet numbers ---- */
+  const left = el("div", { class: "col" });
+  const lscroll = el("div", { class: "scroll" });
+  lscroll.append(block("Fleet KPIs", matrix(s.kpis)));
+  lscroll.append(block(`Needs attention`, s.blockers.length ? lines(s.blockers, "critical") : el("div", { class: "empty" }, "No blockers reported."), s.blockers.length));
+  lscroll.append(block("Recommended next", s.recommendations.length ? lines(s.recommendations, "series") : el("div", { class: "empty" }, "No recommendations reported."), s.recommendations.length));
+  left.append(lscroll);
+  board.append(left);
+
+  /* ---- CENTRE: the two systems, side by side ---- */
+  const mid = el("div", { class: "col" });
+  const mscroll = el("div", { class: "scroll" });
+  const ps = el("div", { class: "psplit" });
+  for (const p of s.projects) ps.append(systemPanel(p));
+  mscroll.append(ps);
+  mid.append(mscroll);
+  mid.append(controlBar(d));
+  board.append(mid);
+
+  /* ---- RIGHT: live tape ---- */
+  const right = el("div", { class: "col" });
+  right.append(el("h2", { class: "", style: "margin:0;padding:5px 10px;font-size:9.5px;font-weight:750;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);background:var(--surface-sunk);border-bottom:1px solid var(--rule);display:flex;gap:7px;align-items:center" },
+    "Activity tape", el("span", { style: "margin-left:auto;color:var(--ink-2);font-variant-numeric:tabular-nums" }, String(d.events.events.length))));
+  const chips = el("div", { class: "chips" });
+  for (const f of H.EVENT_FILTERS) chips.append(el("button", { class: "chip", type: "button", "aria-pressed": String(f.id === evFilter), onclick: () => { evFilter = f.id; render(); } }, f.label));
+  right.append(chips);
+  const rscroll = el("div", { class: "scroll tape" });
+  const filt = H.EVENT_FILTERS.find((x) => x.id === evFilter);
+  const evs = d.events.events.filter(filt.test);
+  if (!evs.length) rscroll.append(el("div", { class: "empty" }, "No recent trading intelligence events found."));
+  for (const e of evs) rscroll.append(tapeRow(e));
+  right.append(rscroll);
+  board.append(right);
+
+  shell.append(board);
+}
+
+function topbar(s) {
+  const stale = H.isStale(s.generatedAt, 90);
+  return el("div", { class: "topbar" },
+    el("h1", {}, "Trading Intelligence"),
+    el("span", { class: "sep" }),
+    H.statusBadge(s.status),
+    H.lockBadge(s.liveTradingLocked),
+    el("span", { class: "sep" }),
+    el("span", { class: `stamp${stale ? " stale" : ""}` }, `${H.clockTime(s.generatedAt)} · ${H.relTime(s.generatedAt)}${stale ? " · STALE" : ""}`),
+    el("div", { class: "right" },
+      el("span", { class: "stamp mono" }, s.contractVersion),
+      el("button", { class: "btn", type: "button", onclick: render }, "Refresh all")));
+}
+
+function block(title, node, count) {
+  const b = el("div", { class: "blk" });
+  const h = el("h2", {}, title);
+  if (count !== undefined) h.append(el("span", { class: "ct" }, String(count)));
+  b.append(h, node);
+  return b;
+}
+
+function matrix(k) {
+  const t = el("table", { class: "matrix" });
+  const tb = el("tbody", {});
+  for (const c of H.kpiCards(k)) {
+    const nodata = c.value === H.NO_DATA;
+    const hot = c.label === "Blockers" && k.blockers > 0;
+    tb.append(el("tr", { class: hot ? "hot" : "" },
+      el("td", { class: "k" }, c.label),
+      el("td", { class: `v ${nodata ? "nodata" : ""} ${c.pnl !== undefined ? H.pnlTone(c.pnl) : ""}` }, c.value)));
+  }
+  t.append(tb);
+  return t;
+}
+
+function lines(items, kind) {
+  const ul = el("ul", { class: "lines" });
+  for (const raw of items) {
+    const m = /^(Investing System|Khashi VC):\s*(.*)$/s.exec(raw);
+    const src = m ? (m[1] === "Khashi VC" ? "KHA" : "INV") : "";
+    const text = m ? m[2] : raw;
+    ul.append(el("li", {},
+      el("span", { class: `mk ${kind === "critical" ? "rail-blocked" : ""}`, style: kind === "critical" ? "" : "background:var(--series-1)" }),
+      src ? el("span", { class: `src ${src === "KHA" ? "kha" : "inv"}` }, src) : null,
+      el("span", {}, text)));
+  }
+  return ul;
+}
+
+function systemPanel(p) {
+  const pan = el("div", { class: "panel" });
+  pan.append(el("div", { class: "phd" },
+    el("span", { class: `bar ${H.railClass(p.available ? p.status : "unavailable")}` }),
+    el("span", { class: "nm" }, p.label),
+    el("span", { style: "margin-left:auto;display:flex;gap:5px" },
+      H.statusBadge(p.available ? p.status : "unavailable"),
+      p.liveTradingLocked ? el("span", { class: "badge t-lock", html: `${H.ICON.lock}<span>locked</span>` }) : null)));
+  const bd = el("div", { class: "pbody" });
+  bd.append(el("div", { class: "pmeta" },
+    el("span", {}, "HTTP ", el("b", {}, String(p.httpStatus || 0))),
+    el("span", {}, el("b", {}, `${p.latencyMs}ms`)),
+    el("span", { class: "mono" }, (p.sourceBaseUrl || "no base url"))));
+
+  if (!p.available) {
+    bd.append(el("div", { class: "empty", style: "text-align:left;margin:0" },
+      el("div", { style: "font-weight:700;color:var(--serious-ink);margin-bottom:3px" }, "Stream missing — not empty"),
+      el("code", { class: "mono", style: "font-size:10.5px" }, p.error || "")));
+  } else {
+    const nums = Object.entries(p.kpis).filter(([, v]) => typeof v === "number");
+    const g = el("div", { class: "kpigrid" });
+    for (const [k, v] of nums.slice(0, 10)) {
+      const money = /pnl|risk/i.test(k);
+      const signed = H.isSignedPnl(k);
+      g.append(el("div", {}, el("span", { class: "k", title: H.humanize(k) }, k),
+        el("span", { class: `v ${signed ? H.pnlTone(v) : ""}` }, money ? H.fmtCurrency(v) : H.fmtInt(v))));
+    }
+    bd.append(g);
+    const flags = Object.entries(p.kpis).filter(([, v]) => typeof v === "boolean");
+    if (flags.length) {
+      bd.append(el("div", { style: "display:flex;gap:5px;flex-wrap:wrap;margin-top:7px" },
+        flags.map(([k, v]) => el("span", { class: `badge ${H.toneClass(v ? (/stale/i.test(k) ? "watch" : "ready") : (/stale/i.test(k) ? "ready" : "watch"))}`,
+          html: `${H.ICON[H.tone(v ? (/stale/i.test(k) ? "watch" : "ready") : (/stale/i.test(k) ? "ready" : "watch"))]}<span>${k} ${v}</span>` }))));
+    }
+    if (H.isNum(p.kpis.learningProgressPct)) {
+      bd.append(el("div", { style: "margin-top:8px;font-size:10px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.05em" }, `learning sample ${H.fmtPct(p.kpis.learningProgressPct)}`));
+      bd.append(el("div", { class: "meter" }, el("i", { style: `width:${Math.min(100, p.kpis.learningProgressPct)}%` })));
+    }
+  }
+
+  if (p.blockers.length) {
+    bd.append(el("div", { style: "margin-top:9px;font-size:9.5px;font-weight:750;letter-spacing:.09em;text-transform:uppercase;color:var(--critical-ink)" }, `blockers · ${p.blockers.length}`));
+    bd.append(lines(p.blockers, "critical"));
+  }
+  if (p.recommendations.length) {
+    bd.append(el("div", { style: "margin-top:6px;font-size:9.5px;font-weight:750;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-muted)" }, "next"));
+    bd.append(lines(p.recommendations.slice(0, 2), "series"));
+  }
+  pan.append(bd);
+  return pan;
+}
+
+function tapeRow(e) {
+  const sev = H.eventSeverity(e);
+  return el("div", { class: "row" },
+    el("span", { class: `mk ${H.sevRail(sev)}` }),
+    el("span", { class: "tm" }, H.clockTime(e.occurredAt).slice(0, 5)),
+    el("div", {},
+      el("div", { class: "ti" }, e.title),
+      el("div", { class: "su" }, e.summary),
+      el("div", { class: "mt" },
+        el("span", { class: `tag ${e.sourceProject === "investing-system" ? "inv" : "kha"}` }, H.projectShort(e.sourceProject)),
+        el("span", { class: `badge ${H.toneClass(H.sevTone(sev))}`, html: `${H.ICON[H.sevTone(sev)]}<span>${sev}</span>` }),
+        e.instrument ? el("span", { class: "tag mono" }, e.instrument) : null,
+        el("span", { class: "tag mono" }, e.type))));
+}
+
+function controlBar(d) {
+  const bar = el("div", { class: "ctlbar" });
+  const avail = d.controls.controls.length;
+  bar.append(el("div", { class: "hd" },
+    el("span", { class: "eyebrow" }, "Controls"),
+    el("span", { class: "badge t-lock", html: `${H.ICON.lock}<span>preview first</span>` }),
+    el("span", { style: "margin-left:auto;font-size:10.5px;color:var(--ink-muted)" }, `${avail} project-owned actions`)));
+  if (!avail) { bar.append(el("div", { class: "empty", style: "margin:0" }, "No controls are available from this project right now.")); return bar; }
+  const row = el("div", { class: "ctlrow" });
+  for (const c of d.controls.controls) {
+    const risk = H.riskLevel(c);
+    row.append(el("button", {
+      class: `ctlbtn k-${H.riskTone(risk)}`, type: "button",
+      title: `${c.namespacedId} — ${risk} risk — ${c.intent || ""}`,
+      onclick: () => openControlDialog(c),
+    }, el("span", { class: `rk ${H.railClass(H.riskTone(risk))}` }),
+       el("span", { class: "tag " + (c.projectId === "investing-system" ? "inv" : "kha") }, H.projectShort(c.projectId)),
+       c.label));
+  }
+  bar.append(row);
+  return bar;
+}
+
+function loadingBoard() {
+  const b = el("div", { class: "board" });
+  for (let i = 0; i < 3; i++) {
+    const c = el("div", { class: "col" });
+    const sc = el("div", { class: "scroll", style: "padding:10px" });
+    for (let j = 0; j < 5; j++) sc.append(el("div", { class: "sk", style: "height:56px;margin-bottom:9px" }));
+    c.append(sc); b.append(c);
+  }
+  return b;
+}
+
+function errorBoard(msg) {
+  return el("div", { style: "padding:60px 20px;display:flex;justify-content:center" },
+    el("div", { class: "panel", style: "max-width:520px;padding:26px;text-align:center" },
+      el("div", { class: "badge t-blocked", style: "margin-bottom:10px", html: `${H.ICON.blocked}<span>summary unavailable</span>` }),
+      el("h2", { style: "margin:0 0 6px;font-size:16px" }, "Trading intelligence summary is unavailable."),
+      el("p", { style: "margin:0 0 12px;color:var(--ink-2)" }, "Board shell held; the fleet rollup did not return."),
+      el("code", { class: "mono", style: "display:block;margin-bottom:14px;color:var(--critical-ink)" }, msg),
+      el("button", { class: "btn btn-primary", type: "button", onclick: () => { state = "ready"; render(); } }, "Retry")));
+}
+
+render();
+</script>
+</body>
+</html>
