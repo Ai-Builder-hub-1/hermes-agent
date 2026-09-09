@@ -1772,6 +1772,146 @@ async def get_trading_intelligence_frontend_spec():
     return trading_intelligence_frontend_spec()
 
 
+@app.get("/api/head-trader/summary")
+async def get_head_trader_summary():
+    from hermes_cli.head_trader import head_trader_summary
+
+    return await head_trader_summary()
+
+
+@app.post("/api/head-trader/refresh")
+async def post_head_trader_refresh():
+    from hermes_cli.head_trader import refresh_incidents
+
+    return await refresh_incidents()
+
+
+@app.get("/api/head-trader/incidents")
+async def get_head_trader_incidents(status: str = ""):
+    from hermes_cli.head_trader import list_incidents
+
+    return list_incidents(status=status or None)
+
+
+@app.get("/api/head-trader/incidents/{incident_id}")
+async def get_head_trader_incident(incident_id: str):
+    from hermes_cli.head_trader import get_incident
+
+    return get_incident(incident_id)
+
+
+@app.post("/api/head-trader/incidents/{incident_id}/reply")
+async def post_head_trader_incident_reply(incident_id: str, payload: Dict[str, Any]):
+    from hermes_cli.head_trader import reply_to_incident
+
+    return await reply_to_incident(incident_id, payload)
+
+
+@app.post("/api/head-trader/incidents/{incident_id}/ignore")
+async def post_head_trader_incident_ignore(incident_id: str, payload: Dict[str, Any]):
+    from hermes_cli.head_trader import ignore_incident
+
+    return ignore_incident(incident_id, payload)
+
+
+@app.post("/api/head-trader/incidents/{incident_id}/resolve")
+async def post_head_trader_incident_resolve(incident_id: str, payload: Dict[str, Any]):
+    from hermes_cli.head_trader import resolve_incident
+
+    return resolve_incident(incident_id, payload)
+
+
+@app.get("/api/head-trader/action-catalog")
+async def get_head_trader_action_catalog():
+    from hermes_cli.head_trader import action_catalog
+
+    return action_catalog()
+
+
+@app.post("/api/head-trader/risk-check")
+async def post_head_trader_risk_check(payload: Dict[str, Any]):
+    from hermes_cli.head_trader import risk_check
+
+    return await risk_check(payload)
+
+
+@app.post("/api/head-trader/decisions")
+async def post_head_trader_decision(payload: Dict[str, Any]):
+    from hermes_cli.head_trader import create_decision
+
+    return await create_decision(payload)
+
+
+@app.post("/api/head-trader/decisions/{decision_id}/confirm")
+async def post_head_trader_decision_confirm(decision_id: str, payload: Dict[str, Any]):
+    from hermes_cli.head_trader import confirm_decision
+
+    return await confirm_decision(decision_id, payload)
+
+
+@app.post("/api/head-trader/decisions/{decision_id}/reject")
+async def post_head_trader_decision_reject(decision_id: str, payload: Dict[str, Any]):
+    from hermes_cli.head_trader import reject_decision
+
+    return reject_decision(decision_id, payload)
+
+
+@app.get("/api/head-trader/conversations")
+async def get_head_trader_conversations():
+    from hermes_cli.head_trader import list_conversations
+
+    return list_conversations()
+
+
+@app.get("/api/head-trader/conversations/{conversation_id}")
+async def get_head_trader_conversation(conversation_id: str):
+    from hermes_cli.head_trader import get_conversation
+
+    return get_conversation(conversation_id)
+
+
+@app.get("/api/head-trader/audit")
+async def get_head_trader_audit(limit: int = 100):
+    from hermes_cli.head_trader import list_audit
+
+    return list_audit(limit=limit)
+
+
+@app.get("/api/head-trader/evidence/{incident_id}")
+async def get_head_trader_evidence(incident_id: str):
+    from hermes_cli.head_trader import incident_evidence
+
+    return incident_evidence(incident_id)
+
+
+@app.get("/api/head-trader/channels")
+async def get_head_trader_channels():
+    from hermes_cli.head_trader import channel_status
+
+    return channel_status()
+
+
+@app.post("/api/head-trader/webhooks/discord")
+async def post_head_trader_discord_webhook(payload: Dict[str, Any]):
+    from hermes_cli.head_trader import receive_channel_webhook
+
+    return receive_channel_webhook("discord", payload)
+
+
+@app.post("/api/head-trader/webhooks/telegram")
+async def post_head_trader_telegram_webhook(payload: Dict[str, Any]):
+    from hermes_cli.head_trader import receive_channel_webhook
+
+    return receive_channel_webhook("telegram", payload)
+
+
+@app.get("/api/head-trader/frontend-spec")
+async def get_head_trader_frontend_spec():
+    from hermes_cli.head_trader import frontend_spec
+
+    return frontend_spec()
+
+
 @app.get("/dashboard/proof")
 async def get_dashboard_proof():
     status = await get_status()
