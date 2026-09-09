@@ -103,10 +103,51 @@ fleet rollup shows `$124.40` with no `strategyGrossPnl` leakage.
 
 Current result: **all checks pass** for all four variants.
 
-## Porting the chosen variant
+## Shipped: variant B
 
-These are prototypes, not a design system implementation. Shipping the winner
-into `web/src` means:
+Variant B is the one that shipped, as `/trading-intelligence`:
+
+| Piece | Path |
+|---|---|
+| Page | `web/src/pages/TradingIntelligencePage.tsx` |
+| Typed client + derivations | `web/src/lib/trading-intelligence.ts` |
+| Unit tests | `web/src/lib/trading-intelligence.test.ts` |
+| Route | `web/src/dashboard-route-registry.tsx` |
+| Governance metadata | `web/src/dashboard-page-metadata.ts` |
+
+`evidence/` holds the screenshots the port was verified against, plus the two
+scripts that produce them:
+
+```sh
+cd web && npm run build                 # SPA into hermes_cli/web_dist
+node docs/design/prototypes/trading-intelligence/evidence/page-harness.mjs &
+node docs/design/prototypes/trading-intelligence/evidence/page-verify.mjs
+```
+
+`page-harness.mjs` serves the built dashboard with stubbed control-plane
+endpoints (`?ti=ready|degraded|empty|error`) and correctly-shaped stubs for the
+shell's own endpoints. `page-verify.mjs` drives Chromium over every scenario at
+1600px and 390px, in both colour schemes, and asserts: no page errors, no
+horizontal overflow, `$124.40` in the fleet rollup with `strategyGrossPnl`
+appearing only in the project panel, a genuine `0` rendering as `$0.00`, `null`
+rendering as "No data", the degraded and empty copy, the error shell, and the
+full preview → execute sequence including the reason-length gate and the
+"source confirmed" check. All checks pass.
+
+Two bugs it caught that review would not have:
+
+- The design system paints every `<code>` element with `--midground` and
+  `text-background`. Overriding only the text colour rendered the source error
+  message peach-on-peach — an invisible error string in the one state where the
+  operator most needs to read it.
+- At the centre-column width, a side-by-side KPI row truncated
+  `orderbookSnapshots` to `orderbookSna…` and `strategyGrossPnl` to
+  `strategy…`. Key now sits above value.
+
+## Porting a different variant
+
+These are prototypes, not a design system implementation. Shipping one of the
+others into `web/src` means:
 
 1. Rebuild with `@nous-research/ui` primitives (HDK-first baseline — hand-rolled
    CSS here is deliberate throwaway).
