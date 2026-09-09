@@ -53,4 +53,18 @@ PUBLIC_API_PATHS: frozenset[str] = frozenset({
     # the NAS relay's bearer-only callback reaches the verifier instead of a
     # 401 no_cookie. The JWT — not this allowlist — is the security boundary.
     "/api/cron/fire",
+    # Head Trader inbound channel webhooks (Telegram -> agent, Discord ->
+    # agent). NOT cookie-gated: neither provider can present a dashboard
+    # session token or cookie, so a gated route simply 401s every callback and
+    # the conversational loop never runs. Same shape as /api/cron/fire above -
+    # the handler verifies the provider's own signature against the raw body
+    # (Telegram's X-Telegram-Bot-Api-Secret-Token, Discord's Ed25519
+    # X-Signature-Ed25519 over timestamp+body) and then requires an
+    # allow-listed sender id before acting on anything the message says. That
+    # verification, not this allowlist, is the security boundary. Both
+    # channels refuse every request unless explicitly enabled by env config,
+    # and neither can execute a control: an inbound message can only ever
+    # create a decision that still needs confirmation.
+    "/api/head-trader/webhooks/telegram",
+    "/api/head-trader/webhooks/discord",
 })

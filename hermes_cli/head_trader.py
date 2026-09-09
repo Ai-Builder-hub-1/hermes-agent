@@ -8,8 +8,10 @@ live trades.
 from __future__ import annotations
 
 import hashlib
+import hmac
 import json
 import os
+import re
 from pathlib import Path
 from typing import Any
 from uuid import uuid4
@@ -24,6 +26,24 @@ from hermes_cli.trading_intelligence import (
     trading_intelligence_summary,
 )
 
+
+CONFIRMABLE_DECISION_STATUSES = frozenset({"waiting_for_confirmation", "approved"})
+
+# "don't pause", "do not lock", "no - hold off": the verb is present but the
+# instruction is the opposite of it.
+_NEGATION = re.compile(
+    r"\b(?:do\s*n[o']?t|don'?t|doesn'?t|no\b|never|hold\s+off|stand\s+down|cancel|abort|skip|leave\s+it|not\s+yet)\b"
+)
+
+# Keyword -> per-desk action. A desk with no entry cannot be proposed that
+# action at all, which is what keeps a Khashi control off an OANDA incident.
+_INTENT_ACTIONS: list[tuple[tuple[str, ...], dict[str, str]]] = [
+    (("proof", "freshness"), {"khashi": "khashi.run_freshness_proof"}),
+    (("shadow",), {"khashi": "khashi.shadow_collection"}),
+    (("lock", "emergency"), {"oanda": "investing.emergency_lock_trading"}),
+    (("daily ops", "rollup", "refresh ops"), {"oanda": "investing.refresh_daily_ops"}),
+    (("pause", "halt", "stop"), {"khashi": "khashi.pause_collection", "oanda": "investing.pause_oanda_runtime"}),
+]
 
 CONTRACT_VERSION = "head-trader-control-plane.v1"
 FRONTEND_CONTRACT_VERSION = "2026-09-09.v1"
@@ -303,12 +323,28 @@ async def confirm_decision(decision_id: str, payload: dict[str, Any], store: "He
     decision = store.get_record("decisions", decision_id)
     if not decision:
         return {"id": "head-trader-decision-confirm", "contractVersion": CONTRACT_VERSION, "generatedAt": _now(), "status": "rejected", "error": "decision not found"}
+    # A decision is confirmable exactly once, and only from the state that was
+    # waiting on a human. Without this, re-POSTing the same decisionId routed
+    # the control a second time, and a decision already rejected could be
+    # resurrected by a later confirm.
+    if decision.get("status") not in CONFIRMABLE_DECISION_STATUSES:
+        store.audit("decision.confirm_refused", payload.get("actorId") or decision.get("actorId"), {"decisionId": decision_id, "status": decision.get("status")})
+        return {
+            "id": "head-trader-decision-confirm",
+            "contractVersion": CONTRACT_VERSION,
+            "generatedAt": _now(),
+            "status": "rejected",
+            "error": f"decision is {decision.get('status')}; only {sorted(CONFIRMABLE_DECISION_STATUSES)} can be confirmed",
+            "decision": decision,
+        }
     risk = await risk_check({"incidentId": decision.get("incidentId"), "actionId": decision.get("actionId"), "execute": True}, store)
     if not risk.get("allowed") or risk.get("permissionLevel") in {"hard_gate", "forbidden"}:
         decision.update({"status": "rejected", "risk": risk, "updatedAt": _now()})
         store.replace_record("decisions", decision)
         store.audit("decision.rejected", payload.get("actorId") or decision.get("actorId"), {"decisionId": decision_id, "risk": risk})
         return {"id": "head-trader-decision-confirm", "contractVersion": CONTRACT_VERSION, "generatedAt": _now(), "status": "rejected", "decision": decision}
+    decision.update({"status": "executing", "risk": risk, "updatedAt": _now()})
+    store.replace_record("decisions", decision)
     backend_control = decision.get("backendControlId")
     result = {"status": "noop", "reason": "No backend control is attached to this action."}
     if backend_control:
@@ -345,8 +381,16 @@ async def risk_check(payload: dict[str, Any], store: "HeadTraderStore | None" = 
         blockers.append("Unknown action.")
         return _risk(False, "critical", "unknown", True, blockers, "The requested action is not in the explicit Head Trader catalog.")
     summary = await trading_intelligence_summary()
-    if summary.get("liveTradingLocked") is False and action.get("liveTradingImpact") == "live_order":
-        blockers.append("Live order actions remain disabled from Head Trader.")
+    # Live orders are never routable from Head Trader, whatever the control
+    # plane's lock says. The previous condition only fired when
+    # liveTradingLocked was False - i.e. it did nothing in the normal locked
+    # state, leaving `permissionLevel == "forbidden"` as the only real guard.
+    if action.get("liveTradingImpact") == "live_order":
+        blockers.append("Live order actions are never routable from Head Trader.")
+    # An unlocked control plane is itself a reason to refuse anything that
+    # touches a runtime: the safety contract this desk relies on is gone.
+    if summary.get("liveTradingLocked") is False and action.get("liveTradingImpact") in {"runtime_control", "live_order"}:
+        blockers.append("Control plane reports live trading unlocked; runtime actions are held until it is locked again.")
     if action["permissionLevel"] == "forbidden":
         blockers.append("Action is forbidden by policy.")
     if action["permissionLevel"] == "hard_gate":
@@ -402,28 +446,193 @@ def incident_evidence(incident_id: str, store: "HeadTraderStore | None" = None) 
 
 
 def channel_status() -> dict[str, Any]:
+    def describe(channel: str, *secret_envs: str) -> dict[str, Any]:
+        upper = channel.upper()
+        verified = all(bool(os.environ.get(name)) for name in secret_envs)
+        senders = _allowed_senders(channel)
+        enabled = _enabled(f"HEAD_TRADER_{upper}_ENABLED")
+        return {
+            "id": channel,
+            "enabled": enabled,
+            "configured": verified,
+            "senderAllowListSize": len(senders),
+            # Inbound only works when all three hold; the page shows which is missing.
+            "inboundReady": enabled and verified and bool(senders),
+            "verification": "telegram_secret_token" if channel == "telegram" else "discord_ed25519",
+            "mode": "disabled_by_default",
+        }
+
     return {
         "id": "head-trader-channel-status",
         "contractVersion": CONTRACT_VERSION,
         "generatedAt": _now(),
         "channels": [
-            {"id": "discord", "enabled": _enabled("HEAD_TRADER_DISCORD_ENABLED"), "configured": bool(os.environ.get("HEAD_TRADER_DISCORD_WEBHOOK_URL")), "mode": "disabled_by_default"},
-            {"id": "telegram", "enabled": _enabled("HEAD_TRADER_TELEGRAM_ENABLED"), "configured": bool(os.environ.get("HEAD_TRADER_TELEGRAM_BOT_TOKEN") and os.environ.get("HEAD_TRADER_TELEGRAM_CHAT_ID")), "mode": "disabled_by_default"},
+            describe("discord", "HEAD_TRADER_DISCORD_PUBLIC_KEY"),
+            describe("telegram", "HEAD_TRADER_TELEGRAM_WEBHOOK_SECRET", "HEAD_TRADER_TELEGRAM_BOT_TOKEN"),
         ],
     }
 
 
-def receive_channel_webhook(channel: str, payload: dict[str, Any], store: "HeadTraderStore | None" = None) -> dict[str, Any]:
+class ChannelWebhookRejected(Exception):
+    """Raised when an inbound channel webhook fails verification."""
+
+    def __init__(self, reason: str, code: str):
+        super().__init__(reason)
+        self.reason = reason
+        self.code = code
+
+
+def _verify_telegram(headers: dict[str, str], raw_body: bytes) -> None:
+    """Telegram signs nothing; it echoes a secret set at setWebhook time."""
+    secret = os.environ.get("HEAD_TRADER_TELEGRAM_WEBHOOK_SECRET") or ""
+    if not secret:
+        raise ChannelWebhookRejected(
+            "HEAD_TRADER_TELEGRAM_WEBHOOK_SECRET is not configured; refusing unauthenticated webhook.",
+            "not_configured",
+        )
+    presented = headers.get("x-telegram-bot-api-secret-token", "")
+    if not presented or not hmac.compare_digest(presented.encode(), secret.encode()):
+        raise ChannelWebhookRejected("Telegram secret token did not match.", "bad_signature")
+
+
+def _verify_discord(headers: dict[str, str], raw_body: bytes) -> None:
+    """Discord signs timestamp+body with Ed25519; the public key verifies it."""
+    public_key = os.environ.get("HEAD_TRADER_DISCORD_PUBLIC_KEY") or ""
+    if not public_key:
+        raise ChannelWebhookRejected(
+            "HEAD_TRADER_DISCORD_PUBLIC_KEY is not configured; refusing unauthenticated webhook.",
+            "not_configured",
+        )
+    signature = headers.get("x-signature-ed25519", "")
+    timestamp = headers.get("x-signature-timestamp", "")
+    if not signature or not timestamp:
+        raise ChannelWebhookRejected("Discord signature headers are missing.", "bad_signature")
+    try:
+        from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
+
+        Ed25519PublicKey.from_public_bytes(bytes.fromhex(public_key)).verify(
+            bytes.fromhex(signature), timestamp.encode() + raw_body
+        )
+    except ChannelWebhookRejected:
+        raise
+    except Exception as exc:  # invalid hex, bad signature, missing backend
+        raise ChannelWebhookRejected(f"Discord signature verification failed: {exc}", "bad_signature") from exc
+
+
+def _allowed_senders(channel: str) -> set[str]:
+    raw = os.environ.get(f"HEAD_TRADER_{channel.upper()}_ALLOWED_SENDERS", "")
+    return {item.strip() for item in raw.split(",") if item.strip()}
+
+
+def _extract_message(channel: str, payload: dict[str, Any]) -> dict[str, Any]:
+    """Pull (senderId, text, incidentId) out of a provider-shaped payload."""
+    if channel == "telegram":
+        message = payload.get("message") or payload.get("edited_message") or {}
+        chat = message.get("chat") or {}
+        sender = message.get("from") or {}
+        replied = (message.get("reply_to_message") or {}).get("text") or ""
+        text = str(message.get("text") or "")
+        return {
+            "senderId": str(sender.get("id") or chat.get("id") or ""),
+            "text": text,
+            "incidentId": _incident_ref(f"{text} {replied}"),
+        }
+    author = payload.get("author") or payload.get("member", {}).get("user") or {}
+    text = str(payload.get("content") or "")
+    referenced = ((payload.get("referenced_message") or {}).get("content")) or ""
+    return {
+        "senderId": str(author.get("id") or ""),
+        "text": text,
+        "incidentId": _incident_ref(f"{text} {referenced}"),
+    }
+
+
+def _incident_ref(text: str) -> str | None:
+    match = re.search(r"incident-[a-z_]+-[0-9a-f]{6,}", text or "")
+    return match.group(0) if match else None
+
+
+async def receive_channel_webhook(
+    channel: str,
+    payload: dict[str, Any],
+    store: "HeadTraderStore | None" = None,
+    *,
+    headers: dict[str, str] | None = None,
+    raw_body: bytes = b"",
+) -> dict[str, Any]:
+    """Handle a verified inbound message from Discord or Telegram.
+
+    These two routes are the only Head Trader endpoints that bypass the
+    dashboard auth gate - Telegram and Discord cannot present a session token
+    or cookie. They follow the ``/api/cron/fire`` precedent already in this
+    repo: the allowlist is not the security boundary, the per-provider
+    signature check below is, and an allow-listed sender id is required on top
+    of it before anything the message says is acted on.
+    """
     store = store or HeadTraderStore()
-    enabled = _enabled(f"HEAD_TRADER_{channel.upper()}_ENABLED")
-    store.audit("channel.webhook.received", channel, {"enabled": enabled, "payloadKeys": sorted(payload.keys())})
+    headers = {k.lower(): v for k, v in (headers or {}).items()}
+    channel = channel.lower()
+
+    def refuse(status: str, code: str, note: str, http_status: int = 403) -> dict[str, Any]:
+        store.audit("channel.webhook.refused", channel, {"code": code, "note": note})
+        return {
+            "id": "head-trader-channel-webhook",
+            "contractVersion": CONTRACT_VERSION,
+            "generatedAt": _now(),
+            "channel": channel,
+            "status": status,
+            "code": code,
+            "httpStatus": http_status,
+            "note": note,
+        }
+
+    if channel not in {"discord", "telegram"}:
+        return refuse("rejected", "unknown_channel", "Unknown channel.", 404)
+
+    if not _enabled(f"HEAD_TRADER_{channel.upper()}_ENABLED"):
+        # Disabled is the default. Say so without revealing whether a secret
+        # is configured.
+        return refuse("disabled", "channel_disabled", "Channel adapter is disabled by default; enable with explicit environment configuration.", 403)
+
+    try:
+        (_verify_telegram if channel == "telegram" else _verify_discord)(headers, raw_body)
+    except ChannelWebhookRejected as exc:
+        return refuse("rejected", exc.code, exc.reason, 401)
+
+    message = _extract_message(channel, payload)
+    allowed = _allowed_senders(channel)
+    if not allowed:
+        return refuse("rejected", "no_allowed_senders", f"HEAD_TRADER_{channel.upper()}_ALLOWED_SENDERS is empty; no sender may act.", 403)
+    if message["senderId"] not in allowed:
+        return refuse("rejected", "sender_not_allowed", "Sender is not on the Head Trader allow list.", 403)
+
+    if not message["text"].strip():
+        return refuse("ignored", "empty_message", "Message carried no text.", 200)
+
+    incident_id = message["incidentId"]
+    if not incident_id:
+        return refuse(
+            "ignored",
+            "no_incident_reference",
+            "Message did not reference an incident id. Reply to the Head Trader alert, or include the incident id in the message.",
+            200,
+        )
+
+    store.audit("channel.webhook.accepted", channel, {"incidentId": incident_id, "senderId": message["senderId"]})
+    reply = await reply_to_incident(
+        incident_id,
+        {"message": message["text"], "channel": channel, "actorId": f"{channel}:{message['senderId']}"},
+        store,
+    )
     return {
         "id": "head-trader-channel-webhook",
         "contractVersion": CONTRACT_VERSION,
         "generatedAt": _now(),
         "channel": channel,
-        "status": "disabled" if not enabled else "accepted",
-        "note": "Channel adapters are disabled by default; enable with explicit environment configuration.",
+        "status": "accepted",
+        "httpStatus": 200,
+        "incidentId": incident_id,
+        "reply": reply,
     }
 
 
@@ -564,21 +773,53 @@ class HeadTraderStore:
 
 
 def interpret_reply(text: str, incident: dict[str, Any]) -> dict[str, Any]:
-    lowered = text.lower().strip()
-    desk = incident.get("desk")
-    if any(word in lowered for word in ["explain", "why", "evidence"]):
-        return {"intent": "explain", "actionId": None, "confidence": 0.9}
-    if any(word in lowered for word in ["status", "what happened", "summary"]):
-        return {"intent": "status", "actionId": None, "confidence": 0.85}
-    if any(word in lowered for word in ["ignore", "snooze"]):
-        return {"intent": "ignore", "actionId": None, "confidence": 0.8}
-    if "proof" in lowered or "freshness" in lowered:
-        return {"intent": "action", "actionId": "khashi.run_freshness_proof", "confidence": 0.78}
-    if "pause" in lowered:
-        return {"intent": "action", "actionId": "khashi.pause_collection" if desk == "khashi" else "investing.pause_oanda_runtime", "confidence": 0.75}
-    if "lock" in lowered:
-        return {"intent": "action", "actionId": "investing.emergency_lock_trading", "confidence": 0.75}
-    return {"intent": "unknown", "actionId": None, "confidence": 0.35}
+    """Map a free-form reply to at most one catalog action.
+
+    Never executes anything: the caller turns an action intent into a decision
+    that still needs explicit confirmation. Two rules earn their keep here.
+
+    Desk scoping - an action is only ever proposed for the desk that owns the
+    incident. Matching "proof" to the Khashi freshness proof while the operator
+    was looking at an OANDA incident put the wrong control in front of them at
+    the moment they were about to approve it.
+
+    Negation - "don't pause", "do not lock", "no, hold off" contain the verb
+    but mean the opposite. A missed negation is a proposal to do the thing the
+    operator just refused.
+    """
+    lowered = " ".join(str(text or "").lower().split())
+    desk = str(incident.get("desk") or "cross_system")
+
+    if not lowered:
+        return {"intent": "unknown", "actionId": None, "confidence": 0.0, "desk": desk, "reason": "empty reply"}
+
+    if _NEGATION.search(lowered):
+        return {"intent": "decline", "actionId": None, "confidence": 0.8, "desk": desk,
+                "reason": "reply reads as a refusal, so no action is proposed"}
+
+    if any(word in lowered for word in ("explain", "why", "evidence")):
+        return {"intent": "explain", "actionId": None, "confidence": 0.9, "desk": desk}
+    if any(word in lowered for word in ("status", "what happened", "summary")):
+        return {"intent": "status", "actionId": None, "confidence": 0.85, "desk": desk}
+    if any(word in lowered for word in ("ignore", "snooze")):
+        return {"intent": "ignore", "actionId": None, "confidence": 0.8, "desk": desk}
+
+    # Verb -> action, resolved within the incident's own desk only.
+    for keywords, by_desk in _INTENT_ACTIONS:
+        if not any(word in lowered for word in keywords):
+            continue
+        action_id = by_desk.get(desk)
+        if action_id:
+            return {"intent": "action", "actionId": action_id, "confidence": 0.75, "desk": desk}
+        return {
+            "intent": "unsupported_for_desk",
+            "actionId": None,
+            "confidence": 0.6,
+            "desk": desk,
+            "reason": f"that action is not available on the {desk} desk",
+        }
+
+    return {"intent": "unknown", "actionId": None, "confidence": 0.35, "desk": desk}
 
 
 def find_action(action_id: str) -> dict[str, Any] | None:
@@ -682,6 +923,10 @@ def _response_for_intent(intent: dict[str, Any], incident: dict[str, Any]) -> st
         return f"I matched that to {action.get('label') if action else intent.get('actionId')}. Confirmation is required before routing the control."
     if intent["intent"] == "ignore":
         return "I understood this as an ignore/snooze request. Use the ignore endpoint or dashboard action to mark it ignored."
+    if intent["intent"] == "decline":
+        return "Understood - I read that as a no, so I have not proposed any action. The incident stays open."
+    if intent["intent"] == "unsupported_for_desk":
+        return f"That action is not available on the {intent.get('desk')} desk, so I have not proposed anything. Ask for status or evidence, or name an action this desk owns."
     return "I could not confidently map that reply to an allowed Head Trader action. Ask for status, explain evidence, run proof, pause, or lock."
 
 

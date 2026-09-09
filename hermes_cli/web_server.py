@@ -1891,18 +1891,43 @@ async def get_head_trader_channels():
     return channel_status()
 
 
-@app.post("/api/head-trader/webhooks/discord")
-async def post_head_trader_discord_webhook(payload: Dict[str, Any]):
+async def _head_trader_channel_webhook(channel: str, request: Request):
+    """Inbound Discord/Telegram webhook.
+
+    These two paths are in ``PUBLIC_API_PATHS`` because Telegram and Discord
+    cannot present a dashboard session token or cookie. As with
+    ``/api/cron/fire``, the allowlist is not the security boundary: the
+    handler verifies the provider's own signature (Telegram's secret token,
+    Discord's Ed25519 signature over timestamp+body) against the raw request
+    body, and then requires an allow-listed sender id. Both channels are
+    disabled unless explicitly enabled by environment configuration.
+    """
     from hermes_cli.head_trader import receive_channel_webhook
 
-    return receive_channel_webhook("discord", payload)
+    raw_body = await request.body()
+    try:
+        payload = json.loads(raw_body) if raw_body else {}
+    except json.JSONDecodeError:
+        payload = {}
+    if not isinstance(payload, dict):
+        payload = {}
+    result = await receive_channel_webhook(
+        channel,
+        payload,
+        headers=dict(request.headers),
+        raw_body=raw_body,
+    )
+    return JSONResponse(status_code=int(result.get("httpStatus") or 200), content=result)
+
+
+@app.post("/api/head-trader/webhooks/discord")
+async def post_head_trader_discord_webhook(request: Request):
+    return await _head_trader_channel_webhook("discord", request)
 
 
 @app.post("/api/head-trader/webhooks/telegram")
-async def post_head_trader_telegram_webhook(payload: Dict[str, Any]):
-    from hermes_cli.head_trader import receive_channel_webhook
-
-    return receive_channel_webhook("telegram", payload)
+async def post_head_trader_telegram_webhook(request: Request):
+    return await _head_trader_channel_webhook("telegram", request)
 
 
 @app.get("/api/head-trader/frontend-spec")
