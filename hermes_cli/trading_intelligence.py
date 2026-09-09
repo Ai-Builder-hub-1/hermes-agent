@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 import json
 import os
 import urllib.error
+import urllib.parse
 import urllib.request
 from typing import Any
 
@@ -301,8 +302,8 @@ def _aggregate_kpis(projects: list[dict[str, Any]]) -> dict[str, Any]:
         "projectsAvailable": sum(1 for project in projects if project.get("available")),
         "projectsTotal": len(projects),
         "openTrades": _sum(project.get("kpis", {}).get("openTrades") for project in projects),
-        "closedTrades": _sum((project.get("kpis", {}).get("closedTrades") or project.get("kpis", {}).get("reviewedTrades")) for project in projects),
-        "realizedPnlUsd": _sum((project.get("kpis", {}).get("realizedPnlUsd") or project.get("kpis", {}).get("realizedPnlToday") or project.get("kpis", {}).get("strategyGrossPnl")) for project in projects),
+        "closedTrades": _sum(_first_number(project, "closedTrades", "reviewedTrades") for project in projects),
+        "realizedPnlUsd": _sum(_first_number(project, "realizedPnlUsd", "realizedPnlToday", "strategyGrossPnl") for project in projects),
         "openRiskUsd": _sum(project.get("kpis", {}).get("openRiskUsd") for project in projects),
         "liveMarkets": _sum(project.get("kpis", {}).get("liveMarkets") for project in projects),
         "strategyCandidates": _sum(project.get("kpis", {}).get("paperCandidates") for project in projects),
@@ -387,6 +388,26 @@ def _unwrap_payload(payload: Any) -> Any:
 
 def _as_list(value: Any) -> list[Any]:
     return value if isinstance(value, list) else []
+
+
+def _first_number(project: dict[str, Any], *keys: str) -> float | None:
+    """First key that is actually present and numeric.
+
+    A source that legitimately reports ``0`` (flat realized P/L, zero closed
+    trades) must not fall through to the next alias — an ``or`` chain would
+    treat that ``0`` as missing and the fleet KPI would render "No data"
+    instead of zero.
+    """
+    kpis = project.get("kpis") or {}
+    if not isinstance(kpis, dict):
+        return None
+    for key in keys:
+        value = kpis.get(key)
+        if isinstance(value, bool):
+            continue
+        if isinstance(value, (int, float)):
+            return float(value)
+    return None
 
 
 def _sum(values: Any) -> float | None:
