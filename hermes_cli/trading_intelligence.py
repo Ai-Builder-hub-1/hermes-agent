@@ -195,6 +195,7 @@ async def trading_command_center(limit: Any = 10) -> dict[str, Any]:
         "frontendBuildNotes": [
             "Render lane status from the lanes array, not from project names.",
             "Render daily aggregate KPI cards from dailyMetrics so cash left, buying power, risk, and same-day P/L stay consistent across sources.",
+            "Use dailyMetrics.bySource[].capitalSemantics before labeling a cash value as real broker cash; Khashi may report an internal simulated bankroll, not Kalshi production or demo cash.",
             "Treat liveTradingLocked=true as the default safety posture.",
             "Use sourceProjects[].summary for project-specific drilldowns when a normalized field is null.",
             "Route all risky actions through Head Trader or /api/trading-intelligence/control; never submit live orders from this endpoint.",
@@ -423,6 +424,13 @@ def _daily_metrics_snapshot(
             "cashLeftUsd": cash_left,
             "cashLeftKnown": cash_left is not None,
             "buyingPowerUsd": buying_power,
+            "capitalSource": _first_present_text(kpis, "capitalSource", "paperCapitalSource"),
+            "capitalSemantics": _first_present_text(kpis, "capitalSemantics", "paperCapitalSemantics"),
+            "isRealBrokerCash": kpis.get("isRealBrokerCash") if isinstance(kpis.get("isRealBrokerCash"), bool) else None,
+            "isKalshiDemoCash": kpis.get("isKalshiDemoCash") if isinstance(kpis.get("isKalshiDemoCash"), bool) else None,
+            "kalshiProductionCashUsd": _first_present_number(kpis, "kalshiProductionCashUsd"),
+            "kalshiDemoCashUsd": _first_present_number(kpis, "kalshiDemoCashUsd"),
+            "paperBankrollUsd": _first_present_number(kpis, "paperBankrollUsd"),
             "totalEquityUsd": _first_present_number(kpis, "totalEquityUsd", "accountEquityUsd", "portfolioValueUsd"),
             "portfolioValueUsd": _first_present_number(kpis, "portfolioValueUsd", "accountValueUsd"),
             "openRiskUsd": open_risk,
@@ -464,6 +472,12 @@ def _daily_metrics_snapshot(
             "totalEquity": _coverage_label(by_source, "totalEquityUsd"),
             "dailyPnl": _coverage_label(by_source, "realizedPnlTodayUsd"),
             "risk": _coverage_label(by_source, "openRiskUsd"),
+        },
+        "capitalSemantics": {
+            "realBrokerCashSources": sum(1 for row in by_source if row.get("isRealBrokerCash") is True),
+            "kalshiDemoCashSources": sum(1 for row in by_source if row.get("isKalshiDemoCash") is True),
+            "internalPaperBankrollSources": sum(1 for row in by_source if row.get("capitalSource") == "internal-khashi-paper-bankroll"),
+            "note": "Aggregate cash can include real broker cash and internal simulated bankrolls; inspect bySource before presenting it as withdrawable or live-trading cash.",
         },
         "bySource": by_source,
     }
@@ -829,6 +843,16 @@ def _first_present_number(values: dict[str, Any], *keys: str) -> float | None:
             continue
         if isinstance(value, (int, float)):
             return float(value)
+    return None
+
+
+def _first_present_text(values: dict[str, Any], *keys: str) -> str | None:
+    if not isinstance(values, dict):
+        return None
+    for key in keys:
+        value = values.get(key)
+        if isinstance(value, str) and value.strip():
+            return value
     return None
 
 

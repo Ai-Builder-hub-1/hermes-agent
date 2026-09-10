@@ -81,6 +81,13 @@ def test_trading_command_center_route_normalizes_cross_system_backend(monkeypatc
                 "accountEquityUsd": 2500 if source["projectId"] == "investing-system" else None,
                 "cashLeftUsd": 4000 if source["projectId"] == "investing-system" else 800,
                 "buyingPowerUsd": 4500 if source["projectId"] == "investing-system" else 800,
+                "capitalSource": "broker-account" if source["projectId"] == "investing-system" else "internal-khashi-paper-bankroll",
+                "capitalSemantics": "Broker account cash." if source["projectId"] == "investing-system" else "Internal Khashi simulated bankroll; not real Kalshi cash.",
+                "isRealBrokerCash": source["projectId"] == "investing-system",
+                "isKalshiDemoCash": False,
+                "kalshiProductionCashUsd": None,
+                "kalshiDemoCashUsd": None,
+                "paperBankrollUsd": None if source["projectId"] == "investing-system" else 1000,
                 "openTrades": 1 if source["projectId"] == "investing-system" else 0,
                 "closedTrades": 8 if source["projectId"] == "investing-system" else 45,
                 "realizedPnlTodayUsd": 10 if source["projectId"] == "investing-system" else -1.08,
@@ -135,6 +142,11 @@ def test_trading_command_center_route_normalizes_cross_system_backend(monkeypatc
     assert body["dailyMetrics"]["realizedPnlTodayUsd"] == 8.92
     assert body["dailyMetrics"]["eventsToday"] == 2
     assert body["dailyMetrics"]["coverage"]["cashLeft"] == "known"
+    assert body["dailyMetrics"]["capitalSemantics"]["realBrokerCashSources"] == 1
+    assert body["dailyMetrics"]["capitalSemantics"]["internalPaperBankrollSources"] == 1
+    assert body["dailyMetrics"]["bySource"][1]["capitalSource"] == "internal-khashi-paper-bankroll"
+    assert body["dailyMetrics"]["bySource"][1]["isRealBrokerCash"] is False
+    assert body["dailyMetrics"]["bySource"][1]["paperBankrollUsd"] == 1000
     assert len(body["dailyMetrics"]["bySource"]) == 2
     assert body["positions"]["count"] == 2
     assert body["strategies"]["count"] == 2
