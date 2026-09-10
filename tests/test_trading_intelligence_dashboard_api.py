@@ -148,6 +148,11 @@ def test_trading_command_center_route_normalizes_cross_system_backend(monkeypatc
     assert body["dailyMetrics"]["bySource"][1]["isRealBrokerCash"] is False
     assert body["dailyMetrics"]["bySource"][1]["paperBankrollUsd"] == 1000
     assert len(body["dailyMetrics"]["bySource"]) == 2
+    assert body["dailySeries"]["granularity"] == "day"
+    assert body["dailySeries"]["historyStatus"] == "current_day_only"
+    assert body["dailySeries"]["points"][0]["date"] == "2026-09-10"
+    assert body["dailySeries"]["points"][0]["cashLeftUsd"] == 4800
+    assert body["dailySeries"]["recommendedCharts"][0]["id"] == "cash-left"
     assert body["positions"]["count"] == 2
     assert body["strategies"]["count"] == 2
     assert body["recentEvents"][0]["sourceProject"] in {"investing-system", "khashi-vc"}
@@ -231,3 +236,5 @@ def test_trading_intelligence_frontend_spec_route():
 
     assert response.status_code == 200
     assert response.json()["basePath"] == "/api/trading-intelligence"
+    assert response.json()["primaryEndpoint"] == "/api/trading-intelligence/command-center?limit=10"
+    assert "dailySeries" in response.json()["commandCenterContract"]

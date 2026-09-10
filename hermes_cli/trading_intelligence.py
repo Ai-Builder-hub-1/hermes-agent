@@ -162,6 +162,7 @@ async def trading_command_center(limit: Any = 10) -> dict[str, Any]:
     blockers = _as_list(summary.get("blockers"))
     recommendations = _as_list(summary.get("recommendations"))
     action_queue = _action_queue(normalized_controls, blockers)
+    daily_metrics = _daily_metrics_snapshot(projects, summary, normalized_events, action_queue)
     return {
         "id": "trading-command-center",
         "contractVersion": COMMAND_CENTER_CONTRACT_VERSION,
@@ -178,7 +179,8 @@ async def trading_command_center(limit: Any = 10) -> dict[str, Any]:
         "risk": _risk_snapshot(projects, summary),
         "positions": _position_snapshot(projects),
         "strategies": _strategy_snapshot(projects),
-        "dailyMetrics": _daily_metrics_snapshot(projects, summary, normalized_events, action_queue),
+        "dailyMetrics": daily_metrics,
+        "dailySeries": _daily_series_snapshot(daily_metrics, projects),
         "recentEvents": normalized_events[:bounded_limit],
         "actionQueue": action_queue,
         "freshness": _freshness_snapshot(projects),
@@ -239,7 +241,7 @@ async def trading_intelligence_control(payload: dict[str, Any]) -> dict[str, Any
 def trading_intelligence_frontend_spec() -> dict[str, Any]:
     return {
         "name": "Trading Intelligence Control Plane",
-        "version": FRONTEND_CONTRACT_VERSION,
+        "version": "2026-09-10.v2",
         "basePath": "/api/trading-intelligence",
         "endpoints": [
             {"method": "GET", "path": "/command-center?limit=10", "purpose": "Normalized cross-system backend contract for the one-screen trading/investing cockpit."},
@@ -248,7 +250,31 @@ def trading_intelligence_frontend_spec() -> dict[str, Any]:
             {"method": "GET", "path": "/controls", "purpose": "Namespaced project control catalog."},
             {"method": "POST", "path": "/control", "purpose": "Proxy a project-owned control request. Use dry-run/preview first."},
         ],
-        "uiSections": ["overview", "project cards", "pnl and risk", "strategy quality", "latest events", "controls"],
+        "primaryEndpoint": "/api/trading-intelligence/command-center?limit=10",
+        "uiSections": ["overview", "daily KPI ribbon", "capital semantics", "source comparison", "daily trend", "pnl and risk", "strategy quality", "latest events", "controls"],
+        "commandCenterContract": {
+            "summary": {
+                "purpose": "Top-line aggregate cards.",
+                "recommendedCards": ["cashLeftUsd", "buyingPowerUsd", "totalEquityUsd", "realizedPnlTodayUsd", "openRiskUsd", "riskAdjustedCashLeftUsd", "openTrades", "humanActionsRequired"],
+            },
+            "dailyMetrics": {
+                "purpose": "Current UTC-day aggregate metrics across Investing System and Khashi VC.",
+                "requiredRendering": "Always render coverage and source semantics beside cash totals. Null means unknown, not zero.",
+                "fields": ["date", "cashLeftUsd", "cashLeftKnown", "buyingPowerUsd", "totalEquityUsd", "portfolioValueUsd", "openRiskUsd", "riskAdjustedCashLeftUsd", "realizedPnlTodayUsd", "realizedPnlUsd", "unrealizedPnlUsd", "netPnlUsd", "openTrades", "closedTrades", "eventsToday", "humanActionsRequired", "coverage", "capitalSemantics", "bySource"],
+            },
+            "dailySeries": {
+                "purpose": "Chart-ready daily trend points. Render cash left, P/L, open risk, and action count over time.",
+                "minimumBehavior": "If only one point exists, render a single-day state with today's numbers and a note that history is collecting.",
+                "fields": ["date", "cashLeftUsd", "buyingPowerUsd", "totalEquityUsd", "openRiskUsd", "riskAdjustedCashLeftUsd", "realizedPnlTodayUsd", "netPnlUsd", "openTrades", "closedTrades", "humanActionsRequired", "eventsToday", "coverage", "bySource"],
+            },
+            "capitalSemantics": {
+                "rules": [
+                    "Do not label aggregate cash as withdrawable unless bySource confirms isRealBrokerCash=true for the source.",
+                    "Khashi cash may be null, internal simulated bankroll, Kalshi demo cash, or Kalshi production cash; the label must come from bySource[].capitalSource.",
+                    "Never present Khashi internal paper bankroll as real Kalshi cash.",
+                ],
+            },
+        },
         "safety": {
             "liveTradingLocked": True,
             "copy": "This control plane never submits live broker orders.",
@@ -481,6 +507,114 @@ def _daily_metrics_snapshot(
         },
         "bySource": by_source,
     }
+
+
+def _daily_series_snapshot(daily_metrics: dict[str, Any], projects: list[dict[str, Any]]) -> dict[str, Any]:
+    points_by_date: dict[str, dict[str, Any]] = {}
+    for project in projects:
+        for point in _source_daily_points(project):
+            date = str(point.get("date") or point.get("day") or "")[:10]
+            if not date:
+                continue
+            row = points_by_date.setdefault(date, {"date": date, "bySource": []})
+            row["bySource"].append({
+                "sourceProject": project.get("projectId"),
+                "cashLeftUsd": _first_present_number(point, "cashLeftUsd", "cashUsd", "availableCashUsd", "cashAvailable"),
+                "buyingPowerUsd": _first_present_number(point, "buyingPowerUsd", "buyingPower"),
+                "totalEquityUsd": _first_present_number(point, "totalEquityUsd", "accountEquityUsd", "portfolioValueUsd"),
+                "openRiskUsd": _first_present_number(point, "openRiskUsd"),
+                "realizedPnlTodayUsd": _first_present_number(point, "realizedPnlTodayUsd", "realizedPnlToday", "realizedPnlUsd"),
+                "netPnlUsd": _first_present_number(point, "netPnlUsd"),
+                "openTrades": _first_present_number(point, "openTrades", "openPositions"),
+                "closedTrades": _first_present_number(point, "closedTrades", "reviewedTrades"),
+            })
+
+    if daily_metrics.get("date"):
+        today = str(daily_metrics["date"])
+        row = points_by_date.setdefault(today, {"date": today, "bySource": []})
+        row["current"] = True
+        if not row.get("bySource"):
+            row["bySource"] = daily_metrics.get("bySource", [])
+
+    points = []
+    for date, row in sorted(points_by_date.items()):
+        source_rows = _as_list(row.get("bySource"))
+        if row.get("current"):
+            points.append({
+                "date": date,
+                "current": True,
+                "cashLeftUsd": daily_metrics.get("cashLeftUsd"),
+                "cashLeftKnown": daily_metrics.get("cashLeftKnown"),
+                "buyingPowerUsd": daily_metrics.get("buyingPowerUsd"),
+                "totalEquityUsd": daily_metrics.get("totalEquityUsd"),
+                "portfolioValueUsd": daily_metrics.get("portfolioValueUsd"),
+                "openRiskUsd": daily_metrics.get("openRiskUsd"),
+                "riskAdjustedCashLeftUsd": daily_metrics.get("riskAdjustedCashLeftUsd"),
+                "realizedPnlTodayUsd": daily_metrics.get("realizedPnlTodayUsd"),
+                "realizedPnlUsd": daily_metrics.get("realizedPnlUsd"),
+                "unrealizedPnlUsd": daily_metrics.get("unrealizedPnlUsd"),
+                "netPnlUsd": daily_metrics.get("netPnlUsd"),
+                "openTrades": daily_metrics.get("openTrades"),
+                "closedTrades": daily_metrics.get("closedTrades"),
+                "eventsToday": daily_metrics.get("eventsToday"),
+                "humanActionsRequired": daily_metrics.get("humanActionsRequired"),
+                "coverage": daily_metrics.get("coverage"),
+                "bySource": source_rows,
+            })
+            continue
+        cash_left = _sum(source.get("cashLeftUsd") for source in source_rows)
+        open_risk = _sum(source.get("openRiskUsd") for source in source_rows)
+        realized_today = _sum(source.get("realizedPnlTodayUsd") for source in source_rows)
+        points.append({
+            "date": date,
+            "current": False,
+            "cashLeftUsd": cash_left,
+            "cashLeftKnown": cash_left is not None,
+            "buyingPowerUsd": _sum(source.get("buyingPowerUsd") for source in source_rows),
+            "totalEquityUsd": _sum(source.get("totalEquityUsd") for source in source_rows),
+            "openRiskUsd": open_risk,
+            "riskAdjustedCashLeftUsd": round(cash_left - (open_risk or 0), 2) if cash_left is not None else None,
+            "realizedPnlTodayUsd": realized_today,
+            "netPnlUsd": _sum(source.get("netPnlUsd") for source in source_rows) or realized_today,
+            "openTrades": _sum(source.get("openTrades") for source in source_rows),
+            "closedTrades": _sum(source.get("closedTrades") for source in source_rows),
+            "humanActionsRequired": None,
+            "eventsToday": None,
+            "coverage": {
+                "cashLeft": _coverage_label(source_rows, "cashLeftUsd"),
+                "buyingPower": _coverage_label(source_rows, "buyingPowerUsd"),
+                "totalEquity": _coverage_label(source_rows, "totalEquityUsd"),
+                "dailyPnl": _coverage_label(source_rows, "realizedPnlTodayUsd"),
+                "risk": _coverage_label(source_rows, "openRiskUsd"),
+            },
+            "bySource": source_rows,
+        })
+
+    return {
+        "id": "trading-command-center-daily-series",
+        "granularity": "day",
+        "timezone": "UTC",
+        "historyStatus": "history_available" if any(not point.get("current") for point in points) else "current_day_only",
+        "points": points,
+        "recommendedCharts": [
+            {"id": "cash-left", "label": "Cash left by day", "series": ["cashLeftUsd", "riskAdjustedCashLeftUsd"]},
+            {"id": "daily-pnl", "label": "Daily P/L", "series": ["realizedPnlTodayUsd", "netPnlUsd"]},
+            {"id": "risk", "label": "Open risk", "series": ["openRiskUsd"]},
+        ],
+    }
+
+
+def _source_daily_points(project: dict[str, Any]) -> list[dict[str, Any]]:
+    candidates = [
+        _nested_get(project, "dailySeries.points"),
+        _nested_get(project, "dailyMetrics.points"),
+        _nested_get(project, "summary.dailySeries.points"),
+        _nested_get(project, "summary.dailyMetrics.points"),
+    ]
+    for candidate in candidates:
+        if isinstance(candidate, list):
+            return [point for point in candidate if isinstance(point, dict)]
+    return []
 
 
 def _risk_snapshot(projects: list[dict[str, Any]], summary: dict[str, Any]) -> dict[str, Any]:

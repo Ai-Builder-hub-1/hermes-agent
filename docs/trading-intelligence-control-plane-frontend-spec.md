@@ -5,7 +5,7 @@ Backend artifacts:
 - Same-origin dashboard API: `hermes_cli/trading_intelligence.py` mounted through `hermes_cli/web_server.py`
 - Standalone/local contract server: `scripts/trading-intelligence-control-plane-api.mjs`
 
-Contract version: `2026-09-08.v1`
+Contract version: `2026-09-10.v2`
 
 ## Purpose
 
@@ -85,6 +85,135 @@ Base path:
 
 ```text
 /api/trading-intelligence
+```
+
+Primary frontend endpoint:
+
+```text
+GET /api/trading-intelligence/command-center?limit=10
+```
+
+This is the canonical one-screen command-center contract. Claude should use this endpoint first and avoid reassembling the page from source-project APIs unless building a drilldown.
+
+The short alias is also available:
+
+```text
+GET /api/trading-command-center?limit=10
+```
+
+### Daily Aggregate Metrics
+
+The command-center response includes `dailyMetrics`, which is the current UTC-day aggregate across source projects.
+
+Important rules:
+
+- `null` means unknown, not zero.
+- Always render `dailyMetrics.coverage`.
+- Always inspect `dailyMetrics.bySource[].capitalSource` before labeling a cash number.
+- Khashi may report no cash, internal simulated bankroll, Kalshi demo cash, or Kalshi production cash. The dashboard must not infer that from project name.
+- Internal Khashi simulated bankroll is not real Kalshi cash and is not Kalshi demo cash.
+
+```ts
+type DailyMetrics = {
+  date: string;
+  generatedAt: string;
+  cashLeftUsd: number | null;
+  cashLeftKnown: boolean;
+  buyingPowerUsd: number | null;
+  totalEquityUsd: number | null;
+  portfolioValueUsd: number | null;
+  openRiskUsd: number | null;
+  riskAdjustedCashLeftUsd: number | null;
+  realizedPnlTodayUsd: number | null;
+  realizedPnlUsd: number | null;
+  unrealizedPnlUsd: number | null;
+  netPnlUsd: number | null;
+  openTrades: number | null;
+  closedTrades: number | null;
+  eventsToday: number;
+  humanActionsRequired: number;
+  coverage: {
+    cashLeft: "known" | "partial" | "missing";
+    buyingPower: "known" | "partial" | "missing";
+    totalEquity: "known" | "partial" | "missing";
+    dailyPnl: "known" | "partial" | "missing";
+    risk: "known" | "partial" | "missing";
+  };
+  capitalSemantics: {
+    realBrokerCashSources: number;
+    kalshiDemoCashSources: number;
+    internalPaperBankrollSources: number;
+    note: string;
+  };
+  bySource: Array<{
+    sourceProject: "investing-system" | "khashi-vc" | string;
+    sourceLabel?: string;
+    status: string;
+    cashLeftUsd: number | null;
+    cashLeftKnown: boolean;
+    buyingPowerUsd: number | null;
+    capitalSource: string | null;
+    capitalSemantics: string | null;
+    isRealBrokerCash: boolean | null;
+    isKalshiDemoCash: boolean | null;
+    kalshiProductionCashUsd: number | null;
+    kalshiDemoCashUsd: number | null;
+    paperBankrollUsd: number | null;
+    totalEquityUsd: number | null;
+    portfolioValueUsd: number | null;
+    openRiskUsd: number | null;
+    riskAdjustedCashLeftUsd: number | null;
+    realizedPnlTodayUsd: number | null;
+    realizedPnlUsd: number | null;
+    unrealizedPnlUsd: number | null;
+    netPnlUsd: number | null;
+    openTrades: number | null;
+    closedTrades: number | null;
+    dailyLossLimitUsd: number | null;
+    dailyLossRemainingUsd: number | null;
+  }>;
+};
+```
+
+### Daily Time Series
+
+The command-center response includes `dailySeries`, a chart-ready series for daily aggregate trends.
+
+If source projects do not yet provide historical daily points, `dailySeries.historyStatus` is `current_day_only` and `points` contains the current aggregate day. The UI should still render the current day and show a compact “history collecting” state.
+
+```ts
+type DailySeries = {
+  id: "trading-command-center-daily-series";
+  granularity: "day";
+  timezone: "UTC";
+  historyStatus: "current_day_only" | "history_available";
+  points: Array<{
+    date: string;
+    current: boolean;
+    cashLeftUsd: number | null;
+    cashLeftKnown: boolean;
+    buyingPowerUsd: number | null;
+    totalEquityUsd: number | null;
+    portfolioValueUsd?: number | null;
+    openRiskUsd: number | null;
+    riskAdjustedCashLeftUsd: number | null;
+    realizedPnlTodayUsd: number | null;
+    realizedPnlUsd?: number | null;
+    unrealizedPnlUsd?: number | null;
+    netPnlUsd: number | null;
+    openTrades: number | null;
+    closedTrades: number | null;
+    eventsToday: number | null;
+    humanActionsRequired: number | null;
+    coverage: DailyMetrics["coverage"];
+    bySource: DailyMetrics["bySource"];
+  }>;
+  recommendedCharts: Array<{
+    id: "cash-left" | "daily-pnl" | "risk" | string;
+    label: string;
+    series: string[];
+  }>;
+};
 ```
 
 ### GET `/health`
