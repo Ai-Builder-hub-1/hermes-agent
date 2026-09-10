@@ -79,8 +79,11 @@ def test_trading_command_center_route_normalizes_cross_system_backend(monkeypatc
             "kpis": {
                 "portfolioValueUsd": 10000 if source["projectId"] == "investing-system" else None,
                 "accountEquityUsd": 2500 if source["projectId"] == "investing-system" else None,
+                "cashLeftUsd": 4000 if source["projectId"] == "investing-system" else 800,
+                "buyingPowerUsd": 4500 if source["projectId"] == "investing-system" else 800,
                 "openTrades": 1 if source["projectId"] == "investing-system" else 0,
                 "closedTrades": 8 if source["projectId"] == "investing-system" else 45,
+                "realizedPnlTodayUsd": 10 if source["projectId"] == "investing-system" else -1.08,
                 "realizedPnlUsd": 12.5 if source["projectId"] == "investing-system" else -1.08,
                 "unrealizedPnlUsd": 3.25 if source["projectId"] == "investing-system" else 0,
                 "openRiskUsd": 50 if source["projectId"] == "investing-system" else 0,
@@ -121,8 +124,18 @@ def test_trading_command_center_route_normalizes_cross_system_backend(monkeypatc
         "khashi_perpetual_trading",
     ]
     assert body["summary"]["totalCapitalKnown"] is True
+    assert body["summary"]["cashLeftUsd"] == 4800
+    assert body["summary"]["cashLeftKnown"] is True
     assert body["capital"]["portfolioValueUsd"] == 10000
+    assert body["capital"]["cashLeftUsd"] == 4800
     assert body["pnl"]["realizedPnlUsd"] == 11.42
+    assert body["dailyMetrics"]["cashLeftUsd"] == 4800
+    assert body["dailyMetrics"]["buyingPowerUsd"] == 5300
+    assert body["dailyMetrics"]["riskAdjustedCashLeftUsd"] == 4750
+    assert body["dailyMetrics"]["realizedPnlTodayUsd"] == 8.92
+    assert body["dailyMetrics"]["eventsToday"] == 2
+    assert body["dailyMetrics"]["coverage"]["cashLeft"] == "known"
+    assert len(body["dailyMetrics"]["bySource"]) == 2
     assert body["positions"]["count"] == 2
     assert body["strategies"]["count"] == 2
     assert body["recentEvents"][0]["sourceProject"] in {"investing-system", "khashi-vc"}

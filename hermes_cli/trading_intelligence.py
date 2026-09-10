@@ -178,6 +178,7 @@ async def trading_command_center(limit: Any = 10) -> dict[str, Any]:
         "risk": _risk_snapshot(projects, summary),
         "positions": _position_snapshot(projects),
         "strategies": _strategy_snapshot(projects),
+        "dailyMetrics": _daily_metrics_snapshot(projects, summary, normalized_events, action_queue),
         "recentEvents": normalized_events[:bounded_limit],
         "actionQueue": action_queue,
         "freshness": _freshness_snapshot(projects),
@@ -193,6 +194,7 @@ async def trading_command_center(limit: Any = 10) -> dict[str, Any]:
         },
         "frontendBuildNotes": [
             "Render lane status from the lanes array, not from project names.",
+            "Render daily aggregate KPI cards from dailyMetrics so cash left, buying power, risk, and same-day P/L stay consistent across sources.",
             "Treat liveTradingLocked=true as the default safety posture.",
             "Use sourceProjects[].summary for project-specific drilldowns when a normalized field is null.",
             "Route all risky actions through Head Trader or /api/trading-intelligence/control; never submit live orders from this endpoint.",
@@ -262,6 +264,10 @@ def _command_summary(summary: dict[str, Any], lanes: list[dict[str, Any]], actio
         "openPositions": _first_present_number(kpis, "openPositions", "openTrades"),
         "openTrades": _first_present_number(kpis, "openTrades", "openPositions"),
         "closedTrades": _first_present_number(kpis, "closedTrades", "reviewedTrades"),
+        "cashLeftUsd": _first_present_number(kpis, "cashLeftUsd", "cashUsd", "availableCashUsd", "cashAvailable"),
+        "cashLeftKnown": _first_present_number(kpis, "cashLeftUsd", "cashUsd", "availableCashUsd", "cashAvailable", "buyingPowerUsd", "buyingPower") is not None,
+        "buyingPowerUsd": _first_present_number(kpis, "buyingPowerUsd", "buyingPower"),
+        "totalEquityUsd": _first_present_number(kpis, "totalEquityUsd", "accountEquityUsd", "portfolioValueUsd"),
         "openRiskUsd": _first_present_number(kpis, "openRiskUsd"),
         "realizedPnlTodayUsd": _first_present_number(kpis, "realizedPnlTodayUsd", "realizedPnlToday", "realizedPnlUsd"),
         "realizedPnlUsd": _first_present_number(kpis, "realizedPnlUsd", "realizedPnlToday"),
@@ -355,8 +361,9 @@ def _capital_snapshot(projects: list[dict[str, Any]]) -> dict[str, Any]:
             "capitalKnown": any(_first_present_number(kpis, key) is not None for key in ("portfolioValueUsd", "accountEquityUsd", "cashUsd", "buyingPowerUsd")),
             "portfolioValueUsd": _first_present_number(kpis, "portfolioValueUsd", "accountValueUsd"),
             "accountEquityUsd": _first_present_number(kpis, "accountEquityUsd", "equityUsd"),
-            "cashUsd": _first_present_number(kpis, "cashUsd"),
-            "buyingPowerUsd": _first_present_number(kpis, "buyingPowerUsd"),
+            "cashUsd": _first_present_number(kpis, "cashUsd", "cashLeftUsd", "availableCashUsd", "cashAvailable"),
+            "cashLeftUsd": _first_present_number(kpis, "cashLeftUsd", "cashUsd", "availableCashUsd", "cashAvailable"),
+            "buyingPowerUsd": _first_present_number(kpis, "buyingPowerUsd", "buyingPower"),
             "openRiskUsd": _first_present_number(kpis, "openRiskUsd"),
         })
     return {
@@ -364,6 +371,7 @@ def _capital_snapshot(projects: list[dict[str, Any]]) -> dict[str, Any]:
         "portfolioValueUsd": _sum(row.get("portfolioValueUsd") for row in by_lane),
         "accountEquityUsd": _sum(row.get("accountEquityUsd") for row in by_lane),
         "cashUsd": _sum(row.get("cashUsd") for row in by_lane),
+        "cashLeftUsd": _sum(row.get("cashLeftUsd") for row in by_lane),
         "buyingPowerUsd": _sum(row.get("buyingPowerUsd") for row in by_lane),
         "openRiskUsd": _sum(row.get("openRiskUsd") for row in by_lane),
         "bySource": by_lane,
@@ -388,6 +396,75 @@ def _pnl_snapshot(projects: list[dict[str, Any]]) -> dict[str, Any]:
         "unrealizedPnlUsd": _sum(row.get("unrealizedPnlUsd") for row in by_source),
         "spreadAdjustedPnlUsd": _sum(row.get("spreadAdjustedPnlUsd") for row in by_source),
         "maxDrawdownUsd": _min_number(row.get("maxDrawdownUsd") for row in by_source),
+        "bySource": by_source,
+    }
+
+
+def _daily_metrics_snapshot(
+    projects: list[dict[str, Any]],
+    summary: dict[str, Any],
+    events: list[dict[str, Any]],
+    action_queue: list[dict[str, Any]],
+) -> dict[str, Any]:
+    generated_at = str(summary.get("generatedAt") or _now())
+    date = generated_at[:10]
+    by_source = []
+    for project in projects:
+        kpis = project.get("kpis") if isinstance(project.get("kpis"), dict) else {}
+        cash_left = _first_present_number(kpis, "cashLeftUsd", "cashUsd", "availableCashUsd", "cashAvailable")
+        buying_power = _first_present_number(kpis, "buyingPowerUsd", "buyingPower")
+        open_risk = _first_present_number(kpis, "openRiskUsd")
+        realized_today = _first_present_number(kpis, "realizedPnlTodayUsd", "realizedPnlToday", "realizedPnlUsd")
+        unrealized = _first_present_number(kpis, "unrealizedPnlUsd")
+        by_source.append({
+            "sourceProject": project.get("projectId"),
+            "sourceLabel": project.get("label"),
+            "status": project.get("status") or "unknown",
+            "cashLeftUsd": cash_left,
+            "cashLeftKnown": cash_left is not None,
+            "buyingPowerUsd": buying_power,
+            "totalEquityUsd": _first_present_number(kpis, "totalEquityUsd", "accountEquityUsd", "portfolioValueUsd"),
+            "portfolioValueUsd": _first_present_number(kpis, "portfolioValueUsd", "accountValueUsd"),
+            "openRiskUsd": open_risk,
+            "riskAdjustedCashLeftUsd": round(cash_left - (open_risk or 0), 2) if cash_left is not None else None,
+            "realizedPnlTodayUsd": realized_today,
+            "realizedPnlUsd": _first_present_number(kpis, "realizedPnlUsd", "strategyGrossPnl"),
+            "unrealizedPnlUsd": unrealized,
+            "netPnlUsd": _sum((realized_today, unrealized)),
+            "openTrades": _first_present_number(kpis, "openTrades", "openPositions"),
+            "closedTrades": _first_present_number(kpis, "closedTrades", "reviewedTrades"),
+            "dailyLossLimitUsd": _first_present_number(kpis, "dailyLossLimitUsd"),
+            "dailyLossRemainingUsd": _first_present_number(kpis, "dailyLossRemainingUsd"),
+        })
+    cash_left_total = _sum(row.get("cashLeftUsd") for row in by_source)
+    open_risk_total = _sum(row.get("openRiskUsd") for row in by_source)
+    realized_today_total = _sum(row.get("realizedPnlTodayUsd") for row in by_source)
+    unrealized_total = _sum(row.get("unrealizedPnlUsd") for row in by_source)
+    return {
+        "date": date,
+        "generatedAt": generated_at,
+        "cashLeftUsd": cash_left_total,
+        "cashLeftKnown": any(row.get("cashLeftKnown") for row in by_source),
+        "buyingPowerUsd": _sum(row.get("buyingPowerUsd") for row in by_source),
+        "totalEquityUsd": _sum(row.get("totalEquityUsd") for row in by_source),
+        "portfolioValueUsd": _sum(row.get("portfolioValueUsd") for row in by_source),
+        "openRiskUsd": open_risk_total,
+        "riskAdjustedCashLeftUsd": round(cash_left_total - (open_risk_total or 0), 2) if cash_left_total is not None else None,
+        "realizedPnlTodayUsd": realized_today_total,
+        "realizedPnlUsd": _sum(row.get("realizedPnlUsd") for row in by_source),
+        "unrealizedPnlUsd": unrealized_total,
+        "netPnlUsd": _sum((realized_today_total, unrealized_total)),
+        "openTrades": _sum(row.get("openTrades") for row in by_source),
+        "closedTrades": _sum(row.get("closedTrades") for row in by_source),
+        "eventsToday": sum(1 for event in events if str(event.get("occurredAt") or "").startswith(date)),
+        "humanActionsRequired": len(action_queue),
+        "coverage": {
+            "cashLeft": _coverage_label(by_source, "cashLeftUsd"),
+            "buyingPower": _coverage_label(by_source, "buyingPowerUsd"),
+            "totalEquity": _coverage_label(by_source, "totalEquityUsd"),
+            "dailyPnl": _coverage_label(by_source, "realizedPnlTodayUsd"),
+            "risk": _coverage_label(by_source, "openRiskUsd"),
+        },
         "bySource": by_source,
     }
 
@@ -626,10 +703,18 @@ def _aggregate_kpis(projects: list[dict[str, Any]]) -> dict[str, Any]:
     return {
         "projectsAvailable": sum(1 for project in projects if project.get("available")),
         "projectsTotal": len(projects),
+        "portfolioValueUsd": _sum(_first_number(project, "portfolioValueUsd", "accountValueUsd") for project in projects),
+        "accountEquityUsd": _sum(_first_number(project, "accountEquityUsd", "equityUsd") for project in projects),
+        "totalEquityUsd": _sum(_first_number(project, "totalEquityUsd", "accountEquityUsd", "portfolioValueUsd") for project in projects),
+        "cashLeftUsd": _sum(_first_number(project, "cashLeftUsd", "cashUsd", "availableCashUsd", "cashAvailable") for project in projects),
+        "buyingPowerUsd": _sum(_first_number(project, "buyingPowerUsd", "buyingPower") for project in projects),
         "openTrades": _sum(project.get("kpis", {}).get("openTrades") for project in projects),
         "closedTrades": _sum(_first_number(project, "closedTrades", "reviewedTrades") for project in projects),
+        "realizedPnlTodayUsd": _sum(_first_number(project, "realizedPnlTodayUsd", "realizedPnlToday") for project in projects),
         "realizedPnlUsd": _sum(_first_number(project, "realizedPnlUsd", "realizedPnlToday", "strategyGrossPnl") for project in projects),
+        "unrealizedPnlUsd": _sum(_first_number(project, "unrealizedPnlUsd") for project in projects),
         "openRiskUsd": _sum(project.get("kpis", {}).get("openRiskUsd") for project in projects),
+        "maxDrawdownUsd": _min_number(_first_number(project, "maxDrawdownUsd") for project in projects),
         "liveMarkets": _sum(project.get("kpis", {}).get("liveMarkets") for project in projects),
         "strategyCandidates": _sum(project.get("kpis", {}).get("paperCandidates") for project in projects),
         "liveTradingLocked": all(project.get("liveTradingLocked") is not False for project in projects),
@@ -755,6 +840,17 @@ def _sum(values: Any) -> float | None:
 def _min_number(values: Any) -> float | None:
     numbers = [float(value) for value in values if isinstance(value, (int, float))]
     return round(min(numbers), 2) if numbers else None
+
+
+def _coverage_label(rows: list[dict[str, Any]], key: str) -> str:
+    if not rows:
+        return "missing"
+    known = sum(1 for row in rows if row.get(key) is not None)
+    if known == len(rows):
+        return "known"
+    if known:
+        return "partial"
+    return "missing"
 
 
 def _nested_get(values: dict[str, Any], key: str) -> Any:
