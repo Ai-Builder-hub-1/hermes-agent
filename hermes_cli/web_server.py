@@ -1744,6 +1744,20 @@ async def get_trading_intelligence_summary():
     return await trading_intelligence_summary()
 
 
+@app.get("/api/trading-intelligence/command-center")
+async def get_trading_command_center(limit: int = 10):
+    from hermes_cli.trading_intelligence import trading_command_center
+
+    return await trading_command_center(limit)
+
+
+@app.get("/api/trading-command-center")
+async def get_trading_command_center_alias(limit: int = 10):
+    from hermes_cli.trading_intelligence import trading_command_center
+
+    return await trading_command_center(limit)
+
+
 @app.get("/api/trading-intelligence/events")
 async def get_trading_intelligence_events(limit: int = 10):
     from hermes_cli.trading_intelligence import trading_intelligence_events

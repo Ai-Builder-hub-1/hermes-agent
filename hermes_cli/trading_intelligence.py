@@ -14,6 +14,7 @@ from typing import Any
 
 CONTRACT_VERSION = "trading-intelligence-control-plane.v1"
 FRONTEND_CONTRACT_VERSION = "2026-09-08.v1"
+COMMAND_CENTER_CONTRACT_VERSION = "trading-command-center.v1"
 
 
 def _env(name: str, default: str = "") -> str:
@@ -141,6 +142,64 @@ async def trading_intelligence_controls() -> dict[str, Any]:
     }
 
 
+async def trading_command_center(limit: Any = 10) -> dict[str, Any]:
+    """Return the normalized backend contract for a cross-system trading UI.
+
+    This read model is intentionally conservative: Nous aggregates and
+    normalizes project-owned summaries, events, and controls, but does not
+    infer permission to trade or submit live orders.
+    """
+    bounded_limit = max(1, min(50, _to_int(limit, 10)))
+    summary, events, controls = await asyncio.gather(
+        trading_intelligence_summary(),
+        trading_intelligence_events(bounded_limit),
+        trading_intelligence_controls(),
+    )
+    projects = _as_list(summary.get("projects"))
+    normalized_events = _as_list(events.get("events"))
+    normalized_controls = _as_list(controls.get("controls"))
+    lanes = _command_lanes(projects)
+    blockers = _as_list(summary.get("blockers"))
+    recommendations = _as_list(summary.get("recommendations"))
+    action_queue = _action_queue(normalized_controls, blockers)
+    return {
+        "id": "trading-command-center",
+        "contractVersion": COMMAND_CENTER_CONTRACT_VERSION,
+        "sourceContractVersion": CONTRACT_VERSION,
+        "frontendContractVersion": "2026-09-10.v1",
+        "title": "Trading Command Center",
+        "generatedAt": _now(),
+        "status": summary.get("status") or "unknown",
+        "liveTradingLocked": summary.get("liveTradingLocked") is not False,
+        "summary": _command_summary(summary, lanes, action_queue),
+        "lanes": lanes,
+        "capital": _capital_snapshot(projects),
+        "pnl": _pnl_snapshot(projects),
+        "risk": _risk_snapshot(projects, summary),
+        "positions": _position_snapshot(projects),
+        "strategies": _strategy_snapshot(projects),
+        "recentEvents": normalized_events[:bounded_limit],
+        "actionQueue": action_queue,
+        "freshness": _freshness_snapshot(projects),
+        "blockers": blockers,
+        "recommendations": recommendations,
+        "sourceProjects": projects,
+        "sourceRoutes": {
+            "summary": "/api/trading-intelligence/summary",
+            "events": "/api/trading-intelligence/events",
+            "controls": "/api/trading-intelligence/controls",
+            "control": "/api/trading-intelligence/control",
+            "headTrader": "/api/head-trader/summary",
+        },
+        "frontendBuildNotes": [
+            "Render lane status from the lanes array, not from project names.",
+            "Treat liveTradingLocked=true as the default safety posture.",
+            "Use sourceProjects[].summary for project-specific drilldowns when a normalized field is null.",
+            "Route all risky actions through Head Trader or /api/trading-intelligence/control; never submit live orders from this endpoint.",
+        ],
+    }
+
+
 async def trading_intelligence_control(payload: dict[str, Any]) -> dict[str, Any]:
     action = str(payload.get("action") or "")
     explicit_project_id = payload.get("projectId") if isinstance(payload.get("projectId"), str) else None
@@ -180,6 +239,7 @@ def trading_intelligence_frontend_spec() -> dict[str, Any]:
         "version": FRONTEND_CONTRACT_VERSION,
         "basePath": "/api/trading-intelligence",
         "endpoints": [
+            {"method": "GET", "path": "/command-center?limit=10", "purpose": "Normalized cross-system backend contract for the one-screen trading/investing cockpit."},
             {"method": "GET", "path": "/summary", "purpose": "Fleet-level project status, KPI rollup, tabs, blockers, recommendations."},
             {"method": "GET", "path": "/events?limit=10", "purpose": "Merged latest events from Investing System and Khashi VC."},
             {"method": "GET", "path": "/controls", "purpose": "Namespaced project control catalog."},
@@ -191,6 +251,271 @@ def trading_intelligence_frontend_spec() -> dict[str, Any]:
             "copy": "This control plane never submits live broker orders.",
         },
     }
+
+
+def _command_summary(summary: dict[str, Any], lanes: list[dict[str, Any]], action_queue: list[dict[str, Any]]) -> dict[str, Any]:
+    kpis = summary.get("kpis") if isinstance(summary.get("kpis"), dict) else {}
+    return {
+        "totalCapitalKnown": any(lane.get("capitalKnown") for lane in lanes),
+        "activeSystems": sum(1 for lane in lanes if lane.get("available") and lane.get("status") in {"ready", "watch"}),
+        "blockedSystems": sum(1 for lane in lanes if lane.get("status") in {"blocked", "unavailable"}),
+        "openPositions": _first_present_number(kpis, "openPositions", "openTrades"),
+        "openTrades": _first_present_number(kpis, "openTrades", "openPositions"),
+        "closedTrades": _first_present_number(kpis, "closedTrades", "reviewedTrades"),
+        "openRiskUsd": _first_present_number(kpis, "openRiskUsd"),
+        "realizedPnlTodayUsd": _first_present_number(kpis, "realizedPnlTodayUsd", "realizedPnlToday", "realizedPnlUsd"),
+        "realizedPnlUsd": _first_present_number(kpis, "realizedPnlUsd", "realizedPnlToday"),
+        "unrealizedPnlUsd": _first_present_number(kpis, "unrealizedPnlUsd"),
+        "maxDrawdownUsd": _first_present_number(kpis, "maxDrawdownUsd"),
+        "strategyCandidates": _first_present_number(kpis, "strategyCandidates", "paperCandidates"),
+        "humanActionsRequired": len(action_queue),
+    }
+
+
+def _command_lanes(projects: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    by_project = {project.get("projectId"): project for project in projects if isinstance(project, dict)}
+    investing = by_project.get("investing-system", {})
+    khashi = by_project.get("khashi-vc", {})
+    return [
+        _lane(
+            "leon_long_term",
+            "Leon Long-Term Investing",
+            "long_term_investing",
+            investing,
+            "Portfolio quality, thesis strength, concentration, valuation, trimming/add candidates, and long-term capital allocation.",
+            ["portfolioValueUsd", "cashUsd", "holdings", "concentrationRisk", "thesisQualityScore", "valuationRiskScore"],
+        ),
+        _lane(
+            "leon_short_term_opportunity",
+            "Leon Short-Term Opportunity",
+            "tactical_portfolio_actions",
+            investing,
+            "Short-term trims, adds, catalysts, realized/unrealized P/L, and portfolio action governance.",
+            ["trimCandidates", "addCandidates", "actionQueue", "unrealizedPnlUsd", "realizedPnlUsd"],
+        ),
+        _lane(
+            "oanda_fx_trading",
+            "OANDA FX Trading",
+            "fx_trading",
+            investing,
+            "Runtime status, account risk, open FX trades, strategy quality, trade lifecycle, and promotion state.",
+            ["openTrades", "closedTrades", "openRiskUsd", "realizedPnlUsd", "accountEquityUsd", "strategyCandidates"],
+        ),
+        _lane(
+            "khashi_perpetual_trading",
+            "Khashi Perpetual Trading",
+            "prediction_market_perpetuals",
+            khashi,
+            "15-minute/perpetual market data freshness, shadow trades, strategy quality, promotion gates, and storage posture.",
+            ["liveMarkets", "openTrades", "closedTrades", "paperCandidates", "realizedPnlUsd", "openRiskUsd"],
+        ),
+    ]
+
+
+def _lane(
+    lane_id: str,
+    label: str,
+    kind: str,
+    project: dict[str, Any],
+    purpose: str,
+    expected_metrics: list[str],
+) -> dict[str, Any]:
+    kpis = project.get("kpis") if isinstance(project.get("kpis"), dict) else {}
+    summary = project.get("summary") if isinstance(project.get("summary"), dict) else {}
+    present_metrics = [metric for metric in expected_metrics if _nested_get(kpis, metric) is not None or _nested_get(summary, metric) is not None]
+    return {
+        "id": lane_id,
+        "label": label,
+        "kind": kind,
+        "sourceProject": project.get("projectId"),
+        "sourceLabel": project.get("label"),
+        "available": bool(project.get("available")),
+        "status": str(project.get("status") or "unavailable"),
+        "purpose": purpose,
+        "capitalKnown": any(_first_present_number(kpis, key) is not None for key in ("portfolioValueUsd", "accountEquityUsd", "cashUsd", "buyingPowerUsd")),
+        "liveTradingLocked": project.get("liveTradingLocked") is not False,
+        "kpis": kpis,
+        "metricCoverage": {
+            "expected": expected_metrics,
+            "present": present_metrics,
+            "missing": [metric for metric in expected_metrics if metric not in present_metrics],
+        },
+        "blockers": _as_list(project.get("blockers")),
+        "recommendations": _as_list(project.get("recommendations"))[:5],
+        "sourceRoutes": project.get("sourceRoutes", {}),
+    }
+
+
+def _capital_snapshot(projects: list[dict[str, Any]]) -> dict[str, Any]:
+    by_lane = []
+    for project in projects:
+        kpis = project.get("kpis") if isinstance(project.get("kpis"), dict) else {}
+        by_lane.append({
+            "sourceProject": project.get("projectId"),
+            "capitalKnown": any(_first_present_number(kpis, key) is not None for key in ("portfolioValueUsd", "accountEquityUsd", "cashUsd", "buyingPowerUsd")),
+            "portfolioValueUsd": _first_present_number(kpis, "portfolioValueUsd", "accountValueUsd"),
+            "accountEquityUsd": _first_present_number(kpis, "accountEquityUsd", "equityUsd"),
+            "cashUsd": _first_present_number(kpis, "cashUsd"),
+            "buyingPowerUsd": _first_present_number(kpis, "buyingPowerUsd"),
+            "openRiskUsd": _first_present_number(kpis, "openRiskUsd"),
+        })
+    return {
+        "known": any(row["capitalKnown"] for row in by_lane),
+        "portfolioValueUsd": _sum(row.get("portfolioValueUsd") for row in by_lane),
+        "accountEquityUsd": _sum(row.get("accountEquityUsd") for row in by_lane),
+        "cashUsd": _sum(row.get("cashUsd") for row in by_lane),
+        "buyingPowerUsd": _sum(row.get("buyingPowerUsd") for row in by_lane),
+        "openRiskUsd": _sum(row.get("openRiskUsd") for row in by_lane),
+        "bySource": by_lane,
+    }
+
+
+def _pnl_snapshot(projects: list[dict[str, Any]]) -> dict[str, Any]:
+    by_source = []
+    for project in projects:
+        kpis = project.get("kpis") if isinstance(project.get("kpis"), dict) else {}
+        by_source.append({
+            "sourceProject": project.get("projectId"),
+            "realizedPnlTodayUsd": _first_present_number(kpis, "realizedPnlTodayUsd", "realizedPnlToday"),
+            "realizedPnlUsd": _first_present_number(kpis, "realizedPnlUsd", "strategyGrossPnl"),
+            "unrealizedPnlUsd": _first_present_number(kpis, "unrealizedPnlUsd"),
+            "spreadAdjustedPnlUsd": _first_present_number(kpis, "spreadAdjustedPnlUsd"),
+            "maxDrawdownUsd": _first_present_number(kpis, "maxDrawdownUsd"),
+        })
+    return {
+        "realizedPnlTodayUsd": _sum(row.get("realizedPnlTodayUsd") for row in by_source),
+        "realizedPnlUsd": _sum(row.get("realizedPnlUsd") for row in by_source),
+        "unrealizedPnlUsd": _sum(row.get("unrealizedPnlUsd") for row in by_source),
+        "spreadAdjustedPnlUsd": _sum(row.get("spreadAdjustedPnlUsd") for row in by_source),
+        "maxDrawdownUsd": _min_number(row.get("maxDrawdownUsd") for row in by_source),
+        "bySource": by_source,
+    }
+
+
+def _risk_snapshot(projects: list[dict[str, Any]], summary: dict[str, Any]) -> dict[str, Any]:
+    kpis = summary.get("kpis") if isinstance(summary.get("kpis"), dict) else {}
+    return {
+        "status": "blocked" if _as_list(summary.get("blockers")) else "watch" if summary.get("status") == "watch" else "ready",
+        "liveTradingLocked": summary.get("liveTradingLocked") is not False,
+        "openRiskUsd": _first_present_number(kpis, "openRiskUsd"),
+        "dailyLossLimitStatus": _coverage_status(projects, ("dailyLossLimitUsd", "dailyLossRemainingUsd")),
+        "weeklyLossLimitStatus": _coverage_status(projects, ("weeklyLossLimitUsd", "weeklyLossRemainingUsd")),
+        "maxConcurrentExposureStatus": _coverage_status(projects, ("maxConcurrentExposureUsd", "openRiskUsd")),
+        "killSwitchStatus": "known" if any("kill" in " ".join(map(str, _as_list(project.get("recommendations")) + _as_list(project.get("blockers")))).lower() for project in projects) else "needs_source_detail",
+        "blockers": _as_list(summary.get("blockers")),
+    }
+
+
+def _position_snapshot(projects: list[dict[str, Any]]) -> dict[str, Any]:
+    rows = []
+    for project in projects:
+        summary = project.get("summary") if isinstance(project.get("summary"), dict) else {}
+        positions = _as_list(summary.get("positions")) or _as_list(summary.get("openPositions")) or _as_list(summary.get("trades"))
+        for index, position in enumerate(positions[:25]):
+            if not isinstance(position, dict):
+                continue
+            rows.append({
+                "id": str(position.get("id") or position.get("tradeId") or f"{project.get('projectId')}-position-{index}"),
+                "sourceProject": project.get("projectId"),
+                "instrument": position.get("instrument") or position.get("ticker") or position.get("symbol"),
+                "kind": position.get("kind") or position.get("assetClass") or position.get("type"),
+                "status": position.get("status") or position.get("state"),
+                "quantity": position.get("quantity") or position.get("units") or position.get("size"),
+                "notionalUsd": position.get("notionalUsd"),
+                "unrealizedPnlUsd": position.get("unrealizedPnlUsd"),
+                "raw": position,
+            })
+    return {"count": len(rows), "rows": rows[:50], "coverage": "source_positions" if rows else "summary_only"}
+
+
+def _strategy_snapshot(projects: list[dict[str, Any]]) -> dict[str, Any]:
+    rows = []
+    for project in projects:
+        summary = project.get("summary") if isinstance(project.get("summary"), dict) else {}
+        for collection_key in ("strategies", "strategyQuality", "strategyRows", "topStrategies"):
+            for index, strategy in enumerate(_as_list(summary.get(collection_key))):
+                if not isinstance(strategy, dict):
+                    continue
+                rows.append({
+                    "id": str(strategy.get("id") or strategy.get("strategyId") or f"{project.get('projectId')}-strategy-{index}"),
+                    "sourceProject": project.get("projectId"),
+                    "status": strategy.get("status") or strategy.get("readiness"),
+                    "scoredTrades": strategy.get("scoredTrades") or strategy.get("trades") or strategy.get("reviewedTrades"),
+                    "winRate": strategy.get("winRate"),
+                    "expectancy": strategy.get("expectancy") or strategy.get("averagePnlCents") or strategy.get("averageSpreadAdjustedPnlCents"),
+                    "maxDrawdown": strategy.get("maxDrawdown") or strategy.get("maxDrawdownCents"),
+                    "raw": strategy,
+                })
+    return {"count": len(rows), "rows": rows[:50], "coverage": "source_strategy_rows" if rows else "summary_only"}
+
+
+def _freshness_snapshot(projects: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    rows = []
+    for project in projects:
+        summary = project.get("summary") if isinstance(project.get("summary"), dict) else {}
+        freshness = summary.get("freshness") if isinstance(summary.get("freshness"), dict) else {}
+        rows.append({
+            "sourceProject": project.get("projectId"),
+            "available": bool(project.get("available")),
+            "status": project.get("status") or "unavailable",
+            "latencyMs": project.get("latencyMs"),
+            "generatedAt": summary.get("generatedAt") or summary.get("asOf"),
+            "latestMarketDataAt": freshness.get("latestMarketDataAt"),
+            "latestAccountAt": freshness.get("latestAccountAt"),
+            "latestStrategyAt": freshness.get("latestStrategyAt"),
+            "latestProofAt": freshness.get("latestProofAt"),
+            "sourceBaseUrl": project.get("sourceBaseUrl"),
+        })
+    return rows
+
+
+def _action_queue(controls: list[dict[str, Any]], blockers: list[Any]) -> list[dict[str, Any]]:
+    queue = []
+    for index, blocker in enumerate(blockers[:20]):
+        queue.append({
+            "id": f"blocker-{index}",
+            "type": "blocker_review",
+            "status": "waiting_for_human",
+            "severity": "high",
+            "title": str(blocker),
+            "recommendedAction": "Review source blocker before enabling additional trading automation.",
+            "sourceProject": _project_from_text(str(blocker)),
+            "control": None,
+        })
+    for control in controls:
+        if not isinstance(control, dict):
+            continue
+        permission = str(control.get("permissionLevel") or control.get("permission") or "")
+        risk = str(control.get("riskLevel") or control.get("risk") or "")
+        if permission in {"approval_required", "hard_gate"} or risk in {"high", "critical"}:
+            queue.append({
+                "id": str(control.get("namespacedId") or control.get("id")),
+                "type": "control_approval",
+                "status": "available",
+                "severity": risk or "medium",
+                "title": str(control.get("label") or control.get("id")),
+                "recommendedAction": "Route through Head Trader or the project-owned control endpoint.",
+                "sourceProject": control.get("projectId"),
+                "control": control,
+            })
+    return queue[:50]
+
+
+def _coverage_status(projects: list[dict[str, Any]], keys: tuple[str, ...]) -> str:
+    for project in projects:
+        kpis = project.get("kpis") if isinstance(project.get("kpis"), dict) else {}
+        if any(_first_present_number(kpis, key) is not None for key in keys):
+            return "known"
+    return "needs_source_detail"
+
+
+def _project_from_text(text: str) -> str | None:
+    lowered = text.lower()
+    if "khashi" in lowered or "kalshi" in lowered:
+        return "khashi-vc"
+    if "investing" in lowered or "oanda" in lowered or "leon" in lowered:
+        return "investing-system"
+    return None
 
 
 async def _project_summary(source: dict[str, Any]) -> dict[str, Any]:
@@ -410,9 +735,39 @@ def _first_number(project: dict[str, Any], *keys: str) -> float | None:
     return None
 
 
+def _first_present_number(values: dict[str, Any], *keys: str) -> float | None:
+    if not isinstance(values, dict):
+        return None
+    for key in keys:
+        value = values.get(key)
+        if isinstance(value, bool):
+            continue
+        if isinstance(value, (int, float)):
+            return float(value)
+    return None
+
+
 def _sum(values: Any) -> float | None:
     numbers = [float(value) for value in values if isinstance(value, (int, float))]
     return round(sum(numbers), 2) if numbers else None
+
+
+def _min_number(values: Any) -> float | None:
+    numbers = [float(value) for value in values if isinstance(value, (int, float))]
+    return round(min(numbers), 2) if numbers else None
+
+
+def _nested_get(values: dict[str, Any], key: str) -> Any:
+    if not isinstance(values, dict):
+        return None
+    if key in values:
+        return values[key]
+    current: Any = values
+    for part in key.split("."):
+        if not isinstance(current, dict) or part not in current:
+            return None
+        current = current[part]
+    return current
 
 
 def _unique(values: Any) -> list[Any]:
