@@ -56,6 +56,8 @@ GET  /api/head-trader/conversations/{conversationId}
 GET  /api/head-trader/audit?limit=100
 GET  /api/head-trader/evidence/{incidentId}
 GET  /api/head-trader/channels
+GET  /api/head-trader/credential-status
+GET  /api/head-trader/credential-status/frontend-spec
 POST /api/head-trader/webhooks/discord
 POST /api/head-trader/webhooks/telegram
 GET  /api/head-trader/frontend-spec
@@ -179,6 +181,85 @@ Conversation panel
 Action/risk panel
 Audit rail
 Channel status panel
+Credential status panel
+```
+
+## Credential Status Panel
+
+Use `GET /api/head-trader/credential-status` to show whether required
+server-side trading credentials are available to Investing System and Khashi VC.
+This route is deliberately redacted: it never returns API keys, secret keys,
+tokens, prefixes, or suffixes.
+
+Render:
+
+- Overall status: `ready`, `watch`, or `blocked`
+- Production proof freshness and `lastVerifiedAt`
+- Project rows for `investing-system` and `khashi-vc`
+- Credential id, expected services/containers, and blockers
+- Variable status as configured/missing with optional value length
+- Recommendation text explaining whether the system needs proof refresh or env repair
+
+Do not render:
+
+- Full credential values
+- Partial keys
+- Copyable secret fields
+- Frontend forms that submit Binance secrets
+
+Frontend request:
+
+```ts
+fetch("/api/head-trader/credential-status", { credentials: "same-origin" })
+```
+
+Proof refresh command for Nous/Hermes operators:
+
+```bash
+node scripts/generate-fleet-credential-status.mjs --write --production --strict
+```
+
+Core response shape:
+
+```ts
+type FleetCredentialStatus = {
+  id: "fleet-credential-status";
+  contractVersion: "fleet-credential-status.v1";
+  generatedAt: string;
+  status: "ready" | "watch" | "blocked";
+  secretExposurePolicy: "values_never_returned";
+  productionProof: {
+    available: boolean;
+    generatedAt: string | null;
+    freshness: "fresh" | "stale" | "missing";
+    mode?: string;
+    host?: string;
+  };
+  projects: ProjectCredentialStatus[];
+  blockers: string[];
+  recommendations: string[];
+};
+
+type ProjectCredentialStatus = {
+  projectId: "investing-system" | "khashi-vc" | string;
+  label: string;
+  credentialId: "binance.trading-api" | string;
+  status: "ready" | "partial" | "missing" | "unknown";
+  proofFreshness: "fresh" | "stale" | "missing";
+  lastVerifiedAt: string | null;
+  serviceIds: string[];
+  productionContainers: string[];
+  expectedSource: string;
+  variables: CredentialVariableStatus[];
+  blockers: string[];
+};
+
+type CredentialVariableStatus = {
+  name: "BINANCE_API_KEY" | "BINANCE_SECRET_KEY" | string;
+  configured: boolean;
+  valueLength: number;
+  source: string;
+};
 ```
 
 Header should show:

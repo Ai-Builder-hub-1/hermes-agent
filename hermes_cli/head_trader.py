@@ -647,6 +647,8 @@ def frontend_spec() -> dict[str, Any]:
         "endpoints": [
             "GET /summary",
             "POST /refresh",
+            "GET /credential-status",
+            "GET /credential-status/frontend-spec",
             "GET /incidents",
             "GET /incidents/{id}",
             "POST /incidents/{id}/reply",
@@ -663,7 +665,16 @@ def frontend_spec() -> dict[str, Any]:
             "GET /evidence/{incidentId}",
             "GET /channels",
         ],
-        "pageSections": ["status header", "desk cards", "incident queue", "conversation panel", "action/risk panel", "audit trail", "channel status"],
+        "pageSections": [
+            "status header",
+            "desk cards",
+            "credential readiness",
+            "incident queue",
+            "conversation panel",
+            "action/risk panel",
+            "audit trail",
+            "channel status",
+        ],
         "safety": {"liveTradingLocked": True, "freeFormExecution": False, "liveOrderSubmit": False},
     }
 

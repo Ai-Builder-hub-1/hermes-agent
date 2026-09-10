@@ -1891,6 +1891,20 @@ async def get_head_trader_channels():
     return channel_status()
 
 
+@app.get("/api/head-trader/credential-status")
+async def get_head_trader_credential_status():
+    from hermes_cli.credential_status import credential_status
+
+    return credential_status()
+
+
+@app.get("/api/head-trader/credential-status/frontend-spec")
+async def get_head_trader_credential_status_frontend_spec():
+    from hermes_cli.credential_status import credential_frontend_spec
+
+    return credential_frontend_spec()
+
+
 async def _head_trader_channel_webhook(channel: str, request: Request):
     """Inbound Discord/Telegram webhook.
 
