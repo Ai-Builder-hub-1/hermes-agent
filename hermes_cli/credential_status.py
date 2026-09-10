@@ -262,6 +262,15 @@ def _recommendations(status: str, stale_projects: list[str], blockers: list[str]
 
 
 def _proof_path() -> Path:
+    explicit = os.environ.get("HERMES_FLEET_CREDENTIAL_STATUS_PATH")
+    if explicit:
+        return Path(explicit).expanduser()
+    package_path = Path(__file__).resolve().parent / "data" / "fleet-credential-status.json"
+    if package_path.exists():
+        return package_path
+    cwd_path = Path.cwd() / "docs" / "fleet" / "fleet-credential-status.json"
+    if cwd_path.exists():
+        return cwd_path
     return Path(__file__).resolve().parents[1] / "docs" / "fleet" / "fleet-credential-status.json"
 
 

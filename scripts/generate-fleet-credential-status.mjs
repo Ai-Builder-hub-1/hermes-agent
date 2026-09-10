@@ -121,8 +121,10 @@ const report = {
 
 const jsonPath = path.join(root, "docs/fleet/fleet-credential-status.json");
 const mdPath = path.join(root, "docs/fleet/fleet-credential-status.md");
+const runtimeJsonPath = path.join(root, "hermes_cli/data/fleet-credential-status.json");
 if (write) {
   writeJson(jsonPath, report);
+  writeJson(runtimeJsonPath, report);
   writeMarkdown(mdPath, renderMarkdown(report));
 }
 
