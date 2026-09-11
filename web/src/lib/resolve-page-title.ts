@@ -18,7 +18,7 @@ const BUILTIN: Record<string, keyof Translations["app"]["nav"]> = {
 const ROUTE_TITLES: Record<string, string> = {
   "/dashboard-kit-gallery": "Dashboard Kit Gallery",
   "/fleet-maturity-review": "Fleet Maturity Review",
-  "/trading-intelligence": "Trading Intelligence",
+  "/trading-intelligence": "Trading Command Center",
   "/head-trader": "Head Trader",
 };
 

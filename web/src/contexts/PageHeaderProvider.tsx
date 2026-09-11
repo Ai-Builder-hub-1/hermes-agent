@@ -1,9 +1,28 @@
-import { useLayoutEffect, useMemo, useState, type ReactNode } from "react";
+import { useCallback, useMemo, useState, type ReactNode } from "react";
 import { useLocation } from "react-router";
 import { PageHeaderContext } from "./page-header-context";
 import { resolvePageTitle } from "@/lib/resolve-page-title";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/i18n";
+
+type Slot<T> = { owner: string; value: T } | null;
+
+/**
+ * Last non-empty write wins the slot; an empty write only lands if it comes
+ * from the page that currently holds it.
+ *
+ * Pages clear their header slots from an effect cleanup, and React does not
+ * promise that an outgoing page's cleanup runs before an incoming page's
+ * effects — with lazy routes it frequently runs after. Letting any page blank
+ * a slot it does not own meant the incoming page's toolbar vanished a frame
+ * after it appeared, with no dependency change left to re-fire its effect.
+ */
+function claim<T>(prev: Slot<T>, owner: string, value: T): Slot<T> {
+  if (value === null || value === undefined) {
+    return prev && prev.owner !== owner ? prev : null;
+  }
+  return { owner, value };
+}
 
 export function PageHeaderProvider({
   children,
@@ -14,19 +33,44 @@ export function PageHeaderProvider({
 }) {
   const { pathname } = useLocation();
   const { t } = useI18n();
-  const [titleOverride, setTitleOverride] = useState<string | null>(null);
-  const [afterTitle, setAfterTitle] = useState<ReactNode>(null);
-  const [end, setEnd] = useState<ReactNode>(null);
+  const [titleSlot, setTitleSlot] = useState<Slot<string | null>>(null);
+  const [afterTitleSlot, setAfterTitleSlot] = useState<Slot<ReactNode>>(null);
+  const [endSlot, setEndSlot] = useState<Slot<ReactNode>>(null);
+  const titleOverride = titleSlot?.value ?? null;
+  const afterTitle = afterTitleSlot?.value ?? null;
+  const end = endSlot?.value ?? null;
+
+  const writeTitle = useCallback(
+    (owner: string, title: string | null) => setTitleSlot((prev) => claim(prev, owner, title)),
+    [],
+  );
+  const writeAfterTitle = useCallback(
+    (owner: string, node: ReactNode) => setAfterTitleSlot((prev) => claim(prev, owner, node)),
+    [],
+  );
+  const writeEnd = useCallback(
+    (owner: string, node: ReactNode) => setEndSlot((prev) => claim(prev, owner, node)),
+    [],
+  );
 
   // Clear any per-page title / toolbar slots when the path changes. Child routes
   // re-fill these on mount via usePageHeader.
-  /* eslint-disable react-hooks/set-state-in-effect */
-  useLayoutEffect(() => {
-    setTitleOverride(null);
-    setAfterTitle(null);
-    setEnd(null);
-  }, [pathname]);
-  /* eslint-enable react-hooks/set-state-in-effect */
+  //
+  // This resets during render, not in a layout effect, and that is load-bearing:
+  // React runs a child's layout effects BEFORE its parent's, so clearing here in
+  // an effect wiped whatever the incoming page had just set. Pages whose data
+  // resolved before the first layout-effect flush (cached responses, a fast
+  // loopback server) lost their header slot for the rest of the page's life,
+  // because their own effect had no further dependency change to re-fire on.
+  // Resetting during the provider's own render happens before the new route's
+  // children render at all, so nothing a page sets is ever thrown away.
+  const [slotPath, setSlotPath] = useState(pathname);
+  if (slotPath !== pathname) {
+    setSlotPath(pathname);
+    setTitleSlot(null);
+    setAfterTitleSlot(null);
+    setEndSlot(null);
+  }
 
   const defaultTitle = useMemo(
     () => resolvePageTitle(pathname, t, pluginTabs),
@@ -40,12 +84,8 @@ export function PageHeaderProvider({
     pathname === "/env" || pathname.startsWith("/env/");
 
   const value = useMemo(
-    () => ({
-      setAfterTitle,
-      setEnd,
-      setTitle: setTitleOverride,
-    }),
-    [],
+    () => ({ writeAfterTitle, writeEnd, writeTitle }),
+    [writeAfterTitle, writeEnd, writeTitle],
   );
 
   return (

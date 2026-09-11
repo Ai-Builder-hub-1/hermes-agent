@@ -352,7 +352,7 @@ export const BUILTIN_NAV_REST: BuiltinNavItem[] = [
   { path: "/design-intelligence", label: "Design Intel", icon: Workflow },
   { path: "/design-system", label: "Design System", icon: GalleryVerticalEnd },
   { path: "/dashboard-kit-gallery", label: "Kit Gallery", icon: GalleryVerticalEnd },
-  { path: "/trading-intelligence", label: "Trading Intel", icon: CandlestickChart },
+  { path: "/trading-intelligence", label: "Command Center", icon: CandlestickChart },
   { path: "/head-trader", label: "Head Trader", icon: MessageSquare },
   { path: "/fleet-maturity-review", label: "Fleet Review", icon: ListChecks },
   { path: "/models", labelKey: "models", label: "Models", icon: Cpu },
