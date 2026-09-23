@@ -38,6 +38,7 @@ PUBLIC_API_PATHS: frozenset[str] = frozenset({
     # ``docs/agent-dashboard-public-url-contract.md`` (NAS side).
     "/api/status",
     "/api/dashboard-snapshot",
+    "/api/dashboard-summary",
     # Read-only config-defaults / schema feeds for the SPA's Config page.
     "/api/config/defaults",
     "/api/config/schema",

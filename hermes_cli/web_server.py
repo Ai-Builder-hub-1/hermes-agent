@@ -1737,6 +1737,64 @@ async def get_dashboard_snapshot():
     return _dashboard_snapshot_payload(status)
 
 
+def _dashboard_summary_payload(snapshot: Dict[str, Any]) -> Dict[str, Any]:
+    status = snapshot.get("status") or {}
+    freshness = snapshot.get("freshness") or {}
+    metrics = snapshot.get("metrics") or []
+    gateway_running = status.get("overall") == "healthy"
+    configured_platforms = next(
+        (
+            metric.get("value")
+            for metric in metrics
+            if isinstance(metric, dict) and metric.get("label") == "Platforms"
+        ),
+        0,
+    )
+    active_sessions = next(
+        (
+            metric.get("value")
+            for metric in metrics
+            if isinstance(metric, dict) and metric.get("label") == "Active sessions"
+        ),
+        0,
+    )
+    auth_providers = next(
+        (
+            metric.get("value")
+            for metric in metrics
+            if isinstance(metric, dict) and metric.get("label") == "Auth providers"
+        ),
+        0,
+    )
+    warnings = 0 if gateway_running else 1
+    blockers = 0 if gateway_running else 1
+    return {
+        "detail": (
+            "Nous Hermes Agent dashboard is ready for frontend build."
+            if gateway_running
+            else "Nous Hermes Agent dashboard needs gateway attention."
+        ),
+        "metrics": [
+            {"label": "Data freshness", "value": freshness.get("gatewayUpdatedAt") or "live status", "status": "healthy" if gateway_running else "degraded"},
+            {"label": "Warnings", "value": warnings, "status": "degraded" if warnings else "healthy"},
+            {"label": "Blockers", "value": blockers, "status": "down" if blockers else "healthy"},
+            {"label": "Gateway", "value": status.get("gateway") or status.get("overall") or "unknown", "status": "healthy" if gateway_running else "degraded"},
+            {"label": "Platforms", "value": configured_platforms, "status": "healthy"},
+            {"label": "Active sessions", "value": active_sessions, "status": "healthy"},
+            {"label": "Auth providers", "value": auth_providers, "status": "healthy" if status.get("authRequired") else "degraded"},
+        ],
+        "freshness": freshness,
+        "status": status,
+        "links": snapshot.get("links") or {},
+    }
+
+
+@app.get("/api/dashboard-summary")
+async def get_dashboard_summary():
+    status = await get_status()
+    return _dashboard_summary_payload(_dashboard_snapshot_payload(status))
+
+
 @app.get("/api/trading-intelligence/summary")
 async def get_trading_intelligence_summary():
     from hermes_cli.trading_intelligence import trading_intelligence_summary
