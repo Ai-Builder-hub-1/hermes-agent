@@ -10,6 +10,11 @@ import {
   type GeneratedDashboardRouteMaturityEntry,
   type GeneratedDashboardRouteMaturityReport,
 } from "./generated-dashboard-route-maturity-data";
+import {
+  loadDashboardLiveSourceGapLedger,
+  type DashboardLiveSourceGapLedger,
+  type DashboardLiveSourceRouteGap,
+} from "./dashboard-live-source-gap-ledger-data";
 
 type GovernanceFamily =
   | "Executive"
@@ -125,14 +130,16 @@ const specsByExportName = new Map(generatedPageSpecs.map((spec) => [spec.exportN
 function GeneratedGovernancePage({ exportName }: { exportName: string }) {
   const [evidenceReport, setEvidenceReport] = useState<GeneratedDashboardRouteEvidenceBindingsReport | null>(null);
   const [maturityReport, setMaturityReport] = useState<GeneratedDashboardRouteMaturityReport | null>(null);
+  const [liveSourceGapLedger, setLiveSourceGapLedger] = useState<DashboardLiveSourceGapLedger | null>(null);
   const [runtimeError, setRuntimeError] = useState<string | null>(null);
   useEffect(() => {
     let active = true;
-    Promise.all([loadGeneratedDashboardRouteEvidenceBindings(), loadGeneratedDashboardRouteMaturity()])
-      .then(([nextEvidenceReport, nextMaturityReport]) => {
+    Promise.all([loadGeneratedDashboardRouteEvidenceBindings(), loadGeneratedDashboardRouteMaturity(), loadDashboardLiveSourceGapLedger()])
+      .then(([nextEvidenceReport, nextMaturityReport, nextLiveSourceGapLedger]) => {
         if (!active) return;
         setEvidenceReport(nextEvidenceReport);
         setMaturityReport(nextMaturityReport);
+        setLiveSourceGapLedger(nextLiveSourceGapLedger);
       })
       .catch((error: unknown) => {
         if (!active) return;
@@ -150,6 +157,10 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
     () => new Map<string, GeneratedDashboardRouteMaturityEntry>((maturityReport?.entries ?? []).map((entry) => [entry.exportName, entry])),
     [maturityReport]
   );
+  const liveSourceGapByExportName = useMemo(
+    () => new Map<string, DashboardLiveSourceRouteGap>((liveSourceGapLedger?.routeGaps ?? []).map((entry) => [entry.exportName, entry])),
+    [liveSourceGapLedger]
+  );
   const spec = specsByExportName.get(exportName) ?? fallbackSpec(exportName);
   const metadata = metadataByRoute.get(spec.route);
   const dataContracts = metadata?.dataContracts ?? defaultDataContracts(spec.family);
@@ -157,8 +168,9 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
   const validation = metadata?.validation ?? dashboardGovernanceDefaults.finalHandoffEvidence;
   const routeMaturity = maturityByExportName.get(spec.exportName);
   const evidenceBinding = evidenceBindingByExportName.get(spec.exportName);
+  const liveSourceGap = liveSourceGapByExportName.get(spec.exportName);
   const maturity = routeMaturity?.score ?? maturityFor(Boolean(metadata), dataContracts, requiredStates, validation);
-  const evidenceLoading = !evidenceReport || !maturityReport;
+  const evidenceLoading = !evidenceReport || !maturityReport || !liveSourceGapLedger;
 
   return (
     <main
@@ -201,6 +213,8 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
           <MetricCard label="Evidence Sources" value={String(evidenceBinding?.sourceBindings.filter((source) => source.status !== "missing").length ?? 0)} detail={evidenceBinding?.freshnessStatus ?? "evidence not bound"} />
           <MetricCard label="Operational" value={evidenceBinding?.operationalStatus ?? "unbound"} detail={evidenceBinding?.nextOperationalAction ?? "Operational evidence has not been generated."} />
           <MetricCard label="Freshness" value={evidenceBinding?.freshnessSummary.severity ?? (evidenceLoading ? "loading" : "unknown")} detail={evidenceBinding ? `${evidenceBinding.freshnessSummary.currentCount} current / ${evidenceBinding.freshnessSummary.staleCount} stale / ${evidenceBinding.freshnessSummary.missingCount} missing` : "Runtime freshness evidence loads outside the page bundle."} />
+          <MetricCard label="Live Gaps" value={String(liveSourceGap?.sourceGapCount ?? 0)} detail={liveSourceGap ? `${liveSourceGap.sourceGaps.filter((gap) => gap.severity === "critical" || gap.severity === "high").length} critical or high source gaps` : "Live-source burn-down evidence is loading."} />
+          <MetricCard label="Blocked Actions" value={String(liveSourceGap?.blockedMutatingActionCount ?? 0)} detail={liveSourceGap ? "Mutations stay disabled until endpoint, audit, cooldown, and recovery proof exist." : "Command burn-down evidence is loading."} />
           <MetricCard label="Payload" value={evidenceBinding?.payloadMaturity.status ?? (evidenceLoading ? "loading" : "unknown")} detail={evidenceBinding?.payloadMaturity.strategy ?? "Runtime asset split protects the generated route bundle."} />
           <MetricCard label="Validation" value={String(validation.length)} detail="Checks needed for handoff evidence." />
           <MetricCard label="Open Layers" value={String(routeMaturity?.openLayers.length ?? 0)} detail={routeMaturity?.nextOpenLayer ?? spec.proofFocus} />
@@ -252,6 +266,14 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
           <ChecklistPanel title="State Coverage" items={requiredStates} />
           <ChecklistPanel title="Validation Evidence" items={validation} />
         </section>
+
+        {liveSourceGap ? (
+          <section className="grid gap-4 lg:grid-cols-3">
+            <ChecklistPanel title="Live Source Burn-Down" items={liveSourceGapItems(liveSourceGap)} />
+            <ChecklistPanel title="Blocked Command Burn-Down" items={blockedActionGapItems(liveSourceGap)} />
+            <ChecklistPanel title="Gap Next Actions" items={liveSourceGap.nextActions.length ? liveSourceGap.nextActions : ["No live-source gap action is currently tracked for this route."]} />
+          </section>
+        ) : null}
 
         {evidenceBinding ? (
           <section className="grid gap-4 lg:grid-cols-3">
@@ -357,6 +379,16 @@ function productionReadinessItems(evidenceBinding: GeneratedDashboardRouteEviden
     ...evidenceBinding.productionReadiness.productionProof,
     ...evidenceBinding.productionReadiness.liveDataAvailability,
   ];
+}
+
+function liveSourceGapItems(liveSourceGap: DashboardLiveSourceRouteGap) {
+  const gaps = liveSourceGap.sourceGaps.slice(0, 8).map((gap) => `${gap.severity}: ${gap.label} ${gap.status}/${gap.freshness} -> ${gap.targetState}`);
+  return gaps.length ? gaps : ["No stale or missing live-source gaps are currently tracked for this route."];
+}
+
+function blockedActionGapItems(liveSourceGap: DashboardLiveSourceRouteGap) {
+  const actions = liveSourceGap.blockedMutatingActions.slice(0, 8).map((action) => `${action.action}: ${action.disabledReason ?? "blocked until governed"}`);
+  return actions.length ? actions : ["No blocked mutating actions are currently tracked for this route."];
 }
 
 function MetricCard({ label, value, detail }: { label: string; value: string; detail: string }) {
