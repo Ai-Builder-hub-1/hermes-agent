@@ -42,6 +42,62 @@ const severityTone: Record<string, string> = {
 
 const statusOrder: EvidenceStatus[] = ["needs-review", "blocked", "missing", "stale", "current", "not-applicable", "all"];
 
+function buildFleetReadinessCards(entries: readonly EvidenceEntry[]) {
+  const countKind = (kind: string, status?: string) =>
+    entries.filter((entry) => entry.kind === kind && (!status || entry.status === status)).length;
+  const actionItems =
+    entries.filter((entry) => ["needs-review", "blocked", "missing", "stale"].includes(entry.status));
+  const uniqueProjects =
+    new Set(entries.map((entry) => entry.projectId)).size;
+  const liveChecks =
+    countKind("live-e2e", "current");
+  const proofChecks =
+    countKind("readonly-proof", "current") + countKind("screenshot-baseline", "current");
+  const monitoringChecks =
+    countKind("monitoring", "current");
+  const buildReady =
+    entries.filter((entry) => entry.suggestion?.status === "ready-to-build").length;
+
+  return [
+    {
+      label: "Fleet Scope",
+      value: uniqueProjects,
+      detail: `${entries.length} evidence checks tracked`,
+      status: uniqueProjects ? "ready" : "watch",
+    },
+    {
+      label: "Action Debt",
+      value: actionItems.length,
+      detail: `${countKind("static-route-debt", "needs-review")} static route items`,
+      status: actionItems.some((entry) => entry.status === "blocked") ? "blocked" : actionItems.length ? "watch" : "ready",
+    },
+    {
+      label: "Proof Coverage",
+      value: proofChecks,
+      detail: "readonly proof and screenshot baselines",
+      status: proofChecks ? "ready" : "watch",
+    },
+    {
+      label: "Live Checks",
+      value: liveChecks,
+      detail: "primary operator flows with evidence",
+      status: liveChecks ? "ready" : "watch",
+    },
+    {
+      label: "Monitoring",
+      value: monitoringChecks,
+      detail: "dashboard watch contracts current",
+      status: monitoringChecks ? "ready" : "watch",
+    },
+    {
+      label: "Build Queue",
+      value: buildReady,
+      detail: "ready front-end maturity packets",
+      status: buildReady ? "watch" : "ready",
+    },
+  ];
+}
+
 export default function FleetMaturityReviewPage() {
   const data = fleetMaturityReviewData;
   const [activeStatus, setActiveStatus] = useState<EvidenceStatus>("needs-review");
@@ -75,6 +131,7 @@ export default function FleetMaturityReviewPage() {
     }
     return filteredEntries[0] ?? null;
   }, [activeEntryId, data.entries, filteredEntries]);
+  const readinessCards = useMemo(() => buildFleetReadinessCards(data.entries), [data.entries]);
 
   return (
     <main className="mx-auto flex w-full max-w-[1500px] flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8" data-review-id="hermes.fleet-maturity-review">
@@ -91,6 +148,30 @@ export default function FleetMaturityReviewPage() {
             <span className="rounded-full border border-border bg-background px-3 py-1">Generated {formatDate(data.generatedAt)}</span>
             <span className="rounded-full border border-border bg-background px-3 py-1">{data.entries.length} evidence checks</span>
           </div>
+        </div>
+      </section>
+
+      <section className="rounded-2xl border border-border bg-card p-5 shadow-sm" data-review-id="hermes.fleet-front-end-readiness" data-hdk-component="FleetFrontendReadiness">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Front-end readiness</div>
+            <h2 className="mt-2 text-xl font-semibold text-foreground">Fleet build contract</h2>
+          </div>
+          <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${readinessCards.some((card) => card.status === "blocked") ? "border-red-500/30 bg-red-500/10 text-red-700" : "border-emerald-500/30 bg-emerald-500/10 text-emerald-700"}`}>
+            {readinessCards.some((card) => card.status === "blocked") ? "needs action" : "ready to build"}
+          </span>
+        </div>
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-6">
+          {readinessCards.map((card) => (
+            <article
+              className={`rounded-xl border p-4 ${card.status === "blocked" ? "border-red-500/30 bg-red-500/10" : card.status === "watch" ? "border-amber-500/30 bg-amber-500/10" : "border-emerald-500/30 bg-emerald-500/10"}`}
+              key={card.label}
+            >
+              <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{card.label}</div>
+              <div className="mt-3 break-words text-2xl font-semibold text-foreground">{card.value}</div>
+              <p className="mt-2 text-xs leading-5 text-muted-foreground">{card.detail}</p>
+            </article>
+          ))}
         </div>
       </section>
 
