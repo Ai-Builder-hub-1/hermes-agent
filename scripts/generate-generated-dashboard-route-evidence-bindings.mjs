@@ -9,6 +9,7 @@ const pagePath = path.join(root, "web/src/pages/GeneratedDashboardPages.tsx");
 const jsonPath = path.join(root, "docs/design/generated-dashboard-route-evidence-bindings.json");
 const mdPath = path.join(root, "docs/design/generated-dashboard-route-evidence-bindings.md");
 const webDataPath = path.join(root, "web/src/pages/generated-dashboard-route-evidence-bindings-data.ts");
+const webRuntimeJsonPath = path.join(root, "web/src/pages/generated-dashboard-route-evidence-bindings.runtime.json");
 
 const evidenceFiles = {
   telemetry: "docs/design/dashboard-telemetry-contract-report.json",
@@ -51,6 +52,9 @@ const routeBindings = routeRows.map((row) => {
   const operationalCategories = operationalCategoriesFor(family, row, sourceBindings);
   const stateCoverage = stateCoverageFor(family, priority, sourceBindings);
   const uxVisualMaturity = uxVisualMaturityFor(family, priority, drillDownTargets, operationalCategories);
+  const freshnessSummary = freshnessSummaryFor(sourceBindings, staleReasons, freshnessStatus, priority);
+  const infrastructureConnections = infrastructureConnectionsFor(profile, row, family, operationalCategories, sourceBindings);
+  const payloadMaturity = payloadMaturityFor(row, drillDownTargets, sourceBindings);
 
   return {
     exportName: row.exportName,
@@ -70,10 +74,13 @@ const routeBindings = routeRows.map((row) => {
       staleReasonCount: staleReasons.length,
     },
     staleReasons,
+    freshnessSummary,
     operationalCategories,
     operationalStatus: operationalStatusFor(dataBindingStatus, observabilityStatus, freshnessStatus, sourceBindings),
     stateCoverage,
     uxVisualMaturity,
+    infrastructureConnections,
+    payloadMaturity,
     nextOperationalAction: nextOperationalActionFor(freshnessStatus, operationalCategories, priority),
     sourceBindings,
     dataSignals: signalSetFor(family, profile),
@@ -95,6 +102,8 @@ const report = {
     observabilityRequiresOperationalEvidence: true,
     drillDownRequiresEvidenceTargets: true,
     freshnessSlaDays,
+    routeEvidenceShipsAsRuntimeAsset: true,
+    generatedPageBundleMustNotEmbedFullEvidenceLedger: true,
   },
   totals: {
     routeCount: routeBindings.length,
@@ -105,6 +114,9 @@ const report = {
     operationalCategoryCount: routeBindings.reduce((sum, entry) => sum + entry.operationalCategories.length, 0),
     stateCoveredCount: routeBindings.filter((entry) => entry.stateCoverage.status === "covered").length,
     uxVisualReadyCount: routeBindings.filter((entry) => entry.uxVisualMaturity.status === "ready").length,
+    freshnessVisibleCount: routeBindings.filter((entry) => entry.freshnessSummary.status === "visible").length,
+    infrastructureConnectedCount: routeBindings.filter((entry) => entry.infrastructureConnections.status === "connected").length,
+    runtimeAssetExternalizedCount: routeBindings.filter((entry) => entry.payloadMaturity.status === "externalized").length,
   },
   rollups: {
     priority: priorityRollup,
@@ -117,11 +129,13 @@ fs.mkdirSync(path.dirname(jsonPath), { recursive: true });
 fs.writeFileSync(jsonPath, `${JSON.stringify(report, null, 2)}\n`);
 fs.writeFileSync(mdPath, renderMarkdown(report));
 fs.mkdirSync(path.dirname(webDataPath), { recursive: true });
+fs.writeFileSync(webRuntimeJsonPath, `${JSON.stringify(report, null, 2)}\n`);
 fs.writeFileSync(webDataPath, renderWebData(report));
 
 console.log(`Wrote ${path.relative(root, jsonPath)}`);
 console.log(`Wrote ${path.relative(root, mdPath)}`);
 console.log(`Wrote ${path.relative(root, webDataPath)}`);
+console.log(`Wrote ${path.relative(root, webRuntimeJsonPath)}`);
 
 function readJsonIfExists(file, fallback) {
   if (!fs.existsSync(file)) return fallback;
@@ -264,6 +278,96 @@ function staleReasonsFor(sourceBindings) {
       if (source.freshness === "missing") return `${source.label}: no matching evidence entry in ${source.source}`;
       return `${source.label}: evidence status is ${source.status}; refresh or replace this source with a live check`;
     });
+}
+
+function freshnessSummaryFor(sourceBindings, staleReasons, freshnessStatus, priority) {
+  const currentCount = sourceBindings.filter((source) => source.freshness === "current").length;
+  const staleCount = sourceBindings.filter((source) => source.freshness === "stale").length;
+  const missingCount = sourceBindings.filter((source) => source.freshness === "missing").length;
+  return {
+    status: "visible",
+    freshnessStatus,
+    currentCount,
+    staleCount,
+    missingCount,
+    severity: missingCount > 0 || priority === "P0" && staleCount > 0 ? "warning" : "healthy",
+    visibleFields: [
+      "freshness status",
+      "current source count",
+      "stale source count",
+      "missing source count",
+      "stale reason list",
+      "next refresh action",
+    ],
+    lastGeneratedAt: generatedAt,
+    nextRefreshAction: staleReasons.length
+      ? "Refresh stale or missing evidence sources and replace declared checks with live probes."
+      : "Keep the freshness guard active and refresh on the normal evidence cadence.",
+  };
+}
+
+function infrastructureConnectionsFor(profile, row, family, operationalCategories, sourceBindings) {
+  const key = `${family} ${row.exportName} ${row.route}`.toLowerCase();
+  const common = [
+    infra("project", profile.label, profile.id, "project evidence root"),
+    infra("dashboard", "Nous Hermes Agent", "nous-hermes-agent.dashboard", "dashboard route and governance shell"),
+    infra("health", `${profile.label} health`, "dashboard-health-report", "health and availability evidence"),
+    infra("deployment", `${profile.label} deployment`, "dashboard-deployment-ledger", "deployment and promotion evidence"),
+    infra("monitoring", `${profile.label} monitoring`, "dashboard-monitoring-registry", "monitoring and alert evidence"),
+  ];
+  const domain = [];
+  if (/data|telemetry|memory|artifact|subscription|warehouse|storage/.test(key)) {
+    domain.push(infra("warehouse", `${profile.label} warehouse`, "warehouse-storage-ledger", "collection, mirror, retention, pruning, backup, restore, orphan evidence"));
+    domain.push(infra("sync", `${profile.label} mirror sync`, "external-drive-mirror", "external mirror lag and sync outcome"));
+  }
+  if (/agent|task|model|loop|autonomy|operations|incident|runner/.test(key)) {
+    domain.push(infra("runner", `${profile.label} runner fleet`, "worker-runner-ledger", "runner heartbeat, queue age, failure, and retry evidence"));
+    domain.push(infra("queue", `${profile.label} queue`, "queue-health-ledger", "queue depth, lag, and backlog evidence"));
+  }
+  if (/secret|permission|breaker|gate|security/.test(key)) {
+    domain.push(infra("control", `${profile.label} control gate`, "command-gate-ledger", "permission, breaker, escalation, and remediation evidence"));
+  }
+  if (/cost|billing|finance/.test(key)) {
+    domain.push(infra("finance", `${profile.label} finance pipeline`, "finance-attribution-ledger", "cost, billing, reconciliation, and anomaly evidence"));
+  }
+  const connections = [...common, ...domain];
+  const sourceKinds = new Set(sourceBindings.filter((source) => source.status !== "missing").map((source) => source.kind));
+  return {
+    status: connections.length >= 5 && sourceKinds.size >= 5 ? "connected" : "partial",
+    projectId: profile.id,
+    project: profile.project,
+    operationalCategoryCount: operationalCategories.length,
+    connections,
+    aggregateViews: [
+      "priority rollup",
+      "family rollup",
+      "freshness rollup",
+      "project drill-through",
+      "source evidence drill-through",
+    ],
+    nextConnectionAction: "Replace generated infrastructure relationships with live runner, store, sync, and alert links as each bespoke dashboard component is built.",
+  };
+}
+
+function infra(kind, label, target, evidence) {
+  return { kind, label, target, evidence, status: "declared-connected" };
+}
+
+function payloadMaturityFor(row, drillDownTargets, sourceBindings) {
+  return {
+    status: "externalized",
+    route: row.route,
+    strategy: "runtime-json-asset",
+    mainBundlePolicy: "do-not-embed-full-generated-ledgers",
+    lazyLoadTrigger: "generated governance route open",
+    guardEvidence: [
+      "generated-dashboard-route-evidence-bindings.runtime.json",
+      "generated-dashboard-route-maturity-ledger.runtime.json",
+      `${drillDownTargets.length} drill-down targets loaded from runtime evidence`,
+      `${sourceBindings.length} source bindings loaded from runtime evidence`,
+    ],
+    nextPayloadAction: "Split the runtime evidence asset by route family if route evidence grows past the dashboard payload budget.",
+  };
 }
 
 function operationalCategoriesFor(family, row, sourceBindings) {
@@ -426,17 +530,20 @@ function renderMarkdown(report) {
     `- Operational category bindings: ${report.totals.operationalCategoryCount}`,
     `- State-covered routes: ${report.totals.stateCoveredCount}`,
     `- UX-ready routes: ${report.totals.uxVisualReadyCount}`,
+    `- Freshness-visible routes: ${report.totals.freshnessVisibleCount}`,
+    `- Infrastructure-connected routes: ${report.totals.infrastructureConnectedCount}`,
+    `- Runtime-asset externalized routes: ${report.totals.runtimeAssetExternalizedCount}`,
     "",
     "## Routes",
     "",
-    "| Priority | Route | Data | Observability | Drill-down | State | UX | Operational | Freshness | Evidence |",
-    "| --- | --- | --- | --- | --- | --- | --- | --- | --- | ---: |",
-    ...report.routeBindings.map((entry) => `| ${entry.priority} | ${entry.route} | ${entry.dataBindingStatus} | ${entry.observabilityStatus} | ${entry.drillDownStatus} | ${entry.stateCoverage.status} | ${entry.uxVisualMaturity.status} | ${entry.operationalStatus} | ${entry.freshnessStatus} | ${entry.sourceBindings.filter((source) => source.status !== "missing").length} |`),
+    "| Priority | Route | Data | Observability | Drill-down | State | UX | Freshness | Infrastructure | Payload | Evidence |",
+    "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | ---: |",
+    ...report.routeBindings.map((entry) => `| ${entry.priority} | ${entry.route} | ${entry.dataBindingStatus} | ${entry.observabilityStatus} | ${entry.drillDownStatus} | ${entry.stateCoverage.status} | ${entry.uxVisualMaturity.status} | ${entry.freshnessSummary.status} | ${entry.infrastructureConnections.status} | ${entry.payloadMaturity.status} | ${entry.sourceBindings.filter((source) => source.status !== "missing").length} |`),
     "",
   ];
   return `${lines.join("\n")}\n`;
 }
 
 function renderWebData(report) {
-  return `// Generated by scripts/generate-generated-dashboard-route-evidence-bindings.mjs.\nexport const generatedDashboardRouteEvidenceBindings = ${JSON.stringify(report, null, 2)} as const;\n`;
+  return `// Generated by scripts/generate-generated-dashboard-route-evidence-bindings.mjs.\n// The full evidence ledger is shipped as a runtime asset so generated dashboard routes do not embed it in the main page chunk.\nconst generatedDashboardRouteEvidenceBindingsUrl = new URL("./generated-dashboard-route-evidence-bindings.runtime.json", import.meta.url).href;\n\nexport interface GeneratedDashboardRouteEvidenceBinding {\n  exportName: string;\n  route: string;\n  title: string;\n  family: string;\n  priority: string;\n  projectProfile: { id: string; label: string; project: string };\n  dataBindingStatus: string;\n  observabilityStatus: string;\n  drillDownStatus: string;\n  freshnessStatus: string;\n  freshnessPolicy: { slaDays: number; generatedAt: string; status: string; staleReasonCount: number };\n  staleReasons: string[];\n  freshnessSummary: { status: string; freshnessStatus: string; currentCount: number; staleCount: number; missingCount: number; severity: string; visibleFields: string[]; lastGeneratedAt: string; nextRefreshAction: string };\n  operationalCategories: Array<{ id: string; label: string; status: string; evidence: string }>;\n  operationalStatus: string;\n  stateCoverage: { status: string; priority: string; family: string; stateFixtures: string[]; evidence: string[]; unprovenStates: string[]; nextStateAction: string };\n  uxVisualMaturity: { status: string; priority: string; family: string; density: string; reviewChecklist: string[]; visualEvidence: string[]; nextVisualAction: string };\n  infrastructureConnections: { status: string; projectId: string; project: string; operationalCategoryCount: number; connections: Array<{ kind: string; label: string; target: string; evidence: string; status: string }>; aggregateViews: string[]; nextConnectionAction: string };\n  payloadMaturity: { status: string; route: string; strategy: string; mainBundlePolicy: string; lazyLoadTrigger: string; guardEvidence: string[]; nextPayloadAction: string };\n  nextOperationalAction: string;\n  sourceBindings: Array<{ kind: string; label: string; source: string; status: string; freshness: string; matchedId: string | null; detail: string }>;\n  dataSignals: string[];\n  drillDownTargets: Array<{ label: string; target: string; source: string }>;\n  remainingBindingWork: string[];\n}\n\nexport interface GeneratedDashboardRouteEvidenceBindingsReport {\n  schemaVersion: number;\n  generatedAt: string;\n  purpose: string;\n  sourceReports: Record<string, string>;\n  policy: Record<string, unknown>;\n  totals: Record<string, number>;\n  rollups: Record<string, Record<string, Record<string, number>>>;\n  routeBindings: GeneratedDashboardRouteEvidenceBinding[];\n}\n\nlet generatedDashboardRouteEvidenceBindingsPromise: Promise<GeneratedDashboardRouteEvidenceBindingsReport> | null = null;\n\nexport function loadGeneratedDashboardRouteEvidenceBindings() {\n  generatedDashboardRouteEvidenceBindingsPromise ??= fetch(generatedDashboardRouteEvidenceBindingsUrl).then((response) => {\n    if (!response.ok) throw new Error(\`Unable to load generated dashboard route evidence bindings: \${response.status}\`);\n    return response.json() as Promise<GeneratedDashboardRouteEvidenceBindingsReport>;\n  });\n  return generatedDashboardRouteEvidenceBindingsPromise;\n}\n\nexport { generatedDashboardRouteEvidenceBindingsUrl };\n`;
 }

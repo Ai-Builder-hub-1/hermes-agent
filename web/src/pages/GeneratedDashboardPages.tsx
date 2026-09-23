@@ -1,6 +1,15 @@
+import { useEffect, useMemo, useState } from "react";
 import { dashboardGovernanceDefaults, dashboardPageMetadata } from "@/dashboard-page-metadata";
-import { generatedDashboardRouteEvidenceBindings } from "./generated-dashboard-route-evidence-bindings-data";
-import { generatedDashboardRouteMaturity } from "./generated-dashboard-route-maturity-data";
+import {
+  loadGeneratedDashboardRouteEvidenceBindings,
+  type GeneratedDashboardRouteEvidenceBinding,
+  type GeneratedDashboardRouteEvidenceBindingsReport,
+} from "./generated-dashboard-route-evidence-bindings-data";
+import {
+  loadGeneratedDashboardRouteMaturity,
+  type GeneratedDashboardRouteMaturityEntry,
+  type GeneratedDashboardRouteMaturityReport,
+} from "./generated-dashboard-route-maturity-data";
 
 type GovernanceFamily =
   | "Executive"
@@ -98,16 +107,6 @@ const generatedPageRows: Array<[string, string, string]> = [
 ];
 
 const metadataByRoute = new Map(dashboardPageMetadata.map((entry) => [entry.route, entry]));
-type GeneratedRouteEvidenceBinding = (typeof generatedDashboardRouteEvidenceBindings.routeBindings)[number];
-
-const evidenceBindingByExportName = new Map<string, GeneratedRouteEvidenceBinding>(
-  generatedDashboardRouteEvidenceBindings.routeBindings.map((entry) => [entry.exportName, entry])
-);
-type GeneratedRouteMaturityEntry = (typeof generatedDashboardRouteMaturity.entries)[number];
-
-const maturityByExportName = new Map<string, GeneratedRouteMaturityEntry>(
-  generatedDashboardRouteMaturity.entries.map((entry) => [entry.exportName, entry])
-);
 
 const generatedPageSpecs: GeneratedPageSpec[] = generatedPageRows.map(([exportName, route, title]) => ({
   exportName,
@@ -124,6 +123,33 @@ const generatedPageSpecs: GeneratedPageSpec[] = generatedPageRows.map(([exportNa
 const specsByExportName = new Map(generatedPageSpecs.map((spec) => [spec.exportName, spec]));
 
 function GeneratedGovernancePage({ exportName }: { exportName: string }) {
+  const [evidenceReport, setEvidenceReport] = useState<GeneratedDashboardRouteEvidenceBindingsReport | null>(null);
+  const [maturityReport, setMaturityReport] = useState<GeneratedDashboardRouteMaturityReport | null>(null);
+  const [runtimeError, setRuntimeError] = useState<string | null>(null);
+  useEffect(() => {
+    let active = true;
+    Promise.all([loadGeneratedDashboardRouteEvidenceBindings(), loadGeneratedDashboardRouteMaturity()])
+      .then(([nextEvidenceReport, nextMaturityReport]) => {
+        if (!active) return;
+        setEvidenceReport(nextEvidenceReport);
+        setMaturityReport(nextMaturityReport);
+      })
+      .catch((error: unknown) => {
+        if (!active) return;
+        setRuntimeError(error instanceof Error ? error.message : "Unable to load generated dashboard maturity evidence.");
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+  const evidenceBindingByExportName = useMemo(
+    () => new Map<string, GeneratedDashboardRouteEvidenceBinding>((evidenceReport?.routeBindings ?? []).map((entry) => [entry.exportName, entry])),
+    [evidenceReport]
+  );
+  const maturityByExportName = useMemo(
+    () => new Map<string, GeneratedDashboardRouteMaturityEntry>((maturityReport?.entries ?? []).map((entry) => [entry.exportName, entry])),
+    [maturityReport]
+  );
   const spec = specsByExportName.get(exportName) ?? fallbackSpec(exportName);
   const metadata = metadataByRoute.get(spec.route);
   const dataContracts = metadata?.dataContracts ?? defaultDataContracts(spec.family);
@@ -132,6 +158,7 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
   const routeMaturity = maturityByExportName.get(spec.exportName);
   const evidenceBinding = evidenceBindingByExportName.get(spec.exportName);
   const maturity = routeMaturity?.score ?? maturityFor(Boolean(metadata), dataContracts, requiredStates, validation);
+  const evidenceLoading = !evidenceReport || !maturityReport;
 
   return (
     <main
@@ -173,9 +200,17 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
           <MetricCard label="Data Contracts" value={String(dataContracts.length)} detail="Typed inputs expected before bespoke build." />
           <MetricCard label="Evidence Sources" value={String(evidenceBinding?.sourceBindings.filter((source) => source.status !== "missing").length ?? 0)} detail={evidenceBinding?.freshnessStatus ?? "evidence not bound"} />
           <MetricCard label="Operational" value={evidenceBinding?.operationalStatus ?? "unbound"} detail={evidenceBinding?.nextOperationalAction ?? "Operational evidence has not been generated."} />
+          <MetricCard label="Freshness" value={evidenceBinding?.freshnessSummary.severity ?? (evidenceLoading ? "loading" : "unknown")} detail={evidenceBinding ? `${evidenceBinding.freshnessSummary.currentCount} current / ${evidenceBinding.freshnessSummary.staleCount} stale / ${evidenceBinding.freshnessSummary.missingCount} missing` : "Runtime freshness evidence loads outside the page bundle."} />
+          <MetricCard label="Payload" value={evidenceBinding?.payloadMaturity.status ?? (evidenceLoading ? "loading" : "unknown")} detail={evidenceBinding?.payloadMaturity.strategy ?? "Runtime asset split protects the generated route bundle."} />
           <MetricCard label="Validation" value={String(validation.length)} detail="Checks needed for handoff evidence." />
           <MetricCard label="Open Layers" value={String(routeMaturity?.openLayers.length ?? 0)} detail={routeMaturity?.nextOpenLayer ?? spec.proofFocus} />
         </section>
+
+        {runtimeError ? (
+          <section className="rounded-lg border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-900">
+            {runtimeError}
+          </section>
+        ) : null}
 
         <section className="grid gap-6 xl:grid-cols-[1fr_360px]">
           <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
@@ -242,6 +277,14 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
           </section>
         ) : null}
 
+        {evidenceBinding ? (
+          <section className="grid gap-4 lg:grid-cols-3">
+            <ChecklistPanel title="Freshness Summary" items={freshnessItems(evidenceBinding)} />
+            <ChecklistPanel title="Infrastructure Connections" items={evidenceBinding.infrastructureConnections.connections.map((connection) => `${connection.kind}: ${connection.label} (${connection.target})`)} />
+            <ChecklistPanel title="Payload Maturity" items={[evidenceBinding.payloadMaturity.strategy, evidenceBinding.payloadMaturity.mainBundlePolicy, evidenceBinding.payloadMaturity.lazyLoadTrigger, ...evidenceBinding.payloadMaturity.guardEvidence]} />
+          </section>
+        ) : null}
+
         {routeMaturity ? (
           <section className="grid gap-4 lg:grid-cols-3">
             <ChecklistPanel title="Completed Maturity Layers" items={[...routeMaturity.completedLayers]} />
@@ -263,6 +306,17 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
       </section>
     </main>
   );
+}
+
+function freshnessItems(evidenceBinding: GeneratedDashboardRouteEvidenceBinding) {
+  return [
+    `status: ${evidenceBinding.freshnessSummary.freshnessStatus}`,
+    `severity: ${evidenceBinding.freshnessSummary.severity}`,
+    `current sources: ${evidenceBinding.freshnessSummary.currentCount}`,
+    `stale sources: ${evidenceBinding.freshnessSummary.staleCount}`,
+    `missing sources: ${evidenceBinding.freshnessSummary.missingCount}`,
+    evidenceBinding.freshnessSummary.nextRefreshAction,
+  ];
 }
 
 function MetricCard({ label, value, detail }: { label: string; value: string; detail: string }) {

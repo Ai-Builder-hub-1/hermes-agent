@@ -7,6 +7,7 @@ const root = process.cwd();
 const pagePath = path.join(root, "web/src/pages/GeneratedDashboardPages.tsx");
 const reportPath = path.join(root, "docs/design/generated-dashboard-route-maturity-ledger.json");
 const webDataPath = path.join(root, "web/src/pages/generated-dashboard-route-maturity-data.ts");
+const webRuntimeJsonPath = path.join(root, "web/src/pages/generated-dashboard-route-maturity-ledger.runtime.json");
 const placeholderCopy = "This route is registered for the Hermes dashboard governance system";
 const requiredLayers = [
   "route-coverage",
@@ -34,11 +35,13 @@ function issue(severity, message, details = "") {
 if (!fs.existsSync(pagePath)) issue("error", "Generated dashboard page module is missing.", "web/src/pages/GeneratedDashboardPages.tsx");
 if (!fs.existsSync(reportPath)) issue("error", "Generated route maturity ledger is missing.", "docs/design/generated-dashboard-route-maturity-ledger.json");
 if (!fs.existsSync(webDataPath)) issue("error", "Generated route maturity web data is missing.", "web/src/pages/generated-dashboard-route-maturity-data.ts");
+if (!fs.existsSync(webRuntimeJsonPath)) issue("error", "Generated route maturity runtime asset is missing.", "web/src/pages/generated-dashboard-route-maturity-ledger.runtime.json");
 
 if (!issues.some((item) => item.severity === "error")) {
   const pageSource = fs.readFileSync(pagePath, "utf8");
   const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
   const webData = fs.readFileSync(webDataPath, "utf8");
+  const runtimeAsset = JSON.parse(fs.readFileSync(webRuntimeJsonPath, "utf8"));
   const exports = [...pageSource.matchAll(/export const (\w+Page)\s*=\s*makePage/g)].map((match) => match[1]);
   const routeRows = [...pageSource.matchAll(/\["([^"]+)",\s*"([^"]+)",\s*"([^"]+)"\]/g)].map((match) => match[1]);
   const entryExports = new Set((report.entries ?? []).map((entry) => entry.exportName));
@@ -55,6 +58,10 @@ if (!issues.some((item) => item.severity === "error")) {
   if ((report.totals?.drillDownBoundCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route drill-down-bound for the 43-to-53 band.");
   if ((report.totals?.stateCoveredCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route state-covered for the 53-to-63 band.");
   if ((report.totals?.uxVisualReadyCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route UX-ready for the 53-to-63 band.");
+  if ((report.totals?.freshnessVisibleCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route freshness-visible for the 63-to-75 band.");
+  if ((report.totals?.infrastructureConnectedCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route infrastructure-connected for the 63-to-75 band.");
+  if ((report.totals?.runtimePayloadExternalizedCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route runtime-payload externalized for the 63-to-75 band.");
+  if ((runtimeAsset.entries ?? []).length !== exports.length) issue("error", "Generated route maturity runtime asset entry count must match exported pages.", `${runtimeAsset.entries?.length ?? 0} entries vs ${exports.length} exports`);
   for (const layer of requiredLayers) {
     if (!layerIds.has(layer)) issue("error", "Generated route maturity ledger is missing a required layer.", layer);
   }
@@ -74,6 +81,9 @@ if (!issues.some((item) => item.severity === "error")) {
     if (entry.evidenceBinding && entry.evidenceBinding.dataBindingStatus !== "bound") issue("error", "Generated route maturity evidenceBinding must be bound.", entry.exportName);
     if (entry.evidenceBinding && entry.evidenceBinding.stateCoverageStatus !== "covered") issue("error", "Generated route maturity evidenceBinding must include covered state coverage.", entry.exportName);
     if (entry.evidenceBinding && entry.evidenceBinding.uxVisualStatus !== "ready") issue("error", "Generated route maturity evidenceBinding must include ready UX visual maturity.", entry.exportName);
+    if (entry.evidenceBinding && entry.evidenceBinding.freshnessVisibilityStatus !== "visible") issue("error", "Generated route maturity evidenceBinding must include visible freshness.", entry.exportName);
+    if (entry.evidenceBinding && entry.evidenceBinding.infrastructureConnectionStatus !== "connected") issue("error", "Generated route maturity evidenceBinding must include connected infrastructure.", entry.exportName);
+    if (entry.evidenceBinding && entry.evidenceBinding.payloadMaturityStatus !== "externalized") issue("error", "Generated route maturity evidenceBinding must include externalized payload maturity.", entry.exportName);
     if (!Array.isArray(entry.layerStatus) || entry.layerStatus.length !== requiredLayers.length) issue("error", "Generated route maturity entry must include layerStatus for every layer.", entry.exportName);
     for (const layer of entry.layerStatus ?? []) {
       if (!requiredLayers.includes(layer.id)) issue("error", "Generated route maturity entry has unknown layer status.", `${entry.exportName}: ${layer.id}`);
@@ -84,7 +94,9 @@ if (!issues.some((item) => item.severity === "error")) {
     if (!entry.nextMaturityAction) issue("error", "Generated route maturity entry is missing nextMaturityAction.", entry.exportName);
     if (!Array.isArray(entry.proofRequired) || entry.proofRequired.length < 1) issue("error", "Generated route maturity entry is missing proofRequired.", entry.exportName);
   }
-  if (!webData.includes("generatedDashboardRouteMaturity")) issue("error", "Generated route maturity web data must export generatedDashboardRouteMaturity.");
+  if (!webData.includes("loadGeneratedDashboardRouteMaturity")) issue("error", "Generated route maturity web data must export loadGeneratedDashboardRouteMaturity.");
+  if (!webData.includes("generated-dashboard-route-maturity-ledger.runtime.json")) issue("error", "Generated route maturity web data must reference the runtime JSON asset.");
+  if (webData.includes('"entries": [')) issue("error", "Generated route maturity web data must not embed the full entries ledger.");
 }
 
 const errors = issues.filter((item) => item.severity === "error");
