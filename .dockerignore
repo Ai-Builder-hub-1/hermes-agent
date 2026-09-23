@@ -78,7 +78,13 @@ tests/
 
 # Documentation site (Docusaurus) and supplementary docs
 website/
-docs/
+docs/*
+!docs/design/
+docs/design/*
+!docs/design/generated-dashboard-route-evidence-bindings.json
+!docs/design/generated-dashboard-route-maturity-ledger.json
+!docs/design/dashboard-live-source-gap-ledger.json
+!docs/design/dashboard-live-source-gap-ledger.md
 
 # Assets only used by the GitHub README
 assets/
