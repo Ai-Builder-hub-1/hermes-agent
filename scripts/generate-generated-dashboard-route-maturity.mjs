@@ -7,6 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const pagePath = path.join(root, "web/src/pages/GeneratedDashboardPages.tsx");
 const metadataPath = path.join(root, "web/src/dashboard-page-metadata.ts");
+const evidenceBindingsPath = path.join(root, "docs/design/generated-dashboard-route-evidence-bindings.json");
 const jsonPath = path.join(root, "docs/design/generated-dashboard-route-maturity-ledger.json");
 const mdPath = path.join(root, "docs/design/generated-dashboard-route-maturity-ledger.md");
 const webDataPath = path.join(root, "web/src/pages/generated-dashboard-route-maturity-data.ts");
@@ -19,6 +20,8 @@ const routeRows = [...pageSource.matchAll(/\["([^"]+)",\s*"([^"]+)",\s*"([^"]+)"
   title: match[3],
 }));
 const metadataRoutes = new Set([...metadataSource.matchAll(/route:\s*"([^"]+)"/g)].map((match) => match[1]));
+const evidenceBindings = readJsonIfExists(evidenceBindingsPath, { routeBindings: [] });
+const evidenceByRoute = new Map((evidenceBindings.routeBindings ?? []).map((entry) => [entry.route, entry]));
 
 const layerDefinitions = [
   ["route-coverage", "Route resolves to a real dashboard page and has an owner, priority, and route identity."],
@@ -61,9 +64,13 @@ const entries = routeRows.map((row) => {
   const family = firstMatch(familyRules, key, "Operations");
   const priority = firstMatch(priorityRules, key, "P3");
   const hasRouteMetadata = metadataRoutes.has(row.route);
+  const evidenceBinding = evidenceByRoute.get(row.route);
   const currentStage = hasRouteMetadata ? "contract-registered" : "family-contract";
   const completedLayers = ["route-coverage", "page-contract", "component-maturity", "governance-ledger"];
   if (hasRouteMetadata) completedLayers.push("cross-project-standard");
+  if (evidenceBinding?.dataBindingStatus === "bound") completedLayers.push("data-binding");
+  if (evidenceBinding?.observabilityStatus === "bound") completedLayers.push("observability");
+  if (evidenceBinding?.drillDownStatus === "bound") completedLayers.push("drill-down");
   const openLayers = layerDefinitions.map(([id]) => id).filter((id) => !completedLayers.includes(id));
   const nextOpenLayer = openLayers[0] ?? "production-readiness";
   const score = Math.round((completedLayers.length / layerDefinitions.length) * 100);
@@ -89,6 +96,15 @@ const entries = routeRows.map((row) => {
     openLayers,
     nextOpenLayer,
     layerStatus,
+    evidenceBinding: evidenceBinding ? {
+      dataBindingStatus: evidenceBinding.dataBindingStatus,
+      observabilityStatus: evidenceBinding.observabilityStatus,
+      drillDownStatus: evidenceBinding.drillDownStatus,
+      freshnessStatus: evidenceBinding.freshnessStatus,
+      sourceCount: evidenceBinding.sourceBindings.filter((source) => source.status !== "missing").length,
+      signalCount: evidenceBinding.dataSignals.length,
+      drillDownCount: evidenceBinding.drillDownTargets.length,
+    } : null,
     nextMaturityAction: nextActionFor(family),
     proofRequired: proofFor(family),
   };
@@ -102,6 +118,9 @@ const totals = {
   p1Count: entries.filter((entry) => entry.priority === "P1").length,
   p0OpenLayerCount: entries.filter((entry) => entry.priority === "P0").reduce((sum, entry) => sum + entry.openLayers.length, 0),
   p1OpenLayerCount: entries.filter((entry) => entry.priority === "P1").reduce((sum, entry) => sum + entry.openLayers.length, 0),
+  dataBoundCount: entries.filter((entry) => entry.completedLayers.includes("data-binding")).length,
+  observabilityBoundCount: entries.filter((entry) => entry.completedLayers.includes("observability")).length,
+  drillDownBoundCount: entries.filter((entry) => entry.completedLayers.includes("drill-down")).length,
   averageScore: Math.round(entries.reduce((sum, entry) => sum + entry.score, 0) / Math.max(1, entries.length)),
 };
 
@@ -131,6 +150,11 @@ console.log(`Wrote ${path.relative(root, webDataPath)}`);
 
 function firstMatch(rules, key, fallback) {
   return rules.find(([pattern]) => pattern.test(key))?.[1] ?? fallback;
+}
+
+function readJsonIfExists(file, fallback) {
+  if (!fs.existsSync(file)) return fallback;
+  return JSON.parse(fs.readFileSync(file, "utf8"));
 }
 
 function nextActionFor(family) {
@@ -180,6 +204,9 @@ function renderMarkdown(report) {
     `- P1 routes: ${report.totals.p1Count}`,
     `- P0 open layers: ${report.totals.p0OpenLayerCount}`,
     `- P1 open layers: ${report.totals.p1OpenLayerCount}`,
+    `- Data-bound routes: ${report.totals.dataBoundCount}`,
+    `- Observability-bound routes: ${report.totals.observabilityBoundCount}`,
+    `- Drill-down-bound routes: ${report.totals.drillDownBoundCount}`,
     `- Average maturity score: ${report.totals.averageScore}%`,
     "",
     "## Layers",
@@ -201,9 +228,13 @@ function renderWebData(report) {
 }
 
 function evidenceForLayer(layer, route, hasRouteMetadata) {
+  const evidenceBinding = evidenceByRoute.get(route);
   const evidence = {
     "route-coverage": ["web/src/pages/GeneratedDashboardPages.tsx", `generated route row ${route}`],
     "page-contract": hasRouteMetadata ? ["web/src/dashboard-page-metadata.ts"] : ["family contract fallback"],
+    "data-binding": evidenceBinding ? ["docs/design/generated-dashboard-route-evidence-bindings.json", `${evidenceBinding.sourceBindings.filter((source) => source.status !== "missing").length} evidence sources`, `${evidenceBinding.dataSignals.length} data signals`] : [],
+    "observability": evidenceBinding?.observabilityStatus === "bound" ? ["docs/design/generated-dashboard-route-evidence-bindings.json", "P0/P1 operational evidence binding", `${evidenceBinding.sourceBindings.filter((source) => ["monitoring", "deployment", "runtimeData", "health"].includes(source.kind) && source.status !== "missing").length} operational sources`] : [],
+    "drill-down": evidenceBinding?.drillDownStatus === "bound" ? ["docs/design/generated-dashboard-route-evidence-bindings.json", `${evidenceBinding.drillDownTargets.length} evidence drill-down targets`] : [],
     "cross-project-standard": hasRouteMetadata ? ["route-specific metadata contract"] : [],
     "component-maturity": ["GeneratedGovernancePage shell", "dashboard:component-maturity:validate"],
     "governance-ledger": ["docs/design/generated-dashboard-route-maturity-ledger.json", "web/src/pages/generated-dashboard-route-maturity-data.ts"],

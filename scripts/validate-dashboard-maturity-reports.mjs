@@ -19,6 +19,7 @@ const required = [
   "docs/design/dashboard-deployment-ledger.json",
   "docs/design/dashboard-kit-distribution-report.json",
   "docs/design/dashboard-runtime-data-report.json",
+  "docs/design/generated-dashboard-route-evidence-bindings.json",
   "docs/design/generated-dashboard-route-maturity-ledger.json",
   "docs/design/project-status-ledger.json",
   "docs/design/dashboard-pr-artifacts/latest.json",
@@ -57,8 +58,9 @@ if (!issues.some((item) => item.severity === "error")) {
   const deploymentLedger = JSON.parse(fs.readFileSync(path.join(root, required[11]), "utf8"));
   const kitDistribution = JSON.parse(fs.readFileSync(path.join(root, required[12]), "utf8"));
   const runtimeData = JSON.parse(fs.readFileSync(path.join(root, required[13]), "utf8"));
-  const generatedRouteMaturity = JSON.parse(fs.readFileSync(path.join(root, required[14]), "utf8"));
-  const projectStatusLedger = JSON.parse(fs.readFileSync(path.join(root, required[15]), "utf8"));
+  const generatedRouteEvidence = JSON.parse(fs.readFileSync(path.join(root, required[14]), "utf8"));
+  const generatedRouteMaturity = JSON.parse(fs.readFileSync(path.join(root, required[15]), "utf8"));
+  const projectStatusLedger = JSON.parse(fs.readFileSync(path.join(root, required[16]), "utf8"));
   if (!Array.isArray(componentBacklog.items)) issue("error", "Component evidence backlog must include items.");
   if ((certification.itemCount ?? 0) < 1) issue("error", "Component certification checklist must include components.");
   if ((visualCoverage.dashboardCount ?? 0) < 1) issue("error", "Visual coverage report must include dashboards.");
@@ -74,6 +76,8 @@ if (!issues.some((item) => item.severity === "error")) {
   if ((deploymentLedger.checkedCount ?? 0) < 1) issue("error", "Deployment ledger must include projects.");
   if ((kitDistribution.checkedCount ?? 0) < 1) issue("error", "Kit distribution report must include projects.");
   if ((runtimeData.checkedCount ?? 0) < 1) issue("error", "Runtime data report must include projects.");
+  if ((generatedRouteEvidence.totals?.routeCount ?? 0) < 1) issue("error", "Generated route evidence bindings must include routes.");
+  if ((generatedRouteEvidence.totals?.dataBoundCount ?? 0) < (generatedRouteEvidence.totals?.routeCount ?? 0)) issue("error", "Generated route evidence bindings must bind every route.");
   if ((generatedRouteMaturity.totals?.routeCount ?? 0) < 1) issue("error", "Generated route maturity ledger must include routes.");
   if ((generatedRouteMaturity.layers ?? []).length < 15) issue("error", "Generated route maturity ledger must include comprehensive layers.");
   if ((generatedRouteMaturity.entries ?? []).some((entry) => !entry.nextMaturityAction)) issue("error", "Generated route maturity entries must include nextMaturityAction.");

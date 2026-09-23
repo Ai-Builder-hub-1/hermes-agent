@@ -1,4 +1,5 @@
 import { dashboardGovernanceDefaults, dashboardPageMetadata } from "@/dashboard-page-metadata";
+import { generatedDashboardRouteEvidenceBindings } from "./generated-dashboard-route-evidence-bindings-data";
 import { generatedDashboardRouteMaturity } from "./generated-dashboard-route-maturity-data";
 
 type GovernanceFamily =
@@ -97,6 +98,11 @@ const generatedPageRows: Array<[string, string, string]> = [
 ];
 
 const metadataByRoute = new Map(dashboardPageMetadata.map((entry) => [entry.route, entry]));
+type GeneratedRouteEvidenceBinding = (typeof generatedDashboardRouteEvidenceBindings.routeBindings)[number];
+
+const evidenceBindingByExportName = new Map<string, GeneratedRouteEvidenceBinding>(
+  generatedDashboardRouteEvidenceBindings.routeBindings.map((entry) => [entry.exportName, entry])
+);
 type GeneratedRouteMaturityEntry = (typeof generatedDashboardRouteMaturity.entries)[number];
 
 const maturityByExportName = new Map<string, GeneratedRouteMaturityEntry>(
@@ -124,6 +130,7 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
   const requiredStates = metadata?.requiredStates ?? defaultStates(spec.family);
   const validation = metadata?.validation ?? dashboardGovernanceDefaults.finalHandoffEvidence;
   const routeMaturity = maturityByExportName.get(spec.exportName);
+  const evidenceBinding = evidenceBindingByExportName.get(spec.exportName);
   const maturity = routeMaturity?.score ?? maturityFor(Boolean(metadata), dataContracts, requiredStates, validation);
 
   return (
@@ -164,6 +171,7 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
           <MetricCard label="Maturity" value={`${maturity}%`} detail={metadata ? "Route contract is registered." : "Family defaults are active."} />
           <MetricCard label="Data Contracts" value={String(dataContracts.length)} detail="Typed inputs expected before bespoke build." />
+          <MetricCard label="Evidence Sources" value={String(evidenceBinding?.sourceBindings.filter((source) => source.status !== "missing").length ?? 0)} detail={evidenceBinding?.freshnessStatus ?? "evidence not bound"} />
           <MetricCard label="States" value={String(requiredStates.length)} detail="Operational states the page must show." />
           <MetricCard label="Validation" value={String(validation.length)} detail="Checks needed for handoff evidence." />
           <MetricCard label="Open Layers" value={String(routeMaturity?.openLayers.length ?? 0)} detail={routeMaturity?.nextOpenLayer ?? spec.proofFocus} />
@@ -210,6 +218,14 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
           <ChecklistPanel title="Validation Evidence" items={validation} />
         </section>
 
+        {evidenceBinding ? (
+          <section className="grid gap-4 lg:grid-cols-3">
+            <ChecklistPanel title="Bound Evidence Sources" items={evidenceBinding.sourceBindings.filter((source) => source.status !== "missing").map((source) => `${source.label}: ${source.status}`)} />
+            <ChecklistPanel title="Data Signals" items={[...evidenceBinding.dataSignals]} />
+            <ChecklistPanel title="Drill-Down Targets" items={evidenceBinding.drillDownTargets.map((target) => `${target.label}: ${target.source}`)} />
+          </section>
+        ) : null}
+
         {routeMaturity ? (
           <section className="grid gap-4 lg:grid-cols-3">
             <ChecklistPanel title="Completed Maturity Layers" items={[...routeMaturity.completedLayers]} />
@@ -223,6 +239,10 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
             <ChecklistPanel title="Proof Required" items={[...routeMaturity.proofRequired]} />
             <ChecklistPanel title="Completed Evidence" items={routeMaturity.layerStatus.filter((layer) => layer.status === "complete").flatMap((layer) => layer.evidence.map((item) => `${layer.id}: ${item}`))} />
           </section>
+        ) : null}
+
+        {evidenceBinding && evidenceBinding.remainingBindingWork.length ? (
+          <ChecklistPanel title="Remaining Binding Work" items={[...evidenceBinding.remainingBindingWork]} />
         ) : null}
       </section>
     </main>

@@ -50,6 +50,9 @@ if (!issues.some((item) => item.severity === "error")) {
   if (!report.generatedAt) issue("error", "Generated route maturity ledger is missing generatedAt.");
   if (report.policy?.placeholderRoutesAllowed !== false) issue("error", "Generated route maturity policy must disallow placeholder routes.");
   if ((report.layers ?? []).length !== requiredLayers.length) issue("error", "Generated route maturity ledger must include the complete layer set.");
+  if ((report.totals?.dataBoundCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route data-bound for the 33-to-43 band.");
+  if ((report.totals?.observabilityBoundCount ?? 0) < ((report.totals?.p0Count ?? 0) + (report.totals?.p1Count ?? 0))) issue("error", "Generated route maturity ledger must mark P0/P1 observability-bound for the 33-to-43 band.");
+  if ((report.totals?.drillDownBoundCount ?? 0) < (report.totals?.p0Count ?? 0)) issue("error", "Generated route maturity ledger must mark P0 drill-down-bound for the 33-to-43 band.");
   for (const layer of requiredLayers) {
     if (!layerIds.has(layer)) issue("error", "Generated route maturity ledger is missing a required layer.", layer);
   }
@@ -65,6 +68,8 @@ if (!issues.some((item) => item.severity === "error")) {
     if (!Array.isArray(entry.completedLayers) || entry.completedLayers.length < 1) issue("error", "Generated route maturity entry is missing completedLayers.", entry.exportName);
     if (!Array.isArray(entry.openLayers)) issue("error", "Generated route maturity entry is missing openLayers.", entry.exportName);
     if (!entry.nextOpenLayer) issue("error", "Generated route maturity entry is missing nextOpenLayer.", entry.exportName);
+    if (!entry.evidenceBinding) issue("error", "Generated route maturity entry is missing evidenceBinding summary.", entry.exportName);
+    if (entry.evidenceBinding && entry.evidenceBinding.dataBindingStatus !== "bound") issue("error", "Generated route maturity evidenceBinding must be bound.", entry.exportName);
     if (!Array.isArray(entry.layerStatus) || entry.layerStatus.length !== requiredLayers.length) issue("error", "Generated route maturity entry must include layerStatus for every layer.", entry.exportName);
     for (const layer of entry.layerStatus ?? []) {
       if (!requiredLayers.includes(layer.id)) issue("error", "Generated route maturity entry has unknown layer status.", `${entry.exportName}: ${layer.id}`);
