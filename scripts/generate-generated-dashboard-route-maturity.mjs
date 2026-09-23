@@ -76,6 +76,7 @@ const entries = routeRows.map((row) => {
   if (evidenceBinding?.uxVisualMaturity?.status === "ready") completedLayers.push("ux-visual-maturity");
   if (evidenceBinding?.freshnessSummary?.status === "visible") completedLayers.push("alerting-escalation");
   if (evidenceBinding?.infrastructureConnections?.status === "connected" && evidenceBinding?.payloadMaturity?.status === "externalized") completedLayers.push("warehouse-storage");
+  if (evidenceBinding?.regressionProof?.status === "ready" && evidenceBinding?.liveSourceContracts?.status === "contracted") completedLayers.push("testing-proof");
   const openLayers = layerDefinitions.map(([id]) => id).filter((id) => !completedLayers.includes(id));
   const nextOpenLayer = openLayers[0] ?? "production-readiness";
   const score = Math.round((completedLayers.length / layerDefinitions.length) * 100);
@@ -117,6 +118,13 @@ const entries = routeRows.map((row) => {
       infrastructureConnectionStatus: evidenceBinding.infrastructureConnections.status,
       infrastructureConnectionCount: evidenceBinding.infrastructureConnections.connections.length,
       payloadMaturityStatus: evidenceBinding.payloadMaturity.status,
+      liveSourceContractStatus: evidenceBinding.liveSourceContracts.status,
+      liveSourceContractCount: evidenceBinding.liveSourceContracts.sourceContracts.length,
+      regressionProofStatus: evidenceBinding.regressionProof.status,
+      regressionProofCheckCount: evidenceBinding.regressionProof.proofChecks.length,
+      commandReadinessStatus: evidenceBinding.commandReadiness.status,
+      readOnlyCommandCount: evidenceBinding.commandReadiness.readOnlyActions.length,
+      gatedCommandCount: evidenceBinding.commandReadiness.gatedActions.length,
     } : null,
     nextMaturityAction: nextActionFor(family),
     proofRequired: proofFor(family),
@@ -139,6 +147,9 @@ const totals = {
   freshnessVisibleCount: entries.filter((entry) => entry.completedLayers.includes("alerting-escalation")).length,
   infrastructureConnectedCount: entries.filter((entry) => entry.completedLayers.includes("warehouse-storage")).length,
   runtimePayloadExternalizedCount: entries.filter((entry) => entry.evidenceBinding?.payloadMaturityStatus === "externalized").length,
+  liveSourceContractedCount: entries.filter((entry) => entry.evidenceBinding?.liveSourceContractStatus === "contracted").length,
+  regressionProofReadyCount: entries.filter((entry) => entry.completedLayers.includes("testing-proof")).length,
+  readOnlyCommandReadyCount: entries.filter((entry) => entry.evidenceBinding?.commandReadinessStatus === "read-only-ready").length,
   averageScore: Math.round(entries.reduce((sum, entry) => sum + entry.score, 0) / Math.max(1, entries.length)),
 };
 
@@ -232,6 +243,9 @@ function renderMarkdown(report) {
     `- Freshness-visible routes: ${report.totals.freshnessVisibleCount}`,
     `- Infrastructure-connected routes: ${report.totals.infrastructureConnectedCount}`,
     `- Runtime-payload externalized routes: ${report.totals.runtimePayloadExternalizedCount}`,
+    `- Live-source contracted routes: ${report.totals.liveSourceContractedCount}`,
+    `- Regression-proof ready routes: ${report.totals.regressionProofReadyCount}`,
+    `- Read-only command-ready routes: ${report.totals.readOnlyCommandReadyCount}`,
     `- Average maturity score: ${report.totals.averageScore}%`,
     "",
     "## Layers",
@@ -266,6 +280,7 @@ function evidenceForLayer(layer, route, hasRouteMetadata) {
     "warehouse-storage": evidenceBinding?.infrastructureConnections?.status === "connected" && evidenceBinding?.payloadMaturity?.status === "externalized" ? ["docs/design/generated-dashboard-route-evidence-bindings.json", `${evidenceBinding.infrastructureConnections.connections.length} infrastructure relationships`, evidenceBinding.payloadMaturity.strategy, evidenceBinding.payloadMaturity.mainBundlePolicy] : [],
     "component-maturity": ["GeneratedGovernancePage shell", "dashboard:component-maturity:validate"],
     "ux-visual-maturity": evidenceBinding?.uxVisualMaturity?.status === "ready" ? ["docs/design/generated-dashboard-route-evidence-bindings.json", `${evidenceBinding.uxVisualMaturity.reviewChecklist.length} UX review checks`, ...evidenceBinding.uxVisualMaturity.visualEvidence] : [],
+    "testing-proof": evidenceBinding?.regressionProof?.status === "ready" ? ["docs/design/generated-dashboard-route-evidence-bindings.json", `${evidenceBinding.regressionProof.proofChecks.length} regression checks`, `${evidenceBinding.regressionProof.stateMatrix.length} state proof matrix entries`, evidenceBinding.regressionProof.payloadGuard] : [],
     "governance-ledger": ["docs/design/generated-dashboard-route-maturity-ledger.json", "web/src/pages/generated-dashboard-route-maturity-data.ts"],
   };
   return evidence[layer] ?? [];

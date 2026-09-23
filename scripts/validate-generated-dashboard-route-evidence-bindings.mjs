@@ -34,6 +34,9 @@ if (!issues.some((item) => item.severity === "error")) {
   if (typeof report.policy?.freshnessSlaDays !== "number") issue("error", "Generated route evidence binding policy must include freshnessSlaDays.");
   if (!report.policy?.routeEvidenceShipsAsRuntimeAsset) issue("error", "Generated route evidence binding policy must require runtime asset shipping.");
   if (!report.policy?.generatedPageBundleMustNotEmbedFullEvidenceLedger) issue("error", "Generated route evidence binding policy must prohibit embedding the full evidence ledger in the generated page bundle.");
+  if (!report.policy?.liveSourceContractsRequiredBeforeBespokeComponents) issue("error", "Generated route evidence binding policy must require live source contracts before bespoke components.");
+  if (!report.policy?.regressionProofRequiredBeforeProductionReadiness) issue("error", "Generated route evidence binding policy must require regression proof before production readiness.");
+  if (!report.policy?.commandExecutionRequiresSeparateAuthorization) issue("error", "Generated route evidence binding policy must keep command execution separately authorized.");
   if ((report.routeBindings ?? []).length !== routeCount) issue("error", "Generated route evidence binding count must match maturity route count.", `${report.routeBindings?.length ?? 0} bindings vs ${routeCount} routes`);
   if ((runtimeAsset.routeBindings ?? []).length !== routeCount) issue("error", "Generated route evidence runtime asset count must match maturity route count.", `${runtimeAsset.routeBindings?.length ?? 0} bindings vs ${routeCount} routes`);
   if ((report.totals?.dataBoundCount ?? 0) < routeCount) issue("error", "Every generated route must be evidence data-bound.", `${report.totals?.dataBoundCount ?? 0}/${routeCount}`);
@@ -44,6 +47,9 @@ if (!issues.some((item) => item.severity === "error")) {
   if ((report.totals?.freshnessVisibleCount ?? 0) < routeCount) issue("error", "Every generated route must expose freshness for the 63-to-75 band.", `${report.totals?.freshnessVisibleCount ?? 0}/${routeCount}`);
   if ((report.totals?.infrastructureConnectedCount ?? 0) < routeCount) issue("error", "Every generated route must expose infrastructure connections for the 63-to-75 band.", `${report.totals?.infrastructureConnectedCount ?? 0}/${routeCount}`);
   if ((report.totals?.runtimeAssetExternalizedCount ?? 0) < routeCount) issue("error", "Every generated route must externalize generated evidence payload for the 63-to-75 band.", `${report.totals?.runtimeAssetExternalizedCount ?? 0}/${routeCount}`);
+  if ((report.totals?.liveSourceContractedCount ?? 0) < routeCount) issue("error", "Every generated route must declare live source contracts for the 80-to-87 band.", `${report.totals?.liveSourceContractedCount ?? 0}/${routeCount}`);
+  if ((report.totals?.regressionProofReadyCount ?? 0) < routeCount) issue("error", "Every generated route must include regression proof for the 80-to-87 band.", `${report.totals?.regressionProofReadyCount ?? 0}/${routeCount}`);
+  if ((report.totals?.readOnlyCommandReadyCount ?? 0) < routeCount) issue("error", "Every generated route must include read-only command readiness.", `${report.totals?.readOnlyCommandReadyCount ?? 0}/${routeCount}`);
   if (!report.rollups?.priority || !report.rollups?.family) issue("error", "Generated route evidence binding report must include priority and family rollups.");
   for (const binding of report.routeBindings ?? []) {
     if (!binding.route || !binding.title || !binding.priority || !binding.family) issue("error", "Route evidence binding is missing identity fields.", binding.exportName);
@@ -65,6 +71,14 @@ if (!issues.some((item) => item.severity === "error")) {
     if (!Array.isArray(binding.infrastructureConnections?.connections) || binding.infrastructureConnections.connections.length < 5) issue("error", "Route infrastructureConnections must include core relationships.", binding.route);
     if (binding.payloadMaturity?.status !== "externalized") issue("error", "Route evidence binding must externalize generated payload maturity.", binding.route);
     if (binding.payloadMaturity?.strategy !== "runtime-json-asset") issue("error", "Route payloadMaturity must use runtime-json-asset strategy.", binding.route);
+    if (binding.liveSourceContracts?.status !== "contracted") issue("error", "Route evidence binding must include contracted liveSourceContracts.", binding.route);
+    if (!Array.isArray(binding.liveSourceContracts?.sourceContracts) || binding.liveSourceContracts.sourceContracts.length < 5) issue("error", "Route liveSourceContracts must include core source contracts.", binding.route);
+    if (!Array.isArray(binding.liveSourceContracts?.liveProbeExpectations) || binding.liveSourceContracts.liveProbeExpectations.length < 5) issue("error", "Route liveSourceContracts must include live probe expectations.", binding.route);
+    if (binding.regressionProof?.status !== "ready") issue("error", "Route evidence binding must include ready regressionProof.", binding.route);
+    if (!Array.isArray(binding.regressionProof?.proofChecks) || binding.regressionProof.proofChecks.length < 7) issue("error", "Route regressionProof must include proof checks.", binding.route);
+    if (binding.commandReadiness?.status !== "read-only-ready") issue("error", "Route evidence binding must include read-only commandReadiness.", binding.route);
+    if (!Array.isArray(binding.commandReadiness?.readOnlyActions) || binding.commandReadiness.readOnlyActions.length < 5) issue("error", "Route commandReadiness must include read-only actions.", binding.route);
+    if (!Array.isArray(binding.commandReadiness?.gatedActions) || binding.commandReadiness.gatedActions.length < 5) issue("error", "Route commandReadiness must include gated actions.", binding.route);
     if (!Array.isArray(binding.sourceBindings) || binding.sourceBindings.filter((source) => source.status !== "missing").length < 5) issue("error", "Route evidence binding must include at least five available sources.", binding.route);
     if (!Array.isArray(binding.dataSignals) || binding.dataSignals.length < 5) issue("error", "Route evidence binding must include data signals.", binding.route);
     if (!Array.isArray(binding.drillDownTargets) || binding.drillDownTargets.length < 5) issue("error", "Route evidence binding must include drill-down targets.", binding.route);

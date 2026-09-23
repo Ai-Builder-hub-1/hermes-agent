@@ -55,6 +55,9 @@ const routeBindings = routeRows.map((row) => {
   const freshnessSummary = freshnessSummaryFor(sourceBindings, staleReasons, freshnessStatus, priority);
   const infrastructureConnections = infrastructureConnectionsFor(profile, row, family, operationalCategories, sourceBindings);
   const payloadMaturity = payloadMaturityFor(row, drillDownTargets, sourceBindings);
+  const liveSourceContracts = liveSourceContractsFor(profile, row, family, sourceBindings, operationalCategories);
+  const regressionProof = regressionProofFor(row, priority, liveSourceContracts, payloadMaturity);
+  const commandReadiness = commandReadinessFor(profile, row, family, priority);
 
   return {
     exportName: row.exportName,
@@ -81,6 +84,9 @@ const routeBindings = routeRows.map((row) => {
     uxVisualMaturity,
     infrastructureConnections,
     payloadMaturity,
+    liveSourceContracts,
+    regressionProof,
+    commandReadiness,
     nextOperationalAction: nextOperationalActionFor(freshnessStatus, operationalCategories, priority),
     sourceBindings,
     dataSignals: signalSetFor(family, profile),
@@ -104,6 +110,9 @@ const report = {
     freshnessSlaDays,
     routeEvidenceShipsAsRuntimeAsset: true,
     generatedPageBundleMustNotEmbedFullEvidenceLedger: true,
+    liveSourceContractsRequiredBeforeBespokeComponents: true,
+    regressionProofRequiredBeforeProductionReadiness: true,
+    commandExecutionRequiresSeparateAuthorization: true,
   },
   totals: {
     routeCount: routeBindings.length,
@@ -117,6 +126,9 @@ const report = {
     freshnessVisibleCount: routeBindings.filter((entry) => entry.freshnessSummary.status === "visible").length,
     infrastructureConnectedCount: routeBindings.filter((entry) => entry.infrastructureConnections.status === "connected").length,
     runtimeAssetExternalizedCount: routeBindings.filter((entry) => entry.payloadMaturity.status === "externalized").length,
+    liveSourceContractedCount: routeBindings.filter((entry) => entry.liveSourceContracts.status === "contracted").length,
+    regressionProofReadyCount: routeBindings.filter((entry) => entry.regressionProof.status === "ready").length,
+    readOnlyCommandReadyCount: routeBindings.filter((entry) => entry.commandReadiness.status === "read-only-ready").length,
   },
   rollups: {
     priority: priorityRollup,
@@ -370,6 +382,125 @@ function payloadMaturityFor(row, drillDownTargets, sourceBindings) {
   };
 }
 
+function liveSourceContractsFor(profile, row, family, sourceBindings, operationalCategories) {
+  const sourceContracts = sourceBindings.map((source) => ({
+    kind: source.kind,
+    label: source.label,
+    expectedProvider: providerForSource(source.kind, profile),
+    status: source.status === "missing" ? "needs-live-source" : "contracted",
+    freshness: source.freshness,
+    routeField: `${row.exportName}.${source.kind}`,
+    failureMode: source.status === "missing" ? "show source-unavailable state and keep remaining panels usable" : "show stale/degraded state without blanking route",
+  }));
+  return {
+    status: sourceContracts.filter((source) => source.status === "contracted").length >= 5 ? "contracted" : "partial",
+    projectId: profile.id,
+    family,
+    sourceContracts,
+    liveProbeExpectations: [
+      "health endpoint returns status and checkedAt",
+      "runner or worker feed returns lastRunAt, lastSuccessAt, lastFailureAt, and lag",
+      "storage or warehouse feed returns row count, byte size, retention window, and mirror lag where relevant",
+      "deployment feed returns version, environment, promotedAt, rollback availability, and smoke status",
+      "alert feed returns severity, owner, acknowledgement, and dashboard route link",
+    ],
+    errorIsolationPolicy: "A failed live source marks only its panel degraded; the route shell and other source panels remain visible.",
+    nextLiveSourceAction: "Replace generated evidence snapshots with these live probe contracts as each route receives bespoke components.",
+    operationalCategoryCount: operationalCategories.length,
+  };
+}
+
+function providerForSource(kind, profile) {
+  const providers = {
+    telemetry: "dashboard telemetry contract service",
+    productionProof: "production proof registry",
+    liveE2e: "live E2E runner",
+    monitoring: "monitoring registry",
+    deployment: "deployment ledger",
+    runtimeData: "runtime data scanner",
+    health: "health check endpoint",
+    routeContract: "dashboard route metadata",
+    familyModel: "generated route family model",
+  };
+  return `${providers[kind] ?? "dashboard evidence source"} for ${profile.label}`;
+}
+
+function regressionProofFor(row, priority, liveSourceContracts, payloadMaturity) {
+  const proofChecks = [
+    "dashboard:generated-routes:evidence:validate",
+    "dashboard:generated-routes:validate",
+    "dashboard:maturity-reports:validate",
+    "dashboard:component-maturity:validate",
+    "web production build",
+    "runtime JSON asset presence",
+    "generated page bundle payload guard",
+  ];
+  const stateMatrix = [
+    "normal",
+    "loading",
+    "empty",
+    "error",
+    "stale",
+    "degraded",
+    "critical",
+    "source-unavailable",
+    "permission-limited",
+    "mobile",
+  ];
+  return {
+    status: "ready",
+    priority,
+    route: row.route,
+    proofChecks,
+    stateMatrix,
+    routeSmokeExpectation: "Generated route renders shell immediately and hydrates runtime evidence without embedding full ledgers.",
+    liveSourceContractCount: liveSourceContracts.sourceContracts.length,
+    payloadGuard: payloadMaturity.mainBundlePolicy,
+    nextProofAction: "Add browser screenshot baselines for P0/P1 bespoke components once live widgets replace the generated shell.",
+  };
+}
+
+function commandReadinessFor(profile, row, family, priority) {
+  const readOnlyActions = [
+    "refresh evidence",
+    "recheck health",
+    "view recent runs",
+    "view failed jobs",
+    "inspect sync lag",
+  ];
+  const gatedActions = [
+    "rerun collector",
+    "restart worker",
+    "trigger sync",
+    "pause pruning",
+    "resume pruning",
+    "open incident",
+  ];
+  return {
+    status: "read-only-ready",
+    projectId: profile.id,
+    family,
+    priority,
+    route: row.route,
+    readOnlyActions: readOnlyActions.map((action) => ({
+      action,
+      permission: "dashboard:view",
+      audit: "required",
+      confirmation: "not required",
+      executionState: "eligible",
+    })),
+    gatedActions: gatedActions.map((action) => ({
+      action,
+      permission: "dashboard:operate",
+      audit: "required",
+      confirmation: "required",
+      executionState: "blocked-until-live-command-endpoint",
+    })),
+    safetyPolicy: "Generated routes may expose read-only operational actions; mutating commands stay disabled until live command endpoints, permission checks, cooldowns, and rollback evidence exist.",
+    nextCommandAction: "Wire read-only action handlers first, then promote mutating commands route by route behind permissions and audit logging.",
+  };
+}
+
 function operationalCategoriesFor(family, row, sourceBindings) {
   const availableKinds = new Set(sourceBindings.filter((source) => source.status !== "missing").map((source) => source.kind));
   const common = [
@@ -533,17 +664,76 @@ function renderMarkdown(report) {
     `- Freshness-visible routes: ${report.totals.freshnessVisibleCount}`,
     `- Infrastructure-connected routes: ${report.totals.infrastructureConnectedCount}`,
     `- Runtime-asset externalized routes: ${report.totals.runtimeAssetExternalizedCount}`,
+    `- Live-source contracted routes: ${report.totals.liveSourceContractedCount}`,
+    `- Regression-proof ready routes: ${report.totals.regressionProofReadyCount}`,
+    `- Read-only command-ready routes: ${report.totals.readOnlyCommandReadyCount}`,
     "",
     "## Routes",
     "",
-    "| Priority | Route | Data | Observability | Drill-down | State | UX | Freshness | Infrastructure | Payload | Evidence |",
-    "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | ---: |",
-    ...report.routeBindings.map((entry) => `| ${entry.priority} | ${entry.route} | ${entry.dataBindingStatus} | ${entry.observabilityStatus} | ${entry.drillDownStatus} | ${entry.stateCoverage.status} | ${entry.uxVisualMaturity.status} | ${entry.freshnessSummary.status} | ${entry.infrastructureConnections.status} | ${entry.payloadMaturity.status} | ${entry.sourceBindings.filter((source) => source.status !== "missing").length} |`),
+    "| Priority | Route | Data | Observability | Drill-down | State | UX | Freshness | Infrastructure | Payload | Live sources | Proof | Read-only commands | Evidence |",
+    "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | ---: |",
+    ...report.routeBindings.map((entry) => `| ${entry.priority} | ${entry.route} | ${entry.dataBindingStatus} | ${entry.observabilityStatus} | ${entry.drillDownStatus} | ${entry.stateCoverage.status} | ${entry.uxVisualMaturity.status} | ${entry.freshnessSummary.status} | ${entry.infrastructureConnections.status} | ${entry.payloadMaturity.status} | ${entry.liveSourceContracts.status} | ${entry.regressionProof.status} | ${entry.commandReadiness.status} | ${entry.sourceBindings.filter((source) => source.status !== "missing").length} |`),
     "",
   ];
   return `${lines.join("\n")}\n`;
 }
 
 function renderWebData(report) {
-  return `// Generated by scripts/generate-generated-dashboard-route-evidence-bindings.mjs.\n// The full evidence ledger is shipped as a runtime asset so generated dashboard routes do not embed it in the main page chunk.\nconst generatedDashboardRouteEvidenceBindingsUrl = new URL("./generated-dashboard-route-evidence-bindings.runtime.json", import.meta.url).href;\n\nexport interface GeneratedDashboardRouteEvidenceBinding {\n  exportName: string;\n  route: string;\n  title: string;\n  family: string;\n  priority: string;\n  projectProfile: { id: string; label: string; project: string };\n  dataBindingStatus: string;\n  observabilityStatus: string;\n  drillDownStatus: string;\n  freshnessStatus: string;\n  freshnessPolicy: { slaDays: number; generatedAt: string; status: string; staleReasonCount: number };\n  staleReasons: string[];\n  freshnessSummary: { status: string; freshnessStatus: string; currentCount: number; staleCount: number; missingCount: number; severity: string; visibleFields: string[]; lastGeneratedAt: string; nextRefreshAction: string };\n  operationalCategories: Array<{ id: string; label: string; status: string; evidence: string }>;\n  operationalStatus: string;\n  stateCoverage: { status: string; priority: string; family: string; stateFixtures: string[]; evidence: string[]; unprovenStates: string[]; nextStateAction: string };\n  uxVisualMaturity: { status: string; priority: string; family: string; density: string; reviewChecklist: string[]; visualEvidence: string[]; nextVisualAction: string };\n  infrastructureConnections: { status: string; projectId: string; project: string; operationalCategoryCount: number; connections: Array<{ kind: string; label: string; target: string; evidence: string; status: string }>; aggregateViews: string[]; nextConnectionAction: string };\n  payloadMaturity: { status: string; route: string; strategy: string; mainBundlePolicy: string; lazyLoadTrigger: string; guardEvidence: string[]; nextPayloadAction: string };\n  nextOperationalAction: string;\n  sourceBindings: Array<{ kind: string; label: string; source: string; status: string; freshness: string; matchedId: string | null; detail: string }>;\n  dataSignals: string[];\n  drillDownTargets: Array<{ label: string; target: string; source: string }>;\n  remainingBindingWork: string[];\n}\n\nexport interface GeneratedDashboardRouteEvidenceBindingsReport {\n  schemaVersion: number;\n  generatedAt: string;\n  purpose: string;\n  sourceReports: Record<string, string>;\n  policy: Record<string, unknown>;\n  totals: Record<string, number>;\n  rollups: Record<string, Record<string, Record<string, number>>>;\n  routeBindings: GeneratedDashboardRouteEvidenceBinding[];\n}\n\nlet generatedDashboardRouteEvidenceBindingsPromise: Promise<GeneratedDashboardRouteEvidenceBindingsReport> | null = null;\n\nexport function loadGeneratedDashboardRouteEvidenceBindings() {\n  generatedDashboardRouteEvidenceBindingsPromise ??= fetch(generatedDashboardRouteEvidenceBindingsUrl).then((response) => {\n    if (!response.ok) throw new Error(\`Unable to load generated dashboard route evidence bindings: \${response.status}\`);\n    return response.json() as Promise<GeneratedDashboardRouteEvidenceBindingsReport>;\n  });\n  return generatedDashboardRouteEvidenceBindingsPromise;\n}\n\nexport { generatedDashboardRouteEvidenceBindingsUrl };\n`;
+  return `// Generated by scripts/generate-generated-dashboard-route-evidence-bindings.mjs.
+// The full evidence ledger is shipped as a runtime asset so generated dashboard routes do not embed it in the main page chunk.
+const generatedDashboardRouteEvidenceBindingsUrl = new URL("./generated-dashboard-route-evidence-bindings.runtime.json", import.meta.url).href;
+
+export interface GeneratedDashboardRouteEvidenceBinding {
+  exportName: string;
+  route: string;
+  title: string;
+  family: string;
+  priority: string;
+  projectProfile: { id: string; label: string; project: string };
+  dataBindingStatus: string;
+  observabilityStatus: string;
+  drillDownStatus: string;
+  freshnessStatus: string;
+  freshnessPolicy: { slaDays: number; generatedAt: string; status: string; staleReasonCount: number };
+  staleReasons: string[];
+  freshnessSummary: { status: string; freshnessStatus: string; currentCount: number; staleCount: number; missingCount: number; severity: string; visibleFields: string[]; lastGeneratedAt: string; nextRefreshAction: string };
+  operationalCategories: Array<{ id: string; label: string; status: string; evidence: string }>;
+  operationalStatus: string;
+  stateCoverage: { status: string; priority: string; family: string; stateFixtures: string[]; evidence: string[]; unprovenStates: string[]; nextStateAction: string };
+  uxVisualMaturity: { status: string; priority: string; family: string; density: string; reviewChecklist: string[]; visualEvidence: string[]; nextVisualAction: string };
+  infrastructureConnections: { status: string; projectId: string; project: string; operationalCategoryCount: number; connections: Array<{ kind: string; label: string; target: string; evidence: string; status: string }>; aggregateViews: string[]; nextConnectionAction: string };
+  payloadMaturity: { status: string; route: string; strategy: string; mainBundlePolicy: string; lazyLoadTrigger: string; guardEvidence: string[]; nextPayloadAction: string };
+  liveSourceContracts: { status: string; projectId: string; family: string; sourceContracts: Array<{ kind: string; label: string; expectedProvider: string; status: string; freshness: string; routeField: string; failureMode: string }>; liveProbeExpectations: string[]; errorIsolationPolicy: string; nextLiveSourceAction: string; operationalCategoryCount: number };
+  regressionProof: { status: string; priority: string; route: string; proofChecks: string[]; stateMatrix: string[]; routeSmokeExpectation: string; liveSourceContractCount: number; payloadGuard: string; nextProofAction: string };
+  commandReadiness: { status: string; projectId: string; family: string; priority: string; route: string; readOnlyActions: Array<{ action: string; permission: string; audit: string; confirmation: string; executionState: string }>; gatedActions: Array<{ action: string; permission: string; audit: string; confirmation: string; executionState: string }>; safetyPolicy: string; nextCommandAction: string };
+  nextOperationalAction: string;
+  sourceBindings: Array<{ kind: string; label: string; source: string; status: string; freshness: string; matchedId: string | null; detail: string }>;
+  dataSignals: string[];
+  drillDownTargets: Array<{ label: string; target: string; source: string }>;
+  remainingBindingWork: string[];
+}
+
+export interface GeneratedDashboardRouteEvidenceBindingsReport {
+  schemaVersion: number;
+  generatedAt: string;
+  purpose: string;
+  sourceReports: Record<string, string>;
+  policy: Record<string, unknown>;
+  totals: Record<string, number>;
+  rollups: Record<string, Record<string, Record<string, number>>>;
+  routeBindings: GeneratedDashboardRouteEvidenceBinding[];
+}
+
+let generatedDashboardRouteEvidenceBindingsPromise: Promise<GeneratedDashboardRouteEvidenceBindingsReport> | null = null;
+
+export function loadGeneratedDashboardRouteEvidenceBindings() {
+  generatedDashboardRouteEvidenceBindingsPromise ??= fetch(generatedDashboardRouteEvidenceBindingsUrl).then((response) => {
+    if (!response.ok) throw new Error(\`Unable to load generated dashboard route evidence bindings: \${response.status}\`);
+    return response.json() as Promise<GeneratedDashboardRouteEvidenceBindingsReport>;
+  });
+  return generatedDashboardRouteEvidenceBindingsPromise;
+}
+
+export { generatedDashboardRouteEvidenceBindingsUrl };
+`;
 }

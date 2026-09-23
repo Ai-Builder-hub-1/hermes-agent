@@ -22,6 +22,9 @@ export interface GeneratedDashboardRouteEvidenceBinding {
   uxVisualMaturity: { status: string; priority: string; family: string; density: string; reviewChecklist: string[]; visualEvidence: string[]; nextVisualAction: string };
   infrastructureConnections: { status: string; projectId: string; project: string; operationalCategoryCount: number; connections: Array<{ kind: string; label: string; target: string; evidence: string; status: string }>; aggregateViews: string[]; nextConnectionAction: string };
   payloadMaturity: { status: string; route: string; strategy: string; mainBundlePolicy: string; lazyLoadTrigger: string; guardEvidence: string[]; nextPayloadAction: string };
+  liveSourceContracts: { status: string; projectId: string; family: string; sourceContracts: Array<{ kind: string; label: string; expectedProvider: string; status: string; freshness: string; routeField: string; failureMode: string }>; liveProbeExpectations: string[]; errorIsolationPolicy: string; nextLiveSourceAction: string; operationalCategoryCount: number };
+  regressionProof: { status: string; priority: string; route: string; proofChecks: string[]; stateMatrix: string[]; routeSmokeExpectation: string; liveSourceContractCount: number; payloadGuard: string; nextProofAction: string };
+  commandReadiness: { status: string; projectId: string; family: string; priority: string; route: string; readOnlyActions: Array<{ action: string; permission: string; audit: string; confirmation: string; executionState: string }>; gatedActions: Array<{ action: string; permission: string; audit: string; confirmation: string; executionState: string }>; safetyPolicy: string; nextCommandAction: string };
   nextOperationalAction: string;
   sourceBindings: Array<{ kind: string; label: string; source: string; status: string; freshness: string; matchedId: string | null; detail: string }>;
   dataSignals: string[];

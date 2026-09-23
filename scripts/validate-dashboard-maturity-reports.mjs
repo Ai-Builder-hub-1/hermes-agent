@@ -85,6 +85,9 @@ if (!issues.some((item) => item.severity === "error")) {
   if ((generatedRouteEvidence.totals?.freshnessVisibleCount ?? 0) < (generatedRouteEvidence.totals?.routeCount ?? 0)) issue("error", "Generated route evidence bindings must expose freshness on every route.");
   if ((generatedRouteEvidence.totals?.infrastructureConnectedCount ?? 0) < (generatedRouteEvidence.totals?.routeCount ?? 0)) issue("error", "Generated route evidence bindings must connect infrastructure on every route.");
   if ((generatedRouteEvidence.totals?.runtimeAssetExternalizedCount ?? 0) < (generatedRouteEvidence.totals?.routeCount ?? 0)) issue("error", "Generated route evidence bindings must externalize runtime evidence payloads.");
+  if ((generatedRouteEvidence.totals?.liveSourceContractedCount ?? 0) < (generatedRouteEvidence.totals?.routeCount ?? 0)) issue("error", "Generated route evidence bindings must declare live source contracts on every route.");
+  if ((generatedRouteEvidence.totals?.regressionProofReadyCount ?? 0) < (generatedRouteEvidence.totals?.routeCount ?? 0)) issue("error", "Generated route evidence bindings must include regression proof on every route.");
+  if ((generatedRouteEvidence.totals?.readOnlyCommandReadyCount ?? 0) < (generatedRouteEvidence.totals?.routeCount ?? 0)) issue("error", "Generated route evidence bindings must include read-only command readiness on every route.");
   if (!generatedRouteEvidence.rollups?.priority || !generatedRouteEvidence.rollups?.family) issue("error", "Generated route evidence bindings must include priority and family rollups.");
   if ((generatedRouteMaturity.totals?.routeCount ?? 0) < 1) issue("error", "Generated route maturity ledger must include routes.");
   if ((generatedRouteMaturity.layers ?? []).length < 15) issue("error", "Generated route maturity ledger must include comprehensive layers.");

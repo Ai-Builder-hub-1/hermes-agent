@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-23T21:10:33.883Z",
+  "generatedAt": "2026-09-23T21:38:59.167Z",
   "source": "web/src/pages/GeneratedDashboardPages.tsx",
   "policy": {
     "placeholderRoutesAllowed": false,
@@ -90,8 +90,8 @@
     "familyContractCount": 0,
     "p0Count": 12,
     "p1Count": 9,
-    "p0OpenLayerCount": 36,
-    "p1OpenLayerCount": 27,
+    "p0OpenLayerCount": 24,
+    "p1OpenLayerCount": 18,
     "dataBoundCount": 68,
     "observabilityBoundCount": 68,
     "drillDownBoundCount": 68,
@@ -100,7 +100,10 @@
     "freshnessVisibleCount": 68,
     "infrastructureConnectedCount": 68,
     "runtimePayloadExternalizedCount": 68,
-    "averageScore": 80
+    "liveSourceContractedCount": 68,
+    "regressionProofReadyCount": 68,
+    "readOnlyCommandReadyCount": 68,
+    "averageScore": 87
   },
   "entries": [
     {
@@ -110,7 +113,7 @@
       "family": "Executive",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -124,11 +127,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -276,9 +279,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -315,7 +323,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Bind portfolio summaries, action queues, and executive drill-throughs.",
       "proofRequired": [
@@ -332,7 +347,7 @@
       "family": "Design System",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -346,11 +361,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -498,9 +513,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -537,7 +557,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect adoption registry, visual proof, and exception retirement data.",
       "proofRequired": [
@@ -554,7 +581,7 @@
       "family": "Design System",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -568,11 +595,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -720,9 +747,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -759,7 +791,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect adoption registry, visual proof, and exception retirement data.",
       "proofRequired": [
@@ -776,7 +815,7 @@
       "family": "Operations",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -790,11 +829,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -942,9 +981,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -981,7 +1025,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire runner health, queue status, incident flow, and remediation actions.",
       "proofRequired": [
@@ -998,7 +1049,7 @@
       "family": "Executive",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -1012,11 +1063,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -1164,9 +1215,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -1203,7 +1259,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Bind portfolio summaries, action queues, and executive drill-throughs.",
       "proofRequired": [
@@ -1220,7 +1283,7 @@
       "family": "Executive",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -1234,11 +1297,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -1386,9 +1449,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -1425,7 +1493,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Bind portfolio summaries, action queues, and executive drill-throughs.",
       "proofRequired": [
@@ -1442,7 +1517,7 @@
       "family": "Executive",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -1456,11 +1531,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -1608,9 +1683,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -1647,7 +1727,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Bind portfolio summaries, action queues, and executive drill-throughs.",
       "proofRequired": [
@@ -1664,7 +1751,7 @@
       "family": "Design System",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -1678,11 +1765,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -1830,9 +1917,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -1869,7 +1961,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect adoption registry, visual proof, and exception retirement data.",
       "proofRequired": [
@@ -1886,7 +1985,7 @@
       "family": "Design System",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -1900,11 +1999,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -2052,9 +2151,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -2091,7 +2195,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect adoption registry, visual proof, and exception retirement data.",
       "proofRequired": [
@@ -2108,7 +2219,7 @@
       "family": "Design System",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -2122,11 +2233,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -2274,9 +2385,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -2313,7 +2429,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect adoption registry, visual proof, and exception retirement data.",
       "proofRequired": [
@@ -2330,7 +2453,7 @@
       "family": "Design System",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -2344,11 +2467,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -2496,9 +2619,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -2535,7 +2663,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect adoption registry, visual proof, and exception retirement data.",
       "proofRequired": [
@@ -2552,7 +2687,7 @@
       "family": "Operations",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -2566,11 +2701,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -2718,9 +2853,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -2757,7 +2897,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire runner health, queue status, incident flow, and remediation actions.",
       "proofRequired": [
@@ -2774,7 +2921,7 @@
       "family": "Agents",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -2788,11 +2935,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -2940,9 +3087,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -2979,7 +3131,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Bind task routing, loop runs, model routing, approvals, and autonomy gates.",
       "proofRequired": [
@@ -2996,7 +3155,7 @@
       "family": "Operations",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -3010,11 +3169,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -3162,9 +3321,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -3201,7 +3365,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire runner health, queue status, incident flow, and remediation actions.",
       "proofRequired": [
@@ -3218,7 +3389,7 @@
       "family": "Agents",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -3232,11 +3403,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -3384,9 +3555,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -3423,7 +3599,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Bind task routing, loop runs, model routing, approvals, and autonomy gates.",
       "proofRequired": [
@@ -3440,7 +3623,7 @@
       "family": "Agents",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -3454,11 +3637,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -3606,9 +3789,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -3645,7 +3833,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Bind task routing, loop runs, model routing, approvals, and autonomy gates.",
       "proofRequired": [
@@ -3662,7 +3857,7 @@
       "family": "Security",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -3676,11 +3871,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -3828,9 +4023,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -3867,7 +4067,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 6,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -3884,7 +4091,7 @@
       "family": "Executive",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -3898,11 +4105,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -4050,9 +4257,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -4089,7 +4301,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Bind portfolio summaries, action queues, and executive drill-throughs.",
       "proofRequired": [
@@ -4106,7 +4325,7 @@
       "family": "Operations",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -4120,11 +4339,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -4272,9 +4491,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -4311,7 +4535,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire runner health, queue status, incident flow, and remediation actions.",
       "proofRequired": [
@@ -4328,7 +4559,7 @@
       "family": "Data",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -4342,11 +4573,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -4494,9 +4725,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -4533,7 +4769,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire source freshness, warehouse growth, external mirror lag, retention, pruning, and restore proof.",
       "proofRequired": [
@@ -4550,7 +4793,7 @@
       "family": "Security",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -4564,11 +4807,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -4716,9 +4959,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -4755,7 +5003,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 6,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -4772,7 +5027,7 @@
       "family": "Finance",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -4786,11 +5041,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -4938,9 +5193,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -4977,7 +5237,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 6,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Bind cost attribution, billing provider data, reconciliation status, and anomaly review.",
       "proofRequired": [
@@ -4994,7 +5261,7 @@
       "family": "Agents",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -5008,11 +5275,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -5160,9 +5427,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -5199,7 +5471,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Bind task routing, loop runs, model routing, approvals, and autonomy gates.",
       "proofRequired": [
@@ -5216,7 +5495,7 @@
       "family": "Operations",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -5230,11 +5509,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -5382,9 +5661,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -5421,7 +5705,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire runner health, queue status, incident flow, and remediation actions.",
       "proofRequired": [
@@ -5438,7 +5729,7 @@
       "family": "Agents",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -5452,11 +5743,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -5604,9 +5895,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -5643,7 +5939,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Bind task routing, loop runs, model routing, approvals, and autonomy gates.",
       "proofRequired": [
@@ -5660,7 +5963,7 @@
       "family": "Security",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -5674,11 +5977,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -5826,9 +6129,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -5865,7 +6173,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 6,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -5882,7 +6197,7 @@
       "family": "Agents",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -5896,11 +6211,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -6048,9 +6363,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -6087,7 +6407,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Bind task routing, loop runs, model routing, approvals, and autonomy gates.",
       "proofRequired": [
@@ -6104,7 +6431,7 @@
       "family": "Operations",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -6118,11 +6445,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -6270,9 +6597,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -6309,7 +6641,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire runner health, queue status, incident flow, and remediation actions.",
       "proofRequired": [
@@ -6326,7 +6665,7 @@
       "family": "Operations",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -6340,11 +6679,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -6492,9 +6831,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -6531,7 +6875,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire runner health, queue status, incident flow, and remediation actions.",
       "proofRequired": [
@@ -6548,7 +6899,7 @@
       "family": "Data",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -6562,11 +6913,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -6714,9 +7065,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -6753,7 +7109,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire source freshness, warehouse growth, external mirror lag, retention, pruning, and restore proof.",
       "proofRequired": [
@@ -6770,7 +7133,7 @@
       "family": "Operations",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -6784,11 +7147,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -6936,9 +7299,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -6975,7 +7343,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire runner health, queue status, incident flow, and remediation actions.",
       "proofRequired": [
@@ -6992,7 +7367,7 @@
       "family": "Deployment",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -7006,11 +7381,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -7158,9 +7533,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -7197,7 +7577,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect promotion state, environment health, rollback readiness, and release evidence.",
       "proofRequired": [
@@ -7214,7 +7601,7 @@
       "family": "Security",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -7228,11 +7615,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -7380,9 +7767,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -7419,7 +7811,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 6,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -7436,7 +7835,7 @@
       "family": "Data",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -7450,11 +7849,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -7602,9 +8001,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -7641,7 +8045,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire source freshness, warehouse growth, external mirror lag, retention, pruning, and restore proof.",
       "proofRequired": [
@@ -7658,7 +8069,7 @@
       "family": "Finance",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -7672,11 +8083,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -7824,9 +8235,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -7863,7 +8279,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 6,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Bind cost attribution, billing provider data, reconciliation status, and anomaly review.",
       "proofRequired": [
@@ -7880,7 +8303,7 @@
       "family": "Learning",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -7894,11 +8317,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -8046,9 +8469,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -8085,7 +8513,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire golden evals, model comparisons, outcomes, regressions, and learning feeds.",
       "proofRequired": [
@@ -8102,7 +8537,7 @@
       "family": "Learning",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -8116,11 +8551,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -8268,9 +8703,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -8307,7 +8747,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire golden evals, model comparisons, outcomes, regressions, and learning feeds.",
       "proofRequired": [
@@ -8324,7 +8771,7 @@
       "family": "Executive",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -8338,11 +8785,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -8490,9 +8937,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -8529,7 +8981,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Bind portfolio summaries, action queues, and executive drill-throughs.",
       "proofRequired": [
@@ -8546,7 +9005,7 @@
       "family": "Deployment",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -8560,11 +9019,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -8712,9 +9171,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -8751,7 +9215,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect promotion state, environment health, rollback readiness, and release evidence.",
       "proofRequired": [
@@ -8768,7 +9239,7 @@
       "family": "Security",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -8782,11 +9253,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -8934,9 +9405,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -8973,7 +9449,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 6,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -8990,7 +9473,7 @@
       "family": "Adapters",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -9004,11 +9487,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -9156,9 +9639,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -9195,7 +9683,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Bind provider health, credentials posture, rollout state, and failure-mode proof.",
       "proofRequired": [
@@ -9212,7 +9707,7 @@
       "family": "Operations",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -9226,11 +9721,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -9378,9 +9873,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -9417,7 +9917,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire runner health, queue status, incident flow, and remediation actions.",
       "proofRequired": [
@@ -9434,7 +9941,7 @@
       "family": "Deployment",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -9448,11 +9955,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -9600,9 +10107,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -9639,7 +10151,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect promotion state, environment health, rollback readiness, and release evidence.",
       "proofRequired": [
@@ -9656,7 +10175,7 @@
       "family": "Security",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -9670,11 +10189,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -9822,9 +10341,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -9861,7 +10385,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 6,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -9878,7 +10409,7 @@
       "family": "Finance",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -9892,11 +10423,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -10044,9 +10575,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -10083,7 +10619,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 6,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Bind cost attribution, billing provider data, reconciliation status, and anomaly review.",
       "proofRequired": [
@@ -10100,7 +10643,7 @@
       "family": "Learning",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -10114,11 +10657,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -10266,9 +10809,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -10305,7 +10853,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire golden evals, model comparisons, outcomes, regressions, and learning feeds.",
       "proofRequired": [
@@ -10322,7 +10877,7 @@
       "family": "Learning",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -10336,11 +10891,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -10488,9 +11043,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -10527,7 +11087,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire golden evals, model comparisons, outcomes, regressions, and learning feeds.",
       "proofRequired": [
@@ -10544,7 +11111,7 @@
       "family": "Security",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -10558,11 +11125,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -10710,9 +11277,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -10749,7 +11321,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 6,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -10766,7 +11345,7 @@
       "family": "Deployment",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -10780,11 +11359,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -10932,9 +11511,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -10971,7 +11555,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect promotion state, environment health, rollback readiness, and release evidence.",
       "proofRequired": [
@@ -10988,7 +11579,7 @@
       "family": "Deployment",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -11002,11 +11593,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -11154,9 +11745,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -11193,7 +11789,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect promotion state, environment health, rollback readiness, and release evidence.",
       "proofRequired": [
@@ -11210,7 +11813,7 @@
       "family": "Security",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -11224,11 +11827,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -11376,9 +11979,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -11415,7 +12023,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 6,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -11432,7 +12047,7 @@
       "family": "Adapters",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -11446,11 +12061,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -11598,9 +12213,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -11637,7 +12257,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Bind provider health, credentials posture, rollout state, and failure-mode proof.",
       "proofRequired": [
@@ -11654,7 +12281,7 @@
       "family": "Operations",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -11668,11 +12295,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -11820,9 +12447,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -11859,7 +12491,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire runner health, queue status, incident flow, and remediation actions.",
       "proofRequired": [
@@ -11876,7 +12515,7 @@
       "family": "Security",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -11890,11 +12529,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -12042,9 +12681,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -12081,7 +12725,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 6,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -12098,7 +12749,7 @@
       "family": "Finance",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -12112,11 +12763,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -12264,9 +12915,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -12303,7 +12959,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 6,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Bind cost attribution, billing provider data, reconciliation status, and anomaly review.",
       "proofRequired": [
@@ -12320,7 +12983,7 @@
       "family": "Learning",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -12334,11 +12997,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -12486,9 +13149,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -12525,7 +13193,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire golden evals, model comparisons, outcomes, regressions, and learning feeds.",
       "proofRequired": [
@@ -12542,7 +13217,7 @@
       "family": "Learning",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -12556,11 +13231,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -12708,9 +13383,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -12747,7 +13427,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire golden evals, model comparisons, outcomes, regressions, and learning feeds.",
       "proofRequired": [
@@ -12764,7 +13451,7 @@
       "family": "Security",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -12778,11 +13465,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -12930,9 +13617,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -12969,7 +13661,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 6,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -12986,7 +13685,7 @@
       "family": "Adapters",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -13000,11 +13699,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -13152,9 +13851,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -13191,7 +13895,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Bind provider health, credentials posture, rollout state, and failure-mode proof.",
       "proofRequired": [
@@ -13208,7 +13919,7 @@
       "family": "Adapters",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -13222,11 +13933,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -13374,9 +14085,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -13413,7 +14129,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Bind provider health, credentials posture, rollout state, and failure-mode proof.",
       "proofRequired": [
@@ -13430,7 +14153,7 @@
       "family": "Security",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -13444,11 +14167,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -13596,9 +14319,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -13635,7 +14363,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 6,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -13652,7 +14387,7 @@
       "family": "Finance",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -13666,11 +14401,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -13818,9 +14553,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -13857,7 +14597,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 6,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Bind cost attribution, billing provider data, reconciliation status, and anomaly review.",
       "proofRequired": [
@@ -13874,7 +14621,7 @@
       "family": "Learning",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -13888,11 +14635,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -14040,9 +14787,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -14079,7 +14831,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire golden evals, model comparisons, outcomes, regressions, and learning feeds.",
       "proofRequired": [
@@ -14096,7 +14855,7 @@
       "family": "Learning",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -14110,11 +14869,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -14262,9 +15021,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -14301,7 +15065,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire golden evals, model comparisons, outcomes, regressions, and learning feeds.",
       "proofRequired": [
@@ -14318,7 +15089,7 @@
       "family": "Security",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -14332,11 +15103,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -14484,9 +15255,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -14523,7 +15299,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 6,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -14540,7 +15323,7 @@
       "family": "Data",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -14554,11 +15337,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -14706,9 +15489,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -14745,7 +15533,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 9,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire source freshness, warehouse growth, external mirror lag, retention, pruning, and restore proof.",
       "proofRequired": [
@@ -14762,7 +15557,7 @@
       "family": "Data",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -14776,11 +15571,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -14928,9 +15723,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -14967,7 +15767,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 7,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Wire source freshness, warehouse growth, external mirror lag, retention, pruning, and restore proof.",
       "proofRequired": [
@@ -14984,7 +15791,7 @@
       "family": "Deployment",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 80,
+      "score": 87,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -14998,11 +15805,11 @@
         "state-coverage",
         "ux-visual-maturity",
         "alerting-escalation",
-        "warehouse-storage"
+        "warehouse-storage",
+        "testing-proof"
       ],
       "openLayers": [
         "command-control",
-        "testing-proof",
         "production-readiness"
       ],
       "nextOpenLayer": "command-control",
@@ -15150,9 +15957,14 @@
           "id": "testing-proof",
           "order": 13,
           "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 regression checks",
+            "10 state proof matrix entries",
+            "do-not-embed-full-generated-ledgers"
+          ],
+          "blocker": null
         },
         {
           "id": "governance-ledger",
@@ -15189,7 +16001,14 @@
         "freshnessVisibilityStatus": "visible",
         "infrastructureConnectionStatus": "connected",
         "infrastructureConnectionCount": 5,
-        "payloadMaturityStatus": "externalized"
+        "payloadMaturityStatus": "externalized",
+        "liveSourceContractStatus": "contracted",
+        "liveSourceContractCount": 9,
+        "regressionProofStatus": "ready",
+        "regressionProofCheckCount": 7,
+        "commandReadinessStatus": "read-only-ready",
+        "readOnlyCommandCount": 5,
+        "gatedCommandCount": 6
       },
       "nextMaturityAction": "Connect promotion state, environment health, rollback readiness, and release evidence.",
       "proofRequired": [

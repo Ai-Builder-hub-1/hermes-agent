@@ -285,6 +285,14 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
           </section>
         ) : null}
 
+        {evidenceBinding ? (
+          <section className="grid gap-4 lg:grid-cols-3">
+            <ChecklistPanel title="Live Source Contracts" items={evidenceBinding.liveSourceContracts.sourceContracts.map((source) => `${source.label}: ${source.status} via ${source.expectedProvider}`)} />
+            <ChecklistPanel title="Regression Proof" items={[...evidenceBinding.regressionProof.proofChecks, ...evidenceBinding.regressionProof.stateMatrix.map((state) => `state: ${state}`)]} />
+            <ChecklistPanel title="Command Readiness" items={commandReadinessItems(evidenceBinding)} />
+          </section>
+        ) : null}
+
         {routeMaturity ? (
           <section className="grid gap-4 lg:grid-cols-3">
             <ChecklistPanel title="Completed Maturity Layers" items={[...routeMaturity.completedLayers]} />
@@ -316,6 +324,14 @@ function freshnessItems(evidenceBinding: GeneratedDashboardRouteEvidenceBinding)
     `stale sources: ${evidenceBinding.freshnessSummary.staleCount}`,
     `missing sources: ${evidenceBinding.freshnessSummary.missingCount}`,
     evidenceBinding.freshnessSummary.nextRefreshAction,
+  ];
+}
+
+function commandReadinessItems(evidenceBinding: GeneratedDashboardRouteEvidenceBinding) {
+  return [
+    evidenceBinding.commandReadiness.safetyPolicy,
+    ...evidenceBinding.commandReadiness.readOnlyActions.map((action) => `read-only: ${action.action} (${action.executionState})`),
+    ...evidenceBinding.commandReadiness.gatedActions.map((action) => `gated: ${action.action} (${action.executionState})`),
   ];
 }
 

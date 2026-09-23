@@ -61,6 +61,9 @@ if (!issues.some((item) => item.severity === "error")) {
   if ((report.totals?.freshnessVisibleCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route freshness-visible for the 63-to-75 band.");
   if ((report.totals?.infrastructureConnectedCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route infrastructure-connected for the 63-to-75 band.");
   if ((report.totals?.runtimePayloadExternalizedCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route runtime-payload externalized for the 63-to-75 band.");
+  if ((report.totals?.liveSourceContractedCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route live-source contracted for the 80-to-87 band.");
+  if ((report.totals?.regressionProofReadyCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route regression-proof ready for the 80-to-87 band.");
+  if ((report.totals?.readOnlyCommandReadyCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route read-only command-ready.");
   if ((runtimeAsset.entries ?? []).length !== exports.length) issue("error", "Generated route maturity runtime asset entry count must match exported pages.", `${runtimeAsset.entries?.length ?? 0} entries vs ${exports.length} exports`);
   for (const layer of requiredLayers) {
     if (!layerIds.has(layer)) issue("error", "Generated route maturity ledger is missing a required layer.", layer);
@@ -84,6 +87,9 @@ if (!issues.some((item) => item.severity === "error")) {
     if (entry.evidenceBinding && entry.evidenceBinding.freshnessVisibilityStatus !== "visible") issue("error", "Generated route maturity evidenceBinding must include visible freshness.", entry.exportName);
     if (entry.evidenceBinding && entry.evidenceBinding.infrastructureConnectionStatus !== "connected") issue("error", "Generated route maturity evidenceBinding must include connected infrastructure.", entry.exportName);
     if (entry.evidenceBinding && entry.evidenceBinding.payloadMaturityStatus !== "externalized") issue("error", "Generated route maturity evidenceBinding must include externalized payload maturity.", entry.exportName);
+    if (entry.evidenceBinding && entry.evidenceBinding.liveSourceContractStatus !== "contracted") issue("error", "Generated route maturity evidenceBinding must include contracted live sources.", entry.exportName);
+    if (entry.evidenceBinding && entry.evidenceBinding.regressionProofStatus !== "ready") issue("error", "Generated route maturity evidenceBinding must include ready regression proof.", entry.exportName);
+    if (entry.evidenceBinding && entry.evidenceBinding.commandReadinessStatus !== "read-only-ready") issue("error", "Generated route maturity evidenceBinding must include read-only command readiness.", entry.exportName);
     if (!Array.isArray(entry.layerStatus) || entry.layerStatus.length !== requiredLayers.length) issue("error", "Generated route maturity entry must include layerStatus for every layer.", entry.exportName);
     for (const layer of entry.layerStatus ?? []) {
       if (!requiredLayers.includes(layer.id)) issue("error", "Generated route maturity entry has unknown layer status.", `${entry.exportName}: ${layer.id}`);
