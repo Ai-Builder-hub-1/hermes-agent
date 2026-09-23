@@ -293,6 +293,14 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
           </section>
         ) : null}
 
+        {evidenceBinding ? (
+          <section className="grid gap-4 lg:grid-cols-3">
+            <ChecklistPanel title="Production Readiness" items={productionReadinessItems(evidenceBinding)} />
+            <ChecklistPanel title="Release Gate" items={[`status: ${evidenceBinding.productionReadiness.releaseGate.status}`, `minimum maturity: ${evidenceBinding.productionReadiness.releaseGate.minimumMaturityScore}%`, ...evidenceBinding.productionReadiness.releaseGate.requiredChecks]} />
+            <ChecklistPanel title="Recovery Path" items={[`status: ${evidenceBinding.productionReadiness.recoveryPath.status}`, evidenceBinding.productionReadiness.recoveryPath.rollback, evidenceBinding.productionReadiness.recoveryPath.degradedMode, evidenceBinding.productionReadiness.recoveryPath.escalation]} />
+          </section>
+        ) : null}
+
         {routeMaturity ? (
           <section className="grid gap-4 lg:grid-cols-3">
             <ChecklistPanel title="Completed Maturity Layers" items={[...routeMaturity.completedLayers]} />
@@ -337,6 +345,17 @@ function commandReadinessItems(evidenceBinding: GeneratedDashboardRouteEvidenceB
     ...evidenceBinding.commandReadiness.readOnlyActions.map((action) => `read-only: ${action.action} (${action.executionState})`),
     ...evidenceBinding.commandReadiness.gatedActions.map((action) => `gated: ${action.action} (${action.executionState})`),
     ...evidenceBinding.commandReadiness.actionRegistry.slice(0, 6).map((action) => `${action.mode}: ${action.action} -> ${action.auditEvent}`),
+  ];
+}
+
+function productionReadinessItems(evidenceBinding: GeneratedDashboardRouteEvidenceBinding) {
+  return [
+    `status: ${evidenceBinding.productionReadiness.status}`,
+    `owner: ${evidenceBinding.productionReadiness.owner}`,
+    `SLA: ${evidenceBinding.productionReadiness.sla}`,
+    `last verified: ${evidenceBinding.productionReadiness.lastVerifiedAt}`,
+    ...evidenceBinding.productionReadiness.productionProof,
+    ...evidenceBinding.productionReadiness.liveDataAvailability,
   ];
 }
 

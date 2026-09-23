@@ -78,6 +78,7 @@ const entries = routeRows.map((row) => {
   if (evidenceBinding?.infrastructureConnections?.status === "connected" && evidenceBinding?.payloadMaturity?.status === "externalized") completedLayers.push("warehouse-storage");
   if (evidenceBinding?.regressionProof?.status === "ready" && evidenceBinding?.liveSourceContracts?.status === "contracted") completedLayers.push("testing-proof");
   if (evidenceBinding?.commandReadiness?.commandControlStatus === "governed-ready") completedLayers.push("command-control");
+  if (evidenceBinding?.productionReadiness?.status === "ready") completedLayers.push("production-readiness");
   const openLayers = layerDefinitions.map(([id]) => id).filter((id) => !completedLayers.includes(id));
   const nextOpenLayer = openLayers[0] ?? "production-readiness";
   const score = Math.round((completedLayers.length / layerDefinitions.length) * 100);
@@ -131,6 +132,10 @@ const entries = routeRows.map((row) => {
       auditPolicyStatus: evidenceBinding.commandReadiness.auditPolicy.status,
       cooldownPolicyStatus: evidenceBinding.commandReadiness.cooldownPolicy.status,
       disabledReasonPolicyStatus: evidenceBinding.commandReadiness.disabledReasonPolicy.status,
+      productionReadinessStatus: evidenceBinding.productionReadiness.status,
+      productionProofCount: evidenceBinding.productionReadiness.productionProof.length,
+      releaseGateStatus: evidenceBinding.productionReadiness.releaseGate.status,
+      recoveryPathStatus: evidenceBinding.productionReadiness.recoveryPath.status,
     } : null,
     nextMaturityAction: nextActionFor(family),
     proofRequired: proofFor(family),
@@ -157,6 +162,7 @@ const totals = {
   regressionProofReadyCount: entries.filter((entry) => entry.completedLayers.includes("testing-proof")).length,
   readOnlyCommandReadyCount: entries.filter((entry) => entry.evidenceBinding?.commandReadinessStatus === "read-only-ready").length,
   commandControlReadyCount: entries.filter((entry) => entry.completedLayers.includes("command-control")).length,
+  productionReadyCount: entries.filter((entry) => entry.completedLayers.includes("production-readiness")).length,
   averageScore: Math.round(entries.reduce((sum, entry) => sum + entry.score, 0) / Math.max(1, entries.length)),
 };
 
@@ -254,6 +260,7 @@ function renderMarkdown(report) {
     `- Regression-proof ready routes: ${report.totals.regressionProofReadyCount}`,
     `- Read-only command-ready routes: ${report.totals.readOnlyCommandReadyCount}`,
     `- Command-control ready routes: ${report.totals.commandControlReadyCount}`,
+    `- Production-ready routes: ${report.totals.productionReadyCount}`,
     `- Average maturity score: ${report.totals.averageScore}%`,
     "",
     "## Layers",
@@ -291,6 +298,7 @@ function evidenceForLayer(layer, route, hasRouteMetadata) {
     "ux-visual-maturity": evidenceBinding?.uxVisualMaturity?.status === "ready" ? ["docs/design/generated-dashboard-route-evidence-bindings.json", `${evidenceBinding.uxVisualMaturity.reviewChecklist.length} UX review checks`, ...evidenceBinding.uxVisualMaturity.visualEvidence] : [],
     "testing-proof": evidenceBinding?.regressionProof?.status === "ready" ? ["docs/design/generated-dashboard-route-evidence-bindings.json", `${evidenceBinding.regressionProof.proofChecks.length} regression checks`, `${evidenceBinding.regressionProof.stateMatrix.length} state proof matrix entries`, evidenceBinding.regressionProof.payloadGuard] : [],
     "governance-ledger": ["docs/design/generated-dashboard-route-maturity-ledger.json", "web/src/pages/generated-dashboard-route-maturity-data.ts"],
+    "production-readiness": evidenceBinding?.productionReadiness?.status === "ready" ? ["docs/design/generated-dashboard-route-evidence-bindings.json", `${evidenceBinding.productionReadiness.productionProof.length} production proof checks`, `release gate: ${evidenceBinding.productionReadiness.releaseGate.status}`, `recovery path: ${evidenceBinding.productionReadiness.recoveryPath.status}`, evidenceBinding.productionReadiness.sla] : [],
   };
   return evidence[layer] ?? [];
 }

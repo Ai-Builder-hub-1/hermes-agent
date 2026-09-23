@@ -38,6 +38,7 @@ if (!issues.some((item) => item.severity === "error")) {
   if (!report.policy?.regressionProofRequiredBeforeProductionReadiness) issue("error", "Generated route evidence binding policy must require regression proof before production readiness.");
   if (!report.policy?.commandExecutionRequiresSeparateAuthorization) issue("error", "Generated route evidence binding policy must keep command execution separately authorized.");
   if (!report.policy?.commandControlRequiresAuditCooldownAndDisabledReasons) issue("error", "Generated route evidence binding policy must require audit, cooldown, and disabled reasons for command control.");
+  if (!report.policy?.productionReadinessRequiresReleaseGateAndRecoveryEvidence) issue("error", "Generated route evidence binding policy must require release gate and recovery evidence for production readiness.");
   if ((report.routeBindings ?? []).length !== routeCount) issue("error", "Generated route evidence binding count must match maturity route count.", `${report.routeBindings?.length ?? 0} bindings vs ${routeCount} routes`);
   if ((runtimeAsset.routeBindings ?? []).length !== routeCount) issue("error", "Generated route evidence runtime asset count must match maturity route count.", `${runtimeAsset.routeBindings?.length ?? 0} bindings vs ${routeCount} routes`);
   if ((report.totals?.dataBoundCount ?? 0) < routeCount) issue("error", "Every generated route must be evidence data-bound.", `${report.totals?.dataBoundCount ?? 0}/${routeCount}`);
@@ -52,6 +53,7 @@ if (!issues.some((item) => item.severity === "error")) {
   if ((report.totals?.regressionProofReadyCount ?? 0) < routeCount) issue("error", "Every generated route must include regression proof for the 80-to-87 band.", `${report.totals?.regressionProofReadyCount ?? 0}/${routeCount}`);
   if ((report.totals?.readOnlyCommandReadyCount ?? 0) < routeCount) issue("error", "Every generated route must include read-only command readiness.", `${report.totals?.readOnlyCommandReadyCount ?? 0}/${routeCount}`);
   if ((report.totals?.commandControlReadyCount ?? 0) < routeCount) issue("error", "Every generated route must include governed command-control readiness for the 87-to-93 band.", `${report.totals?.commandControlReadyCount ?? 0}/${routeCount}`);
+  if ((report.totals?.productionReadyCount ?? 0) < routeCount) issue("error", "Every generated route must include production readiness for the 93-to-100 band.", `${report.totals?.productionReadyCount ?? 0}/${routeCount}`);
   if (!report.rollups?.priority || !report.rollups?.family) issue("error", "Generated route evidence binding report must include priority and family rollups.");
   for (const binding of report.routeBindings ?? []) {
     if (!binding.route || !binding.title || !binding.priority || !binding.family) issue("error", "Route evidence binding is missing identity fields.", binding.exportName);
@@ -87,6 +89,11 @@ if (!issues.some((item) => item.severity === "error")) {
     if (binding.commandReadiness?.cooldownPolicy?.status !== "required") issue("error", "Route commandReadiness must require cooldown policy.", binding.route);
     if (binding.commandReadiness?.disabledReasonPolicy?.status !== "required") issue("error", "Route commandReadiness must require disabled reason policy.", binding.route);
     if (binding.commandReadiness?.gatedActions?.some((action) => !String(action.executionState).startsWith("blocked"))) issue("error", "Route mutating command actions must remain blocked.", binding.route);
+    if (binding.productionReadiness?.status !== "ready") issue("error", "Route evidence binding must include ready productionReadiness.", binding.route);
+    if (!binding.productionReadiness?.owner || !binding.productionReadiness?.sla) issue("error", "Route productionReadiness must include owner and SLA.", binding.route);
+    if (!Array.isArray(binding.productionReadiness?.productionProof) || binding.productionReadiness.productionProof.length < 7) issue("error", "Route productionReadiness must include production proof checks.", binding.route);
+    if (binding.productionReadiness?.releaseGate?.status !== "enforced") issue("error", "Route productionReadiness must include enforced release gate.", binding.route);
+    if (binding.productionReadiness?.recoveryPath?.status !== "documented") issue("error", "Route productionReadiness must include documented recovery path.", binding.route);
     if (!Array.isArray(binding.sourceBindings) || binding.sourceBindings.filter((source) => source.status !== "missing").length < 5) issue("error", "Route evidence binding must include at least five available sources.", binding.route);
     if (!Array.isArray(binding.dataSignals) || binding.dataSignals.length < 5) issue("error", "Route evidence binding must include data signals.", binding.route);
     if (!Array.isArray(binding.drillDownTargets) || binding.drillDownTargets.length < 5) issue("error", "Route evidence binding must include drill-down targets.", binding.route);

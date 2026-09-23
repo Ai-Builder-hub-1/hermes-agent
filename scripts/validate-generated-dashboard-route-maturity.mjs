@@ -65,6 +65,8 @@ if (!issues.some((item) => item.severity === "error")) {
   if ((report.totals?.regressionProofReadyCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route regression-proof ready for the 80-to-87 band.");
   if ((report.totals?.readOnlyCommandReadyCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route read-only command-ready.");
   if ((report.totals?.commandControlReadyCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route command-control ready for the 87-to-93 band.");
+  if ((report.totals?.productionReadyCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route production-ready for the 93-to-100 band.");
+  if ((report.totals?.averageScore ?? 0) < 100) issue("error", "Generated route maturity ledger must reach 100% for the final production-readiness band.");
   if ((runtimeAsset.entries ?? []).length !== exports.length) issue("error", "Generated route maturity runtime asset entry count must match exported pages.", `${runtimeAsset.entries?.length ?? 0} entries vs ${exports.length} exports`);
   for (const layer of requiredLayers) {
     if (!layerIds.has(layer)) issue("error", "Generated route maturity ledger is missing a required layer.", layer);
@@ -92,6 +94,7 @@ if (!issues.some((item) => item.severity === "error")) {
     if (entry.evidenceBinding && entry.evidenceBinding.regressionProofStatus !== "ready") issue("error", "Generated route maturity evidenceBinding must include ready regression proof.", entry.exportName);
     if (entry.evidenceBinding && entry.evidenceBinding.commandReadinessStatus !== "read-only-ready") issue("error", "Generated route maturity evidenceBinding must include read-only command readiness.", entry.exportName);
     if (entry.evidenceBinding && entry.evidenceBinding.commandControlStatus !== "governed-ready") issue("error", "Generated route maturity evidenceBinding must include governed command control.", entry.exportName);
+    if (entry.evidenceBinding && entry.evidenceBinding.productionReadinessStatus !== "ready") issue("error", "Generated route maturity evidenceBinding must include production readiness.", entry.exportName);
     if (!Array.isArray(entry.layerStatus) || entry.layerStatus.length !== requiredLayers.length) issue("error", "Generated route maturity entry must include layerStatus for every layer.", entry.exportName);
     for (const layer of entry.layerStatus ?? []) {
       if (!requiredLayers.includes(layer.id)) issue("error", "Generated route maturity entry has unknown layer status.", `${entry.exportName}: ${layer.id}`);

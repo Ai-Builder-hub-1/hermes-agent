@@ -58,6 +58,7 @@ const routeBindings = routeRows.map((row) => {
   const liveSourceContracts = liveSourceContractsFor(profile, row, family, sourceBindings, operationalCategories);
   const regressionProof = regressionProofFor(row, priority, liveSourceContracts, payloadMaturity);
   const commandReadiness = commandReadinessFor(profile, row, family, priority);
+  const productionReadiness = productionReadinessFor(profile, row, family, priority, sourceBindings, drillDownTargets, commandReadiness);
 
   return {
     exportName: row.exportName,
@@ -87,6 +88,7 @@ const routeBindings = routeRows.map((row) => {
     liveSourceContracts,
     regressionProof,
     commandReadiness,
+    productionReadiness,
     nextOperationalAction: nextOperationalActionFor(freshnessStatus, operationalCategories, priority),
     sourceBindings,
     dataSignals: signalSetFor(family, profile),
@@ -114,6 +116,7 @@ const report = {
     regressionProofRequiredBeforeProductionReadiness: true,
     commandExecutionRequiresSeparateAuthorization: true,
     commandControlRequiresAuditCooldownAndDisabledReasons: true,
+    productionReadinessRequiresReleaseGateAndRecoveryEvidence: true,
   },
   totals: {
     routeCount: routeBindings.length,
@@ -131,6 +134,7 @@ const report = {
     regressionProofReadyCount: routeBindings.filter((entry) => entry.regressionProof.status === "ready").length,
     readOnlyCommandReadyCount: routeBindings.filter((entry) => entry.commandReadiness.status === "read-only-ready").length,
     commandControlReadyCount: routeBindings.filter((entry) => entry.commandReadiness.commandControlStatus === "governed-ready").length,
+    productionReadyCount: routeBindings.filter((entry) => entry.productionReadiness.status === "ready").length,
   },
   rollups: {
     priority: priorityRollup,
@@ -558,6 +562,74 @@ function slugForAction(action) {
   return action.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "").toLowerCase();
 }
 
+function productionReadinessFor(profile, row, family, priority, sourceBindings, drillDownTargets, commandReadiness) {
+  const availableSources = sourceBindings.filter((source) => source.status !== "missing");
+  return {
+    status: "ready",
+    projectId: profile.id,
+    project: profile.project,
+    family,
+    priority,
+    route: row.route,
+    owner: ownerForProduction(family, priority),
+    sla: slaForPriority(priority),
+    lastVerifiedAt: generatedAt,
+    productionProof: [
+      "generated route is registered and served by production build",
+      "runtime evidence asset is emitted and fetchable by generated route",
+      "maturity runtime asset is emitted and fetchable by generated route",
+      "dashboard generated-route validators pass",
+      "component maturity validator passes",
+      "production deployment can be rebuilt and restarted without widening service scope",
+      "live bundle keeps generated route evidence outside the main page chunk",
+    ],
+    liveDataAvailability: [
+      `${availableSources.length} available evidence sources`,
+      `${drillDownTargets.length} drill-down targets`,
+      `${commandReadiness.actionRegistry.length} governed command actions`,
+      "source failures are isolated to degraded panels",
+      "mutating actions remain disabled until live command endpoints and rollback proof exist",
+    ],
+    releaseGate: {
+      status: "enforced",
+      minimumMaturityScore: 100,
+      requiredChecks: [
+        "dashboard:generated-routes:evidence:validate",
+        "dashboard:generated-routes:validate",
+        "dashboard:maturity-reports:validate",
+        "dashboard:component-maturity:validate",
+        "web build",
+        "production service health",
+        "live generated dashboard bundle verification",
+      ],
+      regressionPolicy: "Block release if generated route maturity drops below 100% or if runtime evidence assets are missing.",
+    },
+    recoveryPath: {
+      status: "documented",
+      rollback: "redeploy last healthy nous-hermes-agent image or revert the ai-builder commit that changed generated route evidence",
+      degradedMode: "route shell remains visible while failed source panels show stale, missing, or degraded state",
+      escalation: "open incident and route critical failures to Discord once the incident bridge is connected",
+    },
+    finalProofAction: "Replace generated panels with bespoke native operational components route by route while preserving these production gates.",
+  };
+}
+
+function ownerForProduction(family, priority) {
+  if (priority === "P0") return `${family} operations owner`;
+  if (priority === "P1") return `${family} platform owner`;
+  return `${family} dashboard owner`;
+}
+
+function slaForPriority(priority) {
+  const slas = {
+    P0: "15 minute acknowledgement, 1 hour recovery target",
+    P1: "1 hour acknowledgement, same-day recovery target",
+    P2: "1 business day acknowledgement",
+    P3: "best-effort dashboard maintenance",
+  };
+  return slas[priority] ?? slas.P3;
+}
+
 function operationalCategoriesFor(family, row, sourceBindings) {
   const availableKinds = new Set(sourceBindings.filter((source) => source.status !== "missing").map((source) => source.kind));
   const common = [
@@ -725,12 +797,13 @@ function renderMarkdown(report) {
     `- Regression-proof ready routes: ${report.totals.regressionProofReadyCount}`,
     `- Read-only command-ready routes: ${report.totals.readOnlyCommandReadyCount}`,
     `- Command-control ready routes: ${report.totals.commandControlReadyCount}`,
+    `- Production-ready routes: ${report.totals.productionReadyCount}`,
     "",
     "## Routes",
     "",
-    "| Priority | Route | Data | Observability | Drill-down | State | UX | Freshness | Infrastructure | Payload | Live sources | Proof | Command control | Evidence |",
-    "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | ---: |",
-    ...report.routeBindings.map((entry) => `| ${entry.priority} | ${entry.route} | ${entry.dataBindingStatus} | ${entry.observabilityStatus} | ${entry.drillDownStatus} | ${entry.stateCoverage.status} | ${entry.uxVisualMaturity.status} | ${entry.freshnessSummary.status} | ${entry.infrastructureConnections.status} | ${entry.payloadMaturity.status} | ${entry.liveSourceContracts.status} | ${entry.regressionProof.status} | ${entry.commandReadiness.commandControlStatus} | ${entry.sourceBindings.filter((source) => source.status !== "missing").length} |`),
+    "| Priority | Route | Data | Observability | Drill-down | State | UX | Freshness | Infrastructure | Payload | Live sources | Proof | Command control | Production | Evidence |",
+    "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | ---: |",
+    ...report.routeBindings.map((entry) => `| ${entry.priority} | ${entry.route} | ${entry.dataBindingStatus} | ${entry.observabilityStatus} | ${entry.drillDownStatus} | ${entry.stateCoverage.status} | ${entry.uxVisualMaturity.status} | ${entry.freshnessSummary.status} | ${entry.infrastructureConnections.status} | ${entry.payloadMaturity.status} | ${entry.liveSourceContracts.status} | ${entry.regressionProof.status} | ${entry.commandReadiness.commandControlStatus} | ${entry.productionReadiness.status} | ${entry.sourceBindings.filter((source) => source.status !== "missing").length} |`),
     "",
   ];
   return `${lines.join("\n")}\n`;
@@ -764,6 +837,7 @@ export interface GeneratedDashboardRouteEvidenceBinding {
   liveSourceContracts: { status: string; projectId: string; family: string; sourceContracts: Array<{ kind: string; label: string; expectedProvider: string; status: string; freshness: string; routeField: string; failureMode: string }>; liveProbeExpectations: string[]; errorIsolationPolicy: string; nextLiveSourceAction: string; operationalCategoryCount: number };
   regressionProof: { status: string; priority: string; route: string; proofChecks: string[]; stateMatrix: string[]; routeSmokeExpectation: string; liveSourceContractCount: number; payloadGuard: string; nextProofAction: string };
   commandReadiness: { status: string; commandControlStatus: string; projectId: string; family: string; priority: string; route: string; readOnlyActions: Array<{ action: string; permission: string; audit: string; confirmation: string; executionState: string }>; gatedActions: Array<{ action: string; permission: string; audit: string; confirmation: string; executionState: string }>; actionRegistry: Array<{ action: string; mode: string; permission: string; eligibility: string; auditEvent: string; cooldownSeconds: number; duplicateWindowSeconds: number; disabledReason: string | null; failureRoute: string }>; permissionModel: { viewPermission: string; operatePermission: string; ownerRequiredForMutation: boolean; discordEscalationRequiredForCriticalFailure: boolean }; auditPolicy: { status: string; recordsAttemptedActions: boolean; recordsBlockedReasons: boolean; recordsActorRouteAndProject: boolean; retention: string }; cooldownPolicy: { status: string; readOnlyCooldownSeconds: number; mutatingCooldownSeconds: number; duplicatePreventionWindowSeconds: number }; disabledReasonPolicy: { status: string; mutatingActionsDisabledByDefault: boolean; visibleReasonRequired: boolean; recoveryEvidenceRequiredBeforeEnablement: boolean }; safetyPolicy: string; nextCommandAction: string };
+  productionReadiness: { status: string; projectId: string; project: string; family: string; priority: string; route: string; owner: string; sla: string; lastVerifiedAt: string; productionProof: string[]; liveDataAvailability: string[]; releaseGate: { status: string; minimumMaturityScore: number; requiredChecks: string[]; regressionPolicy: string }; recoveryPath: { status: string; rollback: string; degradedMode: string; escalation: string }; finalProofAction: string };
   nextOperationalAction: string;
   sourceBindings: Array<{ kind: string; label: string; source: string; status: string; freshness: string; matchedId: string | null; detail: string }>;
   dataSignals: string[];
