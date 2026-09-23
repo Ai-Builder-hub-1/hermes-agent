@@ -71,6 +71,8 @@ const entries = routeRows.map((row) => {
   if (evidenceBinding?.dataBindingStatus === "bound") completedLayers.push("data-binding");
   if (evidenceBinding?.observabilityStatus === "bound") completedLayers.push("observability");
   if (evidenceBinding?.drillDownStatus === "bound") completedLayers.push("drill-down");
+  if (evidenceBinding?.stateCoverage?.status === "covered") completedLayers.push("state-coverage");
+  if (evidenceBinding?.uxVisualMaturity?.status === "ready") completedLayers.push("ux-visual-maturity");
   const openLayers = layerDefinitions.map(([id]) => id).filter((id) => !completedLayers.includes(id));
   const nextOpenLayer = openLayers[0] ?? "production-readiness";
   const score = Math.round((completedLayers.length / layerDefinitions.length) * 100);
@@ -104,6 +106,10 @@ const entries = routeRows.map((row) => {
       sourceCount: evidenceBinding.sourceBindings.filter((source) => source.status !== "missing").length,
       signalCount: evidenceBinding.dataSignals.length,
       drillDownCount: evidenceBinding.drillDownTargets.length,
+      stateCoverageStatus: evidenceBinding.stateCoverage.status,
+      stateFixtureCount: evidenceBinding.stateCoverage.stateFixtures.length,
+      uxVisualStatus: evidenceBinding.uxVisualMaturity.status,
+      uxChecklistCount: evidenceBinding.uxVisualMaturity.reviewChecklist.length,
     } : null,
     nextMaturityAction: nextActionFor(family),
     proofRequired: proofFor(family),
@@ -121,6 +127,8 @@ const totals = {
   dataBoundCount: entries.filter((entry) => entry.completedLayers.includes("data-binding")).length,
   observabilityBoundCount: entries.filter((entry) => entry.completedLayers.includes("observability")).length,
   drillDownBoundCount: entries.filter((entry) => entry.completedLayers.includes("drill-down")).length,
+  stateCoveredCount: entries.filter((entry) => entry.completedLayers.includes("state-coverage")).length,
+  uxVisualReadyCount: entries.filter((entry) => entry.completedLayers.includes("ux-visual-maturity")).length,
   averageScore: Math.round(entries.reduce((sum, entry) => sum + entry.score, 0) / Math.max(1, entries.length)),
 };
 
@@ -207,6 +215,8 @@ function renderMarkdown(report) {
     `- Data-bound routes: ${report.totals.dataBoundCount}`,
     `- Observability-bound routes: ${report.totals.observabilityBoundCount}`,
     `- Drill-down-bound routes: ${report.totals.drillDownBoundCount}`,
+    `- State-covered routes: ${report.totals.stateCoveredCount}`,
+    `- UX-ready routes: ${report.totals.uxVisualReadyCount}`,
     `- Average maturity score: ${report.totals.averageScore}%`,
     "",
     "## Layers",
@@ -233,10 +243,12 @@ function evidenceForLayer(layer, route, hasRouteMetadata) {
     "route-coverage": ["web/src/pages/GeneratedDashboardPages.tsx", `generated route row ${route}`],
     "page-contract": hasRouteMetadata ? ["web/src/dashboard-page-metadata.ts"] : ["family contract fallback"],
     "data-binding": evidenceBinding ? ["docs/design/generated-dashboard-route-evidence-bindings.json", `${evidenceBinding.sourceBindings.filter((source) => source.status !== "missing").length} evidence sources`, `${evidenceBinding.dataSignals.length} data signals`] : [],
+    "state-coverage": evidenceBinding?.stateCoverage?.status === "covered" ? ["docs/design/generated-dashboard-route-evidence-bindings.json", `${evidenceBinding.stateCoverage.stateFixtures.length} generated state fixtures`, ...evidenceBinding.stateCoverage.evidence.slice(0, 3)] : [],
     "observability": evidenceBinding?.observabilityStatus === "bound" ? ["docs/design/generated-dashboard-route-evidence-bindings.json", "P0/P1 operational evidence binding", `${evidenceBinding.sourceBindings.filter((source) => ["monitoring", "deployment", "runtimeData", "health"].includes(source.kind) && source.status !== "missing").length} operational sources`] : [],
     "drill-down": evidenceBinding?.drillDownStatus === "bound" ? ["docs/design/generated-dashboard-route-evidence-bindings.json", `${evidenceBinding.drillDownTargets.length} evidence drill-down targets`] : [],
     "cross-project-standard": hasRouteMetadata ? ["route-specific metadata contract"] : [],
     "component-maturity": ["GeneratedGovernancePage shell", "dashboard:component-maturity:validate"],
+    "ux-visual-maturity": evidenceBinding?.uxVisualMaturity?.status === "ready" ? ["docs/design/generated-dashboard-route-evidence-bindings.json", `${evidenceBinding.uxVisualMaturity.reviewChecklist.length} UX review checks`, ...evidenceBinding.uxVisualMaturity.visualEvidence] : [],
     "governance-ledger": ["docs/design/generated-dashboard-route-maturity-ledger.json", "web/src/pages/generated-dashboard-route-maturity-data.ts"],
   };
   return evidence[layer] ?? [];

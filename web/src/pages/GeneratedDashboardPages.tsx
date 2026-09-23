@@ -234,6 +234,14 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
           </section>
         ) : null}
 
+        {evidenceBinding ? (
+          <section className="grid gap-4 lg:grid-cols-3">
+            <ChecklistPanel title="State Fixtures" items={[...evidenceBinding.stateCoverage.stateFixtures]} />
+            <ChecklistPanel title="State Evidence" items={[...evidenceBinding.stateCoverage.evidence]} />
+            <ChecklistPanel title="UX Review" items={[...evidenceBinding.uxVisualMaturity.reviewChecklist]} />
+          </section>
+        ) : null}
+
         {routeMaturity ? (
           <section className="grid gap-4 lg:grid-cols-3">
             <ChecklistPanel title="Completed Maturity Layers" items={[...routeMaturity.completedLayers]} />

@@ -80,6 +80,8 @@ if (!issues.some((item) => item.severity === "error")) {
   if ((generatedRouteEvidence.totals?.dataBoundCount ?? 0) < (generatedRouteEvidence.totals?.routeCount ?? 0)) issue("error", "Generated route evidence bindings must bind every route.");
   if ((generatedRouteEvidence.totals?.observabilityBoundCount ?? 0) < (generatedRouteEvidence.totals?.routeCount ?? 0)) issue("error", "Generated route evidence bindings must add observability to every route.");
   if ((generatedRouteEvidence.totals?.drillDownBoundCount ?? 0) < (generatedRouteEvidence.totals?.routeCount ?? 0)) issue("error", "Generated route evidence bindings must add drill-downs to every route.");
+  if ((generatedRouteEvidence.totals?.stateCoveredCount ?? 0) < (generatedRouteEvidence.totals?.routeCount ?? 0)) issue("error", "Generated route evidence bindings must add state coverage to every route.");
+  if ((generatedRouteEvidence.totals?.uxVisualReadyCount ?? 0) < (generatedRouteEvidence.totals?.routeCount ?? 0)) issue("error", "Generated route evidence bindings must add UX visual maturity to every route.");
   if (!generatedRouteEvidence.rollups?.priority || !generatedRouteEvidence.rollups?.family) issue("error", "Generated route evidence bindings must include priority and family rollups.");
   if ((generatedRouteMaturity.totals?.routeCount ?? 0) < 1) issue("error", "Generated route maturity ledger must include routes.");
   if ((generatedRouteMaturity.layers ?? []).length < 15) issue("error", "Generated route maturity ledger must include comprehensive layers.");

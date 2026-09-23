@@ -33,6 +33,8 @@ if (!issues.some((item) => item.severity === "error")) {
   if ((report.totals?.dataBoundCount ?? 0) < routeCount) issue("error", "Every generated route must be evidence data-bound.", `${report.totals?.dataBoundCount ?? 0}/${routeCount}`);
   if ((report.totals?.observabilityBoundCount ?? 0) < routeCount) issue("error", "Every generated route must have operational observability bindings for the 43-to-53 band.", `${report.totals?.observabilityBoundCount ?? 0}/${routeCount}`);
   if ((report.totals?.drillDownBoundCount ?? 0) < routeCount) issue("error", "Every generated route must have evidence drill-down bindings for the 43-to-53 band.", `${report.totals?.drillDownBoundCount ?? 0}/${routeCount}`);
+  if ((report.totals?.stateCoveredCount ?? 0) < routeCount) issue("error", "Every generated route must have state coverage for the 53-to-63 band.", `${report.totals?.stateCoveredCount ?? 0}/${routeCount}`);
+  if ((report.totals?.uxVisualReadyCount ?? 0) < routeCount) issue("error", "Every generated route must have UX visual maturity for the 53-to-63 band.", `${report.totals?.uxVisualReadyCount ?? 0}/${routeCount}`);
   if (!report.rollups?.priority || !report.rollups?.family) issue("error", "Generated route evidence binding report must include priority and family rollups.");
   for (const binding of report.routeBindings ?? []) {
     if (!binding.route || !binding.title || !binding.priority || !binding.family) issue("error", "Route evidence binding is missing identity fields.", binding.exportName);
@@ -44,6 +46,10 @@ if (!issues.some((item) => item.severity === "error")) {
     if (!binding.freshnessPolicy || typeof binding.freshnessPolicy.slaDays !== "number") issue("error", "Route evidence binding must include freshnessPolicy.", binding.route);
     if (!Array.isArray(binding.staleReasons)) issue("error", "Route evidence binding must include staleReasons.", binding.route);
     if (!Array.isArray(binding.operationalCategories) || binding.operationalCategories.length < 5) issue("error", "Route evidence binding must include operationalCategories.", binding.route);
+    if (binding.stateCoverage?.status !== "covered") issue("error", "Route evidence binding must include covered stateCoverage.", binding.route);
+    if (!Array.isArray(binding.stateCoverage?.stateFixtures) || binding.stateCoverage.stateFixtures.length < 10) issue("error", "Route stateCoverage must include core state fixtures.", binding.route);
+    if (binding.uxVisualMaturity?.status !== "ready") issue("error", "Route evidence binding must include ready uxVisualMaturity.", binding.route);
+    if (!Array.isArray(binding.uxVisualMaturity?.reviewChecklist) || binding.uxVisualMaturity.reviewChecklist.length < 6) issue("error", "Route uxVisualMaturity must include a review checklist.", binding.route);
     if (!Array.isArray(binding.sourceBindings) || binding.sourceBindings.filter((source) => source.status !== "missing").length < 5) issue("error", "Route evidence binding must include at least five available sources.", binding.route);
     if (!Array.isArray(binding.dataSignals) || binding.dataSignals.length < 5) issue("error", "Route evidence binding must include data signals.", binding.route);
     if (!Array.isArray(binding.drillDownTargets) || binding.drillDownTargets.length < 5) issue("error", "Route evidence binding must include drill-down targets.", binding.route);

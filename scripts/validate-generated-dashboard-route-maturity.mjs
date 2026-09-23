@@ -53,6 +53,8 @@ if (!issues.some((item) => item.severity === "error")) {
   if ((report.totals?.dataBoundCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route data-bound.");
   if ((report.totals?.observabilityBoundCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route observability-bound for the 43-to-53 band.");
   if ((report.totals?.drillDownBoundCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route drill-down-bound for the 43-to-53 band.");
+  if ((report.totals?.stateCoveredCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route state-covered for the 53-to-63 band.");
+  if ((report.totals?.uxVisualReadyCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route UX-ready for the 53-to-63 band.");
   for (const layer of requiredLayers) {
     if (!layerIds.has(layer)) issue("error", "Generated route maturity ledger is missing a required layer.", layer);
   }
@@ -70,6 +72,8 @@ if (!issues.some((item) => item.severity === "error")) {
     if (!entry.nextOpenLayer) issue("error", "Generated route maturity entry is missing nextOpenLayer.", entry.exportName);
     if (!entry.evidenceBinding) issue("error", "Generated route maturity entry is missing evidenceBinding summary.", entry.exportName);
     if (entry.evidenceBinding && entry.evidenceBinding.dataBindingStatus !== "bound") issue("error", "Generated route maturity evidenceBinding must be bound.", entry.exportName);
+    if (entry.evidenceBinding && entry.evidenceBinding.stateCoverageStatus !== "covered") issue("error", "Generated route maturity evidenceBinding must include covered state coverage.", entry.exportName);
+    if (entry.evidenceBinding && entry.evidenceBinding.uxVisualStatus !== "ready") issue("error", "Generated route maturity evidenceBinding must include ready UX visual maturity.", entry.exportName);
     if (!Array.isArray(entry.layerStatus) || entry.layerStatus.length !== requiredLayers.length) issue("error", "Generated route maturity entry must include layerStatus for every layer.", entry.exportName);
     for (const layer of entry.layerStatus ?? []) {
       if (!requiredLayers.includes(layer.id)) issue("error", "Generated route maturity entry has unknown layer status.", `${entry.exportName}: ${layer.id}`);
