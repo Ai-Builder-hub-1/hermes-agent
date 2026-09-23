@@ -77,6 +77,7 @@ const entries = routeRows.map((row) => {
   if (evidenceBinding?.freshnessSummary?.status === "visible") completedLayers.push("alerting-escalation");
   if (evidenceBinding?.infrastructureConnections?.status === "connected" && evidenceBinding?.payloadMaturity?.status === "externalized") completedLayers.push("warehouse-storage");
   if (evidenceBinding?.regressionProof?.status === "ready" && evidenceBinding?.liveSourceContracts?.status === "contracted") completedLayers.push("testing-proof");
+  if (evidenceBinding?.commandReadiness?.commandControlStatus === "governed-ready") completedLayers.push("command-control");
   const openLayers = layerDefinitions.map(([id]) => id).filter((id) => !completedLayers.includes(id));
   const nextOpenLayer = openLayers[0] ?? "production-readiness";
   const score = Math.round((completedLayers.length / layerDefinitions.length) * 100);
@@ -123,8 +124,13 @@ const entries = routeRows.map((row) => {
       regressionProofStatus: evidenceBinding.regressionProof.status,
       regressionProofCheckCount: evidenceBinding.regressionProof.proofChecks.length,
       commandReadinessStatus: evidenceBinding.commandReadiness.status,
+      commandControlStatus: evidenceBinding.commandReadiness.commandControlStatus,
+      actionRegistryCount: evidenceBinding.commandReadiness.actionRegistry.length,
       readOnlyCommandCount: evidenceBinding.commandReadiness.readOnlyActions.length,
       gatedCommandCount: evidenceBinding.commandReadiness.gatedActions.length,
+      auditPolicyStatus: evidenceBinding.commandReadiness.auditPolicy.status,
+      cooldownPolicyStatus: evidenceBinding.commandReadiness.cooldownPolicy.status,
+      disabledReasonPolicyStatus: evidenceBinding.commandReadiness.disabledReasonPolicy.status,
     } : null,
     nextMaturityAction: nextActionFor(family),
     proofRequired: proofFor(family),
@@ -150,6 +156,7 @@ const totals = {
   liveSourceContractedCount: entries.filter((entry) => entry.evidenceBinding?.liveSourceContractStatus === "contracted").length,
   regressionProofReadyCount: entries.filter((entry) => entry.completedLayers.includes("testing-proof")).length,
   readOnlyCommandReadyCount: entries.filter((entry) => entry.evidenceBinding?.commandReadinessStatus === "read-only-ready").length,
+  commandControlReadyCount: entries.filter((entry) => entry.completedLayers.includes("command-control")).length,
   averageScore: Math.round(entries.reduce((sum, entry) => sum + entry.score, 0) / Math.max(1, entries.length)),
 };
 
@@ -246,6 +253,7 @@ function renderMarkdown(report) {
     `- Live-source contracted routes: ${report.totals.liveSourceContractedCount}`,
     `- Regression-proof ready routes: ${report.totals.regressionProofReadyCount}`,
     `- Read-only command-ready routes: ${report.totals.readOnlyCommandReadyCount}`,
+    `- Command-control ready routes: ${report.totals.commandControlReadyCount}`,
     `- Average maturity score: ${report.totals.averageScore}%`,
     "",
     "## Layers",
@@ -276,6 +284,7 @@ function evidenceForLayer(layer, route, hasRouteMetadata) {
     "observability": evidenceBinding?.observabilityStatus === "bound" ? ["docs/design/generated-dashboard-route-evidence-bindings.json", "P0/P1 operational evidence binding", `${evidenceBinding.sourceBindings.filter((source) => ["monitoring", "deployment", "runtimeData", "health"].includes(source.kind) && source.status !== "missing").length} operational sources`] : [],
     "drill-down": evidenceBinding?.drillDownStatus === "bound" ? ["docs/design/generated-dashboard-route-evidence-bindings.json", `${evidenceBinding.drillDownTargets.length} evidence drill-down targets`] : [],
     "cross-project-standard": hasRouteMetadata ? ["route-specific metadata contract"] : [],
+    "command-control": evidenceBinding?.commandReadiness?.commandControlStatus === "governed-ready" ? ["docs/design/generated-dashboard-route-evidence-bindings.json", `${evidenceBinding.commandReadiness.actionRegistry.length} governed actions`, `audit policy: ${evidenceBinding.commandReadiness.auditPolicy.status}`, `cooldown policy: ${evidenceBinding.commandReadiness.cooldownPolicy.status}`, `disabled reason policy: ${evidenceBinding.commandReadiness.disabledReasonPolicy.status}`] : [],
     "alerting-escalation": evidenceBinding?.freshnessSummary?.status === "visible" ? ["docs/design/generated-dashboard-route-evidence-bindings.json", `${evidenceBinding.freshnessSummary.staleCount} stale sources surfaced`, `${evidenceBinding.freshnessSummary.missingCount} missing sources surfaced`, evidenceBinding.freshnessSummary.nextRefreshAction] : [],
     "warehouse-storage": evidenceBinding?.infrastructureConnections?.status === "connected" && evidenceBinding?.payloadMaturity?.status === "externalized" ? ["docs/design/generated-dashboard-route-evidence-bindings.json", `${evidenceBinding.infrastructureConnections.connections.length} infrastructure relationships`, evidenceBinding.payloadMaturity.strategy, evidenceBinding.payloadMaturity.mainBundlePolicy] : [],
     "component-maturity": ["GeneratedGovernancePage shell", "dashboard:component-maturity:validate"],

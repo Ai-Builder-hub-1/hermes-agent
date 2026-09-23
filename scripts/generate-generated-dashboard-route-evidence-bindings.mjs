@@ -113,6 +113,7 @@ const report = {
     liveSourceContractsRequiredBeforeBespokeComponents: true,
     regressionProofRequiredBeforeProductionReadiness: true,
     commandExecutionRequiresSeparateAuthorization: true,
+    commandControlRequiresAuditCooldownAndDisabledReasons: true,
   },
   totals: {
     routeCount: routeBindings.length,
@@ -129,6 +130,7 @@ const report = {
     liveSourceContractedCount: routeBindings.filter((entry) => entry.liveSourceContracts.status === "contracted").length,
     regressionProofReadyCount: routeBindings.filter((entry) => entry.regressionProof.status === "ready").length,
     readOnlyCommandReadyCount: routeBindings.filter((entry) => entry.commandReadiness.status === "read-only-ready").length,
+    commandControlReadyCount: routeBindings.filter((entry) => entry.commandReadiness.commandControlStatus === "governed-ready").length,
   },
   rollups: {
     priority: priorityRollup,
@@ -476,8 +478,33 @@ function commandReadinessFor(profile, row, family, priority) {
     "resume pruning",
     "open incident",
   ];
+  const actionRegistry = [
+    ...readOnlyActions.map((action) => ({
+      action,
+      mode: "read-only",
+      permission: "dashboard:view",
+      eligibility: "eligible",
+      auditEvent: `dashboard.${slugForAction(action)}.requested`,
+      cooldownSeconds: 30,
+      duplicateWindowSeconds: 60,
+      disabledReason: null,
+      failureRoute: "show action failure inline and record audit event",
+    })),
+    ...gatedActions.map((action) => ({
+      action,
+      mode: "gated-mutation",
+      permission: "dashboard:operate",
+      eligibility: "blocked",
+      auditEvent: `dashboard.${slugForAction(action)}.blocked`,
+      cooldownSeconds: 300,
+      duplicateWindowSeconds: 900,
+      disabledReason: "Blocked until a live command endpoint, permission gate, confirmation step, cooldown, audit log, and rollback evidence exist.",
+      failureRoute: "do not execute; show blocked reason and record audit event",
+    })),
+  ];
   return {
     status: "read-only-ready",
+    commandControlStatus: "governed-ready",
     projectId: profile.id,
     family,
     priority,
@@ -496,9 +523,39 @@ function commandReadinessFor(profile, row, family, priority) {
       confirmation: "required",
       executionState: "blocked-until-live-command-endpoint",
     })),
+    actionRegistry,
+    permissionModel: {
+      viewPermission: "dashboard:view",
+      operatePermission: "dashboard:operate",
+      ownerRequiredForMutation: true,
+      discordEscalationRequiredForCriticalFailure: true,
+    },
+    auditPolicy: {
+      status: "required",
+      recordsAttemptedActions: true,
+      recordsBlockedReasons: true,
+      recordsActorRouteAndProject: true,
+      retention: "dashboard audit retention policy",
+    },
+    cooldownPolicy: {
+      status: "required",
+      readOnlyCooldownSeconds: 30,
+      mutatingCooldownSeconds: 300,
+      duplicatePreventionWindowSeconds: 900,
+    },
+    disabledReasonPolicy: {
+      status: "required",
+      mutatingActionsDisabledByDefault: true,
+      visibleReasonRequired: true,
+      recoveryEvidenceRequiredBeforeEnablement: true,
+    },
     safetyPolicy: "Generated routes may expose read-only operational actions; mutating commands stay disabled until live command endpoints, permission checks, cooldowns, and rollback evidence exist.",
     nextCommandAction: "Wire read-only action handlers first, then promote mutating commands route by route behind permissions and audit logging.",
   };
+}
+
+function slugForAction(action) {
+  return action.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "").toLowerCase();
 }
 
 function operationalCategoriesFor(family, row, sourceBindings) {
@@ -667,12 +724,13 @@ function renderMarkdown(report) {
     `- Live-source contracted routes: ${report.totals.liveSourceContractedCount}`,
     `- Regression-proof ready routes: ${report.totals.regressionProofReadyCount}`,
     `- Read-only command-ready routes: ${report.totals.readOnlyCommandReadyCount}`,
+    `- Command-control ready routes: ${report.totals.commandControlReadyCount}`,
     "",
     "## Routes",
     "",
-    "| Priority | Route | Data | Observability | Drill-down | State | UX | Freshness | Infrastructure | Payload | Live sources | Proof | Read-only commands | Evidence |",
+    "| Priority | Route | Data | Observability | Drill-down | State | UX | Freshness | Infrastructure | Payload | Live sources | Proof | Command control | Evidence |",
     "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | ---: |",
-    ...report.routeBindings.map((entry) => `| ${entry.priority} | ${entry.route} | ${entry.dataBindingStatus} | ${entry.observabilityStatus} | ${entry.drillDownStatus} | ${entry.stateCoverage.status} | ${entry.uxVisualMaturity.status} | ${entry.freshnessSummary.status} | ${entry.infrastructureConnections.status} | ${entry.payloadMaturity.status} | ${entry.liveSourceContracts.status} | ${entry.regressionProof.status} | ${entry.commandReadiness.status} | ${entry.sourceBindings.filter((source) => source.status !== "missing").length} |`),
+    ...report.routeBindings.map((entry) => `| ${entry.priority} | ${entry.route} | ${entry.dataBindingStatus} | ${entry.observabilityStatus} | ${entry.drillDownStatus} | ${entry.stateCoverage.status} | ${entry.uxVisualMaturity.status} | ${entry.freshnessSummary.status} | ${entry.infrastructureConnections.status} | ${entry.payloadMaturity.status} | ${entry.liveSourceContracts.status} | ${entry.regressionProof.status} | ${entry.commandReadiness.commandControlStatus} | ${entry.sourceBindings.filter((source) => source.status !== "missing").length} |`),
     "",
   ];
   return `${lines.join("\n")}\n`;
@@ -705,7 +763,7 @@ export interface GeneratedDashboardRouteEvidenceBinding {
   payloadMaturity: { status: string; route: string; strategy: string; mainBundlePolicy: string; lazyLoadTrigger: string; guardEvidence: string[]; nextPayloadAction: string };
   liveSourceContracts: { status: string; projectId: string; family: string; sourceContracts: Array<{ kind: string; label: string; expectedProvider: string; status: string; freshness: string; routeField: string; failureMode: string }>; liveProbeExpectations: string[]; errorIsolationPolicy: string; nextLiveSourceAction: string; operationalCategoryCount: number };
   regressionProof: { status: string; priority: string; route: string; proofChecks: string[]; stateMatrix: string[]; routeSmokeExpectation: string; liveSourceContractCount: number; payloadGuard: string; nextProofAction: string };
-  commandReadiness: { status: string; projectId: string; family: string; priority: string; route: string; readOnlyActions: Array<{ action: string; permission: string; audit: string; confirmation: string; executionState: string }>; gatedActions: Array<{ action: string; permission: string; audit: string; confirmation: string; executionState: string }>; safetyPolicy: string; nextCommandAction: string };
+  commandReadiness: { status: string; commandControlStatus: string; projectId: string; family: string; priority: string; route: string; readOnlyActions: Array<{ action: string; permission: string; audit: string; confirmation: string; executionState: string }>; gatedActions: Array<{ action: string; permission: string; audit: string; confirmation: string; executionState: string }>; actionRegistry: Array<{ action: string; mode: string; permission: string; eligibility: string; auditEvent: string; cooldownSeconds: number; duplicateWindowSeconds: number; disabledReason: string | null; failureRoute: string }>; permissionModel: { viewPermission: string; operatePermission: string; ownerRequiredForMutation: boolean; discordEscalationRequiredForCriticalFailure: boolean }; auditPolicy: { status: string; recordsAttemptedActions: boolean; recordsBlockedReasons: boolean; recordsActorRouteAndProject: boolean; retention: string }; cooldownPolicy: { status: string; readOnlyCooldownSeconds: number; mutatingCooldownSeconds: number; duplicatePreventionWindowSeconds: number }; disabledReasonPolicy: { status: string; mutatingActionsDisabledByDefault: boolean; visibleReasonRequired: boolean; recoveryEvidenceRequiredBeforeEnablement: boolean }; safetyPolicy: string; nextCommandAction: string };
   nextOperationalAction: string;
   sourceBindings: Array<{ kind: string; label: string; source: string; status: string; freshness: string; matchedId: string | null; detail: string }>;
   dataSignals: string[];

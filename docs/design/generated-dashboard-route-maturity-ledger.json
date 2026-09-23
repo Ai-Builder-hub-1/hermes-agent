@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-23T21:38:59.167Z",
+  "generatedAt": "2026-09-23T21:49:06.855Z",
   "source": "web/src/pages/GeneratedDashboardPages.tsx",
   "policy": {
     "placeholderRoutesAllowed": false,
@@ -90,8 +90,8 @@
     "familyContractCount": 0,
     "p0Count": 12,
     "p1Count": 9,
-    "p0OpenLayerCount": 24,
-    "p1OpenLayerCount": 18,
+    "p0OpenLayerCount": 12,
+    "p1OpenLayerCount": 9,
     "dataBoundCount": 68,
     "observabilityBoundCount": 68,
     "drillDownBoundCount": 68,
@@ -103,7 +103,8 @@
     "liveSourceContractedCount": 68,
     "regressionProofReadyCount": 68,
     "readOnlyCommandReadyCount": 68,
-    "averageScore": 87
+    "commandControlReadyCount": 68,
+    "averageScore": 93
   },
   "entries": [
     {
@@ -113,7 +114,7 @@
       "family": "Executive",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -128,13 +129,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -220,9 +221,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -329,8 +336,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Bind portfolio summaries, action queues, and executive drill-throughs.",
       "proofRequired": [
@@ -347,7 +359,7 @@
       "family": "Design System",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -362,13 +374,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -454,9 +466,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -563,8 +581,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect adoption registry, visual proof, and exception retirement data.",
       "proofRequired": [
@@ -581,7 +604,7 @@
       "family": "Design System",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -596,13 +619,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -688,9 +711,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -797,8 +826,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect adoption registry, visual proof, and exception retirement data.",
       "proofRequired": [
@@ -815,7 +849,7 @@
       "family": "Operations",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -830,13 +864,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -922,9 +956,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -1031,8 +1071,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire runner health, queue status, incident flow, and remediation actions.",
       "proofRequired": [
@@ -1049,7 +1094,7 @@
       "family": "Executive",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -1064,13 +1109,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -1156,9 +1201,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -1265,8 +1316,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Bind portfolio summaries, action queues, and executive drill-throughs.",
       "proofRequired": [
@@ -1283,7 +1339,7 @@
       "family": "Executive",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -1298,13 +1354,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -1390,9 +1446,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -1499,8 +1561,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Bind portfolio summaries, action queues, and executive drill-throughs.",
       "proofRequired": [
@@ -1517,7 +1584,7 @@
       "family": "Executive",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -1532,13 +1599,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -1624,9 +1691,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -1733,8 +1806,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Bind portfolio summaries, action queues, and executive drill-throughs.",
       "proofRequired": [
@@ -1751,7 +1829,7 @@
       "family": "Design System",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -1766,13 +1844,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -1858,9 +1936,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -1967,8 +2051,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect adoption registry, visual proof, and exception retirement data.",
       "proofRequired": [
@@ -1985,7 +2074,7 @@
       "family": "Design System",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -2000,13 +2089,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -2092,9 +2181,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -2201,8 +2296,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect adoption registry, visual proof, and exception retirement data.",
       "proofRequired": [
@@ -2219,7 +2319,7 @@
       "family": "Design System",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -2234,13 +2334,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -2326,9 +2426,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -2435,8 +2541,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect adoption registry, visual proof, and exception retirement data.",
       "proofRequired": [
@@ -2453,7 +2564,7 @@
       "family": "Design System",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -2468,13 +2579,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -2560,9 +2671,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -2669,8 +2786,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect adoption registry, visual proof, and exception retirement data.",
       "proofRequired": [
@@ -2687,7 +2809,7 @@
       "family": "Operations",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -2702,13 +2824,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -2794,9 +2916,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -2903,8 +3031,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire runner health, queue status, incident flow, and remediation actions.",
       "proofRequired": [
@@ -2921,7 +3054,7 @@
       "family": "Agents",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -2936,13 +3069,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -3028,9 +3161,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -3137,8 +3276,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Bind task routing, loop runs, model routing, approvals, and autonomy gates.",
       "proofRequired": [
@@ -3155,7 +3299,7 @@
       "family": "Operations",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -3170,13 +3314,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -3262,9 +3406,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -3371,8 +3521,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire runner health, queue status, incident flow, and remediation actions.",
       "proofRequired": [
@@ -3389,7 +3544,7 @@
       "family": "Agents",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -3404,13 +3559,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -3496,9 +3651,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -3605,8 +3766,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Bind task routing, loop runs, model routing, approvals, and autonomy gates.",
       "proofRequired": [
@@ -3623,7 +3789,7 @@
       "family": "Agents",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -3638,13 +3804,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -3730,9 +3896,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -3839,8 +4011,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Bind task routing, loop runs, model routing, approvals, and autonomy gates.",
       "proofRequired": [
@@ -3857,7 +4034,7 @@
       "family": "Security",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -3872,13 +4049,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -3964,9 +4141,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -4073,8 +4256,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -4091,7 +4279,7 @@
       "family": "Executive",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -4106,13 +4294,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -4198,9 +4386,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -4307,8 +4501,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Bind portfolio summaries, action queues, and executive drill-throughs.",
       "proofRequired": [
@@ -4325,7 +4524,7 @@
       "family": "Operations",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -4340,13 +4539,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -4432,9 +4631,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -4541,8 +4746,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire runner health, queue status, incident flow, and remediation actions.",
       "proofRequired": [
@@ -4559,7 +4769,7 @@
       "family": "Data",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -4574,13 +4784,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -4666,9 +4876,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -4775,8 +4991,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire source freshness, warehouse growth, external mirror lag, retention, pruning, and restore proof.",
       "proofRequired": [
@@ -4793,7 +5014,7 @@
       "family": "Security",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -4808,13 +5029,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -4900,9 +5121,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -5009,8 +5236,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -5027,7 +5259,7 @@
       "family": "Finance",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -5042,13 +5274,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -5134,9 +5366,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -5243,8 +5481,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Bind cost attribution, billing provider data, reconciliation status, and anomaly review.",
       "proofRequired": [
@@ -5261,7 +5504,7 @@
       "family": "Agents",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -5276,13 +5519,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -5368,9 +5611,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -5477,8 +5726,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Bind task routing, loop runs, model routing, approvals, and autonomy gates.",
       "proofRequired": [
@@ -5495,7 +5749,7 @@
       "family": "Operations",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -5510,13 +5764,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -5602,9 +5856,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -5711,8 +5971,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire runner health, queue status, incident flow, and remediation actions.",
       "proofRequired": [
@@ -5729,7 +5994,7 @@
       "family": "Agents",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -5744,13 +6009,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -5836,9 +6101,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -5945,8 +6216,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Bind task routing, loop runs, model routing, approvals, and autonomy gates.",
       "proofRequired": [
@@ -5963,7 +6239,7 @@
       "family": "Security",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -5978,13 +6254,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -6070,9 +6346,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -6179,8 +6461,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -6197,7 +6484,7 @@
       "family": "Agents",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -6212,13 +6499,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -6304,9 +6591,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -6413,8 +6706,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Bind task routing, loop runs, model routing, approvals, and autonomy gates.",
       "proofRequired": [
@@ -6431,7 +6729,7 @@
       "family": "Operations",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -6446,13 +6744,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -6538,9 +6836,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -6647,8 +6951,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire runner health, queue status, incident flow, and remediation actions.",
       "proofRequired": [
@@ -6665,7 +6974,7 @@
       "family": "Operations",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -6680,13 +6989,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -6772,9 +7081,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -6881,8 +7196,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire runner health, queue status, incident flow, and remediation actions.",
       "proofRequired": [
@@ -6899,7 +7219,7 @@
       "family": "Data",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -6914,13 +7234,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -7006,9 +7326,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -7115,8 +7441,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire source freshness, warehouse growth, external mirror lag, retention, pruning, and restore proof.",
       "proofRequired": [
@@ -7133,7 +7464,7 @@
       "family": "Operations",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -7148,13 +7479,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -7240,9 +7571,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -7349,8 +7686,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire runner health, queue status, incident flow, and remediation actions.",
       "proofRequired": [
@@ -7367,7 +7709,7 @@
       "family": "Deployment",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -7382,13 +7724,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -7474,9 +7816,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -7583,8 +7931,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect promotion state, environment health, rollback readiness, and release evidence.",
       "proofRequired": [
@@ -7601,7 +7954,7 @@
       "family": "Security",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -7616,13 +7969,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -7708,9 +8061,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -7817,8 +8176,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -7835,7 +8199,7 @@
       "family": "Data",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -7850,13 +8214,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -7942,9 +8306,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -8051,8 +8421,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire source freshness, warehouse growth, external mirror lag, retention, pruning, and restore proof.",
       "proofRequired": [
@@ -8069,7 +8444,7 @@
       "family": "Finance",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -8084,13 +8459,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -8176,9 +8551,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -8285,8 +8666,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Bind cost attribution, billing provider data, reconciliation status, and anomaly review.",
       "proofRequired": [
@@ -8303,7 +8689,7 @@
       "family": "Learning",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -8318,13 +8704,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -8410,9 +8796,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -8519,8 +8911,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire golden evals, model comparisons, outcomes, regressions, and learning feeds.",
       "proofRequired": [
@@ -8537,7 +8934,7 @@
       "family": "Learning",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -8552,13 +8949,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -8644,9 +9041,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -8753,8 +9156,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire golden evals, model comparisons, outcomes, regressions, and learning feeds.",
       "proofRequired": [
@@ -8771,7 +9179,7 @@
       "family": "Executive",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -8786,13 +9194,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -8878,9 +9286,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -8987,8 +9401,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Bind portfolio summaries, action queues, and executive drill-throughs.",
       "proofRequired": [
@@ -9005,7 +9424,7 @@
       "family": "Deployment",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -9020,13 +9439,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -9112,9 +9531,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -9221,8 +9646,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect promotion state, environment health, rollback readiness, and release evidence.",
       "proofRequired": [
@@ -9239,7 +9669,7 @@
       "family": "Security",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -9254,13 +9684,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -9346,9 +9776,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -9455,8 +9891,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -9473,7 +9914,7 @@
       "family": "Adapters",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -9488,13 +9929,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -9580,9 +10021,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -9689,8 +10136,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Bind provider health, credentials posture, rollout state, and failure-mode proof.",
       "proofRequired": [
@@ -9707,7 +10159,7 @@
       "family": "Operations",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -9722,13 +10174,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -9814,9 +10266,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -9923,8 +10381,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire runner health, queue status, incident flow, and remediation actions.",
       "proofRequired": [
@@ -9941,7 +10404,7 @@
       "family": "Deployment",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -9956,13 +10419,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -10048,9 +10511,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -10157,8 +10626,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect promotion state, environment health, rollback readiness, and release evidence.",
       "proofRequired": [
@@ -10175,7 +10649,7 @@
       "family": "Security",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -10190,13 +10664,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -10282,9 +10756,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -10391,8 +10871,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -10409,7 +10894,7 @@
       "family": "Finance",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -10424,13 +10909,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -10516,9 +11001,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -10625,8 +11116,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Bind cost attribution, billing provider data, reconciliation status, and anomaly review.",
       "proofRequired": [
@@ -10643,7 +11139,7 @@
       "family": "Learning",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -10658,13 +11154,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -10750,9 +11246,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -10859,8 +11361,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire golden evals, model comparisons, outcomes, regressions, and learning feeds.",
       "proofRequired": [
@@ -10877,7 +11384,7 @@
       "family": "Learning",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -10892,13 +11399,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -10984,9 +11491,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -11093,8 +11606,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire golden evals, model comparisons, outcomes, regressions, and learning feeds.",
       "proofRequired": [
@@ -11111,7 +11629,7 @@
       "family": "Security",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -11126,13 +11644,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -11218,9 +11736,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -11327,8 +11851,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -11345,7 +11874,7 @@
       "family": "Deployment",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -11360,13 +11889,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -11452,9 +11981,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -11561,8 +12096,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect promotion state, environment health, rollback readiness, and release evidence.",
       "proofRequired": [
@@ -11579,7 +12119,7 @@
       "family": "Deployment",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -11594,13 +12134,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -11686,9 +12226,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -11795,8 +12341,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect promotion state, environment health, rollback readiness, and release evidence.",
       "proofRequired": [
@@ -11813,7 +12364,7 @@
       "family": "Security",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -11828,13 +12379,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -11920,9 +12471,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -12029,8 +12586,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -12047,7 +12609,7 @@
       "family": "Adapters",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -12062,13 +12624,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -12154,9 +12716,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -12263,8 +12831,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Bind provider health, credentials posture, rollout state, and failure-mode proof.",
       "proofRequired": [
@@ -12281,7 +12854,7 @@
       "family": "Operations",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -12296,13 +12869,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -12388,9 +12961,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -12497,8 +13076,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire runner health, queue status, incident flow, and remediation actions.",
       "proofRequired": [
@@ -12515,7 +13099,7 @@
       "family": "Security",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -12530,13 +13114,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -12622,9 +13206,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -12731,8 +13321,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -12749,7 +13344,7 @@
       "family": "Finance",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -12764,13 +13359,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -12856,9 +13451,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -12965,8 +13566,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Bind cost attribution, billing provider data, reconciliation status, and anomaly review.",
       "proofRequired": [
@@ -12983,7 +13589,7 @@
       "family": "Learning",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -12998,13 +13604,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -13090,9 +13696,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -13199,8 +13811,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire golden evals, model comparisons, outcomes, regressions, and learning feeds.",
       "proofRequired": [
@@ -13217,7 +13834,7 @@
       "family": "Learning",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -13232,13 +13849,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -13324,9 +13941,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -13433,8 +14056,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire golden evals, model comparisons, outcomes, regressions, and learning feeds.",
       "proofRequired": [
@@ -13451,7 +14079,7 @@
       "family": "Security",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -13466,13 +14094,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -13558,9 +14186,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -13667,8 +14301,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -13685,7 +14324,7 @@
       "family": "Adapters",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -13700,13 +14339,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -13792,9 +14431,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -13901,8 +14546,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Bind provider health, credentials posture, rollout state, and failure-mode proof.",
       "proofRequired": [
@@ -13919,7 +14569,7 @@
       "family": "Adapters",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -13934,13 +14584,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -14026,9 +14676,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -14135,8 +14791,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Bind provider health, credentials posture, rollout state, and failure-mode proof.",
       "proofRequired": [
@@ -14153,7 +14814,7 @@
       "family": "Security",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -14168,13 +14829,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -14260,9 +14921,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -14369,8 +15036,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -14387,7 +15059,7 @@
       "family": "Finance",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -14402,13 +15074,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -14494,9 +15166,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -14603,8 +15281,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Bind cost attribution, billing provider data, reconciliation status, and anomaly review.",
       "proofRequired": [
@@ -14621,7 +15304,7 @@
       "family": "Learning",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -14636,13 +15319,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -14728,9 +15411,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -14837,8 +15526,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire golden evals, model comparisons, outcomes, regressions, and learning feeds.",
       "proofRequired": [
@@ -14855,7 +15549,7 @@
       "family": "Learning",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -14870,13 +15564,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -14962,9 +15656,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -15071,8 +15771,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire golden evals, model comparisons, outcomes, regressions, and learning feeds.",
       "proofRequired": [
@@ -15089,7 +15794,7 @@
       "family": "Security",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -15104,13 +15809,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -15196,9 +15901,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -15305,8 +16016,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
       "proofRequired": [
@@ -15323,7 +16039,7 @@
       "family": "Data",
       "priority": "P0",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -15338,13 +16054,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -15430,9 +16146,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -15539,8 +16261,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire source freshness, warehouse growth, external mirror lag, retention, pruning, and restore proof.",
       "proofRequired": [
@@ -15557,7 +16284,7 @@
       "family": "Data",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -15572,13 +16299,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -15664,9 +16391,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -15773,8 +16506,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Wire source freshness, warehouse growth, external mirror lag, retention, pruning, and restore proof.",
       "proofRequired": [
@@ -15791,7 +16529,7 @@
       "family": "Deployment",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 87,
+      "score": 93,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -15806,13 +16544,13 @@
         "ux-visual-maturity",
         "alerting-escalation",
         "warehouse-storage",
-        "testing-proof"
+        "testing-proof",
+        "command-control"
       ],
       "openLayers": [
-        "command-control",
         "production-readiness"
       ],
-      "nextOpenLayer": "command-control",
+      "nextOpenLayer": "production-readiness",
       "layerStatus": [
         {
           "id": "route-coverage",
@@ -15898,9 +16636,15 @@
           "id": "command-control",
           "order": 8,
           "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "11 governed actions",
+            "audit policy: required",
+            "cooldown policy: required",
+            "disabled reason policy: required"
+          ],
+          "blocker": null
         },
         {
           "id": "alerting-escalation",
@@ -16007,8 +16751,13 @@
         "regressionProofStatus": "ready",
         "regressionProofCheckCount": 7,
         "commandReadinessStatus": "read-only-ready",
+        "commandControlStatus": "governed-ready",
+        "actionRegistryCount": 11,
         "readOnlyCommandCount": 5,
-        "gatedCommandCount": 6
+        "gatedCommandCount": 6,
+        "auditPolicyStatus": "required",
+        "cooldownPolicyStatus": "required",
+        "disabledReasonPolicyStatus": "required"
       },
       "nextMaturityAction": "Connect promotion state, environment health, rollback readiness, and release evidence.",
       "proofRequired": [

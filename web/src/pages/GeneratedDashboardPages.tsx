@@ -330,8 +330,13 @@ function freshnessItems(evidenceBinding: GeneratedDashboardRouteEvidenceBinding)
 function commandReadinessItems(evidenceBinding: GeneratedDashboardRouteEvidenceBinding) {
   return [
     evidenceBinding.commandReadiness.safetyPolicy,
+    `command control: ${evidenceBinding.commandReadiness.commandControlStatus}`,
+    `audit policy: ${evidenceBinding.commandReadiness.auditPolicy.status}`,
+    `cooldown policy: ${evidenceBinding.commandReadiness.cooldownPolicy.status}`,
+    `disabled reason policy: ${evidenceBinding.commandReadiness.disabledReasonPolicy.status}`,
     ...evidenceBinding.commandReadiness.readOnlyActions.map((action) => `read-only: ${action.action} (${action.executionState})`),
     ...evidenceBinding.commandReadiness.gatedActions.map((action) => `gated: ${action.action} (${action.executionState})`),
+    ...evidenceBinding.commandReadiness.actionRegistry.slice(0, 6).map((action) => `${action.mode}: ${action.action} -> ${action.auditEvent}`),
   ];
 }
 

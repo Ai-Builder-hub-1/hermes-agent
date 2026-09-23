@@ -1,6 +1,6 @@
 # Generated Dashboard Route Maturity Ledger
 
-Generated: 2026-09-23T21:38:59.167Z
+Generated: 2026-09-23T21:49:06.855Z
 
 ## Totals
 
@@ -9,8 +9,8 @@ Generated: 2026-09-23T21:38:59.167Z
 - Family contracts: 0
 - P0 routes: 12
 - P1 routes: 9
-- P0 open layers: 24
-- P1 open layers: 18
+- P0 open layers: 12
+- P1 open layers: 9
 - Data-bound routes: 68
 - Observability-bound routes: 68
 - Drill-down-bound routes: 68
@@ -22,7 +22,8 @@ Generated: 2026-09-23T21:38:59.167Z
 - Live-source contracted routes: 68
 - Regression-proof ready routes: 68
 - Read-only command-ready routes: 68
-- Average maturity score: 87%
+- Command-control ready routes: 68
+- Average maturity score: 93%
 
 ## Layers
 
@@ -46,72 +47,72 @@ Generated: 2026-09-23T21:38:59.167Z
 
 | Priority | Route | Stage | Score | Next layer | Next action |
 | --- | --- | --- | ---: | --- | --- |
-| P3 | /hermes-os | contract-registered | 87% | command-control | Bind portfolio summaries, action queues, and executive drill-throughs. |
-| P2 | /design-system | contract-registered | 87% | command-control | Connect adoption registry, visual proof, and exception retirement data. |
-| P2 | /design-intelligence | contract-registered | 87% | command-control | Connect adoption registry, visual proof, and exception retirement data. |
-| P3 | /dashboard-migrations | contract-registered | 87% | command-control | Wire runner health, queue status, incident flow, and remediation actions. |
-| P3 | /executive-summary | contract-registered | 87% | command-control | Bind portfolio summaries, action queues, and executive drill-throughs. |
-| P3 | /executive-briefing | contract-registered | 87% | command-control | Bind portfolio summaries, action queues, and executive drill-throughs. |
-| P0 | /central-command | contract-registered | 87% | command-control | Bind portfolio summaries, action queues, and executive drill-throughs. |
-| P3 | /theme-system | contract-registered | 87% | command-control | Connect adoption registry, visual proof, and exception retirement data. |
-| P2 | /dashboard-marketplace | contract-registered | 87% | command-control | Connect adoption registry, visual proof, and exception retirement data. |
-| P2 | /dashboard-prototypes | contract-registered | 87% | command-control | Connect adoption registry, visual proof, and exception retirement data. |
-| P2 | /hermes-command | contract-registered | 87% | command-control | Connect adoption registry, visual proof, and exception retirement data. |
-| P3 | /live-signals | contract-registered | 87% | command-control | Wire runner health, queue status, incident flow, and remediation actions. |
-| P3 | /task-routing | contract-registered | 87% | command-control | Bind task routing, loop runs, model routing, approvals, and autonomy gates. |
-| P3 | /decision-ledger | contract-registered | 87% | command-control | Wire runner health, queue status, incident flow, and remediation actions. |
-| P3 | /model-routing | contract-registered | 87% | command-control | Bind task routing, loop runs, model routing, approvals, and autonomy gates. |
-| P3 | /operating-loops | contract-registered | 87% | command-control | Bind task routing, loop runs, model routing, approvals, and autonomy gates. |
-| P1 | /permission-security | contract-registered | 87% | command-control | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
-| P3 | /business-os | contract-registered | 87% | command-control | Bind portfolio summaries, action queues, and executive drill-throughs. |
-| P3 | /project-snapshots | contract-registered | 87% | command-control | Wire runner health, queue status, incident flow, and remediation actions. |
-| P3 | /durable-memory | contract-registered | 87% | command-control | Wire source freshness, warehouse growth, external mirror lag, retention, pruning, and restore proof. |
-| P1 | /permission-runtime | contract-registered | 87% | command-control | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
-| P1 | /cost-governor | contract-registered | 87% | command-control | Bind cost attribution, billing provider data, reconciliation status, and anomaly review. |
-| P3 | /loop-runner | contract-registered | 87% | command-control | Bind task routing, loop runs, model routing, approvals, and autonomy gates. |
-| P3 | /business-command | contract-registered | 87% | command-control | Wire runner health, queue status, incident flow, and remediation actions. |
-| P3 | /agent-workbench | contract-registered | 87% | command-control | Bind task routing, loop runs, model routing, approvals, and autonomy gates. |
-| P2 | /evaluation-gates | contract-registered | 87% | command-control | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
-| P3 | /autonomy-readiness | contract-registered | 87% | command-control | Bind task routing, loop runs, model routing, approvals, and autonomy gates. |
-| P3 | /project-registry | contract-registered | 87% | command-control | Wire runner health, queue status, incident flow, and remediation actions. |
-| P3 | /project-plan-command | contract-registered | 87% | command-control | Wire runner health, queue status, incident flow, and remediation actions. |
-| P1 | /telemetry-fabric | contract-registered | 87% | command-control | Wire source freshness, warehouse growth, external mirror lag, retention, pruning, and restore proof. |
-| P0 | /incident-command | contract-registered | 87% | command-control | Wire runner health, queue status, incident flow, and remediation actions. |
-| P1 | /deployment-promotion | contract-registered | 87% | command-control | Connect promotion state, environment health, rollback readiness, and release evidence. |
-| P0 | /secrets-posture | contract-registered | 87% | command-control | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
-| P1 | /data-source-catalog | contract-registered | 87% | command-control | Wire source freshness, warehouse growth, external mirror lag, retention, pruning, and restore proof. |
-| P3 | /finance-attribution | contract-registered | 87% | command-control | Bind cost attribution, billing provider data, reconciliation status, and anomaly review. |
-| P2 | /learning-engine | contract-registered | 87% | command-control | Wire golden evals, model comparisons, outcomes, regressions, and learning feeds. |
-| P2 | /agent-eval-lab | contract-registered | 87% | command-control | Wire golden evals, model comparisons, outcomes, regressions, and learning feeds. |
-| P3 | /executive-cockpit | contract-registered | 87% | command-control | Bind portfolio summaries, action queues, and executive drill-throughs. |
-| P0 | /production-verification | contract-registered | 87% | command-control | Connect promotion state, environment health, rollback readiness, and release evidence. |
-| P3 | /command-gate-runtime | contract-registered | 87% | command-control | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
-| P1 | /telemetry-adapter-kit | contract-registered | 87% | command-control | Bind provider health, credentials posture, rollout state, and failure-mode proof. |
-| P0 | /incident-ingestion | contract-registered | 87% | command-control | Wire runner health, queue status, incident flow, and remediation actions. |
-| P3 | /promotion-runner | contract-registered | 87% | command-control | Connect promotion state, environment health, rollback readiness, and release evidence. |
-| P0 | /secret-scanner | contract-registered | 87% | command-control | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
-| P1 | /cost-attribution-engine | contract-registered | 87% | command-control | Bind cost attribution, billing provider data, reconciliation status, and anomaly review. |
-| P2 | /learning-ingestion | contract-registered | 87% | command-control | Wire golden evals, model comparisons, outcomes, regressions, and learning feeds. |
-| P2 | /model-eval-harness | contract-registered | 87% | command-control | Wire golden evals, model comparisons, outcomes, regressions, and learning feeds. |
-| P3 | /circuit-breakers | contract-registered | 87% | command-control | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
-| P0 | /production-sweep | contract-registered | 87% | command-control | Connect promotion state, environment health, rollback readiness, and release evidence. |
-| P3 | /hetzner-promotion-execution | contract-registered | 87% | command-control | Connect promotion state, environment health, rollback readiness, and release evidence. |
-| P3 | /command-gate-coverage | contract-registered | 87% | command-control | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
-| P3 | /project-adapter-rollout | contract-registered | 87% | command-control | Bind provider health, credentials posture, rollout state, and failure-mode proof. |
-| P0 | /incident-automation | contract-registered | 87% | command-control | Wire runner health, queue status, incident flow, and remediation actions. |
-| P0 | /live-secret-scan | contract-registered | 87% | command-control | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
-| P1 | /cost-reconciliation | contract-registered | 87% | command-control | Bind cost attribution, billing provider data, reconciliation status, and anomaly review. |
-| P2 | /outcome-learning-feeds | contract-registered | 87% | command-control | Wire golden evals, model comparisons, outcomes, regressions, and learning feeds. |
-| P2 | /golden-eval-execution | contract-registered | 87% | command-control | Wire golden evals, model comparisons, outcomes, regressions, and learning feeds. |
-| P0 | /hard-breaker-enforcement | contract-registered | 87% | command-control | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
-| P3 | /network-runner-adapter | contract-registered | 87% | command-control | Bind provider health, credentials posture, rollout state, and failure-mode proof. |
-| P3 | /hetzner-ssh-adapter | contract-registered | 87% | command-control | Bind provider health, credentials posture, rollout state, and failure-mode proof. |
-| P0 | /secret-provider-adapter | contract-registered | 87% | command-control | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
-| P3 | /billing-provider-adapter | contract-registered | 87% | command-control | Bind cost attribution, billing provider data, reconciliation status, and anomaly review. |
-| P3 | /project-outcome-emitter | contract-registered | 87% | command-control | Wire golden evals, model comparisons, outcomes, regressions, and learning feeds. |
-| P2 | /provider-eval-runner | contract-registered | 87% | command-control | Wire golden evals, model comparisons, outcomes, regressions, and learning feeds. |
-| P3 | /breaker-middleware | contract-registered | 87% | command-control | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
-| P0 | /incident-subscriptions | contract-registered | 87% | command-control | Wire source freshness, warehouse growth, external mirror lag, retention, pruning, and restore proof. |
-| P3 | /evidence-artifact-store | contract-registered | 87% | command-control | Wire source freshness, warehouse growth, external mirror lag, retention, pruning, and restore proof. |
-| P3 | /release-train-orchestrator | contract-registered | 87% | command-control | Connect promotion state, environment health, rollback readiness, and release evidence. |
+| P3 | /hermes-os | contract-registered | 93% | production-readiness | Bind portfolio summaries, action queues, and executive drill-throughs. |
+| P2 | /design-system | contract-registered | 93% | production-readiness | Connect adoption registry, visual proof, and exception retirement data. |
+| P2 | /design-intelligence | contract-registered | 93% | production-readiness | Connect adoption registry, visual proof, and exception retirement data. |
+| P3 | /dashboard-migrations | contract-registered | 93% | production-readiness | Wire runner health, queue status, incident flow, and remediation actions. |
+| P3 | /executive-summary | contract-registered | 93% | production-readiness | Bind portfolio summaries, action queues, and executive drill-throughs. |
+| P3 | /executive-briefing | contract-registered | 93% | production-readiness | Bind portfolio summaries, action queues, and executive drill-throughs. |
+| P0 | /central-command | contract-registered | 93% | production-readiness | Bind portfolio summaries, action queues, and executive drill-throughs. |
+| P3 | /theme-system | contract-registered | 93% | production-readiness | Connect adoption registry, visual proof, and exception retirement data. |
+| P2 | /dashboard-marketplace | contract-registered | 93% | production-readiness | Connect adoption registry, visual proof, and exception retirement data. |
+| P2 | /dashboard-prototypes | contract-registered | 93% | production-readiness | Connect adoption registry, visual proof, and exception retirement data. |
+| P2 | /hermes-command | contract-registered | 93% | production-readiness | Connect adoption registry, visual proof, and exception retirement data. |
+| P3 | /live-signals | contract-registered | 93% | production-readiness | Wire runner health, queue status, incident flow, and remediation actions. |
+| P3 | /task-routing | contract-registered | 93% | production-readiness | Bind task routing, loop runs, model routing, approvals, and autonomy gates. |
+| P3 | /decision-ledger | contract-registered | 93% | production-readiness | Wire runner health, queue status, incident flow, and remediation actions. |
+| P3 | /model-routing | contract-registered | 93% | production-readiness | Bind task routing, loop runs, model routing, approvals, and autonomy gates. |
+| P3 | /operating-loops | contract-registered | 93% | production-readiness | Bind task routing, loop runs, model routing, approvals, and autonomy gates. |
+| P1 | /permission-security | contract-registered | 93% | production-readiness | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
+| P3 | /business-os | contract-registered | 93% | production-readiness | Bind portfolio summaries, action queues, and executive drill-throughs. |
+| P3 | /project-snapshots | contract-registered | 93% | production-readiness | Wire runner health, queue status, incident flow, and remediation actions. |
+| P3 | /durable-memory | contract-registered | 93% | production-readiness | Wire source freshness, warehouse growth, external mirror lag, retention, pruning, and restore proof. |
+| P1 | /permission-runtime | contract-registered | 93% | production-readiness | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
+| P1 | /cost-governor | contract-registered | 93% | production-readiness | Bind cost attribution, billing provider data, reconciliation status, and anomaly review. |
+| P3 | /loop-runner | contract-registered | 93% | production-readiness | Bind task routing, loop runs, model routing, approvals, and autonomy gates. |
+| P3 | /business-command | contract-registered | 93% | production-readiness | Wire runner health, queue status, incident flow, and remediation actions. |
+| P3 | /agent-workbench | contract-registered | 93% | production-readiness | Bind task routing, loop runs, model routing, approvals, and autonomy gates. |
+| P2 | /evaluation-gates | contract-registered | 93% | production-readiness | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
+| P3 | /autonomy-readiness | contract-registered | 93% | production-readiness | Bind task routing, loop runs, model routing, approvals, and autonomy gates. |
+| P3 | /project-registry | contract-registered | 93% | production-readiness | Wire runner health, queue status, incident flow, and remediation actions. |
+| P3 | /project-plan-command | contract-registered | 93% | production-readiness | Wire runner health, queue status, incident flow, and remediation actions. |
+| P1 | /telemetry-fabric | contract-registered | 93% | production-readiness | Wire source freshness, warehouse growth, external mirror lag, retention, pruning, and restore proof. |
+| P0 | /incident-command | contract-registered | 93% | production-readiness | Wire runner health, queue status, incident flow, and remediation actions. |
+| P1 | /deployment-promotion | contract-registered | 93% | production-readiness | Connect promotion state, environment health, rollback readiness, and release evidence. |
+| P0 | /secrets-posture | contract-registered | 93% | production-readiness | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
+| P1 | /data-source-catalog | contract-registered | 93% | production-readiness | Wire source freshness, warehouse growth, external mirror lag, retention, pruning, and restore proof. |
+| P3 | /finance-attribution | contract-registered | 93% | production-readiness | Bind cost attribution, billing provider data, reconciliation status, and anomaly review. |
+| P2 | /learning-engine | contract-registered | 93% | production-readiness | Wire golden evals, model comparisons, outcomes, regressions, and learning feeds. |
+| P2 | /agent-eval-lab | contract-registered | 93% | production-readiness | Wire golden evals, model comparisons, outcomes, regressions, and learning feeds. |
+| P3 | /executive-cockpit | contract-registered | 93% | production-readiness | Bind portfolio summaries, action queues, and executive drill-throughs. |
+| P0 | /production-verification | contract-registered | 93% | production-readiness | Connect promotion state, environment health, rollback readiness, and release evidence. |
+| P3 | /command-gate-runtime | contract-registered | 93% | production-readiness | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
+| P1 | /telemetry-adapter-kit | contract-registered | 93% | production-readiness | Bind provider health, credentials posture, rollout state, and failure-mode proof. |
+| P0 | /incident-ingestion | contract-registered | 93% | production-readiness | Wire runner health, queue status, incident flow, and remediation actions. |
+| P3 | /promotion-runner | contract-registered | 93% | production-readiness | Connect promotion state, environment health, rollback readiness, and release evidence. |
+| P0 | /secret-scanner | contract-registered | 93% | production-readiness | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
+| P1 | /cost-attribution-engine | contract-registered | 93% | production-readiness | Bind cost attribution, billing provider data, reconciliation status, and anomaly review. |
+| P2 | /learning-ingestion | contract-registered | 93% | production-readiness | Wire golden evals, model comparisons, outcomes, regressions, and learning feeds. |
+| P2 | /model-eval-harness | contract-registered | 93% | production-readiness | Wire golden evals, model comparisons, outcomes, regressions, and learning feeds. |
+| P3 | /circuit-breakers | contract-registered | 93% | production-readiness | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
+| P0 | /production-sweep | contract-registered | 93% | production-readiness | Connect promotion state, environment health, rollback readiness, and release evidence. |
+| P3 | /hetzner-promotion-execution | contract-registered | 93% | production-readiness | Connect promotion state, environment health, rollback readiness, and release evidence. |
+| P3 | /command-gate-coverage | contract-registered | 93% | production-readiness | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
+| P3 | /project-adapter-rollout | contract-registered | 93% | production-readiness | Bind provider health, credentials posture, rollout state, and failure-mode proof. |
+| P0 | /incident-automation | contract-registered | 93% | production-readiness | Wire runner health, queue status, incident flow, and remediation actions. |
+| P0 | /live-secret-scan | contract-registered | 93% | production-readiness | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
+| P1 | /cost-reconciliation | contract-registered | 93% | production-readiness | Bind cost attribution, billing provider data, reconciliation status, and anomaly review. |
+| P2 | /outcome-learning-feeds | contract-registered | 93% | production-readiness | Wire golden evals, model comparisons, outcomes, regressions, and learning feeds. |
+| P2 | /golden-eval-execution | contract-registered | 93% | production-readiness | Wire golden evals, model comparisons, outcomes, regressions, and learning feeds. |
+| P0 | /hard-breaker-enforcement | contract-registered | 93% | production-readiness | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
+| P3 | /network-runner-adapter | contract-registered | 93% | production-readiness | Bind provider health, credentials posture, rollout state, and failure-mode proof. |
+| P3 | /hetzner-ssh-adapter | contract-registered | 93% | production-readiness | Bind provider health, credentials posture, rollout state, and failure-mode proof. |
+| P0 | /secret-provider-adapter | contract-registered | 93% | production-readiness | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
+| P3 | /billing-provider-adapter | contract-registered | 93% | production-readiness | Bind cost attribution, billing provider data, reconciliation status, and anomaly review. |
+| P3 | /project-outcome-emitter | contract-registered | 93% | production-readiness | Wire golden evals, model comparisons, outcomes, regressions, and learning feeds. |
+| P2 | /provider-eval-runner | contract-registered | 93% | production-readiness | Wire golden evals, model comparisons, outcomes, regressions, and learning feeds. |
+| P3 | /breaker-middleware | contract-registered | 93% | production-readiness | Connect permission gates, secret scans, blocked commands, and remediation evidence. |
+| P0 | /incident-subscriptions | contract-registered | 93% | production-readiness | Wire source freshness, warehouse growth, external mirror lag, retention, pruning, and restore proof. |
+| P3 | /evidence-artifact-store | contract-registered | 93% | production-readiness | Wire source freshness, warehouse growth, external mirror lag, retention, pruning, and restore proof. |
+| P3 | /release-train-orchestrator | contract-registered | 93% | production-readiness | Connect promotion state, environment health, rollback readiness, and release evidence. |
 
