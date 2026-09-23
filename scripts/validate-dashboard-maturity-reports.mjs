@@ -21,6 +21,7 @@ const required = [
   "docs/design/dashboard-runtime-data-report.json",
   "docs/design/generated-dashboard-route-evidence-bindings.json",
   "docs/design/generated-dashboard-route-maturity-ledger.json",
+  "docs/design/dashboard-live-source-gap-ledger.json",
   "docs/design/project-status-ledger.json",
   "docs/design/dashboard-pr-artifacts/latest.json",
   "web/src/pages/dashboard-maturity-data.ts"
@@ -60,7 +61,8 @@ if (!issues.some((item) => item.severity === "error")) {
   const runtimeData = JSON.parse(fs.readFileSync(path.join(root, required[13]), "utf8"));
   const generatedRouteEvidence = JSON.parse(fs.readFileSync(path.join(root, required[14]), "utf8"));
   const generatedRouteMaturity = JSON.parse(fs.readFileSync(path.join(root, required[15]), "utf8"));
-  const projectStatusLedger = JSON.parse(fs.readFileSync(path.join(root, required[16]), "utf8"));
+  const liveSourceGapLedger = JSON.parse(fs.readFileSync(path.join(root, required[16]), "utf8"));
+  const projectStatusLedger = JSON.parse(fs.readFileSync(path.join(root, required[17]), "utf8"));
   if (!Array.isArray(componentBacklog.items)) issue("error", "Component evidence backlog must include items.");
   if ((certification.itemCount ?? 0) < 1) issue("error", "Component certification checklist must include components.");
   if ((visualCoverage.dashboardCount ?? 0) < 1) issue("error", "Visual coverage report must include dashboards.");
@@ -94,6 +96,10 @@ if (!issues.some((item) => item.severity === "error")) {
   if ((generatedRouteMaturity.totals?.routeCount ?? 0) < 1) issue("error", "Generated route maturity ledger must include routes.");
   if ((generatedRouteMaturity.layers ?? []).length < 15) issue("error", "Generated route maturity ledger must include comprehensive layers.");
   if ((generatedRouteMaturity.entries ?? []).some((entry) => !entry.nextMaturityAction)) issue("error", "Generated route maturity entries must include nextMaturityAction.");
+  if ((liveSourceGapLedger.totals?.routeCount ?? 0) !== (generatedRouteEvidence.totals?.routeCount ?? 0)) issue("error", "Live source gap ledger must track every generated route.");
+  if ((liveSourceGapLedger.totals?.p0SourceGapCount ?? 0) < 1) issue("error", "Live source gap ledger must expose P0 source gaps.");
+  if ((liveSourceGapLedger.totals?.p1SourceGapCount ?? 0) < 1) issue("error", "Live source gap ledger must expose P1 source gaps.");
+  if ((liveSourceGapLedger.totals?.blockedMutatingActionCount ?? 0) < 1) issue("error", "Live source gap ledger must expose blocked mutating actions.");
   if (!Array.isArray(projectStatusLedger.projects) || projectStatusLedger.projects.length < 1) issue("error", "Project status ledger must include projects.");
   if (!projectStatusLedger.crossProject) issue("error", "Project status ledger must include crossProject summary.");
 }

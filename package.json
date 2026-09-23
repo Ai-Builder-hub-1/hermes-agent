@@ -103,6 +103,8 @@
     "dashboard:generated-routes:evidence:validate": "node scripts/validate-generated-dashboard-route-evidence-bindings.mjs",
     "dashboard:generated-routes:report": "node scripts/generate-generated-dashboard-route-maturity.mjs",
     "dashboard:generated-routes:validate": "node scripts/validate-generated-dashboard-route-maturity.mjs",
+    "dashboard:live-source-gaps:report": "node scripts/generate-dashboard-live-source-gap-ledger.mjs",
+    "dashboard:live-source-gaps:validate": "node scripts/validate-dashboard-live-source-gap-ledger.mjs",
     "dashboard:runtime-data:report": "node scripts/scan-dashboard-runtime-data.mjs",
     "dashboard:runtime-data:strict": "node scripts/scan-dashboard-runtime-data.mjs --strict",
     "dashboard:governance:refresh-all": "node scripts/refresh-dashboard-governance.mjs",
