@@ -64,6 +64,14 @@ if (!issues.some((item) => item.severity === "error")) {
     if (!Number.isFinite(entry.score) || entry.score < 0 || entry.score > 100) issue("error", "Generated route maturity score must be 0-100.", entry.exportName);
     if (!Array.isArray(entry.completedLayers) || entry.completedLayers.length < 1) issue("error", "Generated route maturity entry is missing completedLayers.", entry.exportName);
     if (!Array.isArray(entry.openLayers)) issue("error", "Generated route maturity entry is missing openLayers.", entry.exportName);
+    if (!entry.nextOpenLayer) issue("error", "Generated route maturity entry is missing nextOpenLayer.", entry.exportName);
+    if (!Array.isArray(entry.layerStatus) || entry.layerStatus.length !== requiredLayers.length) issue("error", "Generated route maturity entry must include layerStatus for every layer.", entry.exportName);
+    for (const layer of entry.layerStatus ?? []) {
+      if (!requiredLayers.includes(layer.id)) issue("error", "Generated route maturity entry has unknown layer status.", `${entry.exportName}: ${layer.id}`);
+      if (!["complete", "open"].includes(layer.status)) issue("error", "Generated route maturity layer status must be complete or open.", `${entry.exportName}: ${layer.id}`);
+      if (layer.status === "complete" && (!Array.isArray(layer.evidence) || layer.evidence.length < 1)) issue("error", "Complete maturity layer must include evidence.", `${entry.exportName}: ${layer.id}`);
+      if (layer.status === "open" && !layer.blocker) issue("error", "Open maturity layer must include blocker.", `${entry.exportName}: ${layer.id}`);
+    }
     if (!entry.nextMaturityAction) issue("error", "Generated route maturity entry is missing nextMaturityAction.", entry.exportName);
     if (!Array.isArray(entry.proofRequired) || entry.proofRequired.length < 1) issue("error", "Generated route maturity entry is missing proofRequired.", entry.exportName);
   }

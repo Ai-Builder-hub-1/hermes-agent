@@ -166,7 +166,7 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
           <MetricCard label="Data Contracts" value={String(dataContracts.length)} detail="Typed inputs expected before bespoke build." />
           <MetricCard label="States" value={String(requiredStates.length)} detail="Operational states the page must show." />
           <MetricCard label="Validation" value={String(validation.length)} detail="Checks needed for handoff evidence." />
-          <MetricCard label="Open Layers" value={String(routeMaturity?.openLayers.length ?? 0)} detail={spec.proofFocus} />
+          <MetricCard label="Open Layers" value={String(routeMaturity?.openLayers.length ?? 0)} detail={routeMaturity?.nextOpenLayer ?? spec.proofFocus} />
         </section>
 
         <section className="grid gap-6 xl:grid-cols-[1fr_360px]">
@@ -214,7 +214,14 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
           <section className="grid gap-4 lg:grid-cols-3">
             <ChecklistPanel title="Completed Maturity Layers" items={[...routeMaturity.completedLayers]} />
             <ChecklistPanel title="Open Maturity Layers" items={[...routeMaturity.openLayers]} />
+            <ChecklistPanel title="Layer Blockers" items={routeMaturity.layerStatus.filter((layer) => layer.status === "open").slice(0, 6).map((layer) => `${layer.id}: ${layer.blocker}`)} />
+          </section>
+        ) : null}
+
+        {routeMaturity ? (
+          <section className="grid gap-4 lg:grid-cols-2">
             <ChecklistPanel title="Proof Required" items={[...routeMaturity.proofRequired]} />
+            <ChecklistPanel title="Completed Evidence" items={routeMaturity.layerStatus.filter((layer) => layer.status === "complete").flatMap((layer) => layer.evidence.map((item) => `${layer.id}: ${item}`))} />
           </section>
         ) : null}
       </section>
