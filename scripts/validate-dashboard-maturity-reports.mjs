@@ -78,6 +78,9 @@ if (!issues.some((item) => item.severity === "error")) {
   if ((runtimeData.checkedCount ?? 0) < 1) issue("error", "Runtime data report must include projects.");
   if ((generatedRouteEvidence.totals?.routeCount ?? 0) < 1) issue("error", "Generated route evidence bindings must include routes.");
   if ((generatedRouteEvidence.totals?.dataBoundCount ?? 0) < (generatedRouteEvidence.totals?.routeCount ?? 0)) issue("error", "Generated route evidence bindings must bind every route.");
+  if ((generatedRouteEvidence.totals?.observabilityBoundCount ?? 0) < (generatedRouteEvidence.totals?.routeCount ?? 0)) issue("error", "Generated route evidence bindings must add observability to every route.");
+  if ((generatedRouteEvidence.totals?.drillDownBoundCount ?? 0) < (generatedRouteEvidence.totals?.routeCount ?? 0)) issue("error", "Generated route evidence bindings must add drill-downs to every route.");
+  if (!generatedRouteEvidence.rollups?.priority || !generatedRouteEvidence.rollups?.family) issue("error", "Generated route evidence bindings must include priority and family rollups.");
   if ((generatedRouteMaturity.totals?.routeCount ?? 0) < 1) issue("error", "Generated route maturity ledger must include routes.");
   if ((generatedRouteMaturity.layers ?? []).length < 15) issue("error", "Generated route maturity ledger must include comprehensive layers.");
   if ((generatedRouteMaturity.entries ?? []).some((entry) => !entry.nextMaturityAction)) issue("error", "Generated route maturity entries must include nextMaturityAction.");

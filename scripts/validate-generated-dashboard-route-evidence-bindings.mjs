@@ -26,13 +26,24 @@ if (!issues.some((item) => item.severity === "error")) {
   if (report.schemaVersion !== 1) issue("error", "Generated route evidence binding report has invalid schemaVersion.");
   if (!report.generatedAt) issue("error", "Generated route evidence binding report is missing generatedAt.");
   if (!report.policy?.generatedEvidenceDataCountsForDataBinding) issue("error", "Generated route evidence binding policy must declare generated evidence data binding.");
+  if (!report.policy?.observabilityRequiresOperationalEvidence) issue("error", "Generated route evidence binding policy must require operational evidence.");
+  if (!report.policy?.drillDownRequiresEvidenceTargets) issue("error", "Generated route evidence binding policy must require drill-down evidence targets.");
+  if (typeof report.policy?.freshnessSlaDays !== "number") issue("error", "Generated route evidence binding policy must include freshnessSlaDays.");
   if ((report.routeBindings ?? []).length !== routeCount) issue("error", "Generated route evidence binding count must match maturity route count.", `${report.routeBindings?.length ?? 0} bindings vs ${routeCount} routes`);
-  if ((report.totals?.dataBoundCount ?? 0) < routeCount) issue("error", "Every generated route must be evidence data-bound for the 33-to-43 band.", `${report.totals?.dataBoundCount ?? 0}/${routeCount}`);
-  if ((report.totals?.observabilityBoundCount ?? 0) < ((maturity.totals?.p0Count ?? 0) + (maturity.totals?.p1Count ?? 0))) issue("error", "P0/P1 routes must have observability bindings for the 33-to-43 band.");
-  if ((report.totals?.drillDownBoundCount ?? 0) < (maturity.totals?.p0Count ?? 0)) issue("error", "P0 routes must have evidence drill-down bindings for the 33-to-43 band.");
+  if ((report.totals?.dataBoundCount ?? 0) < routeCount) issue("error", "Every generated route must be evidence data-bound.", `${report.totals?.dataBoundCount ?? 0}/${routeCount}`);
+  if ((report.totals?.observabilityBoundCount ?? 0) < routeCount) issue("error", "Every generated route must have operational observability bindings for the 43-to-53 band.", `${report.totals?.observabilityBoundCount ?? 0}/${routeCount}`);
+  if ((report.totals?.drillDownBoundCount ?? 0) < routeCount) issue("error", "Every generated route must have evidence drill-down bindings for the 43-to-53 band.", `${report.totals?.drillDownBoundCount ?? 0}/${routeCount}`);
+  if (!report.rollups?.priority || !report.rollups?.family) issue("error", "Generated route evidence binding report must include priority and family rollups.");
   for (const binding of report.routeBindings ?? []) {
     if (!binding.route || !binding.title || !binding.priority || !binding.family) issue("error", "Route evidence binding is missing identity fields.", binding.exportName);
     if (binding.dataBindingStatus !== "bound") issue("error", "Route evidence binding must be bound.", binding.route);
+    if (binding.observabilityStatus !== "bound") issue("error", "Route observability binding must be bound.", binding.route);
+    if (binding.drillDownStatus !== "bound") issue("error", "Route drill-down binding must be bound.", binding.route);
+    if (!binding.operationalStatus) issue("error", "Route evidence binding must include operationalStatus.", binding.route);
+    if (!binding.nextOperationalAction) issue("error", "Route evidence binding must include nextOperationalAction.", binding.route);
+    if (!binding.freshnessPolicy || typeof binding.freshnessPolicy.slaDays !== "number") issue("error", "Route evidence binding must include freshnessPolicy.", binding.route);
+    if (!Array.isArray(binding.staleReasons)) issue("error", "Route evidence binding must include staleReasons.", binding.route);
+    if (!Array.isArray(binding.operationalCategories) || binding.operationalCategories.length < 5) issue("error", "Route evidence binding must include operationalCategories.", binding.route);
     if (!Array.isArray(binding.sourceBindings) || binding.sourceBindings.filter((source) => source.status !== "missing").length < 5) issue("error", "Route evidence binding must include at least five available sources.", binding.route);
     if (!Array.isArray(binding.dataSignals) || binding.dataSignals.length < 5) issue("error", "Route evidence binding must include data signals.", binding.route);
     if (!Array.isArray(binding.drillDownTargets) || binding.drillDownTargets.length < 5) issue("error", "Route evidence binding must include drill-down targets.", binding.route);

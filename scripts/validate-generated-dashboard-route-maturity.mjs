@@ -50,9 +50,9 @@ if (!issues.some((item) => item.severity === "error")) {
   if (!report.generatedAt) issue("error", "Generated route maturity ledger is missing generatedAt.");
   if (report.policy?.placeholderRoutesAllowed !== false) issue("error", "Generated route maturity policy must disallow placeholder routes.");
   if ((report.layers ?? []).length !== requiredLayers.length) issue("error", "Generated route maturity ledger must include the complete layer set.");
-  if ((report.totals?.dataBoundCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route data-bound for the 33-to-43 band.");
-  if ((report.totals?.observabilityBoundCount ?? 0) < ((report.totals?.p0Count ?? 0) + (report.totals?.p1Count ?? 0))) issue("error", "Generated route maturity ledger must mark P0/P1 observability-bound for the 33-to-43 band.");
-  if ((report.totals?.drillDownBoundCount ?? 0) < (report.totals?.p0Count ?? 0)) issue("error", "Generated route maturity ledger must mark P0 drill-down-bound for the 33-to-43 band.");
+  if ((report.totals?.dataBoundCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route data-bound.");
+  if ((report.totals?.observabilityBoundCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route observability-bound for the 43-to-53 band.");
+  if ((report.totals?.drillDownBoundCount ?? 0) < (report.totals?.routeCount ?? 0)) issue("error", "Generated route maturity ledger must mark every route drill-down-bound for the 43-to-53 band.");
   for (const layer of requiredLayers) {
     if (!layerIds.has(layer)) issue("error", "Generated route maturity ledger is missing a required layer.", layer);
   }

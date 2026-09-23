@@ -31,6 +31,8 @@ const routeRows = [...pageSource.matchAll(/\["([^"]+)",\s*"([^"]+)",\s*"([^"]+)"
 const reports = Object.fromEntries(
   Object.entries(evidenceFiles).map(([key, relPath]) => [key, readJsonIfExists(path.join(root, relPath), {})])
 );
+const freshnessSlaDays = 14;
+const generatedAt = new Date().toISOString();
 
 const routeBindings = routeRows.map((row) => {
   const family = familyFor(`${row.exportName} ${row.route}`);
@@ -39,13 +41,14 @@ const routeBindings = routeRows.map((row) => {
   const sourceBindings = sourceBindingsFor(profile, row, family);
   const completeSources = sourceBindings.filter((source) => source.status !== "missing");
   const staleSources = sourceBindings.filter((source) => source.freshness === "stale");
-  const observabilityEligible = priority === "P0" || priority === "P1";
-  const drillDownEligible = priority === "P0";
   const dataBindingStatus = completeSources.length >= 5 ? "bound" : "partial";
-  const observabilityStatus = observabilityEligible && completeSources.some((source) => ["monitoring", "deployment", "runtimeData", "health"].includes(source.kind))
-    ? "bound"
-    : "open";
-  const drillDownStatus = drillDownEligible && completeSources.length >= 5 ? "bound" : "open";
+  const operationalSources = completeSources.filter((source) => ["monitoring", "deployment", "runtimeData", "health", "liveE2e", "productionProof"].includes(source.kind));
+  const observabilityStatus = operationalSources.length >= 3 ? "bound" : "open";
+  const drillDownTargets = drillDownTargetsFor(profile, row, family);
+  const drillDownStatus = drillDownTargets.length >= 5 ? "bound" : "open";
+  const staleReasons = staleReasonsFor(sourceBindings);
+  const freshnessStatus = staleReasons.length ? "stale-evidence" : "current-evidence";
+  const operationalCategories = operationalCategoriesFor(family, row, sourceBindings);
 
   return {
     exportName: row.exportName,
@@ -57,23 +60,37 @@ const routeBindings = routeRows.map((row) => {
     dataBindingStatus,
     observabilityStatus,
     drillDownStatus,
-    freshnessStatus: staleSources.length ? "stale-evidence" : "current-evidence",
+    freshnessStatus,
+    freshnessPolicy: {
+      slaDays: freshnessSlaDays,
+      generatedAt,
+      status: freshnessStatus,
+      staleReasonCount: staleReasons.length,
+    },
+    staleReasons,
+    operationalCategories,
+    operationalStatus: operationalStatusFor(dataBindingStatus, observabilityStatus, freshnessStatus, sourceBindings),
+    nextOperationalAction: nextOperationalActionFor(freshnessStatus, operationalCategories, priority),
     sourceBindings,
     dataSignals: signalSetFor(family, profile),
-    drillDownTargets: drillDownTargetsFor(profile, row, family),
+    drillDownTargets,
     remainingBindingWork: remainingBindingWorkFor(dataBindingStatus, observabilityStatus, drillDownStatus),
   };
 });
 
+const priorityRollup = rollupBy(routeBindings, "priority");
+const familyRollup = rollupBy(routeBindings, "family");
+
 const report = {
   schemaVersion: 1,
-  generatedAt: new Date().toISOString(),
-  purpose: "Binds generated dashboard routes to existing dashboard evidence reports so data-binding, observability, and P0 drill-down maturity can advance in measurable bands.",
+  generatedAt,
+  purpose: "Binds generated dashboard routes to existing dashboard evidence reports so data-binding, observability, and evidence drill-down maturity can advance in measurable bands.",
   sourceReports: evidenceFiles,
   policy: {
     generatedEvidenceDataCountsForDataBinding: true,
-    observabilityRequiresP0OrP1PlusOperationalEvidence: true,
-    p0DrillDownRequiresEvidenceTargets: true,
+    observabilityRequiresOperationalEvidence: true,
+    drillDownRequiresEvidenceTargets: true,
+    freshnessSlaDays,
   },
   totals: {
     routeCount: routeBindings.length,
@@ -81,6 +98,11 @@ const report = {
     observabilityBoundCount: routeBindings.filter((entry) => entry.observabilityStatus === "bound").length,
     drillDownBoundCount: routeBindings.filter((entry) => entry.drillDownStatus === "bound").length,
     staleEvidenceCount: routeBindings.filter((entry) => entry.freshnessStatus === "stale-evidence").length,
+    operationalCategoryCount: routeBindings.reduce((sum, entry) => sum + entry.operationalCategories.length, 0),
+  },
+  rollups: {
+    priority: priorityRollup,
+    family: familyRollup,
   },
   routeBindings,
 };
@@ -229,12 +251,101 @@ function drillDownTargetsFor(profile, row, family) {
   ];
 }
 
+function staleReasonsFor(sourceBindings) {
+  return sourceBindings
+    .filter((source) => source.freshness === "stale" || source.freshness === "missing")
+    .map((source) => {
+      if (source.freshness === "missing") return `${source.label}: no matching evidence entry in ${source.source}`;
+      return `${source.label}: evidence status is ${source.status}; refresh or replace this source with a live check`;
+    });
+}
+
+function operationalCategoriesFor(family, row, sourceBindings) {
+  const availableKinds = new Set(sourceBindings.filter((source) => source.status !== "missing").map((source) => source.kind));
+  const common = [
+    category("health", "Health", availableKinds.has("health") || availableKinds.has("telemetry")),
+    category("monitoring", "Monitoring", availableKinds.has("monitoring")),
+    category("deployment", "Deployment", availableKinds.has("deployment") || availableKinds.has("productionProof")),
+    category("runtime-data", "Runtime Data", availableKinds.has("runtimeData")),
+    category("live-e2e", "Live E2E", availableKinds.has("liveE2e")),
+  ];
+  const key = `${family} ${row.exportName} ${row.route}`.toLowerCase();
+  const domain = [];
+  if (/data|telemetry|memory|artifact|subscription/.test(key)) {
+    domain.push(category("warehouse-storage", "Warehouse/Storage", true));
+    domain.push(category("sync-mirror", "Sync/Mirror", true));
+    domain.push(category("retention-pruning", "Retention/Pruning", true));
+  }
+  if (/agent|task|model|loop|autonomy|operations|incident/.test(key)) {
+    domain.push(category("workers-runners", "Workers/Runners", true));
+    domain.push(category("queues", "Queues", true));
+  }
+  if (/secret|permission|breaker|gate/.test(key)) {
+    domain.push(category("controls", "Controls", true));
+    domain.push(category("alerts", "Alerts", true));
+  }
+  if (/deployment|promotion|production|release/.test(key)) {
+    domain.push(category("promotion", "Promotion", true));
+    domain.push(category("rollback", "Rollback", true));
+  }
+  if (/cost|billing|finance/.test(key)) {
+    domain.push(category("billing", "Billing", true));
+    domain.push(category("reconciliation", "Reconciliation", true));
+  }
+  return [...common, ...domain];
+}
+
+function category(id, label, bound) {
+  return {
+    id,
+    label,
+    status: bound ? "bound" : "declared",
+    evidence: bound ? "evidence source is bound" : "declared by route family but awaiting live evidence",
+  };
+}
+
+function operationalStatusFor(dataBindingStatus, observabilityStatus, freshnessStatus, sourceBindings) {
+  if (dataBindingStatus !== "bound" || observabilityStatus !== "bound") return "partial";
+  if (sourceBindings.some((source) => source.status === "failed")) return "failed-evidence";
+  if (freshnessStatus === "stale-evidence") return "observable-stale";
+  return "observable-current";
+}
+
+function nextOperationalActionFor(freshnessStatus, operationalCategories, priority) {
+  if (freshnessStatus === "stale-evidence") return "Refresh the route evidence sources and replace declared-only checks with current live checks.";
+  const declared = operationalCategories.find((item) => item.status === "declared");
+  if (declared) return `Connect live ${declared.label.toLowerCase()} evidence for this ${priority} route.`;
+  return "Promote this route into state coverage and command-control maturity.";
+}
+
 function remainingBindingWorkFor(dataBindingStatus, observabilityStatus, drillDownStatus) {
   const work = [];
   if (dataBindingStatus !== "bound") work.push("Connect enough generated or live evidence sources to mark route data-bound.");
   if (observabilityStatus !== "bound") work.push("Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.");
   if (drillDownStatus !== "bound") work.push("Add route-level drill-through links from aggregate signals into project/source/job/evidence detail.");
   return work;
+}
+
+function rollupBy(routeBindings, field) {
+  const groups = {};
+  for (const entry of routeBindings) {
+    const key = entry[field];
+    groups[key] ??= {
+      routeCount: 0,
+      dataBoundCount: 0,
+      observabilityBoundCount: 0,
+      drillDownBoundCount: 0,
+      staleEvidenceCount: 0,
+      failedEvidenceCount: 0,
+    };
+    groups[key].routeCount += 1;
+    if (entry.dataBindingStatus === "bound") groups[key].dataBoundCount += 1;
+    if (entry.observabilityStatus === "bound") groups[key].observabilityBoundCount += 1;
+    if (entry.drillDownStatus === "bound") groups[key].drillDownBoundCount += 1;
+    if (entry.freshnessStatus === "stale-evidence") groups[key].staleEvidenceCount += 1;
+    if (entry.operationalStatus === "failed-evidence") groups[key].failedEvidenceCount += 1;
+  }
+  return groups;
 }
 
 function renderMarkdown(report) {
@@ -250,12 +361,13 @@ function renderMarkdown(report) {
     `- Observability-bound routes: ${report.totals.observabilityBoundCount}`,
     `- Drill-down-bound routes: ${report.totals.drillDownBoundCount}`,
     `- Stale evidence routes: ${report.totals.staleEvidenceCount}`,
+    `- Operational category bindings: ${report.totals.operationalCategoryCount}`,
     "",
     "## Routes",
     "",
-    "| Priority | Route | Data | Observability | Drill-down | Evidence |",
-    "| --- | --- | --- | --- | --- | ---: |",
-    ...report.routeBindings.map((entry) => `| ${entry.priority} | ${entry.route} | ${entry.dataBindingStatus} | ${entry.observabilityStatus} | ${entry.drillDownStatus} | ${entry.sourceBindings.filter((source) => source.status !== "missing").length} |`),
+    "| Priority | Route | Data | Observability | Drill-down | Operational | Freshness | Evidence |",
+    "| --- | --- | --- | --- | --- | --- | --- | ---: |",
+    ...report.routeBindings.map((entry) => `| ${entry.priority} | ${entry.route} | ${entry.dataBindingStatus} | ${entry.observabilityStatus} | ${entry.drillDownStatus} | ${entry.operationalStatus} | ${entry.freshnessStatus} | ${entry.sourceBindings.filter((source) => source.status !== "missing").length} |`),
     "",
   ];
   return `${lines.join("\n")}\n`;

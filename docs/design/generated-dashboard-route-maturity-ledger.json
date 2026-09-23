@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-23T20:30:32.500Z",
+  "generatedAt": "2026-09-23T20:51:10.674Z",
   "source": "web/src/pages/GeneratedDashboardPages.tsx",
   "policy": {
     "placeholderRoutesAllowed": false,
@@ -91,11 +91,11 @@
     "p0Count": 12,
     "p1Count": 9,
     "p0OpenLayerCount": 84,
-    "p1OpenLayerCount": 72,
+    "p1OpenLayerCount": 63,
     "dataBoundCount": 68,
-    "observabilityBoundCount": 21,
-    "drillDownBoundCount": 12,
-    "averageScore": 43
+    "observabilityBoundCount": 68,
+    "drillDownBoundCount": 68,
+    "averageScore": 53
   },
   "entries": [
     {
@@ -105,7 +105,7 @@
       "family": "Executive",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -113,12 +113,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -173,17 +173,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs executive telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -268,8 +275,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -290,7 +297,7 @@
       "family": "Design System",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -298,12 +305,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -358,17 +365,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs design system telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -453,8 +467,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -475,7 +489,7 @@
       "family": "Design System",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -483,12 +497,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -543,17 +557,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs design system telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -638,8 +659,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -660,7 +681,7 @@
       "family": "Operations",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -668,12 +689,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -728,17 +749,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs operations telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -823,8 +851,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -845,7 +873,7 @@
       "family": "Executive",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -853,12 +881,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -913,17 +941,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs executive telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -1008,8 +1043,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -1030,7 +1065,7 @@
       "family": "Executive",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -1038,12 +1073,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -1098,17 +1133,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs executive telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -1193,8 +1235,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -1407,7 +1449,7 @@
       "family": "Design System",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -1415,12 +1457,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -1475,17 +1517,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs design system telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -1570,8 +1619,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -1592,7 +1641,7 @@
       "family": "Design System",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -1600,12 +1649,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -1660,17 +1709,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs design system telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -1755,8 +1811,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -1777,7 +1833,7 @@
       "family": "Design System",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -1785,12 +1841,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -1845,17 +1901,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs design system telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -1940,8 +2003,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -1962,7 +2025,7 @@
       "family": "Design System",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -1970,12 +2033,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -2030,17 +2093,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs design system telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -2125,8 +2195,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -2147,7 +2217,7 @@
       "family": "Operations",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -2155,12 +2225,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -2215,17 +2285,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs operations telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -2310,8 +2387,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -2332,7 +2409,7 @@
       "family": "Agents",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -2340,12 +2417,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -2400,17 +2477,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs agents telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -2495,8 +2579,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -2517,7 +2601,7 @@
       "family": "Operations",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -2525,12 +2609,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -2585,17 +2669,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs operations telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -2680,8 +2771,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -2702,7 +2793,7 @@
       "family": "Agents",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -2710,12 +2801,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -2770,17 +2861,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs agents telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -2865,8 +2963,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -2887,7 +2985,7 @@
       "family": "Agents",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -2895,12 +2993,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -2955,17 +3053,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs agents telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -3050,8 +3155,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -3072,7 +3177,7 @@
       "family": "Security",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 47,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -3081,11 +3186,11 @@
         "governance-ledger",
         "cross-project-standard",
         "data-binding",
-        "observability"
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -3152,9 +3257,12 @@
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -3240,7 +3348,7 @@
       "evidenceBinding": {
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
-        "drillDownStatus": "open",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -3261,7 +3369,7 @@
       "family": "Executive",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -3269,12 +3377,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -3329,17 +3437,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs executive telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -3424,8 +3539,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -3446,7 +3561,7 @@
       "family": "Operations",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -3454,12 +3569,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -3514,17 +3629,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs operations telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -3609,8 +3731,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -3631,7 +3753,7 @@
       "family": "Data",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -3639,12 +3761,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -3699,17 +3821,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs data telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -3794,8 +3923,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -3816,7 +3945,7 @@
       "family": "Security",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 47,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -3825,11 +3954,11 @@
         "governance-ledger",
         "cross-project-standard",
         "data-binding",
-        "observability"
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -3896,9 +4025,12 @@
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -3984,7 +4116,7 @@
       "evidenceBinding": {
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
-        "drillDownStatus": "open",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -4005,7 +4137,7 @@
       "family": "Finance",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 47,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -4014,11 +4146,11 @@
         "governance-ledger",
         "cross-project-standard",
         "data-binding",
-        "observability"
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -4085,9 +4217,12 @@
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -4173,7 +4308,7 @@
       "evidenceBinding": {
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
-        "drillDownStatus": "open",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -4194,7 +4329,7 @@
       "family": "Agents",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -4202,12 +4337,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -4262,17 +4397,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs agents telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -4357,8 +4499,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -4379,7 +4521,7 @@
       "family": "Operations",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -4387,12 +4529,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -4447,17 +4589,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs operations telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -4542,8 +4691,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -4564,7 +4713,7 @@
       "family": "Agents",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -4572,12 +4721,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -4632,17 +4781,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs agents telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -4727,8 +4883,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -4749,7 +4905,7 @@
       "family": "Security",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -4757,12 +4913,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -4817,17 +4973,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs security telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -4912,8 +5075,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -4934,7 +5097,7 @@
       "family": "Agents",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -4942,12 +5105,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -5002,17 +5165,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs agents telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -5097,8 +5267,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -5119,7 +5289,7 @@
       "family": "Operations",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -5127,12 +5297,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -5187,17 +5357,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs operations telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -5282,8 +5459,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -5304,7 +5481,7 @@
       "family": "Operations",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -5312,12 +5489,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -5372,17 +5549,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs operations telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -5467,8 +5651,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -5489,7 +5673,7 @@
       "family": "Data",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 47,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -5498,11 +5682,11 @@
         "governance-ledger",
         "cross-project-standard",
         "data-binding",
-        "observability"
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -5569,9 +5753,12 @@
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -5657,7 +5844,7 @@
       "evidenceBinding": {
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
-        "drillDownStatus": "open",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -5870,7 +6057,7 @@
       "family": "Deployment",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 47,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -5879,11 +6066,11 @@
         "governance-ledger",
         "cross-project-standard",
         "data-binding",
-        "observability"
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -5950,9 +6137,12 @@
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -6038,7 +6228,7 @@
       "evidenceBinding": {
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
-        "drillDownStatus": "open",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -6251,7 +6441,7 @@
       "family": "Data",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 47,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -6260,11 +6450,11 @@
         "governance-ledger",
         "cross-project-standard",
         "data-binding",
-        "observability"
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -6331,9 +6521,12 @@
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -6419,7 +6612,7 @@
       "evidenceBinding": {
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
-        "drillDownStatus": "open",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -6440,7 +6633,7 @@
       "family": "Finance",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -6448,12 +6641,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -6508,17 +6701,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs finance telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -6603,8 +6803,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -6625,7 +6825,7 @@
       "family": "Learning",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -6633,12 +6833,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -6693,17 +6893,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs learning telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -6788,8 +6995,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -6810,7 +7017,7 @@
       "family": "Learning",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -6818,12 +7025,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -6878,17 +7085,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs learning telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -6973,8 +7187,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -6995,7 +7209,7 @@
       "family": "Executive",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -7003,12 +7217,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -7063,17 +7277,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs executive telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -7158,8 +7379,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -7372,7 +7593,7 @@
       "family": "Security",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -7380,12 +7601,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -7440,191 +7661,6 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs security telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
-        },
-        {
-          "id": "drill-down",
-          "order": 6,
-          "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
-        },
-        {
-          "id": "cross-project-standard",
-          "order": 7,
-          "description": "Infrastructure telemetry uses shared fleet schemas and can be compared across projects.",
-          "status": "complete",
-          "evidence": [
-            "route-specific metadata contract"
-          ],
-          "blocker": null
-        },
-        {
-          "id": "command-control",
-          "order": 8,
-          "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
-        },
-        {
-          "id": "alerting-escalation",
-          "order": 9,
-          "description": "Warnings and critical alerts have thresholds, dedupe, ownership, dashboard links, and resolution tracking.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs warning/critical thresholds, dedupe, owner routing, dashboard link-back, and resolution tracking."
-        },
-        {
-          "id": "warehouse-storage",
-          "order": 10,
-          "description": "Collection, database growth, external mirror, retention, pruning, backup, restore, and orphan evidence are visible.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs collection, database growth, mirror lag, retention, pruning, backup, restore, orphan, and duplicate evidence where relevant."
-        },
-        {
-          "id": "component-maturity",
-          "order": 11,
-          "description": "Page uses dashboard-kit or approved domain components with no static placeholder surface.",
-          "status": "complete",
-          "evidence": [
-            "GeneratedGovernancePage shell",
-            "dashboard:component-maturity:validate"
-          ],
-          "blocker": null
-        },
-        {
-          "id": "ux-visual-maturity",
-          "order": 12,
-          "description": "Layout, density, filters, responsive behavior, severity language, and empty states are production-quality.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route-specific layout, filters, density, responsive review, severity styling, and screenshot evidence."
-        },
-        {
-          "id": "testing-proof",
-          "order": 13,
-          "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
-        },
-        {
-          "id": "governance-ledger",
-          "order": 14,
-          "description": "Route status, blockers, evidence, and next maturity action are recorded in this ledger.",
-          "status": "complete",
-          "evidence": [
-            "docs/design/generated-dashboard-route-maturity-ledger.json",
-            "web/src/pages/generated-dashboard-route-maturity-data.ts"
-          ],
-          "blocker": null
-        },
-        {
-          "id": "production-readiness",
-          "order": 15,
-          "description": "Route is data-bound, tested, deployed, observable, actionable, and regression-protected.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs live data, passing checks, screenshots, deployment proof, alerting, drill-downs, commands where relevant, and regression protection."
-        }
-      ],
-      "evidenceBinding": {
-        "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
-        "signalCount": 9,
-        "drillDownCount": 6
-      },
-      "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
-      "proofRequired": [
-        "permission coverage",
-        "secret scan results",
-        "blocked-command ledger",
-        "remediation proof"
-      ]
-    },
-    {
-      "exportName": "TelemetryAdapterKitPage",
-      "route": "/telemetry-adapter-kit",
-      "title": "Telemetry Adapter Kit",
-      "family": "Adapters",
-      "priority": "P1",
-      "currentStage": "contract-registered",
-      "score": 47,
-      "hasRouteMetadata": true,
-      "completedLayers": [
-        "route-coverage",
-        "page-contract",
-        "component-maturity",
-        "governance-ledger",
-        "cross-project-standard",
-        "data-binding",
-        "observability"
-      ],
-      "openLayers": [
-        "state-coverage",
-        "drill-down",
-        "command-control",
-        "alerting-escalation",
-        "warehouse-storage",
-        "ux-visual-maturity",
-        "testing-proof",
-        "production-readiness"
-      ],
-      "nextOpenLayer": "state-coverage",
-      "layerStatus": [
-        {
-          "id": "route-coverage",
-          "order": 1,
-          "description": "Route resolves to a real dashboard page and has an owner, priority, and route identity.",
-          "status": "complete",
-          "evidence": [
-            "web/src/pages/GeneratedDashboardPages.tsx",
-            "generated route row /telemetry-adapter-kit"
-          ],
-          "blocker": null
-        },
-        {
-          "id": "page-contract",
-          "order": 2,
-          "description": "Page declares purpose, target user, data contracts, required states, validation, and proof expectations.",
-          "status": "complete",
-          "evidence": [
-            "web/src/dashboard-page-metadata.ts"
-          ],
-          "blocker": null
-        },
-        {
-          "id": "data-binding",
-          "order": 3,
-          "description": "Page is wired to live API, warehouse, or generated evidence data with source and freshness context.",
-          "status": "complete",
-          "evidence": [
-            "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
-            "9 data signals"
-          ],
-          "blocker": null
-        },
-        {
-          "id": "state-coverage",
-          "order": 4,
-          "description": "Page renders normal, loading, empty, error, stale, degraded, critical, permission-limited, and mobile states.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs route-level fixtures or tests proving loading, empty, error, stale, degraded, critical, permission-limited, and mobile states."
-        },
-        {
-          "id": "observability",
-          "order": 5,
-          "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
@@ -7637,9 +7673,12 @@
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -7725,7 +7764,199 @@
       "evidenceBinding": {
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
-        "drillDownStatus": "open",
+        "drillDownStatus": "bound",
+        "freshnessStatus": "stale-evidence",
+        "sourceCount": 7,
+        "signalCount": 9,
+        "drillDownCount": 6
+      },
+      "nextMaturityAction": "Connect permission gates, secret scans, blocked commands, and remediation evidence.",
+      "proofRequired": [
+        "permission coverage",
+        "secret scan results",
+        "blocked-command ledger",
+        "remediation proof"
+      ]
+    },
+    {
+      "exportName": "TelemetryAdapterKitPage",
+      "route": "/telemetry-adapter-kit",
+      "title": "Telemetry Adapter Kit",
+      "family": "Adapters",
+      "priority": "P1",
+      "currentStage": "contract-registered",
+      "score": 53,
+      "hasRouteMetadata": true,
+      "completedLayers": [
+        "route-coverage",
+        "page-contract",
+        "component-maturity",
+        "governance-ledger",
+        "cross-project-standard",
+        "data-binding",
+        "observability",
+        "drill-down"
+      ],
+      "openLayers": [
+        "state-coverage",
+        "command-control",
+        "alerting-escalation",
+        "warehouse-storage",
+        "ux-visual-maturity",
+        "testing-proof",
+        "production-readiness"
+      ],
+      "nextOpenLayer": "state-coverage",
+      "layerStatus": [
+        {
+          "id": "route-coverage",
+          "order": 1,
+          "description": "Route resolves to a real dashboard page and has an owner, priority, and route identity.",
+          "status": "complete",
+          "evidence": [
+            "web/src/pages/GeneratedDashboardPages.tsx",
+            "generated route row /telemetry-adapter-kit"
+          ],
+          "blocker": null
+        },
+        {
+          "id": "page-contract",
+          "order": 2,
+          "description": "Page declares purpose, target user, data contracts, required states, validation, and proof expectations.",
+          "status": "complete",
+          "evidence": [
+            "web/src/dashboard-page-metadata.ts"
+          ],
+          "blocker": null
+        },
+        {
+          "id": "data-binding",
+          "order": 3,
+          "description": "Page is wired to live API, warehouse, or generated evidence data with source and freshness context.",
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "7 evidence sources",
+            "9 data signals"
+          ],
+          "blocker": null
+        },
+        {
+          "id": "state-coverage",
+          "order": 4,
+          "description": "Page renders normal, loading, empty, error, stale, degraded, critical, permission-limited, and mobile states.",
+          "status": "open",
+          "evidence": [],
+          "blocker": "Needs route-level fixtures or tests proving loading, empty, error, stale, degraded, critical, permission-limited, and mobile states."
+        },
+        {
+          "id": "observability",
+          "order": 5,
+          "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
+        },
+        {
+          "id": "drill-down",
+          "order": 6,
+          "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
+        },
+        {
+          "id": "cross-project-standard",
+          "order": 7,
+          "description": "Infrastructure telemetry uses shared fleet schemas and can be compared across projects.",
+          "status": "complete",
+          "evidence": [
+            "route-specific metadata contract"
+          ],
+          "blocker": null
+        },
+        {
+          "id": "command-control",
+          "order": 8,
+          "description": "Operational commands are permissioned, audited, confirmed, and tied to rollback or recovery evidence.",
+          "status": "open",
+          "evidence": [],
+          "blocker": "Needs permissioned commands with confirmation, audit logging, and rollback or recovery proof."
+        },
+        {
+          "id": "alerting-escalation",
+          "order": 9,
+          "description": "Warnings and critical alerts have thresholds, dedupe, ownership, dashboard links, and resolution tracking.",
+          "status": "open",
+          "evidence": [],
+          "blocker": "Needs warning/critical thresholds, dedupe, owner routing, dashboard link-back, and resolution tracking."
+        },
+        {
+          "id": "warehouse-storage",
+          "order": 10,
+          "description": "Collection, database growth, external mirror, retention, pruning, backup, restore, and orphan evidence are visible.",
+          "status": "open",
+          "evidence": [],
+          "blocker": "Needs collection, database growth, mirror lag, retention, pruning, backup, restore, orphan, and duplicate evidence where relevant."
+        },
+        {
+          "id": "component-maturity",
+          "order": 11,
+          "description": "Page uses dashboard-kit or approved domain components with no static placeholder surface.",
+          "status": "complete",
+          "evidence": [
+            "GeneratedGovernancePage shell",
+            "dashboard:component-maturity:validate"
+          ],
+          "blocker": null
+        },
+        {
+          "id": "ux-visual-maturity",
+          "order": 12,
+          "description": "Layout, density, filters, responsive behavior, severity language, and empty states are production-quality.",
+          "status": "open",
+          "evidence": [],
+          "blocker": "Needs route-specific layout, filters, density, responsive review, severity styling, and screenshot evidence."
+        },
+        {
+          "id": "testing-proof",
+          "order": 13,
+          "description": "Build, route smoke, contract, state, permission, command, screenshot, and production smoke proof exists.",
+          "status": "open",
+          "evidence": [],
+          "blocker": "Needs route smoke, contract, state, permission, command, mobile, visual, and production smoke proof."
+        },
+        {
+          "id": "governance-ledger",
+          "order": 14,
+          "description": "Route status, blockers, evidence, and next maturity action are recorded in this ledger.",
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-maturity-ledger.json",
+            "web/src/pages/generated-dashboard-route-maturity-data.ts"
+          ],
+          "blocker": null
+        },
+        {
+          "id": "production-readiness",
+          "order": 15,
+          "description": "Route is data-bound, tested, deployed, observable, actionable, and regression-protected.",
+          "status": "open",
+          "evidence": [],
+          "blocker": "Needs live data, passing checks, screenshots, deployment proof, alerting, drill-downs, commands where relevant, and regression protection."
+        }
+      ],
+      "evidenceBinding": {
+        "dataBindingStatus": "bound",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -7938,7 +8169,7 @@
       "family": "Deployment",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -7946,12 +8177,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -8006,17 +8237,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs deployment telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -8101,8 +8339,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -8315,7 +8553,7 @@
       "family": "Finance",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 47,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -8324,11 +8562,11 @@
         "governance-ledger",
         "cross-project-standard",
         "data-binding",
-        "observability"
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -8395,9 +8633,12 @@
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -8483,7 +8724,7 @@
       "evidenceBinding": {
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
-        "drillDownStatus": "open",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -8504,7 +8745,7 @@
       "family": "Learning",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -8512,12 +8753,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -8572,17 +8813,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs learning telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -8667,8 +8915,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -8689,7 +8937,7 @@
       "family": "Learning",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -8697,12 +8945,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -8757,17 +9005,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs learning telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -8852,8 +9107,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -8874,7 +9129,7 @@
       "family": "Security",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -8882,12 +9137,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -8942,17 +9197,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs security telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -9037,8 +9299,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -9251,7 +9513,7 @@
       "family": "Deployment",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -9259,12 +9521,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -9319,17 +9581,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs deployment telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -9414,8 +9683,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -9436,7 +9705,7 @@
       "family": "Security",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -9444,12 +9713,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -9504,17 +9773,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs security telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -9599,8 +9875,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -9621,7 +9897,7 @@
       "family": "Adapters",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -9629,12 +9905,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -9689,17 +9965,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs adapters telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -9784,8 +10067,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -10190,7 +10473,7 @@
       "family": "Finance",
       "priority": "P1",
       "currentStage": "contract-registered",
-      "score": 47,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -10199,11 +10482,11 @@
         "governance-ledger",
         "cross-project-standard",
         "data-binding",
-        "observability"
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -10270,9 +10553,12 @@
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -10358,7 +10644,7 @@
       "evidenceBinding": {
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
-        "drillDownStatus": "open",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -10379,7 +10665,7 @@
       "family": "Learning",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -10387,12 +10673,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -10447,17 +10733,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs learning telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -10542,8 +10835,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -10564,7 +10857,7 @@
       "family": "Learning",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -10572,12 +10865,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -10632,17 +10925,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs learning telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -10727,8 +11027,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -10941,7 +11241,7 @@
       "family": "Adapters",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -10949,12 +11249,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -11009,17 +11309,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs adapters telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -11104,8 +11411,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -11126,7 +11433,7 @@
       "family": "Adapters",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -11134,12 +11441,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -11194,17 +11501,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs adapters telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -11289,8 +11603,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -11503,7 +11817,7 @@
       "family": "Finance",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -11511,12 +11825,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -11571,17 +11885,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs finance telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -11666,8 +11987,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -11688,7 +12009,7 @@
       "family": "Learning",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -11696,12 +12017,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -11756,17 +12077,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs learning telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -11851,8 +12179,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -11873,7 +12201,7 @@
       "family": "Learning",
       "priority": "P2",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -11881,12 +12209,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -11941,17 +12269,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs learning telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -12036,8 +12371,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -12058,7 +12393,7 @@
       "family": "Security",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -12066,12 +12401,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -12126,17 +12461,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs security telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -12221,8 +12563,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -12435,7 +12777,7 @@
       "family": "Data",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -12443,12 +12785,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -12503,17 +12845,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs data telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -12598,8 +12947,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,
@@ -12620,7 +12969,7 @@
       "family": "Deployment",
       "priority": "P3",
       "currentStage": "contract-registered",
-      "score": 40,
+      "score": 53,
       "hasRouteMetadata": true,
       "completedLayers": [
         "route-coverage",
@@ -12628,12 +12977,12 @@
         "component-maturity",
         "governance-ledger",
         "cross-project-standard",
-        "data-binding"
+        "data-binding",
+        "observability",
+        "drill-down"
       ],
       "openLayers": [
         "state-coverage",
-        "observability",
-        "drill-down",
         "command-control",
         "alerting-escalation",
         "warehouse-storage",
@@ -12688,17 +13037,24 @@
           "id": "observability",
           "order": 5,
           "description": "Page shows worker, collector, runner, sync, storage, alert, or deployment status where relevant.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs deployment telemetry panels backed by live worker, collector, sync, storage, alert, or deployment signals."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "P0/P1 operational evidence binding",
+            "3 operational sources"
+          ],
+          "blocker": null
         },
         {
           "id": "drill-down",
           "order": 6,
           "description": "Aggregate signals link to project, source, worker, job, table, event, alert, or evidence-level detail.",
-          "status": "open",
-          "evidence": [],
-          "blocker": "Needs aggregate cards to link into project, source, worker, job, table, alert, or evidence-level detail."
+          "status": "complete",
+          "evidence": [
+            "docs/design/generated-dashboard-route-evidence-bindings.json",
+            "6 evidence drill-down targets"
+          ],
+          "blocker": null
         },
         {
           "id": "cross-project-standard",
@@ -12783,8 +13139,8 @@
       ],
       "evidenceBinding": {
         "dataBindingStatus": "bound",
-        "observabilityStatus": "open",
-        "drillDownStatus": "open",
+        "observabilityStatus": "bound",
+        "drillDownStatus": "bound",
         "freshnessStatus": "stale-evidence",
         "sourceCount": 7,
         "signalCount": 9,

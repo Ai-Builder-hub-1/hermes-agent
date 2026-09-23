@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-23T20:30:32.216Z",
-  "purpose": "Binds generated dashboard routes to existing dashboard evidence reports so data-binding, observability, and P0 drill-down maturity can advance in measurable bands.",
+  "generatedAt": "2026-09-23T20:51:10.491Z",
+  "purpose": "Binds generated dashboard routes to existing dashboard evidence reports so data-binding, observability, and evidence drill-down maturity can advance in measurable bands.",
   "sourceReports": {
     "telemetry": "docs/design/dashboard-telemetry-contract-report.json",
     "productionProof": "docs/design/dashboard-production-proof-registry.json",
@@ -14,15 +14,135 @@
   },
   "policy": {
     "generatedEvidenceDataCountsForDataBinding": true,
-    "observabilityRequiresP0OrP1PlusOperationalEvidence": true,
-    "p0DrillDownRequiresEvidenceTargets": true
+    "observabilityRequiresOperationalEvidence": true,
+    "drillDownRequiresEvidenceTargets": true,
+    "freshnessSlaDays": 14
   },
   "totals": {
     "routeCount": 68,
     "dataBoundCount": 68,
-    "observabilityBoundCount": 21,
-    "drillDownBoundCount": 12,
-    "staleEvidenceCount": 68
+    "observabilityBoundCount": 68,
+    "drillDownBoundCount": 68,
+    "staleEvidenceCount": 68,
+    "operationalCategoryCount": 444
+  },
+  "rollups": {
+    "priority": {
+      "P3": {
+        "routeCount": 34,
+        "dataBoundCount": 34,
+        "observabilityBoundCount": 34,
+        "drillDownBoundCount": 34,
+        "staleEvidenceCount": 34,
+        "failedEvidenceCount": 0
+      },
+      "P2": {
+        "routeCount": 13,
+        "dataBoundCount": 13,
+        "observabilityBoundCount": 13,
+        "drillDownBoundCount": 13,
+        "staleEvidenceCount": 13,
+        "failedEvidenceCount": 0
+      },
+      "P0": {
+        "routeCount": 12,
+        "dataBoundCount": 12,
+        "observabilityBoundCount": 12,
+        "drillDownBoundCount": 12,
+        "staleEvidenceCount": 12,
+        "failedEvidenceCount": 0
+      },
+      "P1": {
+        "routeCount": 9,
+        "dataBoundCount": 9,
+        "observabilityBoundCount": 9,
+        "drillDownBoundCount": 9,
+        "staleEvidenceCount": 9,
+        "failedEvidenceCount": 0
+      }
+    },
+    "family": {
+      "Executive": {
+        "routeCount": 6,
+        "dataBoundCount": 6,
+        "observabilityBoundCount": 6,
+        "drillDownBoundCount": 6,
+        "staleEvidenceCount": 6,
+        "failedEvidenceCount": 0
+      },
+      "Design System": {
+        "routeCount": 6,
+        "dataBoundCount": 6,
+        "observabilityBoundCount": 6,
+        "drillDownBoundCount": 6,
+        "staleEvidenceCount": 6,
+        "failedEvidenceCount": 0
+      },
+      "Operations": {
+        "routeCount": 10,
+        "dataBoundCount": 10,
+        "observabilityBoundCount": 10,
+        "drillDownBoundCount": 10,
+        "staleEvidenceCount": 10,
+        "failedEvidenceCount": 0
+      },
+      "Agents": {
+        "routeCount": 6,
+        "dataBoundCount": 6,
+        "observabilityBoundCount": 6,
+        "drillDownBoundCount": 6,
+        "staleEvidenceCount": 6,
+        "failedEvidenceCount": 0
+      },
+      "Security": {
+        "routeCount": 12,
+        "dataBoundCount": 12,
+        "observabilityBoundCount": 12,
+        "drillDownBoundCount": 12,
+        "staleEvidenceCount": 12,
+        "failedEvidenceCount": 0
+      },
+      "Data": {
+        "routeCount": 5,
+        "dataBoundCount": 5,
+        "observabilityBoundCount": 5,
+        "drillDownBoundCount": 5,
+        "staleEvidenceCount": 5,
+        "failedEvidenceCount": 0
+      },
+      "Finance": {
+        "routeCount": 5,
+        "dataBoundCount": 5,
+        "observabilityBoundCount": 5,
+        "drillDownBoundCount": 5,
+        "staleEvidenceCount": 5,
+        "failedEvidenceCount": 0
+      },
+      "Deployment": {
+        "routeCount": 6,
+        "dataBoundCount": 6,
+        "observabilityBoundCount": 6,
+        "drillDownBoundCount": 6,
+        "staleEvidenceCount": 6,
+        "failedEvidenceCount": 0
+      },
+      "Learning": {
+        "routeCount": 8,
+        "dataBoundCount": 8,
+        "observabilityBoundCount": 8,
+        "drillDownBoundCount": 8,
+        "staleEvidenceCount": 8,
+        "failedEvidenceCount": 0
+      },
+      "Adapters": {
+        "routeCount": 4,
+        "dataBoundCount": 4,
+        "observabilityBoundCount": 4,
+        "drillDownBoundCount": 4,
+        "staleEvidenceCount": 4,
+        "failedEvidenceCount": 0
+      }
+    }
   },
   "routeBindings": [
     {
@@ -37,9 +157,55 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -166,10 +332,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "DesignSystemPage",
@@ -183,9 +346,55 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -312,10 +521,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "DesignIntelligenceCommandCenterPage",
@@ -329,9 +535,55 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -458,10 +710,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "PackageNativeMigrationsPage",
@@ -475,9 +724,67 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "workers-runners",
+          "label": "Workers/Runners",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "queues",
+          "label": "Queues",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -604,10 +911,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "ExecutiveSummaryPage",
@@ -621,9 +925,55 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -750,10 +1100,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "ExecutiveBriefingRoomPage",
@@ -767,9 +1114,55 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -896,10 +1289,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "CentralCommandPage",
@@ -916,6 +1306,52 @@
       "observabilityStatus": "bound",
       "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -1056,9 +1492,55 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -1185,10 +1667,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "DashboardMarketplacePage",
@@ -1202,9 +1681,55 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -1331,10 +1856,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "DashboardPrototypeLabPage",
@@ -1348,9 +1870,55 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -1477,10 +2045,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "MainHermesAgentDashboardPrototypePage",
@@ -1494,9 +2059,67 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "workers-runners",
+          "label": "Workers/Runners",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "queues",
+          "label": "Queues",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -1623,10 +2246,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "LiveSignalsPage",
@@ -1640,9 +2260,67 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "workers-runners",
+          "label": "Workers/Runners",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "queues",
+          "label": "Queues",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -1769,10 +2447,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "TaskRoutingPage",
@@ -1786,9 +2461,67 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "workers-runners",
+          "label": "Workers/Runners",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "queues",
+          "label": "Queues",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -1915,10 +2648,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "DecisionLedgerPage",
@@ -1932,9 +2662,67 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "workers-runners",
+          "label": "Workers/Runners",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "queues",
+          "label": "Queues",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -2061,10 +2849,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "ModelRoutingPage",
@@ -2078,9 +2863,67 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "workers-runners",
+          "label": "Workers/Runners",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "queues",
+          "label": "Queues",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -2207,10 +3050,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "OperatingLoopsPage",
@@ -2224,9 +3064,67 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "workers-runners",
+          "label": "Workers/Runners",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "queues",
+          "label": "Queues",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -2353,10 +3251,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "PermissionSecurityPage",
@@ -2371,8 +3266,66 @@
       },
       "dataBindingStatus": "bound",
       "observabilityStatus": "bound",
-      "drillDownStatus": "open",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "controls",
+          "label": "Controls",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "alerts",
+          "label": "Alerts",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -2499,9 +3452,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "BusinessOSPage",
@@ -2515,9 +3466,55 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -2644,10 +3641,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "ProjectSnapshotsPage",
@@ -2661,9 +3655,67 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "workers-runners",
+          "label": "Workers/Runners",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "queues",
+          "label": "Queues",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -2790,10 +3842,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "DurableMemoryPage",
@@ -2807,9 +3856,73 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "warehouse-storage",
+          "label": "Warehouse/Storage",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "sync-mirror",
+          "label": "Sync/Mirror",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "retention-pruning",
+          "label": "Retention/Pruning",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -2936,10 +4049,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "PermissionRuntimePage",
@@ -2954,8 +4064,66 @@
       },
       "dataBindingStatus": "bound",
       "observabilityStatus": "bound",
-      "drillDownStatus": "open",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "controls",
+          "label": "Controls",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "alerts",
+          "label": "Alerts",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -3082,9 +4250,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "CostGovernorPage",
@@ -3099,8 +4265,66 @@
       },
       "dataBindingStatus": "bound",
       "observabilityStatus": "bound",
-      "drillDownStatus": "open",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "billing",
+          "label": "Billing",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "reconciliation",
+          "label": "Reconciliation",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -3227,9 +4451,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "LoopRunnerPage",
@@ -3243,9 +4465,67 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "workers-runners",
+          "label": "Workers/Runners",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "queues",
+          "label": "Queues",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -3372,10 +4652,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "BusinessCommandPage",
@@ -3389,9 +4666,67 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "workers-runners",
+          "label": "Workers/Runners",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "queues",
+          "label": "Queues",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -3518,10 +4853,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "AgentWorkbenchPage",
@@ -3535,9 +4867,67 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "workers-runners",
+          "label": "Workers/Runners",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "queues",
+          "label": "Queues",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -3664,10 +5054,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "EvaluationGatesPage",
@@ -3681,9 +5068,67 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "controls",
+          "label": "Controls",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "alerts",
+          "label": "Alerts",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -3810,10 +5255,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "AutonomyReadinessPage",
@@ -3827,9 +5269,67 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "workers-runners",
+          "label": "Workers/Runners",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "queues",
+          "label": "Queues",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -3956,10 +5456,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "ProjectRegistryPage",
@@ -3973,9 +5470,67 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "workers-runners",
+          "label": "Workers/Runners",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "queues",
+          "label": "Queues",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -4102,10 +5657,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "ProjectPlanCommandCenterPage",
@@ -4119,9 +5671,67 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "workers-runners",
+          "label": "Workers/Runners",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "queues",
+          "label": "Queues",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -4248,10 +5858,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "TelemetryFabricPage",
@@ -4266,8 +5873,72 @@
       },
       "dataBindingStatus": "bound",
       "observabilityStatus": "bound",
-      "drillDownStatus": "open",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "warehouse-storage",
+          "label": "Warehouse/Storage",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "sync-mirror",
+          "label": "Sync/Mirror",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "retention-pruning",
+          "label": "Retention/Pruning",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -4394,9 +6065,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "IncidentCommandPage",
@@ -4413,6 +6082,64 @@
       "observabilityStatus": "bound",
       "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "workers-runners",
+          "label": "Workers/Runners",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "queues",
+          "label": "Queues",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -4554,8 +6281,66 @@
       },
       "dataBindingStatus": "bound",
       "observabilityStatus": "bound",
-      "drillDownStatus": "open",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "promotion",
+          "label": "Promotion",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "rollback",
+          "label": "Rollback",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -4682,9 +6467,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "SecretsPosturePage",
@@ -4701,6 +6484,64 @@
       "observabilityStatus": "bound",
       "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "controls",
+          "label": "Controls",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "alerts",
+          "label": "Alerts",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -4842,8 +6683,72 @@
       },
       "dataBindingStatus": "bound",
       "observabilityStatus": "bound",
-      "drillDownStatus": "open",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "warehouse-storage",
+          "label": "Warehouse/Storage",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "sync-mirror",
+          "label": "Sync/Mirror",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "retention-pruning",
+          "label": "Retention/Pruning",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -4970,9 +6875,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "FinanceAttributionPage",
@@ -4986,9 +6889,67 @@
         "project": "finance-governance"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "billing",
+          "label": "Billing",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "reconciliation",
+          "label": "Reconciliation",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -5115,10 +7076,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "LearningEnginePage",
@@ -5132,9 +7090,55 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -5261,10 +7265,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "AgentEvalLabPage",
@@ -5278,9 +7279,67 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "workers-runners",
+          "label": "Workers/Runners",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "queues",
+          "label": "Queues",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -5407,10 +7466,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "ExecutiveCockpitPage",
@@ -5424,9 +7480,55 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -5553,10 +7655,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "ProductionVerificationPage",
@@ -5573,6 +7672,64 @@
       "observabilityStatus": "bound",
       "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "promotion",
+          "label": "Promotion",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "rollback",
+          "label": "Rollback",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -5713,9 +7870,67 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "controls",
+          "label": "Controls",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "alerts",
+          "label": "Alerts",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -5842,10 +8057,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "TelemetryAdapterKitPage",
@@ -5860,8 +8072,72 @@
       },
       "dataBindingStatus": "bound",
       "observabilityStatus": "bound",
-      "drillDownStatus": "open",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "warehouse-storage",
+          "label": "Warehouse/Storage",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "sync-mirror",
+          "label": "Sync/Mirror",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "retention-pruning",
+          "label": "Retention/Pruning",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -5988,9 +8264,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "IncidentIngestionPage",
@@ -6007,6 +8281,64 @@
       "observabilityStatus": "bound",
       "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "workers-runners",
+          "label": "Workers/Runners",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "queues",
+          "label": "Queues",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -6147,9 +8479,67 @@
         "project": "deployment-governance"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "promotion",
+          "label": "Promotion",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "rollback",
+          "label": "Rollback",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -6276,10 +8666,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "SecretScannerPage",
@@ -6296,6 +8683,64 @@
       "observabilityStatus": "bound",
       "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "controls",
+          "label": "Controls",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "alerts",
+          "label": "Alerts",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -6437,8 +8882,66 @@
       },
       "dataBindingStatus": "bound",
       "observabilityStatus": "bound",
-      "drillDownStatus": "open",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "billing",
+          "label": "Billing",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "reconciliation",
+          "label": "Reconciliation",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -6565,9 +9068,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "LearningIngestionPage",
@@ -6581,9 +9082,55 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -6710,10 +9257,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "ModelEvalHarnessPage",
@@ -6727,9 +9271,67 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "workers-runners",
+          "label": "Workers/Runners",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "queues",
+          "label": "Queues",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -6856,10 +9458,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "CircuitBreakersPage",
@@ -6873,9 +9472,67 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "controls",
+          "label": "Controls",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "alerts",
+          "label": "Alerts",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -7002,10 +9659,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "ProductionSweepPage",
@@ -7022,6 +9676,64 @@
       "observabilityStatus": "bound",
       "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "promotion",
+          "label": "Promotion",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "rollback",
+          "label": "Rollback",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -7162,9 +9874,67 @@
         "project": "deployment-governance"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "promotion",
+          "label": "Promotion",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "rollback",
+          "label": "Rollback",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -7291,10 +10061,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "CommandGateCoveragePage",
@@ -7308,9 +10075,67 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "controls",
+          "label": "Controls",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "alerts",
+          "label": "Alerts",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -7437,10 +10262,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "ProjectAdapterRolloutPage",
@@ -7454,9 +10276,55 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -7583,10 +10451,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "IncidentAutomationPage",
@@ -7603,6 +10468,64 @@
       "observabilityStatus": "bound",
       "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "workers-runners",
+          "label": "Workers/Runners",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "queues",
+          "label": "Queues",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -7746,6 +10669,64 @@
       "observabilityStatus": "bound",
       "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "controls",
+          "label": "Controls",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "alerts",
+          "label": "Alerts",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -7887,8 +10868,66 @@
       },
       "dataBindingStatus": "bound",
       "observabilityStatus": "bound",
-      "drillDownStatus": "open",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "billing",
+          "label": "Billing",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "reconciliation",
+          "label": "Reconciliation",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -8015,9 +11054,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "OutcomeLearningFeedsPage",
@@ -8031,9 +11068,55 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -8160,10 +11243,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "GoldenEvalExecutionPage",
@@ -8177,9 +11257,55 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -8306,10 +11432,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "HardBreakerEnforcementPage",
@@ -8326,6 +11449,64 @@
       "observabilityStatus": "bound",
       "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "controls",
+          "label": "Controls",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "alerts",
+          "label": "Alerts",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -8466,9 +11647,55 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -8595,10 +11822,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "HetznerSshAdapterPage",
@@ -8612,9 +11836,55 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -8741,10 +12011,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "SecretProviderAdapterPage",
@@ -8761,6 +12028,64 @@
       "observabilityStatus": "bound",
       "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "controls",
+          "label": "Controls",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "alerts",
+          "label": "Alerts",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -8901,9 +12226,67 @@
         "project": "finance-governance"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "billing",
+          "label": "Billing",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "reconciliation",
+          "label": "Reconciliation",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -9030,10 +12413,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "ProjectOutcomeEmitterPage",
@@ -9047,9 +12427,55 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -9176,10 +12602,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "ProviderEvalRunnerPage",
@@ -9193,9 +12616,55 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -9322,10 +12791,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "BreakerMiddlewarePage",
@@ -9339,9 +12805,67 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "controls",
+          "label": "Controls",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "alerts",
+          "label": "Alerts",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -9468,10 +12992,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "IncidentSubscriptionPage",
@@ -9488,6 +13009,82 @@
       "observabilityStatus": "bound",
       "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "warehouse-storage",
+          "label": "Warehouse/Storage",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "sync-mirror",
+          "label": "Sync/Mirror",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "retention-pruning",
+          "label": "Retention/Pruning",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "workers-runners",
+          "label": "Workers/Runners",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "queues",
+          "label": "Queues",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -9628,9 +13225,73 @@
         "project": "nous-hermes-agent"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "warehouse-storage",
+          "label": "Warehouse/Storage",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "sync-mirror",
+          "label": "Sync/Mirror",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "retention-pruning",
+          "label": "Retention/Pruning",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -9757,10 +13418,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     },
     {
       "exportName": "ReleaseTrainOrchestratorPage",
@@ -9774,9 +13432,67 @@
         "project": "deployment-governance"
       },
       "dataBindingStatus": "bound",
-      "observabilityStatus": "open",
-      "drillDownStatus": "open",
+      "observabilityStatus": "bound",
+      "drillDownStatus": "bound",
       "freshnessStatus": "stale-evidence",
+      "freshnessPolicy": {
+        "slaDays": 14,
+        "generatedAt": "2026-09-23T20:51:10.491Z",
+        "status": "stale-evidence",
+        "staleReasonCount": 4
+      },
+      "staleReasons": [
+        "live E2E registry: no matching evidence entry in docs/design/dashboard-live-e2e-registry.json",
+        "monitoring registry: no matching evidence entry in docs/design/dashboard-monitoring-registry.json",
+        "deployment ledger: evidence status is tracked; refresh or replace this source with a live check",
+        "health report: evidence status is declared; refresh or replace this source with a live check"
+      ],
+      "operationalCategories": [
+        {
+          "id": "health",
+          "label": "Health",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "monitoring",
+          "label": "Monitoring",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "deployment",
+          "label": "Deployment",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "runtime-data",
+          "label": "Runtime Data",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "live-e2e",
+          "label": "Live E2E",
+          "status": "declared",
+          "evidence": "declared by route family but awaiting live evidence"
+        },
+        {
+          "id": "promotion",
+          "label": "Promotion",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        },
+        {
+          "id": "rollback",
+          "label": "Rollback",
+          "status": "bound",
+          "evidence": "evidence source is bound"
+        }
+      ],
+      "operationalStatus": "observable-stale",
+      "nextOperationalAction": "Refresh the route evidence sources and replace declared-only checks with current live checks.",
       "sourceBindings": [
         {
           "kind": "telemetry",
@@ -9903,10 +13619,7 @@
           "source": "web/src/pages/GeneratedDashboardPages.tsx"
         }
       ],
-      "remainingBindingWork": [
-        "Add live operational monitoring for worker, collector, sync, storage, alert, or deployment signals.",
-        "Add route-level drill-through links from aggregate signals into project/source/job/evidence detail."
-      ]
+      "remainingBindingWork": []
     }
   ]
 }

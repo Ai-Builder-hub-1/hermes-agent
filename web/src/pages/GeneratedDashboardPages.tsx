@@ -172,7 +172,7 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
           <MetricCard label="Maturity" value={`${maturity}%`} detail={metadata ? "Route contract is registered." : "Family defaults are active."} />
           <MetricCard label="Data Contracts" value={String(dataContracts.length)} detail="Typed inputs expected before bespoke build." />
           <MetricCard label="Evidence Sources" value={String(evidenceBinding?.sourceBindings.filter((source) => source.status !== "missing").length ?? 0)} detail={evidenceBinding?.freshnessStatus ?? "evidence not bound"} />
-          <MetricCard label="States" value={String(requiredStates.length)} detail="Operational states the page must show." />
+          <MetricCard label="Operational" value={evidenceBinding?.operationalStatus ?? "unbound"} detail={evidenceBinding?.nextOperationalAction ?? "Operational evidence has not been generated."} />
           <MetricCard label="Validation" value={String(validation.length)} detail="Checks needed for handoff evidence." />
           <MetricCard label="Open Layers" value={String(routeMaturity?.openLayers.length ?? 0)} detail={routeMaturity?.nextOpenLayer ?? spec.proofFocus} />
         </section>
@@ -221,8 +221,16 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
         {evidenceBinding ? (
           <section className="grid gap-4 lg:grid-cols-3">
             <ChecklistPanel title="Bound Evidence Sources" items={evidenceBinding.sourceBindings.filter((source) => source.status !== "missing").map((source) => `${source.label}: ${source.status}`)} />
+            <ChecklistPanel title="Operational Categories" items={evidenceBinding.operationalCategories.map((category) => `${category.label}: ${category.status}`)} />
+            <ChecklistPanel title="Freshness Reasons" items={evidenceBinding.staleReasons.length ? [...evidenceBinding.staleReasons] : [`Current within ${evidenceBinding.freshnessPolicy.slaDays} day policy`]} />
+          </section>
+        ) : null}
+
+        {evidenceBinding ? (
+          <section className="grid gap-4 lg:grid-cols-3">
             <ChecklistPanel title="Data Signals" items={[...evidenceBinding.dataSignals]} />
             <ChecklistPanel title="Drill-Down Targets" items={evidenceBinding.drillDownTargets.map((target) => `${target.label}: ${target.source}`)} />
+            <ChecklistPanel title="Next Operational Action" items={[evidenceBinding.nextOperationalAction]} />
           </section>
         ) : null}
 
