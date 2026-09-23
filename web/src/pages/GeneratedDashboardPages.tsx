@@ -1,99 +1,484 @@
-const pageNames: Record<string, string> = {
-  HermesOsPage: "Hermes OS",
-  DesignSystemPage: "Design System",
-  DesignIntelligenceCommandCenterPage: "Design Intelligence Command Center",
-  PackageNativeMigrationsPage: "Package Native Migrations",
-  ExecutiveSummaryPage: "Executive Summary",
-  ExecutiveBriefingRoomPage: "Executive Briefing Room",
-  CentralCommandPage: "Central Command",
-  ThemeSystemPage: "Theme System",
-  DashboardMarketplacePage: "Dashboard Marketplace",
-  DashboardPrototypeLabPage: "Dashboard Prototype Lab",
-  MainHermesAgentDashboardPrototypePage: "Hermes Command",
-  LiveSignalsPage: "Live Signals",
-  TaskRoutingPage: "Task Routing",
-  DecisionLedgerPage: "Decision Ledger",
-  ModelRoutingPage: "Model Routing",
-  OperatingLoopsPage: "Operating Loops",
-  PermissionSecurityPage: "Permission Security",
-  BusinessOSPage: "Business OS",
-  ProjectSnapshotsPage: "Project Snapshots",
-  DurableMemoryPage: "Durable Memory",
-  PermissionRuntimePage: "Permission Runtime",
-  CostGovernorPage: "Cost Governor",
-  LoopRunnerPage: "Loop Runner",
-  BusinessCommandPage: "Business Command",
-  AgentWorkbenchPage: "Agent Workbench",
-  EvaluationGatesPage: "Evaluation Gates",
-  AutonomyReadinessPage: "Autonomy Readiness",
-  ProjectRegistryPage: "Project Registry",
-  ProjectPlanCommandCenterPage: "Project Plan Command Center",
-  TelemetryFabricPage: "Telemetry Fabric",
-  IncidentCommandPage: "Incident Command",
-  DeploymentPromotionPage: "Deployment Promotion",
-  SecretsPosturePage: "Secrets Posture",
-  DataSourceCatalogPage: "Data Source Catalog",
-  FinanceAttributionPage: "Finance Attribution",
-  LearningEnginePage: "Learning Engine",
-  AgentEvalLabPage: "Agent Eval Lab",
-  ExecutiveCockpitPage: "Executive Cockpit",
-  ProductionVerificationPage: "Production Verification",
-  CommandGateRuntimePage: "Command Gate Runtime",
-  TelemetryAdapterKitPage: "Telemetry Adapter Kit",
-  IncidentIngestionPage: "Incident Ingestion",
-  PromotionRunnerPage: "Promotion Runner",
-  SecretScannerPage: "Secret Scanner",
-  CostAttributionEnginePage: "Cost Attribution Engine",
-  LearningIngestionPage: "Learning Ingestion",
-  ModelEvalHarnessPage: "Model Eval Harness",
-  CircuitBreakersPage: "Circuit Breakers",
-  ProductionSweepPage: "Production Sweep",
-  HetznerPromotionExecutionPage: "Hetzner Promotion Execution",
-  CommandGateCoveragePage: "Command Gate Coverage",
-  ProjectAdapterRolloutPage: "Project Adapter Rollout",
-  IncidentAutomationPage: "Incident Automation",
-  LiveSecretScanPage: "Live Secret Scan",
-  CostReconciliationPage: "Cost Reconciliation",
-  OutcomeLearningFeedsPage: "Outcome Learning Feeds",
-  GoldenEvalExecutionPage: "Golden Eval Execution",
-  HardBreakerEnforcementPage: "Hard Breaker Enforcement",
-  NetworkRunnerAdapterPage: "Network Runner Adapter",
-  HetznerSshAdapterPage: "Hetzner SSH Adapter",
-  SecretProviderAdapterPage: "Secret Provider Adapter",
-  BillingProviderAdapterPage: "Billing Provider Adapter",
-  ProjectOutcomeEmitterPage: "Project Outcome Emitter",
-  ProviderEvalRunnerPage: "Provider Eval Runner",
-  BreakerMiddlewarePage: "Breaker Middleware",
-  IncidentSubscriptionPage: "Incident Subscriptions",
-  EvidenceArtifactStorePage: "Evidence Artifact Store",
-  ReleaseTrainOrchestratorPage: "Release Train Orchestrator",
-};
+import { dashboardGovernanceDefaults, dashboardPageMetadata } from "@/dashboard-page-metadata";
 
-function titleFor(name: string) {
-  return pageNames[name] ?? name.replace(/Page$/, "").replace(/([a-z])([A-Z])/g, "$1 $2");
+type GovernanceFamily =
+  | "Executive"
+  | "Design System"
+  | "Operations"
+  | "Agents"
+  | "Data"
+  | "Security"
+  | "Finance"
+  | "Learning"
+  | "Deployment"
+  | "Adapters";
+
+interface GeneratedPageSpec {
+  exportName: string;
+  route: string;
+  title: string;
+  family: GovernanceFamily;
+  purpose: string;
+  priority: "P0" | "P1" | "P2" | "P3";
+  widgets: string[];
+  proofFocus: string;
+  nextAction: string;
 }
 
-function DashboardStub({ name }: { name: string }) {
-  const title = titleFor(name);
+const generatedPageRows: Array<[string, string, string]> = [
+  ["HermesOsPage", "/hermes-os", "Hermes OS"],
+  ["DesignSystemPage", "/design-system", "Design System"],
+  ["DesignIntelligenceCommandCenterPage", "/design-intelligence", "Design Intelligence Command Center"],
+  ["PackageNativeMigrationsPage", "/dashboard-migrations", "Package Native Migrations"],
+  ["ExecutiveSummaryPage", "/executive-summary", "Executive Summary"],
+  ["ExecutiveBriefingRoomPage", "/executive-briefing", "Executive Briefing Room"],
+  ["CentralCommandPage", "/central-command", "Central Command"],
+  ["ThemeSystemPage", "/theme-system", "Theme System"],
+  ["DashboardMarketplacePage", "/dashboard-marketplace", "Dashboard Marketplace"],
+  ["DashboardPrototypeLabPage", "/dashboard-prototypes", "Dashboard Prototype Lab"],
+  ["MainHermesAgentDashboardPrototypePage", "/hermes-command", "Hermes Command"],
+  ["LiveSignalsPage", "/live-signals", "Live Signals"],
+  ["TaskRoutingPage", "/task-routing", "Task Routing"],
+  ["DecisionLedgerPage", "/decision-ledger", "Decision Ledger"],
+  ["ModelRoutingPage", "/model-routing", "Model Routing"],
+  ["OperatingLoopsPage", "/operating-loops", "Operating Loops"],
+  ["PermissionSecurityPage", "/permission-security", "Permission Security"],
+  ["BusinessOSPage", "/business-os", "Business OS"],
+  ["ProjectSnapshotsPage", "/project-snapshots", "Project Snapshots"],
+  ["DurableMemoryPage", "/durable-memory", "Durable Memory"],
+  ["PermissionRuntimePage", "/permission-runtime", "Permission Runtime"],
+  ["CostGovernorPage", "/cost-governor", "Cost Governor"],
+  ["LoopRunnerPage", "/loop-runner", "Loop Runner"],
+  ["BusinessCommandPage", "/business-command", "Business Command"],
+  ["AgentWorkbenchPage", "/agent-workbench", "Agent Workbench"],
+  ["EvaluationGatesPage", "/evaluation-gates", "Evaluation Gates"],
+  ["AutonomyReadinessPage", "/autonomy-readiness", "Autonomy Readiness"],
+  ["ProjectRegistryPage", "/project-registry", "Project Registry"],
+  ["ProjectPlanCommandCenterPage", "/project-plan-command", "Project Plan Command Center"],
+  ["TelemetryFabricPage", "/telemetry-fabric", "Telemetry Fabric"],
+  ["IncidentCommandPage", "/incident-command", "Incident Command"],
+  ["DeploymentPromotionPage", "/deployment-promotion", "Deployment Promotion"],
+  ["SecretsPosturePage", "/secrets-posture", "Secrets Posture"],
+  ["DataSourceCatalogPage", "/data-source-catalog", "Data Source Catalog"],
+  ["FinanceAttributionPage", "/finance-attribution", "Finance Attribution"],
+  ["LearningEnginePage", "/learning-engine", "Learning Engine"],
+  ["AgentEvalLabPage", "/agent-eval-lab", "Agent Eval Lab"],
+  ["ExecutiveCockpitPage", "/executive-cockpit", "Executive Cockpit"],
+  ["ProductionVerificationPage", "/production-verification", "Production Verification"],
+  ["CommandGateRuntimePage", "/command-gate-runtime", "Command Gate Runtime"],
+  ["TelemetryAdapterKitPage", "/telemetry-adapter-kit", "Telemetry Adapter Kit"],
+  ["IncidentIngestionPage", "/incident-ingestion", "Incident Ingestion"],
+  ["PromotionRunnerPage", "/promotion-runner", "Promotion Runner"],
+  ["SecretScannerPage", "/secret-scanner", "Secret Scanner"],
+  ["CostAttributionEnginePage", "/cost-attribution-engine", "Cost Attribution Engine"],
+  ["LearningIngestionPage", "/learning-ingestion", "Learning Ingestion"],
+  ["ModelEvalHarnessPage", "/model-eval-harness", "Model Eval Harness"],
+  ["CircuitBreakersPage", "/circuit-breakers", "Circuit Breakers"],
+  ["ProductionSweepPage", "/production-sweep", "Production Sweep"],
+  ["HetznerPromotionExecutionPage", "/hetzner-promotion-execution", "Hetzner Promotion Execution"],
+  ["CommandGateCoveragePage", "/command-gate-coverage", "Command Gate Coverage"],
+  ["ProjectAdapterRolloutPage", "/project-adapter-rollout", "Project Adapter Rollout"],
+  ["IncidentAutomationPage", "/incident-automation", "Incident Automation"],
+  ["LiveSecretScanPage", "/live-secret-scan", "Live Secret Scan"],
+  ["CostReconciliationPage", "/cost-reconciliation", "Cost Reconciliation"],
+  ["OutcomeLearningFeedsPage", "/outcome-learning-feeds", "Outcome Learning Feeds"],
+  ["GoldenEvalExecutionPage", "/golden-eval-execution", "Golden Eval Execution"],
+  ["HardBreakerEnforcementPage", "/hard-breaker-enforcement", "Hard Breaker Enforcement"],
+  ["NetworkRunnerAdapterPage", "/network-runner-adapter", "Network Runner Adapter"],
+  ["HetznerSshAdapterPage", "/hetzner-ssh-adapter", "Hetzner SSH Adapter"],
+  ["SecretProviderAdapterPage", "/secret-provider-adapter", "Secret Provider Adapter"],
+  ["BillingProviderAdapterPage", "/billing-provider-adapter", "Billing Provider Adapter"],
+  ["ProjectOutcomeEmitterPage", "/project-outcome-emitter", "Project Outcome Emitter"],
+  ["ProviderEvalRunnerPage", "/provider-eval-runner", "Provider Eval Runner"],
+  ["BreakerMiddlewarePage", "/breaker-middleware", "Breaker Middleware"],
+  ["IncidentSubscriptionPage", "/incident-subscriptions", "Incident Subscriptions"],
+  ["EvidenceArtifactStorePage", "/evidence-artifact-store", "Evidence Artifact Store"],
+  ["ReleaseTrainOrchestratorPage", "/release-train-orchestrator", "Release Train Orchestrator"],
+];
+
+const metadataByRoute = new Map(dashboardPageMetadata.map((entry) => [entry.route, entry]));
+
+const generatedPageSpecs: GeneratedPageSpec[] = generatedPageRows.map(([exportName, route, title]) => ({
+  exportName,
+  route,
+  title,
+  family: familyFor(exportName, route),
+  purpose: purposeFor(exportName, title),
+  priority: priorityFor(exportName, route),
+  widgets: widgetsFor(exportName, route),
+  proofFocus: proofFocusFor(exportName, route),
+  nextAction: nextActionFor(exportName, route),
+}));
+
+const specsByExportName = new Map(generatedPageSpecs.map((spec) => [spec.exportName, spec]));
+
+function GeneratedGovernancePage({ exportName }: { exportName: string }) {
+  const spec = specsByExportName.get(exportName) ?? fallbackSpec(exportName);
+  const metadata = metadataByRoute.get(spec.route);
+  const dataContracts = metadata?.dataContracts ?? defaultDataContracts(spec.family);
+  const requiredStates = metadata?.requiredStates ?? defaultStates(spec.family);
+  const validation = metadata?.validation ?? dashboardGovernanceDefaults.finalHandoffEvidence;
+  const maturity = maturityFor(Boolean(metadata), dataContracts, requiredStates, validation);
+
   return (
-    <main style={{ padding: "32px", maxWidth: "1120px" }}>
-      <p style={{ margin: 0, color: "#667085", fontSize: "13px", fontWeight: 700, textTransform: "uppercase" }}>
-        Dashboard route
-      </p>
-      <h1 style={{ margin: "8px 0 12px", color: "#101828", fontSize: "32px", letterSpacing: 0 }}>
-        {title}
-      </h1>
-      <p style={{ color: "#475467", fontSize: "16px", lineHeight: 1.6 }}>
-        This route is registered for the Hermes dashboard governance system and is ready for package-native component composition.
-      </p>
+    <main
+      className="min-h-screen bg-[#f7f8fb] px-5 py-6 text-slate-950 md:px-8 lg:px-10"
+      data-hdk-component="GeneratedGovernancePage"
+      data-dashboard-route={spec.route}
+      data-dashboard-review-id={`generated-${slugFor(spec.title)}`}
+    >
+      <section className="mx-auto flex max-w-7xl flex-col gap-6">
+        <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge>{spec.family}</Badge>
+            <Badge>{spec.priority}</Badge>
+            <Badge>{metadata ? "Registered contract" : "Family contract"}</Badge>
+          </div>
+          <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_340px] lg:items-end">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.12em] text-slate-500">
+                Hermes governance route
+              </p>
+              <h1 className="mt-2 text-3xl font-semibold tracking-normal text-slate-950 md:text-4xl">
+                {metadata?.title ?? spec.title}
+              </h1>
+              <p className="mt-3 max-w-3xl text-base leading-7 text-slate-600">
+                {spec.purpose}
+              </p>
+            </div>
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <MiniFact label="Route" value={spec.route} />
+              <MiniFact label="Owner" value={metadata?.owner ?? ownerFor(spec.family)} />
+              <MiniFact label="Recipe" value={metadata?.recipe ?? recipeFor(spec.family)} />
+              <MiniFact label="Category" value={metadata?.category ?? categoryFor(spec.family)} />
+            </div>
+          </div>
+        </div>
+
+        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+          <MetricCard label="Maturity" value={`${maturity}%`} detail={metadata ? "Route contract is registered." : "Family defaults are active."} />
+          <MetricCard label="Data Contracts" value={String(dataContracts.length)} detail="Typed inputs expected before bespoke build." />
+          <MetricCard label="States" value={String(requiredStates.length)} detail="Operational states the page must show." />
+          <MetricCard label="Validation" value={String(validation.length)} detail="Checks needed for handoff evidence." />
+          <MetricCard label="Proof Focus" value={spec.priority} detail={spec.proofFocus} />
+        </section>
+
+        <section className="grid gap-6 xl:grid-cols-[1fr_360px]">
+          <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.12em] text-slate-500">
+                  Page composition
+                </p>
+                <h2 className="mt-1 text-xl font-semibold text-slate-950">Expected front-end maturity</h2>
+              </div>
+              <Badge>{dashboardGovernanceDefaults.designSystem.sourcePackage}</Badge>
+            </div>
+            <div className="mt-5 grid gap-3 md:grid-cols-2">
+              {spec.widgets.map((widget) => (
+                <article key={widget} className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                  <h3 className="text-sm font-semibold text-slate-950">{widget}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{widgetDetail(widget, spec.family)}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <aside className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+            <p className="text-sm font-semibold uppercase tracking-[0.12em] text-slate-500">
+              Next build packet
+            </p>
+            <h2 className="mt-2 text-xl font-semibold text-slate-950">{spec.nextAction}</h2>
+            <p className="mt-3 text-sm leading-6 text-slate-600">
+              This route is now viewable and governed. The next maturity layer is to replace the contract preview with live cards, tables, filters, commands, and drill-throughs backed by the listed data contracts.
+            </p>
+            <div className="mt-5 rounded-lg bg-slate-950 p-4 text-sm leading-6 text-white">
+              Final handoff requires screenshot evidence, successful validation, data-state coverage, and a production or local-only decision.
+            </div>
+          </aside>
+        </section>
+
+        <section className="grid gap-4 lg:grid-cols-3">
+          <ChecklistPanel title="Data Bindings" items={dataContracts} />
+          <ChecklistPanel title="State Coverage" items={requiredStates} />
+          <ChecklistPanel title="Validation Evidence" items={validation} />
+        </section>
+      </section>
     </main>
   );
 }
 
-function makePage(name: string) {
+function MetricCard({ label, value, detail }: { label: string; value: string; detail: string }) {
+  return (
+    <article className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">{label}</p>
+      <p className="mt-2 text-2xl font-semibold text-slate-950">{value}</p>
+      <p className="mt-2 text-sm leading-5 text-slate-600">{detail}</p>
+    </article>
+  );
+}
+
+function ChecklistPanel({ title, items }: { title: string; items: string[] }) {
+  return (
+    <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+      <h2 className="text-base font-semibold text-slate-950">{title}</h2>
+      <ul className="mt-4 space-y-3">
+        {items.map((item) => (
+          <li key={item} className="flex gap-3 text-sm leading-6 text-slate-700">
+            <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-emerald-500" aria-hidden="true" />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function MiniFact({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="grid grid-cols-[92px_1fr] gap-3 py-1 text-sm">
+      <span className="font-semibold text-slate-500">{label}</span>
+      <span className="break-words text-slate-800">{value}</span>
+    </div>
+  );
+}
+
+function Badge({ children }: { children: string }) {
+  return (
+    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-slate-600">
+      {children}
+    </span>
+  );
+}
+
+function makePage(exportName: string) {
   return function GeneratedDashboardPage() {
-    return <DashboardStub name={name} />;
+    return <GeneratedGovernancePage exportName={exportName} />;
   };
+}
+
+function familyFor(exportName: string, route: string): GovernanceFamily {
+  const key = `${exportName} ${route}`.toLowerCase();
+  if (key.includes("design") || key.includes("theme") || key.includes("prototype") || key.includes("marketplace")) return "Design System";
+  if (key.includes("executive") || key.includes("cockpit") || key.includes("business-os") || key.includes("central-command") || key.includes("hermes-os")) return "Executive";
+  if (key.includes("secret") || key.includes("permission") || key.includes("breaker") || key.includes("gate")) return "Security";
+  if (key.includes("cost") || key.includes("billing") || key.includes("finance")) return "Finance";
+  if (key.includes("learning") || key.includes("eval") || key.includes("outcome")) return "Learning";
+  if (key.includes("adapter") || key.includes("provider") || key.includes("ssh") || key.includes("network")) return "Adapters";
+  if (key.includes("data") || key.includes("telemetry") || key.includes("memory") || key.includes("artifact") || key.includes("subscription")) return "Data";
+  if (key.includes("deployment") || key.includes("promotion") || key.includes("production") || key.includes("release")) return "Deployment";
+  if (key.includes("agent") || key.includes("task") || key.includes("model") || key.includes("loop") || key.includes("autonomy")) return "Agents";
+  return "Operations";
+}
+
+function priorityFor(exportName: string, route: string): GeneratedPageSpec["priority"] {
+  const key = `${exportName} ${route}`.toLowerCase();
+  if (key.includes("central-command") || key.includes("incident") || key.includes("secret") || key.includes("production") || key.includes("hard-breaker")) return "P0";
+  if (key.includes("data") || key.includes("telemetry") || key.includes("deployment") || key.includes("cost") || key.includes("permission")) return "P1";
+  if (key.includes("design") || key.includes("marketplace") || key.includes("prototype") || key.includes("learning")) return "P2";
+  return "P3";
+}
+
+function fallbackSpec(exportName: string): GeneratedPageSpec {
+  const title = exportName.replace(/Page$/, "").replace(/([a-z])([A-Z])/g, "$1 $2");
+  return {
+    exportName,
+    route: `/${slugFor(title)}`,
+    title,
+    family: "Operations",
+    purpose: `Governance cockpit for ${title}.`,
+    priority: "P3",
+    widgets: widgetsFor(exportName, title),
+    proofFocus: "Route registration, data contract selection, and component handoff evidence.",
+    nextAction: "Register the route-specific contract and connect live dashboard data.",
+  };
+}
+
+function purposeFor(exportName: string, title: string): string {
+  const family = familyFor(exportName, title);
+  const lowerTitle = title.toLowerCase();
+  if (lowerTitle.includes("central command")) return "A command-level view for health, incidents, queues, project posture, and the actions that need human attention first.";
+  if (lowerTitle.includes("migrations")) return "A migration workbench for retiring static dashboard shells and proving package-native component adoption across the fleet.";
+  if (lowerTitle.includes("secrets")) return "A security posture page for secret inventory, scan coverage, exposure risk, and remediation readiness.";
+  if (lowerTitle.includes("data source")) return "A catalog for every data source, freshness expectation, durable storage contract, ownership path, and known collection gap.";
+  if (lowerTitle.includes("telemetry")) return "A telemetry fabric view for event flow, aggregation health, alerting coverage, and drill-through readiness.";
+  if (lowerTitle.includes("incident")) return "An incident command surface for active failures, subscriptions, routing, automation, and evidence capture.";
+  if (lowerTitle.includes("cost") || lowerTitle.includes("billing") || lowerTitle.includes("finance")) return "A financial controls view for attribution, reconciliation, spend guardrails, and operational cost proof.";
+  if (lowerTitle.includes("eval") || lowerTitle.includes("learning")) return "A learning and evaluation console for golden checks, outcome feeds, model quality, and continuous improvement evidence.";
+  if (lowerTitle.includes("adapter") || lowerTitle.includes("provider")) return "An adapter readiness page for provider contracts, rollout status, failure modes, and operational proof.";
+  return `A ${family.toLowerCase()} governance page for ${title}, giving the dashboard a real front-end contract before the bespoke implementation begins.`;
+}
+
+function widgetsFor(exportName: string, route: string): string[] {
+  const family = familyFor(exportName, route);
+  const baseByFamily: Record<GovernanceFamily, string[]> = {
+    Executive: ["Portfolio health rail", "Action queue", "Risk and blocker map", "Executive drill-through"],
+    "Design System": ["Component adoption matrix", "Recipe coverage board", "Exception register", "Visual proof queue"],
+    Operations: ["Operational status grid", "Runner activity stream", "SLA breach watch", "Remediation queue"],
+    Agents: ["Agent routing board", "Loop health timeline", "Human approval lane", "Autonomy readiness score"],
+    Data: ["Source freshness ledger", "Storage and mirror health", "Retention policy map", "Gap investigation queue"],
+    Security: ["Control coverage matrix", "Blocked action ledger", "Exposure scanner", "Remediation evidence"],
+    Finance: ["Attribution ledger", "Budget guardrail chart", "Reconciliation queue", "Spend anomaly review"],
+    Learning: ["Evaluation suite", "Outcome feedback lane", "Model comparison table", "Regression watch"],
+    Deployment: ["Promotion train", "Environment health", "Rollback readiness", "Release evidence"],
+    Adapters: ["Provider contract matrix", "Adapter rollout board", "Failure mode table", "Connectivity proof"],
+  };
+  return baseByFamily[family];
+}
+
+function widgetDetail(widget: string, family: GovernanceFamily): string {
+  const details: Record<string, string> = {
+    "Portfolio health rail": "Aggregates project health, fleet status, incident posture, and stale signals in one scannable rail.",
+    "Action queue": "Lists the decisions, approvals, incidents, and maturity gaps that need owner action.",
+    "Risk and blocker map": "Groups blockers by impact, owner, age, and required evidence before work can move.",
+    "Executive drill-through": "Links from the aggregate signal into project, data, runner, and proof-level views.",
+    "Component adoption matrix": "Shows which pages are still static, generated, package-native, or fully bespoke.",
+    "Recipe coverage board": "Maps each route to its intended recipe, components, states, and validation requirements.",
+    "Exception register": "Tracks design-system bypasses, owners, reasons, and retirement dates.",
+    "Visual proof queue": "Holds screenshots, responsive checks, and visual review status for each dashboard page.",
+    "Operational status grid": "Summarizes uptime, freshness, queue age, failure count, and current operating mode.",
+    "Runner activity stream": "Shows recent worker runs, schedule adherence, throughput, and slowdowns.",
+    "SLA breach watch": "Highlights freshness, latency, sync, pruning, and alerting thresholds that crossed tolerance.",
+    "Remediation queue": "Prioritizes fixes by operational impact, owner, blocker, and evidence needed.",
+    "Agent routing board": "Shows how work is assigned across agents, runners, permissions, and approval gates.",
+    "Loop health timeline": "Tracks recurring loop starts, completions, failures, retries, and missing heartbeats.",
+    "Human approval lane": "Separates work waiting on user, Discord, production gates, or manual review.",
+    "Autonomy readiness score": "Scores whether a workflow can run unattended based on coverage and rollback proof.",
+    "Source freshness ledger": "Lists source-by-source collection status, last successful ingest, and expected cadence.",
+    "Storage and mirror health": "Shows database growth, external mirror lag, archive status, and sync failures.",
+    "Retention policy map": "Connects tables, folders, and artifacts to retention class, pruning gate, and recovery proof.",
+    "Gap investigation queue": "Ranks missing, slow, and unexpectedly small datasets for root-cause follow-up.",
+    "Control coverage matrix": "Maps permissions, breakers, policy gates, and sensitive actions to enforcement evidence.",
+    "Blocked action ledger": "Records commands blocked by safety policy with owner, reason, and unlock path.",
+    "Exposure scanner": "Surfaces secret, token, credential, and public-route exposure findings.",
+    "Remediation evidence": "Captures proof that a security issue was fixed, retested, and monitored.",
+    "Attribution ledger": "Connects cost, usage, provider, project, owner, and business outcome.",
+    "Budget guardrail chart": "Shows budget limits, current burn, anomalies, and projected overrun windows.",
+    "Reconciliation queue": "Lists mismatches between provider billing, local accounting, and dashboard totals.",
+    "Spend anomaly review": "Highlights unusual spend changes with drill-through to provider and workload context.",
+    "Evaluation suite": "Shows golden tests, latest results, failures, and regression ownership.",
+    "Outcome feedback lane": "Connects production outcomes back into learning feeds and model improvement loops.",
+    "Model comparison table": "Compares candidate models by quality, latency, cost, safety, and task fit.",
+    "Regression watch": "Tracks failing or degrading evaluations that need rollback or prompt repair.",
+    "Promotion train": "Shows what is ready, blocked, deployed, rolled back, or waiting on evidence.",
+    "Environment health": "Summarizes production, staging, local, and worker health in one operational surface.",
+    "Rollback readiness": "Confirms rollback path, artifact availability, database safety, and owner coverage.",
+    "Release evidence": "Holds commit, build, validation, screenshot, and smoke-test proof for promotion.",
+    "Provider contract matrix": "Maps every provider to credentials, rate limits, health checks, and supported commands.",
+    "Adapter rollout board": "Shows which projects have adopted the adapter and where parity still needs work.",
+    "Failure mode table": "Documents provider failures, retries, fallbacks, and escalation behavior.",
+    "Connectivity proof": "Displays live or latest verified connectivity checks with timestamps and owner context.",
+  };
+  return details[widget] ?? `Core ${family.toLowerCase()} component for the route-specific build.`;
+}
+
+function proofFocusFor(exportName: string, route: string): string {
+  const family = familyFor(exportName, route);
+  const byFamily: Record<GovernanceFamily, string> = {
+    Executive: "Aggregate health and drill-through evidence.",
+    "Design System": "Package-native adoption and visual proof.",
+    Operations: "Runner health and remediation evidence.",
+    Agents: "Loop coverage and approval evidence.",
+    Data: "Freshness, retention, storage, and mirror evidence.",
+    Security: "Control enforcement and exposure evidence.",
+    Finance: "Attribution and reconciliation evidence.",
+    Learning: "Evaluation and outcome evidence.",
+    Deployment: "Promotion, rollback, and smoke-test evidence.",
+    Adapters: "Provider contract and connectivity evidence.",
+  };
+  return byFamily[family];
+}
+
+function nextActionFor(exportName: string, route: string): string {
+  const family = familyFor(exportName, route);
+  const byFamily: Record<GovernanceFamily, string> = {
+    Executive: "Bind portfolio summaries and priority drill-throughs.",
+    "Design System": "Connect adoption registry, screenshots, and exception data.",
+    Operations: "Wire runner telemetry, thresholds, and remediation actions.",
+    Agents: "Connect routing, loop, approval, and autonomy-readiness data.",
+    Data: "Bind source freshness, storage growth, mirror lag, and pruning status.",
+    Security: "Wire control coverage, secret scans, and blocked-command evidence.",
+    Finance: "Connect provider bills, project attribution, and anomaly review.",
+    Learning: "Bind evaluation runs, outcomes, regressions, and model comparisons.",
+    Deployment: "Connect promotion state, release proof, rollback readiness, and smoke checks.",
+    Adapters: "Wire provider health, adapter adoption, failures, and connectivity checks.",
+  };
+  return byFamily[family];
+}
+
+function recipeFor(family: GovernanceFamily): string {
+  const recipes: Record<GovernanceFamily, string> = {
+    Executive: "executive-command-center",
+    "Design System": "system-health-deployment",
+    Operations: "operations-control-room",
+    Agents: "agent-control-room",
+    Data: "data-warehouse-governance",
+    Security: "security-governance",
+    Finance: "finance-attribution",
+    Learning: "evaluation-lab",
+    Deployment: "promotion-control-room",
+    Adapters: "provider-adapter-governance",
+  };
+  return recipes[family];
+}
+
+function categoryFor(family: GovernanceFamily): string {
+  return family.toLowerCase().replace(/\s+/g, "-");
+}
+
+function ownerFor(family: GovernanceFamily): string {
+  if (family === "Finance") return "Finance Operations";
+  if (family === "Security") return "Hermes Security";
+  if (family === "Adapters") return "Provider Operations";
+  return "Hermes";
+}
+
+function defaultDataContracts(family: GovernanceFamily): string[] {
+  const contracts: Record<GovernanceFamily, string[]> = {
+    Executive: ["DashboardSnapshot", "ProjectHealth[]", "ActionNeeded[]", "IncidentSummary[]"],
+    "Design System": ["DashboardRecipe[]", "ComponentAdoption[]", "DesignException[]", "ScreenshotEvidence[]"],
+    Operations: ["RunnerHealth[]", "QueueSnapshot[]", "SlaBreach[]", "RemediationAction[]"],
+    Agents: ["AgentRoute[]", "LoopRun[]", "ApprovalGate[]", "AutonomyReadiness"],
+    Data: ["DataSource[]", "FreshnessCheck[]", "StorageMirrorStatus", "RetentionPolicy[]"],
+    Security: ["ControlCoverage[]", "SecretScanFinding[]", "BlockedCommand[]", "RemediationEvidence[]"],
+    Finance: ["CostAttribution[]", "BudgetGuardrail[]", "BillingReconciliation[]", "SpendAnomaly[]"],
+    Learning: ["EvaluationRun[]", "OutcomeFeedback[]", "ModelComparison[]", "RegressionSignal[]"],
+    Deployment: ["PromotionStatus[]", "ReleaseEvidence[]", "RollbackCheck[]", "SmokeTestResult[]"],
+    Adapters: ["ProviderContract[]", "AdapterRollout[]", "FailureMode[]", "ConnectivityCheck[]"],
+  };
+  return contracts[family];
+}
+
+function defaultStates(family: GovernanceFamily): string[] {
+  const shared = ["normal", "loading", "empty", "error", "stale", "mobile"];
+  const states: Record<GovernanceFamily, string[]> = {
+    Executive: [...shared, "warning", "critical", "drill-through"],
+    "Design System": [...shared, "draft", "review-ready", "approved", "exception"],
+    Operations: [...shared, "degraded", "blocked", "retrying", "critical"],
+    Agents: [...shared, "queued", "assigned", "waiting-for-human", "autonomous"],
+    Data: [...shared, "late", "mirroring", "pruning-disabled", "retention-risk"],
+    Security: [...shared, "blocked", "exposed", "quarantined", "remediated"],
+    Finance: [...shared, "over-budget", "unreconciled", "anomaly", "approved"],
+    Learning: [...shared, "passing", "failing", "regressing", "candidate"],
+    Deployment: [...shared, "ready", "promoting", "rolled-back", "maintenance-window"],
+    Adapters: [...shared, "connected", "rate-limited", "provider-down", "fallback"],
+  };
+  return states[family];
+}
+
+function maturityFor(hasMetadata: boolean, dataContracts: string[], requiredStates: string[], validation: string[]) {
+  const metadataScore = hasMetadata ? 25 : 12;
+  const dataScore = Math.min(25, dataContracts.length * 5);
+  const stateScore = Math.min(25, requiredStates.length * 3);
+  const validationScore = Math.min(25, validation.length * 6);
+  return Math.min(100, metadataScore + dataScore + stateScore + validationScore);
+}
+
+function slugFor(title: string) {
+  return title
+    .replace(/([a-z])([A-Z])/g, "$1-$2")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
 }
 
 export const HermesOsPage = makePage("HermesOsPage");
