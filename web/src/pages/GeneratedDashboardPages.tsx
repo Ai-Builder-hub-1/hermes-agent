@@ -1,4 +1,5 @@
 import { dashboardGovernanceDefaults, dashboardPageMetadata } from "@/dashboard-page-metadata";
+import { generatedDashboardRouteMaturity } from "./generated-dashboard-route-maturity-data";
 
 type GovernanceFamily =
   | "Executive"
@@ -96,6 +97,11 @@ const generatedPageRows: Array<[string, string, string]> = [
 ];
 
 const metadataByRoute = new Map(dashboardPageMetadata.map((entry) => [entry.route, entry]));
+type GeneratedRouteMaturityEntry = (typeof generatedDashboardRouteMaturity.entries)[number];
+
+const maturityByExportName = new Map<string, GeneratedRouteMaturityEntry>(
+  generatedDashboardRouteMaturity.entries.map((entry) => [entry.exportName, entry])
+);
 
 const generatedPageSpecs: GeneratedPageSpec[] = generatedPageRows.map(([exportName, route, title]) => ({
   exportName,
@@ -117,7 +123,8 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
   const dataContracts = metadata?.dataContracts ?? defaultDataContracts(spec.family);
   const requiredStates = metadata?.requiredStates ?? defaultStates(spec.family);
   const validation = metadata?.validation ?? dashboardGovernanceDefaults.finalHandoffEvidence;
-  const maturity = maturityFor(Boolean(metadata), dataContracts, requiredStates, validation);
+  const routeMaturity = maturityByExportName.get(spec.exportName);
+  const maturity = routeMaturity?.score ?? maturityFor(Boolean(metadata), dataContracts, requiredStates, validation);
 
   return (
     <main
@@ -159,7 +166,7 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
           <MetricCard label="Data Contracts" value={String(dataContracts.length)} detail="Typed inputs expected before bespoke build." />
           <MetricCard label="States" value={String(requiredStates.length)} detail="Operational states the page must show." />
           <MetricCard label="Validation" value={String(validation.length)} detail="Checks needed for handoff evidence." />
-          <MetricCard label="Proof Focus" value={spec.priority} detail={spec.proofFocus} />
+          <MetricCard label="Open Layers" value={String(routeMaturity?.openLayers.length ?? 0)} detail={spec.proofFocus} />
         </section>
 
         <section className="grid gap-6 xl:grid-cols-[1fr_360px]">
@@ -202,6 +209,14 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
           <ChecklistPanel title="State Coverage" items={requiredStates} />
           <ChecklistPanel title="Validation Evidence" items={validation} />
         </section>
+
+        {routeMaturity ? (
+          <section className="grid gap-4 lg:grid-cols-3">
+            <ChecklistPanel title="Completed Maturity Layers" items={[...routeMaturity.completedLayers]} />
+            <ChecklistPanel title="Open Maturity Layers" items={[...routeMaturity.openLayers]} />
+            <ChecklistPanel title="Proof Required" items={[...routeMaturity.proofRequired]} />
+          </section>
+        ) : null}
       </section>
     </main>
   );
