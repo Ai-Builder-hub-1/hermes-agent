@@ -63,36 +63,48 @@ function buildFleetReadinessCards(entries: readonly EvidenceEntry[]) {
       label: "Fleet Scope",
       value: uniqueProjects,
       detail: `${entries.length} evidence checks tracked`,
+      evidence: `${uniqueProjects} projects represented in the generated evidence ledger`,
+      next: "Use this as the top-level scope for dashboard build reviews.",
       status: uniqueProjects ? "ready" : "watch",
     },
     {
       label: "Action Debt",
       value: actionItems.length,
       detail: `${countKind("static-route-debt", "needs-review")} static route items`,
+      evidence: `${actionItems.length} evidence item(s) are needs-review, blocked, missing, or stale`,
+      next: actionItems.length ? "Work the queue below before declaring the fleet complete." : "No fleet evidence debt is active.",
       status: actionItems.some((entry) => entry.status === "blocked") ? "blocked" : actionItems.length ? "watch" : "ready",
     },
     {
       label: "Proof Coverage",
       value: proofChecks,
       detail: "readonly proof and screenshot baselines",
+      evidence: `${proofChecks} proof or screenshot checks are current`,
+      next: "Keep proof URLs and screenshots fresh after every dashboard release.",
       status: proofChecks ? "ready" : "watch",
     },
     {
       label: "Live Checks",
       value: liveChecks,
       detail: "primary operator flows with evidence",
+      evidence: `${liveChecks} current live end-to-end route checks`,
+      next: "Use the live flow checks to catch blank pages and broken operator paths.",
       status: liveChecks ? "ready" : "watch",
     },
     {
       label: "Monitoring",
       value: monitoringChecks,
       detail: "dashboard watch contracts current",
+      evidence: `${monitoringChecks} monitoring contracts are current`,
+      next: "Wire missing dashboards into monitoring before relying on passive alerts.",
       status: monitoringChecks ? "ready" : "watch",
     },
     {
       label: "Build Queue",
       value: buildReady,
       detail: "ready front-end maturity packets",
+      evidence: `${buildReady} suggestion packet(s) are marked ready-to-build`,
+      next: buildReady ? "Use these as the next front-end work queue." : "Keep the queue empty by closing maturity findings.",
       status: buildReady ? "watch" : "ready",
     },
   ];
@@ -132,6 +144,8 @@ export default function FleetMaturityReviewPage() {
     return filteredEntries[0] ?? null;
   }, [activeEntryId, data.entries, filteredEntries]);
   const readinessCards = useMemo(() => buildFleetReadinessCards(data.entries), [data.entries]);
+  const [activeReadinessIndex, setActiveReadinessIndex] = useState(0);
+  const activeReadiness = readinessCards[activeReadinessIndex] || readinessCards[0];
 
   return (
     <main className="mx-auto flex w-full max-w-[1500px] flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8" data-review-id="hermes.fleet-maturity-review">
@@ -162,16 +176,27 @@ export default function FleetMaturityReviewPage() {
           </span>
         </div>
         <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-6">
-          {readinessCards.map((card) => (
-            <article
-              className={`rounded-xl border p-4 ${card.status === "blocked" ? "border-red-500/30 bg-red-500/10" : card.status === "watch" ? "border-amber-500/30 bg-amber-500/10" : "border-emerald-500/30 bg-emerald-500/10"}`}
+          {readinessCards.map((card, index) => (
+            <button
+              type="button"
+              aria-pressed={index === activeReadinessIndex}
+              onClick={() => setActiveReadinessIndex(index)}
+              className={`rounded-xl border p-4 text-left transition hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${index === activeReadinessIndex ? "ring-2 ring-primary/40" : ""} ${card.status === "blocked" ? "border-red-500/30 bg-red-500/10" : card.status === "watch" ? "border-amber-500/30 bg-amber-500/10" : "border-emerald-500/30 bg-emerald-500/10"}`}
               key={card.label}
             >
               <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{card.label}</div>
               <div className="mt-3 break-words text-2xl font-semibold text-foreground">{card.value}</div>
               <p className="mt-2 text-xs leading-5 text-muted-foreground">{card.detail}</p>
-            </article>
+            </button>
           ))}
+        </div>
+        <div className="mt-4 rounded-xl border border-border bg-background p-4" data-review-id="hermes.fleet-front-end-readiness.detail">
+          <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Selected contract</div>
+          <h3 className="mt-2 text-lg font-semibold text-foreground">{activeReadiness.label}</h3>
+          <div className="mt-3 grid gap-3 md:grid-cols-2">
+            <MiniFact label="Evidence" value={activeReadiness.evidence} />
+            <MiniFact label="Next" value={activeReadiness.next} />
+          </div>
         </div>
       </section>
 
