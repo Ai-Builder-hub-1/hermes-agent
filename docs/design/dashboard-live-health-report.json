@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-04T00:01:53.750Z",
+  "generatedAt": "2026-09-24T02:00:01.775Z",
   "mode": "live",
-  "checkedCount": 9,
+  "checkedCount": 10,
   "failedCount": 0,
   "items": [
     {
@@ -44,6 +44,13 @@
       "id": "meal-assistant.main",
       "label": "Meal Assistant",
       "healthUrl": "https://meal.tlccapitalgroup.com/health",
+      "status": "ok",
+      "httpStatus": 200
+    },
+    {
+      "id": "rinseables-os.main",
+      "label": "Rinseables OS",
+      "healthUrl": "https://rinseables.tlccapitalgroup.com/health",
       "status": "ok",
       "httpStatus": 200
     },

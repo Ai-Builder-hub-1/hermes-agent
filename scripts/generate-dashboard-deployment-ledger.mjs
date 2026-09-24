@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { execFileSync } from "node:child_process";
+import fs from "node:fs";
 import path from "node:path";
 import { dashboardRegistry, designDir, markdownTable, resolveProjectPath, root, runGit, statusLines, writeJson, writeMarkdown } from "./dashboard-report-utils.mjs";
 
@@ -38,6 +39,9 @@ function latestPromotionEvidence(deployment) {
   if (!deployment.sshHost || !deployment.composeService) return { evidence: null, error: "missing sshHost or composeService" };
   const remotePath = deployment.evidencePath ?? `/root/apps/deploy/deployment-evidence/latest/${deployment.composeService}.json`;
   try {
+    if (fs.existsSync(remotePath)) {
+      return { evidence: JSON.parse(fs.readFileSync(remotePath, "utf8")), error: null, remotePath };
+    }
     const output = execFileSync("ssh", [deployment.sshHost, "cat", remotePath], {
       encoding: "utf8",
       stdio: ["ignore", "pipe", "pipe"],

@@ -1,76 +1,36 @@
 # Dashboard Certification Repair Supervisor
 
-Generated: 2026-08-15T18:51:38.537Z
+Generated: 2026-09-24T02:00:30.695Z
 
 This report is the repair layer above certification. It does not replace project migrations; it sequences them, classifies failures, names safe versus assisted repair lanes, and records proof commands.
 
 ## Summary
 
 - Projects: 10
-- Work items: 53
+- Work items: 0
 - Safe autofix items: 0
-- Assisted repair items: 53
+- Assisted repair items: 0
 - Failure classes: 8
 
 ## Execution Order
 
 | Project | Repair state | Next failure class | Safe | Assisted | Repair packet |
 | --- | --- | --- | --- | --- | --- |
-| khashi-vc | assisted-repair-needed | manifest-truth | 0 | 12 | khashi-vc.repair.2026-08-15 |
-| hermes-os | assisted-repair-needed | manifest-truth | 0 | 12 | hermes-os.repair.2026-08-15 |
-| meal-assistant | assisted-repair-needed | manifest-truth | 0 | 5 | meal-assistant.repair.2026-08-15 |
-| media-business-os | assisted-repair-needed | manifest-truth | 0 | 4 | media-business-os.repair.2026-08-15 |
-| business-mapper | assisted-repair-needed | manifest-truth | 0 | 4 | business-mapper.repair.2026-08-15 |
-| rinseables-os | assisted-repair-needed | manifest-truth | 0 | 4 | rinseables-os.repair.2026-08-15 |
-| tlc-capital-group-os | assisted-repair-needed | manifest-truth | 0 | 3 | tlc-capital-group-os.repair.2026-08-15 |
-| nous-hermes-agent | assisted-repair-needed | manifest-truth | 0 | 4 | nous-hermes-agent.repair.2026-08-15 |
-| media-engine | assisted-repair-needed | local-visual-debt | 0 | 3 | media-engine.repair.2026-08-15 |
-| investing-system | assisted-repair-needed | manifest-truth | 0 | 2 | investing-system.repair.2026-08-15 |
+| khashi-vc | certified |  | 0 | 0 |  |
+| media-engine | certified |  | 0 | 0 |  |
+| media-business-os | certified |  | 0 | 0 |  |
+| business-mapper | certified |  | 0 | 0 |  |
+| meal-assistant | certified |  | 0 | 0 |  |
+| hermes-os | certified |  | 0 | 0 |  |
+| tlc-capital-group-os | certified |  | 0 | 0 |  |
+| rinseables-os | certified |  | 0 | 0 |  |
+| investing-system | certified |  | 0 | 0 |  |
+| nous-hermes-agent | certified |  | 0 | 0 |  |
 
 ## Top Work Items
 
 | Project | Failure class | Lane | Safe | Priority | Issue | Path |
 | --- | --- | --- | --- | --- | --- | --- |
-| investing-system | manifest-truth | manual-or-assisted | no | 230 | falseNative.migrationLanguage | - |
-| khashi-vc | manifest-truth | manual-or-assisted | no | 225 | tier3c.implementationMode | - |
-| khashi-vc | manifest-truth | manual-or-assisted | no | 225 | falseNative.migrationLanguage | - |
-| khashi-vc | shell-anatomy | assisted-code-migration | no | 220 | local-shell-class | public/roc/market-intelligence-live.html |
-| khashi-vc | shell-anatomy | assisted-code-migration | no | 220 | anatomy.secondShellLayout | public/roc/market-intelligence-live.html |
-| investing-system | static-route-retirement | manual-or-assisted | no | 215 | surface.compatibilityClaim | public/roc/index.html |
-| khashi-vc | hidden-marker | assisted-code-migration | no | 215 | hidden-compliance-marker | public/roc/market-intelligence-live.html |
-| media-business-os | manifest-truth | manual-or-assisted | no | 215 | falseNative.migrationLanguage | - |
-| khashi-vc | static-route-retirement | manual-or-assisted | no | 210 | surface.compatibilityClaim | public/roc/index.html |
-| meal-assistant | manifest-truth | manual-or-assisted | no | 205 | falseNative.migrationLanguage | - |
-| media-business-os | hidden-marker | assisted-code-migration | no | 205 | hidden-compliance-marker | public/dashboard/app.js |
-| tlc-capital-group-os | manifest-truth | manual-or-assisted | no | 200 | falseNative.migrationLanguage | - |
-| hermes-os | manifest-truth | manual-or-assisted | no | 195 | falseNative.migrationLanguage | - |
-| tlc-capital-group-os | shell-anatomy | assisted-code-migration | no | 195 | anatomy.secondShellLayout | public/dashboard/index.html |
-| khashi-vc | local-visual-debt | assisted-component-replacement | no | 190 | localDebt.excessive | - |
-| khashi-vc | shell-anatomy | assisted-code-migration | no | 190 | anatomy.multipleShellMarkers | public/roc/index.html |
-| khashi-vc | shell-anatomy | assisted-code-migration | no | 190 | anatomy.multipleSidebarMarkers | public/roc/index.html |
-| khashi-vc | shell-anatomy | assisted-code-migration | no | 190 | anatomy.multipleSidebarMarkers | public/roc/market-intelligence-live.html |
-| tlc-capital-group-os | hidden-marker | assisted-code-migration | no | 190 | hidden-compliance-marker | public/dashboard/index.html |
-| business-mapper | manifest-truth | manual-or-assisted | no | 185 | falseNative.migrationLanguage | - |
-| hermes-os | hidden-marker | assisted-code-migration | no | 185 | hidden-compliance-marker | src/workspace/workspace-server.ts |
-| hermes-os | hidden-marker | assisted-code-migration | no | 185 | hidden-compliance-marker | src/operator/operator-state.ts |
-| hermes-os | hidden-marker | assisted-code-migration | no | 185 | hidden-compliance-marker | src/operator/control-plane.ts |
-| media-engine | local-visual-debt | assisted-component-replacement | no | 185 | localDebt.excessive | - |
-| business-mapper | shell-anatomy | assisted-code-migration | no | 180 | anatomy.secondShellLayout | business_mapper/static/index.html |
-| hermes-os | static-route-retirement | manual-or-assisted | no | 180 | surface.compatibilityClaim | src/operator/control-plane.ts |
-| media-business-os | shell-anatomy | assisted-code-migration | no | 180 | anatomy.multipleSidebarMarkers | public/dashboard/index.html |
-| media-business-os | shell-anatomy | assisted-code-migration | no | 180 | anatomy.multipleSidebarMarkers | public/dashboard/app.js |
-| rinseables-os | manifest-truth | manual-or-assisted | no | 180 | falseNative.migrationLanguage | - |
-| business-mapper | hidden-marker | assisted-code-migration | no | 175 | hidden-compliance-marker | business_mapper/static/index.html |
-| nous-hermes-agent | manifest-truth | manual-or-assisted | no | 175 | falseNative.migrationLanguage | - |
-| rinseables-os | shell-anatomy | assisted-code-migration | no | 175 | anatomy.secondShellLayout | public/dashboard/index.html |
-| meal-assistant | local-visual-debt | assisted-component-replacement | no | 170 | localDebt.excessive | - |
-| meal-assistant | shell-anatomy | assisted-code-migration | no | 170 | anatomy.multipleShellMarkers | src/server.js |
-| meal-assistant | shell-anatomy | assisted-code-migration | no | 170 | anatomy.multipleSidebarMarkers | src/server.js |
-| rinseables-os | hidden-marker | assisted-code-migration | no | 170 | hidden-compliance-marker | public/dashboard/index.html |
-| khashi-vc | local-visual-debt | assisted-component-replacement | no | 165 | hardcoded-visual-token | public/roc/market-intelligence-live.html |
-| nous-hermes-agent | hidden-marker | assisted-code-migration | no | 165 | hidden-compliance-marker | web/src/pages/DashboardKitGalleryPage.tsx |
-| rinseables-os | static-route-retirement | manual-or-assisted | no | 165 | surface.compatibilityClaim | public/dashboard/index.html |
-| hermes-os | local-visual-debt | assisted-component-replacement | no | 160 | localDebt.excessive | - |
 
 ## Playbook Classes
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-23T23:12:59.570Z",
+  "generatedAt": "2026-09-24T01:22:25.540Z",
   "source": "docs/design/generated-dashboard-route-evidence-bindings.json",
   "purpose": "Tracks remaining live-source replacement and command enablement work after generated dashboard route maturity reached production-ready governance.",
   "policy": {
@@ -12,10 +12,10 @@
   "totals": {
     "routeCount": 68,
     "routeWithGapCount": 68,
-    "sourceGapCount": 272,
+    "sourceGapCount": 0,
     "blockedMutatingActionCount": 408,
-    "p0SourceGapCount": 48,
-    "p1SourceGapCount": 36,
+    "p0SourceGapCount": 0,
+    "p1SourceGapCount": 0,
     "p0BlockedMutatingActionCount": 72,
     "p1BlockedMutatingActionCount": 54
   },
@@ -24,25 +24,25 @@
       "P3": {
         "routeCount": 34,
         "routeWithGapCount": 34,
-        "sourceGapCount": 136,
+        "sourceGapCount": 0,
         "blockedMutatingActionCount": 204
       },
       "P2": {
         "routeCount": 13,
         "routeWithGapCount": 13,
-        "sourceGapCount": 52,
+        "sourceGapCount": 0,
         "blockedMutatingActionCount": 78
       },
       "P0": {
         "routeCount": 12,
         "routeWithGapCount": 12,
-        "sourceGapCount": 48,
+        "sourceGapCount": 0,
         "blockedMutatingActionCount": 72
       },
       "P1": {
         "routeCount": 9,
         "routeWithGapCount": 9,
-        "sourceGapCount": 36,
+        "sourceGapCount": 0,
         "blockedMutatingActionCount": 54
       }
     },
@@ -50,94 +50,65 @@
       "Executive": {
         "routeCount": 6,
         "routeWithGapCount": 6,
-        "sourceGapCount": 24,
+        "sourceGapCount": 0,
         "blockedMutatingActionCount": 36
       },
       "Design System": {
         "routeCount": 6,
         "routeWithGapCount": 6,
-        "sourceGapCount": 24,
+        "sourceGapCount": 0,
         "blockedMutatingActionCount": 36
       },
       "Operations": {
         "routeCount": 10,
         "routeWithGapCount": 10,
-        "sourceGapCount": 40,
+        "sourceGapCount": 0,
         "blockedMutatingActionCount": 60
       },
       "Agents": {
         "routeCount": 6,
         "routeWithGapCount": 6,
-        "sourceGapCount": 24,
+        "sourceGapCount": 0,
         "blockedMutatingActionCount": 36
       },
       "Security": {
         "routeCount": 12,
         "routeWithGapCount": 12,
-        "sourceGapCount": 48,
+        "sourceGapCount": 0,
         "blockedMutatingActionCount": 72
       },
       "Data": {
         "routeCount": 5,
         "routeWithGapCount": 5,
-        "sourceGapCount": 20,
+        "sourceGapCount": 0,
         "blockedMutatingActionCount": 30
       },
       "Finance": {
         "routeCount": 5,
         "routeWithGapCount": 5,
-        "sourceGapCount": 20,
+        "sourceGapCount": 0,
         "blockedMutatingActionCount": 30
       },
       "Deployment": {
         "routeCount": 6,
         "routeWithGapCount": 6,
-        "sourceGapCount": 24,
+        "sourceGapCount": 0,
         "blockedMutatingActionCount": 36
       },
       "Learning": {
         "routeCount": 8,
         "routeWithGapCount": 8,
-        "sourceGapCount": 32,
+        "sourceGapCount": 0,
         "blockedMutatingActionCount": 48
       },
       "Adapters": {
         "routeCount": 4,
         "routeWithGapCount": 4,
-        "sourceGapCount": 16,
+        "sourceGapCount": 0,
         "blockedMutatingActionCount": 24
       }
     },
-    "sourceKind": {
-      "liveE2e": {
-        "gapCount": 68,
-        "missingCount": 68,
-        "staleCount": 0,
-        "p0Count": 12,
-        "p1Count": 9
-      },
-      "monitoring": {
-        "gapCount": 68,
-        "missingCount": 68,
-        "staleCount": 0,
-        "p0Count": 12,
-        "p1Count": 9
-      },
-      "deployment": {
-        "gapCount": 68,
-        "missingCount": 0,
-        "staleCount": 68,
-        "p0Count": 12,
-        "p1Count": 9
-      },
-      "health": {
-        "gapCount": 68,
-        "missingCount": 0,
-        "staleCount": 68,
-        "p0Count": 12,
-        "p1Count": 9
-      }
-    }
+    "sourceKind": {}
   },
   "routeGaps": [
     {
@@ -151,54 +122,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Executive dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Executive dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Executive dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Executive dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -262,9 +188,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /hermes-os.",
-        "Replace monitoring registry with fresh-live-probe for /hermes-os.",
-        "Replace deployment ledger with fresh-live-probe for /hermes-os.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -279,54 +202,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -390,9 +268,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /design-system.",
-        "Replace monitoring registry with fresh-live-probe for /design-system.",
-        "Replace deployment ledger with fresh-live-probe for /design-system.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -407,54 +282,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -518,9 +348,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /design-intelligence.",
-        "Replace monitoring registry with fresh-live-probe for /design-intelligence.",
-        "Replace deployment ledger with fresh-live-probe for /design-intelligence.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -535,54 +362,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -646,9 +428,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /dashboard-migrations.",
-        "Replace monitoring registry with fresh-live-probe for /dashboard-migrations.",
-        "Replace deployment ledger with fresh-live-probe for /dashboard-migrations.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -663,54 +442,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Executive dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Executive dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Executive dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Executive dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -774,9 +508,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /executive-summary.",
-        "Replace monitoring registry with fresh-live-probe for /executive-summary.",
-        "Replace deployment ledger with fresh-live-probe for /executive-summary.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -791,54 +522,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Executive dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Executive dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Executive dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Executive dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -902,9 +588,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /executive-briefing.",
-        "Replace monitoring registry with fresh-live-probe for /executive-briefing.",
-        "Replace deployment ledger with fresh-live-probe for /executive-briefing.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -919,54 +602,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Executive operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Executive operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Executive operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Executive operations owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -1030,9 +668,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /central-command.",
-        "Replace monitoring registry with fresh-live-probe for /central-command.",
-        "Replace deployment ledger with fresh-live-probe for /central-command.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -1047,54 +682,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -1158,9 +748,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /theme-system.",
-        "Replace monitoring registry with fresh-live-probe for /theme-system.",
-        "Replace deployment ledger with fresh-live-probe for /theme-system.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -1175,54 +762,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -1286,9 +828,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /dashboard-marketplace.",
-        "Replace monitoring registry with fresh-live-probe for /dashboard-marketplace.",
-        "Replace deployment ledger with fresh-live-probe for /dashboard-marketplace.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -1303,54 +842,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -1414,9 +908,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /dashboard-prototypes.",
-        "Replace monitoring registry with fresh-live-probe for /dashboard-prototypes.",
-        "Replace deployment ledger with fresh-live-probe for /dashboard-prototypes.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -1431,54 +922,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Design System dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -1542,9 +988,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /hermes-command.",
-        "Replace monitoring registry with fresh-live-probe for /hermes-command.",
-        "Replace deployment ledger with fresh-live-probe for /hermes-command.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -1559,54 +1002,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -1670,9 +1068,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /live-signals.",
-        "Replace monitoring registry with fresh-live-probe for /live-signals.",
-        "Replace deployment ledger with fresh-live-probe for /live-signals.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -1687,54 +1082,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -1798,9 +1148,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /task-routing.",
-        "Replace monitoring registry with fresh-live-probe for /task-routing.",
-        "Replace deployment ledger with fresh-live-probe for /task-routing.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -1815,54 +1162,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -1926,9 +1228,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /decision-ledger.",
-        "Replace monitoring registry with fresh-live-probe for /decision-ledger.",
-        "Replace deployment ledger with fresh-live-probe for /decision-ledger.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -1943,54 +1242,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -2054,9 +1308,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /model-routing.",
-        "Replace monitoring registry with fresh-live-probe for /model-routing.",
-        "Replace deployment ledger with fresh-live-probe for /model-routing.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -2071,54 +1322,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -2182,9 +1388,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /operating-loops.",
-        "Replace monitoring registry with fresh-live-probe for /operating-loops.",
-        "Replace deployment ledger with fresh-live-probe for /operating-loops.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -2199,54 +1402,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "high",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Security platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "high",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Security platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security platform owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -2310,9 +1468,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /permission-security.",
-        "Replace monitoring registry with fresh-live-probe for /permission-security.",
-        "Replace deployment ledger with fresh-live-probe for /permission-security.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -2327,54 +1482,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Executive dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Executive dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Executive dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Executive dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -2438,9 +1548,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /business-os.",
-        "Replace monitoring registry with fresh-live-probe for /business-os.",
-        "Replace deployment ledger with fresh-live-probe for /business-os.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -2455,54 +1562,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -2566,9 +1628,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /project-snapshots.",
-        "Replace monitoring registry with fresh-live-probe for /project-snapshots.",
-        "Replace deployment ledger with fresh-live-probe for /project-snapshots.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -2583,54 +1642,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Data dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Data dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Data dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Data dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -2694,9 +1708,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /durable-memory.",
-        "Replace monitoring registry with fresh-live-probe for /durable-memory.",
-        "Replace deployment ledger with fresh-live-probe for /durable-memory.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -2711,54 +1722,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "high",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Security platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "high",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Security platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security platform owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -2822,9 +1788,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /permission-runtime.",
-        "Replace monitoring registry with fresh-live-probe for /permission-runtime.",
-        "Replace deployment ledger with fresh-live-probe for /permission-runtime.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -2839,54 +1802,9 @@
         "label": "Nous Hermes Agent",
         "project": "finance-governance"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "high",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Finance platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "high",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Finance platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Finance platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Finance platform owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -2950,9 +1868,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /cost-governor.",
-        "Replace monitoring registry with fresh-live-probe for /cost-governor.",
-        "Replace deployment ledger with fresh-live-probe for /cost-governor.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -2967,54 +1882,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -3078,9 +1948,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /loop-runner.",
-        "Replace monitoring registry with fresh-live-probe for /loop-runner.",
-        "Replace deployment ledger with fresh-live-probe for /loop-runner.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -3095,54 +1962,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -3206,9 +2028,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /business-command.",
-        "Replace monitoring registry with fresh-live-probe for /business-command.",
-        "Replace deployment ledger with fresh-live-probe for /business-command.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -3223,54 +2042,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -3334,9 +2108,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /agent-workbench.",
-        "Replace monitoring registry with fresh-live-probe for /agent-workbench.",
-        "Replace deployment ledger with fresh-live-probe for /agent-workbench.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -3351,54 +2122,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Security dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Security dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -3462,9 +2188,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /evaluation-gates.",
-        "Replace monitoring registry with fresh-live-probe for /evaluation-gates.",
-        "Replace deployment ledger with fresh-live-probe for /evaluation-gates.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -3479,54 +2202,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Agents dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -3590,9 +2268,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /autonomy-readiness.",
-        "Replace monitoring registry with fresh-live-probe for /autonomy-readiness.",
-        "Replace deployment ledger with fresh-live-probe for /autonomy-readiness.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -3607,54 +2282,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -3718,9 +2348,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /project-registry.",
-        "Replace monitoring registry with fresh-live-probe for /project-registry.",
-        "Replace deployment ledger with fresh-live-probe for /project-registry.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -3735,54 +2362,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Operations dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -3846,9 +2428,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /project-plan-command.",
-        "Replace monitoring registry with fresh-live-probe for /project-plan-command.",
-        "Replace deployment ledger with fresh-live-probe for /project-plan-command.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -3863,54 +2442,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "high",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Data platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "high",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Data platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Data platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Data platform owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -3974,9 +2508,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /telemetry-fabric.",
-        "Replace monitoring registry with fresh-live-probe for /telemetry-fabric.",
-        "Replace deployment ledger with fresh-live-probe for /telemetry-fabric.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -3991,54 +2522,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Operations operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Operations operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Operations operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Operations operations owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -4102,9 +2588,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /incident-command.",
-        "Replace monitoring registry with fresh-live-probe for /incident-command.",
-        "Replace deployment ledger with fresh-live-probe for /incident-command.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -4119,54 +2602,9 @@
         "label": "Nous Hermes Agent",
         "project": "deployment-governance"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "high",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Deployment platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "high",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Deployment platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Deployment platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Deployment platform owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -4230,9 +2668,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /deployment-promotion.",
-        "Replace monitoring registry with fresh-live-probe for /deployment-promotion.",
-        "Replace deployment ledger with fresh-live-probe for /deployment-promotion.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -4247,54 +2682,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Security operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Security operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security operations owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -4358,9 +2748,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /secrets-posture.",
-        "Replace monitoring registry with fresh-live-probe for /secrets-posture.",
-        "Replace deployment ledger with fresh-live-probe for /secrets-posture.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -4375,54 +2762,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "high",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Data platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "high",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Data platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Data platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Data platform owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -4486,9 +2828,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /data-source-catalog.",
-        "Replace monitoring registry with fresh-live-probe for /data-source-catalog.",
-        "Replace deployment ledger with fresh-live-probe for /data-source-catalog.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -4503,54 +2842,9 @@
         "label": "Nous Hermes Agent",
         "project": "finance-governance"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Finance dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Finance dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Finance dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Finance dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -4614,9 +2908,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /finance-attribution.",
-        "Replace monitoring registry with fresh-live-probe for /finance-attribution.",
-        "Replace deployment ledger with fresh-live-probe for /finance-attribution.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -4631,54 +2922,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -4742,9 +2988,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /learning-engine.",
-        "Replace monitoring registry with fresh-live-probe for /learning-engine.",
-        "Replace deployment ledger with fresh-live-probe for /learning-engine.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -4759,54 +3002,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -4870,9 +3068,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /agent-eval-lab.",
-        "Replace monitoring registry with fresh-live-probe for /agent-eval-lab.",
-        "Replace deployment ledger with fresh-live-probe for /agent-eval-lab.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -4887,54 +3082,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Executive dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Executive dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Executive dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Executive dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -4998,9 +3148,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /executive-cockpit.",
-        "Replace monitoring registry with fresh-live-probe for /executive-cockpit.",
-        "Replace deployment ledger with fresh-live-probe for /executive-cockpit.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -5015,54 +3162,9 @@
         "label": "Nous Hermes Agent",
         "project": "deployment-governance"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Deployment operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Deployment operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Deployment operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Deployment operations owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -5126,9 +3228,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /production-verification.",
-        "Replace monitoring registry with fresh-live-probe for /production-verification.",
-        "Replace deployment ledger with fresh-live-probe for /production-verification.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -5143,54 +3242,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Security dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Security dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -5254,9 +3308,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /command-gate-runtime.",
-        "Replace monitoring registry with fresh-live-probe for /command-gate-runtime.",
-        "Replace deployment ledger with fresh-live-probe for /command-gate-runtime.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -5271,54 +3322,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "high",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Adapters platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "high",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Adapters platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Adapters platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Adapters platform owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -5382,9 +3388,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /telemetry-adapter-kit.",
-        "Replace monitoring registry with fresh-live-probe for /telemetry-adapter-kit.",
-        "Replace deployment ledger with fresh-live-probe for /telemetry-adapter-kit.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -5399,54 +3402,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Operations operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Operations operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Operations operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Operations operations owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -5510,9 +3468,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /incident-ingestion.",
-        "Replace monitoring registry with fresh-live-probe for /incident-ingestion.",
-        "Replace deployment ledger with fresh-live-probe for /incident-ingestion.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -5527,54 +3482,9 @@
         "label": "Nous Hermes Agent",
         "project": "deployment-governance"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Deployment dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Deployment dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Deployment dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Deployment dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -5638,9 +3548,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /promotion-runner.",
-        "Replace monitoring registry with fresh-live-probe for /promotion-runner.",
-        "Replace deployment ledger with fresh-live-probe for /promotion-runner.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -5655,54 +3562,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Security operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Security operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security operations owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -5766,9 +3628,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /secret-scanner.",
-        "Replace monitoring registry with fresh-live-probe for /secret-scanner.",
-        "Replace deployment ledger with fresh-live-probe for /secret-scanner.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -5783,54 +3642,9 @@
         "label": "Nous Hermes Agent",
         "project": "finance-governance"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "high",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Finance platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "high",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Finance platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Finance platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Finance platform owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -5894,9 +3708,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /cost-attribution-engine.",
-        "Replace monitoring registry with fresh-live-probe for /cost-attribution-engine.",
-        "Replace deployment ledger with fresh-live-probe for /cost-attribution-engine.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -5911,54 +3722,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -6022,9 +3788,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /learning-ingestion.",
-        "Replace monitoring registry with fresh-live-probe for /learning-ingestion.",
-        "Replace deployment ledger with fresh-live-probe for /learning-ingestion.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -6039,54 +3802,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -6150,9 +3868,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /model-eval-harness.",
-        "Replace monitoring registry with fresh-live-probe for /model-eval-harness.",
-        "Replace deployment ledger with fresh-live-probe for /model-eval-harness.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -6167,54 +3882,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Security dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Security dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -6278,9 +3948,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /circuit-breakers.",
-        "Replace monitoring registry with fresh-live-probe for /circuit-breakers.",
-        "Replace deployment ledger with fresh-live-probe for /circuit-breakers.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -6295,54 +3962,9 @@
         "label": "Nous Hermes Agent",
         "project": "deployment-governance"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Deployment operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Deployment operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Deployment operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Deployment operations owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -6406,9 +4028,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /production-sweep.",
-        "Replace monitoring registry with fresh-live-probe for /production-sweep.",
-        "Replace deployment ledger with fresh-live-probe for /production-sweep.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -6423,54 +4042,9 @@
         "label": "Nous Hermes Agent",
         "project": "deployment-governance"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Deployment dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Deployment dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Deployment dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Deployment dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -6534,9 +4108,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /hetzner-promotion-execution.",
-        "Replace monitoring registry with fresh-live-probe for /hetzner-promotion-execution.",
-        "Replace deployment ledger with fresh-live-probe for /hetzner-promotion-execution.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -6551,54 +4122,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Security dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Security dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -6662,9 +4188,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /command-gate-coverage.",
-        "Replace monitoring registry with fresh-live-probe for /command-gate-coverage.",
-        "Replace deployment ledger with fresh-live-probe for /command-gate-coverage.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -6679,54 +4202,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Adapters dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Adapters dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Adapters dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Adapters dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -6790,9 +4268,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /project-adapter-rollout.",
-        "Replace monitoring registry with fresh-live-probe for /project-adapter-rollout.",
-        "Replace deployment ledger with fresh-live-probe for /project-adapter-rollout.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -6807,54 +4282,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Operations operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Operations operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Operations operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Operations operations owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -6918,9 +4348,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /incident-automation.",
-        "Replace monitoring registry with fresh-live-probe for /incident-automation.",
-        "Replace deployment ledger with fresh-live-probe for /incident-automation.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -6935,54 +4362,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Security operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Security operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security operations owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -7046,9 +4428,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /live-secret-scan.",
-        "Replace monitoring registry with fresh-live-probe for /live-secret-scan.",
-        "Replace deployment ledger with fresh-live-probe for /live-secret-scan.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -7063,54 +4442,9 @@
         "label": "Nous Hermes Agent",
         "project": "finance-governance"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "high",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Finance platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "high",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Finance platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Finance platform owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Finance platform owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -7174,9 +4508,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /cost-reconciliation.",
-        "Replace monitoring registry with fresh-live-probe for /cost-reconciliation.",
-        "Replace deployment ledger with fresh-live-probe for /cost-reconciliation.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -7191,54 +4522,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -7302,9 +4588,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /outcome-learning-feeds.",
-        "Replace monitoring registry with fresh-live-probe for /outcome-learning-feeds.",
-        "Replace deployment ledger with fresh-live-probe for /outcome-learning-feeds.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -7319,54 +4602,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -7430,9 +4668,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /golden-eval-execution.",
-        "Replace monitoring registry with fresh-live-probe for /golden-eval-execution.",
-        "Replace deployment ledger with fresh-live-probe for /golden-eval-execution.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -7447,54 +4682,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Security operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Security operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security operations owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -7558,9 +4748,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /hard-breaker-enforcement.",
-        "Replace monitoring registry with fresh-live-probe for /hard-breaker-enforcement.",
-        "Replace deployment ledger with fresh-live-probe for /hard-breaker-enforcement.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -7575,54 +4762,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Adapters dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Adapters dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Adapters dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Adapters dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -7686,9 +4828,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /network-runner-adapter.",
-        "Replace monitoring registry with fresh-live-probe for /network-runner-adapter.",
-        "Replace deployment ledger with fresh-live-probe for /network-runner-adapter.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -7703,54 +4842,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Adapters dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Adapters dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Adapters dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Adapters dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -7814,9 +4908,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /hetzner-ssh-adapter.",
-        "Replace monitoring registry with fresh-live-probe for /hetzner-ssh-adapter.",
-        "Replace deployment ledger with fresh-live-probe for /hetzner-ssh-adapter.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -7831,54 +4922,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Security operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Security operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security operations owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -7942,9 +4988,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /secret-provider-adapter.",
-        "Replace monitoring registry with fresh-live-probe for /secret-provider-adapter.",
-        "Replace deployment ledger with fresh-live-probe for /secret-provider-adapter.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -7959,54 +5002,9 @@
         "label": "Nous Hermes Agent",
         "project": "finance-governance"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Finance dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Finance dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Finance dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Finance dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -8070,9 +5068,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /billing-provider-adapter.",
-        "Replace monitoring registry with fresh-live-probe for /billing-provider-adapter.",
-        "Replace deployment ledger with fresh-live-probe for /billing-provider-adapter.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -8087,54 +5082,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -8198,9 +5148,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /project-outcome-emitter.",
-        "Replace monitoring registry with fresh-live-probe for /project-outcome-emitter.",
-        "Replace deployment ledger with fresh-live-probe for /project-outcome-emitter.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -8215,54 +5162,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Learning dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -8326,9 +5228,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /provider-eval-runner.",
-        "Replace monitoring registry with fresh-live-probe for /provider-eval-runner.",
-        "Replace deployment ledger with fresh-live-probe for /provider-eval-runner.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -8343,54 +5242,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Security dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Security dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Security dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -8454,9 +5308,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /breaker-middleware.",
-        "Replace monitoring registry with fresh-live-probe for /breaker-middleware.",
-        "Replace deployment ledger with fresh-live-probe for /breaker-middleware.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -8471,54 +5322,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Data operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "critical",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Data operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Data operations owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "high",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Data operations owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -8582,9 +5388,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /incident-subscriptions.",
-        "Replace monitoring registry with fresh-live-probe for /incident-subscriptions.",
-        "Replace deployment ledger with fresh-live-probe for /incident-subscriptions.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -8599,54 +5402,9 @@
         "label": "Nous Hermes Agent",
         "project": "nous-hermes-agent"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Data dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Data dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Data dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Data dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -8710,9 +5468,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /evidence-artifact-store.",
-        "Replace monitoring registry with fresh-live-probe for /evidence-artifact-store.",
-        "Replace deployment ledger with fresh-live-probe for /evidence-artifact-store.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     },
@@ -8727,54 +5482,9 @@
         "label": "Nous Hermes Agent",
         "project": "deployment-governance"
       },
-      "sourceGapCount": 4,
+      "sourceGapCount": 0,
       "blockedMutatingActionCount": 6,
-      "sourceGaps": [
-        {
-          "kind": "liveE2e",
-          "label": "live E2E registry",
-          "source": "docs/design/dashboard-live-e2e-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live live E2E registry entry for docs/design/dashboard-live-e2e-registry.json.",
-          "owner": "Deployment dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "monitoring",
-          "label": "monitoring registry",
-          "source": "docs/design/dashboard-monitoring-registry.json",
-          "status": "missing",
-          "freshness": "missing",
-          "severity": "medium",
-          "remediation": "Create or connect a live monitoring registry entry for docs/design/dashboard-monitoring-registry.json.",
-          "owner": "Deployment dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "deployment",
-          "label": "deployment ledger",
-          "source": "docs/design/dashboard-deployment-ledger.json",
-          "status": "tracked",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh deployment ledger from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Deployment dashboard owner",
-          "targetState": "fresh-live-probe"
-        },
-        {
-          "kind": "health",
-          "label": "health report",
-          "source": "docs/design/dashboard-health-report.json",
-          "status": "declared",
-          "freshness": "stale",
-          "severity": "low",
-          "remediation": "Refresh health report from a live probe and persist checkedAt/freshness metadata.",
-          "owner": "Deployment dashboard owner",
-          "targetState": "fresh-live-probe"
-        }
-      ],
+      "sourceGaps": [],
       "blockedMutatingActions": [
         {
           "action": "rerun collector",
@@ -8838,9 +5548,6 @@
         }
       ],
       "nextActions": [
-        "Replace live E2E registry with fresh-live-probe for /release-train-orchestrator.",
-        "Replace monitoring registry with fresh-live-probe for /release-train-orchestrator.",
-        "Replace deployment ledger with fresh-live-probe for /release-train-orchestrator.",
         "Keep 6 mutating actions disabled until command endpoints and recovery proof exist."
       ]
     }

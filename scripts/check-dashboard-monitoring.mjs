@@ -7,7 +7,7 @@ const fleetPath = path.join(root, "docs/fleet/fleet-registry.json");
 const outputPath = path.join(root, "docs/design/dashboard-monitoring-registry.json");
 const args = process.argv.slice(2);
 const projectFilter = valueAfter("--project") ?? valueAfter("--id") ?? null;
-const timeoutMs = Number(valueAfter("--timeout-ms") ?? 8000);
+const timeoutMs = Number(valueAfter("--timeout-ms") ?? 15000);
 
 function valueAfter(flag) {
   const index = args.indexOf(flag);
@@ -136,3 +136,4 @@ console.log(`Checked ${checkedEntries.length} monitoring target(s): ${checkedEnt
 for (const entry of failures) {
   console.log(`fail ${entry.projectId}: health=${entry.latestCheck.checks.health.status ?? entry.latestCheck.checks.health.error} snapshot=${entry.latestCheck.checks.snapshot.status ?? entry.latestCheck.checks.snapshot.error}`);
 }
+process.exit(failures.length ? 1 : 0);

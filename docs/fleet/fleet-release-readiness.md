@@ -1,6 +1,6 @@
 # Fleet Release Readiness
 
-Generated: 2026-08-15T18:51:37.998Z
+Generated: 2026-09-24T02:00:29.086Z
 
 This report classifies dirty-tree changes before commit/deploy. It exists so Codex can move forward confidently without blindly committing proof artifacts, screenshots, local-only files, build outputs, or unknown files.
 
@@ -17,31 +17,31 @@ This report classifies dirty-tree changes before commit/deploy. It exists so Cod
 
 | Project | Dirty | Intent | Recommendation | Commit ready | Deploy ready | Source | Generated | Screenshots | Local | Unsafe | Unknown |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Nous Hermes Agent | 44 | mixed | commit-after-validation | yes | yes | 17 | 27 | 0 | 0 | 0 | 0 |
-| Khashi VC ROC | 0 | clean | clean | yes | yes | 0 | 0 | 0 | 0 | 0 | 0 |
-| Media Engine Ops | 0 | clean | clean | yes | yes | 0 | 0 | 0 | 0 | 0 | 0 |
-| Media Business Operations | 0 | clean | clean | yes | yes | 0 | 0 | 0 | 0 | 0 | 0 |
-| Business Mapper Workspace | 0 | clean | clean | yes | yes | 0 | 0 | 0 | 0 | 0 | 0 |
-| Meal Assistant | 0 | clean | clean | yes | yes | 0 | 0 | 0 | 0 | 0 | 0 |
-| Rinseables OS | 0 | clean | clean | yes | yes | 0 | 0 | 0 | 0 | 0 | 0 |
-| Investing System ROC | 3 | source-change | commit-after-validation | yes | yes | 3 | 0 | 0 | 0 | 0 | 0 |
-| Hermes Workspace | 0 | clean | clean | yes | yes | 0 | 0 | 0 | 0 | 0 | 0 |
-| TLC Capital Group OS | 0 | clean | clean | yes | yes | 0 | 0 | 0 | 0 | 0 | 0 |
+| Nous Hermes Agent | 48 | mixed | commit-after-validation | yes | yes | 31 | 17 | 0 | 0 | 0 | 0 |
+| Khashi VC ROC | 2 | source-change | commit-after-validation | yes | yes | 2 | 0 | 0 | 0 | 0 | 0 |
+| Media Engine Ops | 1 | source-change | commit-after-validation | yes | yes | 1 | 0 | 0 | 0 | 0 | 0 |
+| Media Business Operations | 3 | source-change | commit-after-validation | yes | yes | 3 | 0 | 0 | 0 | 0 | 0 |
+| Business Mapper Workspace | 2 | source-change | commit-after-validation | yes | yes | 2 | 0 | 0 | 0 | 0 | 0 |
+| Meal Assistant | 1 | source-change | commit-after-validation | yes | yes | 1 | 0 | 0 | 0 | 0 | 0 |
+| Rinseables OS | 2 | source-change | commit-after-validation | yes | yes | 2 | 0 | 0 | 0 | 0 | 0 |
+| Investing System ROC | 1 | source-change | commit-after-validation | yes | yes | 1 | 0 | 0 | 0 | 0 | 0 |
+| Hermes Workspace | 4 | source-change | commit-after-validation | yes | yes | 4 | 0 | 0 | 0 | 0 | 0 |
+| TLC Capital Group OS | 2 | source-change | commit-after-validation | yes | yes | 2 | 0 | 0 | 0 | 0 | 0 |
 
 ## Cleanup Guidance
 
 | Project | Proof policy | Cleanup actions |
 | --- | --- | --- |
 | Nous Hermes Agent | proof-or-generated-evidence-present-validate-before-ship | commit-generated-evidence-with-generator-command-evidence<br>run-project-validation-before-commit |
-| Khashi VC ROC | proof-not-required | no-cleanup-needed |
-| Media Engine Ops | proof-not-required | no-cleanup-needed |
-| Media Business Operations | proof-not-required | no-cleanup-needed |
-| Business Mapper Workspace | proof-not-required | no-cleanup-needed |
-| Meal Assistant | proof-not-required | no-cleanup-needed |
-| Rinseables OS | proof-not-required | no-cleanup-needed |
+| Khashi VC ROC | proof-required-for-ui-route-theme-or-dashboard-surface-changes | run-project-validation-before-commit |
+| Media Engine Ops | proof-required-for-ui-route-theme-or-dashboard-surface-changes | run-project-validation-before-commit |
+| Media Business Operations | proof-required-for-ui-route-theme-or-dashboard-surface-changes | run-project-validation-before-commit |
+| Business Mapper Workspace | proof-required-for-ui-route-theme-or-dashboard-surface-changes | run-project-validation-before-commit |
+| Meal Assistant | proof-required-for-ui-route-theme-or-dashboard-surface-changes | run-project-validation-before-commit |
+| Rinseables OS | proof-required-for-ui-route-theme-or-dashboard-surface-changes | run-project-validation-before-commit |
 | Investing System ROC | proof-required-for-ui-route-theme-or-dashboard-surface-changes | run-project-validation-before-commit |
-| Hermes Workspace | proof-not-required | no-cleanup-needed |
-| TLC Capital Group OS | proof-not-required | no-cleanup-needed |
+| Hermes Workspace | proof-required-for-ui-route-theme-or-dashboard-surface-changes | run-project-validation-before-commit |
+| TLC Capital Group OS | proof-required-for-ui-route-theme-or-dashboard-surface-changes | run-project-validation-before-commit |
 
 ## Dirty File Classification
 
@@ -49,56 +49,115 @@ This report classifies dirty-tree changes before commit/deploy. It exists so Cod
 
 | Status | Path | Class | Policy | Reason |
 | --- | --- | --- | --- | --- |
-| M  | docs/design/dashboard-component-native-implementation-report.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/design/dashboard-component-native-implementation-report.md | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/design/dashboard-cross-project-component-audit.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/design/dashboard-cross-project-component-audit.md | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/design/dashboard-kit-served-css-report.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/design/dashboard-kit-served-css-report.md | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
+| M  | .hermes-dashboard.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | docs/design/dashboard-certification-repair-playbooks.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
+|  M | docs/design/dashboard-deployment-ledger.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
+|  M | docs/design/dashboard-deployment-ledger.md | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
+|  M | docs/design/dashboard-health-report.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
 |  M | docs/design/dashboard-live-e2e-registry.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
+|  M | docs/design/dashboard-live-health-report.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
+|  M | docs/design/dashboard-live-source-gap-ledger.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
+|  M | docs/design/dashboard-live-source-gap-ledger.md | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
 |  M | docs/design/dashboard-monitoring-registry.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/design/dashboard-operating-system-layer-report.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/design/dashboard-operating-system-layer-report.md | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/design/dashboard-rendered-implementation-report.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/design/dashboard-rendered-implementation-report.md | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/design/static-dashboard-route-audit.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/fleet/fleet-evidence-ledger.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/fleet/fleet-maturity-status.md | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/fleet/fleet-maturity-suggestions.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/fleet/fleet-maturity-suggestions.md | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/fleet/fleet-maturity-work-graph.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/fleet/fleet-maturity-work-graph.md | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/fleet/fleet-registry.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
+|  M | docs/design/dashboard-runtime-data-report.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
+|  M | docs/design/dashboard-runtime-data-report.md | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
+|  M | docs/design/generated-dashboard-route-evidence-bindings.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | docs/design/generated-dashboard-route-evidence-bindings.md | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | docs/design/generated-dashboard-route-maturity-ledger.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | docs/design/generated-dashboard-route-maturity-ledger.md | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | docs/fleet/dashboard-certification-attempt-ledger.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | docs/fleet/dashboard-certification-repair-execution-ledger.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | docs/fleet/dashboard-certification-repair-execution-ledger.md | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | docs/fleet/dashboard-certification-repair-packets.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | docs/fleet/dashboard-certification-repair-supervisor.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | docs/fleet/dashboard-certification-repair-supervisor.md | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | docs/fleet/dashboard-certification-report.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | docs/fleet/dashboard-certification-report.md | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
 |  M | docs/fleet/fleet-release-readiness.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
 |  M | docs/fleet/fleet-release-readiness.md | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
 |  M | docs/fleet/fleet-ship-check.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
 |  M | docs/fleet/fleet-ship-check.md | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/fleet/tlc-operating-system-maturity-build-plan.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-|  M | docs/fleet/tlc-operating-system-maturity-build-plan.md | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
 |  M | package.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-|  M | packages/hermes-dashboard-kit/adoption/reports/latest-adoption-report.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
+|  M | scripts/certify-dashboard-fleet.mjs | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | scripts/check-dashboard-live-e2e.mjs | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | scripts/check-dashboard-monitoring.mjs | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
 |  M | scripts/fleet-ship-check.mjs | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-| ?? | docs/design/dashboard-certification-repair-playbooks.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-| ?? | docs/design/dashboard-certification-standard.md | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-| ?? | docs/fleet/dashboard-certification-attempt-ledger.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-| ?? | docs/fleet/dashboard-certification-repair-execution-ledger.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-| ?? | docs/fleet/dashboard-certification-repair-execution-ledger.md | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-| ?? | docs/fleet/dashboard-certification-repair-packets.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-| ?? | docs/fleet/dashboard-certification-repair-supervisor.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-| ?? | docs/fleet/dashboard-certification-repair-supervisor.md | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-| ?? | docs/fleet/dashboard-certification-report.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-| ?? | docs/fleet/dashboard-certification-report.md | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-| ?? | scripts/certify-dashboard-fleet.mjs | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-| ?? | scripts/execute-dashboard-certification-repairs.mjs | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-| ?? | scripts/generate-dashboard-certification-repair-supervisor.mjs | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-| ?? | scripts/validate-dashboard-certification-repair-supervisor.mjs | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-| ?? | scripts/validate-dashboard-certification.mjs | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | scripts/generate-dashboard-deployment-ledger.mjs | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | scripts/generate-fleet-release-readiness.mjs | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | scripts/generate-generated-dashboard-route-evidence-bindings.mjs | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | scripts/validate-dashboard-live-source-gap-ledger.mjs | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | scripts/validate-dashboard-maturity-reports.mjs | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | web/src/pages/DashboardKitGalleryPage.tsx | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | web/src/pages/dashboard-live-source-gap-ledger.runtime.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | web/src/pages/generated-dashboard-route-evidence-bindings.runtime.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | web/src/pages/generated-dashboard-route-maturity-ledger.runtime.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+| ?? | docs/design/comprehensive-dashboard-maturity-assessment.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+| ?? | docs/design/comprehensive-dashboard-maturity-assessment.md | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+| ?? | docs/design/dashboard-command-governance-ledger.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
+| ?? | docs/design/dashboard-command-governance-ledger.md | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
+| ?? | scripts/generate-dashboard-command-governance-ledger.mjs | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+| ?? | scripts/validate-dashboard-command-governance-ledger.mjs | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+
+### Khashi VC ROC
+
+| Status | Path | Class | Policy | Reason |
+| --- | --- | --- | --- | --- |
+| M  | .hermes-dashboard.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | public/roc/market-intelligence-live.html | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+
+### Media Engine Ops
+
+| Status | Path | Class | Policy | Reason |
+| --- | --- | --- | --- | --- |
+| M  | .hermes-dashboard.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+
+### Media Business Operations
+
+| Status | Path | Class | Policy | Reason |
+| --- | --- | --- | --- | --- |
+| M  | .hermes-dashboard.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | frontend/src/main.tsx | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | public/dashboard/app.js | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+
+### Business Mapper Workspace
+
+| Status | Path | Class | Policy | Reason |
+| --- | --- | --- | --- | --- |
+| M  | .hermes-dashboard.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | business_mapper/static/index.html | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+
+### Meal Assistant
+
+| Status | Path | Class | Policy | Reason |
+| --- | --- | --- | --- | --- |
+| M  | .hermes-dashboard.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+
+### Rinseables OS
+
+| Status | Path | Class | Policy | Reason |
+| --- | --- | --- | --- | --- |
+| M  | .hermes-dashboard.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | public/dashboard/index.html | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
 
 ### Investing System ROC
 
 | Status | Path | Class | Policy | Reason |
 | --- | --- | --- | --- | --- |
 | M  | .hermes-dashboard.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-|  M | public/roc/index.html | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-|  M | public/roc/styles.css | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+
+### Hermes Workspace
+
+| Status | Path | Class | Policy | Reason |
+| --- | --- | --- | --- | --- |
+| M  | .hermes-dashboard.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | src/operator/control-plane.ts | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | src/operator/operator-state.ts | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | src/workspace/workspace-server.ts | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+
+### TLC Capital Group OS
+
+| Status | Path | Class | Policy | Reason |
+| --- | --- | --- | --- | --- |
+| M  | .hermes-dashboard.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
+|  M | public/dashboard/index.html | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-23T22:09:43.252Z",
+  "generatedAt": "2026-09-24T01:22:25.369Z",
   "source": "web/src/pages/GeneratedDashboardPages.tsx",
   "policy": {
     "placeholderRoutesAllowed": false,
@@ -165,7 +165,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -192,7 +192,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -238,9 +238,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -325,8 +325,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -419,7 +419,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -446,7 +446,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -492,9 +492,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -579,8 +579,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -673,7 +673,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -700,7 +700,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -746,9 +746,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -833,8 +833,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -927,7 +927,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -954,7 +954,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -1000,9 +1000,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -1087,8 +1087,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -1181,7 +1181,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -1208,7 +1208,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -1254,9 +1254,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -1341,8 +1341,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -1435,7 +1435,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -1462,7 +1462,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -1508,9 +1508,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -1595,8 +1595,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -1689,7 +1689,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -1716,7 +1716,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -1762,9 +1762,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -1849,8 +1849,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -1943,7 +1943,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -1970,7 +1970,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -2016,9 +2016,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -2103,8 +2103,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -2197,7 +2197,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -2224,7 +2224,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -2270,9 +2270,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -2357,8 +2357,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -2451,7 +2451,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -2478,7 +2478,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -2524,9 +2524,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -2611,8 +2611,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -2705,7 +2705,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -2732,7 +2732,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -2778,9 +2778,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -2865,8 +2865,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -2959,7 +2959,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -2986,7 +2986,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -3032,9 +3032,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -3119,8 +3119,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -3213,7 +3213,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -3240,7 +3240,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -3286,9 +3286,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -3373,8 +3373,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -3467,7 +3467,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -3494,7 +3494,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -3540,9 +3540,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -3627,8 +3627,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -3721,7 +3721,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -3748,7 +3748,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -3794,9 +3794,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -3881,8 +3881,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -3975,7 +3975,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -4002,7 +4002,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -4048,9 +4048,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -4135,8 +4135,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -4229,7 +4229,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -4256,7 +4256,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -4302,9 +4302,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -4389,8 +4389,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -4483,7 +4483,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -4510,7 +4510,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -4556,9 +4556,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -4643,8 +4643,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -4737,7 +4737,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -4764,7 +4764,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -4810,9 +4810,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -4897,8 +4897,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -4991,7 +4991,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -5018,7 +5018,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -5064,9 +5064,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -5151,8 +5151,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -5245,7 +5245,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -5272,7 +5272,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -5318,9 +5318,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -5405,8 +5405,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -5499,7 +5499,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -5526,7 +5526,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -5572,9 +5572,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -5659,8 +5659,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -5753,7 +5753,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -5780,7 +5780,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -5826,9 +5826,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -5913,8 +5913,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -6007,7 +6007,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -6034,7 +6034,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -6080,9 +6080,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -6167,8 +6167,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -6261,7 +6261,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -6288,7 +6288,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -6334,9 +6334,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -6421,8 +6421,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -6515,7 +6515,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -6542,7 +6542,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -6588,9 +6588,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -6675,8 +6675,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -6769,7 +6769,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -6796,7 +6796,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -6842,9 +6842,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -6929,8 +6929,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -7023,7 +7023,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -7050,7 +7050,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -7096,9 +7096,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -7183,8 +7183,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -7277,7 +7277,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -7304,7 +7304,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -7350,9 +7350,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -7437,8 +7437,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -7531,7 +7531,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -7558,7 +7558,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -7604,9 +7604,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -7691,8 +7691,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -7785,7 +7785,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -7812,7 +7812,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -7858,9 +7858,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -7945,8 +7945,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -8039,7 +8039,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -8066,7 +8066,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -8112,9 +8112,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -8199,8 +8199,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -8293,7 +8293,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -8320,7 +8320,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -8366,9 +8366,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -8453,8 +8453,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -8547,7 +8547,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -8574,7 +8574,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -8620,9 +8620,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -8707,8 +8707,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -8801,7 +8801,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -8828,7 +8828,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -8874,9 +8874,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -8961,8 +8961,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -9055,7 +9055,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -9082,7 +9082,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -9128,9 +9128,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -9215,8 +9215,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -9309,7 +9309,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -9336,7 +9336,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -9382,9 +9382,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -9469,8 +9469,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -9563,7 +9563,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -9590,7 +9590,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -9636,9 +9636,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -9723,8 +9723,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -9817,7 +9817,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -9844,7 +9844,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -9890,9 +9890,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -9977,8 +9977,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -10071,7 +10071,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -10098,7 +10098,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -10144,9 +10144,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -10231,8 +10231,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -10325,7 +10325,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -10352,7 +10352,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -10398,9 +10398,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -10485,8 +10485,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -10579,7 +10579,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -10606,7 +10606,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -10652,9 +10652,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -10739,8 +10739,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -10833,7 +10833,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -10860,7 +10860,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -10906,9 +10906,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -10993,8 +10993,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -11087,7 +11087,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -11114,7 +11114,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -11160,9 +11160,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -11247,8 +11247,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -11341,7 +11341,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -11368,7 +11368,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -11414,9 +11414,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -11501,8 +11501,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -11595,7 +11595,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -11622,7 +11622,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -11668,9 +11668,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -11755,8 +11755,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -11849,7 +11849,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -11876,7 +11876,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -11922,9 +11922,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -12009,8 +12009,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -12103,7 +12103,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -12130,7 +12130,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -12176,9 +12176,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -12263,8 +12263,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -12357,7 +12357,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -12384,7 +12384,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -12430,9 +12430,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -12517,8 +12517,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -12611,7 +12611,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -12638,7 +12638,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -12684,9 +12684,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -12771,8 +12771,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -12865,7 +12865,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -12892,7 +12892,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -12938,9 +12938,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -13025,8 +13025,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -13119,7 +13119,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -13146,7 +13146,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -13192,9 +13192,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -13279,8 +13279,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -13373,7 +13373,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -13400,7 +13400,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -13446,9 +13446,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -13533,8 +13533,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -13627,7 +13627,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -13654,7 +13654,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -13700,9 +13700,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -13787,8 +13787,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -13881,7 +13881,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -13908,7 +13908,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -13954,9 +13954,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -14041,8 +14041,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -14135,7 +14135,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -14162,7 +14162,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -14208,9 +14208,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -14295,8 +14295,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -14389,7 +14389,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -14416,7 +14416,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -14462,9 +14462,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -14549,8 +14549,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -14643,7 +14643,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -14670,7 +14670,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -14716,9 +14716,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -14803,8 +14803,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -14897,7 +14897,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -14924,7 +14924,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -14970,9 +14970,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -15057,8 +15057,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -15151,7 +15151,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -15178,7 +15178,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -15224,9 +15224,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -15311,8 +15311,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -15405,7 +15405,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -15432,7 +15432,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -15478,9 +15478,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -15565,8 +15565,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -15659,7 +15659,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -15686,7 +15686,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -15732,9 +15732,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -15819,8 +15819,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -15913,7 +15913,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -15940,7 +15940,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -15986,9 +15986,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -16073,8 +16073,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -16167,7 +16167,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -16194,7 +16194,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -16240,9 +16240,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -16327,8 +16327,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -16421,7 +16421,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -16448,7 +16448,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -16494,9 +16494,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -16581,8 +16581,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -16675,7 +16675,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -16702,7 +16702,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -16748,9 +16748,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -16835,8 +16835,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -16929,7 +16929,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -16956,7 +16956,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -17002,9 +17002,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -17089,8 +17089,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",
@@ -17183,7 +17183,7 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "7 evidence sources",
+            "9 evidence sources",
             "9 data signals"
           ],
           "blocker": null
@@ -17210,7 +17210,7 @@
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
             "P0/P1 operational evidence binding",
-            "3 operational sources"
+            "4 operational sources"
           ],
           "blocker": null
         },
@@ -17256,9 +17256,9 @@
           "status": "complete",
           "evidence": [
             "docs/design/generated-dashboard-route-evidence-bindings.json",
-            "2 stale sources surfaced",
-            "2 missing sources surfaced",
-            "Refresh stale or missing evidence sources and replace declared checks with live probes."
+            "0 stale sources surfaced",
+            "0 missing sources surfaced",
+            "Keep the freshness guard active and refresh on the normal evidence cadence."
           ],
           "blocker": null
         },
@@ -17343,8 +17343,8 @@
         "dataBindingStatus": "bound",
         "observabilityStatus": "bound",
         "drillDownStatus": "bound",
-        "freshnessStatus": "stale-evidence",
-        "sourceCount": 7,
+        "freshnessStatus": "current-evidence",
+        "sourceCount": 9,
         "signalCount": 9,
         "drillDownCount": 6,
         "stateCoverageStatus": "covered",

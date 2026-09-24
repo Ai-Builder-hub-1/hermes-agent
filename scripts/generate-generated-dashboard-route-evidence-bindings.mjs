@@ -18,7 +18,7 @@ const evidenceFiles = {
   monitoring: "docs/design/dashboard-monitoring-registry.json",
   deployment: "docs/design/dashboard-deployment-ledger.json",
   runtimeData: "docs/design/dashboard-runtime-data-report.json",
-  health: "docs/design/dashboard-health-report.json",
+  health: "docs/design/dashboard-live-health-report.json",
   projectStatus: "docs/design/project-status-ledger.json",
 };
 
@@ -196,13 +196,13 @@ function projectProfileFor(row, family) {
 
 function sourceBindingsFor(profile, row, family) {
   return [
-    binding("telemetry", reports.telemetry.items, profile.id, "telemetry contract", "docs/design/dashboard-telemetry-contract-report.json"),
-    binding("productionProof", reports.productionProof.entries, profile.id, "production proof", "docs/design/dashboard-production-proof-registry.json"),
-    binding("liveE2e", reports.liveE2e.entries, profile.id, "live E2E registry", "docs/design/dashboard-live-e2e-registry.json"),
-    binding("monitoring", reports.monitoring.entries, profile.id, "monitoring registry", "docs/design/dashboard-monitoring-registry.json"),
-    binding("deployment", reports.deployment.entries, profile.id, "deployment ledger", "docs/design/dashboard-deployment-ledger.json"),
-    binding("runtimeData", reports.runtimeData.entries, profile.id, "runtime data report", "docs/design/dashboard-runtime-data-report.json"),
-    binding("health", reports.health.items, profile.id, "health report", "docs/design/dashboard-health-report.json"),
+    binding("telemetry", reports.telemetry.items, profile, "telemetry contract", "docs/design/dashboard-telemetry-contract-report.json"),
+    binding("productionProof", reports.productionProof.entries, profile, "production proof", "docs/design/dashboard-production-proof-registry.json"),
+    binding("liveE2e", reports.liveE2e.entries, profile, "live E2E registry", "docs/design/dashboard-live-e2e-registry.json"),
+    binding("monitoring", reports.monitoring.entries, profile, "monitoring registry", "docs/design/dashboard-monitoring-registry.json"),
+    binding("deployment", reports.deployment.entries, profile, "deployment ledger", "docs/design/dashboard-deployment-ledger.json"),
+    binding("runtimeData", reports.runtimeData.entries, profile, "runtime data report", "docs/design/dashboard-runtime-data-report.json"),
+    binding("health", reports.health.items, profile, "health report", "docs/design/dashboard-health-report.json"),
     {
       kind: "routeContract",
       label: "route contract",
@@ -224,13 +224,15 @@ function sourceBindingsFor(profile, row, family) {
   ];
 }
 
-function binding(kind, entries = [], projectId, label, source) {
-  const match = Array.isArray(entries) ? entries.find((entry) => entry.id === projectId || entry.projectId === projectId || entry.project === projectId) : null;
+function binding(kind, entries = [], profile, label, source) {
+  const matchIds = profileMatchIds(profile);
+  const match = Array.isArray(entries) ? entries.find((entry) => matchIds.has(entry.id) || matchIds.has(entry.projectId) || matchIds.has(entry.project)) : null;
   if (!match) {
     return { kind, label, source, status: "missing", freshness: "missing", matchedId: null, detail: "No matching evidence entry." };
   }
-  const status = match.status ?? (match.failedCount > 0 ? "failed" : "ready");
-  const freshness = status === "current" || status === "ready" || status === "clean" || status === "baseline-present" || status === "succeeded"
+  const rawStatus = match.status ?? (match.failedCount > 0 ? "failed" : "ready");
+  const status = kind === "deployment" && match.promotionEvidence?.status === "succeeded" ? "current" : rawStatus;
+  const freshness = status === "current" || status === "ready" || status === "clean" || status === "baseline-present" || status === "succeeded" || status === "ok"
     ? "current"
     : "stale";
   return {
@@ -242,6 +244,13 @@ function binding(kind, entries = [], projectId, label, source) {
     matchedId: match.id ?? match.projectId ?? match.project,
     detail: detailFor(kind, match),
   };
+}
+
+function profileMatchIds(profile) {
+  const ids = new Set([profile.id, profile.project].filter(Boolean));
+  if (profile.id?.includes(".")) ids.add(profile.id.split(".")[0]);
+  if (profile.project?.includes(".")) ids.add(profile.project.split(".")[0]);
+  return ids;
 }
 
 function detailFor(kind, match) {

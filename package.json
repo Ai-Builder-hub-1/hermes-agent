@@ -183,7 +183,9 @@
     "dashboard:proof": "node scripts/capture-dashboard-platform-proof.mjs",
     "hdk:check": "npm run dashboard:creation-gate -- --project-dir .",
     "hdk:proof": "npm run dashboard:design-system:test && npm run dashboard:proof",
-    "hdk:visual": "npm run dashboard:visual-baseline:capture"
+    "hdk:visual": "npm run dashboard:visual-baseline:capture",
+    "dashboard:command-governance:report": "node scripts/generate-dashboard-command-governance-ledger.mjs",
+    "dashboard:command-governance:validate": "node scripts/validate-dashboard-command-governance-ledger.mjs"
   },
   "repository": {
     "type": "git",

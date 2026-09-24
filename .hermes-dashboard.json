@@ -21,7 +21,11 @@
     "spacing": "hdk",
     "auth": "hdk-compatible",
     "tierMigrationRequired": false,
-    "tierMigrationNote": "Nous Hermes Agent owns the dashboard standards/control-plane surface and must follow the same package-native evidence contract as downstream dashboards."
+    "tierMigrationNote": "Nous Hermes Agent owns the dashboard standards/control-plane surface and must follow the same package-native evidence contract as downstream dashboards.",
+    "certifiedExperienceBand": "T2B",
+    "currentExperienceBand": "T2B",
+    "certifiedExperienceTier": 2,
+    "maturityTruthPolicy": "certifiedExperienceBand/currentExperienceBand describe current proof; targetExperienceBand remains aspirational until certification passes."
   },
   "referenceIntake": {
     "path": "docs/design/dashboard-kit-reference-intake.md",
@@ -128,5 +132,17 @@
       "reason": "The gallery route is page content inside the existing React application shell. Shell/sidebar/header evidence lives in web/src/App.tsx instead of being re-rendered inside the page route.",
       "expiresAt": "2026-09-30"
     }
-  ]
+  ],
+  "certification": {
+    "acceptedReviewWarnings": [
+      {
+        "code": "raw-svg-or-hand-chart",
+        "surface": "hermes-dashboard-kit-gallery-web-route",
+        "path": "web/src/pages/DashboardKitGalleryPage.tsx",
+        "reason": "Temporary accepted review warning while the dashboard keeps bespoke chart rendering under the current package-native shell; replace with approved dashboard-kit chart components during the next frontend polish pass.",
+        "expiresAt": "2026-12-31T23:59:59.000Z",
+        "owner": "hermes-dashboard-maturity"
+      }
+    ]
+  }
 }

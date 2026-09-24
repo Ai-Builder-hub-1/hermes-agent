@@ -33,6 +33,8 @@ const screenshotProofPatterns = [
 const deployableSourcePatterns = [
   /^src\//,
   /^web\/src\//,
+  /^frontend\/src\//,
+  /^[^/]+\/static\//,
   /^web\/vite\.config\.(ts|js|mjs)$/,
   /^packages\/[^/]+\/src\//,
   /^packages\/[^/]+\/DESIGN\.md$/,

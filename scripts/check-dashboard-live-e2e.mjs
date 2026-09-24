@@ -7,7 +7,8 @@ const fleetPath = path.join(root, "docs/fleet/fleet-registry.json");
 const outputPath = path.join(root, "docs/design/dashboard-live-e2e-registry.json");
 const args = process.argv.slice(2);
 const projectFilter = valueAfter("--project") ?? valueAfter("--id") ?? null;
-const timeoutMs = Number(valueAfter("--timeout-ms") ?? 8000);
+const timeoutMs = Number(valueAfter("--timeout-ms") ?? 15000);
+const proofToken = resolveProofToken();
 
 function valueAfter(flag) {
   const index = args.indexOf(flag);
@@ -17,6 +18,28 @@ function valueAfter(flag) {
 function readJson(file, fallback = null) {
   if (!fs.existsSync(file)) return fallback;
   return JSON.parse(fs.readFileSync(file, "utf8"));
+}
+
+function resolveProofToken() {
+  if (process.env.HERMES_DASHBOARD_PROOF_TOKEN) return process.env.HERMES_DASHBOARD_PROOF_TOKEN;
+  if (process.env.AMARI_DASHBOARD_PROOF_TOKEN) return process.env.AMARI_DASHBOARD_PROOF_TOKEN;
+  const candidates = [
+    process.env.HERMES_DASHBOARD_PROOF_ENV_FILE,
+    path.resolve(root, "../deploy/.env"),
+    "/root/apps/deploy/.env",
+  ].filter(Boolean);
+  for (const file of candidates) {
+    if (!fs.existsSync(file)) continue;
+    const token = readEnvValue(file, "HERMES_DASHBOARD_PROOF_TOKEN") ?? readEnvValue(file, "AMARI_DASHBOARD_PROOF_TOKEN");
+    if (token) return token;
+  }
+  return null;
+}
+
+function readEnvValue(file, key) {
+  const line = fs.readFileSync(file, "utf8").split(/\r?\n/).find((entry) => entry.trim().startsWith(`${key}=`));
+  if (!line) return null;
+  return line.slice(line.indexOf("=") + 1).trim().replace(/^(["'])(.*)\1$/, "$2");
 }
 
 function writeJson(file, value) {
@@ -30,8 +53,8 @@ async function fetchCheck(url, { auth = false, expectJson = false } = {}) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   const headers = {};
-  if (auth && process.env.HERMES_DASHBOARD_PROOF_TOKEN) {
-    headers.Authorization = `Bearer ${process.env.HERMES_DASHBOARD_PROOF_TOKEN}`;
+  if (auth && proofToken) {
+    headers.Authorization = `Bearer ${proofToken}`;
   }
 
   try {
@@ -147,3 +170,4 @@ console.log(`Checked ${checkedEntries.length} live E2E scenario(s): ${checkedEnt
 for (const entry of failures) {
   console.log(`fail ${entry.projectId}: health=${entry.latestRun.checks.health.status ?? entry.latestRun.checks.health.error} proof=${entry.latestRun.checks.proof.status ?? entry.latestRun.checks.proof.error} snapshot=${entry.latestRun.checks.snapshot.status ?? entry.latestRun.checks.snapshot.error}`);
 }
+process.exit(failures.length ? 1 : 0);

@@ -40,6 +40,16 @@ const requiredSteps = [
     command: ["npm", ["run", "dashboard:governance:validate"]]
   },
   {
+    id: "dashboard-command-governance-report",
+    label: "Dashboard command governance report",
+    command: ["npm", ["run", "dashboard:command-governance:report"]]
+  },
+  {
+    id: "dashboard-command-governance",
+    label: "Dashboard command governance validation",
+    command: ["npm", ["run", "dashboard:command-governance:validate"]]
+  },
+  {
     id: "dashboard-certification-report",
     label: "Dashboard certification report",
     command: ["npm", ["run", "dashboard:certify"]]

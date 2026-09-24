@@ -1,29 +1,27 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-15T18:51:38.850Z",
+  "generatedAt": "2026-09-24T02:00:31.382Z",
   "mode": "standard",
-  "safeToCommit": false,
-  "safeToDeploy": false,
+  "safeToCommit": true,
+  "safeToDeploy": true,
   "summary": {
-    "steps": 11,
-    "failedSteps": 1,
-    "dirtyProjects": 2,
+    "steps": 13,
+    "failedSteps": 0,
+    "dirtyProjects": 10,
     "blockedProjects": 0,
     "needsReviewProjects": 0,
     "commitReadyProjects": 10,
     "deployReadyProjects": 10
   },
-  "blockedBy": [
-    "step:dashboard-certification"
-  ],
+  "blockedBy": [],
   "readinessReport": "docs/fleet/fleet-release-readiness.json",
   "steps": [
     {
       "id": "release-readiness",
       "label": "Release readiness",
       "command": "npm run fleet:release-readiness",
-      "startedAt": "2026-08-15T18:51:37.390Z",
-      "finishedAt": "2026-08-15T18:51:37.659Z",
+      "startedAt": "2026-09-24T02:00:27.811Z",
+      "finishedAt": "2026-09-24T02:00:28.674Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -31,7 +29,7 @@
         "> node scripts/generate-fleet-release-readiness.mjs",
         "",
         "Wrote docs/fleet/fleet-release-readiness.json and docs/fleet/fleet-release-readiness.md",
-        "Fleet release readiness: 2 dirty project(s), 0 blocked, 0 needs review."
+        "Fleet release readiness: 10 dirty project(s), 0 blocked, 0 needs review."
       ],
       "stderrTail": []
     },
@@ -39,8 +37,8 @@
       "id": "release-readiness-validate",
       "label": "Release readiness schema",
       "command": "npm run fleet:release-readiness:validate",
-      "startedAt": "2026-08-15T18:51:37.659Z",
-      "finishedAt": "2026-08-15T18:51:37.754Z",
+      "startedAt": "2026-09-24T02:00:28.674Z",
+      "finishedAt": "2026-09-24T02:00:28.856Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -55,8 +53,8 @@
       "id": "release-readiness-strict",
       "label": "Release readiness strict gate",
       "command": "npm run fleet:release-readiness:strict",
-      "startedAt": "2026-08-15T18:51:37.754Z",
-      "finishedAt": "2026-08-15T18:51:38.004Z",
+      "startedAt": "2026-09-24T02:00:28.856Z",
+      "finishedAt": "2026-09-24T02:00:29.099Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -64,7 +62,7 @@
         "> node scripts/generate-fleet-release-readiness.mjs --strict",
         "",
         "Wrote docs/fleet/fleet-release-readiness.json and docs/fleet/fleet-release-readiness.md",
-        "Fleet release readiness: 2 dirty project(s), 0 blocked, 0 needs review."
+        "Fleet release readiness: 10 dirty project(s), 0 blocked, 0 needs review."
       ],
       "stderrTail": []
     },
@@ -72,20 +70,20 @@
       "id": "web-build-budget",
       "label": "Web build budget",
       "command": "npm run dashboard:web:build-budget",
-      "startedAt": "2026-08-15T18:51:38.004Z",
-      "finishedAt": "2026-08-15T18:51:38.097Z",
+      "startedAt": "2026-09-24T02:00:29.099Z",
+      "finishedAt": "2026-09-24T02:00:29.269Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
         "Web build budget largest assets:",
-        "- index-Dz4pinrM.js 526.2 KiB",
+        "- index-DoljOCct.js 526.7 KiB",
         "- vendor-xterm-BRN-hOYD.js 484.0 KiB",
         "- vendor-nous-ui-DuXYiwlH.js 273.6 KiB",
         "- vendor-CHWgcPAU.js 212.1 KiB",
-        "- DashboardKitGalleryPage-BFRwFHkr.js 186.4 KiB",
-        "- index-CqsIwA9_.css 115.6 KiB",
-        "- FleetMaturityReviewPage-DU092YbQ.js 101.4 KiB",
-        "- vendor-react-Bx9y0EYb.js 39.7 KiB",
+        "- DashboardKitGalleryPage-Bmc3WAMR.js 185.6 KiB",
+        "- index-DgJURea8.css 120.9 KiB",
+        "- FleetMaturityReviewPage-7-1UJIeO.js 105.6 KiB",
+        "- GeneratedDashboardPages-CXYgaGkO.js 78.3 KiB",
         "Web build budget validation: 0 issue(s)."
       ],
       "stderrTail": []
@@ -94,8 +92,8 @@
       "id": "dashboard-governance",
       "label": "Dashboard governance",
       "command": "npm run dashboard:governance:validate",
-      "startedAt": "2026-08-15T18:51:38.097Z",
-      "finishedAt": "2026-08-15T18:51:38.226Z",
+      "startedAt": "2026-09-24T02:00:29.269Z",
+      "finishedAt": "2026-09-24T02:00:29.471Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -107,11 +105,43 @@
       "stderrTail": []
     },
     {
+      "id": "dashboard-command-governance-report",
+      "label": "Dashboard command governance report",
+      "command": "npm run dashboard:command-governance:report",
+      "startedAt": "2026-09-24T02:00:29.471Z",
+      "finishedAt": "2026-09-24T02:00:29.690Z",
+      "passed": true,
+      "exitCode": 0,
+      "stdoutTail": [
+        "> hermes-agent@1.0.0 dashboard:command-governance:report",
+        "> node scripts/generate-dashboard-command-governance-ledger.mjs",
+        "",
+        "Wrote docs/design/dashboard-command-governance-ledger.json and docs/design/dashboard-command-governance-ledger.md"
+      ],
+      "stderrTail": []
+    },
+    {
+      "id": "dashboard-command-governance",
+      "label": "Dashboard command governance validation",
+      "command": "npm run dashboard:command-governance:validate",
+      "startedAt": "2026-09-24T02:00:29.690Z",
+      "finishedAt": "2026-09-24T02:00:29.926Z",
+      "passed": true,
+      "exitCode": 0,
+      "stdoutTail": [
+        "> hermes-agent@1.0.0 dashboard:command-governance:validate",
+        "> node scripts/validate-dashboard-command-governance-ledger.mjs",
+        "",
+        "Dashboard command governance validation: 0 error(s), 0 warning(s)."
+      ],
+      "stderrTail": []
+    },
+    {
       "id": "dashboard-certification-report",
       "label": "Dashboard certification report",
       "command": "npm run dashboard:certify",
-      "startedAt": "2026-08-15T18:51:38.227Z",
-      "finishedAt": "2026-08-15T18:51:38.354Z",
+      "startedAt": "2026-09-24T02:00:29.926Z",
+      "finishedAt": "2026-09-24T02:00:30.263Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -123,7 +153,7 @@
         "Wrote docs/fleet/dashboard-certification-repair-packets.json",
         "Wrote docs/fleet/dashboard-certification-attempt-ledger.json",
         "Wrote docs/design/dashboard-certification-standard.md",
-        "Dashboard certification: 0 certified, 0 needs review, 10 blocked, 9 false-native claim(s)."
+        "Dashboard certification: 10 certified, 0 needs review, 0 blocked, 0 false-native claim(s)."
       ],
       "stderrTail": []
     },
@@ -131,8 +161,8 @@
       "id": "dashboard-certification-artifacts",
       "label": "Dashboard certification artifact validation",
       "command": "npm run dashboard:certify:validate:strict",
-      "startedAt": "2026-08-15T18:51:38.354Z",
-      "finishedAt": "2026-08-15T18:51:38.446Z",
+      "startedAt": "2026-09-24T02:00:30.263Z",
+      "finishedAt": "2026-09-24T02:00:30.492Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -147,8 +177,8 @@
       "id": "dashboard-certification-repair",
       "label": "Dashboard certification repair supervisor",
       "command": "npm run dashboard:certify:repair",
-      "startedAt": "2026-08-15T18:51:38.446Z",
-      "finishedAt": "2026-08-15T18:51:38.542Z",
+      "startedAt": "2026-09-24T02:00:30.492Z",
+      "finishedAt": "2026-09-24T02:00:30.707Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -158,7 +188,7 @@
         "Wrote docs/design/dashboard-certification-repair-playbooks.json",
         "Wrote docs/fleet/dashboard-certification-repair-supervisor.json",
         "Wrote docs/fleet/dashboard-certification-repair-supervisor.md",
-        "Dashboard repair supervisor: 53 work item(s), 0 safe, 53 assisted."
+        "Dashboard repair supervisor: 0 work item(s), 0 safe, 0 assisted."
       ],
       "stderrTail": []
     },
@@ -166,8 +196,8 @@
       "id": "dashboard-certification-repair-validation",
       "label": "Dashboard certification repair validation",
       "command": "npm run dashboard:certify:repair:validate:strict",
-      "startedAt": "2026-08-15T18:51:38.542Z",
-      "finishedAt": "2026-08-15T18:51:38.633Z",
+      "startedAt": "2026-09-24T02:00:30.707Z",
+      "finishedAt": "2026-09-24T02:00:30.894Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -182,8 +212,8 @@
       "id": "dashboard-certification-repair-execution",
       "label": "Dashboard certification repair execution ledger",
       "command": "npm run dashboard:certify:repair:execute:strict",
-      "startedAt": "2026-08-15T18:51:38.633Z",
-      "finishedAt": "2026-08-15T18:51:38.726Z",
+      "startedAt": "2026-09-24T02:00:30.894Z",
+      "finishedAt": "2026-09-24T02:00:31.091Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -192,7 +222,7 @@
         "",
         "Wrote docs/fleet/dashboard-certification-repair-execution-ledger.json",
         "Wrote docs/fleet/dashboard-certification-repair-execution-ledger.md",
-        "Dashboard repair execution: 0 applied, 0 executable safe, 53 assisted queued."
+        "Dashboard repair execution: 0 applied, 0 executable safe, 0 assisted queued."
       ],
       "stderrTail": []
     },
@@ -200,10 +230,10 @@
       "id": "dashboard-certification",
       "label": "Dashboard certification pre-deploy gate",
       "command": "npm run dashboard:certify:strict",
-      "startedAt": "2026-08-15T18:51:38.726Z",
-      "finishedAt": "2026-08-15T18:51:38.850Z",
-      "passed": false,
-      "exitCode": 1,
+      "startedAt": "2026-09-24T02:00:31.091Z",
+      "finishedAt": "2026-09-24T02:00:31.382Z",
+      "passed": true,
+      "exitCode": 0,
       "stdoutTail": [
         "> hermes-agent@1.0.0 dashboard:certify:strict",
         "> node scripts/certify-dashboard-fleet.mjs --write --strict",
@@ -213,20 +243,9 @@
         "Wrote docs/fleet/dashboard-certification-repair-packets.json",
         "Wrote docs/fleet/dashboard-certification-attempt-ledger.json",
         "Wrote docs/design/dashboard-certification-standard.md",
-        "Dashboard certification: 0 certified, 0 needs review, 10 blocked, 9 false-native claim(s)."
+        "Dashboard certification: 10 certified, 0 needs review, 0 blocked, 0 false-native claim(s)."
       ],
-      "stderrTail": [
-        "- khashi-vc: tier3c.implementationMode, falseNative.migrationLanguage, surface.compatibilityClaim, hidden-compliance-marker, local-shell-class, anatomy.secondShellLayout, localDebt.excessive",
-        "- media-engine: localDebt.excessive",
-        "- media-business-os: falseNative.migrationLanguage, hidden-compliance-marker",
-        "- business-mapper: falseNative.migrationLanguage, hidden-compliance-marker, anatomy.secondShellLayout",
-        "- meal-assistant: falseNative.migrationLanguage, localDebt.excessive",
-        "- hermes-os: falseNative.migrationLanguage, hidden-compliance-marker, hidden-compliance-marker, surface.compatibilityClaim, hidden-compliance-marker, localDebt.excessive",
-        "- tlc-capital-group-os: falseNative.migrationLanguage, hidden-compliance-marker, anatomy.secondShellLayout",
-        "- rinseables-os: falseNative.migrationLanguage, surface.compatibilityClaim, hidden-compliance-marker, anatomy.secondShellLayout",
-        "- investing-system: falseNative.migrationLanguage, surface.compatibilityClaim",
-        "- nous-hermes-agent: falseNative.migrationLanguage, hidden-compliance-marker"
-      ]
+      "stderrTail": []
     }
   ]
 }

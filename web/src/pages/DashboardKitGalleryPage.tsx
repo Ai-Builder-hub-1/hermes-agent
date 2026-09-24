@@ -93,14 +93,7 @@ export default function DashboardKitGalleryPage() {
   return (
     <main className="hdk-page-frame hdk-section-stack mx-auto flex w-full max-w-[1500px] flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8" data-hdk-component="DashboardQueryBoundary" data-data-state="ready" data-review-id="hermes.dashboard-kit-gallery">
       <span hidden aria-hidden="true" data-dashboard-kit-component-contract={dashboardKitGalleryComponentContract.join(" ")} />
-      <span hidden aria-hidden="true" className="hdk-shell hdk-sidebar hdk-header hdk-card hdk-table hdk-chart-panel hdk-form" data-hdk-component="DashboardShell" />
-      <span hidden aria-hidden="true" data-hdk-component="DashboardSidebar" />
-      <span hidden aria-hidden="true" data-hdk-component="DashboardHeader" />
-      <span hidden aria-hidden="true" data-hdk-component="MetricCard" />
-      <span hidden aria-hidden="true" data-hdk-component="DataTable" />
-      <span hidden aria-hidden="true" data-hdk-component="PremiumComparisonChart" />
-      <span hidden aria-hidden="true" data-hdk-component="DrilldownPanel" />
-      <span hidden aria-hidden="true" data-hdk-component="ProofStrip" />
+
       <section className="hdk-card hdk-section rounded-2xl border border-border bg-card p-5 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="min-w-0">

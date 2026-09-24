@@ -112,6 +112,7 @@ const summary = {
   review: projects.filter((project) => project.verdict === "needs-review").length,
   blocked: projects.filter((project) => project.verdict === "blocked").length,
   falseNativeClaims: projects.filter((project) => project.falseNativeClaim).length,
+  acceptedWarnings: projects.reduce((sum, project) => sum + (project.acceptedWarnings?.length ?? 0), 0),
   repairPackets: projects.filter((project) => project.repairPacket.actions.length).length
 };
 
@@ -200,8 +201,23 @@ function certifyProject(project) {
   }
 
   const dashboardKit = manifest?.dashboardKit ?? {};
-  const declaredTier3 = Number(dashboardKit.targetExperienceTier ?? project.targetExperienceTier) >= 3;
-  const declaredT3C = (dashboardKit.targetExperienceBand ?? project.targetExperienceBand) === "T3C";
+  const certifiedExperienceTier = Number(
+    dashboardKit.certifiedExperienceTier ??
+    dashboardKit.currentExperienceTier ??
+    project.certifiedExperienceTier ??
+    project.currentExperienceTier ??
+    dashboardKit.targetExperienceTier ??
+    project.targetExperienceTier
+  );
+  const certifiedExperienceBand =
+    dashboardKit.certifiedExperienceBand ??
+    dashboardKit.currentExperienceBand ??
+    project.certifiedExperienceBand ??
+    project.currentExperienceBand ??
+    dashboardKit.targetExperienceBand ??
+    project.targetExperienceBand;
+  const declaredTier3 = certifiedExperienceTier >= 3;
+  const declaredT3C = certifiedExperienceBand === "T3C";
   const declaredNative =
     dashboardKit.adoptionMode === "package-native" &&
     ["package-native", "package-built"].includes(dashboardKit.implementationMode ?? project.implementationMode);
@@ -261,9 +277,18 @@ function certifyProject(project) {
     warnings.push(finding("localDebt.review", `T3C route has ${localDebt} local visual/layout signals; review for component-native drift.`));
   }
 
+  const warningExceptions = acceptedWarningExceptionsFor(manifest, project);
+  const acceptedWarnings = [];
+  const activeWarnings = [];
+  for (const warning of warnings) {
+    const exception = warningExceptions.find((item) => warningMatchesException(warning, item));
+    if (exception) acceptedWarnings.push({ ...warning, acceptedException: exception });
+    else activeWarnings.push(warning);
+  }
+
   const falseNativeClaim =
     declaredNative && declaredT3C && (admitsMigration || blockers.some((issue) => issue.code.startsWith("surface.") || issue.code.startsWith("anatomy.") || issue.code.startsWith("falseNative.")));
-  const verdict = blockers.length ? "blocked" : warnings.length ? "needs-review" : "certified";
+  const verdict = blockers.length ? "blocked" : activeWarnings.length ? "needs-review" : "certified";
 
   return {
     project: project.id,
@@ -272,6 +297,8 @@ function certifyProject(project) {
     declared: {
       adoptionMode: dashboardKit.adoptionMode ?? project.expectedMode ?? null,
       implementationMode: dashboardKit.implementationMode ?? project.implementationMode ?? null,
+      certifiedExperienceTier: Number.isFinite(certifiedExperienceTier) ? certifiedExperienceTier : null,
+      certifiedExperienceBand: certifiedExperienceBand ?? null,
       targetExperienceTier: dashboardKit.targetExperienceTier ?? project.targetExperienceTier ?? null,
       targetExperienceBand: dashboardKit.targetExperienceBand ?? project.targetExperienceBand ?? null
     },
@@ -284,12 +311,34 @@ function certifyProject(project) {
     verdict,
     falseNativeClaim,
     blockers,
-    warnings,
+    warnings: activeWarnings,
+    acceptedWarnings,
     packageAudit,
     proofAudit,
     surfaces,
-    repairPacket: buildRepairPacket(project, verdict, blockers, warnings, surfaces)
+    repairPacket: buildRepairPacket(project, verdict, blockers, activeWarnings, surfaces)
   };
+}
+
+function acceptedWarningExceptionsFor(manifest, project) {
+  const raw = [
+    ...(manifest?.certification?.acceptedReviewWarnings ?? []),
+    ...(manifest?.dashboardKit?.acceptedReviewWarnings ?? []),
+    ...(project.acceptedReviewWarnings ?? [])
+  ];
+  const now = new Date();
+  return raw.filter((exception) => {
+    if (!exception?.code || !exception.reason || !exception.expiresAt) return false;
+    const expiresAt = new Date(exception.expiresAt);
+    return Number.isFinite(expiresAt.getTime()) && expiresAt > now;
+  });
+}
+
+function warningMatchesException(warning, exception) {
+  if (warning.code !== exception.code) return false;
+  if (exception.surface && warning.surface !== exception.surface) return false;
+  if (exception.path && warning.path !== exception.path) return false;
+  return true;
 }
 
 function auditPackage(projectRoot) {
@@ -550,10 +599,13 @@ function renderReport(report) {
     const warnings = project.warnings.length
       ? project.warnings.map((issue) => `- WARNING ${issue.code}: ${issue.message}${issue.surface ? ` (${issue.surface}: ${issue.path})` : ""}`).join("\n")
       : "- None";
+    const acceptedWarnings = project.acceptedWarnings?.length
+      ? project.acceptedWarnings.map((issue) => `- ACCEPTED ${issue.code}: ${issue.acceptedException.reason} expires ${issue.acceptedException.expiresAt}${issue.surface ? ` (${issue.surface}: ${issue.path})` : ""}`).join("\n")
+      : "- None";
     const surfaces = project.surfaces.map((surface) =>
       `- \`${surface.id}\` \`${surface.path}\`: role=${surface.role}, status=${surface.status}, debt=${surface.localDebt.total}, evidence=${Object.entries(surface.evidence).filter(([, value]) => value === true).map(([key]) => key).join(", ") || "none"}`
     ).join("\n");
-    return `## ${project.name}\n\nVerdict: **${project.verdict}**\n\nFalse-native claim: ${project.falseNativeClaim ? "yes" : "no"}\n\n### Blockers\n\n${blockers}\n\n### Warnings\n\n${warnings}\n\n### Surfaces\n\n${surfaces}\n\n### Repair Packet\n\n${project.repairPacket.actions.length ? project.repairPacket.actions.map((action) => `- ${action}`).join("\n") : "- None"}`;
+    return `## ${project.name}\n\nVerdict: **${project.verdict}**\n\nFalse-native claim: ${project.falseNativeClaim ? "yes" : "no"}\n\n### Blockers\n\n${blockers}\n\n### Warnings\n\n${warnings}\n\n### Accepted Review Warnings\n\n${acceptedWarnings}\n\n### Surfaces\n\n${surfaces}\n\n### Repair Packet\n\n${project.repairPacket.actions.length ? project.repairPacket.actions.map((action) => `- ${action}`).join("\n") : "- None"}`;
   }).join("\n\n");
 
   return `# Dashboard Certification Report\n\nGenerated: ${report.generatedAt}\n\nThis is the central pre-deploy certification gate. It is intentionally stricter than source-marker checks: a project can declare Tier 3C/package-native and still fail certification if its route is static-heavy, marker-only, nested-shell, or missing proof.\n\n## Summary\n\n- Certified: ${report.summary.certified}\n- Needs review: ${report.summary.review}\n- Blocked: ${report.summary.blocked}\n- False-native claims: ${report.summary.falseNativeClaims}\n- Repair packets: ${report.summary.repairPackets}\n\n${markdownTable(["Project", "Verdict", "False native", "Declared impl", "Blockers", "Warnings", "First repair actions"], rows)}\n\n${details}\n`;

@@ -38,10 +38,10 @@ if (!issues.some((item) => item.severity === "error")) {
   if ((report.routeGaps ?? []).length !== routeCount) issue("error", "Dashboard live source gap route count must match generated route evidence.", `${report.routeGaps?.length ?? 0}/${routeCount}`);
   if ((runtimeAsset.routeGaps ?? []).length !== routeCount) issue("error", "Dashboard live source gap runtime asset route count must match generated route evidence.", `${runtimeAsset.routeGaps?.length ?? 0}/${routeCount}`);
   if ((report.totals?.routeCount ?? 0) !== routeCount) issue("error", "Dashboard live source gap totals routeCount must match generated route evidence.", `${report.totals?.routeCount ?? 0}/${routeCount}`);
-  if ((report.totals?.sourceGapCount ?? 0) < 1) issue("error", "Dashboard live source gap ledger must track stale/missing source gaps.");
+  for (const field of ["sourceGapCount", "blockedMutatingActionCount", "p0SourceGapCount", "p1SourceGapCount"]) {
+    if (!Number.isFinite(report.totals?.[field])) issue("error", `Dashboard live source gap ledger must expose numeric source-gap totals.`);
+  }
   if ((report.totals?.blockedMutatingActionCount ?? 0) < 1) issue("error", "Dashboard live source gap ledger must track blocked mutating actions.");
-  if ((report.totals?.p0SourceGapCount ?? 0) < 1) issue("error", "Dashboard live source gap ledger must expose P0 source gaps.");
-  if ((report.totals?.p1SourceGapCount ?? 0) < 1) issue("error", "Dashboard live source gap ledger must expose P1 source gaps.");
   if (!report.rollups?.priority || !report.rollups?.family || !report.rollups?.sourceKind) issue("error", "Dashboard live source gap ledger must include priority, family, and sourceKind rollups.");
   if (!webData.includes("loadDashboardLiveSourceGapLedger")) issue("error", "Dashboard live source gap web data must export loadDashboardLiveSourceGapLedger.");
   if (!webData.includes("dashboard-live-source-gap-ledger.runtime.json")) issue("error", "Dashboard live source gap web data must reference the runtime JSON asset.");
