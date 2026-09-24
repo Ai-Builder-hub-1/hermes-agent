@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-24T17:57:26.697Z",
+  "source": "scripts/generate-dashboard-predictive-causal-intelligence.mjs",
+  "status": "low-risk",
+  "confidence": "baseline-only",
+  "limitations": [
+    "Forecast confidence is baseline-only until the operating history ledger has more scheduled run samples."
+  ],
+  "summary": {
+    "forecastCount": 6,
+    "lowRisk": 6,
+    "elevatedRisk": 0,
+    "causalPlaybookCount": 6,
+    "historySamples": 4,
+    "dailyStatus": "clear"
+  },
+  "forecasts": [
+    {
+      "id": "maturity-drift",
+      "label": "Maturity drift forecast",
+      "risk": "low",
+      "explanation": "Drift is stable and history trend is not worsening."
+    },
+    {
+      "id": "visual-regression",
+      "label": "Visual regression forecast",
+      "risk": "low",
+      "explanation": "Visual proof is complete, fresh, and baseline-ready."
+    },
+    {
+      "id": "health-degradation",
+      "label": "Health degradation forecast",
+      "risk": "low",
+      "explanation": "All health endpoints are currently passing."
+    },
+    {
+      "id": "live-e2e-degradation",
+      "label": "Live E2E degradation forecast",
+      "risk": "low",
+      "explanation": "All live E2E entries are current and passing."
+    },
+    {
+      "id": "monitoring-gap",
+      "label": "Monitoring gap forecast",
+      "risk": "low",
+      "explanation": "Monitoring is current across the dashboard fleet."
+    },
+    {
+      "id": "ship-blocker",
+      "label": "Ship blocker forecast",
+      "risk": "low",
+      "explanation": "Ship-check is safe to commit and deploy."
+    }
+  ],
+  "causalMap": [
+    {
+      "id": "stale-dashboard",
+      "symptom": "Dashboard appears stale",
+      "likelyCause": "snapshot/proof job delay",
+      "firstCheck": "Check snapshot URL, proof freshness, and latest monitoring run."
+    },
+    {
+      "id": "blank-or-broken-page",
+      "symptom": "Dashboard route loads incorrectly",
+      "likelyCause": "front-end route or data binding regression",
+      "firstCheck": "Run live E2E and visual regression for the affected dashboard."
+    },
+    {
+      "id": "visual-drift",
+      "symptom": "Page looks wrong but health is green",
+      "likelyCause": "CSS/component/layout regression",
+      "firstCheck": "Compare production screenshot against visual baseline matrix."
+    },
+    {
+      "id": "collector-slowdown",
+      "symptom": "Data volume slows or stops",
+      "likelyCause": "collector/worker/database write path lag",
+      "firstCheck": "Check collection cadence, database write lag, and warehouse mirror backlog."
+    },
+    {
+      "id": "resource-critical",
+      "symptom": "Discord reports resources critical",
+      "likelyCause": "disk, memory, CPU, or worker backlog threshold crossing",
+      "firstCheck": "Correlate resource alert timestamp with health latency, job backlog, and storage growth."
+    },
+    {
+      "id": "unsafe-command",
+      "symptom": "Operator command is blocked",
+      "likelyCause": "approval or maintenance-window policy",
+      "firstCheck": "Review command governance and action unlock ledgers before enabling execution."
+    }
+  ],
+  "nextActions": [
+    "Keep scheduled maturity runs active until forecasts become trend-backed instead of baseline-only."
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-24T17:15:28.806Z",
+  "source": "scripts/generate-dashboard-fully-operational-certification.mjs",
+  "standard": "docs/design/dashboard-fully-operational-standard.md",
+  "status": "fully-operational-certified",
+  "score": 100,
+  "summary": {
+    "checks": 9,
+    "passed": 9,
+    "failed": 0,
+    "generatedRoutes": 68,
+    "projectDashboards": 10,
+    "actionInstances": 748,
+    "controlledMutations": 408,
+    "unsafeMutations": 0
+  },
+  "checks": [
+    {
+      "id": "operational-packets",
+      "description": "Generated routes have complete ten-layer operational packets.",
+      "status": "passed",
+      "evidence": {
+        "routes": 68,
+        "fullySpecified": 68
+      }
+    },
+    {
+      "id": "action-unlock-ledger",
+      "description": "All dashboard actions are classified and safe for the fully-operational posture.",
+      "status": "passed",
+      "evidence": {
+        "actionInstances": 748,
+        "controlledMutations": 408,
+        "unknownActions": 0,
+        "unsafeMutations": 0
+      }
+    },
+    {
+      "id": "command-governance",
+      "description": "Command governance has zero unsafe mutations and zero missing controls.",
+      "status": "passed",
+      "evidence": {
+        "safePosture": true,
+        "unsafeMutations": 0,
+        "missingControls": 0
+      }
+    },
+    {
+      "id": "live-e2e",
+      "description": "All project dashboards have current live E2E proof.",
+      "status": "passed",
+      "evidence": {
+        "total": 10,
+        "current": 10
+      }
+    },
+    {
+      "id": "monitoring",
+      "description": "All project dashboards have current monitoring proof.",
+      "status": "passed",
+      "evidence": {
+        "total": 10,
+        "current": 10
+      }
+    },
+    {
+      "id": "live-health",
+      "description": "All live dashboard health checks pass.",
+      "status": "passed",
+      "evidence": {
+        "checked": 10,
+        "failed": 0
+      }
+    },
+    {
+      "id": "visual-proof",
+      "description": "All project dashboards have fresh visual proof.",
+      "status": "passed",
+      "evidence": {
+        "dashboards": 10,
+        "covered": 10,
+        "stale": 0
+      }
+    },
+    {
+      "id": "project-certification",
+      "description": "All project dashboards are certified with no review or blocked items.",
+      "status": "passed",
+      "evidence": {
+        "totalProjects": 10,
+        "certified": 10,
+        "review": 0,
+        "blocked": 0
+      }
+    },
+    {
+      "id": "ship-check",
+      "description": "Fleet ship check is safe to commit and deploy.",
+      "status": "passed",
+      "evidence": {
+        "safeToCommit": true,
+        "safeToDeploy": true,
+        "failedSteps": 0
+      }
+    }
+  ],
+  "residualRisk": [
+    "Mutating actions are certified as controlled, not blindly enabled; approval-required and maintenance-window actions must remain blocked until their live endpoint, approval, audit, cooldown, and recovery proof exists.",
+    "Production visual proof is ledger-backed; full multi-page browser screenshot refresh should run after deployment for release evidence.",
+    "The fully-operational gate certifies the standard and evidence posture; domain teams should still continue replacing generic packet panels with richer bespoke workflow components where useful."
+  ]
+}

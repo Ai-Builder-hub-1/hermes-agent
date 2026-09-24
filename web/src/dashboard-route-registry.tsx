@@ -51,6 +51,7 @@ const HermesOsPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((
 const DesignSystemPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.DesignSystemPage })));
 const DashboardKitGalleryPage = lazy(() => import("@/pages/DashboardKitGalleryPage"));
 const FleetMaturityReviewPage = lazy(() => import("@/pages/FleetMaturityReviewPage"));
+const ExecutiveDailyOperatingPage = lazy(() => import("@/pages/ExecutiveDailyOperatingPage"));
 const TradingIntelligencePage = lazy(() => import("@/pages/TradingIntelligencePage"));
 const HeadTraderPage = lazy(() => import("@/pages/HeadTraderPage"));
 const DesignIntelligenceCommandCenterPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.DesignIntelligenceCommandCenterPage })));
@@ -172,6 +173,7 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/head-trader": HeadTraderPage,
   "/executive-summary": ExecutiveSummaryPage,
   "/executive-briefing": ExecutiveBriefingRoomPage,
+  "/executive-daily": ExecutiveDailyOperatingPage,
   "/dashboard-migrations": PackageNativeMigrationsPage,
   "/package-native/media-engine": MediaEnginePackageNativePage,
   "/package-native/khashi-vc": KhashiVcPackageNativePage,
@@ -275,6 +277,7 @@ export const BUILTIN_NAV_REST: BuiltinNavItem[] = [
   { path: "/central-command", label: "Central Command", icon: Building2 },
   { path: "/executive-summary", label: "Executive", icon: Building2 },
   { path: "/executive-briefing", label: "Briefing Room", icon: Building2 },
+  { path: "/executive-daily", label: "Daily Ops", icon: Activity },
   { path: "/dashboard-migrations", label: "Dashboard Migrations", icon: Code2 },
   { path: "/package-native/media-engine", label: "Media Native", icon: Activity },
   { path: "/package-native/khashi-vc", label: "Khashi Native", icon: Activity },

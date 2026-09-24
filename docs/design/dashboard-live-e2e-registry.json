@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T02:25:49.314Z",
+  "generatedAt": "2026-09-24T16:41:25.101Z",
   "purpose": "Live E2E evidence registry for primary production dashboard workflows.",
   "statusMeaning": {
     "current": "A recent live E2E run passed and latestRun evidence is present.",
@@ -27,24 +27,24 @@
       ],
       "latestRun": {
         "status": "passed",
-        "capturedAt": "2026-09-24T02:25:49.314Z",
+        "capturedAt": "2026-09-24T16:41:25.101Z",
         "checks": {
           "health": {
             "ok": true,
             "status": 200,
-            "ms": 201,
+            "ms": 144,
             "contentType": "application/json"
           },
           "proof": {
             "ok": true,
             "status": 200,
-            "ms": 198,
+            "ms": 32,
             "contentType": "application/json"
           },
           "snapshot": {
             "ok": true,
             "status": 200,
-            "ms": 32,
+            "ms": 12,
             "contentType": "application/json"
           }
         }
@@ -70,24 +70,24 @@
       ],
       "latestRun": {
         "status": "passed",
-        "capturedAt": "2026-09-24T02:25:49.314Z",
+        "capturedAt": "2026-09-24T16:41:25.101Z",
         "checks": {
           "health": {
             "ok": true,
             "status": 200,
-            "ms": 134,
+            "ms": 62,
             "contentType": "application/json"
           },
           "proof": {
             "ok": true,
             "status": 200,
-            "ms": 61,
+            "ms": 27,
             "contentType": "text/html; charset=utf-8"
           },
           "snapshot": {
             "ok": true,
             "status": 200,
-            "ms": 42,
+            "ms": 19,
             "contentType": "application/json"
           }
         }
@@ -113,24 +113,24 @@
       ],
       "latestRun": {
         "status": "passed",
-        "capturedAt": "2026-09-24T02:25:49.314Z",
+        "capturedAt": "2026-09-24T16:41:25.101Z",
         "checks": {
           "health": {
             "ok": true,
             "status": 200,
-            "ms": 353,
+            "ms": 26,
             "contentType": "application/json"
           },
           "proof": {
             "ok": true,
             "status": 200,
-            "ms": 1835,
+            "ms": 8,
             "contentType": "text/html; charset=utf-8"
           },
           "snapshot": {
             "ok": true,
             "status": 200,
-            "ms": 22,
+            "ms": 5,
             "contentType": "application/json"
           }
         }
@@ -156,24 +156,24 @@
       ],
       "latestRun": {
         "status": "passed",
-        "capturedAt": "2026-09-24T02:25:49.314Z",
+        "capturedAt": "2026-09-24T16:41:25.101Z",
         "checks": {
           "health": {
             "ok": true,
             "status": 200,
-            "ms": 91,
+            "ms": 12,
             "contentType": "application/json"
           },
           "proof": {
             "ok": true,
             "status": 200,
-            "ms": 2453,
+            "ms": 1006,
             "contentType": "text/html; charset=utf-8"
           },
           "snapshot": {
             "ok": true,
             "status": 200,
-            "ms": 1235,
+            "ms": 768,
             "contentType": "application/json"
           }
         }
@@ -199,24 +199,24 @@
       ],
       "latestRun": {
         "status": "passed",
-        "capturedAt": "2026-09-24T02:25:49.314Z",
+        "capturedAt": "2026-09-24T16:41:25.101Z",
         "checks": {
           "health": {
             "ok": true,
             "status": 200,
-            "ms": 83,
+            "ms": 24,
             "contentType": "application/json"
           },
           "proof": {
             "ok": true,
             "status": 200,
-            "ms": 1321,
+            "ms": 788,
             "contentType": "text/html; charset=utf-8"
           },
           "snapshot": {
             "ok": true,
             "status": 200,
-            "ms": 4386,
+            "ms": 627,
             "contentType": "application/json"
           }
         }
@@ -242,24 +242,24 @@
       ],
       "latestRun": {
         "status": "passed",
-        "capturedAt": "2026-09-24T02:25:49.314Z",
+        "capturedAt": "2026-09-24T16:41:25.101Z",
         "checks": {
           "health": {
             "ok": true,
             "status": 200,
-            "ms": 102,
+            "ms": 11,
             "contentType": "application/json"
           },
           "proof": {
             "ok": true,
             "status": 200,
-            "ms": 97,
+            "ms": 33,
             "contentType": "text/html; charset=utf-8"
           },
           "snapshot": {
             "ok": true,
             "status": 200,
-            "ms": 982,
+            "ms": 569,
             "contentType": "application/json"
           }
         }
@@ -285,18 +285,18 @@
       ],
       "latestRun": {
         "status": "passed",
-        "capturedAt": "2026-09-24T02:25:49.314Z",
+        "capturedAt": "2026-09-24T16:41:25.101Z",
         "checks": {
           "health": {
             "ok": true,
             "status": 200,
-            "ms": 74,
+            "ms": 30,
             "contentType": "application/json; charset=utf-8"
           },
           "proof": {
             "ok": true,
             "status": 200,
-            "ms": 45,
+            "ms": 17,
             "contentType": "text/html; charset=utf-8"
           },
           "snapshot": {
@@ -328,24 +328,24 @@
       ],
       "latestRun": {
         "status": "passed",
-        "capturedAt": "2026-09-24T02:25:49.314Z",
+        "capturedAt": "2026-09-24T16:41:25.101Z",
         "checks": {
           "health": {
             "ok": true,
             "status": 200,
-            "ms": 80,
+            "ms": 62,
             "contentType": "application/json"
           },
           "proof": {
             "ok": true,
             "status": 200,
-            "ms": 45,
+            "ms": 20,
             "contentType": "text/html; charset=utf-8"
           },
           "snapshot": {
             "ok": true,
             "status": 200,
-            "ms": 14,
+            "ms": 4,
             "contentType": "application/json"
           }
         }
@@ -371,24 +371,24 @@
       ],
       "latestRun": {
         "status": "passed",
-        "capturedAt": "2026-09-24T02:25:49.314Z",
+        "capturedAt": "2026-09-24T16:41:25.101Z",
         "checks": {
           "health": {
             "ok": true,
             "status": 200,
-            "ms": 16,
+            "ms": 11,
             "contentType": "application/json"
           },
           "proof": {
             "ok": true,
             "status": 200,
-            "ms": 10,
+            "ms": 7,
             "contentType": "application/json"
           },
           "snapshot": {
             "ok": true,
             "status": 200,
-            "ms": 8,
+            "ms": 4,
             "contentType": "application/json"
           }
         }
@@ -414,24 +414,24 @@
       ],
       "latestRun": {
         "status": "passed",
-        "capturedAt": "2026-09-24T02:25:49.314Z",
+        "capturedAt": "2026-09-24T16:41:25.101Z",
         "checks": {
           "health": {
             "ok": true,
             "status": 200,
-            "ms": 16,
+            "ms": 57,
             "contentType": "application/json"
           },
           "proof": {
             "ok": true,
             "status": 200,
-            "ms": 580,
+            "ms": 531,
             "contentType": "text/html"
           },
           "snapshot": {
             "ok": true,
             "status": 200,
-            "ms": 598,
+            "ms": 373,
             "contentType": "application/json"
           }
         }

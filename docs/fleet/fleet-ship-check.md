@@ -1,20 +1,20 @@
 # Fleet Ship Check
 
-Generated: 2026-09-24T02:26:42.926Z
+Generated: 2026-09-24T17:16:00.609Z
 
 Mode: standard
 
 ## Decision
 
 - **Safe to commit:** yes
-- **Safe to deploy:** no
+- **Safe to deploy:** yes
 - **Blocked by:** nothing
 
 ## Summary
 
 | Steps | Failed | Dirty projects | Blocked projects | Needs review | Commit-ready projects | Deploy-ready projects |
 | --- | --- | --- | --- | --- | --- | --- |
-| 13 | 0 | 1 | 0 | 0 | 10 | 9 |
+| 13 | 0 | 1 | 0 | 0 | 10 | 10 |
 
 ## Step Results
 
@@ -23,7 +23,7 @@ Mode: standard
 | Release readiness | npm run fleet:release-readiness | yes | 0 | > hermes-agent@1.0.0 fleet:release-readiness<br>> node scripts/generate-fleet-release-readiness.mjs<br><br>Wrote docs/fleet/fleet-release-readiness.json and docs/fleet/fleet-release-readiness.md<br>Fleet release readiness: 1 dirty project(s), 0 blocked, 0 needs review. |
 | Release readiness schema | npm run fleet:release-readiness:validate | yes | 0 | > hermes-agent@1.0.0 fleet:release-readiness:validate<br>> node scripts/validate-fleet-release-readiness.mjs<br><br>Fleet release readiness validation: 0 error(s), 0 warning(s). |
 | Release readiness strict gate | npm run fleet:release-readiness:strict | yes | 0 | > hermes-agent@1.0.0 fleet:release-readiness:strict<br>> node scripts/generate-fleet-release-readiness.mjs --strict<br><br>Wrote docs/fleet/fleet-release-readiness.json and docs/fleet/fleet-release-readiness.md<br>Fleet release readiness: 1 dirty project(s), 0 blocked, 0 needs review. |
-| Web build budget | npm run dashboard:web:build-budget | yes | 0 | Web build budget largest assets:<br>- index-DoljOCct.js 526.7 KiB<br>- vendor-xterm-BRN-hOYD.js 484.0 KiB<br>- vendor-nous-ui-DuXYiwlH.js 273.6 KiB<br>- vendor-CHWgcPAU.js 212.1 KiB<br>- DashboardKitGalleryPage-Bmc3WAMR.js 185.6 KiB<br>- index-DgJURea8.css 120.9 KiB<br>- FleetMaturityReviewPage-7-1UJIeO.js 105.6 KiB<br>- GeneratedDashboardPages-CXYgaGkO.js 78.3 KiB<br>Web build budget validation: 0 issue(s). |
+| Web build budget | npm run dashboard:web:build-budget | yes | 0 | Web build budget largest assets:<br>- index-CUywtyVq.js 526.7 KiB<br>- vendor-xterm-BRN-hOYD.js 484.0 KiB<br>- vendor-nous-ui-DuXYiwlH.js 273.6 KiB<br>- vendor-CHWgcPAU.js 212.1 KiB<br>- DashboardKitGalleryPage-Bmc3WAMR.js 185.6 KiB<br>- index-BFEeL7Xw.css 121.4 KiB<br>- FleetMaturityReviewPage-7-1UJIeO.js 105.6 KiB<br>- GeneratedDashboardPages-ATBYa5I2.js 82.8 KiB<br>Web build budget validation: 0 issue(s). |
 | Dashboard governance | npm run dashboard:governance:validate | yes | 0 | > hermes-agent@1.0.0 dashboard:governance:validate<br>> node scripts/validate-dashboard-governance.mjs<br><br>Dashboard governance validation: 0 error(s), 0 warning(s). |
 | Dashboard command governance report | npm run dashboard:command-governance:report | yes | 0 | > hermes-agent@1.0.0 dashboard:command-governance:report<br>> node scripts/generate-dashboard-command-governance-ledger.mjs<br><br>Wrote docs/design/dashboard-command-governance-ledger.json and docs/design/dashboard-command-governance-ledger.md |
 | Dashboard command governance validation | npm run dashboard:command-governance:validate | yes | 0 | > hermes-agent@1.0.0 dashboard:command-governance:validate<br>> node scripts/validate-dashboard-command-governance-ledger.mjs<br><br>Dashboard command governance validation: 0 error(s), 0 warning(s). |

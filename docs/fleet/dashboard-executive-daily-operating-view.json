@@ -1,0 +1,516 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-24T17:57:27.095Z",
+  "source": "scripts/generate-dashboard-executive-daily-operating-view.mjs",
+  "status": "clear",
+  "summary": {
+    "dashboardCount": 10,
+    "attentionCount": 0,
+    "fullyOperationalScore": 100,
+    "driftStatus": "stable",
+    "visualStatus": "visual-gate-passed",
+    "liveE2eCurrent": 10,
+    "monitoringCurrent": 10,
+    "healthFailures": 0,
+    "safeToCommit": true,
+    "safeToDeploy": true,
+    "policyStatus": "inside-policy",
+    "trendDirection": "stable",
+    "forecastStatus": "low-risk",
+    "forecastConfidence": "baseline-only",
+    "recoveryStatus": "recovery-ready"
+  },
+  "actionPosture": {
+    "actionInstances": 748,
+    "controlledMutations": 408,
+    "approvalRequired": 204,
+    "maintenanceWindowOnly": 204,
+    "unsafeMutations": 0,
+    "unknownActions": 0,
+    "commandSafePosture": true
+  },
+  "maturityLayers": [
+    {
+      "label": "Operating History",
+      "status": "inside-policy",
+      "detail": "stable",
+      "description": "Keeps policy objectives and rolling run history visible."
+    },
+    {
+      "label": "Predictive Causal Intelligence",
+      "status": "low-risk",
+      "detail": "baseline-only",
+      "description": "Forecasts drift risk and maps symptoms to likely causes."
+    },
+    {
+      "label": "Governed Recovery",
+      "status": "recovery-ready",
+      "detail": "3 auto-safe",
+      "description": "Separates safe recovery from approval, maintenance-window, and blocked actions."
+    }
+  ],
+  "topPriorities": [
+    "No active maturity drift is present.",
+    "Review the controlled mutation queue before approving operator write actions.",
+    "Keep visual proof, live E2E, monitoring, and health checks fresh on the daily cadence."
+  ],
+  "dashboards": [
+    {
+      "projectId": "tlc-capital-group-os",
+      "dashboardId": "tlc-capital-group-os.main",
+      "label": "TLC Capital Group OS",
+      "status": "operational",
+      "route": "https://tlc.tlccapitalgroup.com/dashboard",
+      "proofUrl": "https://tlc.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://tlc.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://tlc.tlccapitalgroup.com/dashboard-snapshot",
+      "latestE2eAt": "2026-09-24T16:41:25.101Z",
+      "latestMonitoringAt": "2026-09-24T16:41:30.596Z",
+      "visualQualityScore": 100,
+      "signals": [
+        {
+          "id": "live-e2e",
+          "description": "Live operator flow passed.",
+          "status": "passing"
+        },
+        {
+          "id": "monitoring",
+          "description": "Monitoring check passed.",
+          "status": "passing"
+        },
+        {
+          "id": "health",
+          "description": "Health endpoint passed.",
+          "status": "passing"
+        },
+        {
+          "id": "visual",
+          "description": "Visual proof passed.",
+          "status": "passing"
+        },
+        {
+          "id": "certification",
+          "description": "Project certification passed.",
+          "status": "passing"
+        }
+      ],
+      "nextAction": "Keep live checks, monitoring, health, and visual proof current."
+    },
+    {
+      "projectId": "nous-hermes-agent",
+      "dashboardId": "nous-hermes-agent.dashboard",
+      "label": "Nous Hermes Agent",
+      "status": "operational",
+      "route": "https://agent.tlccapitalgroup.com",
+      "proofUrl": "https://agent.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
+      "snapshotUrl": "https://agent.tlccapitalgroup.com/api/dashboard-snapshot",
+      "latestE2eAt": "2026-09-24T16:41:25.101Z",
+      "latestMonitoringAt": "2026-09-24T16:41:30.596Z",
+      "visualQualityScore": 100,
+      "signals": [
+        {
+          "id": "live-e2e",
+          "description": "Live operator flow passed.",
+          "status": "passing"
+        },
+        {
+          "id": "monitoring",
+          "description": "Monitoring check passed.",
+          "status": "passing"
+        },
+        {
+          "id": "health",
+          "description": "Health endpoint passed.",
+          "status": "passing"
+        },
+        {
+          "id": "visual",
+          "description": "Visual proof passed.",
+          "status": "passing"
+        },
+        {
+          "id": "certification",
+          "description": "Project certification passed.",
+          "status": "passing"
+        }
+      ],
+      "nextAction": "Keep live checks, monitoring, health, and visual proof current."
+    },
+    {
+      "projectId": "hermes-os",
+      "dashboardId": "hermes.workspace",
+      "label": "Hermes OS",
+      "status": "operational",
+      "route": "https://hermes.tlccapitalgroup.com/",
+      "proofUrl": "https://hermes.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+      "snapshotUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
+      "latestE2eAt": "2026-09-24T16:41:25.101Z",
+      "latestMonitoringAt": "2026-09-24T16:41:30.596Z",
+      "visualQualityScore": 100,
+      "signals": [
+        {
+          "id": "live-e2e",
+          "description": "Live operator flow passed.",
+          "status": "passing"
+        },
+        {
+          "id": "monitoring",
+          "description": "Monitoring check passed.",
+          "status": "passing"
+        },
+        {
+          "id": "health",
+          "description": "Health endpoint passed.",
+          "status": "passing"
+        },
+        {
+          "id": "visual",
+          "description": "Visual proof passed.",
+          "status": "passing"
+        },
+        {
+          "id": "certification",
+          "description": "Project certification passed.",
+          "status": "passing"
+        }
+      ],
+      "nextAction": "Keep live checks, monitoring, health, and visual proof current."
+    },
+    {
+      "projectId": "media-engine",
+      "dashboardId": "media-engine.ops",
+      "label": "Media Engine",
+      "status": "operational",
+      "route": "https://media.tlccapitalgroup.com/dashboard",
+      "proofUrl": "https://media.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://media.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://media.tlccapitalgroup.com/dashboard-snapshot",
+      "latestE2eAt": "2026-09-24T16:41:25.101Z",
+      "latestMonitoringAt": "2026-09-24T16:41:30.596Z",
+      "visualQualityScore": 100,
+      "signals": [
+        {
+          "id": "live-e2e",
+          "description": "Live operator flow passed.",
+          "status": "passing"
+        },
+        {
+          "id": "monitoring",
+          "description": "Monitoring check passed.",
+          "status": "passing"
+        },
+        {
+          "id": "health",
+          "description": "Health endpoint passed.",
+          "status": "passing"
+        },
+        {
+          "id": "visual",
+          "description": "Visual proof passed.",
+          "status": "passing"
+        },
+        {
+          "id": "certification",
+          "description": "Project certification passed.",
+          "status": "passing"
+        }
+      ],
+      "nextAction": "Keep live checks, monitoring, health, and visual proof current."
+    },
+    {
+      "projectId": "media-business-operations",
+      "dashboardId": "media-business-operations.main",
+      "label": "Media Business Operations",
+      "status": "operational",
+      "route": "https://media-business-operations.tlccapitalgroup.com/dashboard",
+      "proofUrl": "https://media-business-operations.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://media-business-operations.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://media-business-operations.tlccapitalgroup.com/api/dashboard-summary",
+      "latestE2eAt": "2026-09-24T16:41:25.101Z",
+      "latestMonitoringAt": "2026-09-24T16:41:30.596Z",
+      "visualQualityScore": 100,
+      "signals": [
+        {
+          "id": "live-e2e",
+          "description": "Live operator flow passed.",
+          "status": "passing"
+        },
+        {
+          "id": "monitoring",
+          "description": "Monitoring check passed.",
+          "status": "passing"
+        },
+        {
+          "id": "health",
+          "description": "Health endpoint passed.",
+          "status": "passing"
+        },
+        {
+          "id": "visual",
+          "description": "Visual proof passed.",
+          "status": "passing"
+        },
+        {
+          "id": "certification",
+          "description": "Project certification passed.",
+          "status": "passing"
+        }
+      ],
+      "nextAction": "Keep live checks, monitoring, health, and visual proof current."
+    },
+    {
+      "projectId": "khashi-vc",
+      "dashboardId": "khashi-vc.roc",
+      "label": "Khashi VC",
+      "status": "operational",
+      "route": "https://roc.tlccapitalgroup.com/",
+      "proofUrl": "https://roc.tlccapitalgroup.com/dashboard/proof?view=live-market-intelligence",
+      "healthUrl": "https://roc.tlccapitalgroup.com/readyz",
+      "snapshotUrl": "https://roc.tlccapitalgroup.com/api/dashboard-snapshot",
+      "latestE2eAt": "2026-09-24T16:41:25.101Z",
+      "latestMonitoringAt": "2026-09-24T16:41:30.596Z",
+      "visualQualityScore": 100,
+      "signals": [
+        {
+          "id": "live-e2e",
+          "description": "Live operator flow passed.",
+          "status": "passing"
+        },
+        {
+          "id": "monitoring",
+          "description": "Monitoring check passed.",
+          "status": "passing"
+        },
+        {
+          "id": "health",
+          "description": "Health endpoint passed.",
+          "status": "passing"
+        },
+        {
+          "id": "visual",
+          "description": "Visual proof passed.",
+          "status": "passing"
+        },
+        {
+          "id": "certification",
+          "description": "Project certification passed.",
+          "status": "passing"
+        }
+      ],
+      "nextAction": "Keep live checks, monitoring, health, and visual proof current."
+    },
+    {
+      "projectId": "business-mapper",
+      "dashboardId": "business-mapper.workspace",
+      "label": "Business Mapper / Consulting",
+      "status": "operational",
+      "route": "https://business-mapper.tlccapitalgroup.com/dashboard",
+      "proofUrl": "https://business-mapper.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://business-mapper.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://business-mapper.tlccapitalgroup.com/api/dashboard-snapshot",
+      "latestE2eAt": "2026-09-24T16:41:25.101Z",
+      "latestMonitoringAt": "2026-09-24T16:41:30.596Z",
+      "visualQualityScore": 100,
+      "signals": [
+        {
+          "id": "live-e2e",
+          "description": "Live operator flow passed.",
+          "status": "passing"
+        },
+        {
+          "id": "monitoring",
+          "description": "Monitoring check passed.",
+          "status": "passing"
+        },
+        {
+          "id": "health",
+          "description": "Health endpoint passed.",
+          "status": "passing"
+        },
+        {
+          "id": "visual",
+          "description": "Visual proof passed.",
+          "status": "passing"
+        },
+        {
+          "id": "certification",
+          "description": "Project certification passed.",
+          "status": "passing"
+        }
+      ],
+      "nextAction": "Keep live checks, monitoring, health, and visual proof current."
+    },
+    {
+      "projectId": "meal-assistant",
+      "dashboardId": "meal-assistant.main",
+      "label": "Meal Assistant",
+      "status": "operational",
+      "route": "https://meal.tlccapitalgroup.com/",
+      "proofUrl": "https://meal.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://meal.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://meal.tlccapitalgroup.com/api/dashboard-snapshot",
+      "latestE2eAt": "2026-09-24T16:41:25.101Z",
+      "latestMonitoringAt": "2026-09-24T16:41:30.596Z",
+      "visualQualityScore": 100,
+      "signals": [
+        {
+          "id": "live-e2e",
+          "description": "Live operator flow passed.",
+          "status": "passing"
+        },
+        {
+          "id": "monitoring",
+          "description": "Monitoring check passed.",
+          "status": "passing"
+        },
+        {
+          "id": "health",
+          "description": "Health endpoint passed.",
+          "status": "passing"
+        },
+        {
+          "id": "visual",
+          "description": "Visual proof passed.",
+          "status": "passing"
+        },
+        {
+          "id": "certification",
+          "description": "Project certification passed.",
+          "status": "passing"
+        }
+      ],
+      "nextAction": "Keep live checks, monitoring, health, and visual proof current."
+    },
+    {
+      "projectId": "rinseables-os",
+      "dashboardId": "rinseables-os.main",
+      "label": "Rinseables OS",
+      "status": "operational",
+      "route": "https://rinseables.tlccapitalgroup.com",
+      "proofUrl": "https://rinseables.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://rinseables.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://rinseables.tlccapitalgroup.com/api/dashboard-snapshot",
+      "latestE2eAt": "2026-09-24T16:41:25.101Z",
+      "latestMonitoringAt": "2026-09-24T16:41:30.596Z",
+      "visualQualityScore": 100,
+      "signals": [
+        {
+          "id": "live-e2e",
+          "description": "Live operator flow passed.",
+          "status": "passing"
+        },
+        {
+          "id": "monitoring",
+          "description": "Monitoring check passed.",
+          "status": "passing"
+        },
+        {
+          "id": "health",
+          "description": "Health endpoint passed.",
+          "status": "passing"
+        },
+        {
+          "id": "visual",
+          "description": "Visual proof passed.",
+          "status": "passing"
+        },
+        {
+          "id": "certification",
+          "description": "Project certification passed.",
+          "status": "passing"
+        }
+      ],
+      "nextAction": "Keep live checks, monitoring, health, and visual proof current."
+    },
+    {
+      "projectId": "investing-system",
+      "dashboardId": "investing-system.roc",
+      "label": "Investing System",
+      "status": "operational",
+      "route": "https://investing.tlccapitalgroup.com/roc",
+      "proofUrl": "https://investing.tlccapitalgroup.com/dashboard/proof",
+      "healthUrl": "https://investing.tlccapitalgroup.com/health",
+      "snapshotUrl": "https://investing.tlccapitalgroup.com/api/dashboard-snapshot",
+      "latestE2eAt": "2026-09-24T16:41:25.101Z",
+      "latestMonitoringAt": "2026-09-24T16:41:30.596Z",
+      "visualQualityScore": 100,
+      "signals": [
+        {
+          "id": "live-e2e",
+          "description": "Live operator flow passed.",
+          "status": "passing"
+        },
+        {
+          "id": "monitoring",
+          "description": "Monitoring check passed.",
+          "status": "passing"
+        },
+        {
+          "id": "health",
+          "description": "Health endpoint passed.",
+          "status": "passing"
+        },
+        {
+          "id": "visual",
+          "description": "Visual proof passed.",
+          "status": "passing"
+        },
+        {
+          "id": "certification",
+          "description": "Project certification passed.",
+          "status": "passing"
+        }
+      ],
+      "nextAction": "Keep live checks, monitoring, health, and visual proof current."
+    }
+  ],
+  "evidenceLinks": [
+    {
+      "label": "Fully Operational Certification",
+      "path": "docs/fleet/dashboard-fully-operational-certification.json",
+      "status": "fully-operational-certified"
+    },
+    {
+      "label": "Maturity Drift Monitor",
+      "path": "docs/fleet/dashboard-maturity-drift-monitor.json",
+      "status": "stable"
+    },
+    {
+      "label": "Production Visual Gate",
+      "path": "docs/design/dashboard-production-visual-gate.json",
+      "status": "visual-gate-passed"
+    },
+    {
+      "label": "Live E2E Registry",
+      "path": "docs/design/dashboard-live-e2e-registry.json",
+      "status": "10 dashboards"
+    },
+    {
+      "label": "Monitoring Registry",
+      "path": "docs/design/dashboard-monitoring-registry.json",
+      "status": "10 checks"
+    },
+    {
+      "label": "Fleet Ship Check",
+      "path": "docs/fleet/fleet-ship-check.json",
+      "status": "deploy-ready"
+    },
+    {
+      "label": "Operating History Policy",
+      "path": "docs/fleet/dashboard-operating-history-policy.json",
+      "status": "inside-policy"
+    },
+    {
+      "label": "Predictive Causal Intelligence",
+      "path": "docs/fleet/dashboard-predictive-causal-intelligence.json",
+      "status": "low-risk"
+    },
+    {
+      "label": "Governed Recovery Audit",
+      "path": "docs/fleet/dashboard-governed-recovery-audit.json",
+      "status": "recovery-ready"
+    }
+  ]
+}

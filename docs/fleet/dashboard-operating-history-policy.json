@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-24T17:57:26.547Z",
+  "source": "scripts/generate-dashboard-operating-history-policy.mjs",
+  "status": "inside-policy",
+  "retention": {
+    "latestEntriesRetained": 672,
+    "evidenceRunRetentionDays": 365,
+    "incidentRetentionDays": 730,
+    "immutableArchiveRequired": true
+  },
+  "objectives": [
+    {
+      "id": "dashboard-health",
+      "description": "Every dashboard health check passes.",
+      "status": "inside-policy",
+      "evidence": {
+        "checked": 10,
+        "failed": 0
+      }
+    },
+    {
+      "id": "live-e2e",
+      "description": "Every dashboard has current live E2E proof.",
+      "status": "inside-policy",
+      "evidence": {
+        "entries": 10
+      }
+    },
+    {
+      "id": "monitoring",
+      "description": "Every dashboard has current monitoring proof.",
+      "status": "inside-policy",
+      "evidence": {
+        "entries": 10
+      }
+    },
+    {
+      "id": "visual-proof",
+      "description": "Every dashboard passes production visual proof.",
+      "status": "inside-policy",
+      "evidence": {
+        "dashboardCount": 10,
+        "passed": 10,
+        "failed": 0,
+        "staleScreenshots": 0,
+        "matrixBaselineReady": 10,
+        "matrixDashboardCount": 10
+      }
+    },
+    {
+      "id": "maturity-drift",
+      "description": "Maturity drift remains stable.",
+      "status": "inside-policy",
+      "evidence": {
+        "signalCount": 12,
+        "passing": 12,
+        "failed": 0,
+        "highestSeverity": "none"
+      }
+    },
+    {
+      "id": "ship-readiness",
+      "description": "Fleet remains safe to commit and deploy.",
+      "status": "inside-policy",
+      "evidence": {
+        "safeToCommit": true,
+        "safeToDeploy": true
+      }
+    }
+  ],
+  "trend": {
+    "direction": "stable",
+    "sampleCount": 4,
+    "latestAttentionCount": 0,
+    "previousAttentionCount": 0,
+    "latestFailedObjectiveCount": 0,
+    "previousFailedObjectiveCount": 0
+  },
+  "latestSnapshot": {
+    "capturedAt": "2026-09-24T17:57:26.547Z",
+    "status": "inside-policy",
+    "dashboardCount": 10,
+    "attentionCount": 0,
+    "failedObjectiveCount": 0,
+    "driftStatus": "stable",
+    "visualStatus": "visual-gate-passed",
+    "healthFailures": 0,
+    "safeToDeploy": true
+  },
+  "nextActions": [
+    "Keep scheduled evidence capture running and preserve each maturity run for trend review."
+  ]
+}

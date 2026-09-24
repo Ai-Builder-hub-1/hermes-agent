@@ -1,0 +1,12 @@
+[Unit]
+Description=Run Nous Hermes dashboard advanced maturity refresh every 30 minutes
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=30min
+AccuracySec=1min
+Persistent=true
+Unit=dashboard-advanced-maturity.service
+
+[Install]
+WantedBy=timers.target

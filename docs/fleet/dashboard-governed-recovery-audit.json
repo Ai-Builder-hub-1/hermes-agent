@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-24T17:57:26.867Z",
+  "source": "scripts/generate-dashboard-governed-recovery-audit.mjs",
+  "status": "recovery-ready",
+  "summary": {
+    "auditCheckCount": 8,
+    "failedAuditChecks": 0,
+    "recoveryClassCount": 8,
+    "autoSafeCount": 3,
+    "approvalRequiredCount": 3,
+    "maintenanceWindowCount": 1,
+    "blockedCount": 1
+  },
+  "auditChecks": [
+    {
+      "id": "command-safe",
+      "description": "Command governance is safe.",
+      "status": "passed"
+    },
+    {
+      "id": "no-unsafe-mutations",
+      "description": "No unsafe mutations are enabled.",
+      "status": "passed"
+    },
+    {
+      "id": "no-unknown-actions",
+      "description": "No unknown actions remain.",
+      "status": "passed"
+    },
+    {
+      "id": "drift-stable",
+      "description": "Maturity drift is stable.",
+      "status": "passed"
+    },
+    {
+      "id": "visual-gate",
+      "description": "Visual gate is passing.",
+      "status": "passed"
+    },
+    {
+      "id": "predictive-low-risk",
+      "description": "Predictive causal intelligence is low-risk.",
+      "status": "passed"
+    },
+    {
+      "id": "ship-ready",
+      "description": "Fleet is safe to commit and deploy.",
+      "status": "passed"
+    },
+    {
+      "id": "daily-clear",
+      "description": "Daily operating view is clear.",
+      "status": "passed"
+    }
+  ],
+  "recoveryClasses": [
+    {
+      "id": "refresh-evidence",
+      "label": "Refresh stale generated evidence",
+      "mode": "auto-safe",
+      "guardrail": "Regenerate maturity, health, monitoring, and visual reports.",
+      "enabled": true
+    },
+    {
+      "id": "rerun-live-check",
+      "label": "Rerun live dashboard check",
+      "mode": "auto-safe",
+      "guardrail": "Run the live E2E or monitoring check for the affected dashboard.",
+      "enabled": true
+    },
+    {
+      "id": "refresh-visual-proof",
+      "label": "Refresh production visual proof",
+      "mode": "auto-safe",
+      "guardrail": "Capture/compare visual proof and update the visual gate report.",
+      "enabled": true
+    },
+    {
+      "id": "restart-collector",
+      "label": "Restart a stalled collector or worker",
+      "mode": "approval-required",
+      "guardrail": "Requires project owner approval and linked evidence of stalled collection.",
+      "enabled": true
+    },
+    {
+      "id": "run-pruning",
+      "label": "Run pruning or compaction",
+      "mode": "maintenance-window",
+      "guardrail": "Requires quiet window, backup proof, dry-run estimate, and rollback plan.",
+      "enabled": true
+    },
+    {
+      "id": "enable-mutation",
+      "label": "Enable a controlled mutating action",
+      "mode": "approval-required",
+      "guardrail": "Requires command governance approval and action unlock evidence.",
+      "enabled": true
+    },
+    {
+      "id": "deploy-dashboard",
+      "label": "Deploy dashboard change",
+      "mode": "approval-required",
+      "guardrail": "Requires ship check, maturity report validation, web build, and production verification.",
+      "enabled": true
+    },
+    {
+      "id": "delete-data",
+      "label": "Delete or destructively prune data",
+      "mode": "blocked",
+      "guardrail": "Blocked until retention policy, backup proof, owner approval, and restore test are present.",
+      "enabled": false
+    }
+  ],
+  "escalationPolicy": {
+    "discordFirst": true,
+    "requireEvidenceLink": true,
+    "requireOwnerForApprovalActions": true,
+    "requireMaintenanceWindowForPruning": true,
+    "requireRollbackForDeployments": true
+  },
+  "nextActions": [
+    "Auto-safe recovery classes can be implemented next; approval and maintenance-window classes remain gated."
+  ]
+}

@@ -1,0 +1,9 @@
+[Unit]
+Description=Refresh and validate Nous Hermes dashboard advanced maturity evidence
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/root/apps/nous-hermes-agent
+ExecStart=/root/apps/nous-hermes-agent/scripts/run-dashboard-advanced-maturity-scheduled.sh

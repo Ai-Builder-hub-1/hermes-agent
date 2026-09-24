@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-24T17:57:26.368Z",
+  "source": "scripts/generate-dashboard-maturity-drift-monitor.mjs",
+  "status": "stable",
+  "summary": {
+    "signalCount": 12,
+    "passing": 12,
+    "failed": 0,
+    "highestSeverity": "none"
+  },
+  "signals": [
+    {
+      "id": "fully-operational",
+      "description": "Fully operational certification remains at 100%.",
+      "status": "passing",
+      "severity": "none",
+      "evidence": {
+        "status": "fully-operational-certified",
+        "score": 100
+      }
+    },
+    {
+      "id": "generated-route-coverage",
+      "description": "All generated routes remain fully specified.",
+      "status": "passing",
+      "severity": "none",
+      "evidence": {
+        "routes": 68,
+        "fullySpecified": 68
+      }
+    },
+    {
+      "id": "action-classification",
+      "description": "All actions remain classified with zero unsafe mutations.",
+      "status": "passing",
+      "severity": "none",
+      "evidence": {
+        "unknownActions": 0,
+        "unsafeMutations": 0
+      }
+    },
+    {
+      "id": "command-governance",
+      "description": "Command governance keeps zero unsafe mutations and zero missing controls.",
+      "status": "passing",
+      "severity": "none",
+      "evidence": {
+        "unsafeMutations": 0,
+        "missingControls": 0
+      }
+    },
+    {
+      "id": "evidence-freshness",
+      "description": "Generated route evidence has no stale evidence.",
+      "status": "passing",
+      "severity": "none",
+      "evidence": {
+        "staleEvidence": 0
+      }
+    },
+    {
+      "id": "source-gaps",
+      "description": "Live source gaps remain closed.",
+      "status": "passing",
+      "severity": "none",
+      "evidence": {
+        "sourceGaps": 0
+      }
+    },
+    {
+      "id": "live-e2e",
+      "description": "All live E2E entries are current and passing.",
+      "status": "passing",
+      "severity": "none",
+      "evidence": {
+        "entries": 10,
+        "failed": 0
+      }
+    },
+    {
+      "id": "monitoring",
+      "description": "All monitoring entries are current and passing.",
+      "status": "passing",
+      "severity": "none",
+      "evidence": {
+        "entries": 10,
+        "failed": 0
+      }
+    },
+    {
+      "id": "live-health",
+      "description": "All live health checks are passing.",
+      "status": "passing",
+      "severity": "none",
+      "evidence": {
+        "checked": 10,
+        "failed": 0
+      }
+    },
+    {
+      "id": "visual-proof",
+      "description": "Production visual proof remains complete and fresh.",
+      "status": "passing",
+      "severity": "none",
+      "evidence": {
+        "dashboards": 10,
+        "covered": 10,
+        "stale": 0
+      }
+    },
+    {
+      "id": "project-certification",
+      "description": "Project dashboard certification remains clean.",
+      "status": "passing",
+      "severity": "none",
+      "evidence": {
+        "total": 10,
+        "certified": 10,
+        "review": 0,
+        "blocked": 0
+      }
+    },
+    {
+      "id": "ship-check",
+      "description": "Fleet ship check remains safe.",
+      "status": "passing",
+      "severity": "none",
+      "evidence": {
+        "safeToCommit": true,
+        "safeToDeploy": true,
+        "failedSteps": 0
+      }
+    }
+  ],
+  "nextActions": [
+    "No maturity drift is active. Keep scheduled drift, visual, live, and certification checks running."
+  ]
+}

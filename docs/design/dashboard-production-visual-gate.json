@@ -1,0 +1,436 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-24T17:57:26.148Z",
+  "source": "scripts/generate-dashboard-production-visual-gate.mjs",
+  "status": "visual-gate-passed",
+  "summary": {
+    "dashboardCount": 10,
+    "passed": 10,
+    "failed": 0,
+    "staleScreenshots": 0,
+    "matrixBaselineReady": 10,
+    "matrixDashboardCount": 10
+  },
+  "items": [
+    {
+      "dashboardId": "nous-hermes-agent.dashboard",
+      "label": "Nous Hermes Agent",
+      "url": "https://agent.tlccapitalgroup.com",
+      "status": "visual-gate-passed",
+      "screenshot": "docs/design/production-screenshots/nous-hermes-agent.dashboard.png",
+      "screenshotUpdatedAt": "2026-08-03T20:43:30.415Z",
+      "visualQualityScore": 100,
+      "regressionRequiredCaptures": 34,
+      "checks": [
+        {
+          "id": "proof-url",
+          "description": "Proof URL is registered.",
+          "status": "passed"
+        },
+        {
+          "id": "health-url",
+          "description": "Health URL is registered.",
+          "status": "passed"
+        },
+        {
+          "id": "screenshot",
+          "description": "Production screenshot exists.",
+          "status": "passed"
+        },
+        {
+          "id": "freshness",
+          "description": "Screenshot is fresh.",
+          "status": "passed"
+        },
+        {
+          "id": "visual-quality",
+          "description": "Visual quality passed.",
+          "status": "passed"
+        },
+        {
+          "id": "regression-matrix",
+          "description": "Visual regression matrix is baseline-ready.",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "dashboardId": "khashi-vc.roc",
+      "label": "Khashi VC ROC",
+      "url": "https://roc.tlccapitalgroup.com/",
+      "status": "visual-gate-passed",
+      "screenshot": "docs/design/production-screenshots/khashi-vc.roc.png",
+      "screenshotUpdatedAt": "2026-08-03T20:43:55.893Z",
+      "visualQualityScore": 100,
+      "regressionRequiredCaptures": 34,
+      "checks": [
+        {
+          "id": "proof-url",
+          "description": "Proof URL is registered.",
+          "status": "passed"
+        },
+        {
+          "id": "health-url",
+          "description": "Health URL is registered.",
+          "status": "passed"
+        },
+        {
+          "id": "screenshot",
+          "description": "Production screenshot exists.",
+          "status": "passed"
+        },
+        {
+          "id": "freshness",
+          "description": "Screenshot is fresh.",
+          "status": "passed"
+        },
+        {
+          "id": "visual-quality",
+          "description": "Visual quality passed.",
+          "status": "passed"
+        },
+        {
+          "id": "regression-matrix",
+          "description": "Visual regression matrix is baseline-ready.",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "dashboardId": "media-engine.ops",
+      "label": "Media Engine Ops",
+      "url": "https://media.tlccapitalgroup.com/dashboard",
+      "status": "visual-gate-passed",
+      "screenshot": "docs/design/production-screenshots/media-engine.ops.png",
+      "screenshotUpdatedAt": "2026-08-03T20:43:58.623Z",
+      "visualQualityScore": 100,
+      "regressionRequiredCaptures": 34,
+      "checks": [
+        {
+          "id": "proof-url",
+          "description": "Proof URL is registered.",
+          "status": "passed"
+        },
+        {
+          "id": "health-url",
+          "description": "Health URL is registered.",
+          "status": "passed"
+        },
+        {
+          "id": "screenshot",
+          "description": "Production screenshot exists.",
+          "status": "passed"
+        },
+        {
+          "id": "freshness",
+          "description": "Screenshot is fresh.",
+          "status": "passed"
+        },
+        {
+          "id": "visual-quality",
+          "description": "Visual quality passed.",
+          "status": "passed"
+        },
+        {
+          "id": "regression-matrix",
+          "description": "Visual regression matrix is baseline-ready.",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "dashboardId": "media-business-operations.main",
+      "label": "Media Business Operations",
+      "url": "https://media-business-operations.tlccapitalgroup.com/dashboard",
+      "status": "visual-gate-passed",
+      "screenshot": "docs/design/production-screenshots/media-business-operations.main.png",
+      "screenshotUpdatedAt": "2026-08-03T20:43:59.481Z",
+      "visualQualityScore": 100,
+      "regressionRequiredCaptures": 34,
+      "checks": [
+        {
+          "id": "proof-url",
+          "description": "Proof URL is registered.",
+          "status": "passed"
+        },
+        {
+          "id": "health-url",
+          "description": "Health URL is registered.",
+          "status": "passed"
+        },
+        {
+          "id": "screenshot",
+          "description": "Production screenshot exists.",
+          "status": "passed"
+        },
+        {
+          "id": "freshness",
+          "description": "Screenshot is fresh.",
+          "status": "passed"
+        },
+        {
+          "id": "visual-quality",
+          "description": "Visual quality passed.",
+          "status": "passed"
+        },
+        {
+          "id": "regression-matrix",
+          "description": "Visual regression matrix is baseline-ready.",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "dashboardId": "business-mapper.workspace",
+      "label": "Business Mapper Workspace",
+      "url": "https://business-mapper.tlccapitalgroup.com/dashboard",
+      "status": "visual-gate-passed",
+      "screenshot": "docs/design/production-screenshots/business-mapper.workspace.png",
+      "screenshotUpdatedAt": "2026-08-03T20:44:00.240Z",
+      "visualQualityScore": 100,
+      "regressionRequiredCaptures": 34,
+      "checks": [
+        {
+          "id": "proof-url",
+          "description": "Proof URL is registered.",
+          "status": "passed"
+        },
+        {
+          "id": "health-url",
+          "description": "Health URL is registered.",
+          "status": "passed"
+        },
+        {
+          "id": "screenshot",
+          "description": "Production screenshot exists.",
+          "status": "passed"
+        },
+        {
+          "id": "freshness",
+          "description": "Screenshot is fresh.",
+          "status": "passed"
+        },
+        {
+          "id": "visual-quality",
+          "description": "Visual quality passed.",
+          "status": "passed"
+        },
+        {
+          "id": "regression-matrix",
+          "description": "Visual regression matrix is baseline-ready.",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "dashboardId": "meal-assistant.main",
+      "label": "Meal Assistant",
+      "url": "https://meal.tlccapitalgroup.com/",
+      "status": "visual-gate-passed",
+      "screenshot": "docs/design/production-screenshots/meal-assistant.main.png",
+      "screenshotUpdatedAt": "2026-08-03T20:44:01.001Z",
+      "visualQualityScore": 100,
+      "regressionRequiredCaptures": 34,
+      "checks": [
+        {
+          "id": "proof-url",
+          "description": "Proof URL is registered.",
+          "status": "passed"
+        },
+        {
+          "id": "health-url",
+          "description": "Health URL is registered.",
+          "status": "passed"
+        },
+        {
+          "id": "screenshot",
+          "description": "Production screenshot exists.",
+          "status": "passed"
+        },
+        {
+          "id": "freshness",
+          "description": "Screenshot is fresh.",
+          "status": "passed"
+        },
+        {
+          "id": "visual-quality",
+          "description": "Visual quality passed.",
+          "status": "passed"
+        },
+        {
+          "id": "regression-matrix",
+          "description": "Visual regression matrix is baseline-ready.",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "dashboardId": "rinseables-os.main",
+      "label": "Rinseables OS",
+      "url": "https://rinseables.tlccapitalgroup.com",
+      "status": "visual-gate-passed",
+      "screenshot": "docs/design/production-screenshots/rinseables-os.main.png",
+      "screenshotUpdatedAt": "2026-08-08T01:33:07.080Z",
+      "visualQualityScore": 100,
+      "regressionRequiredCaptures": 34,
+      "checks": [
+        {
+          "id": "proof-url",
+          "description": "Proof URL is registered.",
+          "status": "passed"
+        },
+        {
+          "id": "health-url",
+          "description": "Health URL is registered.",
+          "status": "passed"
+        },
+        {
+          "id": "screenshot",
+          "description": "Production screenshot exists.",
+          "status": "passed"
+        },
+        {
+          "id": "freshness",
+          "description": "Screenshot is fresh.",
+          "status": "passed"
+        },
+        {
+          "id": "visual-quality",
+          "description": "Visual quality passed.",
+          "status": "passed"
+        },
+        {
+          "id": "regression-matrix",
+          "description": "Visual regression matrix is baseline-ready.",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "dashboardId": "investing-system.roc",
+      "label": "Investing System ROC",
+      "url": "https://investing.tlccapitalgroup.com/roc",
+      "status": "visual-gate-passed",
+      "screenshot": "docs/design/production-screenshots/investing-system.roc.png",
+      "screenshotUpdatedAt": "2026-08-03T20:44:01.836Z",
+      "visualQualityScore": 100,
+      "regressionRequiredCaptures": 34,
+      "checks": [
+        {
+          "id": "proof-url",
+          "description": "Proof URL is registered.",
+          "status": "passed"
+        },
+        {
+          "id": "health-url",
+          "description": "Health URL is registered.",
+          "status": "passed"
+        },
+        {
+          "id": "screenshot",
+          "description": "Production screenshot exists.",
+          "status": "passed"
+        },
+        {
+          "id": "freshness",
+          "description": "Screenshot is fresh.",
+          "status": "passed"
+        },
+        {
+          "id": "visual-quality",
+          "description": "Visual quality passed.",
+          "status": "passed"
+        },
+        {
+          "id": "regression-matrix",
+          "description": "Visual regression matrix is baseline-ready.",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "dashboardId": "hermes.workspace",
+      "label": "Hermes Workspace",
+      "url": "https://hermes.tlccapitalgroup.com/",
+      "status": "visual-gate-passed",
+      "screenshot": "docs/design/production-screenshots/hermes.workspace.png",
+      "screenshotUpdatedAt": "2026-08-03T20:44:02.574Z",
+      "visualQualityScore": 100,
+      "regressionRequiredCaptures": 34,
+      "checks": [
+        {
+          "id": "proof-url",
+          "description": "Proof URL is registered.",
+          "status": "passed"
+        },
+        {
+          "id": "health-url",
+          "description": "Health URL is registered.",
+          "status": "passed"
+        },
+        {
+          "id": "screenshot",
+          "description": "Production screenshot exists.",
+          "status": "passed"
+        },
+        {
+          "id": "freshness",
+          "description": "Screenshot is fresh.",
+          "status": "passed"
+        },
+        {
+          "id": "visual-quality",
+          "description": "Visual quality passed.",
+          "status": "passed"
+        },
+        {
+          "id": "regression-matrix",
+          "description": "Visual regression matrix is baseline-ready.",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "dashboardId": "tlc-capital-group-os.main",
+      "label": "TLC Capital Group OS",
+      "url": "https://tlc.tlccapitalgroup.com/dashboard",
+      "status": "visual-gate-passed",
+      "screenshot": "docs/design/production-screenshots/tlc-capital-group-os.main.png",
+      "screenshotUpdatedAt": "2026-08-03T20:44:03.326Z",
+      "visualQualityScore": 100,
+      "regressionRequiredCaptures": 34,
+      "checks": [
+        {
+          "id": "proof-url",
+          "description": "Proof URL is registered.",
+          "status": "passed"
+        },
+        {
+          "id": "health-url",
+          "description": "Health URL is registered.",
+          "status": "passed"
+        },
+        {
+          "id": "screenshot",
+          "description": "Production screenshot exists.",
+          "status": "passed"
+        },
+        {
+          "id": "freshness",
+          "description": "Screenshot is fresh.",
+          "status": "passed"
+        },
+        {
+          "id": "visual-quality",
+          "description": "Visual quality passed.",
+          "status": "passed"
+        },
+        {
+          "id": "regression-matrix",
+          "description": "Visual regression matrix is baseline-ready.",
+          "status": "passed"
+        }
+      ]
+    }
+  ]
+}

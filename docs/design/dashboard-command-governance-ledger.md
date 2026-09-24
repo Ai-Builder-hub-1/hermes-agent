@@ -1,6 +1,6 @@
 # Dashboard Command Governance Ledger
 
-Generated: 2026-09-24T02:26:41.355Z
+Generated: 2026-09-24T17:15:59.082Z
 
 ## Decision
 

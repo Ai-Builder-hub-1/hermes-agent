@@ -15,6 +15,12 @@ import {
   type DashboardLiveSourceGapLedger,
   type DashboardLiveSourceRouteGap,
 } from "./dashboard-live-source-gap-ledger-data";
+import {
+  loadDashboardOperationalMaturityPackets,
+  type DashboardOperationalMaturityLayer,
+  type DashboardOperationalMaturityPacket,
+  type DashboardOperationalMaturityPacketsReport,
+} from "./dashboard-operational-maturity-packets-data";
 
 type GovernanceFamily =
   | "Executive"
@@ -131,15 +137,22 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
   const [evidenceReport, setEvidenceReport] = useState<GeneratedDashboardRouteEvidenceBindingsReport | null>(null);
   const [maturityReport, setMaturityReport] = useState<GeneratedDashboardRouteMaturityReport | null>(null);
   const [liveSourceGapLedger, setLiveSourceGapLedger] = useState<DashboardLiveSourceGapLedger | null>(null);
+  const [operationalMaturityReport, setOperationalMaturityReport] = useState<DashboardOperationalMaturityPacketsReport | null>(null);
   const [runtimeError, setRuntimeError] = useState<string | null>(null);
   useEffect(() => {
     let active = true;
-    Promise.all([loadGeneratedDashboardRouteEvidenceBindings(), loadGeneratedDashboardRouteMaturity(), loadDashboardLiveSourceGapLedger()])
-      .then(([nextEvidenceReport, nextMaturityReport, nextLiveSourceGapLedger]) => {
+    Promise.all([
+      loadGeneratedDashboardRouteEvidenceBindings(),
+      loadGeneratedDashboardRouteMaturity(),
+      loadDashboardLiveSourceGapLedger(),
+      loadDashboardOperationalMaturityPackets(),
+    ])
+      .then(([nextEvidenceReport, nextMaturityReport, nextLiveSourceGapLedger, nextOperationalMaturityReport]) => {
         if (!active) return;
         setEvidenceReport(nextEvidenceReport);
         setMaturityReport(nextMaturityReport);
         setLiveSourceGapLedger(nextLiveSourceGapLedger);
+        setOperationalMaturityReport(nextOperationalMaturityReport);
       })
       .catch((error: unknown) => {
         if (!active) return;
@@ -161,6 +174,10 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
     () => new Map<string, DashboardLiveSourceRouteGap>((liveSourceGapLedger?.routeGaps ?? []).map((entry) => [entry.exportName, entry])),
     [liveSourceGapLedger]
   );
+  const operationalMaturityByExportName = useMemo(
+    () => new Map<string, DashboardOperationalMaturityPacket>((operationalMaturityReport?.packets ?? []).map((entry) => [entry.exportName, entry])),
+    [operationalMaturityReport]
+  );
   const spec = specsByExportName.get(exportName) ?? fallbackSpec(exportName);
   const metadata = metadataByRoute.get(spec.route);
   const dataContracts = metadata?.dataContracts ?? defaultDataContracts(spec.family);
@@ -169,8 +186,9 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
   const routeMaturity = maturityByExportName.get(spec.exportName);
   const evidenceBinding = evidenceBindingByExportName.get(spec.exportName);
   const liveSourceGap = liveSourceGapByExportName.get(spec.exportName);
+  const operationalMaturity = operationalMaturityByExportName.get(spec.exportName);
   const maturity = routeMaturity?.score ?? maturityFor(Boolean(metadata), dataContracts, requiredStates, validation);
-  const evidenceLoading = !evidenceReport || !maturityReport || !liveSourceGapLedger;
+  const evidenceLoading = !evidenceReport || !maturityReport || !liveSourceGapLedger || !operationalMaturityReport;
 
   return (
     <main
@@ -218,6 +236,7 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
           <MetricCard label="Payload" value={evidenceBinding?.payloadMaturity.status ?? (evidenceLoading ? "loading" : "unknown")} detail={evidenceBinding?.payloadMaturity.strategy ?? "Runtime asset split protects the generated route bundle."} />
           <MetricCard label="Validation" value={String(validation.length)} detail="Checks needed for handoff evidence." />
           <MetricCard label="Open Layers" value={String(routeMaturity?.openLayers.length ?? 0)} detail={routeMaturity?.nextOpenLayer ?? spec.proofFocus} />
+          <MetricCard label="Operational Layers" value={operationalMaturity ? `${operationalMaturity.totals.readyLayerCount}/${operationalMaturity.totals.layerCount}` : (evidenceLoading ? "loading" : "0/10")} detail={operationalMaturity ? `${operationalMaturity.totals.buildWorkCount} build items, ${operationalMaturity.totals.testProofCount} proof checks` : "The ten-layer operational packet is not loaded."} />
         </section>
 
         {runtimeError ? (
@@ -266,6 +285,17 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
           <ChecklistPanel title="State Coverage" items={requiredStates} />
           <ChecklistPanel title="Validation Evidence" items={validation} />
         </section>
+
+        {operationalMaturity ? (
+          <OperationalMaturitySection packet={operationalMaturity} />
+        ) : (
+          <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm" data-hdk-component="OperationalMaturityPacket">
+            <h2 className="text-base font-semibold text-slate-950">Operational Maturity</h2>
+            <p className="mt-3 text-sm leading-6 text-slate-600">
+              Loading the ten-layer operational packet for this route.
+            </p>
+          </section>
+        )}
 
         {liveSourceGap ? (
           <section className="grid gap-4 lg:grid-cols-3">
@@ -343,6 +373,98 @@ function GeneratedGovernancePage({ exportName }: { exportName: string }) {
         ) : null}
       </section>
     </main>
+  );
+}
+
+function OperationalMaturitySection({ packet }: { packet: DashboardOperationalMaturityPacket }) {
+  const layerGroups = [
+    packet.layers.slice(0, 5),
+    packet.layers.slice(5),
+  ];
+
+  return (
+    <section className="grid gap-4" data-hdk-component="OperationalMaturityPacket" data-review-id={`operational-${slugFor(packet.title)}`}>
+      <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.12em] text-slate-500">Operational Maturity</p>
+            <h2 className="mt-2 text-2xl font-semibold text-slate-950">Ten-layer build packet</h2>
+            <p className="mt-3 max-w-4xl text-sm leading-6 text-slate-600">{packet.primaryQuestion}</p>
+          </div>
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm">
+            <MiniFact label="Stage" value={packet.operationalStage} />
+            <MiniFact label="Score" value={`${packet.score}%`} />
+            <MiniFact label="Domain" value={packet.domain.label} />
+          </div>
+        </div>
+        <div className="mt-5 grid gap-3 md:grid-cols-3">
+          <ChecklistPanel title="Operator Decisions" items={packet.operatorDecisions} />
+          <ChecklistPanel title="Critical Failure States" items={packet.criticalFailureStates} />
+          <ChecklistPanel title="Rollup Signals" items={packet.rollupSignals} />
+        </div>
+      </div>
+
+      <div className="grid gap-4 xl:grid-cols-2">
+        {layerGroups.map((layers, groupIndex) => (
+          <div key={groupIndex} className="grid gap-4">
+            {layers.map((layer) => (
+              <OperationalLayerCard key={layer.id} layer={layer} />
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <section className="grid gap-4 lg:grid-cols-2">
+        <ChecklistPanel title="Shared Components To Build" items={packet.sharedComponents} />
+        <ChecklistPanel title="Data Contracts To Wire" items={packet.dataContracts} />
+      </section>
+    </section>
+  );
+}
+
+function OperationalLayerCard({ layer }: { layer: DashboardOperationalMaturityLayer }) {
+  return (
+    <article className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Layer {layer.order}</p>
+          <h3 className="mt-1 text-lg font-semibold text-slate-950">{layer.label}</h3>
+        </div>
+        <Badge>{layer.status}</Badge>
+      </div>
+      <p className="mt-3 text-sm leading-6 text-slate-600">{layer.objective}</p>
+      <div className="mt-4 grid gap-3 md:grid-cols-2">
+        <CompactList title="Build Work" items={layer.buildWork} />
+        <CompactList title="Acceptance" items={layer.acceptance} />
+        <CompactList title="Data" items={layer.dataRequirements} />
+        <CompactList title="Drilldowns" items={layer.drilldowns} />
+        <CompactList title="Actions" items={layer.actions} />
+        <CompactList title="Test Proof" items={layer.testProof} />
+      </div>
+      {layer.evidence.length ? (
+        <div className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 p-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-emerald-800">Existing Evidence</p>
+          <ul className="mt-2 space-y-1 text-xs leading-5 text-emerald-900">
+            {layer.evidence.slice(0, 5).map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+    </article>
+  );
+}
+
+function CompactList({ title, items }: { title: string; items: string[] }) {
+  return (
+    <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+      <h4 className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">{title}</h4>
+      <ul className="mt-2 space-y-1.5 text-xs leading-5 text-slate-700">
+        {items.slice(0, 4).map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
