@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T02:00:29.086Z",
+  "generatedAt": "2026-09-24T02:25:46.795Z",
   "purpose": "Fleet release readiness classifier for deciding what can be committed, what must be excluded, and what blocks deployment.",
   "rules": {
     "deployableSource": "Commit after the project validation/build/proof commands pass.",
@@ -14,7 +14,7 @@
   },
   "totals": {
     "projects": 10,
-    "dirtyProjects": 10,
+    "dirtyProjects": 1,
     "blockedProjects": 0,
     "needsReviewProjects": 0,
     "commitReadyProjects": 10,
@@ -28,10 +28,10 @@
       "projectRoot": ".",
       "productionUrl": "https://agent.tlccapitalgroup.com",
       "deployService": "nous-hermes-agent",
-      "dirtyCount": 48,
+      "dirtyCount": 19,
       "counts": {
-        "deployable-source": 31,
-        "generated-evidence": 17
+        "generated-evidence": 8,
+        "deployable-source": 11
       },
       "commitIntent": "mixed",
       "proofPolicy": "proof-or-generated-evidence-present-validate-before-ship",
@@ -45,16 +45,16 @@
       "entries": [
         {
           "status": "M ",
-          "path": ".hermes-dashboard.json",
+          "path": "docs/design/dashboard-command-governance-ledger.json",
           "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
+            "class": "generated-evidence",
+            "commitPolicy": "commit-with-generator",
+            "reason": "Generated governance/proof evidence; commit with its source or command evidence."
           }
         },
         {
           "status": " M",
-          "path": "docs/design/dashboard-certification-repair-playbooks.json",
+          "path": "docs/design/dashboard-command-governance-ledger.md",
           "classification": {
             "class": "generated-evidence",
             "commitPolicy": "commit-with-generator",
@@ -81,33 +81,6 @@
         },
         {
           "status": " M",
-          "path": "docs/design/dashboard-health-report.json",
-          "classification": {
-            "class": "generated-evidence",
-            "commitPolicy": "commit-with-generator",
-            "reason": "Generated governance/proof evidence; commit with its source or command evidence."
-          }
-        },
-        {
-          "status": " M",
-          "path": "docs/design/dashboard-live-e2e-registry.json",
-          "classification": {
-            "class": "generated-evidence",
-            "commitPolicy": "commit-with-generator",
-            "reason": "Generated governance/proof evidence; commit with its source or command evidence."
-          }
-        },
-        {
-          "status": " M",
-          "path": "docs/design/dashboard-live-health-report.json",
-          "classification": {
-            "class": "generated-evidence",
-            "commitPolicy": "commit-with-generator",
-            "reason": "Generated governance/proof evidence; commit with its source or command evidence."
-          }
-        },
-        {
-          "status": " M",
           "path": "docs/design/dashboard-live-source-gap-ledger.json",
           "classification": {
             "class": "generated-evidence",
@@ -118,33 +91,6 @@
         {
           "status": " M",
           "path": "docs/design/dashboard-live-source-gap-ledger.md",
-          "classification": {
-            "class": "generated-evidence",
-            "commitPolicy": "commit-with-generator",
-            "reason": "Generated governance/proof evidence; commit with its source or command evidence."
-          }
-        },
-        {
-          "status": " M",
-          "path": "docs/design/dashboard-monitoring-registry.json",
-          "classification": {
-            "class": "generated-evidence",
-            "commitPolicy": "commit-with-generator",
-            "reason": "Generated governance/proof evidence; commit with its source or command evidence."
-          }
-        },
-        {
-          "status": " M",
-          "path": "docs/design/dashboard-runtime-data-report.json",
-          "classification": {
-            "class": "generated-evidence",
-            "commitPolicy": "commit-with-generator",
-            "reason": "Generated governance/proof evidence; commit with its source or command evidence."
-          }
-        },
-        {
-          "status": " M",
-          "path": "docs/design/dashboard-runtime-data-report.md",
           "classification": {
             "class": "generated-evidence",
             "commitPolicy": "commit-with-generator",
@@ -198,43 +144,7 @@
         },
         {
           "status": " M",
-          "path": "docs/fleet/dashboard-certification-repair-execution-ledger.json",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "docs/fleet/dashboard-certification-repair-execution-ledger.md",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
           "path": "docs/fleet/dashboard-certification-repair-packets.json",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "docs/fleet/dashboard-certification-repair-supervisor.json",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "docs/fleet/dashboard-certification-repair-supervisor.md",
           "classification": {
             "class": "deployable-source",
             "commitPolicy": "commit-after-validation",
@@ -279,123 +189,6 @@
         },
         {
           "status": " M",
-          "path": "docs/fleet/fleet-ship-check.json",
-          "classification": {
-            "class": "generated-evidence",
-            "commitPolicy": "commit-with-generator",
-            "reason": "Generated governance/proof evidence; commit with its source or command evidence."
-          }
-        },
-        {
-          "status": " M",
-          "path": "docs/fleet/fleet-ship-check.md",
-          "classification": {
-            "class": "generated-evidence",
-            "commitPolicy": "commit-with-generator",
-            "reason": "Generated governance/proof evidence; commit with its source or command evidence."
-          }
-        },
-        {
-          "status": " M",
-          "path": "package.json",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "scripts/certify-dashboard-fleet.mjs",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "scripts/check-dashboard-live-e2e.mjs",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "scripts/check-dashboard-monitoring.mjs",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "scripts/fleet-ship-check.mjs",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "scripts/generate-dashboard-deployment-ledger.mjs",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "scripts/generate-fleet-release-readiness.mjs",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "scripts/generate-generated-dashboard-route-evidence-bindings.mjs",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "scripts/validate-dashboard-live-source-gap-ledger.mjs",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "scripts/validate-dashboard-maturity-reports.mjs",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "web/src/pages/DashboardKitGalleryPage.tsx",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
           "path": "web/src/pages/dashboard-live-source-gap-ledger.runtime.json",
           "classification": {
             "class": "deployable-source",
@@ -420,60 +213,6 @@
             "commitPolicy": "commit-after-validation",
             "reason": "Source, config, test, standard, or manifest change."
           }
-        },
-        {
-          "status": "??",
-          "path": "docs/design/comprehensive-dashboard-maturity-assessment.json",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": "??",
-          "path": "docs/design/comprehensive-dashboard-maturity-assessment.md",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": "??",
-          "path": "docs/design/dashboard-command-governance-ledger.json",
-          "classification": {
-            "class": "generated-evidence",
-            "commitPolicy": "commit-with-generator",
-            "reason": "Generated governance/proof evidence; commit with its source or command evidence."
-          }
-        },
-        {
-          "status": "??",
-          "path": "docs/design/dashboard-command-governance-ledger.md",
-          "classification": {
-            "class": "generated-evidence",
-            "commitPolicy": "commit-with-generator",
-            "reason": "Generated governance/proof evidence; commit with its source or command evidence."
-          }
-        },
-        {
-          "status": "??",
-          "path": "scripts/generate-dashboard-command-governance-ledger.mjs",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": "??",
-          "path": "scripts/validate-dashboard-command-governance-ledger.mjs",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
         }
       ]
     },
@@ -484,38 +223,17 @@
       "projectRoot": "../khashi-vc",
       "productionUrl": "https://roc.tlccapitalgroup.com/",
       "deployService": "khashi",
-      "dirtyCount": 2,
-      "counts": {
-        "deployable-source": 2
-      },
-      "commitIntent": "source-change",
-      "proofPolicy": "proof-required-for-ui-route-theme-or-dashboard-surface-changes",
+      "dirtyCount": 0,
+      "counts": {},
+      "commitIntent": "clean",
+      "proofPolicy": "proof-not-required",
       "cleanupActions": [
-        "run-project-validation-before-commit"
+        "no-cleanup-needed"
       ],
-      "recommendation": "commit-after-validation",
+      "recommendation": "clean",
       "commitReady": true,
       "deployReady": true,
-      "entries": [
-        {
-          "status": "M ",
-          "path": ".hermes-dashboard.json",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "public/roc/market-intelligence-live.html",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        }
-      ]
+      "entries": []
     },
     {
       "id": "media-engine.ops",
@@ -524,29 +242,17 @@
       "projectRoot": "../media-engine",
       "productionUrl": "https://media.tlccapitalgroup.com/dashboard",
       "deployService": "media-engine-dashboard",
-      "dirtyCount": 1,
-      "counts": {
-        "deployable-source": 1
-      },
-      "commitIntent": "source-change",
-      "proofPolicy": "proof-required-for-ui-route-theme-or-dashboard-surface-changes",
+      "dirtyCount": 0,
+      "counts": {},
+      "commitIntent": "clean",
+      "proofPolicy": "proof-not-required",
       "cleanupActions": [
-        "run-project-validation-before-commit"
+        "no-cleanup-needed"
       ],
-      "recommendation": "commit-after-validation",
+      "recommendation": "clean",
       "commitReady": true,
       "deployReady": true,
-      "entries": [
-        {
-          "status": "M ",
-          "path": ".hermes-dashboard.json",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        }
-      ]
+      "entries": []
     },
     {
       "id": "media-business-operations.main",
@@ -555,47 +261,17 @@
       "projectRoot": "../media-business-operations",
       "productionUrl": "https://media-business-operations.tlccapitalgroup.com/dashboard",
       "deployService": "media-business-operations",
-      "dirtyCount": 3,
-      "counts": {
-        "deployable-source": 3
-      },
-      "commitIntent": "source-change",
-      "proofPolicy": "proof-required-for-ui-route-theme-or-dashboard-surface-changes",
+      "dirtyCount": 0,
+      "counts": {},
+      "commitIntent": "clean",
+      "proofPolicy": "proof-not-required",
       "cleanupActions": [
-        "run-project-validation-before-commit"
+        "no-cleanup-needed"
       ],
-      "recommendation": "commit-after-validation",
+      "recommendation": "clean",
       "commitReady": true,
       "deployReady": true,
-      "entries": [
-        {
-          "status": "M ",
-          "path": ".hermes-dashboard.json",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "frontend/src/main.tsx",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "public/dashboard/app.js",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        }
-      ]
+      "entries": []
     },
     {
       "id": "business-mapper.workspace",
@@ -604,38 +280,17 @@
       "projectRoot": "../business-mapper",
       "productionUrl": "https://business-mapper.tlccapitalgroup.com/dashboard",
       "deployService": "business-mapper",
-      "dirtyCount": 2,
-      "counts": {
-        "deployable-source": 2
-      },
-      "commitIntent": "source-change",
-      "proofPolicy": "proof-required-for-ui-route-theme-or-dashboard-surface-changes",
+      "dirtyCount": 0,
+      "counts": {},
+      "commitIntent": "clean",
+      "proofPolicy": "proof-not-required",
       "cleanupActions": [
-        "run-project-validation-before-commit"
+        "no-cleanup-needed"
       ],
-      "recommendation": "commit-after-validation",
+      "recommendation": "clean",
       "commitReady": true,
       "deployReady": true,
-      "entries": [
-        {
-          "status": "M ",
-          "path": ".hermes-dashboard.json",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "business_mapper/static/index.html",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        }
-      ]
+      "entries": []
     },
     {
       "id": "meal-assistant.main",
@@ -644,29 +299,17 @@
       "projectRoot": "../Meal-assistant",
       "productionUrl": "https://meal.tlccapitalgroup.com/",
       "deployService": "meal-assistant",
-      "dirtyCount": 1,
-      "counts": {
-        "deployable-source": 1
-      },
-      "commitIntent": "source-change",
-      "proofPolicy": "proof-required-for-ui-route-theme-or-dashboard-surface-changes",
+      "dirtyCount": 0,
+      "counts": {},
+      "commitIntent": "clean",
+      "proofPolicy": "proof-not-required",
       "cleanupActions": [
-        "run-project-validation-before-commit"
+        "no-cleanup-needed"
       ],
-      "recommendation": "commit-after-validation",
+      "recommendation": "clean",
       "commitReady": true,
       "deployReady": true,
-      "entries": [
-        {
-          "status": "M ",
-          "path": ".hermes-dashboard.json",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        }
-      ]
+      "entries": []
     },
     {
       "id": "rinseables-os.main",
@@ -675,38 +318,17 @@
       "projectRoot": "../rinseables-os",
       "productionUrl": "https://rinseables.tlccapitalgroup.com",
       "deployService": "rinseables-os",
-      "dirtyCount": 2,
-      "counts": {
-        "deployable-source": 2
-      },
-      "commitIntent": "source-change",
-      "proofPolicy": "proof-required-for-ui-route-theme-or-dashboard-surface-changes",
+      "dirtyCount": 0,
+      "counts": {},
+      "commitIntent": "clean",
+      "proofPolicy": "proof-not-required",
       "cleanupActions": [
-        "run-project-validation-before-commit"
+        "no-cleanup-needed"
       ],
-      "recommendation": "commit-after-validation",
+      "recommendation": "clean",
       "commitReady": true,
       "deployReady": true,
-      "entries": [
-        {
-          "status": "M ",
-          "path": ".hermes-dashboard.json",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "public/dashboard/index.html",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        }
-      ]
+      "entries": []
     },
     {
       "id": "investing-system.roc",
@@ -715,29 +337,17 @@
       "projectRoot": "../investing-system",
       "productionUrl": "https://investing.tlccapitalgroup.com/roc",
       "deployService": "investing-system",
-      "dirtyCount": 1,
-      "counts": {
-        "deployable-source": 1
-      },
-      "commitIntent": "source-change",
-      "proofPolicy": "proof-required-for-ui-route-theme-or-dashboard-surface-changes",
+      "dirtyCount": 0,
+      "counts": {},
+      "commitIntent": "clean",
+      "proofPolicy": "proof-not-required",
       "cleanupActions": [
-        "run-project-validation-before-commit"
+        "no-cleanup-needed"
       ],
-      "recommendation": "commit-after-validation",
+      "recommendation": "clean",
       "commitReady": true,
       "deployReady": true,
-      "entries": [
-        {
-          "status": "M ",
-          "path": ".hermes-dashboard.json",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        }
-      ]
+      "entries": []
     },
     {
       "id": "hermes.workspace",
@@ -746,56 +356,17 @@
       "projectRoot": "../hermes",
       "productionUrl": "https://hermes.tlccapitalgroup.com/",
       "deployService": "hermes",
-      "dirtyCount": 4,
-      "counts": {
-        "deployable-source": 4
-      },
-      "commitIntent": "source-change",
-      "proofPolicy": "proof-required-for-ui-route-theme-or-dashboard-surface-changes",
+      "dirtyCount": 0,
+      "counts": {},
+      "commitIntent": "clean",
+      "proofPolicy": "proof-not-required",
       "cleanupActions": [
-        "run-project-validation-before-commit"
+        "no-cleanup-needed"
       ],
-      "recommendation": "commit-after-validation",
+      "recommendation": "clean",
       "commitReady": true,
       "deployReady": true,
-      "entries": [
-        {
-          "status": "M ",
-          "path": ".hermes-dashboard.json",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "src/operator/control-plane.ts",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "src/operator/operator-state.ts",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "src/workspace/workspace-server.ts",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        }
-      ]
+      "entries": []
     },
     {
       "id": "tlc-capital-group-os.main",
@@ -804,38 +375,17 @@
       "projectRoot": "../tlc-capital-group-os",
       "productionUrl": "https://tlc.tlccapitalgroup.com/dashboard",
       "deployService": "tlc-capital-group-os",
-      "dirtyCount": 2,
-      "counts": {
-        "deployable-source": 2
-      },
-      "commitIntent": "source-change",
-      "proofPolicy": "proof-required-for-ui-route-theme-or-dashboard-surface-changes",
+      "dirtyCount": 0,
+      "counts": {},
+      "commitIntent": "clean",
+      "proofPolicy": "proof-not-required",
       "cleanupActions": [
-        "run-project-validation-before-commit"
+        "no-cleanup-needed"
       ],
-      "recommendation": "commit-after-validation",
+      "recommendation": "clean",
       "commitReady": true,
       "deployReady": true,
-      "entries": [
-        {
-          "status": "M ",
-          "path": ".hermes-dashboard.json",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        },
-        {
-          "status": " M",
-          "path": "public/dashboard/index.html",
-          "classification": {
-            "class": "deployable-source",
-            "commitPolicy": "commit-after-validation",
-            "reason": "Source, config, test, standard, or manifest change."
-          }
-        }
-      ]
+      "entries": []
     }
   ]
 }

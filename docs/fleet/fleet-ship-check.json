@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T02:00:31.382Z",
+  "generatedAt": "2026-09-24T02:25:49.103Z",
   "mode": "standard",
   "safeToCommit": true,
   "safeToDeploy": true,
   "summary": {
     "steps": 13,
     "failedSteps": 0,
-    "dirtyProjects": 10,
+    "dirtyProjects": 1,
     "blockedProjects": 0,
     "needsReviewProjects": 0,
     "commitReadyProjects": 10,
@@ -20,8 +20,8 @@
       "id": "release-readiness",
       "label": "Release readiness",
       "command": "npm run fleet:release-readiness",
-      "startedAt": "2026-09-24T02:00:27.811Z",
-      "finishedAt": "2026-09-24T02:00:28.674Z",
+      "startedAt": "2026-09-24T02:25:45.598Z",
+      "finishedAt": "2026-09-24T02:25:46.137Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -29,7 +29,7 @@
         "> node scripts/generate-fleet-release-readiness.mjs",
         "",
         "Wrote docs/fleet/fleet-release-readiness.json and docs/fleet/fleet-release-readiness.md",
-        "Fleet release readiness: 10 dirty project(s), 0 blocked, 0 needs review."
+        "Fleet release readiness: 1 dirty project(s), 0 blocked, 0 needs review."
       ],
       "stderrTail": []
     },
@@ -37,8 +37,8 @@
       "id": "release-readiness-validate",
       "label": "Release readiness schema",
       "command": "npm run fleet:release-readiness:validate",
-      "startedAt": "2026-09-24T02:00:28.674Z",
-      "finishedAt": "2026-09-24T02:00:28.856Z",
+      "startedAt": "2026-09-24T02:25:46.137Z",
+      "finishedAt": "2026-09-24T02:25:46.484Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -53,8 +53,8 @@
       "id": "release-readiness-strict",
       "label": "Release readiness strict gate",
       "command": "npm run fleet:release-readiness:strict",
-      "startedAt": "2026-09-24T02:00:28.856Z",
-      "finishedAt": "2026-09-24T02:00:29.099Z",
+      "startedAt": "2026-09-24T02:25:46.484Z",
+      "finishedAt": "2026-09-24T02:25:46.809Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -62,7 +62,7 @@
         "> node scripts/generate-fleet-release-readiness.mjs --strict",
         "",
         "Wrote docs/fleet/fleet-release-readiness.json and docs/fleet/fleet-release-readiness.md",
-        "Fleet release readiness: 10 dirty project(s), 0 blocked, 0 needs review."
+        "Fleet release readiness: 1 dirty project(s), 0 blocked, 0 needs review."
       ],
       "stderrTail": []
     },
@@ -70,8 +70,8 @@
       "id": "web-build-budget",
       "label": "Web build budget",
       "command": "npm run dashboard:web:build-budget",
-      "startedAt": "2026-09-24T02:00:29.099Z",
-      "finishedAt": "2026-09-24T02:00:29.269Z",
+      "startedAt": "2026-09-24T02:25:46.809Z",
+      "finishedAt": "2026-09-24T02:25:47.030Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -92,8 +92,8 @@
       "id": "dashboard-governance",
       "label": "Dashboard governance",
       "command": "npm run dashboard:governance:validate",
-      "startedAt": "2026-09-24T02:00:29.269Z",
-      "finishedAt": "2026-09-24T02:00:29.471Z",
+      "startedAt": "2026-09-24T02:25:47.030Z",
+      "finishedAt": "2026-09-24T02:25:47.244Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -108,8 +108,8 @@
       "id": "dashboard-command-governance-report",
       "label": "Dashboard command governance report",
       "command": "npm run dashboard:command-governance:report",
-      "startedAt": "2026-09-24T02:00:29.471Z",
-      "finishedAt": "2026-09-24T02:00:29.690Z",
+      "startedAt": "2026-09-24T02:25:47.244Z",
+      "finishedAt": "2026-09-24T02:25:47.440Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -124,8 +124,8 @@
       "id": "dashboard-command-governance",
       "label": "Dashboard command governance validation",
       "command": "npm run dashboard:command-governance:validate",
-      "startedAt": "2026-09-24T02:00:29.690Z",
-      "finishedAt": "2026-09-24T02:00:29.926Z",
+      "startedAt": "2026-09-24T02:25:47.440Z",
+      "finishedAt": "2026-09-24T02:25:47.648Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -140,8 +140,8 @@
       "id": "dashboard-certification-report",
       "label": "Dashboard certification report",
       "command": "npm run dashboard:certify",
-      "startedAt": "2026-09-24T02:00:29.926Z",
-      "finishedAt": "2026-09-24T02:00:30.263Z",
+      "startedAt": "2026-09-24T02:25:47.648Z",
+      "finishedAt": "2026-09-24T02:25:47.972Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -161,8 +161,8 @@
       "id": "dashboard-certification-artifacts",
       "label": "Dashboard certification artifact validation",
       "command": "npm run dashboard:certify:validate:strict",
-      "startedAt": "2026-09-24T02:00:30.263Z",
-      "finishedAt": "2026-09-24T02:00:30.492Z",
+      "startedAt": "2026-09-24T02:25:47.973Z",
+      "finishedAt": "2026-09-24T02:25:48.174Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -177,8 +177,8 @@
       "id": "dashboard-certification-repair",
       "label": "Dashboard certification repair supervisor",
       "command": "npm run dashboard:certify:repair",
-      "startedAt": "2026-09-24T02:00:30.492Z",
-      "finishedAt": "2026-09-24T02:00:30.707Z",
+      "startedAt": "2026-09-24T02:25:48.174Z",
+      "finishedAt": "2026-09-24T02:25:48.368Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -196,8 +196,8 @@
       "id": "dashboard-certification-repair-validation",
       "label": "Dashboard certification repair validation",
       "command": "npm run dashboard:certify:repair:validate:strict",
-      "startedAt": "2026-09-24T02:00:30.707Z",
-      "finishedAt": "2026-09-24T02:00:30.894Z",
+      "startedAt": "2026-09-24T02:25:48.368Z",
+      "finishedAt": "2026-09-24T02:25:48.563Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -212,8 +212,8 @@
       "id": "dashboard-certification-repair-execution",
       "label": "Dashboard certification repair execution ledger",
       "command": "npm run dashboard:certify:repair:execute:strict",
-      "startedAt": "2026-09-24T02:00:30.894Z",
-      "finishedAt": "2026-09-24T02:00:31.091Z",
+      "startedAt": "2026-09-24T02:25:48.563Z",
+      "finishedAt": "2026-09-24T02:25:48.758Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -230,8 +230,8 @@
       "id": "dashboard-certification",
       "label": "Dashboard certification pre-deploy gate",
       "command": "npm run dashboard:certify:strict",
-      "startedAt": "2026-09-24T02:00:31.091Z",
-      "finishedAt": "2026-09-24T02:00:31.382Z",
+      "startedAt": "2026-09-24T02:25:48.758Z",
+      "finishedAt": "2026-09-24T02:25:49.102Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [

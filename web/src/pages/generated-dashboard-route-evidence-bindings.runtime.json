@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T01:22:25.153Z",
+  "generatedAt": "2026-09-24T02:25:41.292Z",
   "purpose": "Binds generated dashboard routes to existing dashboard evidence reports so data-binding, observability, and evidence drill-down maturity can advance in measurable bands.",
   "sourceReports": {
     "telemetry": "docs/design/dashboard-telemetry-contract-report.json",
@@ -179,7 +179,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -199,7 +199,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -723,7 +723,7 @@
         "route": "/hermes-os",
         "owner": "Executive dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -807,7 +807,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -908,7 +908,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -928,7 +928,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -1452,7 +1452,7 @@
         "route": "/design-system",
         "owner": "Design System dashboard owner",
         "sla": "1 business day acknowledgement",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -1536,7 +1536,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -1637,7 +1637,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -1657,7 +1657,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -2181,7 +2181,7 @@
         "route": "/design-intelligence",
         "owner": "Design System dashboard owner",
         "sla": "1 business day acknowledgement",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -2265,7 +2265,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -2366,7 +2366,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -2386,7 +2386,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -2936,7 +2936,7 @@
         "route": "/dashboard-migrations",
         "owner": "Operations dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -3020,7 +3020,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -3121,7 +3121,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -3141,7 +3141,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -3665,7 +3665,7 @@
         "route": "/executive-summary",
         "owner": "Executive dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -3749,7 +3749,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -3850,7 +3850,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -3870,7 +3870,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -4394,7 +4394,7 @@
         "route": "/executive-briefing",
         "owner": "Executive dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -4478,7 +4478,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -4579,7 +4579,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -4599,7 +4599,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -5123,7 +5123,7 @@
         "route": "/central-command",
         "owner": "Executive operations owner",
         "sla": "15 minute acknowledgement, 1 hour recovery target",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -5207,7 +5207,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -5308,7 +5308,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -5328,7 +5328,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -5852,7 +5852,7 @@
         "route": "/theme-system",
         "owner": "Design System dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -5936,7 +5936,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -6037,7 +6037,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -6057,7 +6057,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -6581,7 +6581,7 @@
         "route": "/dashboard-marketplace",
         "owner": "Design System dashboard owner",
         "sla": "1 business day acknowledgement",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -6665,7 +6665,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -6766,7 +6766,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -6786,7 +6786,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -7310,7 +7310,7 @@
         "route": "/dashboard-prototypes",
         "owner": "Design System dashboard owner",
         "sla": "1 business day acknowledgement",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -7394,7 +7394,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -7495,7 +7495,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -7515,7 +7515,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -8065,7 +8065,7 @@
         "route": "/hermes-command",
         "owner": "Design System dashboard owner",
         "sla": "1 business day acknowledgement",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -8149,7 +8149,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -8250,7 +8250,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -8270,7 +8270,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -8820,7 +8820,7 @@
         "route": "/live-signals",
         "owner": "Operations dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -8904,7 +8904,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -9005,7 +9005,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -9025,7 +9025,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -9575,7 +9575,7 @@
         "route": "/task-routing",
         "owner": "Agents dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -9659,7 +9659,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -9760,7 +9760,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -9780,7 +9780,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -10330,7 +10330,7 @@
         "route": "/decision-ledger",
         "owner": "Operations dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -10414,7 +10414,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -10515,7 +10515,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -10535,7 +10535,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -11085,7 +11085,7 @@
         "route": "/model-routing",
         "owner": "Agents dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -11169,7 +11169,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -11270,7 +11270,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -11290,7 +11290,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -11840,7 +11840,7 @@
         "route": "/operating-loops",
         "owner": "Agents dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -11924,7 +11924,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -12025,7 +12025,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -12045,7 +12045,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -12588,7 +12588,7 @@
         "route": "/permission-security",
         "owner": "Security platform owner",
         "sla": "1 hour acknowledgement, same-day recovery target",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -12672,7 +12672,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -12773,7 +12773,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -12793,7 +12793,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -13317,7 +13317,7 @@
         "route": "/business-os",
         "owner": "Executive dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -13401,7 +13401,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -13502,7 +13502,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -13522,7 +13522,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -14072,7 +14072,7 @@
         "route": "/project-snapshots",
         "owner": "Operations dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -14156,7 +14156,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -14257,7 +14257,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -14277,7 +14277,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -14833,7 +14833,7 @@
         "route": "/durable-memory",
         "owner": "Data dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -14917,7 +14917,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -15018,7 +15018,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -15038,7 +15038,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -15581,7 +15581,7 @@
         "route": "/permission-runtime",
         "owner": "Security platform owner",
         "sla": "1 hour acknowledgement, same-day recovery target",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -15665,7 +15665,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -15766,7 +15766,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -15786,7 +15786,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -16329,7 +16329,7 @@
         "route": "/cost-governor",
         "owner": "Finance platform owner",
         "sla": "1 hour acknowledgement, same-day recovery target",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -16413,7 +16413,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -16514,7 +16514,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -16534,7 +16534,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -17084,7 +17084,7 @@
         "route": "/loop-runner",
         "owner": "Agents dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -17168,7 +17168,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -17269,7 +17269,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -17289,7 +17289,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -17839,7 +17839,7 @@
         "route": "/business-command",
         "owner": "Operations dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -17923,7 +17923,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -18024,7 +18024,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -18044,7 +18044,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -18594,7 +18594,7 @@
         "route": "/agent-workbench",
         "owner": "Agents dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -18678,7 +18678,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -18779,7 +18779,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -18799,7 +18799,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -19342,7 +19342,7 @@
         "route": "/evaluation-gates",
         "owner": "Security dashboard owner",
         "sla": "1 business day acknowledgement",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -19426,7 +19426,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -19527,7 +19527,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -19547,7 +19547,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -20097,7 +20097,7 @@
         "route": "/autonomy-readiness",
         "owner": "Agents dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -20181,7 +20181,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -20282,7 +20282,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -20302,7 +20302,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -20852,7 +20852,7 @@
         "route": "/project-registry",
         "owner": "Operations dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -20936,7 +20936,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -21037,7 +21037,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -21057,7 +21057,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -21607,7 +21607,7 @@
         "route": "/project-plan-command",
         "owner": "Operations dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -21691,7 +21691,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -21792,7 +21792,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -21812,7 +21812,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -22368,7 +22368,7 @@
         "route": "/telemetry-fabric",
         "owner": "Data platform owner",
         "sla": "1 hour acknowledgement, same-day recovery target",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -22452,7 +22452,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -22553,7 +22553,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -22573,7 +22573,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -23123,7 +23123,7 @@
         "route": "/incident-command",
         "owner": "Operations operations owner",
         "sla": "15 minute acknowledgement, 1 hour recovery target",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -23207,7 +23207,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -23308,7 +23308,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -23328,7 +23328,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -23864,7 +23864,7 @@
         "route": "/deployment-promotion",
         "owner": "Deployment platform owner",
         "sla": "1 hour acknowledgement, same-day recovery target",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -23948,7 +23948,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -24049,7 +24049,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -24069,7 +24069,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -24612,7 +24612,7 @@
         "route": "/secrets-posture",
         "owner": "Security operations owner",
         "sla": "15 minute acknowledgement, 1 hour recovery target",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -24696,7 +24696,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -24797,7 +24797,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -24817,7 +24817,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -25373,7 +25373,7 @@
         "route": "/data-source-catalog",
         "owner": "Data platform owner",
         "sla": "1 hour acknowledgement, same-day recovery target",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -25457,7 +25457,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -25558,7 +25558,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -25578,7 +25578,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -26121,7 +26121,7 @@
         "route": "/finance-attribution",
         "owner": "Finance dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -26205,7 +26205,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -26306,7 +26306,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -26326,7 +26326,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -26850,7 +26850,7 @@
         "route": "/learning-engine",
         "owner": "Learning dashboard owner",
         "sla": "1 business day acknowledgement",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -26934,7 +26934,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -27035,7 +27035,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -27055,7 +27055,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -27605,7 +27605,7 @@
         "route": "/agent-eval-lab",
         "owner": "Learning dashboard owner",
         "sla": "1 business day acknowledgement",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -27689,7 +27689,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -27790,7 +27790,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -27810,7 +27810,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -28334,7 +28334,7 @@
         "route": "/executive-cockpit",
         "owner": "Executive dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -28418,7 +28418,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -28519,7 +28519,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -28539,7 +28539,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -29075,7 +29075,7 @@
         "route": "/production-verification",
         "owner": "Deployment operations owner",
         "sla": "15 minute acknowledgement, 1 hour recovery target",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -29159,7 +29159,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -29260,7 +29260,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -29280,7 +29280,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -29823,7 +29823,7 @@
         "route": "/command-gate-runtime",
         "owner": "Security dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -29907,7 +29907,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -30008,7 +30008,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -30028,7 +30028,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -30584,7 +30584,7 @@
         "route": "/telemetry-adapter-kit",
         "owner": "Adapters platform owner",
         "sla": "1 hour acknowledgement, same-day recovery target",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -30668,7 +30668,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -30769,7 +30769,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -30789,7 +30789,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -31339,7 +31339,7 @@
         "route": "/incident-ingestion",
         "owner": "Operations operations owner",
         "sla": "15 minute acknowledgement, 1 hour recovery target",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -31423,7 +31423,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -31524,7 +31524,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -31544,7 +31544,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -32094,7 +32094,7 @@
         "route": "/promotion-runner",
         "owner": "Deployment dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -32178,7 +32178,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -32279,7 +32279,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -32299,7 +32299,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -32842,7 +32842,7 @@
         "route": "/secret-scanner",
         "owner": "Security operations owner",
         "sla": "15 minute acknowledgement, 1 hour recovery target",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -32926,7 +32926,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -33027,7 +33027,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -33047,7 +33047,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -33590,7 +33590,7 @@
         "route": "/cost-attribution-engine",
         "owner": "Finance platform owner",
         "sla": "1 hour acknowledgement, same-day recovery target",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -33674,7 +33674,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -33775,7 +33775,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -33795,7 +33795,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -34319,7 +34319,7 @@
         "route": "/learning-ingestion",
         "owner": "Learning dashboard owner",
         "sla": "1 business day acknowledgement",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -34403,7 +34403,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -34504,7 +34504,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -34524,7 +34524,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -35074,7 +35074,7 @@
         "route": "/model-eval-harness",
         "owner": "Learning dashboard owner",
         "sla": "1 business day acknowledgement",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -35158,7 +35158,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -35259,7 +35259,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -35279,7 +35279,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -35822,7 +35822,7 @@
         "route": "/circuit-breakers",
         "owner": "Security dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -35906,7 +35906,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -36007,7 +36007,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -36027,7 +36027,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -36563,7 +36563,7 @@
         "route": "/production-sweep",
         "owner": "Deployment operations owner",
         "sla": "15 minute acknowledgement, 1 hour recovery target",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -36647,7 +36647,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -36748,7 +36748,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -36768,7 +36768,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -37304,7 +37304,7 @@
         "route": "/hetzner-promotion-execution",
         "owner": "Deployment dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -37388,7 +37388,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -37489,7 +37489,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -37509,7 +37509,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -38052,7 +38052,7 @@
         "route": "/command-gate-coverage",
         "owner": "Security dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -38136,7 +38136,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -38237,7 +38237,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -38257,7 +38257,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -38781,7 +38781,7 @@
         "route": "/project-adapter-rollout",
         "owner": "Adapters dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -38865,7 +38865,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -38966,7 +38966,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -38986,7 +38986,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -39536,7 +39536,7 @@
         "route": "/incident-automation",
         "owner": "Operations operations owner",
         "sla": "15 minute acknowledgement, 1 hour recovery target",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -39620,7 +39620,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -39721,7 +39721,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -39741,7 +39741,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -40284,7 +40284,7 @@
         "route": "/live-secret-scan",
         "owner": "Security operations owner",
         "sla": "15 minute acknowledgement, 1 hour recovery target",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -40368,7 +40368,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -40469,7 +40469,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -40489,7 +40489,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -41032,7 +41032,7 @@
         "route": "/cost-reconciliation",
         "owner": "Finance platform owner",
         "sla": "1 hour acknowledgement, same-day recovery target",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -41116,7 +41116,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -41217,7 +41217,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -41237,7 +41237,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -41761,7 +41761,7 @@
         "route": "/outcome-learning-feeds",
         "owner": "Learning dashboard owner",
         "sla": "1 business day acknowledgement",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -41845,7 +41845,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -41946,7 +41946,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -41966,7 +41966,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -42490,7 +42490,7 @@
         "route": "/golden-eval-execution",
         "owner": "Learning dashboard owner",
         "sla": "1 business day acknowledgement",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -42574,7 +42574,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -42675,7 +42675,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -42695,7 +42695,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -43238,7 +43238,7 @@
         "route": "/hard-breaker-enforcement",
         "owner": "Security operations owner",
         "sla": "15 minute acknowledgement, 1 hour recovery target",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -43322,7 +43322,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -43423,7 +43423,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -43443,7 +43443,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -43981,7 +43981,7 @@
         "route": "/network-runner-adapter",
         "owner": "Adapters dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -44065,7 +44065,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -44166,7 +44166,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -44186,7 +44186,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -44710,7 +44710,7 @@
         "route": "/hetzner-ssh-adapter",
         "owner": "Adapters dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -44794,7 +44794,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -44895,7 +44895,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -44915,7 +44915,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -45458,7 +45458,7 @@
         "route": "/secret-provider-adapter",
         "owner": "Security operations owner",
         "sla": "15 minute acknowledgement, 1 hour recovery target",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -45542,7 +45542,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -45643,7 +45643,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -45663,7 +45663,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -46206,7 +46206,7 @@
         "route": "/billing-provider-adapter",
         "owner": "Finance dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -46290,7 +46290,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -46391,7 +46391,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -46411,7 +46411,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -46935,7 +46935,7 @@
         "route": "/project-outcome-emitter",
         "owner": "Learning dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -47019,7 +47019,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -47120,7 +47120,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -47140,7 +47140,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -47678,7 +47678,7 @@
         "route": "/provider-eval-runner",
         "owner": "Learning dashboard owner",
         "sla": "1 business day acknowledgement",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -47762,7 +47762,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -47863,7 +47863,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -47883,7 +47883,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -48426,7 +48426,7 @@
         "route": "/breaker-middleware",
         "owner": "Security dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -48510,7 +48510,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -48611,7 +48611,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -48631,7 +48631,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -49213,7 +49213,7 @@
         "route": "/incident-subscriptions",
         "owner": "Data operations owner",
         "sla": "15 minute acknowledgement, 1 hour recovery target",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -49297,7 +49297,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -49398,7 +49398,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -49418,7 +49418,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -49974,7 +49974,7 @@
         "route": "/evidence-artifact-store",
         "owner": "Data dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -50058,7 +50058,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",
@@ -50159,7 +50159,7 @@
       "freshnessStatus": "current-evidence",
       "freshnessPolicy": {
         "slaDays": 14,
-        "generatedAt": "2026-09-24T01:22:25.153Z",
+        "generatedAt": "2026-09-24T02:25:41.292Z",
         "status": "current-evidence",
         "staleReasonCount": 0
       },
@@ -50179,7 +50179,7 @@
           "stale reason list",
           "next refresh action"
         ],
-        "lastGeneratedAt": "2026-09-24T01:22:25.153Z",
+        "lastGeneratedAt": "2026-09-24T02:25:41.292Z",
         "nextRefreshAction": "Keep the freshness guard active and refresh on the normal evidence cadence."
       },
       "operationalCategories": [
@@ -50715,7 +50715,7 @@
         "route": "/release-train-orchestrator",
         "owner": "Deployment dashboard owner",
         "sla": "best-effort dashboard maintenance",
-        "lastVerifiedAt": "2026-09-24T01:22:25.153Z",
+        "lastVerifiedAt": "2026-09-24T02:25:41.292Z",
         "productionProof": [
           "generated route is registered and served by production build",
           "runtime evidence asset is emitted and fetchable by generated route",
@@ -50799,7 +50799,7 @@
           "status": "current",
           "freshness": "current",
           "matchedId": "nous-hermes-agent.dashboard",
-          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-10T22-20-03Z; promotion succeeded."
+          "detail": "Deployment source promotion-evidence:nous-hermes-agent-2026-09-24T02-08-48Z; promotion succeeded."
         },
         {
           "kind": "runtimeData",

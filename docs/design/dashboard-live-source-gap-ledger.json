@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T01:22:25.540Z",
+  "generatedAt": "2026-09-24T02:25:41.802Z",
   "source": "docs/design/generated-dashboard-route-evidence-bindings.json",
   "purpose": "Tracks remaining live-source replacement and command enablement work after generated dashboard route maturity reached production-ready governance.",
   "policy": {

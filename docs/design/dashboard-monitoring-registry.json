@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T01:59:44.394Z",
+  "generatedAt": "2026-09-24T02:26:05.054Z",
   "purpose": "Dashboard monitoring evidence registry for production health, freshness, and alert ownership.",
   "statusMeaning": {
     "current": "Monitoring is connected and latestCheck evidence is present.",
@@ -25,18 +25,18 @@
       ],
       "latestCheck": {
         "status": "passed",
-        "capturedAt": "2026-09-24T01:59:44.394Z",
+        "capturedAt": "2026-09-24T02:26:05.054Z",
         "checks": {
           "health": {
             "ok": true,
             "status": 200,
-            "ms": 64,
+            "ms": 129,
             "contentType": "application/json"
           },
           "snapshot": {
             "ok": true,
             "status": 200,
-            "ms": 46,
+            "ms": 54,
             "contentType": "application/json"
           }
         }
@@ -60,18 +60,18 @@
       ],
       "latestCheck": {
         "status": "passed",
-        "capturedAt": "2026-09-24T01:59:44.394Z",
+        "capturedAt": "2026-09-24T02:26:05.054Z",
         "checks": {
           "health": {
             "ok": true,
             "status": 200,
-            "ms": 57,
+            "ms": 65,
             "contentType": "application/json"
           },
           "snapshot": {
             "ok": true,
             "status": 200,
-            "ms": 23,
+            "ms": 57,
             "contentType": "application/json"
           }
         }
@@ -95,12 +95,12 @@
       ],
       "latestCheck": {
         "status": "passed",
-        "capturedAt": "2026-09-24T01:59:44.394Z",
+        "capturedAt": "2026-09-24T02:26:05.054Z",
         "checks": {
           "health": {
             "ok": true,
             "status": 200,
-            "ms": 13,
+            "ms": 19,
             "contentType": "application/json"
           },
           "snapshot": {
@@ -130,18 +130,18 @@
       ],
       "latestCheck": {
         "status": "passed",
-        "capturedAt": "2026-09-24T01:59:44.394Z",
+        "capturedAt": "2026-09-24T02:26:05.054Z",
         "checks": {
           "health": {
             "ok": true,
             "status": 200,
-            "ms": 11,
+            "ms": 15,
             "contentType": "application/json"
           },
           "snapshot": {
             "ok": true,
             "status": 200,
-            "ms": 1015,
+            "ms": 1973,
             "contentType": "application/json"
           }
         }
@@ -165,18 +165,18 @@
       ],
       "latestCheck": {
         "status": "passed",
-        "capturedAt": "2026-09-24T01:59:44.394Z",
+        "capturedAt": "2026-09-24T02:26:05.054Z",
         "checks": {
           "health": {
             "ok": true,
             "status": 200,
-            "ms": 13,
+            "ms": 52,
             "contentType": "application/json"
           },
           "snapshot": {
             "ok": true,
             "status": 200,
-            "ms": 983,
+            "ms": 2110,
             "contentType": "application/json"
           }
         }
@@ -200,18 +200,18 @@
       ],
       "latestCheck": {
         "status": "passed",
-        "capturedAt": "2026-09-24T01:59:44.394Z",
+        "capturedAt": "2026-09-24T02:26:05.054Z",
         "checks": {
           "health": {
             "ok": true,
             "status": 200,
-            "ms": 30,
+            "ms": 90,
             "contentType": "application/json"
           },
           "snapshot": {
             "ok": true,
             "status": 200,
-            "ms": 7981,
+            "ms": 684,
             "contentType": "application/json"
           }
         }
@@ -235,18 +235,18 @@
       ],
       "latestCheck": {
         "status": "passed",
-        "capturedAt": "2026-09-24T01:59:44.394Z",
+        "capturedAt": "2026-09-24T02:26:05.054Z",
         "checks": {
           "health": {
             "ok": true,
             "status": 200,
-            "ms": 117,
+            "ms": 32,
             "contentType": "application/json; charset=utf-8"
           },
           "snapshot": {
             "ok": true,
             "status": 200,
-            "ms": 16,
+            "ms": 22,
             "contentType": "application/json; charset=utf-8"
           }
         }
@@ -270,18 +270,18 @@
       ],
       "latestCheck": {
         "status": "passed",
-        "capturedAt": "2026-09-24T01:59:44.394Z",
+        "capturedAt": "2026-09-24T02:26:05.054Z",
         "checks": {
           "health": {
             "ok": true,
             "status": 200,
-            "ms": 12,
+            "ms": 38,
             "contentType": "application/json"
           },
           "snapshot": {
             "ok": true,
             "status": 200,
-            "ms": 7,
+            "ms": 10,
             "contentType": "application/json"
           }
         }
@@ -305,7 +305,7 @@
       ],
       "latestCheck": {
         "status": "passed",
-        "capturedAt": "2026-09-24T01:59:44.394Z",
+        "capturedAt": "2026-09-24T02:26:05.054Z",
         "checks": {
           "health": {
             "ok": true,
@@ -316,7 +316,7 @@
           "snapshot": {
             "ok": true,
             "status": 200,
-            "ms": 5,
+            "ms": 12,
             "contentType": "application/json"
           }
         }
@@ -340,18 +340,18 @@
       ],
       "latestCheck": {
         "status": "passed",
-        "capturedAt": "2026-09-24T01:59:44.394Z",
+        "capturedAt": "2026-09-24T02:26:05.054Z",
         "checks": {
           "health": {
             "ok": true,
             "status": 200,
-            "ms": 37,
+            "ms": 65,
             "contentType": "application/json"
           },
           "snapshot": {
             "ok": true,
             "status": 200,
-            "ms": 6040,
+            "ms": 513,
             "contentType": "application/json"
           }
         }

@@ -1,6 +1,6 @@
 # Dashboard Live Source Gap Ledger
 
-Generated: 2026-09-24T01:22:25.540Z
+Generated: 2026-09-24T02:25:41.802Z
 
 ## Totals
 
