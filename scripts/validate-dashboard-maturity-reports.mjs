@@ -147,6 +147,10 @@ if (!issues.some((item) => item.severity === "error")) {
   if ((productionVisualGate.summary?.dashboardCount ?? 0) < 1) issue("error", "Production visual gate must include dashboards.");
   if (!["clear", "needs-attention"].includes(executiveDailyOperatingView.status)) issue("error", "Executive daily operating view must include a valid status.");
   if ((executiveDailyOperatingView.summary?.dashboardCount ?? 0) < 1) issue("error", "Executive daily operating view must include dashboards.");
+  if (!executiveDailyOperatingView.dataOperations) issue("error", "Executive daily operating view must include data operations maturity.");
+  if (!["ready", "watch", "blocked", "missing", "unknown"].includes(executiveDailyOperatingView.summary?.dataOpsStatus)) issue("error", "Executive daily operating view must include valid data operations status.");
+  if (!Number.isFinite(executiveDailyOperatingView.summary?.dataOpsScore)) issue("error", "Executive daily operating view must include numeric data operations score.");
+  if (!Number.isFinite(executiveDailyOperatingView.summary?.dataOpsBlockedLayers)) issue("error", "Executive daily operating view must include numeric blocked data operations layer count.");
   if ((executiveDailyOperatingView.actionPosture?.unsafeMutations ?? 1) !== 0) issue("error", "Executive daily operating view must show zero unsafe mutations.");
   if ((executiveDailyOperatingView.actionPosture?.unknownActions ?? 1) !== 0) issue("error", "Executive daily operating view must show zero unknown actions.");
   if (operatingHistoryPolicy.status !== "inside-policy") issue("error", "Operating history policy must be inside-policy.");

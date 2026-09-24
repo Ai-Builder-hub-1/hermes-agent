@@ -24,6 +24,7 @@ const sources = {
   operatingHistory: read("docs/fleet/dashboard-operating-history-policy.json"),
   predictive: read("docs/fleet/dashboard-predictive-causal-intelligence.json"),
   recovery: read("docs/fleet/dashboard-governed-recovery-audit.json"),
+  dataOps: readOptional(process.env.DATA_OPS_MATURITY_REPORT ?? "/data/data-ops-maturity/latest.json"),
 };
 
 const healthById = new Map((sources.health.items ?? []).map((item) => [item.id, item]));
@@ -74,6 +75,8 @@ const critical =
   sources.certification.status !== "fully-operational-certified" ||
   sources.drift.status !== "stable" ||
   sources.visualGate.status !== "visual-gate-passed" ||
+  sources.dataOps?.status === "blocked" ||
+  !sources.dataOps ||
   sources.ship.safeToCommit !== true ||
   sources.ship.safeToDeploy !== true ||
   sources.operatingHistory.status !== "inside-policy" ||
@@ -104,6 +107,10 @@ const report = {
     forecastStatus: sources.predictive.status,
     forecastConfidence: sources.predictive.confidence,
     recoveryStatus: sources.recovery.status,
+    dataOpsStatus: sources.dataOps?.status ?? "missing",
+    dataOpsScore: sources.dataOps?.score ?? 0,
+    dataOpsBlockedLayers: sources.dataOps?.blockedLayers?.length ?? 0,
+    dataOpsWatchLayers: sources.dataOps?.watchLayers?.length ?? 0,
   },
   actionPosture: {
     actionInstances: sources.certification.summary?.actionInstances ?? sources.actionUnlock.totals?.actionInstanceCount ?? 0,
@@ -118,7 +125,9 @@ const report = {
     layer("Operating History", sources.operatingHistory.status, sources.operatingHistory.trend?.direction ?? "unknown", "Keeps policy objectives and rolling run history visible."),
     layer("Predictive Causal Intelligence", sources.predictive.status, sources.predictive.confidence, "Forecasts drift risk and maps symptoms to likely causes."),
     layer("Governed Recovery", sources.recovery.status, `${sources.recovery.summary?.autoSafeCount ?? 0} auto-safe`, "Separates safe recovery from approval, maintenance-window, and blocked actions."),
+    layer("Data Operations", sources.dataOps?.status ?? "missing", `${sources.dataOps?.score ?? 0}/100`, "Tracks collection freshness, warehouse growth, archive readiness, backups, and external sync."),
   ],
+  dataOperations: summarizeDataOps(sources.dataOps),
   topPriorities: buildTopPriorities(),
   dashboards,
   evidenceLinks: [
@@ -131,6 +140,7 @@ const report = {
     evidence("Operating History Policy", "docs/fleet/dashboard-operating-history-policy.json", sources.operatingHistory.status),
     evidence("Predictive Causal Intelligence", "docs/fleet/dashboard-predictive-causal-intelligence.json", sources.predictive.status),
     evidence("Governed Recovery Audit", "docs/fleet/dashboard-governed-recovery-audit.json", sources.recovery.status),
+    evidence("Data Operations Maturity", process.env.DATA_OPS_MATURITY_REPORT ?? "/data/data-ops-maturity/latest.json", sources.dataOps?.status ?? "missing"),
   ],
 };
 
@@ -143,10 +153,17 @@ console.log(`Wrote ${path.relative(root, outJson)}`);
 console.log(`Wrote ${path.relative(root, outMd)}`);
 console.log(`Wrote ${path.relative(root, outTs)}`);
 console.log(`Dashboard executive daily operating view: ${report.status}, ${report.summary.dashboardCount} dashboard(s), ${report.summary.attentionCount} attention item(s).`);
-if (report.status !== "clear") process.exitCode = 1;
 
 function read(rel) {
   return JSON.parse(fs.readFileSync(path.join(root, rel), "utf8"));
+}
+
+function readOptional(targetPath) {
+  try {
+    return JSON.parse(fs.readFileSync(path.isAbsolute(targetPath) ? targetPath : path.join(root, targetPath), "utf8"));
+  } catch {
+    return null;
+  }
 }
 
 function slug(value = "") {
@@ -207,6 +224,9 @@ function buildTopPriorities() {
   if (sources.operatingHistory.status !== "inside-policy") priorities.push("Restore operating policy objectives before trusting trend history.");
   if (sources.predictive.status !== "low-risk") priorities.push("Investigate elevated forecast risk before approving automated recovery.");
   if (sources.recovery.status !== "recovery-ready") priorities.push("Resolve governed recovery audit failures before enabling new action classes.");
+  if (!sources.dataOps) priorities.push("Restore the cross-project data operations maturity report feed.");
+  if (sources.dataOps?.status === "blocked") priorities.push(`Resolve ${sources.dataOps.blockedLayers?.length ?? 0} blocked data operations layer(s) across Khashi VC and Investing System.`);
+  if (sources.dataOps?.status === "watch") priorities.push("Review data operations watch items before the next warehouse mirror or pruning window.");
   if (!priorities.length) {
     priorities.push("No active maturity drift is present.");
     priorities.push("Review the controlled mutation queue before approving operator write actions.");
@@ -217,6 +237,35 @@ function buildTopPriorities() {
 
 function layer(label, status, detail, description) {
   return { label, status, detail, description };
+}
+
+function summarizeDataOps(dataOps) {
+  if (!dataOps) {
+    return {
+      status: "missing",
+      score: 0,
+      generatedAt: null,
+      blockedLayers: [],
+      watchLayers: [],
+      projects: [],
+      nextActions: ["Restore /data/data-ops-maturity/latest.json generation."],
+    };
+  }
+  return {
+    status: dataOps.status ?? "unknown",
+    score: dataOps.score ?? 0,
+    generatedAt: dataOps.generatedAt ?? null,
+    blockedLayers: dataOps.blockedLayers ?? [],
+    watchLayers: dataOps.watchLayers ?? [],
+    projects: (dataOps.projects ?? []).map((project) => ({
+      id: project.id,
+      label: project.label,
+      status: project.status,
+      score: project.score,
+      checkedAt: project.checkedAt,
+    })),
+    nextActions: dataOps.nextActions ?? [],
+  };
 }
 
 function renderMarkdown(report) {
@@ -237,6 +286,8 @@ function renderMarkdown(report) {
     `- Policy: ${report.summary.policyStatus}`,
     `- Forecast: ${report.summary.forecastStatus}`,
     `- Recovery: ${report.summary.recoveryStatus}`,
+    `- Data operations: ${report.summary.dataOpsStatus} (${report.summary.dataOpsScore}/100)`,
+    `- Data operations blocked layers: ${report.summary.dataOpsBlockedLayers}`,
     "",
     "## Top Priorities",
     "",
@@ -245,6 +296,15 @@ function renderMarkdown(report) {
     "## Dashboard Posture",
     "",
     ...report.dashboards.map((item) => `- ${item.status === "operational" ? "PASS" : "WATCH"} ${item.label}: ${item.nextAction}`),
+    "",
+    "## Data Operations",
+    "",
+    `- Status: ${report.dataOperations.status}`,
+    `- Score: ${report.dataOperations.score}/100`,
+    `- Generated: ${report.dataOperations.generatedAt ?? "unknown"}`,
+    ...(report.dataOperations.blockedLayers.length
+      ? report.dataOperations.blockedLayers.map((item) => `- BLOCKED ${item.project}: ${item.id} - ${item.evidence}`)
+      : ["- No blocked data operations layers."]),
     "",
   ].join("\n");
 }

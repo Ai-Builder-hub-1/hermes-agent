@@ -19,6 +19,10 @@ if (!fs.existsSync(reportPath)) {
   if (!Array.isArray(report.dashboards) || report.dashboards.length !== report.summary.dashboardCount) fail("Dashboard list must match summary dashboard count.");
   if (!Array.isArray(report.topPriorities) || report.topPriorities.length < 1) fail("Executive daily operating view must include priorities.");
   if (!Array.isArray(report.evidenceLinks) || report.evidenceLinks.length < 5) fail("Executive daily operating view must include evidence links.");
+  if (!report.dataOperations) fail("Executive daily operating view must include data operations maturity.");
+  if (!["ready", "watch", "blocked", "missing", "unknown"].includes(report.summary?.dataOpsStatus)) fail("Executive daily operating view has invalid data operations status.");
+  if (!Number.isFinite(report.summary?.dataOpsScore)) fail("Executive daily operating view must include numeric data operations score.");
+  if (!Number.isFinite(report.summary?.dataOpsBlockedLayers)) fail("Executive daily operating view must include numeric blocked data operations layer count.");
   if ((report.actionPosture?.unsafeMutations ?? 1) !== 0) fail("Executive daily operating view must show zero unsafe mutations.");
   if ((report.actionPosture?.unknownActions ?? 1) !== 0) fail("Executive daily operating view must show zero unknown actions.");
   if (report.actionPosture?.commandSafePosture !== true) fail("Executive daily operating view must show safe command posture.");
@@ -27,6 +31,7 @@ if (!fs.existsSync(reportPath)) {
     if (report.summary?.driftStatus !== "stable") fail("Clear executive daily operating view requires stable drift status.");
     if (report.summary?.visualStatus !== "visual-gate-passed") fail("Clear executive daily operating view requires visual gate pass.");
     if (report.summary?.safeToDeploy !== true) fail("Clear executive daily operating view requires deploy-ready ship check.");
+    if (report.summary?.dataOpsStatus !== "ready") fail("Clear executive daily operating view requires ready data operations maturity.");
   }
   for (const dashboard of report.dashboards ?? []) {
     if (!dashboard.projectId || !dashboard.label) fail("Every dashboard entry must include projectId and label.");
