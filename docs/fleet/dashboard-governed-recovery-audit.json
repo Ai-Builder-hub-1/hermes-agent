@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T17:57:26.867Z",
+  "generatedAt": "2026-09-24T20:35:53.716Z",
   "source": "scripts/generate-dashboard-governed-recovery-audit.mjs",
-  "status": "recovery-ready",
+  "status": "recovery-attention",
   "summary": {
     "auditCheckCount": 8,
-    "failedAuditChecks": 0,
+    "failedAuditChecks": 1,
     "recoveryClassCount": 8,
     "autoSafeCount": 3,
     "approvalRequiredCount": 3,
@@ -51,7 +51,7 @@
     {
       "id": "daily-clear",
       "description": "Daily operating view is clear.",
-      "status": "passed"
+      "status": "failed"
     }
   ],
   "recoveryClasses": [
@@ -120,6 +120,6 @@
     "requireRollbackForDeployments": true
   },
   "nextActions": [
-    "Auto-safe recovery classes can be implemented next; approval and maintenance-window classes remain gated."
+    "Resolve recovery audit check daily-clear: Daily operating view is clear."
   ]
 }

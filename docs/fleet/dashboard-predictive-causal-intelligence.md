@@ -1,8 +1,8 @@
 # Dashboard Predictive Causal Intelligence
 
-Generated: 2026-09-24T17:57:26.697Z
+Generated: 2026-09-24T20:35:53.488Z
 Status: low-risk
-Confidence: baseline-only
+Confidence: trend-backed
 
 ## Forecasts
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T17:57:26.547Z",
+  "generatedAt": "2026-09-24T20:35:53.034Z",
   "source": "scripts/generate-dashboard-operating-history-policy.mjs",
   "retention": {
     "latestEntriesRetained": 672,
@@ -44,6 +44,72 @@
     },
     {
       "capturedAt": "2026-09-24T17:57:26.547Z",
+      "status": "inside-policy",
+      "dashboardCount": 10,
+      "attentionCount": 0,
+      "failedObjectiveCount": 0,
+      "driftStatus": "stable",
+      "visualStatus": "visual-gate-passed",
+      "healthFailures": 0,
+      "safeToDeploy": true
+    },
+    {
+      "capturedAt": "2026-09-24T18:27:42.342Z",
+      "status": "inside-policy",
+      "dashboardCount": 10,
+      "attentionCount": 0,
+      "failedObjectiveCount": 0,
+      "driftStatus": "stable",
+      "visualStatus": "visual-gate-passed",
+      "healthFailures": 0,
+      "safeToDeploy": true
+    },
+    {
+      "capturedAt": "2026-09-24T18:57:54.653Z",
+      "status": "inside-policy",
+      "dashboardCount": 10,
+      "attentionCount": 0,
+      "failedObjectiveCount": 0,
+      "driftStatus": "stable",
+      "visualStatus": "visual-gate-passed",
+      "healthFailures": 0,
+      "safeToDeploy": true
+    },
+    {
+      "capturedAt": "2026-09-24T19:28:01.106Z",
+      "status": "inside-policy",
+      "dashboardCount": 10,
+      "attentionCount": 0,
+      "failedObjectiveCount": 0,
+      "driftStatus": "stable",
+      "visualStatus": "visual-gate-passed",
+      "healthFailures": 0,
+      "safeToDeploy": true
+    },
+    {
+      "capturedAt": "2026-09-24T19:58:01.935Z",
+      "status": "inside-policy",
+      "dashboardCount": 10,
+      "attentionCount": 0,
+      "failedObjectiveCount": 0,
+      "driftStatus": "stable",
+      "visualStatus": "visual-gate-passed",
+      "healthFailures": 0,
+      "safeToDeploy": true
+    },
+    {
+      "capturedAt": "2026-09-24T20:28:05.426Z",
+      "status": "inside-policy",
+      "dashboardCount": 10,
+      "attentionCount": 0,
+      "failedObjectiveCount": 0,
+      "driftStatus": "stable",
+      "visualStatus": "visual-gate-passed",
+      "healthFailures": 0,
+      "safeToDeploy": true
+    },
+    {
+      "capturedAt": "2026-09-24T20:35:53.034Z",
       "status": "inside-policy",
       "dashboardCount": 10,
       "attentionCount": 0,

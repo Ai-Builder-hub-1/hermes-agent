@@ -1,19 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T17:57:26.697Z",
+  "generatedAt": "2026-09-24T20:35:53.488Z",
   "source": "scripts/generate-dashboard-predictive-causal-intelligence.mjs",
   "status": "low-risk",
-  "confidence": "baseline-only",
-  "limitations": [
-    "Forecast confidence is baseline-only until the operating history ledger has more scheduled run samples."
-  ],
+  "confidence": "trend-backed",
+  "limitations": [],
   "summary": {
     "forecastCount": 6,
     "lowRisk": 6,
     "elevatedRisk": 0,
     "causalPlaybookCount": 6,
-    "historySamples": 4,
-    "dailyStatus": "clear"
+    "historySamples": 10,
+    "dailyStatus": "needs-attention"
   },
   "forecasts": [
     {

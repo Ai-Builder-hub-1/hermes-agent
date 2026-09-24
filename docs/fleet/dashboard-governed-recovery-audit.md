@@ -1,7 +1,7 @@
 # Dashboard Governed Recovery Audit
 
-Generated: 2026-09-24T17:57:26.867Z
-Status: recovery-ready
+Generated: 2026-09-24T20:35:53.716Z
+Status: recovery-attention
 
 ## Audit Checks
 
@@ -12,7 +12,7 @@ Status: recovery-ready
 - PASS visual-gate: Visual gate is passing.
 - PASS predictive-low-risk: Predictive causal intelligence is low-risk.
 - PASS ship-ready: Fleet is safe to commit and deploy.
-- PASS daily-clear: Daily operating view is clear.
+- FAIL daily-clear: Daily operating view is clear.
 
 ## Recovery Classes
 
