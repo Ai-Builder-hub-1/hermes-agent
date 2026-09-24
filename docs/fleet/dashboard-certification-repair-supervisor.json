@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T02:25:48.352Z",
+  "generatedAt": "2026-09-24T02:26:42.194Z",
   "purpose": "Turn dashboard certification blockers into a sequenced repair program with failure classes, playbooks, safe/assisted lanes, and proof commands.",
   "policy": {
     "doesNotAutoRewriteBusinessLogic": true,
@@ -180,7 +180,7 @@
   "workItems": [],
   "playbook": {
     "schemaVersion": 1,
-    "generatedAt": "2026-09-24T02:25:48.351Z",
+    "generatedAt": "2026-09-24T02:26:42.194Z",
     "failureClasses": [
       {
         "id": "manifest-truth",

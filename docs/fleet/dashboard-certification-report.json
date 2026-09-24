@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T02:25:49.058Z",
+  "generatedAt": "2026-09-24T02:27:04.738Z",
   "standard": {
     "name": "Nous Hermes Dashboard Certification Gate",
     "purpose": "Fail dashboard promotion before deployment when declared package-native/Tier 3 status is not proven by source, manifest, rendered-anatomy, visual-proof, workflow, data, and chart contracts.",

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T02:25:47.422Z",
+  "generatedAt": "2026-09-24T02:26:41.355Z",
   "source": "docs/design/generated-dashboard-route-evidence-bindings.json",
   "purpose": "Proves dashboard command controls keep read-only actions usable while every mutating action remains blocked until endpoint, permission, confirmation, audit, cooldown, rollback, and recovery evidence exist.",
   "policy": {

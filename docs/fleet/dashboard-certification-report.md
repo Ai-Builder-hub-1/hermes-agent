@@ -1,6 +1,6 @@
 # Dashboard Certification Report
 
-Generated: 2026-09-24T02:25:49.058Z
+Generated: 2026-09-24T02:27:04.738Z
 
 This is the central pre-deploy certification gate. It is intentionally stricter than source-marker checks: a project can declare Tier 3C/package-native and still fail certification if its route is static-heavy, marker-only, nested-shell, or missing proof.
 

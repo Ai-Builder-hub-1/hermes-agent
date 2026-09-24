@@ -1,6 +1,6 @@
 # Dashboard Certification Repair Supervisor
 
-Generated: 2026-09-24T02:25:48.352Z
+Generated: 2026-09-24T02:26:42.194Z
 
 This report is the repair layer above certification. It does not replace project migrations; it sequences them, classifies failures, names safe versus assisted repair lanes, and records proof commands.
 
