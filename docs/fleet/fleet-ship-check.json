@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T02:25:49.103Z",
+  "generatedAt": "2026-09-24T02:26:42.926Z",
   "mode": "standard",
   "safeToCommit": true,
-  "safeToDeploy": true,
+  "safeToDeploy": false,
   "summary": {
     "steps": 13,
     "failedSteps": 0,
@@ -11,7 +11,7 @@
     "blockedProjects": 0,
     "needsReviewProjects": 0,
     "commitReadyProjects": 10,
-    "deployReadyProjects": 10
+    "deployReadyProjects": 9
   },
   "blockedBy": [],
   "readinessReport": "docs/fleet/fleet-release-readiness.json",
@@ -20,8 +20,8 @@
       "id": "release-readiness",
       "label": "Release readiness",
       "command": "npm run fleet:release-readiness",
-      "startedAt": "2026-09-24T02:25:45.598Z",
-      "finishedAt": "2026-09-24T02:25:46.137Z",
+      "startedAt": "2026-09-24T02:26:40.131Z",
+      "finishedAt": "2026-09-24T02:26:40.389Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -37,8 +37,8 @@
       "id": "release-readiness-validate",
       "label": "Release readiness schema",
       "command": "npm run fleet:release-readiness:validate",
-      "startedAt": "2026-09-24T02:25:46.137Z",
-      "finishedAt": "2026-09-24T02:25:46.484Z",
+      "startedAt": "2026-09-24T02:26:40.389Z",
+      "finishedAt": "2026-09-24T02:26:40.561Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -53,8 +53,8 @@
       "id": "release-readiness-strict",
       "label": "Release readiness strict gate",
       "command": "npm run fleet:release-readiness:strict",
-      "startedAt": "2026-09-24T02:25:46.484Z",
-      "finishedAt": "2026-09-24T02:25:46.809Z",
+      "startedAt": "2026-09-24T02:26:40.561Z",
+      "finishedAt": "2026-09-24T02:26:40.795Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -70,8 +70,8 @@
       "id": "web-build-budget",
       "label": "Web build budget",
       "command": "npm run dashboard:web:build-budget",
-      "startedAt": "2026-09-24T02:25:46.809Z",
-      "finishedAt": "2026-09-24T02:25:47.030Z",
+      "startedAt": "2026-09-24T02:26:40.795Z",
+      "finishedAt": "2026-09-24T02:26:40.972Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -92,8 +92,8 @@
       "id": "dashboard-governance",
       "label": "Dashboard governance",
       "command": "npm run dashboard:governance:validate",
-      "startedAt": "2026-09-24T02:25:47.030Z",
-      "finishedAt": "2026-09-24T02:25:47.244Z",
+      "startedAt": "2026-09-24T02:26:40.972Z",
+      "finishedAt": "2026-09-24T02:26:41.201Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -108,8 +108,8 @@
       "id": "dashboard-command-governance-report",
       "label": "Dashboard command governance report",
       "command": "npm run dashboard:command-governance:report",
-      "startedAt": "2026-09-24T02:25:47.244Z",
-      "finishedAt": "2026-09-24T02:25:47.440Z",
+      "startedAt": "2026-09-24T02:26:41.201Z",
+      "finishedAt": "2026-09-24T02:26:41.372Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -124,8 +124,8 @@
       "id": "dashboard-command-governance",
       "label": "Dashboard command governance validation",
       "command": "npm run dashboard:command-governance:validate",
-      "startedAt": "2026-09-24T02:25:47.440Z",
-      "finishedAt": "2026-09-24T02:25:47.648Z",
+      "startedAt": "2026-09-24T02:26:41.372Z",
+      "finishedAt": "2026-09-24T02:26:41.538Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -140,8 +140,8 @@
       "id": "dashboard-certification-report",
       "label": "Dashboard certification report",
       "command": "npm run dashboard:certify",
-      "startedAt": "2026-09-24T02:25:47.648Z",
-      "finishedAt": "2026-09-24T02:25:47.972Z",
+      "startedAt": "2026-09-24T02:26:41.538Z",
+      "finishedAt": "2026-09-24T02:26:41.826Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -161,8 +161,8 @@
       "id": "dashboard-certification-artifacts",
       "label": "Dashboard certification artifact validation",
       "command": "npm run dashboard:certify:validate:strict",
-      "startedAt": "2026-09-24T02:25:47.973Z",
-      "finishedAt": "2026-09-24T02:25:48.174Z",
+      "startedAt": "2026-09-24T02:26:41.826Z",
+      "finishedAt": "2026-09-24T02:26:42.011Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -177,8 +177,8 @@
       "id": "dashboard-certification-repair",
       "label": "Dashboard certification repair supervisor",
       "command": "npm run dashboard:certify:repair",
-      "startedAt": "2026-09-24T02:25:48.174Z",
-      "finishedAt": "2026-09-24T02:25:48.368Z",
+      "startedAt": "2026-09-24T02:26:42.011Z",
+      "finishedAt": "2026-09-24T02:26:42.206Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -196,8 +196,8 @@
       "id": "dashboard-certification-repair-validation",
       "label": "Dashboard certification repair validation",
       "command": "npm run dashboard:certify:repair:validate:strict",
-      "startedAt": "2026-09-24T02:25:48.368Z",
-      "finishedAt": "2026-09-24T02:25:48.563Z",
+      "startedAt": "2026-09-24T02:26:42.206Z",
+      "finishedAt": "2026-09-24T02:26:42.435Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -212,8 +212,8 @@
       "id": "dashboard-certification-repair-execution",
       "label": "Dashboard certification repair execution ledger",
       "command": "npm run dashboard:certify:repair:execute:strict",
-      "startedAt": "2026-09-24T02:25:48.563Z",
-      "finishedAt": "2026-09-24T02:25:48.758Z",
+      "startedAt": "2026-09-24T02:26:42.435Z",
+      "finishedAt": "2026-09-24T02:26:42.600Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [
@@ -230,8 +230,8 @@
       "id": "dashboard-certification",
       "label": "Dashboard certification pre-deploy gate",
       "command": "npm run dashboard:certify:strict",
-      "startedAt": "2026-09-24T02:25:48.758Z",
-      "finishedAt": "2026-09-24T02:25:49.102Z",
+      "startedAt": "2026-09-24T02:26:42.600Z",
+      "finishedAt": "2026-09-24T02:26:42.925Z",
       "passed": true,
       "exitCode": 0,
       "stdoutTail": [

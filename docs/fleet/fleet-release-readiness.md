@@ -1,6 +1,6 @@
 # Fleet Release Readiness
 
-Generated: 2026-09-24T02:25:46.795Z
+Generated: 2026-09-24T02:26:40.779Z
 
 This report classifies dirty-tree changes before commit/deploy. It exists so Codex can move forward confidently without blindly committing proof artifacts, screenshots, local-only files, build outputs, or unknown files.
 
@@ -17,7 +17,7 @@ This report classifies dirty-tree changes before commit/deploy. It exists so Cod
 
 | Project | Dirty | Intent | Recommendation | Commit ready | Deploy ready | Source | Generated | Screenshots | Local | Unsafe | Unknown |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Nous Hermes Agent | 19 | mixed | commit-after-validation | yes | yes | 11 | 8 | 0 | 0 | 0 | 0 |
+| Nous Hermes Agent | 2 | generated-evidence | commit-proof-refresh | yes | no | 0 | 2 | 0 | 0 | 0 | 0 |
 | Khashi VC ROC | 0 | clean | clean | yes | yes | 0 | 0 | 0 | 0 | 0 | 0 |
 | Media Engine Ops | 0 | clean | clean | yes | yes | 0 | 0 | 0 | 0 | 0 | 0 |
 | Media Business Operations | 0 | clean | clean | yes | yes | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -32,7 +32,7 @@ This report classifies dirty-tree changes before commit/deploy. It exists so Cod
 
 | Project | Proof policy | Cleanup actions |
 | --- | --- | --- |
-| Nous Hermes Agent | proof-or-generated-evidence-present-validate-before-ship | commit-generated-evidence-with-generator-command-evidence<br>run-project-validation-before-commit |
+| Nous Hermes Agent | proof-not-required-for-generated-evidence-refresh | commit-generated-evidence-with-generator-command-evidence |
 | Khashi VC ROC | proof-not-required | no-cleanup-needed |
 | Media Engine Ops | proof-not-required | no-cleanup-needed |
 | Media Business Operations | proof-not-required | no-cleanup-needed |
@@ -49,23 +49,6 @@ This report classifies dirty-tree changes before commit/deploy. It exists so Cod
 
 | Status | Path | Class | Policy | Reason |
 | --- | --- | --- | --- | --- |
-| M  | docs/design/dashboard-command-governance-ledger.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/design/dashboard-command-governance-ledger.md | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/design/dashboard-deployment-ledger.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/design/dashboard-deployment-ledger.md | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/design/dashboard-live-source-gap-ledger.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/design/dashboard-live-source-gap-ledger.md | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | docs/design/generated-dashboard-route-evidence-bindings.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-|  M | docs/design/generated-dashboard-route-evidence-bindings.md | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-|  M | docs/design/generated-dashboard-route-maturity-ledger.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-|  M | docs/design/generated-dashboard-route-maturity-ledger.md | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-|  M | docs/fleet/dashboard-certification-attempt-ledger.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-|  M | docs/fleet/dashboard-certification-repair-packets.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-|  M | docs/fleet/dashboard-certification-report.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-|  M | docs/fleet/dashboard-certification-report.md | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-|  M | docs/fleet/fleet-release-readiness.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
+| M  | docs/fleet/fleet-release-readiness.json | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
 |  M | docs/fleet/fleet-release-readiness.md | generated-evidence | commit-with-generator | Generated governance/proof evidence; commit with its source or command evidence. |
-|  M | web/src/pages/dashboard-live-source-gap-ledger.runtime.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-|  M | web/src/pages/generated-dashboard-route-evidence-bindings.runtime.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
-|  M | web/src/pages/generated-dashboard-route-maturity-ledger.runtime.json | deployable-source | commit-after-validation | Source, config, test, standard, or manifest change. |
 

@@ -1,20 +1,20 @@
 # Fleet Ship Check
 
-Generated: 2026-09-24T02:25:49.103Z
+Generated: 2026-09-24T02:26:42.926Z
 
 Mode: standard
 
 ## Decision
 
 - **Safe to commit:** yes
-- **Safe to deploy:** yes
+- **Safe to deploy:** no
 - **Blocked by:** nothing
 
 ## Summary
 
 | Steps | Failed | Dirty projects | Blocked projects | Needs review | Commit-ready projects | Deploy-ready projects |
 | --- | --- | --- | --- | --- | --- | --- |
-| 13 | 0 | 1 | 0 | 0 | 10 | 10 |
+| 13 | 0 | 1 | 0 | 0 | 10 | 9 |
 
 ## Step Results
 
