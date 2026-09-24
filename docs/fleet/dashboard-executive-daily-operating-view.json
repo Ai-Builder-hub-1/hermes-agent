@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T20:22:14.776Z",
+  "generatedAt": "2026-09-24T20:37:30.455Z",
   "source": "scripts/generate-dashboard-executive-daily-operating-view.mjs",
   "status": "needs-attention",
   "summary": {
@@ -18,11 +18,11 @@
     "trendDirection": "stable",
     "forecastStatus": "low-risk",
     "forecastConfidence": "trend-backed",
-    "recoveryStatus": "recovery-ready",
+    "recoveryStatus": "recovery-attention",
     "dataOpsStatus": "blocked",
-    "dataOpsScore": 57,
+    "dataOpsScore": 54,
     "dataOpsBlockedLayers": 7,
-    "dataOpsWatchLayers": 2
+    "dataOpsWatchLayers": 3
   },
   "actionPosture": {
     "actionInstances": 748,
@@ -48,27 +48,27 @@
     },
     {
       "label": "Governed Recovery",
-      "status": "recovery-ready",
+      "status": "recovery-attention",
       "detail": "3 auto-safe",
       "description": "Separates safe recovery from approval, maintenance-window, and blocked actions."
     },
     {
       "label": "Data Operations",
       "status": "blocked",
-      "detail": "57/100",
+      "detail": "54/100",
       "description": "Tracks collection freshness, warehouse growth, archive readiness, backups, and external sync."
     }
   ],
   "dataOperations": {
     "status": "blocked",
-    "score": 57,
-    "generatedAt": "2026-09-24T20:22:14.465Z",
+    "score": 54,
+    "generatedAt": "2026-09-24T20:34:37.444Z",
     "blockedLayers": [
       {
         "projectId": "khashi-vc",
         "project": "Khashi VC",
         "id": "collection-freshness",
-        "evidence": "microstructure-history is 285 minutes old. orderbook-snapshots is 285 minutes old. enriched-market-snapshots is 285 minutes old."
+        "evidence": "microstructure-history is 297 minutes old. orderbook-snapshots is 297 minutes old. enriched-market-snapshots is 297 minutes old."
       },
       {
         "projectId": "khashi-vc",
@@ -80,13 +80,13 @@
         "projectId": "khashi-vc",
         "project": "Khashi VC",
         "id": "retention-readiness",
-        "evidence": "StoreRecord has 1,049,515 estimated dead rows."
+        "evidence": "StoreRecord has 1,054,892 estimated dead rows."
       },
       {
         "projectId": "investing-system",
         "project": "Investing System",
         "id": "ledger-cardinality",
-        "evidence": "OANDA ledger has 1,242,382 file(s)."
+        "evidence": "OANDA ledger has 1,242,421 file(s)."
       },
       {
         "projectId": "investing-system",
@@ -119,6 +119,12 @@
         "project": "Khashi VC",
         "id": "freshness-query-readiness",
         "evidence": "StoreRecord has storeName/updatedAt indexing, but needs rollups for cheap last-hour and last-day dashboards."
+      },
+      {
+        "projectId": "khashi-vc",
+        "project": "Khashi VC",
+        "id": "alert-attribution",
+        "evidence": "Alerts can now distinguish disk, Docker cache, Postgres, collection, workers, and mirror status."
       }
     ],
     "projects": [
@@ -126,15 +132,15 @@
         "id": "khashi-vc",
         "label": "Khashi VC",
         "status": "blocked",
-        "score": 67,
-        "checkedAt": "2026-09-24T20:21:36.933Z"
+        "score": 62,
+        "checkedAt": "2026-09-24T20:33:09.214Z"
       },
       {
         "id": "investing-system",
         "label": "Investing System",
         "status": "blocked",
         "score": 46,
-        "checkedAt": "2026-09-24T20:22:06.180Z"
+        "checkedAt": "2026-09-24T20:34:27.749Z"
       }
     ],
     "nextActions": [
@@ -150,6 +156,7 @@
     ]
   },
   "topPriorities": [
+    "Resolve governed recovery audit failures before enabling new action classes.",
     "Resolve 7 blocked data operations layer(s) across Khashi VC and Investing System."
   ],
   "dashboards": [
@@ -608,7 +615,7 @@
     {
       "label": "Governed Recovery Audit",
       "path": "docs/fleet/dashboard-governed-recovery-audit.json",
-      "status": "recovery-ready"
+      "status": "recovery-attention"
     },
     {
       "label": "Data Operations Maturity",
