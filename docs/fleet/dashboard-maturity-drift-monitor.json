@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-25T18:35:03.145Z",
+  "generatedAt": "2026-09-25T20:05:30.257Z",
   "source": "scripts/generate-dashboard-maturity-drift-monitor.mjs",
   "status": "stable",
   "summary": {

@@ -1,6 +1,6 @@
 # Dashboard Governed Recovery Audit
 
-Generated: 2026-09-25T18:35:04.114Z
+Generated: 2026-09-25T20:05:30.792Z
 Status: recovery-attention
 
 ## Audit Checks

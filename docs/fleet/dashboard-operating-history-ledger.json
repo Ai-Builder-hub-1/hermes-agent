@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-25T18:35:03.563Z",
+  "generatedAt": "2026-09-25T20:05:30.445Z",
   "source": "scripts/generate-dashboard-operating-history-policy.mjs",
   "retention": {
     "latestEntriesRetained": 672,
@@ -594,6 +594,39 @@
     },
     {
       "capturedAt": "2026-09-25T18:35:03.563Z",
+      "status": "inside-policy",
+      "dashboardCount": 10,
+      "attentionCount": 0,
+      "failedObjectiveCount": 0,
+      "driftStatus": "stable",
+      "visualStatus": "visual-gate-passed",
+      "healthFailures": 0,
+      "safeToDeploy": true
+    },
+    {
+      "capturedAt": "2026-09-25T19:05:03.326Z",
+      "status": "inside-policy",
+      "dashboardCount": 10,
+      "attentionCount": 0,
+      "failedObjectiveCount": 0,
+      "driftStatus": "stable",
+      "visualStatus": "visual-gate-passed",
+      "healthFailures": 0,
+      "safeToDeploy": true
+    },
+    {
+      "capturedAt": "2026-09-25T19:35:24.966Z",
+      "status": "inside-policy",
+      "dashboardCount": 10,
+      "attentionCount": 0,
+      "failedObjectiveCount": 0,
+      "driftStatus": "stable",
+      "visualStatus": "visual-gate-passed",
+      "healthFailures": 0,
+      "safeToDeploy": true
+    },
+    {
+      "capturedAt": "2026-09-25T20:05:30.445Z",
       "status": "inside-policy",
       "dashboardCount": 10,
       "attentionCount": 0,

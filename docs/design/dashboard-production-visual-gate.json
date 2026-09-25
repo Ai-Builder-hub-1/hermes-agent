@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-25T18:35:02.771Z",
+  "generatedAt": "2026-09-25T20:05:30.039Z",
   "source": "scripts/generate-dashboard-production-visual-gate.mjs",
   "status": "visual-gate-passed",
   "summary": {
