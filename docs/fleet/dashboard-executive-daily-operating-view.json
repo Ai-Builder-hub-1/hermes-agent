@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T21:04:19.631Z",
+  "generatedAt": "2026-09-25T03:38:20.777Z",
   "source": "scripts/generate-dashboard-executive-daily-operating-view.mjs",
   "status": "needs-attention",
   "summary": {
@@ -20,9 +20,9 @@
     "forecastConfidence": "trend-backed",
     "recoveryStatus": "recovery-attention",
     "dataOpsStatus": "blocked",
-    "dataOpsScore": 49,
-    "dataOpsBlockedLayers": 14,
-    "dataOpsWatchLayers": 5
+    "dataOpsScore": 55,
+    "dataOpsBlockedLayers": 11,
+    "dataOpsWatchLayers": 8
   },
   "actionPosture": {
     "actionInstances": 748,
@@ -55,20 +55,20 @@
     {
       "label": "Data Operations",
       "status": "blocked",
-      "detail": "49/100",
+      "detail": "55/100",
       "description": "Tracks collection freshness, warehouse growth, archive readiness, backups, and external sync."
     }
   ],
   "dataOperations": {
     "status": "blocked",
-    "score": 49,
-    "generatedAt": "2026-09-24T21:03:54.886Z",
+    "score": 55,
+    "generatedAt": "2026-09-25T03:36:17.677Z",
     "blockedLayers": [
       {
         "projectId": "khashi-vc",
         "project": "Khashi VC",
         "id": "collection-freshness",
-        "evidence": "microstructure-history is 326 minutes old; expected every 15 minutes via deploy-amari-recorder-1. orderbook-snapshots is 326 minutes old; expected every 15 minutes via deploy-amari-recorder-1. enriched-market-snapshots is 326 minutes old; expected every 15 minutes via deploy-amari-recorder-1."
+        "evidence": "microstructure-history is 719 minutes old; expected every 15 minutes via deploy-amari-recorder-1. orderbook-snapshots is 719 minutes old; expected every 15 minutes via deploy-amari-recorder-1. enriched-market-snapshots is 719 minutes old; expected every 15 minutes via deploy-amari-recorder-1."
       },
       {
         "projectId": "khashi-vc",
@@ -86,7 +86,7 @@
         "projectId": "khashi-vc",
         "project": "Khashi VC",
         "id": "retention-readiness",
-        "evidence": "StoreRecord has 1,082,944 estimated dead rows."
+        "evidence": "StoreRecord has 1,309,339 estimated dead rows."
       },
       {
         "projectId": "khashi-vc",
@@ -98,13 +98,13 @@
         "projectId": "investing-system",
         "project": "Investing System",
         "id": "ledger-cardinality",
-        "evidence": "OANDA ledger has 1,242,555 file(s)."
+        "evidence": "OANDA ledger has 1,244,021 file(s)."
       },
       {
         "projectId": "investing-system",
         "project": "Investing System",
         "id": "ledger-budget-contract",
-        "evidence": "Live ledger file budget is 50,000; over budget by 1,192,555 file(s)."
+        "evidence": "Live ledger file budget is 50,000; over budget by 1,194,021 file(s)."
       },
       {
         "projectId": "investing-system",
@@ -117,24 +117,6 @@
         "project": "Investing System",
         "id": "archive-catalog-contract",
         "evidence": "No verified OANDA archive catalog records found."
-      },
-      {
-        "projectId": "investing-system",
-        "project": "Investing System",
-        "id": "backup-readiness",
-        "evidence": "No Postgres backup files visible to Investing."
-      },
-      {
-        "projectId": "investing-system",
-        "project": "Investing System",
-        "id": "backup-freshness",
-        "evidence": "No visible backup can be freshness-checked."
-      },
-      {
-        "projectId": "investing-system",
-        "project": "Investing System",
-        "id": "backup-restore-proof",
-        "evidence": "No backup restore-test proof is visible."
       },
       {
         "projectId": "investing-system",
@@ -153,8 +135,14 @@
       {
         "projectId": "khashi-vc",
         "project": "Khashi VC",
+        "id": "server-storage-headroom",
+        "evidence": "Root disk is 79% used."
+      },
+      {
+        "projectId": "khashi-vc",
+        "project": "Khashi VC",
         "id": "docker-cache-hygiene",
-        "evidence": "Docker build cache is 7.2 GB."
+        "evidence": "Docker build cache is 7.4 GB."
       },
       {
         "projectId": "khashi-vc",
@@ -166,7 +154,7 @@
         "projectId": "khashi-vc",
         "project": "Khashi VC",
         "id": "collector-cadence-contract",
-        "evidence": "microstructure-history is 326 minutes old; expected every 15 minutes via deploy-amari-recorder-1. orderbook-snapshots is 326 minutes old; expected every 15 minutes via deploy-amari-recorder-1. enriched-market-snapshots is 326 minutes old; expected every 15 minutes via deploy-amari-recorder-1."
+        "evidence": "microstructure-history is 719 minutes old; expected every 15 minutes via deploy-amari-recorder-1. orderbook-snapshots is 719 minutes old; expected every 15 minutes via deploy-amari-recorder-1. enriched-market-snapshots is 719 minutes old; expected every 15 minutes via deploy-amari-recorder-1."
       },
       {
         "projectId": "khashi-vc",
@@ -179,6 +167,18 @@
         "project": "Khashi VC",
         "id": "alert-attribution",
         "evidence": "Alerts can now distinguish disk, Docker cache, Postgres, collection, workers, and mirror status."
+      },
+      {
+        "projectId": "investing-system",
+        "project": "Investing System",
+        "id": "server-storage-headroom",
+        "evidence": "Root disk is 79% used."
+      },
+      {
+        "projectId": "investing-system",
+        "project": "Investing System",
+        "id": "backup-restore-proof",
+        "evidence": "Restore-test proof exists at /data/backups/latest-restore-proof.json but is not marked passed."
       }
     ],
     "projects": [
@@ -186,15 +186,15 @@
         "id": "khashi-vc",
         "label": "Khashi VC",
         "status": "blocked",
-        "score": 55,
-        "checkedAt": "2026-09-24T21:03:11.860Z"
+        "score": 53,
+        "checkedAt": "2026-09-25T03:34:21.423Z"
       },
       {
         "id": "investing-system",
         "label": "Investing System",
         "status": "blocked",
-        "score": 43,
-        "checkedAt": "2026-09-24T21:03:47.333Z"
+        "score": 56,
+        "checkedAt": "2026-09-25T03:36:10.082Z"
       }
     ],
     "nextActions": [
@@ -207,7 +207,6 @@
       "Keep destructive retention disabled until mirror proof, rollback proof, and pruning approval gates are present.",
       "Archive and compact the OANDA ledger; file cardinality is now an operational risk.",
       "Create and verify an OANDA archive catalog before the next external sync.",
-      "Expose fresh Postgres backups to Investing at the standard backup path after approving the mount/data-access boundary.",
       "Mount the external storage root at /Volumes/Hermes before running write-mode sync.",
       "Run and pass an external write/read proof before enabling write-mode sync.",
       "Wire this maturity report into Nous Hermes and resource-governance Discord attribution."
@@ -215,7 +214,7 @@
   },
   "topPriorities": [
     "Resolve governed recovery audit failures before enabling new action classes.",
-    "Resolve 14 blocked data operations layer(s) across Khashi VC and Investing System."
+    "Resolve 11 blocked data operations layer(s) across Khashi VC and Investing System."
   ],
   "dashboards": [
     {

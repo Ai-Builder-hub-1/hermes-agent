@@ -1,6 +1,6 @@
 # Dashboard Executive Daily Operating View
 
-Generated: 2026-09-24T21:04:19.631Z
+Generated: 2026-09-25T03:38:20.777Z
 Status: needs-attention
 
 ## Summary
@@ -14,13 +14,13 @@ Status: needs-attention
 - Policy: inside-policy
 - Forecast: low-risk
 - Recovery: recovery-attention
-- Data operations: blocked (49/100)
-- Data operations blocked layers: 14
+- Data operations: blocked (55/100)
+- Data operations blocked layers: 11
 
 ## Top Priorities
 
 - Resolve governed recovery audit failures before enabling new action classes.
-- Resolve 14 blocked data operations layer(s) across Khashi VC and Investing System.
+- Resolve 11 blocked data operations layer(s) across Khashi VC and Investing System.
 
 ## Dashboard Posture
 
@@ -38,19 +38,16 @@ Status: needs-attention
 ## Data Operations
 
 - Status: blocked
-- Score: 49/100
-- Generated: 2026-09-24T21:03:54.886Z
-- BLOCKED Khashi VC: collection-freshness - microstructure-history is 326 minutes old; expected every 15 minutes via deploy-amari-recorder-1. orderbook-snapshots is 326 minutes old; expected every 15 minutes via deploy-amari-recorder-1. enriched-market-snapshots is 326 minutes old; expected every 15 minutes via deploy-amari-recorder-1.
+- Score: 55/100
+- Generated: 2026-09-25T03:36:17.677Z
+- BLOCKED Khashi VC: collection-freshness - microstructure-history is 719 minutes old; expected every 15 minutes via deploy-amari-recorder-1. orderbook-snapshots is 719 minutes old; expected every 15 minutes via deploy-amari-recorder-1. enriched-market-snapshots is 719 minutes old; expected every 15 minutes via deploy-amari-recorder-1.
 - BLOCKED Khashi VC: warehouse-mirror - Warehouse root is not mounted: /Volumes/Hermes/market-warehouse
 - BLOCKED Khashi VC: warehouse-write-proof - Warehouse root does not exist, so write/read proof cannot run.
-- BLOCKED Khashi VC: retention-readiness - StoreRecord has 1,082,944 estimated dead rows.
+- BLOCKED Khashi VC: retention-readiness - StoreRecord has 1,309,339 estimated dead rows.
 - BLOCKED Khashi VC: freshness-recovery-routing - 3 stale store(s) need owner/service routing.
-- BLOCKED Investing System: ledger-cardinality - OANDA ledger has 1,242,555 file(s).
-- BLOCKED Investing System: ledger-budget-contract - Live ledger file budget is 50,000; over budget by 1,192,555 file(s).
+- BLOCKED Investing System: ledger-cardinality - OANDA ledger has 1,244,021 file(s).
+- BLOCKED Investing System: ledger-budget-contract - Live ledger file budget is 50,000; over budget by 1,194,021 file(s).
 - BLOCKED Investing System: archive-readiness - No OANDA archive catalog records found.
 - BLOCKED Investing System: archive-catalog-contract - No verified OANDA archive catalog records found.
-- BLOCKED Investing System: backup-readiness - No Postgres backup files visible to Investing.
-- BLOCKED Investing System: backup-freshness - No visible backup can be freshness-checked.
-- BLOCKED Investing System: backup-restore-proof - No backup restore-test proof is visible.
 - BLOCKED Investing System: external-sync - External root is not mounted: /Volumes/Hermes
 - BLOCKED Investing System: external-write-proof - External write/read proof has not run.
