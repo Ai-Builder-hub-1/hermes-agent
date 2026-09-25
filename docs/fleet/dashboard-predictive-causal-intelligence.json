@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-25T18:04:48.570Z",
+  "generatedAt": "2026-09-25T18:35:03.863Z",
   "source": "scripts/generate-dashboard-predictive-causal-intelligence.mjs",
   "status": "low-risk",
   "confidence": "trend-backed",
@@ -10,7 +10,7 @@
     "lowRisk": 6,
     "elevatedRisk": 0,
     "causalPlaybookCount": 6,
-    "historySamples": 53,
+    "historySamples": 54,
     "dailyStatus": "needs-attention"
   },
   "forecasts": [
