@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-25T03:29:31.030Z",
+  "generatedAt": "2026-09-25T15:02:35.420Z",
   "source": "scripts/generate-dashboard-operating-history-policy.mjs",
   "status": "inside-policy",
   "retention": {
@@ -71,14 +71,14 @@
   ],
   "trend": {
     "direction": "stable",
-    "sampleCount": 24,
+    "sampleCount": 47,
     "latestAttentionCount": 0,
     "previousAttentionCount": 0,
     "latestFailedObjectiveCount": 0,
     "previousFailedObjectiveCount": 0
   },
   "latestSnapshot": {
-    "capturedAt": "2026-09-25T03:29:31.030Z",
+    "capturedAt": "2026-09-25T15:02:35.420Z",
     "status": "inside-policy",
     "dashboardCount": 10,
     "attentionCount": 0,
