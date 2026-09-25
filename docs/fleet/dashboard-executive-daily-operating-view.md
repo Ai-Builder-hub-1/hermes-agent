@@ -1,6 +1,6 @@
 # Dashboard Executive Daily Operating View
 
-Generated: 2026-09-25T18:04:02.434Z
+Generated: 2026-09-25T18:31:04.275Z
 Status: needs-attention
 
 ## Summary
@@ -14,13 +14,13 @@ Status: needs-attention
 - Policy: inside-policy
 - Forecast: low-risk
 - Recovery: recovery-attention
-- Data operations: blocked (76/100)
-- Data operations blocked layers: 6
+- Data operations: blocked (83/100)
+- Data operations blocked layers: 3
 
 ## Top Priorities
 
 - Resolve governed recovery audit failures before enabling new action classes.
-- Resolve 6 blocked data operations layer(s) across Khashi VC and Investing System.
+- Resolve 3 blocked data operations layer(s) across Khashi VC and Investing System.
 
 ## Dashboard Posture
 
@@ -38,11 +38,8 @@ Status: needs-attention
 ## Data Operations
 
 - Status: blocked
-- Score: 76/100
-- Generated: 2026-09-25T18:03:23.594Z
-- BLOCKED Khashi VC: retention-readiness - StoreRecord has 1,980,093 estimated dead rows.
-- BLOCKED Investing System: ledger-cardinality - OANDA ledger has 1,247,920 file(s).
-- BLOCKED Investing System: ledger-budget-contract - Live ledger file budget is 50,000; over budget by 1,197,920 file(s).
-- BLOCKED Investing System: archive-readiness - No OANDA archive catalog records found.
-- BLOCKED Investing System: archive-catalog-contract - No verified OANDA archive catalog records found.
-- BLOCKED Investing System: archive-restore-proof - No verified archive restore proof exists.
+- Score: 83/100
+- Generated: 2026-09-25T18:30:49.535Z
+- BLOCKED Khashi VC: retention-readiness - StoreRecord has 1,991,143 estimated dead rows.
+- BLOCKED Investing System: ledger-cardinality - OANDA ledger has 1,248,034 file(s).
+- BLOCKED Investing System: ledger-budget-contract - Live ledger file budget is 50,000; over budget by 1,198,034 file(s).
