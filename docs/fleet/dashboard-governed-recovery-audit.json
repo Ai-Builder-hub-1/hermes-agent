@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-25T15:02:35.740Z",
+  "generatedAt": "2026-09-25T17:04:24.693Z",
   "source": "scripts/generate-dashboard-governed-recovery-audit.mjs",
   "status": "recovery-attention",
   "summary": {
