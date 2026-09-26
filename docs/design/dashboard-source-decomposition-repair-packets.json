@@ -1,0 +1,575 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-21T20:34:26.598Z",
+  "packets": [
+    {
+      "id": "khashi-vc.source-decomposition",
+      "project": "khashi-vc",
+      "priority": "P0",
+      "verdict": "needs-source-decomposition",
+      "sourceScore": 40,
+      "blockers": [
+        {
+          "code": "mode.notStrictPackageNative",
+          "message": "implementationMode is package-native-runtime; strict T3C source gate expects package-native.",
+          "surface": null
+        },
+        {
+          "code": "localDebt.high",
+          "message": "roc-dashboard-native-source has local visual debt score 1132.",
+          "surface": "roc-dashboard-native-source"
+        }
+      ],
+      "warnings": [
+        {
+          "code": "compatibility.routeTracked",
+          "message": "roc-shell remains a compatibility/review surface and must not be promoted as primary.",
+          "surface": "roc-shell"
+        },
+        {
+          "code": "compatibility.routeTracked",
+          "message": "market-intelligence-live remains a compatibility/review surface and must not be promoted as primary.",
+          "surface": "market-intelligence-live"
+        }
+      ],
+      "targetSurfaces": [
+        {
+          "id": "roc-dashboard-native-source",
+          "path": "src/web/roc-dashboard/index.mjs",
+          "sourceNativeLevel": "package-native-route",
+          "localDebtScore": 1132,
+          "missingFamilies": [],
+          "nextMigrationLayer": "reduce-local-visual-primitive-debt"
+        }
+      ],
+      "actions": [
+        "Reduce local primitive debt in roc-dashboard-native-source: local-shell=47, local-sidebar=47, local-card-panel=144, hand-chart=2, hand-table=1, hardcoded-token=364, static-render-string=6."
+      ],
+      "verification": [
+        "npm run dashboard:source-decomposition:report",
+        "npm run dashboard:certify:rendered",
+        "npm run dashboard:certify:validate"
+      ]
+    },
+    {
+      "id": "media-engine.source-decomposition",
+      "project": "media-engine",
+      "priority": "P0",
+      "verdict": "needs-source-decomposition",
+      "sourceScore": 40,
+      "blockers": [
+        {
+          "code": "localDebt.high",
+          "message": "media-engine-ops-active has local visual debt score 536.",
+          "surface": "media-engine-ops-active"
+        }
+      ],
+      "warnings": [
+        {
+          "code": "families.partial",
+          "message": "media-engine-ops-active is missing sidebar, proof.",
+          "surface": "media-engine-ops-active"
+        }
+      ],
+      "targetSurfaces": [
+        {
+          "id": "media-engine-ops-active",
+          "path": "core/operations/unified-publishing-dashboard.js",
+          "sourceNativeLevel": "package-native-route",
+          "localDebtScore": 536,
+          "missingFamilies": [
+            "sidebar",
+            "proof"
+          ],
+          "nextMigrationLayer": "reduce-local-visual-primitive-debt"
+        }
+      ],
+      "actions": [
+        "Reduce local primitive debt in media-engine-ops-active: local-shell=48, local-sidebar=3, local-card-panel=14, hand-chart=2, hardcoded-token=123, static-render-string=27.",
+        "Add route-level component coverage for media-engine-ops-active: sidebar, proof."
+      ],
+      "verification": [
+        "npm run dashboard:source-decomposition:report",
+        "npm run dashboard:certify:rendered",
+        "npm run dashboard:certify:validate"
+      ]
+    },
+    {
+      "id": "media-business-os.source-decomposition",
+      "project": "media-business-os",
+      "priority": "P0",
+      "verdict": "needs-source-decomposition",
+      "sourceScore": 2,
+      "blockers": [
+        {
+          "code": "localDebt.high",
+          "message": "media-business-react-dashboard has local visual debt score 119.",
+          "surface": "media-business-react-dashboard"
+        },
+        {
+          "code": "surface.notSourceNative",
+          "message": "media-business-main is static-html, not package-native by source.",
+          "surface": "media-business-main"
+        },
+        {
+          "code": "families.missing",
+          "message": "media-business-main is missing metrics, tables, charts, workflow, proof.",
+          "surface": "media-business-main"
+        },
+        {
+          "code": "surface.notSourceNative",
+          "message": "media-business-renderer is server-rendered, not package-native by source.",
+          "surface": "media-business-renderer"
+        },
+        {
+          "code": "localDebt.high",
+          "message": "media-business-renderer has local visual debt score 679.",
+          "surface": "media-business-renderer"
+        }
+      ],
+      "warnings": [
+        {
+          "code": "localDebt.moderate",
+          "message": "media-business-main has local visual debt score 53.",
+          "surface": "media-business-main"
+        },
+        {
+          "code": "families.partial",
+          "message": "media-business-renderer is missing shell, header.",
+          "surface": "media-business-renderer"
+        }
+      ],
+      "targetSurfaces": [
+        {
+          "id": "media-business-react-dashboard",
+          "path": "frontend/src/main.tsx",
+          "sourceNativeLevel": "package-native-route",
+          "localDebtScore": 119,
+          "missingFamilies": [],
+          "nextMigrationLayer": "reduce-local-visual-primitive-debt"
+        },
+        {
+          "id": "media-business-main",
+          "path": "public/dashboard/index.html",
+          "sourceNativeLevel": "static-html",
+          "localDebtScore": 53,
+          "missingFamilies": [
+            "metrics",
+            "tables",
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "nextMigrationLayer": "replace-static-html-with-react-vite-route"
+        },
+        {
+          "id": "media-business-renderer",
+          "path": "public/dashboard/app.js",
+          "sourceNativeLevel": "server-rendered",
+          "localDebtScore": 679,
+          "missingFamilies": [
+            "shell",
+            "header"
+          ],
+          "nextMigrationLayer": "extract-server-html-into-package-native-components"
+        }
+      ],
+      "actions": [
+        "Reduce local primitive debt in media-business-react-dashboard: local-shell=1, local-sidebar=8, local-card-panel=35, hand-table=1.",
+        "Replace media-business-main static HTML route with a package-native route wrapper.",
+        "Reduce local primitive debt in media-business-main: local-shell=2, local-sidebar=9.",
+        "Add route-level component coverage for media-business-main: metrics, tables, charts, workflow, proof.",
+        "Extract media-business-renderer server-rendered HTML into importable dashboard-kit component modules.",
+        "Reduce local primitive debt in media-business-renderer: local-shell=13, local-sidebar=13, local-card-panel=116, static-render-string=55.",
+        "Add route-level component coverage for media-business-renderer: shell, header."
+      ],
+      "verification": [
+        "npm run dashboard:source-decomposition:report",
+        "npm run dashboard:certify:rendered",
+        "npm run dashboard:certify:validate"
+      ]
+    },
+    {
+      "id": "business-mapper.source-decomposition",
+      "project": "business-mapper",
+      "priority": "P0",
+      "verdict": "needs-source-decomposition",
+      "sourceScore": 8,
+      "blockers": [
+        {
+          "code": "surface.notSourceNative",
+          "message": "business-mapper-workspace is static-html, not package-native by source.",
+          "surface": "business-mapper-workspace"
+        },
+        {
+          "code": "families.missing",
+          "message": "business-mapper-workspace is missing tables, charts, workflow, proof.",
+          "surface": "business-mapper-workspace"
+        },
+        {
+          "code": "localDebt.high",
+          "message": "business-mapper-workspace has local visual debt score 87.",
+          "surface": "business-mapper-workspace"
+        }
+      ],
+      "warnings": [],
+      "targetSurfaces": [
+        {
+          "id": "business-mapper-workspace",
+          "path": "business_mapper/static/index.html",
+          "sourceNativeLevel": "static-html",
+          "localDebtScore": 87,
+          "missingFamilies": [
+            "tables",
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "nextMigrationLayer": "replace-static-html-with-react-vite-route"
+        }
+      ],
+      "actions": [
+        "Replace business-mapper-workspace static HTML route with a package-native route wrapper.",
+        "Reduce local primitive debt in business-mapper-workspace: local-shell=10, local-sidebar=3, local-card-panel=16.",
+        "Add route-level component coverage for business-mapper-workspace: tables, charts, workflow, proof."
+      ],
+      "verification": [
+        "npm run dashboard:source-decomposition:report",
+        "npm run dashboard:certify:rendered",
+        "npm run dashboard:certify:validate"
+      ]
+    },
+    {
+      "id": "meal-assistant.source-decomposition",
+      "project": "meal-assistant",
+      "priority": "P0",
+      "verdict": "needs-source-decomposition",
+      "sourceScore": 24,
+      "blockers": [
+        {
+          "code": "families.missing",
+          "message": "meal-dashboard-shell is missing tables, charts, workflow, proof.",
+          "surface": "meal-dashboard-shell"
+        },
+        {
+          "code": "localDebt.high",
+          "message": "meal-dashboard-shell has local visual debt score 985.",
+          "surface": "meal-dashboard-shell"
+        }
+      ],
+      "warnings": [],
+      "targetSurfaces": [
+        {
+          "id": "meal-dashboard-shell",
+          "path": "src/server.js",
+          "sourceNativeLevel": "package-native-route",
+          "localDebtScore": 985,
+          "missingFamilies": [
+            "tables",
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "nextMigrationLayer": "reduce-local-visual-primitive-debt"
+        }
+      ],
+      "actions": [
+        "Reduce local primitive debt in meal-dashboard-shell: local-shell=29, local-sidebar=19, local-card-panel=112, hardcoded-token=418, static-render-string=22.",
+        "Add route-level component coverage for meal-dashboard-shell: tables, charts, workflow, proof."
+      ],
+      "verification": [
+        "npm run dashboard:source-decomposition:report",
+        "npm run dashboard:certify:rendered",
+        "npm run dashboard:certify:validate"
+      ]
+    },
+    {
+      "id": "hermes-os.source-decomposition",
+      "project": "hermes-os",
+      "priority": "P0",
+      "verdict": "needs-source-decomposition",
+      "sourceScore": 0,
+      "blockers": [
+        {
+          "code": "surface.notSourceNative",
+          "message": "hermes-dashboard-hub is server-rendered, not package-native by source.",
+          "surface": "hermes-dashboard-hub"
+        },
+        {
+          "code": "localDebt.high",
+          "message": "hermes-dashboard-hub has local visual debt score 1450.",
+          "surface": "hermes-dashboard-hub"
+        },
+        {
+          "code": "surface.notSourceNative",
+          "message": "hermes-operator-dashboard-artifact is server-rendered, not package-native by source.",
+          "surface": "hermes-operator-dashboard-artifact"
+        },
+        {
+          "code": "families.missing",
+          "message": "hermes-operator-dashboard-artifact is missing sidebar, charts, workflow, proof.",
+          "surface": "hermes-operator-dashboard-artifact"
+        },
+        {
+          "code": "surface.notSourceNative",
+          "message": "hermes-control-plane-artifact is server-rendered, not package-native by source.",
+          "surface": "hermes-control-plane-artifact"
+        },
+        {
+          "code": "families.missing",
+          "message": "hermes-control-plane-artifact is missing sidebar, metrics, charts, workflow, proof.",
+          "surface": "hermes-control-plane-artifact"
+        }
+      ],
+      "warnings": [
+        {
+          "code": "families.partial",
+          "message": "hermes-dashboard-hub is missing charts, workflow, proof.",
+          "surface": "hermes-dashboard-hub"
+        },
+        {
+          "code": "localDebt.moderate",
+          "message": "hermes-operator-dashboard-artifact has local visual debt score 61.",
+          "surface": "hermes-operator-dashboard-artifact"
+        },
+        {
+          "code": "localDebt.moderate",
+          "message": "hermes-control-plane-artifact has local visual debt score 49.",
+          "surface": "hermes-control-plane-artifact"
+        }
+      ],
+      "targetSurfaces": [
+        {
+          "id": "hermes-dashboard-hub",
+          "path": "src/workspace/workspace-server.ts",
+          "sourceNativeLevel": "server-rendered",
+          "localDebtScore": 1450,
+          "missingFamilies": [
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "nextMigrationLayer": "extract-server-html-into-package-native-components"
+        },
+        {
+          "id": "hermes-operator-dashboard-artifact",
+          "path": "src/operator/operator-state.ts",
+          "sourceNativeLevel": "server-rendered",
+          "localDebtScore": 61,
+          "missingFamilies": [
+            "sidebar",
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "nextMigrationLayer": "extract-server-html-into-package-native-components"
+        },
+        {
+          "id": "hermes-control-plane-artifact",
+          "path": "src/operator/control-plane.ts",
+          "sourceNativeLevel": "server-rendered",
+          "localDebtScore": 49,
+          "missingFamilies": [
+            "sidebar",
+            "metrics",
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "nextMigrationLayer": "extract-server-html-into-package-native-components"
+        }
+      ],
+      "actions": [
+        "Extract hermes-dashboard-hub server-rendered HTML into importable dashboard-kit component modules.",
+        "Reduce local primitive debt in hermes-dashboard-hub: local-shell=102, local-sidebar=25, local-card-panel=79, hand-table=27, hardcoded-token=312, static-render-string=52.",
+        "Add route-level component coverage for hermes-dashboard-hub: charts, workflow, proof.",
+        "Extract hermes-operator-dashboard-artifact server-rendered HTML into importable dashboard-kit component modules.",
+        "Reduce local primitive debt in hermes-operator-dashboard-artifact: local-shell=4, local-card-panel=6, hand-table=1, hardcoded-token=22, static-render-string=1.",
+        "Add route-level component coverage for hermes-operator-dashboard-artifact: sidebar, charts, workflow, proof.",
+        "Extract hermes-control-plane-artifact server-rendered HTML into importable dashboard-kit component modules.",
+        "Reduce local primitive debt in hermes-control-plane-artifact: local-shell=6, hand-table=2, hardcoded-token=9, static-render-string=1.",
+        "Add route-level component coverage for hermes-control-plane-artifact: sidebar, metrics, charts, workflow, proof."
+      ],
+      "verification": [
+        "npm run dashboard:source-decomposition:report",
+        "npm run dashboard:certify:rendered",
+        "npm run dashboard:certify:validate"
+      ]
+    },
+    {
+      "id": "tlc-capital-group-os.source-decomposition",
+      "project": "tlc-capital-group-os",
+      "priority": "P0",
+      "verdict": "needs-source-decomposition",
+      "sourceScore": 24,
+      "blockers": [
+        {
+          "code": "surface.notSourceNative",
+          "message": "tlc-dashboard-shell is static-html, not package-native by source.",
+          "surface": "tlc-dashboard-shell"
+        },
+        {
+          "code": "families.missing",
+          "message": "tlc-dashboard-shell is missing tables, charts, workflow, proof.",
+          "surface": "tlc-dashboard-shell"
+        }
+      ],
+      "warnings": [],
+      "targetSurfaces": [
+        {
+          "id": "tlc-dashboard-shell",
+          "path": "public/dashboard/index.html",
+          "sourceNativeLevel": "static-html",
+          "localDebtScore": 25,
+          "missingFamilies": [
+            "tables",
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "nextMigrationLayer": "replace-static-html-with-react-vite-route"
+        }
+      ],
+      "actions": [
+        "Replace tlc-dashboard-shell static HTML route with a package-native route wrapper.",
+        "Add route-level component coverage for tlc-dashboard-shell: tables, charts, workflow, proof."
+      ],
+      "verification": [
+        "npm run dashboard:source-decomposition:report",
+        "npm run dashboard:certify:rendered",
+        "npm run dashboard:certify:validate"
+      ]
+    },
+    {
+      "id": "rinseables-os.source-decomposition",
+      "project": "rinseables-os",
+      "priority": "P0",
+      "verdict": "needs-source-decomposition",
+      "sourceScore": 23,
+      "blockers": [
+        {
+          "code": "surface.notSourceNative",
+          "message": "rinseables-dashboard-shell is static-html, not package-native by source.",
+          "surface": "rinseables-dashboard-shell"
+        },
+        {
+          "code": "families.missing",
+          "message": "rinseables-dashboard-shell is missing tables, charts, workflow, proof.",
+          "surface": "rinseables-dashboard-shell"
+        }
+      ],
+      "warnings": [],
+      "targetSurfaces": [
+        {
+          "id": "rinseables-dashboard-shell",
+          "path": "public/dashboard/index.html",
+          "sourceNativeLevel": "static-html",
+          "localDebtScore": 28,
+          "missingFamilies": [
+            "tables",
+            "charts",
+            "workflow",
+            "proof"
+          ],
+          "nextMigrationLayer": "replace-static-html-with-react-vite-route"
+        }
+      ],
+      "actions": [
+        "Replace rinseables-dashboard-shell static HTML route with a package-native route wrapper.",
+        "Add route-level component coverage for rinseables-dashboard-shell: tables, charts, workflow, proof."
+      ],
+      "verification": [
+        "npm run dashboard:source-decomposition:report",
+        "npm run dashboard:certify:rendered",
+        "npm run dashboard:certify:validate"
+      ]
+    },
+    {
+      "id": "investing-system.source-decomposition",
+      "project": "investing-system",
+      "priority": "P0",
+      "verdict": "needs-source-decomposition",
+      "sourceScore": 0,
+      "blockers": [
+        {
+          "code": "surface.notSourceNative",
+          "message": "investing-system-roc is static-html, not package-native by source.",
+          "surface": "investing-system-roc"
+        },
+        {
+          "code": "localDebt.high",
+          "message": "investing-system-roc has local visual debt score 489.",
+          "surface": "investing-system-roc"
+        }
+      ],
+      "warnings": [
+        {
+          "code": "families.partial",
+          "message": "investing-system-roc is missing workflow.",
+          "surface": "investing-system-roc"
+        }
+      ],
+      "targetSurfaces": [
+        {
+          "id": "investing-system-roc",
+          "path": "public/roc/index.html",
+          "sourceNativeLevel": "static-html",
+          "localDebtScore": 489,
+          "missingFamilies": [
+            "workflow"
+          ],
+          "nextMigrationLayer": "replace-static-html-with-react-vite-route"
+        }
+      ],
+      "actions": [
+        "Replace investing-system-roc static HTML route with a package-native route wrapper.",
+        "Reduce local primitive debt in investing-system-roc: local-shell=7, local-sidebar=11, local-card-panel=203.",
+        "Add route-level component coverage for investing-system-roc: workflow."
+      ],
+      "verification": [
+        "npm run dashboard:source-decomposition:report",
+        "npm run dashboard:certify:rendered",
+        "npm run dashboard:certify:validate"
+      ]
+    },
+    {
+      "id": "nous-hermes-agent.source-decomposition",
+      "project": "nous-hermes-agent",
+      "priority": "P0",
+      "verdict": "needs-source-decomposition",
+      "sourceScore": 39,
+      "blockers": [
+        {
+          "code": "surface.notSourceNative",
+          "message": "hermes-dashboard-kit-gallery-web-route is runtime-bridge, not package-native by source.",
+          "surface": "hermes-dashboard-kit-gallery-web-route"
+        },
+        {
+          "code": "localDebt.high",
+          "message": "hermes-dashboard-kit-gallery-web-route has local visual debt score 172.",
+          "surface": "hermes-dashboard-kit-gallery-web-route"
+        }
+      ],
+      "warnings": [],
+      "targetSurfaces": [
+        {
+          "id": "hermes-dashboard-kit-gallery-web-route",
+          "path": "web/src/pages/DashboardKitGalleryPage.tsx",
+          "sourceNativeLevel": "runtime-bridge",
+          "localDebtScore": 172,
+          "missingFamilies": [],
+          "nextMigrationLayer": "replace-runtime-markers-with-direct-kit-imports"
+        }
+      ],
+      "actions": [
+        "Replace hermes-dashboard-kit-gallery-web-route marker/CSS compliance with direct @hermes/dashboard-kit imports.",
+        "Reduce local primitive debt in hermes-dashboard-kit-gallery-web-route: local-shell=2, local-card-panel=62, hand-chart=1, hand-table=4, static-render-string=2."
+      ],
+      "verification": [
+        "npm run dashboard:source-decomposition:report",
+        "npm run dashboard:certify:rendered",
+        "npm run dashboard:certify:validate"
+      ]
+    }
+  ]
+}

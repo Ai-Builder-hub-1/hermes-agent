@@ -45,6 +45,11 @@ const requiredSteps = [
     command: ["npm", ["run", "dashboard:certify"]]
   },
   {
+    id: "dashboard-source-decomposition",
+    label: "Dashboard source decomposition report",
+    command: ["npm", ["run", "dashboard:source-decomposition:report"]]
+  },
+  {
     id: "dashboard-certification-artifacts",
     label: "Dashboard certification artifact validation",
     command: ["npm", ["run", "dashboard:certify:validate:strict"]]
@@ -76,6 +81,11 @@ const fullOnlySteps = [
     id: "dashboard-kit-adoption",
     label: "Dashboard kit adoption strict gate",
     command: ["npm", ["run", "dashboard-kit:adoption:audit:strict"]]
+  },
+  {
+    id: "dashboard-source-decomposition-strict",
+    label: "Dashboard source decomposition strict gate",
+    command: ["npm", ["run", "dashboard:source-decomposition:strict"]]
   },
   {
     id: "fleet-maturity",

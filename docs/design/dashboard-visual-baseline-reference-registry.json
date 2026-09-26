@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-22T19:34:45.775Z",
+  "standard": "Dashboard Visual Baseline Reference Registry",
+  "families": [
+    {
+      "id": "shell-sidebar",
+      "label": "Shell And Sidebar",
+      "requiredComponents": [
+        "DashboardShell",
+        "DashboardSidebar",
+        "DashboardHeader"
+      ],
+      "requiredProof": [
+        "desktop screenshot",
+        "mobile screenshot",
+        "no mobile full-screen sidebar cover",
+        "visible route navigation"
+      ],
+      "notes": "Every project must use the shared shell rhythm before page-level redesign begins."
+    },
+    {
+      "id": "workspace-density",
+      "label": "Workspace Density And Spacing",
+      "requiredComponents": [
+        "PageFrame",
+        "SectionStack",
+        "MetricCard",
+        "StatePanel"
+      ],
+      "requiredProof": [
+        "consistent card gaps",
+        "no card nesting",
+        "no horizontal overflow"
+      ],
+      "notes": "Cards must look placed by a system, not dropped behind existing content."
+    },
+    {
+      "id": "tables",
+      "label": "Tables And Pagination",
+      "requiredComponents": [
+        "DataTable",
+        "TableSurface",
+        "Pagination"
+      ],
+      "requiredProof": [
+        "table inside card",
+        "10/25/50 page size control",
+        "single footer"
+      ],
+      "notes": "Every data table needs a surface, density, and pagination contract."
+    },
+    {
+      "id": "charts",
+      "label": "Charts And Time Series",
+      "requiredComponents": [
+        "LineChart",
+        "BarChart",
+        "DonutChart",
+        "ChartPanel"
+      ],
+      "requiredProof": [
+        "not hand-drawn",
+        "labeled axes or meaningful tooltip",
+        "loading and empty states"
+      ],
+      "notes": "Chart work must use real chart components or approved domain libraries."
+    },
+    {
+      "id": "auth-session",
+      "label": "Auth And Session Controls",
+      "requiredComponents": [
+        "SessionStatus",
+        "AuthPanel",
+        "CommandHeader"
+      ],
+      "requiredProof": [
+        "professional placement",
+        "proof route bypass or test password",
+        "save/update state visible"
+      ],
+      "notes": "Auth can exist, but it cannot block certification from reaching the real dashboard surface."
+    },
+    {
+      "id": "sidecars-drawers",
+      "label": "Sidecars And Drawers",
+      "requiredComponents": [
+        "SidecarPanel",
+        "Drawer",
+        "InspectorPanel"
+      ],
+      "requiredProof": [
+        "does not trap chart/workspace height",
+        "collapses to a predictable rail",
+        "scrolls internally"
+      ],
+      "notes": "Inspectors belong in reusable sidecar/drawer patterns instead of one-off local panels."
+    },
+    {
+      "id": "state-feedback",
+      "label": "Empty Loading Error States",
+      "requiredComponents": [
+        "LoadingState",
+        "EmptyState",
+        "ErrorState",
+        "DataFreshnessStrip"
+      ],
+      "requiredProof": [
+        "no permanent dashes without reason",
+        "freshness and source visible",
+        "operator next action"
+      ],
+      "notes": "Missing data must explain whether it is loading, unavailable, stale, or misconfigured."
+    },
+    {
+      "id": "proof-strip",
+      "label": "Proof And Runtime Status",
+      "requiredComponents": [
+        "ProofStrip",
+        "RuntimeStatus",
+        "HealthBadge"
+      ],
+      "requiredProof": [
+        "runtime heartbeat",
+        "data source freshness",
+        "environment mode",
+        "repair target"
+      ],
+      "notes": "Proof surfaces must tell the truth about running, stopped, stale, and unknown states."
+    }
+  ]
+}

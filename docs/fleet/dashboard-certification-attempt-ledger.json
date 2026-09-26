@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-15T18:51:38.843Z",
+  "generatedAt": "2026-08-21T20:15:45.975Z",
   "attempts": [
     {
       "project": "khashi-vc",
@@ -8,21 +8,17 @@
       "verdict": "blocked",
       "blockers": [
         "tier3c.implementationMode",
-        "falseNative.migrationLanguage",
-        "surface.compatibilityClaim",
         "hidden-compliance-marker",
         "local-shell-class",
         "anatomy.secondShellLayout",
         "localDebt.excessive"
       ],
       "warnings": [
-        "anatomy.multipleShellMarkers",
-        "anatomy.multipleSidebarMarkers",
         "raw-svg-or-hand-chart",
         "hardcoded-visual-token",
         "anatomy.multipleSidebarMarkers"
       ],
-      "nextRepairPacket": "khashi-vc.repair.2026-08-15"
+      "nextRepairPacket": "khashi-vc.repair.2026-08-21"
     },
     {
       "project": "media-engine",
@@ -35,7 +31,7 @@
         "raw-svg-or-hand-chart",
         "hardcoded-visual-token"
       ],
-      "nextRepairPacket": "media-engine.repair.2026-08-15"
+      "nextRepairPacket": "media-engine.repair.2026-08-21"
     },
     {
       "project": "media-business-os",
@@ -43,27 +39,29 @@
       "verdict": "blocked",
       "blockers": [
         "falseNative.migrationLanguage",
+        "surface.compatibilityClaim",
+        "hidden-compliance-marker",
         "hidden-compliance-marker"
       ],
       "warnings": [
         "anatomy.multipleSidebarMarkers",
+        "anatomy.multipleSidebarMarkers",
         "anatomy.multipleSidebarMarkers"
       ],
-      "nextRepairPacket": "media-business-os.repair.2026-08-15"
+      "nextRepairPacket": "media-business-os.repair.2026-08-21"
     },
     {
       "project": "business-mapper",
       "state": "repair-needed",
       "verdict": "blocked",
       "blockers": [
-        "falseNative.migrationLanguage",
-        "hidden-compliance-marker",
-        "anatomy.secondShellLayout"
+        "falseNative.migrationLanguage"
       ],
       "warnings": [
-        "anatomy.multipleSidebarMarkers"
+        "anatomy.multipleSidebarMarkers",
+        "evidence.dataMissing"
       ],
-      "nextRepairPacket": "business-mapper.repair.2026-08-15"
+      "nextRepairPacket": "business-mapper.repair.2026-08-21"
     },
     {
       "project": "meal-assistant",
@@ -78,7 +76,7 @@
         "anatomy.multipleShellMarkers",
         "anatomy.multipleSidebarMarkers"
       ],
-      "nextRepairPacket": "meal-assistant.repair.2026-08-15"
+      "nextRepairPacket": "meal-assistant.repair.2026-08-21"
     },
     {
       "project": "hermes-os",
@@ -86,33 +84,29 @@
       "verdict": "blocked",
       "blockers": [
         "falseNative.migrationLanguage",
-        "hidden-compliance-marker",
-        "hidden-compliance-marker",
         "surface.compatibilityClaim",
-        "hidden-compliance-marker",
         "localDebt.excessive"
       ],
       "warnings": [
         "hardcoded-visual-token",
         "anatomy.multipleShellMarkers",
+        "anatomy.multipleSidebarMarkers",
         "hardcoded-visual-token",
-        "anatomy.multipleShellMarkers",
-        "hardcoded-visual-token",
-        "anatomy.multipleShellMarkers"
+        "hardcoded-visual-token"
       ],
-      "nextRepairPacket": "hermes-os.repair.2026-08-15"
+      "nextRepairPacket": "hermes-os.repair.2026-08-21"
     },
     {
       "project": "tlc-capital-group-os",
       "state": "repair-needed",
       "verdict": "blocked",
       "blockers": [
-        "falseNative.migrationLanguage",
-        "hidden-compliance-marker",
-        "anatomy.secondShellLayout"
+        "falseNative.migrationLanguage"
       ],
-      "warnings": [],
-      "nextRepairPacket": "tlc-capital-group-os.repair.2026-08-15"
+      "warnings": [
+        "evidence.dataMissing"
+      ],
+      "nextRepairPacket": "tlc-capital-group-os.repair.2026-08-21"
     },
     {
       "project": "rinseables-os",
@@ -120,12 +114,12 @@
       "verdict": "blocked",
       "blockers": [
         "falseNative.migrationLanguage",
-        "surface.compatibilityClaim",
-        "hidden-compliance-marker",
-        "anatomy.secondShellLayout"
+        "surface.compatibilityClaim"
       ],
-      "warnings": [],
-      "nextRepairPacket": "rinseables-os.repair.2026-08-15"
+      "warnings": [
+        "evidence.dataMissing"
+      ],
+      "nextRepairPacket": "rinseables-os.repair.2026-08-21"
     },
     {
       "project": "investing-system",
@@ -136,7 +130,7 @@
         "surface.compatibilityClaim"
       ],
       "warnings": [],
-      "nextRepairPacket": "investing-system.repair.2026-08-15"
+      "nextRepairPacket": "investing-system.repair.2026-08-21"
     },
     {
       "project": "nous-hermes-agent",
@@ -150,7 +144,7 @@
         "raw-svg-or-hand-chart",
         "anatomy.multipleSidebarMarkers"
       ],
-      "nextRepairPacket": "nous-hermes-agent.repair.2026-08-15"
+      "nextRepairPacket": "nous-hermes-agent.repair.2026-08-21"
     }
   ]
 }

@@ -1,0 +1,401 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-22T20:30:58.828Z",
+  "standard": "Rendered Fleet HDK Certification Repair Packets",
+  "packetCount": 6,
+  "packets": [
+    {
+      "id": "nous-hermes-agent.dashboard.rendered-repair",
+      "dashboard": "nous-hermes-agent.dashboard",
+      "label": "Nous Hermes Agent",
+      "verdict": "blocked",
+      "score": 74,
+      "targetUrl": "http://127.0.0.1:5173/dashboard-kit-gallery",
+      "candidateAttempts": [
+        {
+          "url": "http://127.0.0.1:5174/dashboard-kit-gallery",
+          "status": null,
+          "textLength": 0,
+          "elementCount": 0,
+          "title": "",
+          "error": "page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5174/dashboard-kit-gallery\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:5174/dashboard-kit-gallery\", waiting until \"domcontentloaded\"\u001b[22m\n"
+        },
+        {
+          "url": "http://localhost:5174/dashboard-kit-gallery",
+          "status": null,
+          "textLength": 0,
+          "elementCount": 0,
+          "title": "",
+          "error": "page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:5174/dashboard-kit-gallery\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5174/dashboard-kit-gallery\", waiting until \"domcontentloaded\"\u001b[22m\n"
+        },
+        {
+          "url": "http://127.0.0.1:5173/dashboard-kit-gallery",
+          "status": 200,
+          "textLength": 1439,
+          "elementCount": 944,
+          "title": "Hermes Agent - Dashboard",
+          "error": null
+        }
+      ],
+      "screenshots": [
+        "docs/design/rendered-fleet-certification/nous-hermes-agent-dashboard-desktop.png",
+        "docs/design/rendered-fleet-certification/nous-hermes-agent-dashboard-mobile.png"
+      ],
+      "captureErrors": [],
+      "componentGaps": [
+        "proof"
+      ],
+      "routeFindings": [
+        {
+          "code": "route.notDashboardLike",
+          "message": "Route loaded but does not look like an operator dashboard surface.",
+          "path": "/dashboard-kit-gallery"
+        },
+        {
+          "code": "route.notDashboardLike",
+          "message": "Route loaded but does not look like an operator dashboard surface.",
+          "path": "/"
+        },
+        {
+          "code": "route.notDashboardLike",
+          "message": "Route loaded but does not look like an operator dashboard surface.",
+          "path": "/dashboard/proof"
+        }
+      ],
+      "blockers": [
+        {
+          "code": "layout.sidebarGeometryInvalid",
+          "message": "Desktop sidebar/nav geometry does not look like a rail, sidebar, or approved top command bar.",
+          "viewport": "desktop"
+        }
+      ],
+      "warnings": [
+        {
+          "code": "layout.excessNestedScroll",
+          "message": "14 visible scroll containers were detected; dashboard shells should avoid nested scrollbars unless explicitly approved.",
+          "viewport": "desktop"
+        },
+        {
+          "code": "layout.excessNestedScroll",
+          "message": "17 visible scroll containers were detected; dashboard shells should avoid nested scrollbars unless explicitly approved.",
+          "viewport": "mobile"
+        }
+      ],
+      "actions": [
+        "Repair the canonical dashboard shell geometry: header, sidebar/top command bar, auth controls, and main workspace must occupy approved HDK regions without squeezed titles, content-like nav stacks, below-fold starts, or nested scroll traps."
+      ],
+      "verification": [
+        "npm run dashboard:certify:rendered -- --id nous-hermes-agent.dashboard",
+        "Desktop and mobile screenshots must match the approved HDK shell/sidebar/card rhythm.",
+        "No hidden HDK markers, local card dominance, auth-wall capture, or horizontal overflow can remain."
+      ]
+    },
+    {
+      "id": "khashi-vc.roc.rendered-repair",
+      "dashboard": "khashi-vc.roc",
+      "label": "Khashi VC ROC",
+      "verdict": "needs-review",
+      "score": 95,
+      "targetUrl": "http://localhost:4102/",
+      "candidateAttempts": [
+        {
+          "url": "http://localhost:4102/",
+          "status": 200,
+          "textLength": 619,
+          "elementCount": 98,
+          "title": "Kashi Market Command",
+          "error": null
+        }
+      ],
+      "screenshots": [
+        "docs/design/rendered-fleet-certification/khashi-vc-roc-desktop.png",
+        "docs/design/rendered-fleet-certification/khashi-vc-roc-mobile.png"
+      ],
+      "captureErrors": [],
+      "componentGaps": [
+        "proof"
+      ],
+      "routeFindings": [
+        {
+          "code": "route.notDashboardLike",
+          "message": "Route loaded but does not look like an operator dashboard surface.",
+          "path": "/dashboard/proof?view=mission-control"
+        },
+        {
+          "code": "route.notDashboardLike",
+          "message": "Route loaded but does not look like an operator dashboard surface.",
+          "path": "/dashboard/proof?view=market-intelligence"
+        },
+        {
+          "code": "route.notDashboardLike",
+          "message": "Route loaded but does not look like an operator dashboard surface.",
+          "path": "/dashboard/proof?view=collection-capacity"
+        },
+        {
+          "code": "route.notDashboardLike",
+          "message": "Route loaded but does not look like an operator dashboard surface.",
+          "path": "/dashboard/proof?view=live-market-intelligence"
+        }
+      ],
+      "blockers": [],
+      "warnings": [
+        {
+          "code": "layout.excessNestedScroll",
+          "message": "6 visible scroll containers were detected; dashboard shells should avoid nested scrollbars unless explicitly approved.",
+          "viewport": "mobile"
+        }
+      ],
+      "actions": [
+        "Repair the canonical dashboard shell geometry: header, sidebar/top command bar, auth controls, and main workspace must occupy approved HDK regions without squeezed titles, content-like nav stacks, below-fold starts, or nested scroll traps."
+      ],
+      "verification": [
+        "npm run dashboard:certify:rendered -- --id khashi-vc.roc",
+        "Desktop and mobile screenshots must match the approved HDK shell/sidebar/card rhythm.",
+        "No hidden HDK markers, local card dominance, auth-wall capture, or horizontal overflow can remain."
+      ]
+    },
+    {
+      "id": "media-engine.ops.rendered-repair",
+      "dashboard": "media-engine.ops",
+      "label": "Media Engine Ops",
+      "verdict": "blocked",
+      "score": 79,
+      "targetUrl": "http://localhost:4200/",
+      "candidateAttempts": [
+        {
+          "url": "http://localhost:4200/",
+          "status": 200,
+          "textLength": 7903,
+          "elementCount": 4867,
+          "title": "Media Engine Unified Ops",
+          "error": null
+        }
+      ],
+      "screenshots": [
+        "docs/design/rendered-fleet-certification/media-engine-ops-desktop.png",
+        "docs/design/rendered-fleet-certification/media-engine-ops-mobile.png"
+      ],
+      "captureErrors": [],
+      "componentGaps": [],
+      "routeFindings": [
+        {
+          "code": "route.notDashboardLike",
+          "message": "Route loaded but does not look like an operator dashboard surface.",
+          "path": "/dashboard/proof"
+        }
+      ],
+      "blockers": [
+        {
+          "code": "layout.mainBelowFold",
+          "message": "Primary dashboard content starts too far below the first viewport.",
+          "viewport": "mobile"
+        }
+      ],
+      "warnings": [
+        {
+          "code": "layout.excessNestedScroll",
+          "message": "5 visible scroll containers were detected; dashboard shells should avoid nested scrollbars unless explicitly approved.",
+          "viewport": "mobile"
+        }
+      ],
+      "actions": [
+        "Repair the canonical dashboard shell geometry: header, sidebar/top command bar, auth controls, and main workspace must occupy approved HDK regions without squeezed titles, content-like nav stacks, below-fold starts, or nested scroll traps."
+      ],
+      "verification": [
+        "npm run dashboard:certify:rendered -- --id media-engine.ops",
+        "Desktop and mobile screenshots must match the approved HDK shell/sidebar/card rhythm.",
+        "No hidden HDK markers, local card dominance, auth-wall capture, or horizontal overflow can remain."
+      ]
+    },
+    {
+      "id": "media-business-operations.main.rendered-repair",
+      "dashboard": "media-business-operations.main",
+      "label": "Media Business Operations",
+      "verdict": "blocked",
+      "score": 84,
+      "targetUrl": "http://localhost:5176/dashboard/react/",
+      "candidateAttempts": [
+        {
+          "url": "http://localhost:5176/dashboard/react/",
+          "status": 200,
+          "textLength": 497,
+          "elementCount": 122,
+          "title": "Media Business OS",
+          "error": null
+        }
+      ],
+      "screenshots": [
+        "docs/design/rendered-fleet-certification/media-business-operations-main-desktop.png",
+        "docs/design/rendered-fleet-certification/media-business-operations-main-mobile.png"
+      ],
+      "captureErrors": [],
+      "componentGaps": [
+        "charts",
+        "proof"
+      ],
+      "routeFindings": [
+        {
+          "code": "route.notDashboardLike",
+          "message": "Route loaded but does not look like an operator dashboard surface.",
+          "path": "/dashboard"
+        },
+        {
+          "code": "route.notDashboardLike",
+          "message": "Route loaded but does not look like an operator dashboard surface.",
+          "path": "/research-desk"
+        },
+        {
+          "code": "route.notDashboardLike",
+          "message": "Route loaded but does not look like an operator dashboard surface.",
+          "path": "/dashboard/proof"
+        }
+      ],
+      "blockers": [
+        {
+          "code": "layout.sidebarGeometryInvalid",
+          "message": "Desktop sidebar/nav geometry does not look like a rail, sidebar, or approved top command bar.",
+          "viewport": "desktop"
+        }
+      ],
+      "warnings": [],
+      "actions": [
+        "Repair the canonical dashboard shell geometry: header, sidebar/top command bar, auth controls, and main workspace must occupy approved HDK regions without squeezed titles, content-like nav stacks, below-fold starts, or nested scroll traps."
+      ],
+      "verification": [
+        "npm run dashboard:certify:rendered -- --id media-business-operations.main",
+        "Desktop and mobile screenshots must match the approved HDK shell/sidebar/card rhythm.",
+        "No hidden HDK markers, local card dominance, auth-wall capture, or horizontal overflow can remain."
+      ]
+    },
+    {
+      "id": "meal-assistant.main.rendered-repair",
+      "dashboard": "meal-assistant.main",
+      "label": "Meal Assistant",
+      "verdict": "unreachable",
+      "score": 0,
+      "targetUrl": null,
+      "candidateAttempts": [
+        {
+          "url": "http://localhost:4184/dashboard/proof",
+          "status": null,
+          "textLength": 0,
+          "elementCount": 0,
+          "title": "",
+          "error": "page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:4184/dashboard/proof\nCall log:\n\u001b[2m  - navigating to \"http://localhost:4184/dashboard/proof\", waiting until \"domcontentloaded\"\u001b[22m\n"
+        },
+        {
+          "url": "http://127.0.0.1:4184/dashboard/proof",
+          "status": null,
+          "textLength": 0,
+          "elementCount": 0,
+          "title": "",
+          "error": "page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4184/dashboard/proof\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:4184/dashboard/proof\", waiting until \"domcontentloaded\"\u001b[22m\n"
+        },
+        {
+          "url": "http://localhost:4184/",
+          "status": null,
+          "textLength": 0,
+          "elementCount": 0,
+          "title": "",
+          "error": "page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:4184/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:4184/\", waiting until \"domcontentloaded\"\u001b[22m\n"
+        },
+        {
+          "url": "http://127.0.0.1:4184/",
+          "status": null,
+          "textLength": 0,
+          "elementCount": 0,
+          "title": "",
+          "error": "page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4184/\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:4184/\", waiting until \"domcontentloaded\"\u001b[22m\n"
+        },
+        {
+          "url": "http://localhost:4184/login",
+          "status": null,
+          "textLength": 0,
+          "elementCount": 0,
+          "title": "",
+          "error": "page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:4184/login\nCall log:\n\u001b[2m  - navigating to \"http://localhost:4184/login\", waiting until \"domcontentloaded\"\u001b[22m\n"
+        }
+      ],
+      "screenshots": [],
+      "captureErrors": [],
+      "componentGaps": [],
+      "routeFindings": [],
+      "blockers": [
+        {
+          "code": "route.unreachable",
+          "message": "No local candidate URL loaded successfully. Attempts: http://localhost:4184/dashboard/proof => page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:4184/dashboard/proof\nCall log:\n\u001b[2m  - navigating to \"http://localhost:4184/dashboard/proof\", waiting until \"domcontentloaded\"\u001b[22m\n; http://127.0.0.1:4184/dashboard/proof => page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4184/dashboard/proof\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:4184/dashboard/proof\", waiting until \"domcontentloaded\"\u001b[22m\n; http://localhost:4184/ => page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:4184/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:4184/\", waiting until \"domcontentloaded\"\u001b[22m\n; http://127.0.0.1:4184/ => page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4184/\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:4184/\", waiting until \"domcontentloaded\"\u001b[22m\n; http://localhost:4184/login => page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:4184/login\nCall log:\n\u001b[2m  - navigating to \"http://localhost:4184/login\", waiting until \"domcontentloaded\"\u001b[22m\n"
+        }
+      ],
+      "warnings": [],
+      "actions": [
+        "Register and verify a local proof URL that opens the actual operator dashboard without manual navigation."
+      ],
+      "verification": [
+        "npm run dashboard:certify:rendered -- --id meal-assistant.main",
+        "Desktop and mobile screenshots must match the approved HDK shell/sidebar/card rhythm.",
+        "No hidden HDK markers, local card dominance, auth-wall capture, or horizontal overflow can remain."
+      ]
+    },
+    {
+      "id": "hermes.workspace.rendered-repair",
+      "dashboard": "hermes.workspace",
+      "label": "Hermes Workspace",
+      "verdict": "unreachable",
+      "score": 0,
+      "targetUrl": null,
+      "candidateAttempts": [
+        {
+          "url": "http://localhost:3920/",
+          "status": null,
+          "textLength": 0,
+          "elementCount": 0,
+          "title": "",
+          "error": "page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3920/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3920/\", waiting until \"domcontentloaded\"\u001b[22m\n"
+        },
+        {
+          "url": "http://127.0.0.1:3920/",
+          "status": null,
+          "textLength": 0,
+          "elementCount": 0,
+          "title": "",
+          "error": "page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:3920/\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:3920/\", waiting until \"domcontentloaded\"\u001b[22m\n"
+        },
+        {
+          "url": "http://localhost:3921/",
+          "status": null,
+          "textLength": 0,
+          "elementCount": 0,
+          "title": "",
+          "error": "page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3921/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3921/\", waiting until \"domcontentloaded\"\u001b[22m\n"
+        },
+        {
+          "url": "http://127.0.0.1:3921/",
+          "status": null,
+          "textLength": 0,
+          "elementCount": 0,
+          "title": "",
+          "error": "page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:3921/\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:3921/\", waiting until \"domcontentloaded\"\u001b[22m\n"
+        }
+      ],
+      "screenshots": [],
+      "captureErrors": [],
+      "componentGaps": [],
+      "routeFindings": [],
+      "blockers": [
+        {
+          "code": "route.unreachable",
+          "message": "No local candidate URL loaded successfully. Attempts: http://localhost:3920/ => page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3920/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3920/\", waiting until \"domcontentloaded\"\u001b[22m\n; http://127.0.0.1:3920/ => page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:3920/\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:3920/\", waiting until \"domcontentloaded\"\u001b[22m\n; http://localhost:3921/ => page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3921/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3921/\", waiting until \"domcontentloaded\"\u001b[22m\n; http://127.0.0.1:3921/ => page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:3921/\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:3921/\", waiting until \"domcontentloaded\"\u001b[22m\n"
+        }
+      ],
+      "warnings": [],
+      "actions": [
+        "Register and verify a local proof URL that opens the actual operator dashboard without manual navigation."
+      ],
+      "verification": [
+        "npm run dashboard:certify:rendered -- --id hermes.workspace",
+        "Desktop and mobile screenshots must match the approved HDK shell/sidebar/card rhythm.",
+        "No hidden HDK markers, local card dominance, auth-wall capture, or horizontal overflow can remain."
+      ]
+    }
+  ]
+}

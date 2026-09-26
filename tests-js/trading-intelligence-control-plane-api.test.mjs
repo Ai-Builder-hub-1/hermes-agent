@@ -14,6 +14,7 @@ const sources = [
       events: '/trading-desk/command-center/events',
       controls: '/trading-desk/command-center/controls',
       control: '/trading-desk/command-center/control',
+      credentialHealth: '/credential-health',
     },
   },
   {
@@ -27,6 +28,7 @@ const sources = [
       events: '/api/roc/trading-command-center/events',
       controls: '/api/roc/trading-command-center/controls',
       control: '/api/roc/trading-command-center/control',
+      credentialHealth: '/api/roc/credential-health',
     },
   },
 ];
@@ -121,6 +123,48 @@ test('merges source events and preserves project attribution', async () => {
   assert.equal(events.events[0].id, 'kha-1');
   assert.equal(events.events[0].sourceProject, 'khashi-vc');
   assert.equal(events.events[1].sourceProject, 'investing-system');
+});
+
+test('aggregates redacted credential readiness across source projects', async () => {
+  const service = createTradingIntelligenceService({
+    sources,
+    fetchFn: async (url) => {
+      if (String(url).includes('investing.local') && String(url).includes('/credential-health')) {
+        return jsonResponse({
+          projectId: 'investing-system',
+          status: 'partial',
+          providers: [
+            { provider: 'finnhub', configured: true, source: 'FINNHUB_API_KEY', blocks: [], secretsExposed: false },
+            { provider: 'discord', configured: false, source: null, blocks: ['Discord channel missing'], secretsExposed: false },
+          ],
+          summary: { configured: 1, total: 2, missing: ['discord'], secretsExposed: false, liveTradingBlocked: true },
+          maturity: { nextActions: ['Configure Discord channel.'] },
+        });
+      }
+      if (String(url).includes('khashi.local') && String(url).includes('/credential-health')) {
+        return jsonResponse({
+          projectId: 'khashi-vc',
+          status: 'ready',
+          providers: [
+            { provider: 'binance-us', configured: true, source: 'BINANCE_API_KEY+BINANCE_SECRET_KEY', blocks: [], secretsExposed: false },
+          ],
+          summary: { configured: 1, total: 1, missing: [], secretsExposed: false, liveTradingBlocked: true },
+          maturity: { nextActions: [] },
+        });
+      }
+      return jsonResponse({});
+    },
+  });
+
+  const readiness = await service.getCredentialReadiness();
+
+  assert.equal(readiness.status, 'watch');
+  assert.equal(readiness.kpis.projectsAvailable, 2);
+  assert.equal(readiness.kpis.providersConfigured, 2);
+  assert.equal(readiness.kpis.providersTotal, 3);
+  assert.equal(readiness.kpis.secretsExposed, false);
+  assert.equal(readiness.providers.some(provider => provider.provider === 'binance-us' && provider.projectId === 'khashi-vc'), true);
+  assert.equal(JSON.stringify(readiness).includes('real-secret-value'), false);
 });
 
 test('namespaces controls and proxies project-owned control requests', async () => {

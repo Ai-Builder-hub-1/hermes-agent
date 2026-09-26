@@ -1,0 +1,1126 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-22T20:31:03.448Z",
+  "standard": {
+    "name": "Comprehensive Dashboard Enforcement Stack",
+    "purpose": "Turn HDK adoption from paperwork into a full source, rendered, visual, workflow, data, production, exception, and promotion enforcement system.",
+    "promotionRule": "A dashboard is not standard-compliant until every required layer is present and the project has no source/rendered/promotion blockers. Marker strings and package dependencies alone never certify a route.",
+    "strictFailureMeaning": "Strict mode fails when any required artifact is missing, any enforcement layer is blocked, or any project has a source/rendered/promotion blocker."
+  },
+  "summary": {
+    "layers": 10,
+    "activeLayers": 6,
+    "blockedLayers": 3,
+    "warningLayers": 1,
+    "projects": 10,
+    "certifiedProjects": 0,
+    "blockedProjects": 10,
+    "needsReviewProjects": 0,
+    "blockers": 35,
+    "warnings": 3
+  },
+  "commands": {
+    "generate": "npm run dashboard:enforcement:stack",
+    "strict": "npm run dashboard:enforcement:stack:strict",
+    "fullCertification": "npm run dashboard:fleet:certify",
+    "strictCertification": "npm run dashboard:fleet:certify:strict",
+    "shipGate": "npm run fleet:ship-check:full"
+  },
+  "artifacts": [
+    {
+      "id": "fleetRegistry",
+      "path": "hermes.dashboards.json",
+      "exists": true,
+      "bytes": 10826,
+      "modifiedAt": "2026-08-18T12:57:54.702Z",
+      "generatedAt": null,
+      "staleDays": null,
+      "summary": null
+    },
+    {
+      "id": "certification",
+      "path": "docs/fleet/dashboard-certification-report.json",
+      "exists": true,
+      "bytes": 58617,
+      "modifiedAt": "2026-08-21T20:15:45.977Z",
+      "generatedAt": "2026-08-21T20:15:45.975Z",
+      "staleDays": 1,
+      "summary": {
+        "totalProjects": 10,
+        "certified": 0,
+        "review": 0,
+        "blocked": 10,
+        "falseNativeClaims": 8,
+        "repairPackets": 10
+      }
+    },
+    {
+      "id": "certificationRepairs",
+      "path": "docs/fleet/dashboard-certification-repair-packets.json",
+      "exists": true,
+      "bytes": 7757,
+      "modifiedAt": "2026-08-21T20:15:45.977Z",
+      "generatedAt": "2026-08-21T20:15:45.975Z",
+      "staleDays": 1,
+      "summary": null
+    },
+    {
+      "id": "sourceDecomposition",
+      "path": "docs/design/dashboard-source-decomposition-report.json",
+      "exists": true,
+      "bytes": 54370,
+      "modifiedAt": "2026-08-21T20:34:26.599Z",
+      "generatedAt": "2026-08-21T20:34:26.598Z",
+      "staleDays": 0,
+      "summary": {
+        "totalProjects": 10,
+        "totalSurfaces": 22,
+        "packageNativeRoutes": 4,
+        "bridgeOrStaticRoutes": 15,
+        "projectsReadyForStrictSourceGate": 0,
+        "projectsNeedingDecomposition": 10,
+        "highPriorityRepairPackets": 10
+      }
+    },
+    {
+      "id": "sourceRepairs",
+      "path": "docs/design/dashboard-source-decomposition-repair-packets.json",
+      "exists": true,
+      "bytes": 21571,
+      "modifiedAt": "2026-08-21T20:34:26.600Z",
+      "generatedAt": "2026-08-21T20:34:26.598Z",
+      "staleDays": 0,
+      "summary": null
+    },
+    {
+      "id": "routeContract",
+      "path": "docs/design/dashboard-route-ownership-contract.json",
+      "exists": true,
+      "bytes": 16324,
+      "modifiedAt": "2026-08-21T20:34:26.600Z",
+      "generatedAt": "2026-08-21T20:34:26.596Z",
+      "staleDays": 0,
+      "summary": null
+    },
+    {
+      "id": "renderedCertification",
+      "path": "docs/design/rendered-fleet-certification/report.json",
+      "exists": true,
+      "bytes": 205428,
+      "modifiedAt": "2026-08-22T20:30:58.830Z",
+      "generatedAt": "2026-08-22T20:30:58.828Z",
+      "staleDays": 0,
+      "summary": {
+        "total": 10,
+        "certified": 4,
+        "needsReview": 1,
+        "blocked": 3,
+        "unreachable": 2,
+        "averageScore": 73.2
+      }
+    },
+    {
+      "id": "renderedRepairs",
+      "path": "docs/design/rendered-fleet-certification/repair-packets.json",
+      "exists": true,
+      "bytes": 18107,
+      "modifiedAt": "2026-08-22T20:30:58.831Z",
+      "generatedAt": "2026-08-22T20:30:58.828Z",
+      "staleDays": 0,
+      "summary": null
+    },
+    {
+      "id": "routeInventory",
+      "path": "docs/design/dashboard-canonical-route-inventory.json",
+      "exists": true,
+      "bytes": 8734,
+      "modifiedAt": "2026-08-22T19:34:45.778Z",
+      "generatedAt": "2026-08-22T19:34:45.776Z",
+      "staleDays": 0,
+      "summary": null
+    },
+    {
+      "id": "visualBaselineRegistry",
+      "path": "docs/design/dashboard-visual-baseline-reference-registry.json",
+      "exists": true,
+      "bytes": 3702,
+      "modifiedAt": "2026-08-22T19:34:45.778Z",
+      "generatedAt": "2026-08-22T19:34:45.775Z",
+      "staleDays": 0,
+      "summary": null
+    },
+    {
+      "id": "preRepairReadiness",
+      "path": "docs/design/dashboard-pre-repair-readiness.json",
+      "exists": true,
+      "bytes": 6233,
+      "modifiedAt": "2026-08-22T19:34:45.778Z",
+      "generatedAt": "2026-08-22T19:34:45.777Z",
+      "staleDays": 0,
+      "summary": {
+        "total": 10,
+        "ready": 8,
+        "blocked": 2,
+        "warnings": 0
+      }
+    },
+    {
+      "id": "visualScorecard",
+      "path": "docs/design/dashboard-fleet-ui-maturity-scorecard.json",
+      "exists": true,
+      "bytes": 19816,
+      "modifiedAt": "2026-08-14T00:08:06.255Z",
+      "generatedAt": "2026-08-14T00:08:06.254Z",
+      "staleDays": 8,
+      "summary": {
+        "dashboardCount": 10,
+        "averageScore": 92.8,
+        "tier3cReadyCount": 0,
+        "needsEvidenceCount": 0,
+        "needsMigrationCount": 0
+      }
+    },
+    {
+      "id": "visualCoverage",
+      "path": "docs/design/dashboard-visual-coverage-report.json",
+      "exists": true,
+      "bytes": 5537,
+      "modifiedAt": "2026-08-12T14:40:03.601Z",
+      "generatedAt": "2026-08-12T14:40:03.601Z",
+      "staleDays": 10,
+      "summary": null
+    },
+    {
+      "id": "visualRegression",
+      "path": "docs/design/dashboard-visual-regression-matrix.json",
+      "exists": true,
+      "bytes": 248762,
+      "modifiedAt": "2026-08-20T14:20:25.894Z",
+      "generatedAt": "2026-08-20T14:20:25.892Z",
+      "staleDays": 2,
+      "summary": {
+        "dashboardCount": 10,
+        "baselineReadyCount": 10,
+        "needsBaselineCaptureCount": 0,
+        "missingProofRouteCount": 0
+      }
+    },
+    {
+      "id": "runtimeData",
+      "path": "docs/design/dashboard-runtime-data-report.json",
+      "exists": true,
+      "bytes": 5143,
+      "modifiedAt": "2026-08-12T15:24:58.652Z",
+      "generatedAt": "2026-08-12T15:24:58.650Z",
+      "staleDays": 10,
+      "summary": null
+    },
+    {
+      "id": "health",
+      "path": "docs/design/dashboard-health-report.json",
+      "exists": true,
+      "bytes": 1798,
+      "modifiedAt": "2026-08-05T13:23:37.775Z",
+      "generatedAt": "2026-08-05T13:23:37.773Z",
+      "staleDays": 17,
+      "summary": null
+    },
+    {
+      "id": "monitoring",
+      "path": "docs/design/dashboard-monitoring-registry.json",
+      "exists": true,
+      "bytes": 11567,
+      "modifiedAt": "2026-08-15T18:51:30.521Z",
+      "generatedAt": "2026-08-15T18:51:30.520Z",
+      "staleDays": 7,
+      "summary": null
+    },
+    {
+      "id": "productionProof",
+      "path": "docs/design/dashboard-production-proof-registry.json",
+      "exists": true,
+      "bytes": 17121,
+      "modifiedAt": "2026-08-20T14:21:08.549Z",
+      "generatedAt": "2026-08-20T14:21:08.548Z",
+      "staleDays": 2,
+      "summary": null
+    },
+    {
+      "id": "productionScreenshots",
+      "path": "docs/design/production-dashboard-screenshots-report.json",
+      "exists": true,
+      "bytes": 4602,
+      "modifiedAt": "2026-08-20T15:26:48.057Z",
+      "generatedAt": "2026-08-20T15:26:48.057Z",
+      "staleDays": 2,
+      "summary": null
+    },
+    {
+      "id": "governanceExceptions",
+      "path": "docs/design/dashboard-design-debt-registry.json",
+      "exists": true,
+      "bytes": 343,
+      "modifiedAt": "2026-08-12T13:47:31.567Z",
+      "generatedAt": null,
+      "staleDays": null,
+      "summary": null
+    },
+    {
+      "id": "shipCheck",
+      "path": "docs/fleet/fleet-ship-check.json",
+      "exists": true,
+      "bytes": 9602,
+      "modifiedAt": "2026-08-15T18:51:38.850Z",
+      "generatedAt": "2026-08-15T18:51:38.850Z",
+      "staleDays": 7,
+      "summary": {
+        "steps": 11,
+        "failedSteps": 1,
+        "dirtyProjects": 2,
+        "blockedProjects": 0,
+        "needsReviewProjects": 0,
+        "commitReadyProjects": 10,
+        "deployReadyProjects": 10
+      }
+    },
+    {
+      "id": "releaseReadiness",
+      "path": "docs/fleet/fleet-release-readiness.json",
+      "exists": true,
+      "bytes": 23653,
+      "modifiedAt": "2026-08-15T18:51:37.999Z",
+      "generatedAt": "2026-08-15T18:51:37.998Z",
+      "staleDays": 7,
+      "summary": {
+        "projects": 10,
+        "dirtyProjects": 2,
+        "blockedProjects": 0,
+        "needsReviewProjects": 0,
+        "commitReadyProjects": 10,
+        "deployReadyProjects": 10
+      }
+    }
+  ],
+  "layers": [
+    {
+      "id": "fleet-registry",
+      "label": "Fleet Registry",
+      "requiredArtifacts": [
+        "fleetRegistry"
+      ],
+      "proves": "Names every governed project, production URL, local route, maturity role, and dashboard identity.",
+      "status": "active",
+      "artifacts": [
+        "fleetRegistry"
+      ],
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "id": "route-manifest",
+      "label": "Route And Ownership Contract",
+      "requiredArtifacts": [
+        "routeInventory",
+        "routeContract"
+      ],
+      "proves": "Prevents one passing route from hiding broken operator-critical routes.",
+      "status": "active",
+      "artifacts": [
+        "routeInventory",
+        "routeContract"
+      ],
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "id": "source-decomposition",
+      "label": "Source Decomposition Gate",
+      "requiredArtifacts": [
+        "sourceDecomposition",
+        "sourceRepairs"
+      ],
+      "proves": "Blocks false-native declarations, static shells, server string renderers, marker bridges, and high local primitive debt.",
+      "status": "blocked",
+      "artifacts": [
+        "sourceDecomposition",
+        "sourceRepairs"
+      ],
+      "blockers": [
+        {
+          "code": "source.projectsNeedDecomposition",
+          "message": "10 project(s) still need source decomposition."
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "id": "dom-rendered",
+      "label": "Rendered DOM Contract Gate",
+      "requiredArtifacts": [
+        "renderedCertification",
+        "renderedRepairs"
+      ],
+      "proves": "Uses Playwright to inspect visible shell/sidebar/header/main/card/table/state/control geometry in a real browser.",
+      "status": "blocked",
+      "artifacts": [
+        "renderedCertification",
+        "renderedRepairs"
+      ],
+      "blockers": [
+        {
+          "code": "rendered.blocked",
+          "message": "3 dashboard(s) are blocked in rendered certification."
+        },
+        {
+          "code": "rendered.unreachable",
+          "message": "2 dashboard(s) are unreachable in rendered certification."
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "id": "visual-baselines",
+      "label": "Golden Visual Baseline Families",
+      "requiredArtifacts": [
+        "visualBaselineRegistry",
+        "visualScorecard",
+        "visualCoverage",
+        "visualRegression"
+      ],
+      "proves": "Tracks reusable visual families, screenshot coverage, visual scoring, and regression evidence.",
+      "status": "active",
+      "artifacts": [
+        "visualBaselineRegistry",
+        "visualScorecard",
+        "visualCoverage",
+        "visualRegression"
+      ],
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "id": "workflow-interaction",
+      "label": "Workflow And Interaction Proof",
+      "requiredArtifacts": [
+        "renderedCertification",
+        "preRepairReadiness"
+      ],
+      "proves": "Records sidebar controls, tabs, filters, disabled controls, route inventory, and repair readiness.",
+      "status": "active",
+      "artifacts": [
+        "renderedCertification",
+        "preRepairReadiness"
+      ],
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "id": "data-state",
+      "label": "Data Contract And Runtime State",
+      "requiredArtifacts": [
+        "runtimeData",
+        "health",
+        "monitoring"
+      ],
+      "proves": "Separates missing, stale, loading, partial, error, and ready data states from permanent blank cards.",
+      "status": "needs-review",
+      "artifacts": [
+        "runtimeData",
+        "health",
+        "monitoring"
+      ],
+      "blockers": [],
+      "warnings": [
+        {
+          "code": "artifact.stale",
+          "message": "docs/design/dashboard-health-report.json is 17 day(s) old."
+        }
+      ]
+    },
+    {
+      "id": "production-drift",
+      "label": "Production Drift Monitor",
+      "requiredArtifacts": [
+        "productionProof",
+        "productionScreenshots",
+        "releaseReadiness"
+      ],
+      "proves": "Compares production proof, screenshots, health, and release readiness against local certification expectations.",
+      "status": "active",
+      "artifacts": [
+        "productionProof",
+        "productionScreenshots",
+        "releaseReadiness"
+      ],
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "id": "exception-ledger",
+      "label": "Exception And Design Debt Ledger",
+      "requiredArtifacts": [
+        "governanceExceptions",
+        "certificationRepairs",
+        "sourceRepairs",
+        "renderedRepairs"
+      ],
+      "proves": "Requires repair packets and debt records instead of silent pass-through exceptions.",
+      "status": "active",
+      "artifacts": [
+        "governanceExceptions",
+        "certificationRepairs",
+        "sourceRepairs",
+        "renderedRepairs"
+      ],
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "id": "promotion-gate",
+      "label": "Commit And Deploy Promotion Gate",
+      "requiredArtifacts": [
+        "shipCheck",
+        "certification",
+        "releaseReadiness"
+      ],
+      "proves": "Gives the final safe-to-commit/safe-to-deploy decision and blocks promotion when certification artifacts disagree.",
+      "status": "blocked",
+      "artifacts": [
+        "shipCheck",
+        "certification",
+        "releaseReadiness"
+      ],
+      "blockers": [
+        {
+          "code": "promotion.deployBlocked",
+          "message": "Fleet ship gate says safeToDeploy=false."
+        },
+        {
+          "code": "promotion.commitBlocked",
+          "message": "Fleet ship gate says safeToCommit=false."
+        }
+      ],
+      "warnings": []
+    }
+  ],
+  "projects": [
+    {
+      "id": "nous-hermes-agent.dashboard",
+      "label": "Nous Hermes Agent",
+      "projectPath": ".",
+      "status": "blocked",
+      "declaredMode": "package-native",
+      "sourceVerdict": "needs-source-decomposition",
+      "renderedVerdict": "blocked",
+      "baseCertificationVerdict": "blocked",
+      "preRepairStatus": "ready",
+      "blockers": [
+        {
+          "code": "source.notCertified",
+          "message": "Source verdict is needs-source-decomposition."
+        },
+        {
+          "code": "rendered.notCertified",
+          "message": "Rendered verdict is blocked."
+        },
+        {
+          "code": "certification.blocked",
+          "message": "Base dashboard certification is blocked."
+        },
+        {
+          "code": "falseNativeRisk",
+          "message": "Dashboard declares package-native but source certification does not confirm package-native route implementation."
+        },
+        {
+          "code": "shell.geometryBroken",
+          "message": "Rendered shell geometry has a visible layout blocker."
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "id": "khashi-vc.roc",
+      "label": "Khashi VC ROC",
+      "projectPath": "../khashi-vc",
+      "status": "blocked",
+      "declaredMode": "unknown",
+      "sourceVerdict": "needs-source-decomposition",
+      "renderedVerdict": "needs-review",
+      "baseCertificationVerdict": "blocked",
+      "preRepairStatus": "ready",
+      "blockers": [
+        {
+          "code": "source.notCertified",
+          "message": "Source verdict is needs-source-decomposition."
+        },
+        {
+          "code": "rendered.notCertified",
+          "message": "Rendered verdict is needs-review."
+        },
+        {
+          "code": "certification.blocked",
+          "message": "Base dashboard certification is blocked."
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "id": "media-engine.ops",
+      "label": "Media Engine Ops",
+      "projectPath": "../media-engine",
+      "status": "blocked",
+      "declaredMode": "unknown",
+      "sourceVerdict": "needs-source-decomposition",
+      "renderedVerdict": "blocked",
+      "baseCertificationVerdict": "blocked",
+      "preRepairStatus": "ready",
+      "blockers": [
+        {
+          "code": "source.notCertified",
+          "message": "Source verdict is needs-source-decomposition."
+        },
+        {
+          "code": "rendered.notCertified",
+          "message": "Rendered verdict is blocked."
+        },
+        {
+          "code": "certification.blocked",
+          "message": "Base dashboard certification is blocked."
+        },
+        {
+          "code": "shell.geometryBroken",
+          "message": "Rendered shell geometry has a visible layout blocker."
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "id": "media-business-operations.main",
+      "label": "Media Business Operations",
+      "projectPath": "../media-business-operations",
+      "status": "blocked",
+      "declaredMode": "unknown",
+      "sourceVerdict": "needs-source-decomposition",
+      "renderedVerdict": "blocked",
+      "baseCertificationVerdict": "blocked",
+      "preRepairStatus": "ready",
+      "blockers": [
+        {
+          "code": "source.notCertified",
+          "message": "Source verdict is needs-source-decomposition."
+        },
+        {
+          "code": "rendered.notCertified",
+          "message": "Rendered verdict is blocked."
+        },
+        {
+          "code": "certification.blocked",
+          "message": "Base dashboard certification is blocked."
+        },
+        {
+          "code": "shell.geometryBroken",
+          "message": "Rendered shell geometry has a visible layout blocker."
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "id": "business-mapper.workspace",
+      "label": "Business Mapper Workspace",
+      "projectPath": "../business-mapper",
+      "status": "blocked",
+      "declaredMode": "unknown",
+      "sourceVerdict": "needs-source-decomposition",
+      "renderedVerdict": "certified",
+      "baseCertificationVerdict": "blocked",
+      "preRepairStatus": "ready",
+      "blockers": [
+        {
+          "code": "source.notCertified",
+          "message": "Source verdict is needs-source-decomposition."
+        },
+        {
+          "code": "certification.blocked",
+          "message": "Base dashboard certification is blocked."
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "id": "meal-assistant.main",
+      "label": "Meal Assistant",
+      "projectPath": "../Meal-assistant",
+      "status": "blocked",
+      "declaredMode": "unknown",
+      "sourceVerdict": "needs-source-decomposition",
+      "renderedVerdict": "unreachable",
+      "baseCertificationVerdict": "blocked",
+      "preRepairStatus": "blocked",
+      "blockers": [
+        {
+          "code": "source.notCertified",
+          "message": "Source verdict is needs-source-decomposition."
+        },
+        {
+          "code": "rendered.notCertified",
+          "message": "Rendered verdict is unreachable."
+        },
+        {
+          "code": "certification.blocked",
+          "message": "Base dashboard certification is blocked."
+        }
+      ],
+      "warnings": [
+        {
+          "code": "preRepair.blocked",
+          "message": "Pre-repair readiness is blocked, so visual repair cannot start cleanly."
+        }
+      ]
+    },
+    {
+      "id": "rinseables-os.main",
+      "label": "Rinseables OS",
+      "projectPath": "../rinseables-os",
+      "status": "blocked",
+      "declaredMode": "unknown",
+      "sourceVerdict": "needs-source-decomposition",
+      "renderedVerdict": "certified",
+      "baseCertificationVerdict": "blocked",
+      "preRepairStatus": "ready",
+      "blockers": [
+        {
+          "code": "source.notCertified",
+          "message": "Source verdict is needs-source-decomposition."
+        },
+        {
+          "code": "certification.blocked",
+          "message": "Base dashboard certification is blocked."
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "id": "investing-system.roc",
+      "label": "Investing System ROC",
+      "projectPath": "../investing-system",
+      "status": "blocked",
+      "declaredMode": "unknown",
+      "sourceVerdict": "needs-source-decomposition",
+      "renderedVerdict": "certified",
+      "baseCertificationVerdict": "blocked",
+      "preRepairStatus": "ready",
+      "blockers": [
+        {
+          "code": "source.notCertified",
+          "message": "Source verdict is needs-source-decomposition."
+        },
+        {
+          "code": "certification.blocked",
+          "message": "Base dashboard certification is blocked."
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "id": "hermes.workspace",
+      "label": "Hermes Workspace",
+      "projectPath": "../hermes",
+      "status": "blocked",
+      "declaredMode": "unknown",
+      "sourceVerdict": "needs-source-decomposition",
+      "renderedVerdict": "unreachable",
+      "baseCertificationVerdict": "blocked",
+      "preRepairStatus": "blocked",
+      "blockers": [
+        {
+          "code": "source.notCertified",
+          "message": "Source verdict is needs-source-decomposition."
+        },
+        {
+          "code": "rendered.notCertified",
+          "message": "Rendered verdict is unreachable."
+        },
+        {
+          "code": "certification.blocked",
+          "message": "Base dashboard certification is blocked."
+        }
+      ],
+      "warnings": [
+        {
+          "code": "preRepair.blocked",
+          "message": "Pre-repair readiness is blocked, so visual repair cannot start cleanly."
+        }
+      ]
+    },
+    {
+      "id": "tlc-capital-group-os.main",
+      "label": "TLC Capital Group OS",
+      "projectPath": "../tlc-capital-group-os",
+      "status": "blocked",
+      "declaredMode": "unknown",
+      "sourceVerdict": "needs-source-decomposition",
+      "renderedVerdict": "certified",
+      "baseCertificationVerdict": "blocked",
+      "preRepairStatus": "ready",
+      "blockers": [
+        {
+          "code": "source.notCertified",
+          "message": "Source verdict is needs-source-decomposition."
+        },
+        {
+          "code": "certification.blocked",
+          "message": "Base dashboard certification is blocked."
+        }
+      ],
+      "warnings": []
+    }
+  ],
+  "blockers": [
+    {
+      "code": "source.projectsNeedDecomposition",
+      "message": "10 project(s) still need source decomposition.",
+      "layer": "source-decomposition"
+    },
+    {
+      "code": "rendered.blocked",
+      "message": "3 dashboard(s) are blocked in rendered certification.",
+      "layer": "dom-rendered"
+    },
+    {
+      "code": "rendered.unreachable",
+      "message": "2 dashboard(s) are unreachable in rendered certification.",
+      "layer": "dom-rendered"
+    },
+    {
+      "code": "promotion.deployBlocked",
+      "message": "Fleet ship gate says safeToDeploy=false.",
+      "layer": "promotion-gate"
+    },
+    {
+      "code": "promotion.commitBlocked",
+      "message": "Fleet ship gate says safeToCommit=false.",
+      "layer": "promotion-gate"
+    },
+    {
+      "code": "source.notCertified",
+      "message": "Source verdict is needs-source-decomposition.",
+      "project": "nous-hermes-agent.dashboard"
+    },
+    {
+      "code": "rendered.notCertified",
+      "message": "Rendered verdict is blocked.",
+      "project": "nous-hermes-agent.dashboard"
+    },
+    {
+      "code": "certification.blocked",
+      "message": "Base dashboard certification is blocked.",
+      "project": "nous-hermes-agent.dashboard"
+    },
+    {
+      "code": "falseNativeRisk",
+      "message": "Dashboard declares package-native but source certification does not confirm package-native route implementation.",
+      "project": "nous-hermes-agent.dashboard"
+    },
+    {
+      "code": "shell.geometryBroken",
+      "message": "Rendered shell geometry has a visible layout blocker.",
+      "project": "nous-hermes-agent.dashboard"
+    },
+    {
+      "code": "source.notCertified",
+      "message": "Source verdict is needs-source-decomposition.",
+      "project": "khashi-vc.roc"
+    },
+    {
+      "code": "rendered.notCertified",
+      "message": "Rendered verdict is needs-review.",
+      "project": "khashi-vc.roc"
+    },
+    {
+      "code": "certification.blocked",
+      "message": "Base dashboard certification is blocked.",
+      "project": "khashi-vc.roc"
+    },
+    {
+      "code": "source.notCertified",
+      "message": "Source verdict is needs-source-decomposition.",
+      "project": "media-engine.ops"
+    },
+    {
+      "code": "rendered.notCertified",
+      "message": "Rendered verdict is blocked.",
+      "project": "media-engine.ops"
+    },
+    {
+      "code": "certification.blocked",
+      "message": "Base dashboard certification is blocked.",
+      "project": "media-engine.ops"
+    },
+    {
+      "code": "shell.geometryBroken",
+      "message": "Rendered shell geometry has a visible layout blocker.",
+      "project": "media-engine.ops"
+    },
+    {
+      "code": "source.notCertified",
+      "message": "Source verdict is needs-source-decomposition.",
+      "project": "media-business-operations.main"
+    },
+    {
+      "code": "rendered.notCertified",
+      "message": "Rendered verdict is blocked.",
+      "project": "media-business-operations.main"
+    },
+    {
+      "code": "certification.blocked",
+      "message": "Base dashboard certification is blocked.",
+      "project": "media-business-operations.main"
+    },
+    {
+      "code": "shell.geometryBroken",
+      "message": "Rendered shell geometry has a visible layout blocker.",
+      "project": "media-business-operations.main"
+    },
+    {
+      "code": "source.notCertified",
+      "message": "Source verdict is needs-source-decomposition.",
+      "project": "business-mapper.workspace"
+    },
+    {
+      "code": "certification.blocked",
+      "message": "Base dashboard certification is blocked.",
+      "project": "business-mapper.workspace"
+    },
+    {
+      "code": "source.notCertified",
+      "message": "Source verdict is needs-source-decomposition.",
+      "project": "meal-assistant.main"
+    },
+    {
+      "code": "rendered.notCertified",
+      "message": "Rendered verdict is unreachable.",
+      "project": "meal-assistant.main"
+    },
+    {
+      "code": "certification.blocked",
+      "message": "Base dashboard certification is blocked.",
+      "project": "meal-assistant.main"
+    },
+    {
+      "code": "source.notCertified",
+      "message": "Source verdict is needs-source-decomposition.",
+      "project": "rinseables-os.main"
+    },
+    {
+      "code": "certification.blocked",
+      "message": "Base dashboard certification is blocked.",
+      "project": "rinseables-os.main"
+    },
+    {
+      "code": "source.notCertified",
+      "message": "Source verdict is needs-source-decomposition.",
+      "project": "investing-system.roc"
+    },
+    {
+      "code": "certification.blocked",
+      "message": "Base dashboard certification is blocked.",
+      "project": "investing-system.roc"
+    },
+    {
+      "code": "source.notCertified",
+      "message": "Source verdict is needs-source-decomposition.",
+      "project": "hermes.workspace"
+    },
+    {
+      "code": "rendered.notCertified",
+      "message": "Rendered verdict is unreachable.",
+      "project": "hermes.workspace"
+    },
+    {
+      "code": "certification.blocked",
+      "message": "Base dashboard certification is blocked.",
+      "project": "hermes.workspace"
+    },
+    {
+      "code": "source.notCertified",
+      "message": "Source verdict is needs-source-decomposition.",
+      "project": "tlc-capital-group-os.main"
+    },
+    {
+      "code": "certification.blocked",
+      "message": "Base dashboard certification is blocked.",
+      "project": "tlc-capital-group-os.main"
+    }
+  ],
+  "warnings": [
+    {
+      "code": "artifact.stale",
+      "message": "docs/design/dashboard-health-report.json is 17 day(s) old.",
+      "layer": "data-state"
+    },
+    {
+      "code": "preRepair.blocked",
+      "message": "Pre-repair readiness is blocked, so visual repair cannot start cleanly.",
+      "project": "meal-assistant.main"
+    },
+    {
+      "code": "preRepair.blocked",
+      "message": "Pre-repair readiness is blocked, so visual repair cannot start cleanly.",
+      "project": "hermes.workspace"
+    }
+  ],
+  "nextActions": [
+    {
+      "id": "repair-layer-source-decomposition",
+      "priority": "P0",
+      "scope": "standards",
+      "title": "Repair blocked enforcement layer: Source Decomposition Gate",
+      "evidence": [
+        "source.projectsNeedDecomposition: 10 project(s) still need source decomposition."
+      ],
+      "command": "npm run dashboard:enforcement:stack"
+    },
+    {
+      "id": "repair-layer-dom-rendered",
+      "priority": "P0",
+      "scope": "standards",
+      "title": "Repair blocked enforcement layer: Rendered DOM Contract Gate",
+      "evidence": [
+        "rendered.blocked: 3 dashboard(s) are blocked in rendered certification.",
+        "rendered.unreachable: 2 dashboard(s) are unreachable in rendered certification."
+      ],
+      "command": "npm run dashboard:enforcement:stack"
+    },
+    {
+      "id": "repair-layer-promotion-gate",
+      "priority": "P0",
+      "scope": "standards",
+      "title": "Repair blocked enforcement layer: Commit And Deploy Promotion Gate",
+      "evidence": [
+        "promotion.deployBlocked: Fleet ship gate says safeToDeploy=false.",
+        "promotion.commitBlocked: Fleet ship gate says safeToCommit=false."
+      ],
+      "command": "npm run dashboard:enforcement:stack"
+    },
+    {
+      "id": "repair-project-nous-hermes-agent.dashboard",
+      "priority": "P0",
+      "scope": "nous-hermes-agent.dashboard",
+      "title": "Repair dashboard enforcement blockers for Nous Hermes Agent",
+      "evidence": [
+        "source.notCertified: Source verdict is needs-source-decomposition.",
+        "rendered.notCertified: Rendered verdict is blocked.",
+        "certification.blocked: Base dashboard certification is blocked.",
+        "falseNativeRisk: Dashboard declares package-native but source certification does not confirm package-native route implementation.",
+        "shell.geometryBroken: Rendered shell geometry has a visible layout blocker."
+      ],
+      "command": "npm run dashboard:certify:rendered -- --id nous-hermes-agent.dashboard"
+    },
+    {
+      "id": "repair-project-khashi-vc.roc",
+      "priority": "P0",
+      "scope": "khashi-vc.roc",
+      "title": "Repair dashboard enforcement blockers for Khashi VC ROC",
+      "evidence": [
+        "source.notCertified: Source verdict is needs-source-decomposition.",
+        "rendered.notCertified: Rendered verdict is needs-review.",
+        "certification.blocked: Base dashboard certification is blocked."
+      ],
+      "command": "npm run dashboard:certify:rendered -- --id khashi-vc.roc"
+    },
+    {
+      "id": "repair-project-media-engine.ops",
+      "priority": "P0",
+      "scope": "media-engine.ops",
+      "title": "Repair dashboard enforcement blockers for Media Engine Ops",
+      "evidence": [
+        "source.notCertified: Source verdict is needs-source-decomposition.",
+        "rendered.notCertified: Rendered verdict is blocked.",
+        "certification.blocked: Base dashboard certification is blocked.",
+        "shell.geometryBroken: Rendered shell geometry has a visible layout blocker."
+      ],
+      "command": "npm run dashboard:certify:rendered -- --id media-engine.ops"
+    },
+    {
+      "id": "repair-project-media-business-operations.main",
+      "priority": "P0",
+      "scope": "media-business-operations.main",
+      "title": "Repair dashboard enforcement blockers for Media Business Operations",
+      "evidence": [
+        "source.notCertified: Source verdict is needs-source-decomposition.",
+        "rendered.notCertified: Rendered verdict is blocked.",
+        "certification.blocked: Base dashboard certification is blocked.",
+        "shell.geometryBroken: Rendered shell geometry has a visible layout blocker."
+      ],
+      "command": "npm run dashboard:certify:rendered -- --id media-business-operations.main"
+    },
+    {
+      "id": "repair-project-business-mapper.workspace",
+      "priority": "P0",
+      "scope": "business-mapper.workspace",
+      "title": "Repair dashboard enforcement blockers for Business Mapper Workspace",
+      "evidence": [
+        "source.notCertified: Source verdict is needs-source-decomposition.",
+        "certification.blocked: Base dashboard certification is blocked."
+      ],
+      "command": "npm run dashboard:certify:rendered -- --id business-mapper.workspace"
+    },
+    {
+      "id": "repair-project-meal-assistant.main",
+      "priority": "P0",
+      "scope": "meal-assistant.main",
+      "title": "Repair dashboard enforcement blockers for Meal Assistant",
+      "evidence": [
+        "source.notCertified: Source verdict is needs-source-decomposition.",
+        "rendered.notCertified: Rendered verdict is unreachable.",
+        "certification.blocked: Base dashboard certification is blocked."
+      ],
+      "command": "npm run dashboard:certify:rendered -- --id meal-assistant.main"
+    },
+    {
+      "id": "repair-project-rinseables-os.main",
+      "priority": "P0",
+      "scope": "rinseables-os.main",
+      "title": "Repair dashboard enforcement blockers for Rinseables OS",
+      "evidence": [
+        "source.notCertified: Source verdict is needs-source-decomposition.",
+        "certification.blocked: Base dashboard certification is blocked."
+      ],
+      "command": "npm run dashboard:certify:rendered -- --id rinseables-os.main"
+    },
+    {
+      "id": "repair-project-investing-system.roc",
+      "priority": "P0",
+      "scope": "investing-system.roc",
+      "title": "Repair dashboard enforcement blockers for Investing System ROC",
+      "evidence": [
+        "source.notCertified: Source verdict is needs-source-decomposition.",
+        "certification.blocked: Base dashboard certification is blocked."
+      ],
+      "command": "npm run dashboard:certify:rendered -- --id investing-system.roc"
+    },
+    {
+      "id": "repair-project-hermes.workspace",
+      "priority": "P0",
+      "scope": "hermes.workspace",
+      "title": "Repair dashboard enforcement blockers for Hermes Workspace",
+      "evidence": [
+        "source.notCertified: Source verdict is needs-source-decomposition.",
+        "rendered.notCertified: Rendered verdict is unreachable.",
+        "certification.blocked: Base dashboard certification is blocked."
+      ],
+      "command": "npm run dashboard:certify:rendered -- --id hermes.workspace"
+    },
+    {
+      "id": "repair-project-tlc-capital-group-os.main",
+      "priority": "P0",
+      "scope": "tlc-capital-group-os.main",
+      "title": "Repair dashboard enforcement blockers for TLC Capital Group OS",
+      "evidence": [
+        "source.notCertified: Source verdict is needs-source-decomposition.",
+        "certification.blocked: Base dashboard certification is blocked."
+      ],
+      "command": "npm run dashboard:certify:rendered -- --id tlc-capital-group-os.main"
+    }
+  ]
+}

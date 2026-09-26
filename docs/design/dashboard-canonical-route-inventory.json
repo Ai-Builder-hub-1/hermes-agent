@@ -1,0 +1,289 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-22T19:34:45.776Z",
+  "standard": "Dashboard Canonical Route Inventory",
+  "total": 10,
+  "items": [
+    {
+      "id": "nous-hermes-agent.dashboard",
+      "label": "Nous Hermes Agent",
+      "projectPath": ".",
+      "implementationMode": "package-native",
+      "canonicalRoute": "/dashboard-kit-gallery",
+      "proofRoute": "/dashboard/proof",
+      "priorityRoutes": [
+        "/dashboard-kit-gallery",
+        "/",
+        "/dashboard/proof"
+      ],
+      "productionUrl": "https://agent.tlccapitalgroup.com",
+      "localProofUrl": null,
+      "auth": {
+        "proofAuthEnv": null,
+        "passwordEnv": "DASHBOARD_AUTH_PASSWORD_NOUS_HERMES_AGENT_DASHBOARD",
+        "acceptsFleetPassword": true
+      },
+      "requiredEvidence": [
+        "desktop screenshot",
+        "mobile screenshot",
+        "route inventory",
+        "interaction inventory",
+        "component coverage",
+        "repair packet when blocked"
+      ]
+    },
+    {
+      "id": "khashi-vc.roc",
+      "label": "Khashi VC ROC",
+      "projectPath": "../khashi-vc",
+      "implementationMode": "unspecified",
+      "canonicalRoute": "/",
+      "proofRoute": "/dashboard/proof?view=live-market-intelligence",
+      "priorityRoutes": [
+        "/",
+        "/dashboard/proof?view=mission-control",
+        "/dashboard/proof?view=market-intelligence",
+        "/dashboard/proof?view=collection-capacity",
+        "/dashboard/proof?view=live-market-intelligence"
+      ],
+      "productionUrl": "https://roc.tlccapitalgroup.com/",
+      "localProofUrl": "http://127.0.0.1:3000/dashboard/proof?view=live-market-intelligence",
+      "auth": {
+        "proofAuthEnv": "HERMES_DASHBOARD_PROOF_TOKEN",
+        "passwordEnv": "DASHBOARD_AUTH_PASSWORD_KHASHI_VC_ROC",
+        "acceptsFleetPassword": true
+      },
+      "requiredEvidence": [
+        "desktop screenshot",
+        "mobile screenshot",
+        "route inventory",
+        "interaction inventory",
+        "component coverage",
+        "repair packet when blocked"
+      ]
+    },
+    {
+      "id": "media-engine.ops",
+      "label": "Media Engine Ops",
+      "projectPath": "../media-engine",
+      "implementationMode": "unspecified",
+      "canonicalRoute": "/dashboard",
+      "proofRoute": "/dashboard/proof",
+      "priorityRoutes": [
+        "/dashboard",
+        "/",
+        "/dashboard/proof"
+      ],
+      "productionUrl": "https://media.tlccapitalgroup.com/dashboard",
+      "localProofUrl": null,
+      "auth": {
+        "proofAuthEnv": null,
+        "passwordEnv": "DASHBOARD_AUTH_PASSWORD_MEDIA_ENGINE_OPS",
+        "acceptsFleetPassword": true
+      },
+      "requiredEvidence": [
+        "desktop screenshot",
+        "mobile screenshot",
+        "route inventory",
+        "interaction inventory",
+        "component coverage",
+        "repair packet when blocked"
+      ]
+    },
+    {
+      "id": "media-business-operations.main",
+      "label": "Media Business Operations",
+      "projectPath": "../media-business-operations",
+      "implementationMode": "unspecified",
+      "canonicalRoute": "/dashboard",
+      "proofRoute": "/dashboard/proof",
+      "priorityRoutes": [
+        "/dashboard",
+        "/research-desk",
+        "/dashboard/proof"
+      ],
+      "productionUrl": "https://media-business-operations.tlccapitalgroup.com/dashboard",
+      "localProofUrl": null,
+      "auth": {
+        "proofAuthEnv": null,
+        "passwordEnv": "DASHBOARD_AUTH_PASSWORD_MEDIA_BUSINESS_OPERATIONS_MAIN",
+        "acceptsFleetPassword": true
+      },
+      "requiredEvidence": [
+        "desktop screenshot",
+        "mobile screenshot",
+        "route inventory",
+        "interaction inventory",
+        "component coverage",
+        "repair packet when blocked"
+      ]
+    },
+    {
+      "id": "business-mapper.workspace",
+      "label": "Business Mapper Workspace",
+      "projectPath": "../business-mapper",
+      "implementationMode": "unspecified",
+      "canonicalRoute": "/dashboard",
+      "proofRoute": "/dashboard/proof",
+      "priorityRoutes": [
+        "/dashboard",
+        "/dashboard/proof"
+      ],
+      "productionUrl": "https://business-mapper.tlccapitalgroup.com/dashboard",
+      "localProofUrl": null,
+      "auth": {
+        "proofAuthEnv": null,
+        "passwordEnv": "DASHBOARD_AUTH_PASSWORD_BUSINESS_MAPPER_WORKSPACE",
+        "acceptsFleetPassword": true
+      },
+      "requiredEvidence": [
+        "desktop screenshot",
+        "mobile screenshot",
+        "route inventory",
+        "interaction inventory",
+        "component coverage",
+        "repair packet when blocked"
+      ]
+    },
+    {
+      "id": "meal-assistant.main",
+      "label": "Meal Assistant",
+      "projectPath": "../Meal-assistant",
+      "implementationMode": "unspecified",
+      "canonicalRoute": "/",
+      "proofRoute": "/dashboard/proof",
+      "priorityRoutes": [
+        "/",
+        "/login",
+        "/planner",
+        "/analytics",
+        "/dashboard/proof"
+      ],
+      "productionUrl": "https://meal.tlccapitalgroup.com/",
+      "localProofUrl": null,
+      "auth": {
+        "proofAuthEnv": null,
+        "passwordEnv": "DASHBOARD_AUTH_PASSWORD_MEAL_ASSISTANT_MAIN",
+        "acceptsFleetPassword": true
+      },
+      "requiredEvidence": [
+        "desktop screenshot",
+        "mobile screenshot",
+        "route inventory",
+        "interaction inventory",
+        "component coverage",
+        "repair packet when blocked"
+      ]
+    },
+    {
+      "id": "rinseables-os.main",
+      "label": "Rinseables OS",
+      "projectPath": "../rinseables-os",
+      "implementationMode": "unspecified",
+      "canonicalRoute": "/",
+      "proofRoute": "/dashboard/proof",
+      "priorityRoutes": [
+        "/",
+        "/dashboard",
+        "/dashboard/proof"
+      ],
+      "productionUrl": "https://rinseables.tlccapitalgroup.com",
+      "localProofUrl": null,
+      "auth": {
+        "proofAuthEnv": null,
+        "passwordEnv": "DASHBOARD_AUTH_PASSWORD_RINSEABLES_OS_MAIN",
+        "acceptsFleetPassword": true
+      },
+      "requiredEvidence": [
+        "desktop screenshot",
+        "mobile screenshot",
+        "route inventory",
+        "interaction inventory",
+        "component coverage",
+        "repair packet when blocked"
+      ]
+    },
+    {
+      "id": "investing-system.roc",
+      "label": "Investing System ROC",
+      "projectPath": "../investing-system",
+      "implementationMode": "unspecified",
+      "canonicalRoute": "/roc",
+      "proofRoute": "/dashboard/proof",
+      "priorityRoutes": [
+        "/roc",
+        "/dashboard/proof"
+      ],
+      "productionUrl": "https://investing.tlccapitalgroup.com/roc",
+      "localProofUrl": null,
+      "auth": {
+        "proofAuthEnv": "HERMES_DASHBOARD_PROOF_TOKEN",
+        "passwordEnv": "DASHBOARD_AUTH_PASSWORD_INVESTING_SYSTEM_ROC",
+        "acceptsFleetPassword": true
+      },
+      "requiredEvidence": [
+        "desktop screenshot",
+        "mobile screenshot",
+        "route inventory",
+        "interaction inventory",
+        "component coverage",
+        "repair packet when blocked"
+      ]
+    },
+    {
+      "id": "hermes.workspace",
+      "label": "Hermes Workspace",
+      "projectPath": "../hermes",
+      "implementationMode": "unspecified",
+      "canonicalRoute": "/",
+      "proofRoute": "/dashboard/proof",
+      "priorityRoutes": [
+        "/",
+        "/dashboard/proof"
+      ],
+      "productionUrl": "https://hermes.tlccapitalgroup.com/",
+      "localProofUrl": null,
+      "auth": {
+        "proofAuthEnv": null,
+        "passwordEnv": "DASHBOARD_AUTH_PASSWORD_HERMES_WORKSPACE",
+        "acceptsFleetPassword": true
+      },
+      "requiredEvidence": [
+        "desktop screenshot",
+        "mobile screenshot",
+        "route inventory",
+        "interaction inventory",
+        "component coverage",
+        "repair packet when blocked"
+      ]
+    },
+    {
+      "id": "tlc-capital-group-os.main",
+      "label": "TLC Capital Group OS",
+      "projectPath": "../tlc-capital-group-os",
+      "implementationMode": "unspecified",
+      "canonicalRoute": "/dashboard",
+      "proofRoute": "/dashboard/proof",
+      "priorityRoutes": [
+        "/dashboard",
+        "/",
+        "/dashboard/proof"
+      ],
+      "productionUrl": "https://tlc.tlccapitalgroup.com/dashboard",
+      "localProofUrl": null,
+      "auth": {
+        "proofAuthEnv": null,
+        "passwordEnv": "DASHBOARD_AUTH_PASSWORD_TLC_CAPITAL_GROUP_OS_MAIN",
+        "acceptsFleetPassword": true
+      },
+      "requiredEvidence": [
+        "desktop screenshot",
+        "mobile screenshot",
+        "route inventory",
+        "interaction inventory",
+        "component coverage",
+        "repair packet when blocked"
+      ]
+    }
+  ]
+}

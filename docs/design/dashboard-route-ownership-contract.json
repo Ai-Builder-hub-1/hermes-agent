@@ -1,0 +1,614 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-21T20:34:26.596Z",
+  "purpose": "Route ownership contract for dashboard source-native enforcement. Every operator route must declare implementation ownership, allowed rendering mode, required component families, and whether legacy/static behavior is allowed.",
+  "rules": [
+    "Primary operator routes cannot be static HTML, mount-only, server-rendered string HTML, or runtime marker bridges without an explicit expiring exception.",
+    "Compatibility routes are allowed only for rollback/review and cannot satisfy T3C source certification.",
+    "Rendered certification is necessary but not sufficient for source-native promotion."
+  ],
+  "routes": [
+    {
+      "project": "khashi-vc",
+      "surface": "roc-server-primary-route",
+      "path": "src/web/server.ts",
+      "role": "server-route",
+      "operatorSurface": false,
+      "allowedRendering": "non-primary",
+      "sourceNativeLevel": "server-rendered",
+      "legacyStaticAllowed": false,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "nextMigrationLayer": "extract-server-html-into-package-native-components"
+    },
+    {
+      "project": "khashi-vc",
+      "surface": "roc-shell",
+      "path": "public/roc/index.html",
+      "role": "mount-route",
+      "operatorSurface": false,
+      "allowedRendering": "non-primary",
+      "sourceNativeLevel": "compatibility-only",
+      "legacyStaticAllowed": true,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow"
+      ],
+      "nextMigrationLayer": "retire-or-isolate-compatibility-route"
+    },
+    {
+      "project": "khashi-vc",
+      "surface": "roc-dashboard-native-source",
+      "path": "src/web/roc-dashboard/index.mjs",
+      "role": "ui",
+      "operatorSurface": true,
+      "allowedRendering": "react-typescript-hdk-or-direct-package-runtime",
+      "sourceNativeLevel": "package-native-route",
+      "legacyStaticAllowed": false,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [],
+      "nextMigrationLayer": "reduce-local-visual-primitive-debt"
+    },
+    {
+      "project": "khashi-vc",
+      "surface": "market-intelligence-live",
+      "path": "public/roc/market-intelligence-live.html",
+      "role": "legacy-compatibility-route",
+      "operatorSurface": false,
+      "allowedRendering": "non-primary",
+      "sourceNativeLevel": "compatibility-only",
+      "legacyStaticAllowed": true,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [],
+      "nextMigrationLayer": "retire-or-isolate-compatibility-route"
+    },
+    {
+      "project": "media-engine",
+      "surface": "media-engine-ops-active",
+      "path": "core/operations/unified-publishing-dashboard.js",
+      "role": "ui",
+      "operatorSurface": true,
+      "allowedRendering": "react-typescript-hdk-or-direct-package-runtime",
+      "sourceNativeLevel": "package-native-route",
+      "legacyStaticAllowed": false,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [
+        "sidebar",
+        "proof"
+      ],
+      "nextMigrationLayer": "reduce-local-visual-primitive-debt"
+    },
+    {
+      "project": "media-business-os",
+      "surface": "media-business-react-dashboard",
+      "path": "frontend/src/main.tsx",
+      "role": "ui",
+      "operatorSurface": true,
+      "allowedRendering": "react-typescript-hdk-or-direct-package-runtime",
+      "sourceNativeLevel": "package-native-route",
+      "legacyStaticAllowed": false,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [],
+      "nextMigrationLayer": "reduce-local-visual-primitive-debt"
+    },
+    {
+      "project": "media-business-os",
+      "surface": "media-business-main",
+      "path": "public/dashboard/index.html",
+      "role": "ui",
+      "operatorSurface": true,
+      "allowedRendering": "react-typescript-hdk-or-direct-package-runtime",
+      "sourceNativeLevel": "static-html",
+      "legacyStaticAllowed": false,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "nextMigrationLayer": "replace-static-html-with-react-vite-route"
+    },
+    {
+      "project": "media-business-os",
+      "surface": "media-business-renderer",
+      "path": "public/dashboard/app.js",
+      "role": "ui",
+      "operatorSurface": true,
+      "allowedRendering": "react-typescript-hdk-or-direct-package-runtime",
+      "sourceNativeLevel": "server-rendered",
+      "legacyStaticAllowed": false,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [
+        "shell",
+        "header"
+      ],
+      "nextMigrationLayer": "extract-server-html-into-package-native-components"
+    },
+    {
+      "project": "business-mapper",
+      "surface": "business-mapper-workspace",
+      "path": "business_mapper/static/index.html",
+      "role": "ui",
+      "operatorSurface": true,
+      "allowedRendering": "react-typescript-hdk-or-direct-package-runtime",
+      "sourceNativeLevel": "static-html",
+      "legacyStaticAllowed": false,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "nextMigrationLayer": "replace-static-html-with-react-vite-route"
+    },
+    {
+      "project": "meal-assistant",
+      "surface": "meal-dashboard-shell",
+      "path": "src/server.js",
+      "role": "ui",
+      "operatorSurface": true,
+      "allowedRendering": "react-typescript-hdk-or-direct-package-runtime",
+      "sourceNativeLevel": "package-native-route",
+      "legacyStaticAllowed": false,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "nextMigrationLayer": "reduce-local-visual-primitive-debt"
+    },
+    {
+      "project": "hermes-os",
+      "surface": "hermes-dashboard-hub",
+      "path": "src/workspace/workspace-server.ts",
+      "role": "ui",
+      "operatorSurface": true,
+      "allowedRendering": "react-typescript-hdk-or-direct-package-runtime",
+      "sourceNativeLevel": "server-rendered",
+      "legacyStaticAllowed": false,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "nextMigrationLayer": "extract-server-html-into-package-native-components"
+    },
+    {
+      "project": "hermes-os",
+      "surface": "hermes-operator-dashboard-artifact",
+      "path": "src/operator/operator-state.ts",
+      "role": "ui",
+      "operatorSurface": true,
+      "allowedRendering": "react-typescript-hdk-or-direct-package-runtime",
+      "sourceNativeLevel": "server-rendered",
+      "legacyStaticAllowed": false,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [
+        "sidebar",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "nextMigrationLayer": "extract-server-html-into-package-native-components"
+    },
+    {
+      "project": "hermes-os",
+      "surface": "hermes-control-plane-artifact",
+      "path": "src/operator/control-plane.ts",
+      "role": "ui",
+      "operatorSurface": true,
+      "allowedRendering": "react-typescript-hdk-or-direct-package-runtime",
+      "sourceNativeLevel": "server-rendered",
+      "legacyStaticAllowed": false,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [
+        "sidebar",
+        "metrics",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "nextMigrationLayer": "extract-server-html-into-package-native-components"
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "surface": "tlc-dashboard-shell",
+      "path": "public/dashboard/index.html",
+      "role": "ui",
+      "operatorSurface": true,
+      "allowedRendering": "react-typescript-hdk-or-direct-package-runtime",
+      "sourceNativeLevel": "static-html",
+      "legacyStaticAllowed": false,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "nextMigrationLayer": "replace-static-html-with-react-vite-route"
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "surface": "tlc-dashboard-api",
+      "path": "src/api.js",
+      "role": "api",
+      "operatorSurface": false,
+      "allowedRendering": "non-primary",
+      "sourceNativeLevel": "runtime-bridge",
+      "legacyStaticAllowed": false,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [
+        "header",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "nextMigrationLayer": "replace-runtime-markers-with-direct-kit-imports"
+    },
+    {
+      "project": "tlc-capital-group-os",
+      "surface": "tlc-dashboard-models",
+      "path": "src/dashboards.js",
+      "role": "data-contract",
+      "operatorSurface": false,
+      "allowedRendering": "non-primary",
+      "sourceNativeLevel": "runtime-bridge",
+      "legacyStaticAllowed": false,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [
+        "header",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "nextMigrationLayer": "replace-runtime-markers-with-direct-kit-imports"
+    },
+    {
+      "project": "rinseables-os",
+      "surface": "rinseables-dashboard-shell",
+      "path": "public/dashboard/index.html",
+      "role": "ui",
+      "operatorSurface": true,
+      "allowedRendering": "react-typescript-hdk-or-direct-package-runtime",
+      "sourceNativeLevel": "static-html",
+      "legacyStaticAllowed": false,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "nextMigrationLayer": "replace-static-html-with-react-vite-route"
+    },
+    {
+      "project": "rinseables-os",
+      "surface": "rinseables-dashboard-proof",
+      "path": "src/api.js",
+      "role": "proof-endpoint",
+      "operatorSurface": false,
+      "allowedRendering": "non-primary",
+      "sourceNativeLevel": "unknown",
+      "legacyStaticAllowed": false,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "nextMigrationLayer": "complete-component-family-coverage"
+    },
+    {
+      "project": "investing-system",
+      "surface": "investing-system-roc",
+      "path": "public/roc/index.html",
+      "role": "ui",
+      "operatorSurface": true,
+      "allowedRendering": "react-typescript-hdk-or-direct-package-runtime",
+      "sourceNativeLevel": "static-html",
+      "legacyStaticAllowed": false,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [
+        "workflow"
+      ],
+      "nextMigrationLayer": "replace-static-html-with-react-vite-route"
+    },
+    {
+      "project": "investing-system",
+      "surface": "investing-system-proof",
+      "path": "src/api/server.ts",
+      "role": "proof-endpoint",
+      "operatorSurface": false,
+      "allowedRendering": "non-primary",
+      "sourceNativeLevel": "server-rendered",
+      "legacyStaticAllowed": false,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "nextMigrationLayer": "extract-server-html-into-package-native-components"
+    },
+    {
+      "project": "nous-hermes-agent",
+      "surface": "hermes-dashboard-kit-gallery",
+      "path": "packages/hermes-dashboard-kit/src/index.js",
+      "role": "kit-source",
+      "operatorSurface": false,
+      "allowedRendering": "non-primary",
+      "sourceNativeLevel": "server-rendered",
+      "legacyStaticAllowed": false,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [],
+      "nextMigrationLayer": "extract-server-html-into-package-native-components"
+    },
+    {
+      "project": "nous-hermes-agent",
+      "surface": "hermes-dashboard-kit-gallery-web-route",
+      "path": "web/src/pages/DashboardKitGalleryPage.tsx",
+      "role": "page-content",
+      "operatorSurface": true,
+      "allowedRendering": "react-typescript-hdk-or-direct-package-runtime",
+      "sourceNativeLevel": "runtime-bridge",
+      "legacyStaticAllowed": false,
+      "requiredFamilies": [
+        "shell",
+        "sidebar",
+        "header",
+        "state",
+        "metrics",
+        "tables",
+        "charts",
+        "workflow",
+        "proof"
+      ],
+      "missingFamilies": [],
+      "nextMigrationLayer": "replace-runtime-markers-with-direct-kit-imports"
+    }
+  ]
+}

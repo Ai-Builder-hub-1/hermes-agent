@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-20T14:28:42.533Z",
+  "generatedAt": "2026-08-21T20:34:09.357Z",
   "standard": {
     "definition": "Component-native means the production dashboard route is implemented with @hermes/dashboard-kit primitives across shell, navigation, state, metrics/cards, tables, charts/workflow surfaces, and proof. A project is not component-native simply because the package is installed, CSS is copied, or hdk markers are present.",
     "requiredFamilies": [
@@ -23,9 +23,9 @@
   },
   "summary": {
     "totalProjects": 10,
-    "componentNative": 2,
-    "needsImplementationMigration": 8,
-    "blockedFalseNativeClaims": 8
+    "componentNative": 1,
+    "needsImplementationMigration": 9,
+    "blockedFalseNativeClaims": 9
   },
   "projects": [
     {
@@ -72,7 +72,7 @@
         "T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language"
       ],
       "warnings": [
-        "10 local primitive signals found; route likely needs deeper decomposition"
+        "16 local primitive signals found; route likely needs deeper decomposition"
       ],
       "surfaces": [
         {
@@ -104,6 +104,33 @@
           ],
           "localPrimitiveFindings": [],
           "noteFlags": 0
+        },
+        {
+          "id": "roc-dashboard-native-source",
+          "path": "src/web/roc-dashboard/index.mjs",
+          "role": "ui",
+          "status": "package-native-runtime",
+          "exists": true,
+          "importEvidence": true,
+          "familyEvidence": [
+            "shell",
+            "sidebar",
+            "header",
+            "state",
+            "metrics",
+            "tables",
+            "workflow",
+            "proof"
+          ],
+          "localPrimitiveFindings": [
+            "local-sidebar-class",
+            "local-topbar-class",
+            "local-card-class",
+            "hand-authored-table",
+            "hardcoded-spacing",
+            "hardcoded-color"
+          ],
+          "noteFlags": 1
         },
         {
           "id": "market-intelligence-live",
@@ -322,38 +349,43 @@
       "implementationMode": "package-native",
       "targetBand": "T3C",
       "registryBridgeStatus": "package-native",
-      "status": "component-native",
+      "status": "needs-implementation-migration",
       "componentCoverage": {
         "presentFamilies": [
-          "charts",
           "header",
-          "metrics",
-          "proof",
           "shell",
           "sidebar",
-          "state",
-          "tables",
-          "workflow"
+          "state"
         ],
-        "missingFamilies": [],
-        "score": 100
+        "missingFamilies": [
+          "metrics",
+          "tables",
+          "charts",
+          "workflow",
+          "proof"
+        ],
+        "score": 44
       },
       "visibleRouteCoverage": {
         "presentFamilies": [
-          "charts",
           "header",
-          "metrics",
-          "proof",
           "shell",
           "sidebar",
-          "state",
-          "tables",
-          "workflow"
+          "state"
         ],
-        "missingFamilies": [],
-        "score": 100
+        "missingFamilies": [
+          "metrics",
+          "tables",
+          "charts",
+          "workflow",
+          "proof"
+        ],
+        "score": 44
       },
-      "blockers": [],
+      "blockers": [
+        "insufficient Tier 3 component family evidence: tables, charts, workflow, proof",
+        "operator-facing routes are not decomposed with Tier 3 component families: tables, charts, workflow, proof"
+      ],
       "warnings": [],
       "surfaces": [
         {
@@ -367,12 +399,7 @@
             "shell",
             "sidebar",
             "header",
-            "state",
-            "metrics",
-            "tables",
-            "charts",
-            "workflow",
-            "proof"
+            "state"
           ],
           "localPrimitiveFindings": [
             "local-sidebar-class",
@@ -446,6 +473,7 @@
             "proof"
           ],
           "localPrimitiveFindings": [
+            "local-sidebar-class",
             "local-card-class",
             "hardcoded-spacing",
             "hardcoded-color"
@@ -465,39 +493,43 @@
       "status": "needs-implementation-migration",
       "componentCoverage": {
         "presentFamilies": [
-          "charts",
           "header",
           "metrics",
-          "proof",
           "shell",
           "sidebar",
-          "state",
-          "tables",
-          "workflow"
+          "state"
         ],
-        "missingFamilies": [],
-        "score": 100
+        "missingFamilies": [
+          "tables",
+          "charts",
+          "workflow",
+          "proof"
+        ],
+        "score": 56
       },
       "visibleRouteCoverage": {
         "presentFamilies": [
-          "charts",
           "header",
           "metrics",
-          "proof",
           "shell",
           "sidebar",
-          "state",
-          "tables",
-          "workflow"
+          "state"
         ],
-        "missingFamilies": [],
-        "score": 100
+        "missingFamilies": [
+          "tables",
+          "charts",
+          "workflow",
+          "proof"
+        ],
+        "score": 56
       },
       "blockers": [
-        "T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language"
+        "T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language",
+        "insufficient Tier 3 component family evidence: tables, charts, workflow, proof",
+        "operator-facing routes are not decomposed with Tier 3 component families: tables, charts, workflow, proof"
       ],
       "warnings": [
-        "15 local primitive signals found; route likely needs deeper decomposition"
+        "12 local primitive signals found; route likely needs deeper decomposition"
       ],
       "surfaces": [
         {
@@ -511,12 +543,7 @@
             "shell",
             "sidebar",
             "header",
-            "state",
-            "metrics",
-            "tables",
-            "charts",
-            "workflow",
-            "proof"
+            "state"
           ],
           "localPrimitiveFindings": [
             "local-sidebar-class",
@@ -536,17 +563,11 @@
           "importEvidence": true,
           "familyEvidence": [
             "shell",
-            "sidebar",
             "header",
             "state",
-            "metrics",
-            "tables",
-            "charts",
-            "workflow",
-            "proof"
+            "metrics"
           ],
           "localPrimitiveFindings": [
-            "local-sidebar-class",
             "local-card-class",
             "hand-authored-table",
             "hardcoded-spacing",
@@ -563,18 +584,10 @@
           "importEvidence": true,
           "familyEvidence": [
             "shell",
-            "sidebar",
             "header",
-            "state",
-            "metrics",
-            "tables",
-            "charts",
-            "workflow",
-            "proof"
+            "state"
           ],
           "localPrimitiveFindings": [
-            "local-sidebar-class",
-            "local-card-class",
             "hand-authored-table",
             "hardcoded-spacing",
             "hardcoded-color"
@@ -594,36 +607,40 @@
       "status": "needs-implementation-migration",
       "componentCoverage": {
         "presentFamilies": [
-          "charts",
           "header",
-          "metrics",
-          "proof",
           "shell",
           "sidebar",
-          "state",
-          "tables",
-          "workflow"
+          "state"
         ],
-        "missingFamilies": [],
-        "score": 100
+        "missingFamilies": [
+          "metrics",
+          "tables",
+          "charts",
+          "workflow",
+          "proof"
+        ],
+        "score": 44
       },
       "visibleRouteCoverage": {
         "presentFamilies": [
-          "charts",
           "header",
-          "metrics",
-          "proof",
           "shell",
           "sidebar",
-          "state",
-          "tables",
-          "workflow"
+          "state"
         ],
-        "missingFamilies": [],
-        "score": 100
+        "missingFamilies": [
+          "metrics",
+          "tables",
+          "charts",
+          "workflow",
+          "proof"
+        ],
+        "score": 44
       },
       "blockers": [
-        "T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language"
+        "T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language",
+        "insufficient Tier 3 component family evidence: tables, charts, workflow, proof",
+        "operator-facing routes are not decomposed with Tier 3 component families: tables, charts, workflow, proof"
       ],
       "warnings": [],
       "surfaces": [
@@ -638,12 +655,7 @@
             "shell",
             "sidebar",
             "header",
-            "state",
-            "metrics",
-            "tables",
-            "charts",
-            "workflow",
-            "proof"
+            "state"
           ],
           "localPrimitiveFindings": [
             "local-sidebar-class",
@@ -690,43 +702,47 @@
       "status": "needs-implementation-migration",
       "componentCoverage": {
         "presentFamilies": [
-          "charts",
           "header",
-          "metrics",
-          "proof",
           "shell",
           "sidebar",
-          "state",
-          "tables",
-          "workflow"
+          "state"
         ],
-        "missingFamilies": [],
-        "score": 100
+        "missingFamilies": [
+          "metrics",
+          "tables",
+          "charts",
+          "workflow",
+          "proof"
+        ],
+        "score": 44
       },
       "visibleRouteCoverage": {
         "presentFamilies": [
-          "charts",
           "header",
-          "metrics",
-          "proof",
           "shell",
           "sidebar",
-          "state",
-          "tables",
-          "workflow"
+          "state"
         ],
-        "missingFamilies": [],
-        "score": 100
+        "missingFamilies": [
+          "metrics",
+          "tables",
+          "charts",
+          "workflow",
+          "proof"
+        ],
+        "score": 44
       },
       "blockers": [
-        "T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language"
+        "T3C/package-native claim still contains static, compatibility, bridge, local primitive, or migration language",
+        "insufficient Tier 3 component family evidence: tables, charts, workflow, proof",
+        "operator-facing routes are not decomposed with Tier 3 component families: tables, charts, workflow, proof"
       ],
       "warnings": [],
       "surfaces": [
         {
           "id": "rinseables-dashboard-shell",
           "path": "public/dashboard/index.html",
-          "role": "compatibility",
+          "role": "ui",
           "status": "package-native",
           "exists": true,
           "importEvidence": true,
@@ -734,12 +750,7 @@
             "shell",
             "sidebar",
             "header",
-            "state",
-            "metrics",
-            "tables",
-            "charts",
-            "workflow",
-            "proof"
+            "state"
           ],
           "localPrimitiveFindings": [
             "local-sidebar-class",
@@ -811,7 +822,7 @@
         {
           "id": "investing-system-roc",
           "path": "public/roc/index.html",
-          "role": "compatibility",
+          "role": "ui",
           "status": "package-native",
           "exists": true,
           "importEvidence": true,
