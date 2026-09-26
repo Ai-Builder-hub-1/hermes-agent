@@ -854,14 +854,14 @@ function DaySeriesChart({
   points,
 }: {
   chart: { id: string; label: string; series: string[] };
-  points: Array<Record<string, unknown> & { date: string }>;
+  points: DailySeries["points"];
 }) {
   const W = 620;
   const H = 120;
   const PAD = { t: 10, r: 74, b: 18, l: 8 };
   const SERIES_COLOR = ["var(--color-primary)", "var(--color-warning)"];
 
-  const values = chart.series.flatMap((key) => points.map((p) => p[key]).filter(isNum));
+  const values = chart.series.flatMap((key) => points.map((p) => (p as unknown as Record<string, unknown>)[key]).filter(isNum));
   if (!values.length) return <EmptyNote>No data for {chart.label.toLowerCase()}.</EmptyNote>;
   const min = Math.min(...values, 0);
   const max = Math.max(...values, 0);
@@ -885,7 +885,7 @@ function DaySeriesChart({
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label={`${chart.label} by day`}>
         <line x1={PAD.l} y1={y(0)} x2={W - PAD.r} y2={y(0)} className="stroke-border" strokeWidth="1" />
         {chart.series.map((key, si) => {
-          const pts = points.map((p, i) => ({ i, v: p[key] })).filter((p) => isNum(p.v)) as Array<{ i: number; v: number }>;
+          const pts = points.map((p, i) => ({ i, v: (p as unknown as Record<string, unknown>)[key] })).filter((p) => isNum(p.v)) as Array<{ i: number; v: number }>;
           if (!pts.length) return null;
           const d = pts.map((p, idx) => `${idx ? "L" : "M"}${x(p.i).toFixed(1)},${y(p.v).toFixed(1)}`).join(" ");
           const last = pts[pts.length - 1];

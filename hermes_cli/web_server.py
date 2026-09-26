@@ -1786,6 +1786,88 @@ async def get_trading_intelligence_frontend_spec():
     return trading_intelligence_frontend_spec()
 
 
+def _hermes_brain_base_url() -> str:
+    return os.environ.get("HERMES_BRAIN_URL", "http://127.0.0.1:3115").rstrip("/")
+
+
+async def _hermes_brain_request(path: str, method: str = "GET", payload: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    url = f"{_hermes_brain_base_url()}{path}"
+
+    def _request() -> Dict[str, Any]:
+        data = None if payload is None else json.dumps(payload).encode("utf-8")
+        req = urllib.request.Request(
+            url,
+            data=data,
+            method=method,
+            headers={"content-type": "application/json"},
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                raw = resp.read().decode("utf-8")
+                return json.loads(raw) if raw else {}
+        except urllib.error.HTTPError as exc:
+            raw = exc.read().decode("utf-8", errors="replace")
+            try:
+                body = json.loads(raw)
+            except Exception:
+                body = {"error": raw or str(exc)}
+            raise HTTPException(status_code=exc.code, detail=body)
+        except Exception as exc:
+            raise HTTPException(
+                status_code=503,
+                detail={
+                    "error": "hermes_brain_unavailable",
+                    "message": str(exc),
+                    "baseUrl": _hermes_brain_base_url(),
+                },
+            )
+
+    return await asyncio.to_thread(_request)
+
+
+@app.get("/api/second-brain/summary")
+async def get_second_brain_summary():
+    health, audit, warehouse = await asyncio.gather(
+        _hermes_brain_request("/health"),
+        _hermes_brain_request("/api/brain/audit"),
+        _hermes_brain_request("/api/brain/warehouse/status"),
+    )
+    return {
+        "contractVersion": "second-brain-command-center.v1",
+        "generatedAt": datetime.now(timezone.utc).isoformat(),
+        "health": health,
+        "audit": audit,
+        "warehouse": warehouse,
+    }
+
+
+@app.get("/api/second-brain/candidates")
+async def get_second_brain_candidates(status: Optional[str] = None):
+    suffix = f"?status={urllib.parse.quote(status)}" if status else ""
+    return await _hermes_brain_request(f"/api/brain/candidates/review-queue{suffix}")
+
+
+@app.get("/api/second-brain/search")
+async def get_second_brain_search(q: str = "", includeStale: bool = False):
+    params = urllib.parse.urlencode({"q": q, "includeStale": "true" if includeStale else "false"})
+    return await _hermes_brain_request(f"/api/brain/search?{params}")
+
+
+@app.post("/api/second-brain/staleness/scan")
+async def post_second_brain_staleness_scan():
+    return await _hermes_brain_request("/api/brain/staleness/scan", method="POST", payload={})
+
+
+@app.post("/api/second-brain/warehouse/sync")
+async def post_second_brain_warehouse_sync():
+    return await _hermes_brain_request("/api/brain/warehouse/sync", method="POST", payload={})
+
+
+@app.get("/api/second-brain/warehouse/restore-proof")
+async def get_second_brain_warehouse_restore_proof():
+    return await _hermes_brain_request("/api/brain/warehouse/restore-proof")
+
+
 @app.get("/api/head-trader/summary")
 async def get_head_trader_summary():
     from hermes_cli.head_trader import head_trader_summary

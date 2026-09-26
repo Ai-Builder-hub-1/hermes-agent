@@ -53,6 +53,7 @@ const DashboardKitGalleryPage = lazy(() => import("@/pages/DashboardKitGalleryPa
 const FleetMaturityReviewPage = lazy(() => import("@/pages/FleetMaturityReviewPage"));
 const TradingIntelligencePage = lazy(() => import("@/pages/TradingIntelligencePage"));
 const HeadTraderPage = lazy(() => import("@/pages/HeadTraderPage"));
+const SecondBrainPage = lazy(() => import("@/pages/SecondBrainPage"));
 const DesignIntelligenceCommandCenterPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.DesignIntelligenceCommandCenterPage })));
 const PackageNativeMigrationsPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.PackageNativeMigrationsPage })));
 const MediaEnginePackageNativePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ProjectSnapshotsPage })));
@@ -170,6 +171,7 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/central-command": CentralCommandPage,
   "/trading-intelligence": TradingIntelligencePage,
   "/head-trader": HeadTraderPage,
+  "/second-brain": SecondBrainPage,
   "/executive-summary": ExecutiveSummaryPage,
   "/executive-briefing": ExecutiveBriefingRoomPage,
   "/dashboard-migrations": PackageNativeMigrationsPage,
@@ -354,6 +356,7 @@ export const BUILTIN_NAV_REST: BuiltinNavItem[] = [
   { path: "/dashboard-kit-gallery", label: "Kit Gallery", icon: GalleryVerticalEnd },
   { path: "/trading-intelligence", label: "Command Center", icon: CandlestickChart },
   { path: "/head-trader", label: "Head Trader", icon: MessageSquare },
+  { path: "/second-brain", label: "Second Brain", icon: Database },
   { path: "/fleet-maturity-review", label: "Fleet Review", icon: ListChecks },
   { path: "/models", labelKey: "models", label: "Models", icon: Cpu },
   { path: "/logs", labelKey: "logs", label: "Logs", icon: FileText },
