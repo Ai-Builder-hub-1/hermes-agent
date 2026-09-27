@@ -70,9 +70,10 @@ import { ProfileScopeBanner } from "@/components/ProfileScopeBanner";
 import { useSystemActions } from "@/contexts/useSystemActions";
 import type { SystemAction } from "@/contexts/system-actions-context";
 import {
-  BUILTIN_NAV_REST,
   BUILTIN_ROUTES_CORE,
   CHAT_NAV_ITEM,
+  OPERATOR_NAV_GROUPS,
+  type OperatorNavGroup,
   type RouteComponent,
 } from "@/dashboard-route-registry";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
@@ -183,6 +184,27 @@ function partitionSidebarNav(
     else pluginItems.push(item);
   }
   return { coreItems, pluginItems };
+}
+
+function pathMatches(currentPath: string, targetPath: string): boolean {
+  if (targetPath === "/") return currentPath === "/";
+  return currentPath === targetPath || currentPath.startsWith(`${targetPath}/`);
+}
+
+function getActiveOperatorNavGroup(
+  groups: OperatorNavGroup[],
+  pathname: string,
+): OperatorNavGroup {
+  const normalizedPath = pathname.replace(/\/$/, "") || "/";
+  return (
+    groups.find((group) => {
+      if (pathMatches(normalizedPath, group.path)) return true;
+      if (group.items.some((item) => pathMatches(normalizedPath, item.path))) {
+        return true;
+      }
+      return group.legacyPaths?.some((path) => pathMatches(normalizedPath, path));
+    }) ?? groups[0]
+  );
 }
 
 function buildRoutes(
@@ -349,18 +371,29 @@ export default function App() {
     [embeddedChat],
   );
 
-  const builtinNav = useMemo(() => {
-    const base = embeddedChat
-      ? [CHAT_NAV_ITEM, ...BUILTIN_NAV_REST]
-      : BUILTIN_NAV_REST;
-    return showTokenAnalytics
-      ? base
-      : base.filter((n) => n.path !== "/analytics");
+  const operatorNavGroups = useMemo(() => {
+    return OPERATOR_NAV_GROUPS.map((group) => {
+      const items = group.items.filter(
+        (item) => showTokenAnalytics || item.path !== "/system/analytics",
+      );
+      return {
+        ...group,
+        items:
+          group.id === "operate" && embeddedChat
+            ? [CHAT_NAV_ITEM, ...items]
+            : items,
+      };
+    });
   }, [embeddedChat, showTokenAnalytics]);
 
-  const sidebarNav = useMemo(
-    () => partitionSidebarNav(builtinNav, manifests),
-    [builtinNav, manifests],
+  const activeOperatorNavGroup = useMemo(
+    () => getActiveOperatorNavGroup(operatorNavGroups, pathname),
+    [operatorNavGroups, pathname],
+  );
+
+  const pluginItems = useMemo(
+    () => partitionSidebarNav([], manifests).pluginItems,
+    [manifests],
   );
   const routes = useMemo(
     () => buildRoutes(builtinRoutes, manifests),
@@ -538,20 +571,50 @@ export default function App() {
               className="min-h-0 w-full flex-1 overflow-y-auto overflow-x-hidden border-t border-current/10 py-2"
               aria-label={t.app.navigation}
             >
-              <ul className="flex flex-col">
-                {sidebarNav.coreItems.map((item) => (
+              <ul className="flex flex-col border-b border-current/10 pb-2">
+                {operatorNavGroups.map((group) => (
                   <SidebarNavLink
                     closeMobile={closeMobile}
                     collapsed={isDesktopCollapsed}
-                    item={item}
-                    key={item.path}
+                    item={group}
+                    key={group.id}
                     t={t}
                     tooltipWarmRef={tooltipWarmRef}
                   />
                 ))}
               </ul>
 
-              {sidebarNav.pluginItems.length > 0 && (
+              <div
+                aria-labelledby="hermes-sidebar-operator-nav-heading"
+                className="flex flex-col"
+                role="group"
+              >
+                <span
+                  className={cn(
+                    "px-5 pt-2.5 pb-1",
+                    "font-sans text-display text-xs tracking-[0.12em] text-text-tertiary",
+                    isDesktopCollapsed && "lg:hidden",
+                  )}
+                  id="hermes-sidebar-operator-nav-heading"
+                >
+                  {activeOperatorNavGroup.label}
+                </span>
+
+                <ul className="flex flex-col">
+                  {activeOperatorNavGroup.items.map((item) => (
+                    <SidebarNavLink
+                      closeMobile={closeMobile}
+                      collapsed={isDesktopCollapsed}
+                      item={item}
+                      key={item.path}
+                      t={t}
+                      tooltipWarmRef={tooltipWarmRef}
+                    />
+                  ))}
+                </ul>
+              </div>
+
+              {activeOperatorNavGroup.id === "system" && pluginItems.length > 0 && (
                 <div
                   aria-labelledby="hermes-sidebar-plugin-nav-heading"
                   className="flex flex-col border-t border-current/10 pb-2"
@@ -569,7 +632,7 @@ export default function App() {
                   </span>
 
                   <ul className="flex flex-col">
-                    {sidebarNav.pluginItems.map((item) => (
+                    {pluginItems.map((item) => (
                       <SidebarNavLink
                         closeMobile={closeMobile}
                         collapsed={isDesktopCollapsed}

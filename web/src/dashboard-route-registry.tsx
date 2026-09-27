@@ -151,8 +151,17 @@ export interface BuiltinNavItem {
   labelKey?: string;
 }
 
+export interface OperatorNavGroup {
+  id: "operate" | "trading" | "system";
+  label: string;
+  path: string;
+  icon: LucideIcon;
+  legacyPaths?: string[];
+  items: BuiltinNavItem[];
+}
+
 function RootRedirect() {
-  return <Navigate to="/sessions" replace />;
+  return <Navigate to="/operate" replace />;
 }
 
 export const CHAT_NAV_ITEM: BuiltinNavItem = {
@@ -164,6 +173,36 @@ export const CHAT_NAV_ITEM: BuiltinNavItem = {
 
 export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/": RootRedirect,
+  "/operate": CentralCommandPage,
+  "/operate/blockers": CentralCommandPage,
+  "/operate/actions": TaskRoutingPage,
+  "/operate/incidents": IncidentCommandPage,
+  "/operate/approvals": DecisionLedgerPage,
+  "/operate/runs": OperatingLoopsPage,
+  "/operate/evidence": FleetMaturityReviewPage,
+  "/operate/chat-actions": TaskRoutingPage,
+  "/trading": TradingIntelligencePage,
+  "/trading/khashi": KhashiVcPackageNativePage,
+  "/trading/investing": TradingIntelligencePage,
+  "/trading/strategies": TradingIntelligencePage,
+  "/trading/backtesting": TradingIntelligencePage,
+  "/trading/shadow-paper": TradingIntelligencePage,
+  "/trading/risk": HeadTraderPage,
+  "/trading/head-trader": HeadTraderPage,
+  "/trading/evidence": TradingIntelligencePage,
+  "/system/warehouse": DataSourceCatalogPage,
+  "/system/freshness": ProductionVerificationPage,
+  "/system/storage": DurableArtifactBackendPage,
+  "/system/workers": LoopRunnerPage,
+  "/system/deployments": DeploymentPromotionPage,
+  "/system/credentials": SecretsPosturePage,
+  "/system/models": ModelsPage,
+  "/system/automations": CronPage,
+  "/system/sessions": SessionsPage,
+  "/system/logs": LogsPage,
+  "/system/plugins": PluginsPage,
+  "/system/admin": SystemPage,
+  "/system/analytics": AnalyticsPage,
   "/sessions": SessionsPage,
   "/files": FilesPage,
   "/analytics": AnalyticsPage,
@@ -372,4 +411,100 @@ export const BUILTIN_NAV_REST: BuiltinNavItem[] = [
   { path: "/env", labelKey: "keys", label: "Keys", icon: KeyRound },
   { path: "/system", label: "System", icon: Wrench },
   { path: "/docs", labelKey: "documentation", label: "Documentation", icon: BookOpen },
+];
+
+export const OPERATOR_NAV_GROUPS: OperatorNavGroup[] = [
+  {
+    id: "operate",
+    label: "Operate",
+    path: "/operate",
+    icon: Activity,
+    legacyPaths: [
+      "/central-command",
+      "/business-command",
+      "/task-routing",
+      "/decision-ledger",
+      "/incident-command",
+      "/operating-loops",
+      "/fleet-maturity-review",
+    ],
+    items: [
+      { path: "/operate", label: "Overview", icon: Building2 },
+      { path: "/operate/blockers", label: "Blockers", icon: ShieldCheck },
+      { path: "/operate/actions", label: "Actions", icon: ListChecks },
+      { path: "/operate/incidents", label: "Incidents", icon: Siren },
+      { path: "/operate/approvals", label: "Approvals", icon: BookOpen },
+      { path: "/operate/runs", label: "Recent Runs", icon: RotateCw },
+      { path: "/operate/evidence", label: "Evidence", icon: Database },
+      { path: "/operate/chat-actions", label: "Chat Actions", icon: Terminal },
+    ],
+  },
+  {
+    id: "trading",
+    label: "Trading",
+    path: "/trading",
+    icon: CandlestickChart,
+    legacyPaths: [
+      "/trading-intelligence",
+      "/head-trader",
+      "/package-native/khashi-vc",
+      "/finance-attribution",
+    ],
+    items: [
+      { path: "/trading", label: "Overview", icon: CandlestickChart },
+      { path: "/trading/khashi", label: "Khashi", icon: Activity },
+      { path: "/trading/investing", label: "Investing System", icon: Scale },
+      { path: "/trading/strategies", label: "Strategies", icon: Workflow },
+      { path: "/trading/backtesting", label: "Backtesting", icon: BarChart3 },
+      { path: "/trading/shadow-paper", label: "Shadow / Paper", icon: Radio },
+      { path: "/trading/risk", label: "Risk & Capital", icon: ShieldCheck },
+      { path: "/trading/head-trader", label: "Head Trader", icon: MessageSquare },
+      { path: "/trading/evidence", label: "Trading Evidence", icon: Database },
+    ],
+  },
+  {
+    id: "system",
+    label: "System",
+    path: "/system",
+    icon: Database,
+    legacyPaths: [
+      "/sessions",
+      "/files",
+      "/analytics",
+      "/models",
+      "/logs",
+      "/cron",
+      "/skills",
+      "/plugins",
+      "/mcp",
+      "/pairing",
+      "/channels",
+      "/webhooks",
+      "/profiles",
+      "/config",
+      "/env",
+      "/docs",
+      "/data-source-catalog",
+      "/production-verification",
+      "/durable-artifact-backend",
+      "/deployment-promotion",
+      "/secrets-posture",
+    ],
+    items: [
+      { path: "/system", label: "Overview", icon: Wrench },
+      { path: "/system/warehouse", label: "Data Warehouse", icon: Database },
+      { path: "/system/freshness", label: "Freshness", icon: Globe },
+      { path: "/system/storage", label: "Storage", icon: Database },
+      { path: "/system/workers", label: "Workers", icon: RotateCw },
+      { path: "/system/deployments", label: "Deployments", icon: GitBranch },
+      { path: "/system/credentials", label: "Credentials", icon: KeyRound },
+      { path: "/system/models", label: "Models", icon: Cpu },
+      { path: "/system/automations", label: "Automations", icon: Clock },
+      { path: "/system/sessions", label: "Sessions", icon: MessageSquare },
+      { path: "/system/logs", label: "Logs", icon: FileText },
+      { path: "/system/plugins", label: "Plugins", icon: Puzzle },
+      { path: "/system/admin", label: "Admin", icon: Settings },
+      { path: "/system/analytics", label: "Analytics", icon: BarChart3 },
+    ],
+  },
 ];
