@@ -20,7 +20,6 @@ import {
   ListChecks,
   MessageSquare,
   Package,
-  Palette,
   Plug,
   Puzzle,
   Radio,
@@ -47,8 +46,6 @@ const LogsPage = lazy(() => import("@/pages/LogsPage"));
 const AnalyticsPage = lazy(() => import("@/pages/AnalyticsPage"));
 const ModelsPage = lazy(() => import("@/pages/ModelsPage"));
 const CronPage = lazy(() => import("@/pages/CronPage"));
-const HermesOsPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.HermesOsPage })));
-const DesignSystemPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.DesignSystemPage })));
 const DashboardKitGalleryPage = lazy(() => import("@/pages/DashboardKitGalleryPage"));
 const FleetMaturityReviewPage = lazy(() => import("@/pages/FleetMaturityReviewPage"));
 const TradingIntelligencePage = lazy(() => import("@/pages/TradingIntelligencePage"));
@@ -56,20 +53,6 @@ const HeadTraderPage = lazy(() => import("@/pages/HeadTraderPage"));
 const SecondBrainPage = lazy(() => import("@/pages/SecondBrainPage"));
 const TradingResearchDevelopmentPage = lazy(() => import("@/pages/TradingDevelopmentPage").then((module) => ({ default: module.TradingResearchDevelopmentPage })));
 const TradingBacktestingPage = lazy(() => import("@/pages/TradingDevelopmentPage").then((module) => ({ default: module.TradingBacktestingPage })));
-const DesignIntelligenceCommandCenterPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.DesignIntelligenceCommandCenterPage })));
-const PackageNativeMigrationsPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.PackageNativeMigrationsPage })));
-const MediaEnginePackageNativePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ProjectSnapshotsPage })));
-const ExecutiveSummaryPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ExecutiveSummaryPage })));
-const ExecutiveBriefingRoomPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ExecutiveBriefingRoomPage })));
-const ThemeSystemPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ThemeSystemPage })));
-const DashboardMarketplacePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.DashboardMarketplacePage })));
-const DashboardPrototypeLabPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.DashboardPrototypeLabPage })));
-const MainHermesAgentDashboardPrototypePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.MainHermesAgentDashboardPrototypePage })));
-const LiveSignalsPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.LiveSignalsPage })));
-const ModelRoutingPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ModelRoutingPage })));
-const PermissionSecurityPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.PermissionSecurityPage })));
-const BusinessOSPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.BusinessOSPage })));
-const AutonomyReadinessPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.AutonomyReadinessPage })));
 const ProductionScreenshotRunnerPage = lazy(() => import("@/pages/ProductionScreenshotRunnerPage"));
 const HetznerPromotionTransportPage = lazy(() => import("@/pages/HetznerPromotionTransportPage"));
 const ServerSecretPostureScannerPage = lazy(() => import("@/pages/ServerSecretPostureScannerPage"));
@@ -144,6 +127,10 @@ function RedirectToOperateRuns() {
   return <Navigate to="/operate/runs" replace />;
 }
 
+function RedirectToOperateEvidence() {
+  return <Navigate to="/operate/evidence" replace />;
+}
+
 function RedirectToTradingKhashi() {
   return <Navigate to="/trading/khashi" replace />;
 }
@@ -178,6 +165,14 @@ function RedirectToSystemCredentials() {
 
 function RedirectToSystemStorage() {
   return <Navigate to="/system/storage" replace />;
+}
+
+function RedirectToSystemModels() {
+  return <Navigate to="/system/models" replace />;
+}
+
+function RedirectToSystemAdmin() {
+  return <Navigate to="/system/admin" replace />;
 }
 
 export const CHAT_NAV_ITEM: BuiltinNavItem = {
@@ -222,27 +217,23 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/sessions": SessionsPage,
   "/files": FilesPage,
   "/analytics": AnalyticsPage,
-  "/hermes-os": HermesOsPage,
+  "/hermes-os": RedirectToSystemAdmin,
   "/central-command": RedirectToOperate,
   "/trading-intelligence": TradingIntelligencePage,
   "/head-trader": HeadTraderPage,
   "/second-brain": SecondBrainPage,
-  "/executive-summary": ExecutiveSummaryPage,
-  "/executive-briefing": ExecutiveBriefingRoomPage,
-  "/dashboard-migrations": PackageNativeMigrationsPage,
-  "/package-native/media-engine": MediaEnginePackageNativePage,
+  "/executive-summary": RedirectToOperate,
+  "/executive-briefing": RedirectToOperateEvidence,
+  "/dashboard-migrations": RedirectToSystemDeployments,
   "/package-native/khashi-vc": RedirectToTradingKhashi,
-  "/theme-system": ThemeSystemPage,
-  "/dashboard-marketplace": DashboardMarketplacePage,
-  "/dashboard-prototypes": DashboardPrototypeLabPage,
-  "/hermes-command": MainHermesAgentDashboardPrototypePage,
-  "/live-signals": LiveSignalsPage,
+  "/hermes-command": RedirectToOperateActions,
+  "/live-signals": RedirectToTradingKhashi,
   "/task-routing": RedirectToOperateActions,
   "/decision-ledger": RedirectToOperateApprovals,
-  "/model-routing": ModelRoutingPage,
+  "/model-routing": RedirectToSystemModels,
   "/operating-loops": RedirectToOperateRuns,
-  "/permission-security": PermissionSecurityPage,
-  "/business-os": BusinessOSPage,
+  "/permission-security": RedirectToSystemCredentials,
+  "/business-os": RedirectToOperate,
   "/project-snapshots": RedirectToSystemWarehouse,
   "/durable-memory": RedirectToSystemStorage,
   "/permission-runtime": RedirectToOperateApprovals,
@@ -251,7 +242,7 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/business-command": RedirectToOperate,
   "/agent-workbench": RedirectToOperateActions,
   "/evaluation-gates": RedirectToTradingBacktesting,
-  "/autonomy-readiness": AutonomyReadinessPage,
+  "/autonomy-readiness": RedirectToOperateEvidence,
   "/project-registry": RedirectToSystemWarehouse,
   "/project-plan-command-center": RedirectToOperateActions,
   "/telemetry-fabric": RedirectToSystemWarehouse,
@@ -303,8 +294,6 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/provider-eval-execution": ProviderEvalExecutionPage,
   "/billing-provider-integrations": BillingProviderIntegrationsPage,
   "/release-train-execution": ReleaseTrainExecutionPage,
-  "/design-intelligence": DesignIntelligenceCommandCenterPage,
-  "/design-system": DesignSystemPage,
   "/dashboard-kit-gallery": DashboardKitGalleryPage,
   "/fleet-maturity-review": FleetMaturityReviewPage,
   "/models": ModelsPage,
@@ -328,24 +317,11 @@ export const BUILTIN_NAV_REST: BuiltinNavItem[] = [
   { path: "/sessions", labelKey: "sessions", label: "Sessions", icon: MessageSquare },
   { path: "/files", label: "Files", icon: FolderOpen },
   { path: "/analytics", labelKey: "analytics", label: "Analytics", icon: BarChart3 },
-  { path: "/hermes-os", label: "Hermes OS", icon: GitBranch },
   { path: "/central-command", label: "Central Command", icon: Building2 },
-  { path: "/executive-summary", label: "Executive", icon: Building2 },
-  { path: "/executive-briefing", label: "Briefing Room", icon: Building2 },
-  { path: "/dashboard-migrations", label: "Dashboard Migrations", icon: Code2 },
-  { path: "/package-native/media-engine", label: "Media Native", icon: Activity },
   { path: "/package-native/khashi-vc", label: "Khashi Native", icon: Activity },
-  { path: "/theme-system", label: "Theme System", icon: Palette },
-  { path: "/dashboard-marketplace", label: "Marketplace", icon: Plug },
-  { path: "/dashboard-prototypes", label: "Prototype Lab", icon: GalleryVerticalEnd },
-  { path: "/hermes-command", label: "Hermes Command", icon: Building2 },
-  { path: "/live-signals", label: "Live Signals", icon: Radio },
   { path: "/task-routing", label: "Task Routing", icon: ListChecks },
   { path: "/decision-ledger", label: "Decision Ledger", icon: BookOpen },
-  { path: "/model-routing", label: "Model Routing", icon: Cpu },
   { path: "/operating-loops", label: "Operating Loops", icon: RotateCw },
-  { path: "/permission-security", label: "Permissions", icon: ShieldCheck },
-  { path: "/business-os", label: "Business OS", icon: BriefcaseBusiness },
   { path: "/project-snapshots", label: "Snapshots", icon: Radio },
   { path: "/durable-memory", label: "Memory Store", icon: Database },
   { path: "/permission-runtime", label: "Permission Runtime", icon: ShieldCheck },
@@ -354,7 +330,6 @@ export const BUILTIN_NAV_REST: BuiltinNavItem[] = [
   { path: "/business-command", label: "Business Command", icon: BriefcaseBusiness },
   { path: "/agent-workbench", label: "Agent Workbench", icon: ListChecks },
   { path: "/evaluation-gates", label: "Evaluation Gates", icon: BookOpen },
-  { path: "/autonomy-readiness", label: "Autonomy", icon: ShieldCheck },
   { path: "/project-registry", label: "Project Registry", icon: Building2 },
   { path: "/project-plan-command-center", label: "Plan Command", icon: ListChecks },
   { path: "/telemetry-fabric", label: "Telemetry Fabric", icon: Activity },
@@ -406,8 +381,6 @@ export const BUILTIN_NAV_REST: BuiltinNavItem[] = [
   { path: "/provider-eval-execution", label: "Provider Evals", icon: Code2 },
   { path: "/billing-provider-integrations", label: "Billing APIs", icon: Scale },
   { path: "/release-train-execution", label: "Train Execute", icon: GitBranch },
-  { path: "/design-intelligence", label: "Design Intel", icon: Workflow },
-  { path: "/design-system", label: "Design System", icon: GalleryVerticalEnd },
   { path: "/dashboard-kit-gallery", label: "Kit Gallery", icon: GalleryVerticalEnd },
   { path: "/trading-intelligence", label: "Command Center", icon: CandlestickChart },
   { path: "/head-trader", label: "Head Trader", icon: MessageSquare },
