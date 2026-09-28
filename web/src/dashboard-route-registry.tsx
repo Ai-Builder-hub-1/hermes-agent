@@ -54,6 +54,8 @@ const FleetMaturityReviewPage = lazy(() => import("@/pages/FleetMaturityReviewPa
 const TradingIntelligencePage = lazy(() => import("@/pages/TradingIntelligencePage"));
 const HeadTraderPage = lazy(() => import("@/pages/HeadTraderPage"));
 const SecondBrainPage = lazy(() => import("@/pages/SecondBrainPage"));
+const TradingResearchDevelopmentPage = lazy(() => import("@/pages/TradingDevelopmentPage").then((module) => ({ default: module.TradingResearchDevelopmentPage })));
+const TradingBacktestingPage = lazy(() => import("@/pages/TradingDevelopmentPage").then((module) => ({ default: module.TradingBacktestingPage })));
 const DesignIntelligenceCommandCenterPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.DesignIntelligenceCommandCenterPage })));
 const PackageNativeMigrationsPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.PackageNativeMigrationsPage })));
 const MediaEnginePackageNativePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ProjectSnapshotsPage })));
@@ -67,45 +69,7 @@ const LiveSignalsPage = lazy(() => import("@/pages/GeneratedDashboardPages").the
 const ModelRoutingPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ModelRoutingPage })));
 const PermissionSecurityPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.PermissionSecurityPage })));
 const BusinessOSPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.BusinessOSPage })));
-const ProjectSnapshotsPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ProjectSnapshotsPage })));
-const DurableMemoryPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.DurableMemoryPage })));
-const PermissionRuntimePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.PermissionRuntimePage })));
-const CostGovernorPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.CostGovernorPage })));
-const AgentWorkbenchPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.AgentWorkbenchPage })));
-const EvaluationGatesPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.EvaluationGatesPage })));
 const AutonomyReadinessPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.AutonomyReadinessPage })));
-const ProjectRegistryPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ProjectRegistryPage })));
-const ProjectPlanCommandCenterPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ProjectPlanCommandCenterPage })));
-const TelemetryFabricPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.TelemetryFabricPage })));
-const FinanceAttributionPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.FinanceAttributionPage })));
-const LearningEnginePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.LearningEnginePage })));
-const AgentEvalLabPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.AgentEvalLabPage })));
-const ExecutiveCockpitPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ExecutiveCockpitPage })));
-const CommandGateRuntimePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.CommandGateRuntimePage })));
-const TelemetryAdapterKitPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.TelemetryAdapterKitPage })));
-const IncidentIngestionPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.IncidentIngestionPage })));
-const CostAttributionEnginePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.CostAttributionEnginePage })));
-const LearningIngestionPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.LearningIngestionPage })));
-const ModelEvalHarnessPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ModelEvalHarnessPage })));
-const CircuitBreakersPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.CircuitBreakersPage })));
-const HetznerPromotionExecutionPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.HetznerPromotionExecutionPage })));
-const CommandGateCoveragePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.CommandGateCoveragePage })));
-const ProjectAdapterRolloutPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ProjectAdapterRolloutPage })));
-const IncidentAutomationPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.IncidentAutomationPage })));
-const CostReconciliationPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.CostReconciliationPage })));
-const OutcomeLearningFeedsPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.OutcomeLearningFeedsPage })));
-const GoldenEvalExecutionPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.GoldenEvalExecutionPage })));
-const HardBreakerEnforcementPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.HardBreakerEnforcementPage })));
-const NetworkRunnerAdapterPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.NetworkRunnerAdapterPage })));
-const HetznerSshAdapterPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.HetznerSshAdapterPage })));
-const SecretProviderAdapterPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.SecretProviderAdapterPage })));
-const BillingProviderAdapterPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.BillingProviderAdapterPage })));
-const ProjectOutcomeEmitterPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ProjectOutcomeEmitterPage })));
-const ProviderEvalRunnerPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ProviderEvalRunnerPage })));
-const BreakerMiddlewarePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.BreakerMiddlewarePage })));
-const IncidentSubscriptionPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.IncidentSubscriptionPage })));
-const EvidenceArtifactStorePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.EvidenceArtifactStorePage })));
-const ReleaseTrainOrchestratorPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ReleaseTrainOrchestratorPage })));
 const ProductionScreenshotRunnerPage = lazy(() => import("@/pages/ProductionScreenshotRunnerPage"));
 const HetznerPromotionTransportPage = lazy(() => import("@/pages/HetznerPromotionTransportPage"));
 const ServerSecretPostureScannerPage = lazy(() => import("@/pages/ServerSecretPostureScannerPage"));
@@ -184,6 +148,14 @@ function RedirectToTradingKhashi() {
   return <Navigate to="/trading/khashi" replace />;
 }
 
+function RedirectToTradingResearch() {
+  return <Navigate to="/trading/strategies" replace />;
+}
+
+function RedirectToTradingBacktesting() {
+  return <Navigate to="/trading/backtesting" replace />;
+}
+
 function RedirectToSystemWarehouse() {
   return <Navigate to="/system/warehouse" replace />;
 }
@@ -202,6 +174,10 @@ function RedirectToSystemDeployments() {
 
 function RedirectToSystemCredentials() {
   return <Navigate to="/system/credentials" replace />;
+}
+
+function RedirectToSystemStorage() {
+  return <Navigate to="/system/storage" replace />;
 }
 
 export const CHAT_NAV_ITEM: BuiltinNavItem = {
@@ -224,8 +200,8 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/trading": TradingIntelligencePage,
   "/trading/khashi": TradingIntelligencePage,
   "/trading/investing": TradingIntelligencePage,
-  "/trading/strategies": TradingIntelligencePage,
-  "/trading/backtesting": TradingIntelligencePage,
+  "/trading/strategies": TradingResearchDevelopmentPage,
+  "/trading/backtesting": TradingBacktestingPage,
   "/trading/shadow-paper": TradingIntelligencePage,
   "/trading/risk": HeadTraderPage,
   "/trading/head-trader": HeadTraderPage,
@@ -267,56 +243,56 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/operating-loops": RedirectToOperateRuns,
   "/permission-security": PermissionSecurityPage,
   "/business-os": BusinessOSPage,
-  "/project-snapshots": ProjectSnapshotsPage,
-  "/durable-memory": DurableMemoryPage,
-  "/permission-runtime": PermissionRuntimePage,
-  "/cost-governor": CostGovernorPage,
+  "/project-snapshots": RedirectToSystemWarehouse,
+  "/durable-memory": RedirectToSystemStorage,
+  "/permission-runtime": RedirectToOperateApprovals,
+  "/cost-governor": RedirectToTradingResearch,
   "/loop-runner": RedirectToSystemWorkers,
   "/business-command": RedirectToOperate,
-  "/agent-workbench": AgentWorkbenchPage,
-  "/evaluation-gates": EvaluationGatesPage,
+  "/agent-workbench": RedirectToOperateActions,
+  "/evaluation-gates": RedirectToTradingBacktesting,
   "/autonomy-readiness": AutonomyReadinessPage,
-  "/project-registry": ProjectRegistryPage,
-  "/project-plan-command-center": ProjectPlanCommandCenterPage,
-  "/telemetry-fabric": TelemetryFabricPage,
+  "/project-registry": RedirectToSystemWarehouse,
+  "/project-plan-command-center": RedirectToOperateActions,
+  "/telemetry-fabric": RedirectToSystemWarehouse,
   "/incident-command": RedirectToOperateIncidents,
   "/deployment-promotion": RedirectToSystemDeployments,
   "/secrets-posture": RedirectToSystemCredentials,
   "/data-source-catalog": RedirectToSystemWarehouse,
-  "/finance-attribution": FinanceAttributionPage,
-  "/learning-engine": LearningEnginePage,
-  "/agent-eval-lab": AgentEvalLabPage,
-  "/executive-cockpit": ExecutiveCockpitPage,
+  "/finance-attribution": RedirectToTradingResearch,
+  "/learning-engine": RedirectToTradingResearch,
+  "/agent-eval-lab": RedirectToTradingBacktesting,
+  "/executive-cockpit": RedirectToOperate,
   "/production-verification": RedirectToSystemFreshness,
-  "/command-gates": CommandGateRuntimePage,
-  "/telemetry-adapters": TelemetryAdapterKitPage,
-  "/incident-ingestion": IncidentIngestionPage,
+  "/command-gates": RedirectToOperateApprovals,
+  "/telemetry-adapters": RedirectToSystemWarehouse,
+  "/incident-ingestion": RedirectToOperateIncidents,
   "/promotion-runner": RedirectToSystemDeployments,
   "/secret-scanner": RedirectToSystemCredentials,
-  "/cost-attribution-engine": CostAttributionEnginePage,
-  "/learning-ingestion": LearningIngestionPage,
-  "/model-eval-harness": ModelEvalHarnessPage,
-  "/circuit-breakers": CircuitBreakersPage,
+  "/cost-attribution-engine": RedirectToTradingResearch,
+  "/learning-ingestion": RedirectToTradingResearch,
+  "/model-eval-harness": RedirectToTradingBacktesting,
+  "/circuit-breakers": RedirectToOperateApprovals,
   "/production-sweep": RedirectToSystemFreshness,
-  "/hetzner-promotion-execution": HetznerPromotionExecutionPage,
-  "/command-gate-coverage": CommandGateCoveragePage,
-  "/project-adapter-rollout": ProjectAdapterRolloutPage,
-  "/incident-automation": IncidentAutomationPage,
+  "/hetzner-promotion-execution": RedirectToSystemDeployments,
+  "/command-gate-coverage": RedirectToOperateApprovals,
+  "/project-adapter-rollout": RedirectToSystemWarehouse,
+  "/incident-automation": RedirectToOperateIncidents,
   "/live-secret-scan": RedirectToSystemCredentials,
-  "/cost-reconciliation": CostReconciliationPage,
-  "/outcome-learning-feeds": OutcomeLearningFeedsPage,
-  "/golden-eval-execution": GoldenEvalExecutionPage,
-  "/hard-breaker-enforcement": HardBreakerEnforcementPage,
-  "/network-runner-adapter": NetworkRunnerAdapterPage,
-  "/hetzner-ssh-adapter": HetznerSshAdapterPage,
-  "/secret-provider-adapter": SecretProviderAdapterPage,
-  "/billing-provider-adapter": BillingProviderAdapterPage,
-  "/project-outcome-emitter": ProjectOutcomeEmitterPage,
-  "/provider-eval-runner": ProviderEvalRunnerPage,
-  "/breaker-middleware": BreakerMiddlewarePage,
-  "/incident-subscriptions": IncidentSubscriptionPage,
-  "/evidence-artifact-store": EvidenceArtifactStorePage,
-  "/release-train-orchestrator": ReleaseTrainOrchestratorPage,
+  "/cost-reconciliation": RedirectToTradingResearch,
+  "/outcome-learning-feeds": RedirectToTradingResearch,
+  "/golden-eval-execution": RedirectToTradingBacktesting,
+  "/hard-breaker-enforcement": RedirectToOperateApprovals,
+  "/network-runner-adapter": RedirectToSystemFreshness,
+  "/hetzner-ssh-adapter": RedirectToSystemDeployments,
+  "/secret-provider-adapter": RedirectToSystemCredentials,
+  "/billing-provider-adapter": RedirectToTradingResearch,
+  "/project-outcome-emitter": RedirectToTradingResearch,
+  "/provider-eval-runner": RedirectToTradingBacktesting,
+  "/breaker-middleware": RedirectToOperateApprovals,
+  "/incident-subscriptions": RedirectToOperateIncidents,
+  "/evidence-artifact-store": RedirectToSystemStorage,
+  "/release-train-orchestrator": RedirectToSystemDeployments,
   "/production-screenshot-runner": ProductionScreenshotRunnerPage,
   "/hetzner-promotion-transport": HetznerPromotionTransportPage,
   "/server-secret-posture-scanner": ServerSecretPostureScannerPage,
