@@ -132,6 +132,13 @@ const BreakerMiddlewareRolloutPage = lazy(() => import("@/pages/BreakerMiddlewar
 const ProviderEvalExecutionPage = lazy(() => import("@/pages/ProviderEvalExecutionPage"));
 const BillingProviderIntegrationsPage = lazy(() => import("@/pages/BillingProviderIntegrationsPage"));
 const ReleaseTrainExecutionPage = lazy(() => import("@/pages/ReleaseTrainExecutionPage"));
+const OperateOverviewPage = lazy(() => import("@/pages/OperatePage").then((module) => ({ default: module.OperateOverviewPage })));
+const OperateBlockersPage = lazy(() => import("@/pages/OperatePage").then((module) => ({ default: module.OperateBlockersPage })));
+const OperateActionsPage = lazy(() => import("@/pages/OperatePage").then((module) => ({ default: module.OperateActionsPage })));
+const OperateIncidentsPage = lazy(() => import("@/pages/OperatePage").then((module) => ({ default: module.OperateIncidentsPage })));
+const OperateApprovalsPage = lazy(() => import("@/pages/OperatePage").then((module) => ({ default: module.OperateApprovalsPage })));
+const OperateRunsPage = lazy(() => import("@/pages/OperatePage").then((module) => ({ default: module.OperateRunsPage })));
+const OperateChatActionsPage = lazy(() => import("@/pages/OperatePage").then((module) => ({ default: module.OperateChatActionsPage })));
 const ProfilesPage = lazy(() => import("@/pages/ProfilesPage"));
 const ProfileBuilderPage = lazy(() => import("@/pages/ProfileBuilderPage"));
 const SkillsPage = lazy(() => import("@/pages/SkillsPage"));
@@ -173,14 +180,14 @@ export const CHAT_NAV_ITEM: BuiltinNavItem = {
 
 export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/": RootRedirect,
-  "/operate": CentralCommandPage,
-  "/operate/blockers": CentralCommandPage,
-  "/operate/actions": TaskRoutingPage,
-  "/operate/incidents": IncidentCommandPage,
-  "/operate/approvals": DecisionLedgerPage,
-  "/operate/runs": OperatingLoopsPage,
+  "/operate": OperateOverviewPage,
+  "/operate/blockers": OperateBlockersPage,
+  "/operate/actions": OperateActionsPage,
+  "/operate/incidents": OperateIncidentsPage,
+  "/operate/approvals": OperateApprovalsPage,
+  "/operate/runs": OperateRunsPage,
   "/operate/evidence": FleetMaturityReviewPage,
-  "/operate/chat-actions": TaskRoutingPage,
+  "/operate/chat-actions": OperateChatActionsPage,
   "/trading": TradingIntelligencePage,
   "/trading/khashi": KhashiVcPackageNativePage,
   "/trading/investing": TradingIntelligencePage,
