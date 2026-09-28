@@ -57,57 +57,41 @@ const SecondBrainPage = lazy(() => import("@/pages/SecondBrainPage"));
 const DesignIntelligenceCommandCenterPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.DesignIntelligenceCommandCenterPage })));
 const PackageNativeMigrationsPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.PackageNativeMigrationsPage })));
 const MediaEnginePackageNativePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ProjectSnapshotsPage })));
-const KhashiVcPackageNativePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ProjectSnapshotsPage })));
 const ExecutiveSummaryPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ExecutiveSummaryPage })));
 const ExecutiveBriefingRoomPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ExecutiveBriefingRoomPage })));
-const CentralCommandPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.CentralCommandPage })));
 const ThemeSystemPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ThemeSystemPage })));
 const DashboardMarketplacePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.DashboardMarketplacePage })));
 const DashboardPrototypeLabPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.DashboardPrototypeLabPage })));
 const MainHermesAgentDashboardPrototypePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.MainHermesAgentDashboardPrototypePage })));
 const LiveSignalsPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.LiveSignalsPage })));
-const TaskRoutingPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.TaskRoutingPage })));
-const DecisionLedgerPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.DecisionLedgerPage })));
 const ModelRoutingPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ModelRoutingPage })));
-const OperatingLoopsPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.OperatingLoopsPage })));
 const PermissionSecurityPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.PermissionSecurityPage })));
 const BusinessOSPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.BusinessOSPage })));
 const ProjectSnapshotsPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ProjectSnapshotsPage })));
 const DurableMemoryPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.DurableMemoryPage })));
 const PermissionRuntimePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.PermissionRuntimePage })));
 const CostGovernorPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.CostGovernorPage })));
-const LoopRunnerPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.LoopRunnerPage })));
-const BusinessCommandPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.BusinessCommandPage })));
 const AgentWorkbenchPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.AgentWorkbenchPage })));
 const EvaluationGatesPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.EvaluationGatesPage })));
 const AutonomyReadinessPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.AutonomyReadinessPage })));
 const ProjectRegistryPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ProjectRegistryPage })));
 const ProjectPlanCommandCenterPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ProjectPlanCommandCenterPage })));
 const TelemetryFabricPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.TelemetryFabricPage })));
-const IncidentCommandPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.IncidentCommandPage })));
-const DeploymentPromotionPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.DeploymentPromotionPage })));
-const SecretsPosturePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.SecretsPosturePage })));
-const DataSourceCatalogPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.DataSourceCatalogPage })));
 const FinanceAttributionPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.FinanceAttributionPage })));
 const LearningEnginePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.LearningEnginePage })));
 const AgentEvalLabPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.AgentEvalLabPage })));
 const ExecutiveCockpitPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ExecutiveCockpitPage })));
-const ProductionVerificationPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ProductionVerificationPage })));
 const CommandGateRuntimePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.CommandGateRuntimePage })));
 const TelemetryAdapterKitPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.TelemetryAdapterKitPage })));
 const IncidentIngestionPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.IncidentIngestionPage })));
-const PromotionRunnerPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.PromotionRunnerPage })));
-const SecretScannerPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.SecretScannerPage })));
 const CostAttributionEnginePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.CostAttributionEnginePage })));
 const LearningIngestionPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.LearningIngestionPage })));
 const ModelEvalHarnessPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ModelEvalHarnessPage })));
 const CircuitBreakersPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.CircuitBreakersPage })));
-const ProductionSweepPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ProductionSweepPage })));
 const HetznerPromotionExecutionPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.HetznerPromotionExecutionPage })));
 const CommandGateCoveragePage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.CommandGateCoveragePage })));
 const ProjectAdapterRolloutPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.ProjectAdapterRolloutPage })));
 const IncidentAutomationPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.IncidentAutomationPage })));
-const LiveSecretScanPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.LiveSecretScanPage })));
 const CostReconciliationPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.CostReconciliationPage })));
 const OutcomeLearningFeedsPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.OutcomeLearningFeedsPage })));
 const GoldenEvalExecutionPage = lazy(() => import("@/pages/GeneratedDashboardPages").then((module) => ({ default: module.GoldenEvalExecutionPage })));
@@ -139,6 +123,11 @@ const OperateIncidentsPage = lazy(() => import("@/pages/OperatePage").then((modu
 const OperateApprovalsPage = lazy(() => import("@/pages/OperatePage").then((module) => ({ default: module.OperateApprovalsPage })));
 const OperateRunsPage = lazy(() => import("@/pages/OperatePage").then((module) => ({ default: module.OperateRunsPage })));
 const OperateChatActionsPage = lazy(() => import("@/pages/OperatePage").then((module) => ({ default: module.OperateChatActionsPage })));
+const SystemWarehousePage = lazy(() => import("@/pages/SystemOperationsPage").then((module) => ({ default: module.SystemWarehousePage })));
+const SystemFreshnessPage = lazy(() => import("@/pages/SystemOperationsPage").then((module) => ({ default: module.SystemFreshnessPage })));
+const SystemWorkersPage = lazy(() => import("@/pages/SystemOperationsPage").then((module) => ({ default: module.SystemWorkersPage })));
+const SystemDeploymentsPage = lazy(() => import("@/pages/SystemOperationsPage").then((module) => ({ default: module.SystemDeploymentsPage })));
+const SystemCredentialsPage = lazy(() => import("@/pages/SystemOperationsPage").then((module) => ({ default: module.SystemCredentialsPage })));
 const ProfilesPage = lazy(() => import("@/pages/ProfilesPage"));
 const ProfileBuilderPage = lazy(() => import("@/pages/ProfileBuilderPage"));
 const SkillsPage = lazy(() => import("@/pages/SkillsPage"));
@@ -171,6 +160,50 @@ function RootRedirect() {
   return <Navigate to="/operate" replace />;
 }
 
+function RedirectToOperate() {
+  return <Navigate to="/operate" replace />;
+}
+
+function RedirectToOperateActions() {
+  return <Navigate to="/operate/actions" replace />;
+}
+
+function RedirectToOperateApprovals() {
+  return <Navigate to="/operate/approvals" replace />;
+}
+
+function RedirectToOperateIncidents() {
+  return <Navigate to="/operate/incidents" replace />;
+}
+
+function RedirectToOperateRuns() {
+  return <Navigate to="/operate/runs" replace />;
+}
+
+function RedirectToTradingKhashi() {
+  return <Navigate to="/trading/khashi" replace />;
+}
+
+function RedirectToSystemWarehouse() {
+  return <Navigate to="/system/warehouse" replace />;
+}
+
+function RedirectToSystemFreshness() {
+  return <Navigate to="/system/freshness" replace />;
+}
+
+function RedirectToSystemWorkers() {
+  return <Navigate to="/system/workers" replace />;
+}
+
+function RedirectToSystemDeployments() {
+  return <Navigate to="/system/deployments" replace />;
+}
+
+function RedirectToSystemCredentials() {
+  return <Navigate to="/system/credentials" replace />;
+}
+
 export const CHAT_NAV_ITEM: BuiltinNavItem = {
   path: "/chat",
   labelKey: "chat",
@@ -189,7 +222,7 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/operate/evidence": FleetMaturityReviewPage,
   "/operate/chat-actions": OperateChatActionsPage,
   "/trading": TradingIntelligencePage,
-  "/trading/khashi": KhashiVcPackageNativePage,
+  "/trading/khashi": TradingIntelligencePage,
   "/trading/investing": TradingIntelligencePage,
   "/trading/strategies": TradingIntelligencePage,
   "/trading/backtesting": TradingIntelligencePage,
@@ -197,12 +230,12 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/trading/risk": HeadTraderPage,
   "/trading/head-trader": HeadTraderPage,
   "/trading/evidence": TradingIntelligencePage,
-  "/system/warehouse": DataSourceCatalogPage,
-  "/system/freshness": ProductionVerificationPage,
+  "/system/warehouse": SystemWarehousePage,
+  "/system/freshness": SystemFreshnessPage,
   "/system/storage": DurableArtifactBackendPage,
-  "/system/workers": LoopRunnerPage,
-  "/system/deployments": DeploymentPromotionPage,
-  "/system/credentials": SecretsPosturePage,
+  "/system/workers": SystemWorkersPage,
+  "/system/deployments": SystemDeploymentsPage,
+  "/system/credentials": SystemCredentialsPage,
   "/system/models": ModelsPage,
   "/system/automations": CronPage,
   "/system/sessions": SessionsPage,
@@ -214,7 +247,7 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/files": FilesPage,
   "/analytics": AnalyticsPage,
   "/hermes-os": HermesOsPage,
-  "/central-command": CentralCommandPage,
+  "/central-command": RedirectToOperate,
   "/trading-intelligence": TradingIntelligencePage,
   "/head-trader": HeadTraderPage,
   "/second-brain": SecondBrainPage,
@@ -222,54 +255,54 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/executive-briefing": ExecutiveBriefingRoomPage,
   "/dashboard-migrations": PackageNativeMigrationsPage,
   "/package-native/media-engine": MediaEnginePackageNativePage,
-  "/package-native/khashi-vc": KhashiVcPackageNativePage,
+  "/package-native/khashi-vc": RedirectToTradingKhashi,
   "/theme-system": ThemeSystemPage,
   "/dashboard-marketplace": DashboardMarketplacePage,
   "/dashboard-prototypes": DashboardPrototypeLabPage,
   "/hermes-command": MainHermesAgentDashboardPrototypePage,
   "/live-signals": LiveSignalsPage,
-  "/task-routing": TaskRoutingPage,
-  "/decision-ledger": DecisionLedgerPage,
+  "/task-routing": RedirectToOperateActions,
+  "/decision-ledger": RedirectToOperateApprovals,
   "/model-routing": ModelRoutingPage,
-  "/operating-loops": OperatingLoopsPage,
+  "/operating-loops": RedirectToOperateRuns,
   "/permission-security": PermissionSecurityPage,
   "/business-os": BusinessOSPage,
   "/project-snapshots": ProjectSnapshotsPage,
   "/durable-memory": DurableMemoryPage,
   "/permission-runtime": PermissionRuntimePage,
   "/cost-governor": CostGovernorPage,
-  "/loop-runner": LoopRunnerPage,
-  "/business-command": BusinessCommandPage,
+  "/loop-runner": RedirectToSystemWorkers,
+  "/business-command": RedirectToOperate,
   "/agent-workbench": AgentWorkbenchPage,
   "/evaluation-gates": EvaluationGatesPage,
   "/autonomy-readiness": AutonomyReadinessPage,
   "/project-registry": ProjectRegistryPage,
   "/project-plan-command-center": ProjectPlanCommandCenterPage,
   "/telemetry-fabric": TelemetryFabricPage,
-  "/incident-command": IncidentCommandPage,
-  "/deployment-promotion": DeploymentPromotionPage,
-  "/secrets-posture": SecretsPosturePage,
-  "/data-source-catalog": DataSourceCatalogPage,
+  "/incident-command": RedirectToOperateIncidents,
+  "/deployment-promotion": RedirectToSystemDeployments,
+  "/secrets-posture": RedirectToSystemCredentials,
+  "/data-source-catalog": RedirectToSystemWarehouse,
   "/finance-attribution": FinanceAttributionPage,
   "/learning-engine": LearningEnginePage,
   "/agent-eval-lab": AgentEvalLabPage,
   "/executive-cockpit": ExecutiveCockpitPage,
-  "/production-verification": ProductionVerificationPage,
+  "/production-verification": RedirectToSystemFreshness,
   "/command-gates": CommandGateRuntimePage,
   "/telemetry-adapters": TelemetryAdapterKitPage,
   "/incident-ingestion": IncidentIngestionPage,
-  "/promotion-runner": PromotionRunnerPage,
-  "/secret-scanner": SecretScannerPage,
+  "/promotion-runner": RedirectToSystemDeployments,
+  "/secret-scanner": RedirectToSystemCredentials,
   "/cost-attribution-engine": CostAttributionEnginePage,
   "/learning-ingestion": LearningIngestionPage,
   "/model-eval-harness": ModelEvalHarnessPage,
   "/circuit-breakers": CircuitBreakersPage,
-  "/production-sweep": ProductionSweepPage,
+  "/production-sweep": RedirectToSystemFreshness,
   "/hetzner-promotion-execution": HetznerPromotionExecutionPage,
   "/command-gate-coverage": CommandGateCoveragePage,
   "/project-adapter-rollout": ProjectAdapterRolloutPage,
   "/incident-automation": IncidentAutomationPage,
-  "/live-secret-scan": LiveSecretScanPage,
+  "/live-secret-scan": RedirectToSystemCredentials,
   "/cost-reconciliation": CostReconciliationPage,
   "/outcome-learning-feeds": OutcomeLearningFeedsPage,
   "/golden-eval-execution": GoldenEvalExecutionPage,
