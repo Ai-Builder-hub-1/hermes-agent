@@ -188,8 +188,6 @@ RUN uv sync --frozen --no-install-project --extra all --extra messaging --extra 
 COPY web/ web/
 COPY ui-tui/ ui-tui/
 COPY apps/shared/ apps/shared/
-RUN cd web && npm run build && \
-    cd ../ui-tui && npm run build
 
 # ---------- Source code ----------
 # .dockerignore excludes node_modules, so the installs above survive.
@@ -200,6 +198,13 @@ RUN cd web && npm run build && \
 # gives the non-root hermes user read + traverse but no write; root retains
 # write so the build steps below don't need chmod u+w dances.
 COPY --link --chmod=a+rX,go-w . .
+
+# COPY --link overlays the final source snapshot after the cached frontend
+# source layer above. Build the runtime bundles here so generated assets that
+# are excluded from the Docker context, especially hermes_cli/web_dist and
+# ui-tui/dist, survive into the final image.
+RUN cd web && npm run build && \
+    cd ../ui-tui && npm run build
 
 # ---------- Permissions ----------
 # Link hermes-agent itself (editable). Deps are already installed in the
