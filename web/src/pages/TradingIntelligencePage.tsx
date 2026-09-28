@@ -18,6 +18,7 @@
  * than counted as real.
  */
 import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useLocation } from "react-router";
 import {
   AlertTriangle,
   Ban,
@@ -83,6 +84,29 @@ import {
   type TradingControl,
   type TradingEvent,
 } from "@/lib/trading-command-center";
+
+type TradingViewMode = "overview" | "investing" | "khashi";
+
+const VIEW_COPY: Record<TradingViewMode, { eyebrow: string; title: string; description: string; projectId: string | null }> = {
+  overview: {
+    eyebrow: "Trading overview",
+    title: "Trading command center",
+    description: "One read-only operating view across Investing System and Khashi. Real broker cash, demo funds, and paper bankrolls stay separated.",
+    projectId: null,
+  },
+  investing: {
+    eyebrow: "Investing System",
+    title: "Live account metrics",
+    description: "Read-only broker/account telemetry from Investing System. Live order submission remains locked while balances, P/L, risk, and proof state stay visible.",
+    projectId: "investing-system",
+  },
+  khashi: {
+    eyebrow: "Khashi",
+    title: "Khashi trading state",
+    description: "Kalshi/Khashi market, paper, proof, and activation state. Cash is only shown when Khashi explicitly reports production, demo, or paper bankroll provenance.",
+    projectId: "khashi-vc",
+  },
+};
 
 // ---------------------------------------------------------------------------
 // Chrome
@@ -248,6 +272,12 @@ function useCommandCenter() {
 export default function TradingIntelligencePage() {
   const { data, controls, error, busy, reload, reloadControls } = useCommandCenter();
   const { setAfterTitle, setEnd } = usePageHeader();
+  const { pathname } = useLocation();
+  const mode = useMemo<TradingViewMode>(() => {
+    if (pathname.replace(/\/$/, "") === "/trading/investing") return "investing";
+    if (pathname.replace(/\/$/, "") === "/trading/khashi") return "khashi";
+    return "overview";
+  }, [pathname]);
   const [eventFilter, setEventFilter] = useState("all");
   const [activeControl, setActiveControl] = useState<TradingControl | null>(null);
 
@@ -293,15 +323,18 @@ export default function TradingIntelligencePage() {
     };
   }, [data, busy, reload, setAfterTitle, setEnd]);
 
-  const split = useMemo(() => (data ? splitCapital(data.dailyMetrics) : null), [data]);
+  const scopedData = useMemo(() => (data ? scopeCommandCenter(data, mode) : null), [data, mode]);
+  const scopedControls = useMemo(() => scopeControls(controls, mode), [controls, mode]);
+  const split = useMemo(() => (scopedData ? splitCapital(scopedData.dailyMetrics) : null), [scopedData]);
 
   if (error && !data) return <ErrorShell message={error} onRetry={() => void reload()} />;
-  if (!data || !split) return <LoadingShell />;
+  if (!data || !scopedData || !split) return <LoadingShell />;
 
-  const m = data.dailyMetrics;
+  const m = scopedData.dailyMetrics;
   const filter = EVENT_FILTERS.find((f) => f.id === eventFilter) ?? EVENT_FILTERS[0];
-  const events = data.recentEvents.filter(filter.test);
+  const events = scopedData.recentEvents.filter(filter.test);
   const khashiNote = khashiCashNote(split);
+  const view = VIEW_COPY[mode];
 
   return (
     <main
@@ -311,22 +344,23 @@ export default function TradingIntelligencePage() {
       <div className="flex items-center gap-2 rounded-md border border-border bg-muted px-3 py-1.5 text-xs font-semibold text-muted-foreground">
         <Lock className="size-3.5 shrink-0" aria-hidden />
         <span>
-          Live trading is locked. This page inspects both systems and proxies approved project-owned controls; it cannot
+          Live trading is locked. This page inspects {mode === "overview" ? "both systems" : view.eyebrow} and proxies approved project-owned controls; it cannot
           submit a live broker order.
         </span>
       </div>
 
       {error ? <PartialBanner detail={error} onDismiss={() => void reload()} /> : null}
 
+      <ViewHero mode={mode} data={scopedData} split={split} />
       <CapitalBand split={split} metrics={m} khashiNote={khashiNote} />
-      <KpiRibbon data={data} split={split} />
+      <KpiRibbon data={scopedData} split={split} />
 
       <div className="grid min-h-0 gap-3 xl:grid-cols-[320px_minmax(0,1fr)_340px]">
         <div className="flex min-w-0 flex-col gap-3">
-          <Panel title="System lanes" count={data.lanes.length}>
-            {data.lanes.length ? (
+          <Panel title={mode === "overview" ? "System lanes" : `${view.eyebrow} lanes`} count={scopedData.lanes.length}>
+            {scopedData.lanes.length ? (
               <div className="max-h-[52vh] overflow-y-auto">
-                {data.lanes.map((lane) => (
+                {scopedData.lanes.map((lane) => (
                   <LaneRow key={lane.id} lane={lane} />
                 ))}
               </div>
@@ -337,19 +371,19 @@ export default function TradingIntelligencePage() {
         </div>
 
         <div className="flex min-w-0 flex-col gap-3">
-          <DailyFigures series={data.dailySeries} metrics={m} split={split} />
-          <ControlsPanel controls={controls} onPick={setActiveControl} />
+          <DailyFigures series={scopedData.dailySeries} metrics={m} split={split} />
+          <ControlsPanel controls={scopedControls} onPick={setActiveControl} />
         </div>
 
         <div className="flex min-w-0 flex-col gap-3">
           <Panel
             title="Action queue"
-            count={data.actionQueue.length}
-            tone={data.actionQueue.length ? "blocked" : undefined}
+            count={scopedData.actionQueue.length}
+            tone={scopedData.actionQueue.length ? "blocked" : undefined}
           >
-            {data.actionQueue.length ? (
+            {scopedData.actionQueue.length ? (
               <div className="max-h-[38vh] overflow-y-auto">
-                {data.actionQueue.map((item) => (
+                {scopedData.actionQueue.map((item) => (
                   <div key={item.id} className="grid grid-cols-[3px_minmax(0,1fr)] gap-2 border-b border-border px-2.5 py-2 last:border-b-0">
                     <span className={cn("rounded-sm", TONE_RAIL[severityTone(item.severity)])} aria-hidden />
                     <div className="min-w-0">
@@ -375,10 +409,10 @@ export default function TradingIntelligencePage() {
             )}
           </Panel>
 
-          <Panel title="Recommendations" count={data.recommendations.length}>
-            {data.recommendations.length ? (
+          <Panel title="Recommendations" count={scopedData.recommendations.length}>
+            {scopedData.recommendations.length ? (
               <ul className="m-0 max-h-52 list-none overflow-y-auto p-0">
-                {data.recommendations.map((r, i) => (
+                {scopedData.recommendations.map((r, i) => (
                   <li key={`${i}-${r.slice(0, 20)}`} className="flex gap-2 border-b border-border px-2.5 py-1.5 text-[11.5px] leading-snug last:border-b-0">
                     <span className="w-[3px] shrink-0 self-stretch rounded-sm bg-foreground/40" aria-hidden />
                     <span className="min-w-0 break-words">{r}</span>
@@ -390,13 +424,13 @@ export default function TradingIntelligencePage() {
             )}
           </Panel>
 
-          <FreshnessPanel rows={data.freshness} />
+          <FreshnessPanel rows={scopedData.freshness} />
         </div>
       </div>
 
       <Panel
         title="Recent activity"
-        count={`${events.length}/${data.recentEvents.length}`}
+        count={`${events.length}/${scopedData.recentEvents.length}`}
         aside={
           <span className="flex flex-wrap gap-1 normal-case tracking-normal">
             {EVENT_FILTERS.map((f) => (
@@ -440,7 +474,7 @@ export default function TradingIntelligencePage() {
           </div>
         ) : (
           <EmptyNote>
-            {data.recentEvents.length ? "No events match this filter." : "No recent trading events found."}
+            {scopedData.recentEvents.length ? "No events match this filter." : "No recent trading events found."}
           </EmptyNote>
         )}
       </Panel>
@@ -456,6 +490,174 @@ export default function TradingIntelligencePage() {
         />
       ) : null}
     </main>
+  );
+}
+
+function scopeCommandCenter(data: TradingCommandCenter, mode: TradingViewMode): TradingCommandCenter {
+  const projectId = VIEW_COPY[mode].projectId;
+  if (!projectId) return data;
+  const rows = data.dailyMetrics.bySource.filter((row) => row.sourceProject === projectId);
+  const scopedMetrics = aggregateDailyMetrics(data.dailyMetrics, rows, data.recentEvents.filter((event) => event.sourceProject === projectId), data.actionQueue.filter((item) => item.sourceProject === projectId));
+  const scopedPoints = data.dailySeries.points.map((point) => {
+    const bySource = point.bySource.filter((row) => row.sourceProject === projectId);
+    return {
+      ...point,
+      ...aggregatePoint(point, bySource),
+      bySource,
+    };
+  }).filter((point) => point.bySource.length);
+  return {
+    ...data,
+    status: data.sourceProjects.find((project) => project.projectId === projectId)?.status ?? data.status,
+    lanes: data.lanes.filter((lane) => lane.sourceProject === projectId),
+    dailyMetrics: scopedMetrics,
+    dailySeries: { ...data.dailySeries, points: scopedPoints },
+    recentEvents: data.recentEvents.filter((event) => event.sourceProject === projectId),
+    actionQueue: data.actionQueue.filter((item) => item.sourceProject === projectId),
+    freshness: data.freshness.filter((row) => row.sourceProject === projectId),
+    blockers: data.blockers.filter((blocker) => blocker.toLowerCase().includes(mode === "investing" ? "investing" : "khashi")),
+    recommendations: data.recommendations.filter((recommendation) => recommendation.toLowerCase().includes(mode === "investing" ? "oanda" : "khashi") || recommendation.toLowerCase().includes(mode === "investing" ? "broker" : "kalshi")),
+    sourceProjects: data.sourceProjects.filter((project) => project.projectId === projectId),
+  };
+}
+
+function scopeControls(controls: ControlsResponse | null, mode: TradingViewMode): ControlsResponse | null {
+  const projectId = VIEW_COPY[mode].projectId;
+  if (!controls || !projectId) return controls;
+  return {
+    ...controls,
+    projects: controls.projects.filter((project) => project.projectId === projectId),
+    controls: controls.controls.filter((control) => control.projectId === projectId),
+  };
+}
+
+function aggregateDailyMetrics(
+  metrics: TradingCommandCenter["dailyMetrics"],
+  rows: DailySourceRow[],
+  events: TradingEvent[],
+  actions: TradingCommandCenter["actionQueue"],
+): TradingCommandCenter["dailyMetrics"] {
+  const cashLeftUsd = sumRows(rows, "cashLeftUsd");
+  const openRiskUsd = sumRows(rows, "openRiskUsd");
+  const realizedPnlTodayUsd = sumRows(rows, "realizedPnlTodayUsd");
+  const unrealizedPnlUsd = sumRows(rows, "unrealizedPnlUsd");
+  return {
+    ...metrics,
+    cashLeftUsd,
+    cashLeftKnown: rows.some((row) => row.cashLeftKnown),
+    buyingPowerUsd: sumRows(rows, "buyingPowerUsd"),
+    totalEquityUsd: sumRows(rows, "totalEquityUsd"),
+    portfolioValueUsd: sumRows(rows, "portfolioValueUsd"),
+    openRiskUsd,
+    riskAdjustedCashLeftUsd: isNum(cashLeftUsd) ? roundMoney(cashLeftUsd - (openRiskUsd ?? 0)) : null,
+    realizedPnlTodayUsd,
+    realizedPnlUsd: sumRows(rows, "realizedPnlUsd"),
+    unrealizedPnlUsd,
+    netPnlUsd: sumNumbers([realizedPnlTodayUsd, unrealizedPnlUsd]),
+    openTrades: sumRows(rows, "openTrades"),
+    closedTrades: sumRows(rows, "closedTrades"),
+    eventsToday: events.filter((event) => String(event.occurredAt || "").startsWith(metrics.date)).length,
+    humanActionsRequired: actions.length,
+    coverage: {
+      cashLeft: coverageForRows(rows, "cashLeftUsd"),
+      buyingPower: coverageForRows(rows, "buyingPowerUsd"),
+      totalEquity: coverageForRows(rows, "totalEquityUsd"),
+      dailyPnl: coverageForRows(rows, "realizedPnlTodayUsd"),
+      risk: coverageForRows(rows, "openRiskUsd"),
+    },
+    capitalSemantics: {
+      realBrokerCashSources: rows.filter((row) => row.isRealBrokerCash === true).length,
+      kalshiDemoCashSources: rows.filter((row) => row.isKalshiDemoCash === true).length,
+      internalPaperBankrollSources: rows.filter((row) => row.capitalSource === "internal-khashi-paper-bankroll").length,
+      note: metrics.capitalSemantics.note,
+    },
+    bySource: rows,
+  };
+}
+
+function aggregatePoint(point: DailySeries["points"][number], rows: DailySourceRow[]) {
+  const cashLeftUsd = sumRows(rows, "cashLeftUsd");
+  const openRiskUsd = sumRows(rows, "openRiskUsd");
+  const realizedPnlTodayUsd = sumRows(rows, "realizedPnlTodayUsd");
+  return {
+    cashLeftUsd,
+    cashLeftKnown: rows.some((row) => row.cashLeftKnown),
+    buyingPowerUsd: sumRows(rows, "buyingPowerUsd"),
+    totalEquityUsd: sumRows(rows, "totalEquityUsd"),
+    portfolioValueUsd: sumRows(rows, "portfolioValueUsd"),
+    openRiskUsd,
+    riskAdjustedCashLeftUsd: isNum(cashLeftUsd) ? roundMoney(cashLeftUsd - (openRiskUsd ?? 0)) : null,
+    realizedPnlTodayUsd,
+    realizedPnlUsd: sumRows(rows, "realizedPnlUsd"),
+    unrealizedPnlUsd: sumRows(rows, "unrealizedPnlUsd"),
+    netPnlUsd: sumRows(rows, "netPnlUsd") ?? realizedPnlTodayUsd,
+    openTrades: sumRows(rows, "openTrades"),
+    closedTrades: sumRows(rows, "closedTrades"),
+    coverage: {
+      ...(point.coverage ?? {}),
+      cashLeft: coverageForRows(rows, "cashLeftUsd"),
+      buyingPower: coverageForRows(rows, "buyingPowerUsd"),
+      totalEquity: coverageForRows(rows, "totalEquityUsd"),
+      dailyPnl: coverageForRows(rows, "realizedPnlTodayUsd"),
+      risk: coverageForRows(rows, "openRiskUsd"),
+    },
+  };
+}
+
+function sumRows(rows: DailySourceRow[], key: keyof DailySourceRow): number | null {
+  return sumNumbers(rows.map((row) => row[key]));
+}
+
+function sumNumbers(values: unknown[]): number | null {
+  const nums = values.filter(isNum);
+  return nums.length ? roundMoney(nums.reduce((sum, value) => sum + value, 0)) : null;
+}
+
+function roundMoney(value: number) {
+  return Math.round(value * 100) / 100;
+}
+
+function coverageForRows(rows: DailySourceRow[], key: keyof DailySourceRow): Coverage {
+  if (!rows.length) return "missing";
+  return rows.every((row) => isNum(row[key])) ? "known" : rows.some((row) => isNum(row[key])) ? "partial" : "missing";
+}
+
+function ViewHero({ mode, data, split }: { mode: TradingViewMode; data: TradingCommandCenter; split: CapitalSplit }) {
+  const copy = VIEW_COPY[mode];
+  const row = data.dailyMetrics.bySource[0];
+  const realCash = split.buckets.find((bucket) => bucket.capitalClass === "real-broker");
+  const blockers = data.blockers.length || data.sourceProjects.flatMap((project) => project.blockers ?? []).length;
+  return (
+    <section className="overflow-hidden rounded-lg border border-border bg-card">
+      <div className="grid gap-px bg-border lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.45fr)]">
+        <div className="bg-card p-4">
+          <div className="text-[10px] font-bold uppercase tracking-[0.09em] text-muted-foreground">{copy.eyebrow}</div>
+          <h1 className="mt-1 text-2xl font-bold tracking-tight text-foreground">{copy.title}</h1>
+          <p className="mt-1 max-w-3xl text-sm leading-6 text-muted-foreground">{copy.description}</p>
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            <Pill tone={statusTone(data.status)} label={data.status} />
+            <LockPill locked={data.liveTradingLocked} />
+            <Pill tone={blockers ? "blocked" : "ready"} label={`${blockers} blockers`} />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-px bg-border">
+          <HeroMetric label={mode === "khashi" ? "Khashi cash" : "Real broker cash"} value={formatUsd(mode === "khashi" ? row?.cashLeftUsd : realCash?.cashUsd)} note={row?.capitalSource ?? "not configured"} />
+          <HeroMetric label="Buying power" value={formatUsd(row?.buyingPowerUsd)} note={row?.isRealBrokerCash ? "read-only broker" : coverageLabel(data.dailyMetrics.coverage.buyingPower)} />
+          <HeroMetric label="P/L today" value={formatUsd(row?.realizedPnlTodayUsd)} note={mode === "investing" ? "broker-reported" : coverageLabel(data.dailyMetrics.coverage.dailyPnl)} pnl={row?.realizedPnlTodayUsd} />
+          <HeroMetric label="Open trades" value={formatCount(row?.openTrades)} note={row?.status ?? data.status} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function HeroMetric({ label, value, note, pnl }: { label: string; value: string; note?: string; pnl?: unknown }) {
+  return (
+    <div className="bg-card p-3">
+      <div className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">{label}</div>
+      <div className={cn("mt-1 font-bold tabular-nums", value === NO_DATA ? "text-sm text-muted-foreground" : "text-xl", pnl !== undefined ? pnlClass(pnl) : "")}>{value}</div>
+      {note ? <div className="mt-1 truncate text-[10px] text-muted-foreground" title={note}>{note}</div> : null}
+    </div>
   );
 }
 
