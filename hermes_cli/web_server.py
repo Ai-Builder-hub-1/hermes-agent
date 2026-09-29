@@ -1786,6 +1786,52 @@ async def get_trading_intelligence_frontend_spec():
     return trading_intelligence_frontend_spec()
 
 
+@app.get("/api/trading-research/strategies/summary")
+async def get_trading_strategy_summary():
+    from hermes_cli.trading_research import strategy_summary
+
+    return await strategy_summary()
+
+
+@app.get("/api/trading-research/strategies/series")
+async def get_trading_strategy_series(window: str = "24h"):
+    from hermes_cli.trading_research import strategy_series
+
+    if window not in {"1h", "24h", "7d", "30d"}:
+        raise HTTPException(status_code=400, detail="window must be one of 1h, 24h, 7d, 30d")
+    return await strategy_series(window)  # type: ignore[arg-type]
+
+
+@app.post("/api/trading-research/strategies/review")
+async def post_trading_strategy_review():
+    from hermes_cli.trading_research import record_strategy_review
+
+    return await record_strategy_review()
+
+
+@app.get("/api/trading-research/backtesting/summary")
+async def get_trading_backtesting_summary():
+    from hermes_cli.trading_research import backtesting_summary
+
+    return await backtesting_summary()
+
+
+@app.get("/api/trading-research/backtesting/series")
+async def get_trading_backtesting_series(window: str = "24h"):
+    from hermes_cli.trading_research import backtesting_series
+
+    if window not in {"1h", "24h", "7d", "30d"}:
+        raise HTTPException(status_code=400, detail="window must be one of 1h, 24h, 7d, 30d")
+    return await backtesting_series(window)  # type: ignore[arg-type]
+
+
+@app.post("/api/trading-research/backtesting/review")
+async def post_trading_backtesting_review():
+    from hermes_cli.trading_research import record_backtest_review
+
+    return await record_backtest_review()
+
+
 def _hermes_brain_base_url() -> str:
     return os.environ.get("HERMES_BRAIN_URL", "http://127.0.0.1:3115").rstrip("/")
 

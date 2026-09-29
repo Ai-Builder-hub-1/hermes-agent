@@ -16,9 +16,9 @@ describe("operational page contracts", () => {
 
   it("scores pages with missing live contracts lower", () => {
     const warehouse = auditOperationalContract(contractForRoute("/system/warehouse")!);
-    const backtesting = auditOperationalContract(contractForRoute("/trading/backtesting")!);
-    expect(warehouse.score).toBeGreaterThan(backtesting.score);
-    expect(backtesting.missing).toContain("live data contract");
+    const chatActions = auditOperationalContract(contractForRoute("/operate/chat-actions")!);
+    expect(warehouse.score).toBeGreaterThan(chatActions.score);
+    expect(chatActions.missing).toContain("live data contract");
   });
 
   it("audits by group in lowest-maturity-first order", () => {

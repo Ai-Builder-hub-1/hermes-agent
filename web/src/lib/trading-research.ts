@@ -1,0 +1,116 @@
+import { fetchJSON } from "@/lib/api";
+import type { WarehouseWindow } from "@/lib/system-warehouse";
+
+export type TradingResearchHealth = "ready" | "warning" | "critical" | "watch" | "blocked" | string;
+
+export interface TradingResearchSeries {
+  generatedAt: string;
+  window: WarehouseWindow;
+  historyStatus: string;
+  points: Array<Record<string, number | string>>;
+}
+
+export interface StrategySummary {
+  contractVersion: string;
+  generatedAt: string;
+  health: TradingResearchHealth;
+  summary: {
+    candidates: number;
+    ready: number;
+    watch: number;
+    blocked: number;
+    sourceProjects: number;
+  };
+  candidates: Array<{
+    id: string;
+    sourceProject: string;
+    hypothesis: string;
+    status: TradingResearchHealth;
+    expectedEdge: string;
+    falsificationCriteria: string;
+    evidenceCount: number;
+    winRate: number | null;
+    expectancy: number | null;
+    maxDrawdown: number | null;
+    promotionGate: string;
+  }>;
+  sourceCoverage: Array<{
+    projectId: string;
+    label: string;
+    available: boolean;
+    status: string;
+    blockers: string[];
+  }>;
+  recommendations: string[];
+  blockers: string[];
+}
+
+export interface BacktestingSummary {
+  contractVersion: string;
+  generatedAt: string;
+  health: TradingResearchHealth;
+  summary: {
+    runs: number;
+    passed: number;
+    review: number;
+    blocked: number;
+  };
+  runs: Array<{
+    id: string;
+    strategyId: string;
+    sourceProject: string;
+    datasetWindow: string;
+    status: string;
+    assumptions: string[];
+    trades: number;
+    winRate: number | null;
+    expectancy: number | null;
+    maxDrawdown: number | null;
+    failure: string;
+    promotionGate: string;
+  }>;
+  comparison: { bestCandidate: string; coverage: string };
+  blockers: string[];
+  recommendations: string[];
+}
+
+export interface StrategySnapshot {
+  summary: StrategySummary;
+  series: TradingResearchSeries;
+}
+
+export interface BacktestingSnapshot {
+  summary: BacktestingSummary;
+  series: TradingResearchSeries;
+}
+
+export async function fetchStrategySnapshot(window: WarehouseWindow = "24h"): Promise<StrategySnapshot> {
+  const [summary, series] = await Promise.all([
+    fetchJSON<StrategySummary>("/api/trading-research/strategies/summary"),
+    fetchJSON<TradingResearchSeries>(`/api/trading-research/strategies/series?window=${encodeURIComponent(window)}`),
+  ]);
+  return { summary, series };
+}
+
+export async function fetchBacktestingSnapshot(window: WarehouseWindow = "24h"): Promise<BacktestingSnapshot> {
+  const [summary, series] = await Promise.all([
+    fetchJSON<BacktestingSummary>("/api/trading-research/backtesting/summary"),
+    fetchJSON<TradingResearchSeries>(`/api/trading-research/backtesting/series?window=${encodeURIComponent(window)}`),
+  ]);
+  return { summary, series };
+}
+
+export function runStrategyReview(): Promise<Record<string, unknown>> {
+  return fetchJSON<Record<string, unknown>>("/api/trading-research/strategies/review", { method: "POST" });
+}
+
+export function runBacktestReview(): Promise<Record<string, unknown>> {
+  return fetchJSON<Record<string, unknown>>("/api/trading-research/backtesting/review", { method: "POST" });
+}
+
+export function tradingResearchTone(health: string): "success" | "warning" | "critical" | "info" {
+  if (health === "ready" || health === "passed") return "success";
+  if (health === "critical" || health === "blocked" || health === "failed") return "critical";
+  if (health === "warning" || health === "watch" || health === "review" || health === "waiting_for_data") return "warning";
+  return "info";
+}
