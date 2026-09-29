@@ -74,6 +74,7 @@ const OperateRunsPage = lazy(() => import("@/pages/OperatePage").then((module) =
 const OperateChatActionsPage = lazy(() => import("@/pages/OperatePage").then((module) => ({ default: module.OperateChatActionsPage })));
 const SystemWarehousePage = lazy(() => import("@/pages/SystemOperationsPage").then((module) => ({ default: module.SystemWarehousePage })));
 const SystemFreshnessPage = lazy(() => import("@/pages/SystemOperationsPage").then((module) => ({ default: module.SystemFreshnessPage })));
+const SystemStoragePage = lazy(() => import("@/pages/SystemOperationsPage").then((module) => ({ default: module.SystemStoragePage })));
 const SystemWorkersPage = lazy(() => import("@/pages/SystemOperationsPage").then((module) => ({ default: module.SystemWorkersPage })));
 const SystemDeploymentsPage = lazy(() => import("@/pages/SystemOperationsPage").then((module) => ({ default: module.SystemDeploymentsPage })));
 const SystemCredentialsPage = lazy(() => import("@/pages/SystemOperationsPage").then((module) => ({ default: module.SystemCredentialsPage })));
@@ -205,7 +206,7 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/trading/evidence": TradingIntelligencePage,
   "/system/warehouse": SystemWarehousePage,
   "/system/freshness": SystemFreshnessPage,
-  "/system/storage": DurableArtifactBackendPage,
+  "/system/storage": SystemStoragePage,
   "/system/workers": SystemWorkersPage,
   "/system/deployments": SystemDeploymentsPage,
   "/system/credentials": SystemCredentialsPage,

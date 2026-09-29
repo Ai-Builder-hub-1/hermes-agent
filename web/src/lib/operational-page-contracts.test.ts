@@ -31,4 +31,44 @@ describe("operational page contracts", () => {
     const routes = OPERATIONAL_PAGE_CONTRACTS.map((contract) => contract.route);
     expect(new Set(routes).size).toBe(routes.length);
   });
+
+  it("covers every operator nav route that should have maturity status", () => {
+    const expected = [
+      "/operate",
+      "/operate/blockers",
+      "/operate/actions",
+      "/operate/incidents",
+      "/operate/approvals",
+      "/operate/runs",
+      "/operate/evidence",
+      "/second-brain",
+      "/compounding-intelligence",
+      "/operate/chat-actions",
+      "/trading",
+      "/trading/khashi",
+      "/trading/investing",
+      "/trading/strategies",
+      "/trading/backtesting",
+      "/trading/shadow-paper",
+      "/trading/risk",
+      "/trading/head-trader",
+      "/trading/evidence",
+      "/system/warehouse",
+      "/system/freshness",
+      "/system/storage",
+      "/system/workers",
+      "/system/deployments",
+      "/system/credentials",
+      "/system/models",
+      "/system/automations",
+      "/system/sessions",
+      "/system/logs",
+      "/system/plugins",
+      "/system/admin",
+      "/system/analytics",
+    ];
+    for (const route of expected) {
+      expect(contractForRoute(route), route).toBeTruthy();
+    }
+  });
 });

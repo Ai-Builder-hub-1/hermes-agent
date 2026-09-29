@@ -3455,6 +3455,75 @@ async def post_system_warehouse_prune_dry_run():
     return record_prune_dry_run()
 
 
+@app.get("/api/system/storage/summary")
+async def get_system_storage_summary():
+    from hermes_cli.system_operations import storage_summary
+
+    return storage_summary()
+
+
+@app.get("/api/system/storage/series")
+async def get_system_storage_series(window: str = "24h"):
+    from hermes_cli.system_operations import storage_series
+
+    if window not in {"1h", "24h", "7d", "30d"}:
+        raise HTTPException(status_code=400, detail="window must be one of 1h, 24h, 7d, 30d")
+    return storage_series(window)  # type: ignore[arg-type]
+
+
+@app.post("/api/system/storage/scan")
+async def post_system_storage_scan():
+    from hermes_cli.system_operations import record_storage_scan
+
+    return record_storage_scan()
+
+
+@app.get("/api/system/freshness/summary")
+async def get_system_freshness_summary():
+    from hermes_cli.system_operations import freshness_summary
+
+    return freshness_summary()
+
+
+@app.get("/api/system/freshness/series")
+async def get_system_freshness_series(window: str = "24h"):
+    from hermes_cli.system_operations import freshness_series
+
+    if window not in {"1h", "24h", "7d", "30d"}:
+        raise HTTPException(status_code=400, detail="window must be one of 1h, 24h, 7d, 30d")
+    return freshness_series(window)  # type: ignore[arg-type]
+
+
+@app.post("/api/system/freshness/check")
+async def post_system_freshness_check():
+    from hermes_cli.system_operations import record_freshness_check
+
+    return record_freshness_check()
+
+
+@app.get("/api/system/workers/summary")
+async def get_system_workers_summary():
+    from hermes_cli.system_operations import workers_summary
+
+    return workers_summary()
+
+
+@app.get("/api/system/workers/series")
+async def get_system_workers_series(window: str = "24h"):
+    from hermes_cli.system_operations import workers_series
+
+    if window not in {"1h", "24h", "7d", "30d"}:
+        raise HTTPException(status_code=400, detail="window must be one of 1h, 24h, 7d, 30d")
+    return workers_series(window)  # type: ignore[arg-type]
+
+
+@app.post("/api/system/workers/dry-run")
+async def post_system_workers_dry_run():
+    from hermes_cli.system_operations import record_worker_dry_run
+
+    return record_worker_dry_run()
+
+
 # ---------------------------------------------------------------------------
 # Curator endpoints — background skill-maintenance status + controls.
 #

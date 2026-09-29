@@ -13,6 +13,19 @@ import {
   type OperationalPageAudit,
 } from "@/lib/operational-page-contracts";
 import {
+  fetchFreshnessSnapshot,
+  fetchStorageSnapshot,
+  fetchWorkersSnapshot,
+  runFreshnessCheck,
+  runStorageScan,
+  runWorkerDryRun,
+  systemHealthTone,
+  type FreshnessSnapshot,
+  type StorageSnapshot,
+  type SystemSeries,
+  type WorkersSnapshot,
+} from "@/lib/system-operations";
+import {
   fetchWarehouseSnapshot,
   formatBytes,
   runWarehousePruneDryRun,
@@ -28,12 +41,11 @@ import {
   operatingLoops,
   operatingSystemStages,
   permissionPolicies,
-  type OperatingLoop,
   type OperatingSystemStage,
   type PermissionPolicy,
 } from "./operating-system-data";
 
-type SystemMode = "warehouse" | "freshness" | "workers" | "deployments" | "credentials";
+type SystemMode = "warehouse" | "storage" | "freshness" | "workers" | "deployments" | "credentials";
 type Tone = "success" | "info" | "warning" | "critical" | "neutral";
 
 const modeCopy: Record<SystemMode, { eyebrow: string; title: string; description: string }> = {
@@ -48,6 +60,12 @@ const modeCopy: Record<SystemMode, { eyebrow: string; title: string; description
     title: "Freshness",
     description:
       "Track production verification, snapshot freshness, live sweep readiness, and the evidence needed before a dashboard is considered current.",
+  },
+  storage: {
+    eyebrow: "Storage operations",
+    title: "Storage",
+    description:
+      "Track host capacity, artifact growth, cleanup candidates, retention classes, and safe storage scans across the dashboard runtime.",
   },
   workers: {
     eyebrow: "Worker loops",
@@ -83,6 +101,10 @@ export function SystemWarehousePage() {
 
 export function SystemFreshnessPage() {
   return <SystemOperationsPage mode="freshness" />;
+}
+
+export function SystemStoragePage() {
+  return <SystemOperationsPage mode="storage" />;
 }
 
 export function SystemWorkersPage() {
@@ -140,14 +162,16 @@ function SystemOperationsPage({ mode }: { mode: SystemMode }) {
             ))}
           </div>
         </Panel>
-        {mode === "workers" ? (
-          <WorkerPanel />
+        {mode === "storage" ? (
+          <StoragePanel />
+        ) : mode === "workers" ? (
+          <WorkersPanel />
         ) : mode === "credentials" ? (
           <CredentialPanel />
         ) : mode === "warehouse" ? (
           <WarehousePanel />
         ) : mode === "freshness" ? (
-          <FreshnessPanel stages={stages} />
+          <FreshnessPanel />
         ) : (
           <DeploymentPanel stages={stages} />
         )}
@@ -159,6 +183,7 @@ function SystemOperationsPage({ mode }: { mode: SystemMode }) {
 function routeForMode(mode: SystemMode) {
   const routes: Record<SystemMode, string> = {
     warehouse: "/system/warehouse",
+    storage: "/system/storage",
     freshness: "/system/freshness",
     workers: "/system/workers",
     deployments: "/system/deployments",
@@ -170,6 +195,7 @@ function routeForMode(mode: SystemMode) {
 function stagesForMode(mode: SystemMode) {
   const routesByMode: Record<SystemMode, string[]> = {
     warehouse: ["/data-source-catalog", "/telemetry-fabric", "/telemetry-adapters", "/project-adapter-rollout"],
+    storage: ["/durable-artifact-backend", "/data-source-catalog", "/telemetry-fabric"],
     freshness: ["/production-verification", "/production-sweep", "/project-snapshots", "/telemetry-fabric"],
     workers: ["/loop-runner", "/operating-loops", "/learning-ingestion", "/outcome-learning-feeds"],
     deployments: ["/deployment-promotion", "/promotion-runner", "/hetzner-promotion-execution", "/release-train-orchestrator"],
@@ -194,6 +220,14 @@ function summaryCards(mode: SystemMode, stages: OperatingSystemStage[]) {
       { label: "Live sweep", value: "gated", detail: "operator-triggered only", tone: "warning" as Tone },
       { label: "Evidence", value: "required", detail: "health and screenshots", tone: "success" as Tone },
       { label: "Risk", value: "high", detail: "production network checks", tone: "critical" as Tone },
+    ];
+  }
+  if (mode === "storage") {
+    return [
+      { label: "Volumes", value: "live", detail: "host and artifact roots", tone: "info" as Tone },
+      { label: "Cleanup", value: "dry-run", detail: "non-destructive scan", tone: "success" as Tone },
+      { label: "Retention", value: "classified", detail: "runtime, warehouse, logs", tone: "warning" as Tone },
+      { label: "Forecast", value: "inferred", detail: "growth estimate", tone: "info" as Tone },
     ];
   }
   if (mode === "workers") {
@@ -456,25 +490,380 @@ function buildLine(points: WarehouseSeriesPoint[], key: "bytesIngested" | "stora
   }).join(" ");
 }
 
-function FreshnessPanel({ stages }: { stages: OperatingSystemStage[] }) {
+function StoragePanel() {
+  const [window, setWindow] = useState<WarehouseWindow>("24h");
+  const [snapshot, setSnapshot] = useState<StorageSnapshot | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [actionStatus, setActionStatus] = useState<string | null>(null);
+
+  const load = async (nextWindow = window) => {
+    try {
+      setSnapshot(await fetchStorageSnapshot(nextWindow));
+      setError(null);
+    } catch (exc) {
+      setError(exc instanceof Error ? exc.message : String(exc));
+    }
+  };
+
+  useEffect(() => {
+    void load(window);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [window]);
+
+  if (!snapshot && !error) return <LoadingPanel title="Storage telemetry" />;
+  if (!snapshot && error) return <ErrorPanel title="Storage telemetry unavailable" error={error} retry={() => void load(window)} />;
+  if (!snapshot) return null;
+
+  const { summary, series } = snapshot;
+  const scan = async () => {
+    setActionStatus("Storage scan running");
+    try {
+      await runStorageScan();
+      setActionStatus("Storage scan recorded");
+      await load(window);
+    } catch (exc) {
+      setActionStatus(`Storage scan failed: ${exc instanceof Error ? exc.message : String(exc)}`);
+    }
+  };
+
   return (
-    <Panel title="Freshness rules">
-      <div className="grid gap-3 p-3">
-        <PolicyCallout title="No silent trust" detail="A dashboard is current only when route health, snapshot shape, and visual proof are fresh enough for the decision being made." tone="warning" />
-        <PolicyCallout title="Screenshots are evidence" detail="Visual verification should be recorded after deploys and production sweeps, not treated as optional polish." tone="info" />
-        <PolicyCallout title="Live network checks stay gated" detail={`${stages.filter((stage) => stage.risk === "high").length} high-risk verification stages require operator approval before live execution.`} tone="critical" />
+    <div className="grid gap-4" data-data-state={error ? "partial" : "ready"} data-review-id="hermes.system.storage.telemetry">
+      <Panel title="Storage live status">
+        <div className="grid gap-3 p-3">
+          {error ? <PolicyCallout title="Showing last storage snapshot" detail={error} tone="warning" /> : null}
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border bg-background p-3">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Generated</div>
+              <div className="mt-1 text-sm font-semibold text-foreground">{new Date(summary.generatedAt).toLocaleString()}</div>
+            </div>
+            <ToneBadge tone={systemHealthTone(summary.health)}>{summary.health}</ToneBadge>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-3">
+            <MetricCard label="Free storage" value={formatBytes(summary.summary.freeBytes)} detail={`${summary.summary.percentUsed}% used on primary volume`} tone={summary.summary.percentUsed > 85 ? "critical" : summary.summary.percentUsed > 70 ? "warning" : "success"} />
+            <MetricCard label="Measured data" value={formatBytes(summary.summary.measuredBytes)} detail={`${summary.volumes.length} tracked roots`} tone="info" />
+            <MetricCard label="Cleanup candidates" value={summary.summary.cleanupCandidates} detail="non-destructive review list" tone={summary.summary.cleanupCandidates ? "warning" : "success"} />
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button type="button" className="rounded border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted" onClick={() => void scan()}>
+              Run storage scan
+            </button>
+            {actionStatus ? <span className="self-center text-xs font-medium text-muted-foreground">{actionStatus}</span> : null}
+          </div>
+        </div>
+      </Panel>
+      <Panel title="Storage growth trend">
+        <div className="grid gap-3 p-3">
+          <WindowButtons value={window} onChange={setWindow} />
+          <SystemTrendChart series={series} primaryKey="usedBytes" secondaryKey="cleanupBytes" />
+        </div>
+      </Panel>
+      <Panel title="Volumes and retention" count={summary.volumes.length}>
+        <div className="grid gap-2 p-3">
+          {summary.volumes.map((volume) => (
+            <article key={volume.path} className="rounded-lg border border-border bg-background p-3">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <h2 className="text-sm font-semibold text-foreground">{volume.label}</h2>
+                  <p className="mt-1 line-clamp-1 text-xs text-muted-foreground">{volume.path}</p>
+                </div>
+                <ToneBadge tone={volume.percentUsed > 85 ? "critical" : volume.percentUsed > 70 ? "warning" : "success"}>{volume.retentionClass}</ToneBadge>
+              </div>
+              <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                <MiniFact label="Measured" value={formatBytes(volume.measuredBytes)} />
+                <MiniFact label="Files" value={volume.measuredFiles} />
+                <MiniFact label="Used" value={`${volume.percentUsed}%`} />
+              </div>
+            </article>
+          ))}
+        </div>
+      </Panel>
+      <Panel title="Cleanup candidates" count={summary.cleanupCandidates.length}>
+        <div className="grid gap-2 p-3">
+          {summary.cleanupCandidates.length ? summary.cleanupCandidates.slice(0, 8).map((candidate) => (
+            <article key={candidate.id} className="rounded-lg border border-border bg-background p-3">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <h2 className="text-sm font-semibold text-foreground">{candidate.label}</h2>
+                <ToneBadge tone="warning">{formatBytes(candidate.reclaimableBytes)}</ToneBadge>
+              </div>
+              <p className="mt-2 line-clamp-1 text-xs text-muted-foreground">{candidate.path}</p>
+              <MiniFact label="Safe action" value={candidate.safeAction} />
+            </article>
+          )) : <PolicyCallout title="No cleanup candidates" detail="Storage scan did not identify reviewable cleanup candidates." tone="success" />}
+        </div>
+      </Panel>
+    </div>
+  );
+}
+
+function FreshnessPanel() {
+  const [window, setWindow] = useState<WarehouseWindow>("24h");
+  const [snapshot, setSnapshot] = useState<FreshnessSnapshot | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [actionStatus, setActionStatus] = useState<string | null>(null);
+
+  const load = async (nextWindow = window) => {
+    try {
+      setSnapshot(await fetchFreshnessSnapshot(nextWindow));
+      setError(null);
+    } catch (exc) {
+      setError(exc instanceof Error ? exc.message : String(exc));
+    }
+  };
+
+  useEffect(() => {
+    void load(window);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [window]);
+
+  if (!snapshot && !error) return <LoadingPanel title="Freshness telemetry" />;
+  if (!snapshot && error) return <ErrorPanel title="Freshness telemetry unavailable" error={error} retry={() => void load(window)} />;
+  if (!snapshot) return null;
+
+  const { summary, series } = snapshot;
+  const runCheck = async () => {
+    setActionStatus("Freshness check running");
+    try {
+      await runFreshnessCheck();
+      setActionStatus("Freshness check recorded");
+      await load(window);
+    } catch (exc) {
+      setActionStatus(`Freshness check failed: ${exc instanceof Error ? exc.message : String(exc)}`);
+    }
+  };
+
+  return (
+    <div className="grid gap-4" data-data-state={error ? "partial" : "ready"} data-review-id="hermes.system.freshness.telemetry">
+      <Panel title="Freshness live status">
+        <div className="grid gap-3 p-3">
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border bg-background p-3">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Generated</div>
+              <div className="mt-1 text-sm font-semibold text-foreground">{new Date(summary.generatedAt).toLocaleString()}</div>
+            </div>
+            <ToneBadge tone={systemHealthTone(summary.health)}>{summary.health}</ToneBadge>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-3">
+            <MetricCard label="Sources" value={summary.summary.sources} detail={`${summary.summary.readySources} ready`} tone="info" />
+            <MetricCard label="Stale" value={summary.summary.staleSources} detail="sources breaching cadence or state" tone={summary.summary.staleSources ? "critical" : "success"} />
+            <MetricCard label="Max lag" value={`${summary.summary.maxLagMinutes}m`} detail="largest observed source lag" tone={summary.summary.maxLagMinutes > 240 ? "warning" : "success"} />
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button type="button" className="rounded border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted" onClick={() => void runCheck()}>
+              Run freshness check
+            </button>
+            {actionStatus ? <span className="self-center text-xs font-medium text-muted-foreground">{actionStatus}</span> : null}
+          </div>
+        </div>
+      </Panel>
+      <Panel title="Freshness trend">
+        <div className="grid gap-3 p-3">
+          <WindowButtons value={window} onChange={setWindow} />
+          <SystemTrendChart series={series} primaryKey="maxLagMinutes" secondaryKey="staleSources" />
+        </div>
+      </Panel>
+      <Panel title="Source matrix" count={summary.sources.length}>
+        <div className="overflow-x-auto p-3">
+          <table className="w-full min-w-[760px] text-left text-xs" data-hdk-component="DataTable" data-pagination="table-window">
+            <thead className="text-muted-foreground">
+              <tr className="border-b border-border">
+                <th className="py-2 pr-3">Source</th>
+                <th className="py-2 pr-3">System</th>
+                <th className="py-2 pr-3">Status</th>
+                <th className="py-2 pr-3">Lag</th>
+                <th className="py-2 pr-3">Owner</th>
+              </tr>
+            </thead>
+            <tbody>
+              {summary.sources.map((source) => (
+                <tr key={source.id} className="border-b border-border/60 align-top">
+                  <td className="py-2 pr-3">
+                    <div className="font-semibold text-foreground">{source.source}</div>
+                    <div className="line-clamp-2 text-muted-foreground">{source.detail}</div>
+                  </td>
+                  <td className="py-2 pr-3">{source.system}</td>
+                  <td className="py-2 pr-3"><ToneBadge tone={systemHealthTone(source.status)}>{source.status}</ToneBadge></td>
+                  <td className="py-2 pr-3 tabular-nums">{source.lagMinutes === null ? "unknown" : `${source.lagMinutes}m`}</td>
+                  <td className="py-2 pr-3">{source.owner}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Panel>
+      <Panel title="Freshness breaches" count={summary.breaches.length}>
+        <div className="grid gap-2 p-3">
+          {summary.breaches.length ? summary.breaches.map((breach) => (
+            <PolicyCallout key={breach.id} title={breach.source} detail={`${breach.detail} Lag: ${breach.lagMinutes ?? "unknown"}m.`} tone="warning" />
+          )) : <PolicyCallout title="No freshness breaches" detail="All known sources are inside their current freshness tolerance." tone="success" />}
+        </div>
+      </Panel>
+    </div>
+  );
+}
+
+function WorkersPanel() {
+  const [window, setWindow] = useState<WarehouseWindow>("24h");
+  const [snapshot, setSnapshot] = useState<WorkersSnapshot | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [actionStatus, setActionStatus] = useState<string | null>(null);
+
+  const load = async (nextWindow = window) => {
+    try {
+      setSnapshot(await fetchWorkersSnapshot(nextWindow));
+      setError(null);
+    } catch (exc) {
+      setError(exc instanceof Error ? exc.message : String(exc));
+    }
+  };
+
+  useEffect(() => {
+    void load(window);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [window]);
+
+  if (!snapshot && !error) return <LoadingPanel title="Worker telemetry" />;
+  if (!snapshot && error) return <ErrorPanel title="Worker telemetry unavailable" error={error} retry={() => void load(window)} />;
+  if (!snapshot) return null;
+
+  const { summary, series } = snapshot;
+  const dryRun = async () => {
+    setActionStatus("Worker dry-run running");
+    try {
+      await runWorkerDryRun();
+      setActionStatus("Worker dry-run recorded");
+      await load(window);
+    } catch (exc) {
+      setActionStatus(`Worker dry-run failed: ${exc instanceof Error ? exc.message : String(exc)}`);
+    }
+  };
+
+  return (
+    <div className="grid gap-4" data-data-state={error ? "partial" : "ready"} data-review-id="hermes.system.workers.telemetry">
+      <Panel title="Worker live status">
+        <div className="grid gap-3 p-3">
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border bg-background p-3">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Generated</div>
+              <div className="mt-1 text-sm font-semibold text-foreground">{new Date(summary.generatedAt).toLocaleString()}</div>
+            </div>
+            <ToneBadge tone={systemHealthTone(summary.health)}>{summary.health}</ToneBadge>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-4">
+            <MetricCard label="Workers" value={summary.summary.workers} detail="tracked runtime rows" tone="info" />
+            <MetricCard label="Ready" value={summary.summary.ready} detail="healthy worker rows" tone="success" />
+            <MetricCard label="Watch" value={summary.summary.watch} detail="needs attention" tone={summary.summary.watch ? "warning" : "success"} />
+            <MetricCard label="Failures" value={summary.summary.failures24h} detail="24h inferred failures" tone={summary.summary.failures24h ? "critical" : "success"} />
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button type="button" className="rounded border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted" onClick={() => void dryRun()}>
+              Run worker dry-run
+            </button>
+            {actionStatus ? <span className="self-center text-xs font-medium text-muted-foreground">{actionStatus}</span> : null}
+          </div>
+        </div>
+      </Panel>
+      <Panel title="Worker run trend">
+        <div className="grid gap-3 p-3">
+          <WindowButtons value={window} onChange={setWindow} />
+          <SystemTrendChart series={series} primaryKey="runs" secondaryKey="failures" />
+        </div>
+      </Panel>
+      <Panel title="Worker registry" count={summary.workers.length}>
+        <div className="grid gap-2 p-3">
+          {summary.workers.map((worker) => (
+            <article key={worker.id} className="rounded-lg border border-border bg-background p-3">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <h2 className="text-sm font-semibold text-foreground">{worker.name}</h2>
+                  <p className="mt-1 text-xs text-muted-foreground">{worker.owner}</p>
+                </div>
+                <ToneBadge tone={systemHealthTone(worker.status)}>{worker.status}</ToneBadge>
+              </div>
+              <p className="mt-2 text-sm text-muted-foreground">{worker.detail}</p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                <MiniFact label="Last run" value={new Date(worker.lastRunAt).toLocaleString()} />
+                <MiniFact label="Next run" value={new Date(worker.nextRunAt).toLocaleString()} />
+                <MiniFact label="Duration" value={`${worker.durationSeconds}s`} />
+              </div>
+            </article>
+          ))}
+        </div>
+      </Panel>
+    </div>
+  );
+}
+
+function WindowButtons({ value, onChange }: { value: WarehouseWindow; onChange: (window: WarehouseWindow) => void }) {
+  return (
+    <div className="flex flex-wrap gap-1.5" data-hdk-component="TimeWindowSelector">
+      {(["1h", "24h", "7d", "30d"] as WarehouseWindow[]).map((item) => (
+        <button
+          key={item}
+          type="button"
+          className={`rounded border px-2.5 py-1 text-xs font-semibold ${value === item ? "border-primary bg-primary/10 text-primary" : "border-border bg-background text-muted-foreground hover:bg-muted"}`}
+          onClick={() => onChange(item)}
+        >
+          {item}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function SystemTrendChart({ series, primaryKey, secondaryKey }: { series: SystemSeries; primaryKey: string; secondaryKey: string }) {
+  if (series.points.length < 2) {
+    return <div className="grid min-h-[180px] place-items-center rounded-lg border border-dashed border-border bg-background text-sm text-muted-foreground">Not enough chart data yet</div>;
+  }
+  return (
+    <div className="rounded-lg border border-border bg-background p-3" data-hdk-component="LineChart" data-chart-type="line" data-x-axis="timestamp" data-y-axis={primaryKey}>
+      <svg viewBox="0 0 720 220" className="h-56 w-full" role="img" aria-label={`${primaryKey} trend`}>
+        <line x1="42" x2="700" y1="188" y2="188" className="stroke-border" />
+        <line x1="42" x2="42" y1="18" y2="188" className="stroke-border" />
+        <path d={buildSystemLine(series.points, primaryKey)} fill="none" className="stroke-emerald-500" strokeWidth="3" />
+        <path d={buildSystemLine(series.points, secondaryKey)} fill="none" className="stroke-sky-500" strokeWidth="3" />
+      </svg>
+      <div className="mt-2 flex flex-wrap gap-3 text-xs text-muted-foreground">
+        <span className="inline-flex items-center gap-1"><i className="h-2 w-2 rounded-full bg-emerald-500" /> {primaryKey}</span>
+        <span className="inline-flex items-center gap-1"><i className="h-2 w-2 rounded-full bg-sky-500" /> {secondaryKey}</span>
+        <span>{series.historyStatus.replaceAll("_", " ")}</span>
+      </div>
+    </div>
+  );
+}
+
+function buildSystemLine(points: Array<Record<string, number | string>>, key: string) {
+  const values = points.map((point) => Number(point[key] ?? 0));
+  const max = Math.max(...values, 1);
+  const min = Math.min(...values, 0);
+  const width = 658;
+  const height = 170;
+  return points.map((point, index) => {
+    const x = 42 + (points.length === 1 ? 0 : (index / (points.length - 1)) * width);
+    const value = Number(point[key] ?? 0);
+    const ratio = (value - min) / Math.max(1, max - min);
+    const y = 188 - ratio * height;
+    return `${index === 0 ? "M" : "L"} ${x.toFixed(2)} ${y.toFixed(2)}`;
+  }).join(" ");
+}
+
+function LoadingPanel({ title }: { title: string }) {
+  return (
+    <Panel title={title}>
+      <div className="grid min-h-[260px] place-items-center p-4 text-sm text-muted-foreground" data-data-state="loading">
+        Loading {title.toLowerCase()}
       </div>
     </Panel>
   );
 }
 
-function WorkerPanel() {
+function ErrorPanel({ title, error, retry }: { title: string; error: string; retry: () => void }) {
   return (
-    <Panel title="Loop registry" count={operatingLoops.length}>
-      <div className="grid gap-2 p-3">
-        {operatingLoops.map((loop) => (
-          <LoopRow key={loop.id} loop={loop} />
-        ))}
+    <Panel title={title}>
+      <div className="grid gap-3 p-3" data-data-state="error">
+        <PolicyCallout title={title} detail={error} tone="critical" />
+        <button type="button" className="rounded border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground" onClick={retry}>
+          Retry
+        </button>
       </div>
     </Panel>
   );
@@ -550,24 +939,6 @@ function StageRow({ stage }: { stage: OperatingSystemStage }) {
       <div className="mt-3 grid gap-2 sm:grid-cols-2">
         <MiniFact label="Owner" value={stage.owner} />
         <MiniFact label="Metric" value={stage.primaryMetric} />
-      </div>
-    </article>
-  );
-}
-
-function LoopRow({ loop }: { loop: OperatingLoop }) {
-  return (
-    <article className="rounded-lg border border-border bg-background p-3">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h2 className="text-sm font-semibold text-foreground">{loop.name}</h2>
-          <p className="mt-1 text-xs font-medium text-muted-foreground">{loop.cadence}</p>
-        </div>
-        <ToneBadge tone={loop.status === "ready" ? "success" : loop.status === "paused" ? "warning" : "neutral"}>{loop.status}</ToneBadge>
-      </div>
-      <p className="mt-3 text-sm leading-6 text-muted-foreground">{loop.output}</p>
-      <div className="mt-3">
-        <MiniFact label="Owner" value={loop.owner} />
       </div>
     </article>
   );
@@ -652,6 +1023,7 @@ function ToneBadge({ tone, children }: { tone: Tone; children: ReactNode }) {
 
 function ModeIcon({ mode, className }: { mode: SystemMode; className?: string }) {
   if (mode === "warehouse") return <Database className={className} aria-hidden />;
+  if (mode === "storage") return <Database className={className} aria-hidden />;
   if (mode === "freshness") return <Clock className={className} aria-hidden />;
   if (mode === "workers") return <RotateCw className={className} aria-hidden />;
   if (mode === "deployments") return <GitBranch className={className} aria-hidden />;
