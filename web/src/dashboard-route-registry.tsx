@@ -73,6 +73,7 @@ const OperateIncidentsPage = lazy(() => import("@/pages/OperatePage").then((modu
 const OperateApprovalsPage = lazy(() => import("@/pages/OperatePage").then((module) => ({ default: module.OperateApprovalsPage })));
 const OperateRunsPage = lazy(() => import("@/pages/OperatePage").then((module) => ({ default: module.OperateRunsPage })));
 const OperateChatActionsPage = lazy(() => import("@/pages/OperatePage").then((module) => ({ default: module.OperateChatActionsPage })));
+const OperateEvidencePage = lazy(() => import("@/pages/OperateEvidencePage"));
 const SystemWarehousePage = lazy(() => import("@/pages/SystemOperationsPage").then((module) => ({ default: module.SystemWarehousePage })));
 const SystemFreshnessPage = lazy(() => import("@/pages/SystemOperationsPage").then((module) => ({ default: module.SystemFreshnessPage })));
 const SystemStoragePage = lazy(() => import("@/pages/SystemOperationsPage").then((module) => ({ default: module.SystemStoragePage })));
@@ -194,7 +195,7 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/operate/incidents": OperateIncidentsPage,
   "/operate/approvals": OperateApprovalsPage,
   "/operate/runs": OperateRunsPage,
-  "/operate/evidence": FleetMaturityReviewPage,
+  "/operate/evidence": OperateEvidencePage,
   "/operate/chat-actions": OperateChatActionsPage,
   "/trading": TradingIntelligencePage,
   "/trading/khashi": TradingIntelligencePage,

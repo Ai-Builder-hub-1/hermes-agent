@@ -421,12 +421,12 @@ export const OPERATIONAL_PAGE_CONTRACTS: OperationalPageContract[] = [
     group: "operate",
     label: "Operate Evidence",
     purpose: "Browse evidence artifacts by blocker, action, incident, run, source, and page.",
-    maturity: "static",
+    maturity: "charted",
     liveSources: ["/api/operating-runtime/evidence", "/api/operating-runtime/audit"],
     requiredSignals: REQUIRED_SURFACE_SIGNALS,
-    gaps: ["dedicated evidence route", "artifact previews", "proof hashes", "blocker/action backlinks"],
-    safeActions: [],
-    evidence: ["operating-runtime evidence"],
+    gaps: ["artifact previews", "proof hashes", "blocker/action backlinks"],
+    safeActions: ["/api/operating-runtime/evidence"],
+    evidence: ["operating-runtime evidence", "operating-runtime audit"],
   },
 ];
 

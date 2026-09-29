@@ -498,6 +498,32 @@ function normalizeEvidence(record: ServerEvidenceRecord): RuntimeEvidenceRecord 
   };
 }
 
+export async function recordOperatingEvidenceReview(state: OperatingRuntimeState): Promise<OperatingRuntimeState> {
+  const response = await fetchJSON<ServerEvidenceRecord>("/api/operating-runtime/evidence", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      kind: "quality",
+      subject: "Operate evidence ledger review",
+      state: "ready",
+      owner: "Operations",
+      detail: "Operate evidence ledger review recorded from dashboard. No production mutation was executed.",
+      payload: {
+        evidence_count: state.evidence.length,
+        audit_count: state.audit.length,
+        generated_at: new Date().toISOString(),
+      },
+    }),
+  });
+  const evidence = normalizeEvidence(response);
+  const next = {
+    evidence: mergeById(state.evidence, [evidence]),
+    audit: state.audit,
+  };
+  saveOperatingRuntimeState(next);
+  return next;
+}
+
 function normalizeAudit(record: ServerAuditRecord): RuntimeAuditRecord {
   return {
     id: record.id,
