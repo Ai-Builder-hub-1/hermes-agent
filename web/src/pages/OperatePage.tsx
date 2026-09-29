@@ -45,6 +45,7 @@ import { loadOperatingRuntimeState } from "./operating-runtime";
 import {
   loadOperatingRuntimeStateFromServer,
   recordChatActionIntent,
+  recordOperatorQueueIntent,
   type OperatingRuntimeState,
 } from "./operating-runtime";
 
@@ -527,6 +528,17 @@ function ChatActions() {
     }
   };
 
+  const recordQueueIntent = async (item: { id: string; title: string; safeAction: string | null; route?: string }) => {
+    if (!runtime) return;
+    setActionStatus(`${item.title} recording`);
+    try {
+      setRuntime(await recordOperatorQueueIntent(runtime, item));
+      setActionStatus(`${item.title} recorded`);
+    } catch (exc) {
+      setActionStatus(`${item.title} failed: ${exc instanceof Error ? exc.message : String(exc)}`);
+    }
+  };
+
   const chatEvidence = (runtime?.evidence ?? []).filter((record) => record.kind === "workbench" && record.subject.startsWith("Chat action intent:"));
 
   return (
@@ -587,6 +599,13 @@ function ChatActions() {
                 <ToneBadge tone={toneForOperateSeverity(item.severity)}>{item.state}</ToneBadge>
               </div>
               <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{item.nextAction}</p>
+              <button
+                type="button"
+                className="mt-3 rounded border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground hover:bg-muted"
+                onClick={() => void recordQueueIntent(item)}
+              >
+                Record queue intent
+              </button>
             </article>
           ))}
           <p className="mt-3 text-sm leading-6 text-muted-foreground">

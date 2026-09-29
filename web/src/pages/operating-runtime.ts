@@ -89,6 +89,16 @@ interface ServerReadinessResponse {
   evidence: ServerEvidenceRecord;
 }
 
+interface ServerActionIntentResponse {
+  decision: {
+    allowed: boolean;
+    approval: "none" | "confirm" | "explicit";
+    reason: string;
+  };
+  audit: ServerAuditRecord;
+  evidence: ServerEvidenceRecord;
+}
+
 const STORAGE_KEY = "hermes.operatingRuntime.v1";
 
 export function loadOperatingRuntimeState(): OperatingRuntimeState {
@@ -549,6 +559,36 @@ export async function recordChatActionIntent(
   const next = {
     evidence: mergeById(state.evidence, [evidence]),
     audit: state.audit,
+  };
+  saveOperatingRuntimeState(next);
+  return next;
+}
+
+export async function recordOperatorQueueIntent(
+  state: OperatingRuntimeState,
+  input: { id: string; title: string; safeAction: string | null; route?: string },
+): Promise<OperatingRuntimeState> {
+  const response = await fetchJSON<ServerActionIntentResponse>("/api/operate/action-intent", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      item_id: input.id,
+      title: input.title,
+      action: input.safeAction ?? `review:${input.id}`,
+      actor: "Hermes operator",
+      actor_role: "operator",
+      explicit_approval: false,
+      payload: {
+        route: input.route ?? null,
+        generated_at: new Date().toISOString(),
+      },
+    }),
+  });
+  const audit = normalizeAudit(response.audit);
+  const evidence = normalizeEvidence(response.evidence);
+  const next = {
+    evidence: mergeById(state.evidence, [evidence]),
+    audit: [audit, ...state.audit.filter((record) => record.id !== audit.id)].slice(0, 50),
   };
   saveOperatingRuntimeState(next);
   return next;

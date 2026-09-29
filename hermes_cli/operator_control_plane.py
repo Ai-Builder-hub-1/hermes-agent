@@ -24,6 +24,51 @@ async def operator_queue_async(limit: int = 12, include_system: bool = False, in
     return _build_operator_queue(limit=limit, include_system=include_system, extra_items=extra_items)
 
 
+def record_operator_action_intent(
+    *,
+    item_id: str,
+    title: str,
+    action: str,
+    actor: str = "Hermes operator",
+    actor_role: str = "operator",
+    explicit_approval: bool = False,
+    payload: Optional[Dict[str, Any]] = None,
+) -> Dict[str, Any]:
+    """Audit and persist a queue action intent without executing it."""
+
+    from hermes_cli.operating_runtime import require_permission, upsert_evidence
+
+    conn = connect()
+    try:
+        permission = require_permission(
+            conn,
+            action=action,
+            actor=actor,
+            actor_role=actor_role,
+            explicit_approval=explicit_approval,
+            payload={"item_id": item_id, "title": title, **(payload or {})},
+        )
+        decision = permission["decision"]
+        evidence = upsert_evidence(
+            conn,
+            kind="workbench",
+            subject=f"Operator action intent: {title}",
+            state="ready" if decision["allowed"] else "gated",
+            owner=actor_role,
+            detail=decision["reason"],
+            payload={
+                "source": "operate-queue",
+                "item_id": item_id,
+                "action": action,
+                "audit_id": permission["audit"]["id"],
+                **(payload or {}),
+            },
+        )
+        return {"decision": decision, "audit": permission["audit"], "evidence": evidence}
+    finally:
+        conn.close()
+
+
 def _build_operator_queue(limit: int, include_system: bool, extra_items: list[Dict[str, Any]]) -> Dict[str, Any]:
     safe_limit = max(1, min(int(limit), 50))
     fleet = fleet_operator_queue(limit=50)

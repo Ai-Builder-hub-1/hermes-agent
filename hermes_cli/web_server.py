@@ -2622,6 +2622,16 @@ class OperatingRuntimeReleaseTrainExecutionRequest(BaseModel):
     rollback: str = ""
 
 
+class OperateActionIntentRequest(BaseModel):
+    item_id: str
+    title: str
+    action: str
+    actor: str = "Hermes operator"
+    actor_role: str = "operator"
+    explicit_approval: bool = False
+    payload: Dict[str, Any] = {}
+
+
 @contextmanager
 def _operating_runtime_conn():
     from hermes_cli.operating_runtime import connect
@@ -2660,6 +2670,21 @@ async def get_operate_queue(limit: int = 12, include_system: bool = False, inclu
     from hermes_cli.operator_control_plane import operator_queue_async
 
     return await operator_queue_async(limit=limit, include_system=include_system, include_trading=include_trading)
+
+
+@app.post("/api/operate/action-intent")
+async def post_operate_action_intent(payload: OperateActionIntentRequest):
+    from hermes_cli.operator_control_plane import record_operator_action_intent
+
+    return record_operator_action_intent(
+        item_id=payload.item_id,
+        title=payload.title,
+        action=payload.action,
+        actor=payload.actor,
+        actor_role=payload.actor_role,
+        explicit_approval=payload.explicit_approval,
+        payload=payload.payload,
+    )
 
 
 @app.get("/api/operating-runtime/evidence")

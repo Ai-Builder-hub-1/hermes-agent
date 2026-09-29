@@ -100,3 +100,31 @@ def test_operate_queue_merges_fleet_and_runtime_evidence(monkeypatch, tmp_path):
     trading_item = next(item for item in body["items"] if item["id"] == "trading-account-visibility")
     assert trading_item["severity"] == "warning"
     assert "capitalKnown=False" in trading_item["evidence"]
+
+
+def test_operate_action_intent_records_audit_and_evidence(monkeypatch, tmp_path):
+    from hermes_cli import operating_runtime, web_server
+
+    monkeypatch.setattr(operating_runtime, "db_path", lambda: tmp_path / "operating_runtime.db")
+
+    client = TestClient(web_server.app)
+    response = client.post(
+        "/api/operate/action-intent",
+        headers={"X-Hermes-Session-Token": web_server._SESSION_TOKEN},
+        json={
+            "item_id": "fleet-khashi-vc",
+            "title": "Khashi VC production snapshot",
+            "action": "dashboard:monitoring:check:strict",
+            "actor_role": "operator",
+            "explicit_approval": False,
+            "payload": {"route": "/trading/khashi"},
+        },
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["decision"]["allowed"] is True
+    assert body["audit"]["action"] == "dashboard:monitoring:check:strict"
+    assert body["evidence"]["kind"] == "workbench"
+    assert body["evidence"]["subject"] == "Operator action intent: Khashi VC production snapshot"
+    assert body["evidence"]["payload"]["item_id"] == "fleet-khashi-vc"
