@@ -86,6 +86,7 @@ These are higher-level operating pages. Some are live operational dashboards; ot
 | `/business-os` TLC Business OS | Business operating status. | Inspect scorecards, revenue/cost signals, operating focus. | Business scorecards, revenue/cost signals, warnings/critical states. |
 | `/business-command` Cross-Business Command | Cross-business command layer. | Inspect attention queue and business unit signals. | Business scorecards, attention queue, revenue/cost signals. |
 | `/executive-cockpit` Executive Cockpit | Top-level executive approval and autonomy overview. | Inspect approval needs and critical business/ops state. | Executive signals, approval agenda, board narrative, autonomy limits. |
+| `/compounding-intelligence` Compounding Intelligence | Second-brain command layer for whether memory is improving future decisions. | Consume Hermes Brain phase report and retrieval packs; review source coverage, freshness, warehouse sync, graph links, and memory actions. | Ten-phase maturity status, source coverage, retrieval readiness, stale/contradictory memories, open memory actions, warehouse sync freshness. |
 
 ## Browser Dashboard: Design And Dashboard System Pages
 
@@ -182,5 +183,5 @@ These routes are mostly generated from operating-system data. Use them to answer
 - Start with **Cron** when you want the system to keep checking or running something without you.
 - Start with **System** when the backend feels unhealthy.
 - Start with **Central Command / Hermes OS / Fleet Review** when you want “what is the state of the whole machine?”
+- Start with **Compounding Intelligence** when you want to know whether the second brain is actually improving decisions across Nous, Investing System, Khashi VC, TLC, and Hermes Brain.
 - Use the many governance pages as dashboards for evidence and readiness, not as primary work surfaces.
-
