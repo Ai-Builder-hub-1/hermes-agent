@@ -1,13 +1,13 @@
 # Operational Proof Report
 
-Generated: 2026-09-29T13:46:09.864Z
+Generated: 2026-09-29T13:56:57.019Z
 
 ## Summary
 
 | Metric | Value |
 | --- | --- |
-| routes | 32 |
-| readyRoutes | 32 |
+| routes | 33 |
+| readyRoutes | 33 |
 | partialRoutes | 0 |
 | blockedRoutes | 0 |
 | chartedOrBetter | 11 |
@@ -17,11 +17,11 @@ Generated: 2026-09-29T13:46:09.864Z
 | safeActions | 23 |
 | safeActionHardeningGaps | 0 |
 | routeValidationStatus | ready |
-| routeValidationPassed | 32 |
+| routeValidationPassed | 33 |
 | routeValidationFailed | 0 |
 | routeValidationBlocked | 0 |
 | liveSourceValidationStatus | ready |
-| liveSourcesReachable | 48 |
+| liveSourcesReachable | 49 |
 | liveSourcesAuthRequired | 0 |
 | liveSourcesDependencyUnavailable | 0 |
 | liveSourcesFailed | 0 |
@@ -32,7 +32,7 @@ Generated: 2026-09-29T13:46:09.864Z
 
 | Group | Routes | Ready | Partial | Blocked | Average score |
 | --- | --- | --- | --- | --- | --- |
-| operate | 10 | 10 | 0 | 0 | 100 |
+| operate | 11 | 11 | 0 | 0 | 100 |
 | trading | 9 | 9 | 0 | 0 | 100 |
 | system | 13 | 13 | 0 | 0 | 100 |
 
@@ -41,6 +41,7 @@ Generated: 2026-09-29T13:46:09.864Z
 | Route | Group | Maturity | Score | Status | Next action |
 | --- | --- | --- | --- | --- | --- |
 | /compounding-intelligence | operate | live | 100 | ready | scheduled freshness proof |
+| /decision-lineage | operate | live | 100 | ready | resolution actions |
 | /operate | operate | actionable | 100 | ready | server-first runtime hydration |
 | /operate/actions | operate | actionable | 100 | ready | action completion API |
 | /operate/approvals | operate | actionable | 100 | ready | approval inbox persistence |
@@ -49,7 +50,6 @@ Generated: 2026-09-29T13:46:09.864Z
 | /operate/evidence | operate | charted | 100 | ready | artifact previews |
 | /operate/incidents | operate | actionable | 100 | ready | incident timeline |
 | /operate/runs | operate | actionable | 100 | ready | loop run history |
-| /second-brain | operate | live | 100 | ready | warehouse sync trend |
 
 ## Safe Actions
 
@@ -65,19 +65,19 @@ Generated: 2026-09-29T13:46:09.864Z
 | Metric | Value |
 | --- | --- |
 | status | ready |
-| routes | 32 |
-| passed | 32 |
+| routes | 33 |
+| passed | 33 |
 | failed | 0 |
 | blocked | 0 |
-| generatedAt | 2026-09-29T13:29:51.283Z |
+| generatedAt | 2026-09-29T13:56:33.116Z |
 
 ## Live Source Validation
 
 | Metric | Value |
 | --- | --- |
 | status | ready |
-| sources | 48 |
-| reachable | 48 |
+| sources | 49 |
+| reachable | 49 |
 | authRequired | 0 |
 | dependencyUnavailable | 0 |
 | failed | 0 |
@@ -85,7 +85,7 @@ Generated: 2026-09-29T13:46:09.864Z
 | impactedRoutes | 0 |
 | authMode | loopback_session_token |
 | sessionTokenDiscovered | true |
-| generatedAt | 2026-09-29T13:45:40.180Z |
+| generatedAt | 2026-09-29T13:55:03.790Z |
 
 ## Next Actions
 

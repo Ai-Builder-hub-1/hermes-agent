@@ -128,6 +128,83 @@ export interface MemoryRetrievalPack {
   warnings: string[];
 }
 
+export interface EvidenceRef {
+  sourceSystem: string;
+  sourceType: string;
+  sourceIdentifier: string;
+  sourcePath?: string;
+  sourceUrl?: string;
+  label?: string;
+  metadata?: Record<string, unknown>;
+}
+
+export interface DecisionAssumption {
+  id: string;
+  statement: string;
+  confidence?: number | null;
+  status: "active" | "changed" | "invalidated" | "unknown";
+  evidenceRefs: EvidenceRef[];
+  changedAt?: string | null;
+  metadata: Record<string, unknown>;
+}
+
+export interface DecisionOutcome {
+  status: "pending" | "on_track" | "off_track" | "succeeded" | "failed" | "unknown";
+  summary: string;
+  measuredAt?: string | null;
+  evidenceRefs: EvidenceRef[];
+  metadata: Record<string, unknown>;
+}
+
+export interface DecisionRecord {
+  id: string;
+  project: string;
+  businessUnit: string;
+  decisionType: string;
+  title: string;
+  summary: string;
+  decidedAt: string;
+  owner: string;
+  status: string;
+  riskClass: string;
+  impactClass: string;
+  sourceEvidenceRefs: EvidenceRef[];
+  priorMemoryRefs: string[];
+  assumptions: DecisionAssumption[];
+  expectedOutcome: string;
+  actualOutcome: DecisionOutcome | null;
+  reviewState: string;
+  stableWarehouseId: string;
+  createdAt: string;
+  updatedAt: string;
+  metadata: Record<string, unknown>;
+}
+
+export interface DecisionLineageEdge {
+  id: string;
+  fromType: string;
+  fromId: string;
+  toType: string;
+  toId: string;
+  edgeType: string;
+  confidence?: number | null;
+  createdBy: string;
+  createdAt: string;
+  metadata: Record<string, unknown>;
+}
+
+export interface DecisionLineageReport {
+  decision: DecisionRecord;
+  evidence: EvidenceRef[];
+  priorMemories: BrainNode[];
+  assumptions: DecisionAssumption[];
+  outcome: DecisionOutcome | null;
+  edges: DecisionLineageEdge[];
+  whyBelieved: string[];
+  whatChanged: string[];
+  findings: string[];
+}
+
 export async function fetchSecondBrainSummary(): Promise<SecondBrainSummary> {
   return fetchJSON<SecondBrainSummary>(`${BASE}/summary`);
 }
@@ -161,6 +238,14 @@ export async function fetchMemoryRetrievalPack(params: {
     if (params[key]) query.set(key, params[key]);
   }
   return fetchJSON<MemoryRetrievalPack>(`${BASE}/retrieval-pack?${query.toString()}`);
+}
+
+export async function fetchDecisionRecords(): Promise<{ decisions: DecisionRecord[] }> {
+  return fetchJSON<{ decisions: DecisionRecord[] }>(`${BASE}/decisions`);
+}
+
+export async function fetchDecisionLineage(decisionId: string): Promise<DecisionLineageReport> {
+  return fetchJSON<DecisionLineageReport>(`${BASE}/decisions/${encodeURIComponent(decisionId)}/lineage`);
 }
 
 export async function scanSecondBrainStaleness(): Promise<{ staleNodes: BrainNode[] }> {

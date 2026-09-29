@@ -1947,6 +1947,21 @@ async def get_second_brain_retrieval_pack(
     return await _hermes_brain_request(f"/api/brain/retrieval-pack?{params}")
 
 
+@app.get("/api/second-brain/decisions")
+async def get_second_brain_decisions():
+    return await _hermes_brain_request("/api/brain/decisions")
+
+
+@app.get("/api/second-brain/decisions/{decision_id}")
+async def get_second_brain_decision(decision_id: str):
+    return await _hermes_brain_request(f"/api/brain/decisions/{urllib.parse.quote(decision_id)}")
+
+
+@app.get("/api/second-brain/decisions/{decision_id}/lineage")
+async def get_second_brain_decision_lineage(decision_id: str):
+    return await _hermes_brain_request(f"/api/brain/decisions/{urllib.parse.quote(decision_id)}/lineage")
+
+
 @app.post("/api/second-brain/staleness/scan")
 async def post_second_brain_staleness_scan():
     return await _hermes_brain_request("/api/brain/staleness/scan", method="POST", payload={})

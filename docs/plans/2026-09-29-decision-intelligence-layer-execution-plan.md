@@ -176,6 +176,15 @@ Tests:
 
 ## Phase 6: Nous Decision Lineage UI
 
+Status: complete.
+
+Evidence:
+
+- Added `/decision-lineage` operate route with decision list, lineage trail, evidence/memory, assumptions/findings, `whyBelieved`, and `whatChanged` panels.
+- Added Nous proxy endpoints for `/api/second-brain/decisions` and `/api/second-brain/decisions/{id}/lineage`.
+- Operational live-source validation passed `49/49` sources and route validation passed `33/33` routes against the fresh dashboard server.
+- Web tests passed: targeted second-brain/client contracts, full web suite, typecheck, and production build.
+
 Build:
 
 - Add dashboard panel or route for Decision Lineage.

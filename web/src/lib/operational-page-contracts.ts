@@ -297,6 +297,18 @@ export const OPERATIONAL_PAGE_CONTRACTS: OperationalPageContract[] = [
     evidence: ["compounding intelligence report"],
   },
   {
+    route: "/decision-lineage",
+    group: "operate",
+    label: "Decision Lineage",
+    purpose: "Show why major decisions were believed, what changed, and the source-event to memory to decision to outcome trail.",
+    maturity: "live",
+    liveSources: ["/api/second-brain/decisions"],
+    requiredSignals: REQUIRED_SURFACE_SIGNALS,
+    gaps: ["resolution actions", "source event backlinks", "outcome measurement trend"],
+    safeActions: [],
+    evidence: ["Hermes Brain decision records", "decision lineage report"],
+  },
+  {
     route: "/operate/chat-actions",
     group: "operate",
     label: "Chat Actions",

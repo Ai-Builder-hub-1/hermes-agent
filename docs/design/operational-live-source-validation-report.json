@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-29T13:45:40.180Z",
+  "generatedAt": "2026-09-29T13:55:03.790Z",
   "summary": {
-    "baseUrl": "http://127.0.0.1:9119",
-    "sources": 48,
-    "reachable": 48,
+    "baseUrl": "http://127.0.0.1:9120",
+    "sources": 49,
+    "reachable": 49,
     "authRequired": 0,
     "dependencyUnavailable": 0,
     "failed": 0,
@@ -205,6 +205,16 @@
       "contentType": "application/json",
       "pages": [
         "/compounding-intelligence"
+      ],
+      "issue": ""
+    },
+    {
+      "source": "/api/second-brain/decisions",
+      "status": "reachable",
+      "httpStatus": 200,
+      "contentType": "application/json",
+      "pages": [
+        "/decision-lineage"
       ],
       "issue": ""
     },

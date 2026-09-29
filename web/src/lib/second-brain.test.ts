@@ -1,6 +1,11 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { fetchCompoundingIntelligence, fetchMemoryRetrievalPack } from "./second-brain";
+import {
+  fetchCompoundingIntelligence,
+  fetchDecisionLineage,
+  fetchDecisionRecords,
+  fetchMemoryRetrievalPack,
+} from "./second-brain";
 
 afterEach(() => {
   vi.restoreAllMocks();
@@ -81,5 +86,41 @@ describe("second brain API client", () => {
     expect(url).toContain("ticker=AAPL");
     expect(url).toContain("strategy=second+brain");
     expect(url).toContain("workflow=operator-preview");
+  });
+
+  it("loads decision records and lineage through the proxy", async () => {
+    vi.stubGlobal("window", {});
+    const fetchMock = jsonFetchMock({
+      decisions: [{
+        id: "decision_1",
+        project: "nous-hermes-agent",
+        businessUnit: "Operations",
+        decisionType: "operations",
+        title: "Runtime wiring",
+        summary: "Hermes Brain should back the dashboard.",
+        decidedAt: "2026-09-29T00:00:00.000Z",
+        owner: "hq",
+        status: "decided",
+        riskClass: "medium",
+        impactClass: "high",
+        sourceEvidenceRefs: [],
+        priorMemoryRefs: [],
+        assumptions: [],
+        expectedOutcome: "Live dashboard context.",
+        actualOutcome: null,
+        reviewState: "current",
+        stableWarehouseId: "warehouse-decision_1",
+        createdAt: "2026-09-29T00:00:00.000Z",
+        updatedAt: "2026-09-29T00:00:00.000Z",
+        metadata: {},
+      }],
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    await fetchDecisionRecords();
+    await fetchDecisionLineage("decision/with space");
+
+    expect(fetchMock.mock.calls[0][0]).toBe("/api/second-brain/decisions");
+    expect(fetchMock.mock.calls[1][0]).toBe("/api/second-brain/decisions/decision%2Fwith%20space/lineage");
   });
 });

@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-29T13:46:09.864Z",
+  "generatedAt": "2026-09-29T13:56:57.019Z",
   "summary": {
-    "routes": 32,
-    "readyRoutes": 32,
+    "routes": 33,
+    "readyRoutes": 33,
     "partialRoutes": 0,
     "blockedRoutes": 0,
     "chartedOrBetter": 11,
@@ -13,11 +13,11 @@
     "safeActions": 23,
     "safeActionHardeningGaps": 0,
     "routeValidationStatus": "ready",
-    "routeValidationPassed": 32,
+    "routeValidationPassed": 33,
     "routeValidationFailed": 0,
     "routeValidationBlocked": 0,
     "liveSourceValidationStatus": "ready",
-    "liveSourcesReachable": 48,
+    "liveSourcesReachable": 49,
     "liveSourcesAuthRequired": 0,
     "liveSourcesDependencyUnavailable": 0,
     "liveSourcesFailed": 0,
@@ -26,8 +26,8 @@
   },
   "groups": {
     "operate": {
-      "routes": 10,
-      "ready": 10,
+      "routes": 11,
+      "ready": 11,
       "partial": 0,
       "blocked": 0,
       "averageScore": 100
@@ -57,6 +57,16 @@
       "status": "ready",
       "missing": [],
       "nextAction": "scheduled freshness proof"
+    },
+    {
+      "route": "/decision-lineage",
+      "group": "operate",
+      "label": "Decision Lineage",
+      "maturity": "live",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "resolution actions"
     },
     {
       "route": "/operate",
@@ -371,16 +381,16 @@
   ],
   "routeValidation": {
     "status": "ready",
-    "routes": 32,
-    "passed": 32,
+    "routes": 33,
+    "passed": 33,
     "failed": 0,
     "blocked": 0,
-    "generatedAt": "2026-09-29T13:29:51.283Z"
+    "generatedAt": "2026-09-29T13:56:33.116Z"
   },
   "liveSourceValidation": {
     "status": "ready",
-    "sources": 48,
-    "reachable": 48,
+    "sources": 49,
+    "reachable": 49,
     "authRequired": 0,
     "dependencyUnavailable": 0,
     "failed": 0,
@@ -388,7 +398,7 @@
     "impactedRoutes": 0,
     "authMode": "loopback_session_token",
     "sessionTokenDiscovered": true,
-    "generatedAt": "2026-09-29T13:45:40.180Z"
+    "generatedAt": "2026-09-29T13:55:03.790Z"
   },
   "staticRoutes": [],
   "liveSourceGaps": [],
