@@ -309,6 +309,15 @@ Tests:
 
 ## Phase 11: Nous Contradiction Dashboard
 
+Status: complete.
+
+Evidence:
+
+- Added `/contradictions` operate route with risk-ranked queue, blocking status, affected projects/decisions, evidence refs, recommended resolution, and audit trail.
+- Added Nous proxy endpoints for contradiction list and deterministic detection.
+- Operational live-source validation passed `50/50` sources and route validation passed `34/34` routes against the fresh dashboard server.
+- Web tests passed: targeted second-brain/client contracts, full web suite, typecheck, and production build.
+
 Build:
 
 - Add contradiction queue in Nous.

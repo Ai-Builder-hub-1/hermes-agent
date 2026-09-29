@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-29T13:55:03.790Z",
+  "generatedAt": "2026-09-29T14:04:06.268Z",
   "summary": {
-    "baseUrl": "http://127.0.0.1:9120",
-    "sources": 49,
-    "reachable": 49,
+    "baseUrl": "http://127.0.0.1:9121",
+    "sources": 50,
+    "reachable": 50,
     "authRequired": 0,
     "dependencyUnavailable": 0,
     "failed": 0,
@@ -205,6 +205,16 @@
       "contentType": "application/json",
       "pages": [
         "/compounding-intelligence"
+      ],
+      "issue": ""
+    },
+    {
+      "source": "/api/second-brain/contradictions",
+      "status": "reachable",
+      "httpStatus": 200,
+      "contentType": "application/json",
+      "pages": [
+        "/contradictions"
       ],
       "issue": ""
     },

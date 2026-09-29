@@ -2,6 +2,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import {
   fetchCompoundingIntelligence,
+  detectContradictions,
+  fetchContradictions,
   fetchDecisionLineage,
   fetchDecisionRecords,
   fetchMemoryRetrievalPack,
@@ -122,5 +124,18 @@ describe("second brain API client", () => {
 
     expect(fetchMock.mock.calls[0][0]).toBe("/api/second-brain/decisions");
     expect(fetchMock.mock.calls[1][0]).toBe("/api/second-brain/decisions/decision%2Fwith%20space/lineage");
+  });
+
+  it("loads and triggers contradiction detection through the proxy", async () => {
+    vi.stubGlobal("window", {});
+    const fetchMock = jsonFetchMock({ contradictions: [] });
+    vi.stubGlobal("fetch", fetchMock);
+
+    await fetchContradictions("open");
+    await detectContradictions();
+
+    expect(fetchMock.mock.calls[0][0]).toBe("/api/second-brain/contradictions?status=open");
+    expect(fetchMock.mock.calls[1][0]).toBe("/api/second-brain/contradictions/detect");
+    expect(fetchMock.mock.calls[1][1]).toEqual(expect.objectContaining({ method: "POST", credentials: "include" }));
   });
 });

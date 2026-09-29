@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-29T13:56:33.116Z",
+  "generatedAt": "2026-09-29T14:05:35.193Z",
   "summary": {
-    "routes": 33,
-    "passed": 33,
+    "routes": 34,
+    "passed": 34,
     "failed": 0,
     "blocked": 0,
-    "baseUrl": "http://127.0.0.1:9120",
+    "baseUrl": "http://127.0.0.1:9121",
     "browserStatus": "available"
   },
   "baseCheck": {
@@ -23,7 +23,7 @@
       "status": "passed",
       "httpStatus": 200,
       "title": "Hermes Agent - Dashboard",
-      "textLength": 7973,
+      "textLength": 7988,
       "issues": []
     },
     {
@@ -34,7 +34,7 @@
       "status": "passed",
       "httpStatus": 200,
       "title": "Hermes Agent - Dashboard",
-      "textLength": 14510,
+      "textLength": 14525,
       "issues": []
     },
     {
@@ -45,7 +45,7 @@
       "status": "passed",
       "httpStatus": 200,
       "title": "Hermes Agent - Dashboard",
-      "textLength": 2288,
+      "textLength": 2303,
       "issues": []
     },
     {
@@ -56,7 +56,7 @@
       "status": "passed",
       "httpStatus": 200,
       "title": "Hermes Agent - Dashboard",
-      "textLength": 10507,
+      "textLength": 10522,
       "issues": []
     },
     {
@@ -67,7 +67,7 @@
       "status": "passed",
       "httpStatus": 200,
       "title": "Hermes Agent - Dashboard",
-      "textLength": 3066,
+      "textLength": 3081,
       "issues": []
     },
     {
@@ -78,7 +78,7 @@
       "status": "passed",
       "httpStatus": 200,
       "title": "Hermes Agent - Dashboard",
-      "textLength": 1874,
+      "textLength": 1889,
       "issues": []
     },
     {
@@ -100,7 +100,7 @@
       "status": "passed",
       "httpStatus": 200,
       "title": "Hermes Agent - Dashboard",
-      "textLength": 2315,
+      "textLength": 2316,
       "issues": []
     },
     {
@@ -188,7 +188,7 @@
       "status": "passed",
       "httpStatus": 200,
       "title": "Hermes Agent - Dashboard",
-      "textLength": 17952,
+      "textLength": 17954,
       "issues": []
     },
     {
@@ -210,7 +210,7 @@
       "status": "passed",
       "httpStatus": 200,
       "title": "Hermes Agent - Dashboard",
-      "textLength": 1949,
+      "textLength": 1948,
       "issues": []
     },
     {
@@ -232,7 +232,7 @@
       "status": "passed",
       "httpStatus": 200,
       "title": "Hermes Agent - Dashboard",
-      "textLength": 2009,
+      "textLength": 2024,
       "issues": []
     },
     {
@@ -243,7 +243,7 @@
       "status": "passed",
       "httpStatus": 200,
       "title": "Hermes Agent - Dashboard",
-      "textLength": 4088,
+      "textLength": 4103,
       "issues": []
     },
     {
@@ -254,7 +254,18 @@
       "status": "passed",
       "httpStatus": 200,
       "title": "Hermes Agent - Dashboard",
-      "textLength": 1446,
+      "textLength": 1462,
+      "issues": []
+    },
+    {
+      "route": "/contradictions",
+      "group": "operate",
+      "label": "Contradictions",
+      "maturity": "live",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 1025,
       "issues": []
     },
     {
@@ -265,7 +276,7 @@
       "status": "passed",
       "httpStatus": 200,
       "title": "Hermes Agent - Dashboard",
-      "textLength": 1240,
+      "textLength": 1255,
       "issues": []
     },
     {
@@ -375,7 +386,7 @@
       "status": "passed",
       "httpStatus": 200,
       "title": "Hermes Agent - Dashboard",
-      "textLength": 16827,
+      "textLength": 16842,
       "issues": []
     }
   ]

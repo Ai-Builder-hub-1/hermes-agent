@@ -1962,6 +1962,17 @@ async def get_second_brain_decision_lineage(decision_id: str):
     return await _hermes_brain_request(f"/api/brain/decisions/{urllib.parse.quote(decision_id)}/lineage")
 
 
+@app.get("/api/second-brain/contradictions")
+async def get_second_brain_contradictions(status: Optional[str] = None):
+    suffix = f"?status={urllib.parse.quote(status)}" if status else ""
+    return await _hermes_brain_request(f"/api/brain/contradictions{suffix}")
+
+
+@app.post("/api/second-brain/contradictions/detect")
+async def post_second_brain_contradictions_detect():
+    return await _hermes_brain_request("/api/brain/contradictions/detect", method="POST", payload={})
+
+
 @app.post("/api/second-brain/staleness/scan")
 async def post_second_brain_staleness_scan():
     return await _hermes_brain_request("/api/brain/staleness/scan", method="POST", payload={})

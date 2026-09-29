@@ -205,6 +205,35 @@ export interface DecisionLineageReport {
   findings: string[];
 }
 
+export interface ContradictionRecord {
+  id: string;
+  type: string;
+  severity: string;
+  confidence: number;
+  businessRisk: number;
+  affectedProjects: string[];
+  affectedDecisions: string[];
+  conflictingNodeIds: string[];
+  evidenceRefs: EvidenceRef[];
+  summary: string;
+  recommendedResolution: string;
+  blocksHighImpactUse: boolean;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  resolvedAt?: string | null;
+  resolvedBy?: string | null;
+  resolutionReason?: string | null;
+  auditTrail: Array<{
+    action: string;
+    actor: string;
+    at: string;
+    reason?: string | null;
+    metadata: Record<string, unknown>;
+  }>;
+  metadata: Record<string, unknown>;
+}
+
 export async function fetchSecondBrainSummary(): Promise<SecondBrainSummary> {
   return fetchJSON<SecondBrainSummary>(`${BASE}/summary`);
 }
@@ -246,6 +275,15 @@ export async function fetchDecisionRecords(): Promise<{ decisions: DecisionRecor
 
 export async function fetchDecisionLineage(decisionId: string): Promise<DecisionLineageReport> {
   return fetchJSON<DecisionLineageReport>(`${BASE}/decisions/${encodeURIComponent(decisionId)}/lineage`);
+}
+
+export async function fetchContradictions(status?: string): Promise<{ contradictions: ContradictionRecord[] }> {
+  const suffix = status ? `?status=${encodeURIComponent(status)}` : "";
+  return fetchJSON<{ contradictions: ContradictionRecord[] }>(`${BASE}/contradictions${suffix}`);
+}
+
+export async function detectContradictions(): Promise<{ contradictions: ContradictionRecord[] }> {
+  return fetchJSON<{ contradictions: ContradictionRecord[] }>(`${BASE}/contradictions/detect`, { method: "POST" });
 }
 
 export async function scanSecondBrainStaleness(): Promise<{ staleNodes: BrainNode[] }> {

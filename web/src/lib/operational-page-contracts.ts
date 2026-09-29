@@ -309,6 +309,18 @@ export const OPERATIONAL_PAGE_CONTRACTS: OperationalPageContract[] = [
     evidence: ["Hermes Brain decision records", "decision lineage report"],
   },
   {
+    route: "/contradictions",
+    group: "operate",
+    label: "Contradictions",
+    purpose: "Show conflicting memories, decisions, source states, business-risk ranking, and resolution audit trail.",
+    maturity: "live",
+    liveSources: ["/api/second-brain/contradictions"],
+    requiredSignals: REQUIRED_SURFACE_SIGNALS,
+    gaps: ["inline resolution actions", "decision lineage backlinks", "research task drill-through"],
+    safeActions: ["/api/second-brain/contradictions/detect"],
+    evidence: ["Hermes Brain contradiction records", "resolution audit trail"],
+  },
+  {
     route: "/operate/chat-actions",
     group: "operate",
     label: "Chat Actions",
