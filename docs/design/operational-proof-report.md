@@ -1,6 +1,6 @@
 # Operational Proof Report
 
-Generated: 2026-09-29T13:18:35.890Z
+Generated: 2026-09-29T13:32:06.965Z
 
 ## Summary
 
@@ -20,12 +20,13 @@ Generated: 2026-09-29T13:18:35.890Z
 | routeValidationPassed | 32 |
 | routeValidationFailed | 0 |
 | routeValidationBlocked | 0 |
-| liveSourceValidationStatus | auth_required |
-| liveSourcesReachable | 3 |
-| liveSourcesAuthRequired | 46 |
+| liveSourceValidationStatus | dependency_unavailable |
+| liveSourcesReachable | 43 |
+| liveSourcesAuthRequired | 0 |
+| liveSourcesDependencyUnavailable | 5 |
 | liveSourcesFailed | 0 |
 | liveSourcesBlocked | 0 |
-| liveSourceImpactedRoutes | 31 |
+| liveSourceImpactedRoutes | 2 |
 
 ## Groups
 
@@ -68,23 +69,25 @@ Generated: 2026-09-29T13:18:35.890Z
 | passed | 32 |
 | failed | 0 |
 | blocked | 0 |
-| generatedAt | 2026-09-29T13:13:27.433Z |
+| generatedAt | 2026-09-29T13:29:51.283Z |
 
 ## Live Source Validation
 
 | Metric | Value |
 | --- | --- |
-| status | auth_required |
-| sources | 49 |
-| reachable | 3 |
-| authRequired | 46 |
+| status | dependency_unavailable |
+| sources | 48 |
+| reachable | 43 |
+| authRequired | 0 |
+| dependencyUnavailable | 5 |
 | failed | 0 |
 | blocked | 0 |
-| impactedRoutes | 31 |
-| authMode | none |
-| generatedAt | 2026-09-29T13:18:29.629Z |
+| impactedRoutes | 2 |
+| authMode | loopback_session_token |
+| sessionTokenDiscovered | true |
+| generatedAt | 2026-09-29T13:32:00.298Z |
 
 ## Next Actions
 
-- Rerun live-source validation with a dashboard session cookie or bearer token to prove authenticated sources end to end.
+- Start or configure Hermes Brain, then rerun live-source validation for Second Brain and Compounding Intelligence sources.
 - Persist route validation output as operating-runtime evidence when a writable dashboard backend is available.

@@ -4,7 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { OPERATIONAL_PAGE_CONTRACTS } from "../web/src/lib/operational-page-contracts.ts";
 
-type SourceStatus = "reachable" | "auth_required" | "failed" | "blocked";
+type SourceStatus = "reachable" | "auth_required" | "dependency_unavailable" | "failed" | "blocked";
 
 interface SourceResult {
   source: string;
@@ -19,6 +19,7 @@ const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(scriptDir, "..");
 const outJson = path.join(root, "docs/design/operational-live-source-validation-report.json");
 const outMd = path.join(root, "docs/design/operational-live-source-validation-report.md");
+const SESSION_TOKEN_RE = /window\.__HERMES_SESSION_TOKEN__\s*=\s*"([^"]+)"/;
 
 function argValue(name: string, fallback: string) {
   const index = process.argv.indexOf(name);
@@ -29,13 +30,27 @@ function hasFlag(name: string) {
   return process.argv.includes(name);
 }
 
-function requestHeaders() {
+async function discoverLoopbackSessionToken(baseUrl: string) {
+  if (process.env.HERMES_DASHBOARD_SESSION_TOKEN) return process.env.HERMES_DASHBOARD_SESSION_TOKEN;
+  if (process.env.DASHBOARD_SESSION_TOKEN) return process.env.DASHBOARD_SESSION_TOKEN;
+  if (hasFlag("--no-discover-session-token")) return "";
+  try {
+    const response = await fetch(baseUrl, { method: "GET" });
+    const html = await response.text();
+    return html.match(SESSION_TOKEN_RE)?.[1] ?? "";
+  } catch {
+    return "";
+  }
+}
+
+function requestHeaders(sessionToken: string) {
   const headers: Record<string, string> = { accept: "application/json,text/plain,*/*" };
   const bearer = process.env.DASHBOARD_BEARER_TOKEN;
   const cookie = process.env.DASHBOARD_AUTH_COOKIE;
   const header = argValue("--header", "");
   if (bearer) headers.authorization = `Bearer ${bearer}`;
   if (cookie) headers.cookie = cookie;
+  if (sessionToken) headers["X-Hermes-Session-Token"] = sessionToken;
   if (header.includes(":")) {
     const [name, ...valueParts] = header.split(":");
     headers[name.trim()] = valueParts.join(":").trim();
@@ -66,20 +81,26 @@ function sourcePages() {
     .sort((left, right) => left.source.localeCompare(right.source));
 }
 
-async function validateSource(baseUrl: string, source: string, pages: string[]): Promise<SourceResult> {
+async function validateSource(baseUrl: string, source: string, pages: string[], sessionToken: string): Promise<SourceResult> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 8_000);
   try {
     const response = await fetch(new URL(source, baseUrl), {
       method: "GET",
-      headers: requestHeaders(),
+      headers: requestHeaders(sessionToken),
       signal: controller.signal,
     });
     const contentType = response.headers.get("content-type") ?? "";
     let issue = "";
     if (!response.ok) issue = `HTTP status ${response.status}`;
     if (response.ok && response.status === 204) issue = "empty 204 response";
-    const status = response.ok ? "reachable" : response.status === 401 || response.status === 403 ? "auth_required" : "failed";
+    const status = response.ok
+      ? "reachable"
+      : response.status === 401 || response.status === 403
+        ? "auth_required"
+        : response.status === 503
+          ? "dependency_unavailable"
+          : "failed";
     return {
       source,
       status,
@@ -104,33 +125,45 @@ async function validateSource(baseUrl: string, source: string, pages: string[]):
 
 async function main() {
   const baseUrl = argValue("--base-url", process.env.DASHBOARD_API_BASE_URL ?? process.env.HERMES_DASHBOARD_URL ?? "http://127.0.0.1:9119");
+  const sessionToken = await discoverLoopbackSessionToken(baseUrl);
   const sources = sourcePages();
   const results: SourceResult[] = [];
   for (const source of sources) {
-    results.push(await validateSource(baseUrl, source.source, source.pages));
+    results.push(await validateSource(baseUrl, source.source, source.pages, sessionToken));
   }
 
   const authRequiredSources = results.filter((result) => result.status === "auth_required");
+  const dependencyUnavailableSources = results.filter((result) => result.status === "dependency_unavailable");
   const failedSources = results.filter((result) => result.status === "failed");
   const blockedSources = results.filter((result) => result.status === "blocked");
   const reachableSources = results.filter((result) => result.status === "reachable");
-  const impactedRoutes = new Set([...authRequiredSources, ...failedSources, ...blockedSources].flatMap((result) => result.pages));
+  const impactedRoutes = new Set([...authRequiredSources, ...dependencyUnavailableSources, ...failedSources, ...blockedSources].flatMap((result) => result.pages));
   const summary = {
     baseUrl,
     sources: results.length,
     reachable: reachableSources.length,
     authRequired: authRequiredSources.length,
+    dependencyUnavailable: dependencyUnavailableSources.length,
     failed: failedSources.length,
     blocked: blockedSources.length,
     impactedRoutes: impactedRoutes.size,
-    status: failedSources.length || blockedSources.length ? "attention" : authRequiredSources.length ? "auth_required" : "ready",
+    status: failedSources.length || blockedSources.length
+      ? "attention"
+      : dependencyUnavailableSources.length
+        ? "dependency_unavailable"
+        : authRequiredSources.length
+          ? "auth_required"
+          : "ready",
     authMode: process.env.DASHBOARD_BEARER_TOKEN
       ? "bearer"
       : process.env.DASHBOARD_AUTH_COOKIE
         ? "cookie"
-        : argValue("--header", "")
+        : sessionToken
+          ? "loopback_session_token"
+          : argValue("--header", "")
           ? "custom_header"
           : "none",
+    sessionTokenDiscovered: Boolean(sessionToken),
   };
   const report = {
     schemaVersion: 1,
@@ -185,7 +218,7 @@ ${report.routeImpacts.length
   fs.writeFileSync(outMd, md);
   console.log(`Operational live source validation wrote ${path.relative(root, outJson)} and ${path.relative(root, outMd)}`);
   console.log(
-    `${summary.reachable}/${summary.sources} sources reachable (${summary.authRequired} auth required, ${summary.failed} failed, ${summary.blocked} blocked).`,
+    `${summary.reachable}/${summary.sources} sources reachable (${summary.authRequired} auth required, ${summary.dependencyUnavailable} dependency unavailable, ${summary.failed} failed, ${summary.blocked} blocked).`,
   );
 
   if (hasFlag("--strict") && (summary.failed || summary.blocked)) {

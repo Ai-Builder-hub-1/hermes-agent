@@ -66,10 +66,12 @@ function readLiveSourceValidationSummary() {
       sources?: number;
       reachable?: number;
       authRequired?: number;
+      dependencyUnavailable?: number;
       failed?: number;
       blocked?: number;
       impactedRoutes?: number;
       authMode?: string;
+      sessionTokenDiscovered?: boolean;
     };
   };
   const summary = report.summary ?? {};
@@ -78,10 +80,12 @@ function readLiveSourceValidationSummary() {
     sources: summary.sources ?? 0,
     reachable: summary.reachable ?? 0,
     authRequired: summary.authRequired ?? 0,
+    dependencyUnavailable: summary.dependencyUnavailable ?? 0,
     failed: summary.failed ?? 0,
     blocked: summary.blocked ?? 0,
     impactedRoutes: summary.impactedRoutes ?? 0,
     authMode: summary.authMode ?? "unknown",
+    sessionTokenDiscovered: Boolean(summary.sessionTokenDiscovered),
     generatedAt: report.generatedAt ?? "",
   };
 }
@@ -139,6 +143,7 @@ const report = {
     liveSourceValidationStatus: liveSourceValidation.status,
     liveSourcesReachable: liveSourceValidation.reachable,
     liveSourcesAuthRequired: liveSourceValidation.authRequired,
+    liveSourcesDependencyUnavailable: liveSourceValidation.dependencyUnavailable,
     liveSourcesFailed: liveSourceValidation.failed,
     liveSourcesBlocked: liveSourceValidation.blocked,
     liveSourceImpactedRoutes: liveSourceValidation.impactedRoutes,
@@ -158,7 +163,8 @@ const report = {
     ...(safeActionAudit.totals.needsHardening ? [`Close ${safeActionAudit.totals.needsHardening} safe-action hardening gap(s).`] : []),
     ...(routeValidation.status === "ready" ? [] : ["Run Playwright route validation and clear failed or blocked operational routes."]),
     ...(liveSourceValidation.status === "auth_required" ? ["Rerun live-source validation with a dashboard session cookie or bearer token to prove authenticated sources end to end."] : []),
-    ...(liveSourceValidation.status === "ready" || liveSourceValidation.status === "auth_required" ? [] : ["Run live-source validation against the dashboard API and clear failed or blocked declared sources."]),
+    ...(liveSourceValidation.status === "dependency_unavailable" ? ["Start or configure Hermes Brain, then rerun live-source validation for Second Brain and Compounding Intelligence sources."] : []),
+    ...(liveSourceValidation.status === "ready" || liveSourceValidation.status === "auth_required" || liveSourceValidation.status === "dependency_unavailable" ? [] : ["Run live-source validation against the dashboard API and clear failed or blocked declared sources."]),
     "Persist route validation output as operating-runtime evidence when a writable dashboard backend is available.",
   ],
 };
