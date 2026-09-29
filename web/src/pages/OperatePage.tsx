@@ -36,8 +36,8 @@ import {
 } from "./operating-system-data";
 import {
   fallbackFleetOperatorSnapshots,
-  loadFleetOperatorQueue,
   loadFleetOperatorSnapshots,
+  loadUnifiedOperatorQueue,
   type FleetOperatorQueueResponse,
   type FleetOperatorSnapshot,
 } from "./fleet-operator-data";
@@ -513,7 +513,7 @@ function ChatActions() {
 
   useEffect(() => {
     void load();
-    loadFleetOperatorQueue(6).then(setQueue);
+    loadUnifiedOperatorQueue(6).then(setQueue);
   }, []);
 
   const recordIntent = async (item: { title: string; prompt: string }) => {
