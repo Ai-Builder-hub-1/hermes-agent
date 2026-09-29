@@ -195,6 +195,47 @@ def test_operate_action_intent_records_audit_and_evidence(monkeypatch, tmp_path)
     body = response.json()
     assert body["decision"]["allowed"] is True
     assert body["audit"]["action"] == "dashboard:monitoring:check:strict"
+    assert body["policy"]["action_class"] == "read"
     assert body["evidence"]["kind"] == "workbench"
     assert body["evidence"]["subject"] == "Operator action intent: Khashi VC production snapshot"
     assert body["evidence"]["payload"]["item_id"] == "fleet-khashi-vc"
+    assert body["audit"]["payload"]["policy"]["proof_required"] == "read-only request proof"
+
+
+def test_operate_action_policy_and_high_risk_intent(monkeypatch, tmp_path):
+    from hermes_cli import operating_runtime, web_server
+
+    monkeypatch.setattr(operating_runtime, "db_path", lambda: tmp_path / "operating_runtime.db")
+
+    client = TestClient(web_server.app)
+    policy_response = client.get(
+        "/api/operate/action-policy",
+        headers={"X-Hermes-Session-Token": web_server._SESSION_TOKEN},
+    )
+    assert policy_response.status_code == 200
+    policy = policy_response.json()
+    assert policy["contractVersion"] == "hermes-action-policy.v1"
+    live_policy = next(item for item in policy["policies"] if item["action"] == "submit-live-order")
+    assert live_policy["approval"] == "explicit"
+    assert live_policy["required_role"] == "admin"
+    assert live_policy["rollback_required"] is True
+
+    response = client.post(
+        "/api/operate/action-intent",
+        headers={"X-Hermes-Session-Token": web_server._SESSION_TOKEN},
+        json={
+            "item_id": "live-submit",
+            "title": "Submit live order",
+            "action": "submit-live-order",
+            "actor_role": "operator",
+            "explicit_approval": False,
+            "payload": {"route": "/trading/investing"},
+        },
+    )
+    assert response.status_code == 200
+    body = response.json()
+    assert body["decision"]["allowed"] is False
+    assert body["policy"]["action_class"] == "live"
+    assert body["policy"]["approval"] == "explicit"
+    assert body["audit"]["payload"]["policy"]["live_effect"] is True
+    assert body["evidence"]["state"] == "gated"

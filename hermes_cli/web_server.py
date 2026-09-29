@@ -2694,6 +2694,13 @@ async def post_operate_action_intent(payload: OperateActionIntentRequest):
     )
 
 
+@app.get("/api/operate/action-policy")
+async def get_operate_action_policy():
+    from hermes_cli.operating_runtime import action_policy_summary
+
+    return action_policy_summary()
+
+
 @app.get("/api/operating-runtime/evidence")
 async def get_operating_runtime_evidence(kind: str = ""):
     from hermes_cli.operating_runtime import list_evidence

@@ -58,6 +58,17 @@ class PermissionDecision:
     reason: str
 
 
+@dataclass(frozen=True)
+class ActionPolicy:
+    action_class: str
+    risk: str
+    approval: Approval
+    required_role: str
+    proof_required: str
+    rollback_required: bool
+    live_effect: bool
+
+
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
@@ -278,18 +289,65 @@ def audit(
     return _audit_row(conn.execute("SELECT * FROM runtime_audit WHERE id = ?", (record_id,)).fetchone())
 
 
-def decide_permission(action: str, actor_role: str = "operator", explicit_approval: bool = False) -> PermissionDecision:
+def classify_action_policy(action: str) -> ActionPolicy:
     action_lc = action.lower()
-    high_risk_terms = ("deploy", "secret", "autonomy", "execute", "scheduler", "kill-switch", "budget-breaker")
-    if any(term in action_lc for term in high_risk_terms):
-        if actor_role != "admin":
-            return PermissionDecision(False, "explicit", "Admin role is required for production-affecting actions.")
-        if not explicit_approval:
-            return PermissionDecision(False, "explicit", "Explicit approval is required before this high-risk action can run.")
-        return PermissionDecision(True, "explicit", "High-risk action allowed with admin role and explicit approval.")
-    if "refresh" in action_lc or "evaluate" in action_lc or "dry-run" in action_lc:
-        return PermissionDecision(True, "confirm", "Readiness or dry-run action allowed with confirm-level approval.")
+    specs = [
+        (("live", "submit-live", "place-live"), "live", "critical", "explicit", "admin", "live promotion approval, broker lock proof, risk proof, rollback/suspend plan", True, True),
+        (("deploy", "release", "production-promotion"), "deploy", "high", "explicit", "admin", "green validation, rollback plan, production health proof", True, True),
+        (("secret", "credential"), "secret", "high", "explicit", "admin", "secret presence proof without exposing values plus rotation/rollback note", True, True),
+        (("autonomy", "scheduler", "kill-switch", "budget-breaker"), "autonomy", "high", "explicit", "admin", "breaker proof, kill-switch state, owner approval, post-action verification", True, True),
+        (("practice", "execute-practice", "submit-practice"), "practice", "medium", "explicit", "admin", "practice approval, risk proof, broker no-live-submit proof", True, True),
+        (("paper", "backtest", "evaluate", "dry-run"), "simulation", "low", "confirm", "operator", "dataset/replay proof and no-live-effect proof", False, False),
+        (("refresh", "repair", "resume", "pause"), "operations", "medium", "confirm", "operator", "target state proof and post-action verification", True, False),
+    ]
+    for terms, action_class, risk, approval, required_role, proof, rollback, live_effect in specs:
+        if any(term in action_lc for term in terms):
+            return ActionPolicy(action_class, risk, approval, required_role, proof, rollback, live_effect)  # type: ignore[arg-type]
+    return ActionPolicy("read", "low", "none", "viewer", "read-only request proof", False, False)
+
+
+def decide_permission(action: str, actor_role: str = "operator", explicit_approval: bool = False) -> PermissionDecision:
+    policy = classify_action_policy(action)
+    role_rank = {"viewer": 0, "operator": 1, "admin": 2}
+    if role_rank.get(actor_role, 0) < role_rank.get(policy.required_role, 0):
+        return PermissionDecision(False, policy.approval, f"{policy.required_role.title()} role is required for {policy.action_class} actions.")
+    if policy.approval == "explicit" and not explicit_approval:
+        return PermissionDecision(False, "explicit", f"Explicit approval is required before this {policy.risk}-risk {policy.action_class} action can run.")
+    if policy.approval == "confirm":
+        return PermissionDecision(True, "confirm", f"{policy.action_class.title()} action allowed with confirm-level approval and proof capture.")
     return PermissionDecision(True, "none", "Read-only operating-runtime action allowed.")
+
+
+def action_policy_summary() -> dict[str, Any]:
+    actions = [
+        "read-status",
+        "refresh-dashboard-snapshot",
+        "run-backtest",
+        "paper-trade-preview",
+        "pause-runtime",
+        "resume-runtime",
+        "submit-practice-order",
+        "deploy-production",
+        "rotate-secret",
+        "enable-autonomy-scheduler",
+        "submit-live-order",
+    ]
+    policies = []
+    for action in actions:
+        policy = classify_action_policy(action)
+        policies.append({"action": action, **policy.__dict__})
+    return {
+        "contractVersion": "hermes-action-policy.v1",
+        "generatedAt": now_iso(),
+        "policies": policies,
+        "summary": {
+            "actions": len(policies),
+            "explicit": len([policy for policy in policies if policy["approval"] == "explicit"]),
+            "confirm": len([policy for policy in policies if policy["approval"] == "confirm"]),
+            "readOnly": len([policy for policy in policies if policy["approval"] == "none"]),
+            "liveEffect": len([policy for policy in policies if policy["live_effect"]]),
+        },
+    }
 
 
 def run_readiness_check(
@@ -336,15 +394,16 @@ def require_permission(
     before deploys, secret changes, scheduler changes, or autonomous work. It
     does not execute the action; it creates the durable permission decision.
     """
+    policy = classify_action_policy(action)
     decision = decide_permission(action, actor_role, explicit_approval)
     audit_record = audit(
         conn,
         action=action,
         actor=actor,
         decision=decision,
-        payload={"actor_role": actor_role, **(payload or {})},
+        payload={"actor_role": actor_role, "policy": policy.__dict__, **(payload or {})},
     )
-    return {"decision": decision.__dict__, "audit": audit_record}
+    return {"decision": decision.__dict__, "policy": policy.__dict__, "audit": audit_record}
 
 
 def record_production_check(

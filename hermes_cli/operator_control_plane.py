@@ -64,7 +64,7 @@ def record_operator_action_intent(
                 **(payload or {}),
             },
         )
-        return {"decision": decision, "audit": permission["audit"], "evidence": evidence}
+        return {"decision": decision, "policy": permission.get("policy"), "audit": permission["audit"], "evidence": evidence}
     finally:
         conn.close()
 
