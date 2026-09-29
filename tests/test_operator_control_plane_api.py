@@ -63,6 +63,7 @@ def test_operate_queue_merges_fleet_and_runtime_evidence(monkeypatch, tmp_path):
             ],
             "sourceProjects": [
                 {
+                    "projectId": "investing-system",
                     "label": "Investing System",
                     "summary": {
                         "accountObservability": {
@@ -96,7 +97,21 @@ def test_operate_queue_merges_fleet_and_runtime_evidence(monkeypatch, tmp_path):
                                     "nextAction": "Keep OANDA read-only snapshot refresh on cadence.",
                                 },
                             ]
-                        }
+                        },
+                        "strategyQuality": {
+                            "backtestReadiness": {
+                                "generatedAt": "2026-09-29T15:23:00.000Z",
+                                "status": "ready",
+                                "liveTradingLocked": True,
+                                "coverage": {"barCount": 240, "stale": False},
+                                "lineage": {
+                                    "datasetWindowId": "dataset-window-test",
+                                    "sourceSnapshotId": "source-snapshot-test",
+                                    "transformationVersion": "strategy-backtesting.sma-crossover.v1",
+                                    "replayId": "replay-test",
+                                },
+                            }
+                        },
                     },
                 }
             ],
@@ -134,6 +149,7 @@ def test_operate_queue_merges_fleet_and_runtime_evidence(monkeypatch, tmp_path):
     assert "trading-account-visibility" in ids
     assert "broker-account-robinhood-mcp" in ids
     assert "broker-account-oanda" in ids
+    assert "backtest-lineage-investing-system" in ids
     assert body["summary"]["attention"] >= 2
     runtime_item = next(item for item in body["items"] if item["id"] == "runtime-incident-live-worker")
     assert runtime_item["severity"] == "critical"
@@ -144,6 +160,10 @@ def test_operate_queue_merges_fleet_and_runtime_evidence(monkeypatch, tmp_path):
     robinhood_item = next(item for item in body["items"] if item["id"] == "broker-account-robinhood-mcp")
     assert robinhood_item["severity"] == "critical"
     assert "liveSubmit=False" in robinhood_item["evidence"]
+    backtest_item = next(item for item in body["items"] if item["id"] == "backtest-lineage-investing-system")
+    assert backtest_item["severity"] == "ready"
+    assert backtest_item["route"] == "/trading/backtesting"
+    assert "replayId=replay-test" in backtest_item["evidence"]
 
 
 def test_operate_action_intent_records_audit_and_evidence(monkeypatch, tmp_path):

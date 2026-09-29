@@ -293,6 +293,7 @@ def _trading_command_to_items(command: Dict[str, Any]) -> list[Dict[str, Any]]:
             }
         )
     items.extend(_broker_account_observability_items(command))
+    items.extend(_backtest_lineage_items(command))
     return items
 
 
@@ -337,6 +338,49 @@ def _broker_account_observability_items(command: Dict[str, Any]) -> list[Dict[st
                     "route": "/trading/investing",
                 }
             )
+    return items
+
+
+def _backtest_lineage_items(command: Dict[str, Any]) -> list[Dict[str, Any]]:
+    items: list[Dict[str, Any]] = []
+    for project in command.get("sourceProjects") or []:
+        if not isinstance(project, dict):
+            continue
+        summary = project.get("summary") if isinstance(project.get("summary"), dict) else {}
+        strategy_quality = summary.get("strategyQuality") if isinstance(summary.get("strategyQuality"), dict) else {}
+        readiness = strategy_quality.get("backtestReadiness") if isinstance(strategy_quality.get("backtestReadiness"), dict) else None
+        if not readiness:
+            continue
+        status = str(readiness.get("status") or "unknown")
+        lineage = readiness.get("lineage") if isinstance(readiness.get("lineage"), dict) else {}
+        coverage = readiness.get("coverage") if isinstance(readiness.get("coverage"), dict) else {}
+        blocked = status == "blocked" or not readiness.get("liveTradingLocked", True)
+        watch = status not in {"ready", "blocked"} or not lineage.get("replayId")
+        project_label = str(project.get("label") or project.get("projectId") or "Trading system")
+        items.append(
+            {
+                "id": f"backtest-lineage-{project.get('projectId') or 'unknown'}",
+                "kind": "incident" if blocked else "action" if watch else "evidence",
+                "title": f"{project_label} backtest lineage",
+                "source": "Strategy development evidence",
+                "owner": project_label,
+                "severity": "critical" if blocked else "warning" if watch else "ready",
+                "state": "blocked" if blocked else "review" if watch else "ready",
+                "whyItMatters": "Strategy development needs replayable dataset, source snapshot, and transformation lineage before a backtest can support promotion decisions.",
+                "nextAction": "Collect fresh canonical bars and rerun backtest readiness with persisted lineage." if blocked or watch else "Use this replay envelope when reviewing strategy-development evidence.",
+                "clearingProof": "Backtest readiness is ready, live trading remains locked, and replay lineage includes dataset, snapshot, transform, and replay IDs.",
+                "evidence": (
+                    f"status={status}; liveTradingLocked={readiness.get('liveTradingLocked')}; "
+                    f"bars={coverage.get('barCount')}; stale={coverage.get('stale')}; "
+                    f"datasetWindowId={lineage.get('datasetWindowId')}; sourceSnapshotId={lineage.get('sourceSnapshotId')}; "
+                    f"transformationVersion={lineage.get('transformationVersion')}; replayId={lineage.get('replayId')}"
+                ),
+                "safeAction": None,
+                "requiresApproval": blocked,
+                "updatedAt": readiness.get("generatedAt") or command.get("generatedAt"),
+                "route": "/trading/backtesting",
+            }
+        )
     return items
 
 
