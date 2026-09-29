@@ -1862,6 +1862,20 @@ async def post_trading_evidence_review():
     return await record_evidence_review()
 
 
+@app.get("/api/trading-research/outcomes/summary")
+async def get_trading_outcome_learning_summary():
+    from hermes_cli.trading_research import outcome_learning_summary
+
+    return await outcome_learning_summary()
+
+
+@app.post("/api/trading-research/outcomes/review")
+async def post_trading_outcome_learning_review():
+    from hermes_cli.trading_research import record_outcome_learning_review
+
+    return await record_outcome_learning_review()
+
+
 def _hermes_brain_base_url() -> str:
     return os.environ.get("HERMES_BRAIN_URL", "http://127.0.0.1:3115").rstrip("/")
 

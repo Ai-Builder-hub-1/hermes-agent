@@ -406,3 +406,70 @@ async def record_evidence_review() -> dict[str, Any]:
     ledger = await evidence_ledger(100)
     evidence = _record_action("Trading evidence review", "Trading evidence ledger review recorded. No trading action was executed.", ledger)
     return {"ok": True, "generatedAt": now_iso(), "evidence": evidence, "summary": ledger}
+
+
+async def outcome_learning_summary() -> dict[str, Any]:
+    lifecycle = await strategy_lifecycle_summary()
+    backtests = await backtesting_summary()
+    ledger = await evidence_ledger(100)
+    lifecycle_summary = lifecycle.get("summary", {})
+    backtest_summary = backtests.get("summary", {})
+    evidence_summary = ledger.get("summary", {})
+    strategies = int(lifecycle_summary.get("strategies") or 0)
+    blocked = int(lifecycle_summary.get("blocked") or 0)
+    review = int(lifecycle_summary.get("review") or 0)
+    passed = int(backtest_summary.get("passed") or 0)
+    runs = int(backtest_summary.get("runs") or 0)
+    missing_hashes = int(evidence_summary.get("missingProofHashes") or 0)
+    records = int(evidence_summary.get("records") or 0)
+    reliability_score = max(0, min(100, 100 - blocked * 25 - review * 10 - missing_hashes * 2 - max(0, runs - passed) * 8))
+    calibration = "ready" if reliability_score >= 80 and passed else "watch" if reliability_score >= 50 else "blocked"
+    tasks = []
+    if blocked:
+        tasks.append(_research_task("unblock-strategy-lifecycle", "Resolve blocked strategy lifecycle rows", "critical", lifecycle.get("blockers") or []))
+    if runs and passed == 0:
+        tasks.append(_research_task("backtest-outcome-baseline", "Produce at least one passed backtest baseline", "high", backtests.get("blockers") or []))
+    if missing_hashes:
+        tasks.append(_research_task("proof-hash-coverage", "Attach proof hashes to promoted strategy and backtest evidence", "medium", ledger.get("blockers") or []))
+    if not tasks:
+        tasks.append(_research_task("cadence-review", "Keep outcome learning review on cadence", "low", ["No current outcome-learning blockers."]))
+    return {
+        "contractVersion": "trading-outcome-learning.v1",
+        "generatedAt": now_iso(),
+        "health": "ready" if calibration == "ready" else "warning" if calibration == "watch" else "critical",
+        "summary": {
+            "strategies": strategies,
+            "backtestRuns": runs,
+            "passedBacktests": passed,
+            "evidenceRecords": records,
+            "missingProofHashes": missing_hashes,
+            "reliabilityScore": reliability_score,
+            "calibration": calibration,
+        },
+        "signals": [
+            {"id": "strategy-lifecycle", "status": lifecycle.get("health"), "detail": f"blocked={blocked}; review={review}; strategies={strategies}"},
+            {"id": "backtest-outcomes", "status": backtests.get("health"), "detail": f"passed={passed}; runs={runs}; blocked={backtest_summary.get('blocked')}"},
+            {"id": "evidence-ledger", "status": ledger.get("health"), "detail": f"records={records}; missingProofHashes={missing_hashes}"},
+        ],
+        "researchTasks": tasks,
+        "blockers": [task["title"] for task in tasks if task["priority"] in {"critical", "high"}],
+        "recommendations": [task["nextAction"] for task in tasks],
+    }
+
+
+def _research_task(task_id: str, title: str, priority: str, evidence: list[Any]) -> dict[str, Any]:
+    return {
+        "id": task_id,
+        "title": title,
+        "priority": priority,
+        "status": "open" if priority != "low" else "cadence",
+        "evidence": [str(item) for item in evidence[:5]],
+        "nextAction": title,
+        "liveTradingLocked": True,
+    }
+
+
+async def record_outcome_learning_review() -> dict[str, Any]:
+    summary = await outcome_learning_summary()
+    evidence = _record_action("Outcome learning review", "Outcome-learning review recorded. No strategy mutation or trade action was executed.", summary)
+    return {"ok": True, "generatedAt": now_iso(), "evidence": evidence, "summary": summary}

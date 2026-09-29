@@ -213,10 +213,10 @@ def _compact_system_evidence(summary: Dict[str, Any]) -> str:
 async def _trading_items() -> list[Dict[str, Any]]:
     try:
         from hermes_cli.trading_intelligence import trading_command_center
-        from hermes_cli.trading_research import strategy_lifecycle_summary
+        from hermes_cli.trading_research import outcome_learning_summary, strategy_lifecycle_summary
 
-        command, lifecycle = await asyncio.wait_for(
-            asyncio.gather(trading_command_center(limit=5), strategy_lifecycle_summary()),
+        command, lifecycle, outcomes = await asyncio.wait_for(
+            asyncio.gather(trading_command_center(limit=5), strategy_lifecycle_summary(), outcome_learning_summary()),
             timeout=3,
         )
     except Exception as exc:
@@ -239,7 +239,7 @@ async def _trading_items() -> list[Dict[str, Any]]:
                 "route": "/trading/investing",
             }
         ]
-    return [*_trading_command_to_items(command), *_strategy_lifecycle_items(lifecycle)]
+    return [*_trading_command_to_items(command), *_strategy_lifecycle_items(lifecycle), *_outcome_learning_items(outcomes)]
 
 
 def _trading_command_to_items(command: Dict[str, Any]) -> list[Dict[str, Any]]:
@@ -420,6 +420,35 @@ def _strategy_lifecycle_items(lifecycle: Dict[str, Any]) -> list[Dict[str, Any]]
             "requiresApproval": bad,
             "updatedAt": lifecycle.get("generatedAt"),
             "route": "/trading/strategies",
+        }
+    ]
+
+
+def _outcome_learning_items(outcomes: Dict[str, Any]) -> list[Dict[str, Any]]:
+    summary = outcomes.get("summary") if isinstance(outcomes.get("summary"), dict) else {}
+    score = int(summary.get("reliabilityScore") or 0)
+    missing_hashes = int(summary.get("missingProofHashes") or 0)
+    calibration = str(summary.get("calibration") or "unknown")
+    blocked = calibration == "blocked"
+    watch = calibration != "ready" or missing_hashes > 0
+    tasks = outcomes.get("researchTasks") if isinstance(outcomes.get("researchTasks"), list) else []
+    return [
+        {
+            "id": "trading-outcome-learning",
+            "kind": "incident" if blocked else "action" if watch else "evidence",
+            "title": "Trading outcome learning",
+            "source": "Trading research outcomes",
+            "owner": "Trading Research",
+            "severity": "critical" if blocked else "warning" if watch else "ready",
+            "state": "blocked" if blocked else "review" if watch else "ready",
+            "whyItMatters": "Strategies and research need scored outcomes so the system can learn what is improving, stale, or unreliable.",
+            "nextAction": str((tasks[0] or {}).get("nextAction") if tasks else "Review outcome-learning reliability and research tasks."),
+            "clearingProof": "Outcome learning reports ready calibration, acceptable reliability, and no missing promoted proof hashes.",
+            "evidence": f"reliabilityScore={score}; calibration={calibration}; missingProofHashes={missing_hashes}; tasks={len(tasks)}",
+            "safeAction": None,
+            "requiresApproval": blocked,
+            "updatedAt": outcomes.get("generatedAt"),
+            "route": "/trading/evidence",
         }
     ]
 

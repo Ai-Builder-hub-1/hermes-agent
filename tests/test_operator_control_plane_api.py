@@ -154,6 +154,7 @@ def test_operate_queue_merges_fleet_and_runtime_evidence(monkeypatch, tmp_path):
     assert "broker-account-oanda" in ids
     assert "backtest-lineage-investing-system" in ids
     assert "strategy-development-lifecycle" in ids
+    assert "trading-outcome-learning" in ids
     assert body["summary"]["attention"] >= 2
     runtime_item = next(item for item in body["items"] if item["id"] == "runtime-incident-live-worker")
     assert runtime_item["severity"] == "critical"
@@ -174,6 +175,9 @@ def test_operate_queue_merges_fleet_and_runtime_evidence(monkeypatch, tmp_path):
     lifecycle_item = next(item for item in body["items"] if item["id"] == "strategy-development-lifecycle")
     assert lifecycle_item["severity"] == "critical"
     assert lifecycle_item["route"] == "/trading/strategies"
+    outcome_item = next(item for item in body["items"] if item["id"] == "trading-outcome-learning")
+    assert outcome_item["route"] == "/trading/evidence"
+    assert "reliabilityScore=" in outcome_item["evidence"]
 
 
 def test_operate_action_intent_records_audit_and_evidence(monkeypatch, tmp_path):

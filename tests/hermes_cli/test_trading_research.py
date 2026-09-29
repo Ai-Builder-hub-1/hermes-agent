@@ -72,3 +72,20 @@ async def test_evidence_ledger_series_and_review(tmp_path, monkeypatch):
     assert {"id", "kind", "sourceProject", "subject", "status"}.issubset(ledger["records"][0])
     assert len((await evidence_series("24h"))["points"]) == 12
     assert (await record_evidence_review())["ok"] is True
+
+
+@pytest.mark.asyncio
+async def test_outcome_learning_summary_and_review(tmp_path, monkeypatch):
+    monkeypatch.setenv("HERMES_HOME", str(tmp_path / "home"))
+    monkeypatch.delenv("INVESTING_SYSTEM_API_BASE_URL", raising=False)
+    monkeypatch.delenv("KHASHI_VC_API_BASE_URL", raising=False)
+
+    from hermes_cli.trading_research import outcome_learning_summary, record_outcome_learning_review
+
+    summary = await outcome_learning_summary()
+    assert summary["contractVersion"] == "trading-outcome-learning.v1"
+    assert "reliabilityScore" in summary["summary"]
+    assert summary["summary"]["calibration"] in {"ready", "watch", "blocked"}
+    assert summary["researchTasks"]
+    assert summary["researchTasks"][0]["liveTradingLocked"] is True
+    assert (await record_outcome_learning_review())["ok"] is True
