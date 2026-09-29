@@ -3404,6 +3404,57 @@ async def get_system_stats():
     return info
 
 
+@app.get("/api/system/warehouse/summary")
+async def get_system_warehouse_summary():
+    from hermes_cli.system_warehouse import warehouse_summary
+
+    return warehouse_summary()
+
+
+@app.get("/api/system/warehouse/sources")
+async def get_system_warehouse_sources():
+    from hermes_cli.system_warehouse import warehouse_sources
+
+    return warehouse_sources()
+
+
+@app.get("/api/system/warehouse/series")
+async def get_system_warehouse_series(window: str = "24h"):
+    from hermes_cli.system_warehouse import warehouse_series
+
+    if window not in {"1h", "24h", "7d", "30d"}:
+        raise HTTPException(status_code=400, detail="window must be one of 1h, 24h, 7d, 30d")
+    return warehouse_series(window)  # type: ignore[arg-type]
+
+
+@app.get("/api/system/warehouse/jobs")
+async def get_system_warehouse_jobs():
+    from hermes_cli.system_warehouse import warehouse_jobs
+
+    return warehouse_jobs()
+
+
+@app.post("/api/system/warehouse/sync")
+async def post_system_warehouse_sync():
+    from hermes_cli.system_warehouse import record_sync
+
+    return record_sync()
+
+
+@app.post("/api/system/warehouse/restore-proof")
+async def post_system_warehouse_restore_proof():
+    from hermes_cli.system_warehouse import record_restore_proof
+
+    return record_restore_proof()
+
+
+@app.post("/api/system/warehouse/prune-dry-run")
+async def post_system_warehouse_prune_dry_run():
+    from hermes_cli.system_warehouse import record_prune_dry_run
+
+    return record_prune_dry_run()
+
+
 # ---------------------------------------------------------------------------
 # Curator endpoints — background skill-maintenance status + controls.
 #

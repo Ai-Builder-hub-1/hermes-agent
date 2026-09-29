@@ -6,7 +6,23 @@ import {
   KeyRound,
   RotateCw,
 } from "lucide-react";
-import type { ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
+import {
+  auditOperationalContract,
+  contractForRoute,
+  type OperationalPageAudit,
+} from "@/lib/operational-page-contracts";
+import {
+  fetchWarehouseSnapshot,
+  formatBytes,
+  runWarehousePruneDryRun,
+  runWarehouseRestoreProof,
+  runWarehouseSync,
+  warehouseHealthTone,
+  type WarehouseSeriesPoint,
+  type WarehouseSnapshot,
+  type WarehouseWindow,
+} from "@/lib/system-warehouse";
 import {
   liveSignalIntegrations,
   operatingLoops,
@@ -85,6 +101,9 @@ function SystemOperationsPage({ mode }: { mode: SystemMode }) {
   const copy = modeCopy[mode];
   const stages = stagesForMode(mode);
   const gated = stages.filter((stage) => stage.status === "gated" || stage.risk === "high").length;
+  const route = routeForMode(mode);
+  const contract = contractForRoute(route);
+  const audit = contract ? auditOperationalContract(contract) : null;
 
   return (
     <main className="mx-auto flex w-full max-w-[1500px] flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8" data-review-id={`hermes.system.${mode}`}>
@@ -100,10 +119,12 @@ function SystemOperationsPage({ mode }: { mode: SystemMode }) {
           </div>
           <div className="grid min-w-[220px] gap-2 text-xs font-semibold text-muted-foreground sm:grid-cols-2">
             <MiniStat label="Tracked stages" value={stages.length} />
-            <MiniStat label="Gated" value={gated} />
+            <MiniStat label={audit ? "Page maturity" : "Gated"} value={audit ? `${audit.score}%` : gated} />
           </div>
         </div>
       </section>
+
+      {audit ? <PageContractStrip audit={audit} /> : null}
 
       <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-4" aria-label={`${copy.title} summary`}>
         {summaryCards(mode, stages).map((card) => (
@@ -133,6 +154,17 @@ function SystemOperationsPage({ mode }: { mode: SystemMode }) {
       </section>
     </main>
   );
+}
+
+function routeForMode(mode: SystemMode) {
+  const routes: Record<SystemMode, string> = {
+    warehouse: "/system/warehouse",
+    freshness: "/system/freshness",
+    workers: "/system/workers",
+    deployments: "/system/deployments",
+    credentials: "/system/credentials",
+  };
+  return routes[mode];
 }
 
 function stagesForMode(mode: SystemMode) {
@@ -189,31 +221,239 @@ function summaryCards(mode: SystemMode, stages: OperatingSystemStage[]) {
 }
 
 function WarehousePanel() {
+  const [window, setWindow] = useState<WarehouseWindow>("24h");
+  const [snapshot, setSnapshot] = useState<WarehouseSnapshot | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [actionStatus, setActionStatus] = useState<string | null>(null);
+
+  const load = async (nextWindow = window) => {
+    setLoading(true);
+    try {
+      setSnapshot(await fetchWarehouseSnapshot(nextWindow));
+      setError(null);
+    } catch (exc) {
+      setError(exc instanceof Error ? exc.message : String(exc));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    void load(window);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [window]);
+
+  const runAction = async (label: string, action: () => Promise<Record<string, unknown>>) => {
+    setActionStatus(`${label} running`);
+    try {
+      await action();
+      setActionStatus(`${label} recorded`);
+      await load(window);
+    } catch (exc) {
+      setActionStatus(`${label} failed: ${exc instanceof Error ? exc.message : String(exc)}`);
+    }
+  };
+
+  if (loading && !snapshot) {
+    return (
+      <Panel title="Warehouse telemetry">
+        <div className="grid min-h-[320px] place-items-center p-4 text-sm text-muted-foreground" data-data-state="loading">
+          Loading warehouse telemetry
+        </div>
+      </Panel>
+    );
+  }
+
+  if (error && !snapshot) {
+    return (
+      <Panel title="Warehouse telemetry">
+        <div className="grid gap-3 p-3" data-data-state="error">
+          <PolicyCallout title="Warehouse telemetry unavailable" detail={error} tone="critical" />
+          <button type="button" className="rounded border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground" onClick={() => void load(window)}>
+            Retry
+          </button>
+        </div>
+      </Panel>
+    );
+  }
+
+  if (!snapshot) return null;
+
+  const { summary, sources, series, jobs } = snapshot;
+  const stale = sources.filter((source) => source.status !== "ready");
+  const healthTone = warehouseHealthTone(summary.health);
+  const freshness = new Date(summary.generatedAt).toLocaleString();
+
   return (
-    <Panel title="Source catalog" count={liveSignalIntegrations.length}>
-      <div className="grid gap-2 p-3">
-        {liveSignalIntegrations.map((source) => (
-          <article key={source.id} className="rounded-lg border border-border bg-background p-3">
-            <div className="flex flex-wrap items-start justify-between gap-3">
-              <div>
-                <h2 className="text-sm font-semibold text-foreground">{source.project}</h2>
-                <p className="mt-1 text-xs font-medium text-muted-foreground">{source.endpoint}</p>
-              </div>
-              <ToneBadge tone={source.status === "ready" ? "success" : source.status === "partial" ? "warning" : "critical"}>{source.status}</ToneBadge>
+    <div className="grid gap-4" data-data-state={error ? "partial" : "ready"} data-review-id="hermes.system.warehouse.telemetry">
+      <Panel title="Warehouse live status">
+        <div className="grid gap-3 p-3">
+          {error ? <PolicyCallout title="Showing last warehouse snapshot" detail={error} tone="warning" /> : null}
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border bg-background p-3">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Generated</div>
+              <div className="mt-1 text-sm font-semibold text-foreground">{freshness}</div>
             </div>
-            <p className="mt-3 text-sm leading-6 text-muted-foreground">{source.nextStep}</p>
-            <div className="mt-3 flex flex-wrap gap-1.5">
-              {source.signals.map((signal) => (
-                <span key={signal} className="rounded border border-border bg-card px-2 py-0.5 text-xs font-medium text-muted-foreground">
-                  {signal}
-                </span>
+            <div className="flex flex-wrap gap-1.5">
+              <ToneBadge tone={healthTone}>{summary.health}</ToneBadge>
+              <ToneBadge tone={summary.slo.breaches.length ? "warning" : "success"}>
+                {summary.slo.breaches.length ? `${summary.slo.breaches.length} SLO breach` : "SLO clear"}
+              </ToneBadge>
+            </div>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-2">
+            <MiniFact label="Warehouse root" value={summary.warehouse.path} />
+            <MiniFact label="Mirror root" value={summary.mirror.path} />
+          </div>
+          <div className="grid gap-2 sm:grid-cols-3">
+            <button type="button" className="rounded border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted" onClick={() => void runAction("Warehouse sync", runWarehouseSync)}>
+              Run sync check
+            </button>
+            <button type="button" className="rounded border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted" onClick={() => void runAction("Restore proof", runWarehouseRestoreProof)}>
+              Restore proof
+            </button>
+            <button type="button" className="rounded border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted" onClick={() => void runAction("Prune dry-run", runWarehousePruneDryRun)}>
+              Prune dry-run
+            </button>
+          </div>
+          {actionStatus ? <p className="text-xs font-medium text-muted-foreground">{actionStatus}</p> : null}
+        </div>
+      </Panel>
+
+      <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        <MetricCard label="Free storage" value={formatBytes(summary.warehouse.freeBytes)} detail={`${summary.warehouse.percentUsed}% used on warehouse volume`} tone={summary.warehouse.percentUsed > 85 ? "critical" : summary.warehouse.percentUsed > 70 ? "warning" : "success"} />
+        <MetricCard label="24h ingest" value={formatBytes(summary.ingest.bytes24h)} detail={`${summary.ingest.records24h} records across ${summary.ingest.sources} sources`} tone="info" />
+        <MetricCard label="Days until full" value={summary.forecast.daysUntilFull ?? "unknown"} detail={summary.forecast.confidence.replaceAll("_", " ")} tone={summary.forecast.daysUntilFull !== null && summary.forecast.daysUntilFull < 14 ? "critical" : "warning"} />
+        <MetricCard label="Mirror" value={summary.mirror.configured ? "mounted" : "missing"} detail={summary.mirror.lastMirrorAt ? `last mirror ${summary.mirror.lastMirrorAt}` : "no mirror proof yet"} tone={summary.mirror.configured ? "success" : "critical"} />
+        <MetricCard label="Restore proof" value={summary.restoreProof.ok ? "current" : "missing"} detail={summary.restoreProof.lastRestoreProofAt ?? "no restore proof evidence found"} tone={summary.restoreProof.ok ? "success" : "warning"} />
+        <MetricCard label="Stale sources" value={summary.ingest.staleSources} detail={`${stale.length} partial or blocked rows in source table`} tone={summary.ingest.staleSources ? "critical" : "success"} />
+      </section>
+
+      <Panel title="Ingestion and capacity trend">
+        <div className="grid gap-3 p-3">
+          <div className="flex flex-wrap gap-1.5">
+            {(["1h", "24h", "7d", "30d"] as WarehouseWindow[]).map((item) => (
+              <button
+                key={item}
+                type="button"
+                className={`rounded border px-2.5 py-1 text-xs font-semibold ${window === item ? "border-primary bg-primary/10 text-primary" : "border-border bg-background text-muted-foreground hover:bg-muted"}`}
+                onClick={() => setWindow(item)}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+          <WarehouseTrendChart points={series.points} />
+          <p className="text-xs text-muted-foreground">{series.historyStatus.replaceAll("_", " ")}</p>
+        </div>
+      </Panel>
+
+      <Panel title="Source freshness" count={sources.length}>
+        <div className="overflow-x-auto p-3">
+          <table className="w-full min-w-[720px] text-left text-xs" data-hdk-component="DataTable" data-pagination="table-window">
+            <thead className="text-muted-foreground">
+              <tr className="border-b border-border">
+                <th className="py-2 pr-3">Source</th>
+                <th className="py-2 pr-3">Status</th>
+                <th className="py-2 pr-3">Lag</th>
+                <th className="py-2 pr-3">24h ingest</th>
+                <th className="py-2 pr-3">Errors</th>
+                <th className="py-2 pr-3">Owner</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sources.map((source) => (
+                <tr key={source.id} className="border-b border-border/60 align-top">
+                  <td className="py-2 pr-3">
+                    <div className="font-semibold text-foreground">{source.project}</div>
+                    <div className="line-clamp-2 text-muted-foreground">{source.detail}</div>
+                  </td>
+                  <td className="py-2 pr-3"><ToneBadge tone={warehouseHealthTone(source.status)}>{source.status}</ToneBadge></td>
+                  <td className="py-2 pr-3 tabular-nums">{source.lagMinutes === null ? "unknown" : `${source.lagMinutes}m`}</td>
+                  <td className="py-2 pr-3">
+                    <div className="tabular-nums text-foreground">{formatBytes(source.bytes24h)}</div>
+                    <div className="text-muted-foreground">{source.records24h} records</div>
+                  </td>
+                  <td className="py-2 pr-3">{source.errorCount24h ? source.lastError ?? source.errorCount24h : "none"}</td>
+                  <td className="py-2 pr-3">{source.owner}</td>
+                </tr>
               ))}
-            </div>
-          </article>
-        ))}
-      </div>
-    </Panel>
+            </tbody>
+          </table>
+        </div>
+      </Panel>
+
+      <section className="grid gap-4 lg:grid-cols-2">
+        <Panel title="SLO and remediation">
+          <div className="grid gap-2 p-3">
+            {summary.slo.breaches.length ? summary.slo.breaches.map((breach) => (
+              <PolicyCallout key={breach} title="Breach" detail={breach} tone="warning" />
+            )) : <PolicyCallout title="SLO clear" detail={`Freshness ${summary.slo.freshnessMinutes}m, mirror lag ${summary.slo.mirrorLagHours}h, restore proof ${summary.slo.restoreProofDays}d.`} tone="success" />}
+            <PolicyCallout title="Safe next actions" detail="Use sync check, restore proof, and prune dry-run for evidence. Collector execution, destructive prune, deploy, and remote mutation remain approval-gated." tone="info" />
+          </div>
+        </Panel>
+        <Panel title="Warehouse jobs and evidence" count={jobs.length}>
+          <div className="grid max-h-[420px] gap-2 overflow-auto p-3">
+            {jobs.length ? jobs.slice(0, 8).map((job) => (
+              <article key={job.id} className="rounded-lg border border-border bg-background p-3">
+                <div className="flex flex-wrap items-start justify-between gap-2">
+                  <div>
+                    <h2 className="text-sm font-semibold text-foreground">{job.title}</h2>
+                    <p className="mt-1 text-xs text-muted-foreground">{job.kind} / {job.owner}</p>
+                  </div>
+                  <ToneBadge tone={warehouseHealthTone(job.status)}>{job.status}</ToneBadge>
+                </div>
+                <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                  <MiniFact label="Bytes" value={formatBytes(job.bytes)} />
+                  <MiniFact label="Records" value={job.records} />
+                </div>
+                <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{job.detail}</p>
+              </article>
+            )) : <PolicyCallout title="No warehouse jobs yet" detail="Collector, mirror, prune, and restore evidence will appear after runtime records are written." tone="warning" />}
+          </div>
+        </Panel>
+      </section>
+    </div>
   );
+}
+
+function WarehouseTrendChart({ points }: { points: WarehouseSeriesPoint[] }) {
+  const path = useMemo(() => buildLine(points, "bytesIngested"), [points]);
+  const area = useMemo(() => buildLine(points, "storageUsedBytes"), [points]);
+  if (points.length < 2) {
+    return <div className="grid min-h-[180px] place-items-center rounded-lg border border-dashed border-border bg-background text-sm text-muted-foreground">Not enough chart data yet</div>;
+  }
+  return (
+    <div className="rounded-lg border border-border bg-background p-3" data-hdk-component="LineChart" data-chart-type="line" data-x-axis="timestamp" data-y-axis="bytes">
+      <svg viewBox="0 0 720 220" className="h-56 w-full" role="img" aria-label="Warehouse ingestion and capacity trend">
+        <line x1="42" x2="700" y1="188" y2="188" className="stroke-border" />
+        <line x1="42" x2="42" y1="18" y2="188" className="stroke-border" />
+        <path d={area} fill="none" className="stroke-emerald-500" strokeWidth="3" />
+        <path d={path} fill="none" className="stroke-sky-500" strokeWidth="3" />
+        <text x="42" y="210" className="fill-muted-foreground text-[10px]">{new Date(points[0].timestamp).toLocaleDateString()}</text>
+        <text x="700" y="210" textAnchor="end" className="fill-muted-foreground text-[10px]">{new Date(points[points.length - 1].timestamp).toLocaleDateString()}</text>
+      </svg>
+      <div className="mt-2 flex flex-wrap gap-3 text-xs text-muted-foreground">
+        <span className="inline-flex items-center gap-1"><i className="h-2 w-2 rounded-full bg-emerald-500" /> storage used</span>
+        <span className="inline-flex items-center gap-1"><i className="h-2 w-2 rounded-full bg-sky-500" /> bytes ingested</span>
+      </div>
+    </div>
+  );
+}
+
+function buildLine(points: WarehouseSeriesPoint[], key: "bytesIngested" | "storageUsedBytes") {
+  const values = points.map((point) => point[key]);
+  const max = Math.max(...values, 1);
+  const min = Math.min(...values, 0);
+  const width = 658;
+  const height = 170;
+  return points.map((point, index) => {
+    const x = 42 + (points.length === 1 ? 0 : (index / (points.length - 1)) * width);
+    const ratio = (point[key] - min) / Math.max(1, max - min);
+    const y = 188 - ratio * height;
+    return `${index === 0 ? "M" : "L"} ${x.toFixed(2)} ${y.toFixed(2)}`;
+  }).join(" ");
 }
 
 function FreshnessPanel({ stages }: { stages: OperatingSystemStage[] }) {
@@ -249,6 +489,37 @@ function DeploymentPanel({ stages }: { stages: OperatingSystemStage[] }) {
         <PolicyCallout title="Promotion rail coverage" detail={`${stages.length} deployment stages define the shared path from local validation to production evidence.`} tone="success" />
       </div>
     </Panel>
+  );
+}
+
+function PageContractStrip({ audit }: { audit: OperationalPageAudit }) {
+  return (
+    <section className="rounded-lg border border-border bg-card p-3 shadow-sm" data-review-id={`hermes.page-contract.${audit.route}`}>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-2">
+            <ToneBadge tone={audit.status === "ready" ? "success" : audit.status === "blocked" ? "critical" : "warning"}>{audit.status}</ToneBadge>
+            <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{audit.maturity} surface</span>
+          </div>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Next maturity action: <span className="font-medium text-foreground">{audit.nextAction}</span>
+          </p>
+        </div>
+        <div className="grid min-w-[220px] gap-2 sm:grid-cols-2">
+          <MiniStat label="Contract score" value={`${audit.score}%`} />
+          <MiniStat label="Missing" value={audit.missing.length} />
+        </div>
+      </div>
+      {audit.missing.length ? (
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {audit.missing.slice(0, 6).map((item) => (
+            <span key={item} className="rounded border border-border bg-background px-2 py-0.5 text-xs font-medium text-muted-foreground">
+              {item}
+            </span>
+          ))}
+        </div>
+      ) : null}
+    </section>
   );
 }
 
