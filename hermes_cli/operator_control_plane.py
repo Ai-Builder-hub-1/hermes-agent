@@ -212,7 +212,10 @@ def _compact_system_evidence(summary: Dict[str, Any]) -> str:
 
 async def _trading_items() -> list[Dict[str, Any]]:
     try:
+        from hermes_cli.compounding_intelligence import compounding_intelligence_from_components
+        from hermes_cli.operating_runtime import action_policy_summary
         from hermes_cli.portfolio_intelligence import portfolio_intelligence_from_command
+        from hermes_cli.system_operations import recovery_summary
         from hermes_cli.trading_intelligence import trading_command_center
         from hermes_cli.trading_research import outcome_learning_summary, strategy_lifecycle_summary
 
@@ -221,6 +224,7 @@ async def _trading_items() -> list[Dict[str, Any]]:
             timeout=3,
         )
         portfolio = portfolio_intelligence_from_command(command)
+        compounding = compounding_intelligence_from_components(lifecycle, outcomes, portfolio, action_policy_summary(), recovery_summary())
     except Exception as exc:
         return [
             {
@@ -246,6 +250,7 @@ async def _trading_items() -> list[Dict[str, Any]]:
         *_strategy_lifecycle_items(lifecycle),
         *_outcome_learning_items(outcomes),
         *_portfolio_intelligence_items(portfolio),
+        *_compounding_intelligence_items(compounding),
     ]
 
 
@@ -489,6 +494,40 @@ def _portfolio_intelligence_items(portfolio: Dict[str, Any]) -> list[Dict[str, A
             "requiresApproval": blocked,
             "updatedAt": portfolio.get("generatedAt"),
             "route": "/trading/risk",
+        }
+    ]
+
+
+def _compounding_intelligence_items(compounding: Dict[str, Any]) -> list[Dict[str, Any]]:
+    summary = compounding.get("summary") if isinstance(compounding.get("summary"), dict) else {}
+    proposals = int(summary.get("proposals") or 0)
+    blocked = int(summary.get("blocked") or 0)
+    requires_approval = int(summary.get("requiresApproval") or 0)
+    execution_enabled = summary.get("executionEnabled") is True
+    bad = blocked > 0 or execution_enabled
+    watch = requires_approval > 0 or proposals == 0
+    return [
+        {
+            "id": "compounding-intelligence-proposals",
+            "kind": "incident" if bad else "approval" if watch else "evidence",
+            "title": "Compounding intelligence proposals",
+            "source": "Compounding intelligence",
+            "owner": "Hermes",
+            "severity": "critical" if bad else "warning" if watch else "ready",
+            "state": "blocked" if bad else "review" if watch else "ready",
+            "whyItMatters": "Hermes should compound by proposing experiments, promotion reviews, demotions, and safety work from evidence without executing them automatically.",
+            "nextAction": str((compounding.get("recommendations") or ["Review compounding intelligence committee packet."])[0]),
+            "clearingProof": "Compounding proposals are evidence-backed, execution is disabled, live trading is locked, and approval requirements are explicit.",
+            "evidence": (
+                f"proposals={proposals}; blocked={blocked}; requiresApproval={requires_approval}; "
+                f"experiments={summary.get('experiments')}; promotionReviews={summary.get('promotionReviews')}; "
+                f"demotionReviews={summary.get('demotionReviews')}; executionEnabled={summary.get('executionEnabled')}; "
+                f"liveTradingLocked={summary.get('liveTradingLocked')}"
+            ),
+            "safeAction": None,
+            "requiresApproval": bad or watch,
+            "updatedAt": compounding.get("generatedAt"),
+            "route": "/compounding-intelligence",
         }
     ]
 

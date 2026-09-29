@@ -156,6 +156,7 @@ def test_operate_queue_merges_fleet_and_runtime_evidence(monkeypatch, tmp_path):
     assert "strategy-development-lifecycle" in ids
     assert "trading-outcome-learning" in ids
     assert "trading-portfolio-intelligence" in ids
+    assert "compounding-intelligence-proposals" in ids
     assert body["summary"]["attention"] >= 2
     runtime_item = next(item for item in body["items"] if item["id"] == "runtime-incident-live-worker")
     assert runtime_item["severity"] == "critical"
@@ -183,6 +184,10 @@ def test_operate_queue_merges_fleet_and_runtime_evidence(monkeypatch, tmp_path):
     assert portfolio_item["route"] == "/trading/risk"
     assert "exposureCoverage=" in portfolio_item["evidence"]
     assert "brokerCoverage=" in portfolio_item["evidence"]
+    compounding_item = next(item for item in body["items"] if item["id"] == "compounding-intelligence-proposals")
+    assert compounding_item["route"] == "/compounding-intelligence"
+    assert "executionEnabled=False" in compounding_item["evidence"]
+    assert "liveTradingLocked=True" in compounding_item["evidence"]
 
 
 def test_operate_action_intent_records_audit_and_evidence(monkeypatch, tmp_path):

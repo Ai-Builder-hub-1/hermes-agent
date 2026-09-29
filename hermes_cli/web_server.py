@@ -1883,6 +1883,20 @@ async def get_trading_portfolio_intelligence_summary():
     return await portfolio_intelligence_summary()
 
 
+@app.get("/api/compounding-intelligence/summary")
+async def get_compounding_intelligence_summary():
+    from hermes_cli.compounding_intelligence import compounding_intelligence_summary
+
+    return await compounding_intelligence_summary()
+
+
+@app.post("/api/compounding-intelligence/review")
+async def post_compounding_intelligence_review():
+    from hermes_cli.compounding_intelligence import record_compounding_intelligence_review
+
+    return await record_compounding_intelligence_review()
+
+
 def _hermes_brain_base_url() -> str:
     return os.environ.get("HERMES_BRAIN_URL", "http://127.0.0.1:3115").rstrip("/")
 
