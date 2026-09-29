@@ -148,6 +148,40 @@ The target production workflow should:
 8. Upload deploy evidence as an artifact or PR comment.
 9. Fail closed on unknown source ref, dirty host checkout, service mismatch, rollback target, or domain-health status.
 
+## Hermes Brain Production Wiring
+
+Hermes Brain is an internal second-brain service. It should not require a separate public hostname for the operator workflow.
+
+The public/operator contract stays under the existing Nous Hermes production domain:
+
+```text
+https://agent.tlccapitalgroup.com/api/second-brain/*
+```
+
+Nous Hermes proxies those requests to Hermes Brain through `HERMES_BRAIN_URL`.
+
+Production target when both services share a Docker Compose network:
+
+```sh
+HERMES_BRAIN_URL=http://hermes-brain:3115
+```
+
+Same-host fallback when Hermes Brain is bound to localhost instead of a shared Docker network:
+
+```sh
+HERMES_BRAIN_URL=http://127.0.0.1:3115
+```
+
+Required production proof:
+
+```sh
+ssh hermes-os curl -sS http://127.0.0.1:3115/health
+curl -sS https://agent.tlccapitalgroup.com/api/second-brain/compounding-intelligence
+curl -sS "https://agent.tlccapitalgroup.com/api/second-brain/retrieval-pack?q=production&project=nous-hermes-agent"
+```
+
+If the public endpoint returns `second brain backend unavailable`, the problem is not the public domain. Check whether the Hermes Brain container is running, whether `HERMES_BRAIN_URL` is set on the Nous service, and whether the services can reach each other on port `3115`.
+
 ## Main Cutover Blocker
 
 The deployed production checkout is not `main`; it is `codex/dashboard-design-maturity-system` at `a28b50cdc685dd4f4512415859c3e9309dfb8ef4`.
