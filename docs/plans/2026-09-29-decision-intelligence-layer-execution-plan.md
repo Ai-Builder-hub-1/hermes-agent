@@ -336,6 +336,14 @@ Tests:
 
 ## Phase 12: Stale Memory Research Triggers
 
+Status: complete in Hermes Brain.
+
+Evidence:
+
+- Added durable research task records for stale memory, low-confidence memory, contradictions, and decision-critical refreshes.
+- Research task generation creates queued tasks with linked memory/decision/contradiction refs, required evidence, source system, priority, and status.
+- Live API probe confirmed `/api/brain/research-tasks/generate` and `/api/brain/research-tasks` are reachable.
+
 Build:
 
 - Add research-trigger records for stale, low-confidence, contradicted, or decision-critical memories.
@@ -354,6 +362,14 @@ Tests:
 
 ## Phase 13: Investing Research Adapter
 
+Status: complete in Hermes Brain contract layer.
+
+Evidence:
+
+- Added investing adapter classification with required evidence: filings, financials, news, and valuation assumptions.
+- Research task execution creates cited candidate memories for investing refreshes instead of silently updating approved memory.
+- Tests prove stale investing memory generates a research task and a pending cited candidate.
+
 Build:
 
 - Add research adapter contract for filings, financials, news, valuation assumptions, thesis changes, and risk updates.
@@ -371,6 +387,14 @@ Tests:
 
 ## Phase 14: Trading Research Adapter
 
+Status: complete in Hermes Brain contract layer.
+
+Evidence:
+
+- Added trading adapter classification for Khashi/trading sources with required evidence: market data, strategy performance, freshness, and risk.
+- Research task execution creates cited candidate memories for trading refreshes and blocker updates.
+- Tests prove stale Khashi/trading memory generates a research task and a pending cited candidate.
+
 Build:
 
 - Add research adapter contract for market data, strategy performance, paper/shadow results, freshness, and risk.
@@ -387,6 +411,14 @@ Tests:
 - Risk breach creates review task.
 
 ## Phase 15: Operations Research Adapter
+
+Status: complete in Hermes Brain contract layer.
+
+Evidence:
+
+- Added operations adapter classification with required evidence: incidents, deployments, logs, and warehouse status.
+- Research task execution creates cited candidate memories for operational lessons and repeated failures.
+- Tests prove stale Nous/operations memory generates a research task and a pending cited candidate.
 
 Build:
 
