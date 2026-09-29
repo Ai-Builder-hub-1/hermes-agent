@@ -162,7 +162,7 @@ function ResearchDecisionPanel() {
   if (!snapshot && error) return <ErrorPanel title="Strategy research unavailable" error={error} retry={() => void load(window)} />;
   if (!snapshot) return null;
 
-  const { summary, series } = snapshot;
+  const { summary, series, lifecycle } = snapshot;
   const review = async () => {
     setActionStatus("Strategy review running");
     try {
@@ -204,6 +204,39 @@ function ResearchDecisionPanel() {
         <div className="grid gap-3 p-3">
           <WindowButtons value={window} onChange={setWindow} />
           <TrendChart series={series} primaryKey="candidates" secondaryKey="ready" />
+        </div>
+      </Panel>
+      <Panel title="Lifecycle gates" count={lifecycle.summary.strategies}>
+        <div className="grid gap-3 p-3">
+          <div className="grid gap-2 sm:grid-cols-5">
+            {lifecycle.stages.filter((stage) => stage.count > 0 || ["hypothesis", "backtest", "review", "promotion_candidate", "active"].includes(stage.id)).slice(0, 5).map((stage) => (
+              <MiniFact key={stage.id} label={stage.label} value={stage.blocked ? `${stage.count} / ${stage.blocked} blocked` : stage.count} />
+            ))}
+          </div>
+          <div className="grid gap-2">
+            {lifecycle.strategies.slice(0, 6).map((strategy) => (
+              <article key={strategy.id} className="rounded-lg border border-border bg-background p-3">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <h2 className="text-sm font-semibold text-foreground">{strategy.hypothesis}</h2>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {strategy.sourceProject} / {strategy.stage.replaceAll("_", " ")} / {strategy.promotionGate}
+                    </p>
+                  </div>
+                  <ToneBadge tone={tradingResearchTone(strategy.state)}>{strategy.state}</ToneBadge>
+                </div>
+                <div className="mt-3 grid gap-2 sm:grid-cols-4">
+                  <MiniFact label="Evidence" value={strategy.evidenceCount} />
+                  <MiniFact label="Backtest" value={strategy.backtestStatus} />
+                  <MiniFact label="Dataset" value={strategy.datasetWindow} />
+                  <MiniFact label="Live locked" value={strategy.liveTradingLocked ? "yes" : "no"} />
+                </div>
+                <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                  {(strategy.blockers[0] || strategy.nextActions[0] || strategy.falsificationCriteria)}
+                </p>
+              </article>
+            ))}
+          </div>
         </div>
       </Panel>
       <Panel title="Strategy candidates" count={summary.candidates.length}>

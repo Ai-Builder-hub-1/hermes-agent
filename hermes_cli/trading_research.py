@@ -156,6 +156,132 @@ async def backtesting_series(window: Window = "24h") -> dict[str, Any]:
     return _series(window, max(int(summary["summary"]["runs"]), 1), ("runs", "passed", "blocked"))
 
 
+async def strategy_lifecycle_summary() -> dict[str, Any]:
+    strategies, backtests = await strategy_summary(), await backtesting_summary()
+    candidates = list(strategies.get("candidates") or [])
+    runs = list(backtests.get("runs") or [])
+    run_by_strategy = {str(run.get("strategyId")): run for run in runs}
+    rows = [_strategy_lifecycle_row(candidate, run_by_strategy.get(str(candidate.get("id")))) for candidate in candidates]
+    stage_order = {
+        "idea": 0,
+        "hypothesis": 1,
+        "backtest": 2,
+        "paper": 3,
+        "shadow": 4,
+        "review": 5,
+        "promotion_candidate": 6,
+        "active": 7,
+        "paused": 8,
+        "retired": 9,
+    }
+    rows.sort(key=lambda row: (stage_order.get(row["stage"], 99), row["sourceProject"], row["strategyId"]))
+    blocked = [row for row in rows if row["state"] == "blocked"]
+    review = [row for row in rows if row["state"] == "review"]
+    ready = [row for row in rows if row["state"] == "ready"]
+    return {
+        "contractVersion": "trading-strategy-lifecycle.v1",
+        "generatedAt": now_iso(),
+        "health": "critical" if blocked else "warning" if review or not ready else "ready",
+        "summary": {
+            "strategies": len(rows),
+            "ready": len(ready),
+            "review": len(review),
+            "blocked": len(blocked),
+            "promotionCandidates": len([row for row in rows if row["stage"] == "promotion_candidate"]),
+            "active": len([row for row in rows if row["stage"] == "active"]),
+            "retired": len([row for row in rows if row["stage"] == "retired"]),
+        },
+        "stages": [
+            {
+                "id": stage,
+                "label": stage.replace("_", " ").title(),
+                "count": len([row for row in rows if row["stage"] == stage]),
+                "blocked": len([row for row in rows if row["stage"] == stage and row["state"] == "blocked"]),
+            }
+            for stage in stage_order
+        ],
+        "strategies": rows,
+        "blockers": _unique(
+            blocker
+            for row in rows
+            for blocker in row.get("blockers", [])
+        ),
+        "recommendations": _unique(
+            recommendation
+            for row in rows
+            for recommendation in row.get("nextActions", [])
+        )[:12],
+    }
+
+
+def _strategy_lifecycle_row(candidate: dict[str, Any], run: dict[str, Any] | None) -> dict[str, Any]:
+    evidence_count = int(candidate.get("evidenceCount") or 0)
+    candidate_status = str(candidate.get("status") or "watch")
+    backtest_status = str((run or {}).get("status") or "missing")
+    stage = _strategy_lifecycle_stage(candidate_status, backtest_status, evidence_count)
+    blockers = []
+    if candidate_status == "blocked":
+        blockers.append("Strategy source is blocked.")
+    if evidence_count == 0:
+        blockers.append("No strategy evidence rows are available.")
+    if not run or backtest_status in {"waiting_for_data", "missing"}:
+        blockers.append("Backtest proof is missing or waiting for data.")
+    if (run or {}).get("datasetWindow") in {None, "", "missing"}:
+        blockers.append("Dataset window is missing.")
+    next_actions = []
+    if evidence_count == 0:
+        next_actions.append("Publish strategy evidence rows with falsification criteria.")
+    if not run or backtest_status in {"waiting_for_data", "missing"}:
+        next_actions.append("Run or ingest a backtest before promotion review.")
+    if not blockers and stage in {"review", "promotion_candidate"}:
+        next_actions.append("Record an operator review before any promotion.")
+    state = "blocked" if blockers else "review" if stage in {"review", "promotion_candidate"} else "ready"
+    return {
+        "id": f"strategy-lifecycle-{candidate.get('id')}",
+        "strategyId": str(candidate.get("id") or "unknown"),
+        "sourceProject": str(candidate.get("sourceProject") or "unknown"),
+        "hypothesis": str(candidate.get("hypothesis") or "Strategy candidate"),
+        "stage": stage,
+        "state": state,
+        "evidenceCount": evidence_count,
+        "backtestStatus": backtest_status,
+        "promotionGate": str((run or {}).get("promotionGate") or candidate.get("promotionGate") or "source_adapter_required"),
+        "winRate": candidate.get("winRate"),
+        "expectancy": candidate.get("expectancy"),
+        "maxDrawdown": candidate.get("maxDrawdown"),
+        "datasetWindow": str((run or {}).get("datasetWindow") or "missing"),
+        "falsificationCriteria": str(candidate.get("falsificationCriteria") or "Needs explicit falsification criteria."),
+        "blockers": blockers,
+        "nextActions": next_actions or ["Keep collecting evidence until the next lifecycle gate is ready."],
+        "liveTradingLocked": True,
+    }
+
+
+def _strategy_lifecycle_stage(candidate_status: str, backtest_status: str, evidence_count: int) -> str:
+    if candidate_status == "blocked":
+        return "idea"
+    if evidence_count == 0:
+        return "hypothesis"
+    if backtest_status in {"waiting_for_data", "missing"}:
+        return "backtest"
+    if backtest_status == "review":
+        return "review"
+    if candidate_status == "ready" and backtest_status == "passed":
+        return "promotion_candidate"
+    return "paper"
+
+
+def _unique(values: Any) -> list[str]:
+    seen: set[str] = set()
+    result: list[str] = []
+    for value in values:
+        text = str(value)
+        if text and text not in seen:
+            seen.add(text)
+            result.append(text)
+    return result
+
+
 def _record_action(subject: str, detail: str, payload: dict[str, Any]) -> dict[str, Any]:
     from hermes_cli.operating_runtime import connect, upsert_evidence
 

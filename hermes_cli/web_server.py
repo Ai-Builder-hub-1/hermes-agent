@@ -1809,6 +1809,13 @@ async def post_trading_strategy_review():
     return await record_strategy_review()
 
 
+@app.get("/api/trading-research/strategies/lifecycle")
+async def get_trading_strategy_lifecycle():
+    from hermes_cli.trading_research import strategy_lifecycle_summary
+
+    return await strategy_lifecycle_summary()
+
+
 @app.get("/api/trading-research/backtesting/summary")
 async def get_trading_backtesting_summary():
     from hermes_cli.trading_research import backtesting_summary

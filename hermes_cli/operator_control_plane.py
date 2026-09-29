@@ -211,8 +211,12 @@ def _compact_system_evidence(summary: Dict[str, Any]) -> str:
 async def _trading_items() -> list[Dict[str, Any]]:
     try:
         from hermes_cli.trading_intelligence import trading_command_center
+        from hermes_cli.trading_research import strategy_lifecycle_summary
 
-        command = await asyncio.wait_for(trading_command_center(limit=5), timeout=3)
+        command, lifecycle = await asyncio.wait_for(
+            asyncio.gather(trading_command_center(limit=5), strategy_lifecycle_summary()),
+            timeout=3,
+        )
     except Exception as exc:
         return [
             {
@@ -233,7 +237,7 @@ async def _trading_items() -> list[Dict[str, Any]]:
                 "route": "/trading/investing",
             }
         ]
-    return _trading_command_to_items(command)
+    return [*_trading_command_to_items(command), *_strategy_lifecycle_items(lifecycle)]
 
 
 def _trading_command_to_items(command: Dict[str, Any]) -> list[Dict[str, Any]]:
@@ -382,6 +386,40 @@ def _backtest_lineage_items(command: Dict[str, Any]) -> list[Dict[str, Any]]:
             }
         )
     return items
+
+
+def _strategy_lifecycle_items(lifecycle: Dict[str, Any]) -> list[Dict[str, Any]]:
+    summary = lifecycle.get("summary") if isinstance(lifecycle.get("summary"), dict) else {}
+    blocked = int(summary.get("blocked") or 0)
+    review = int(summary.get("review") or 0)
+    strategies = int(summary.get("strategies") or 0)
+    promotion_candidates = int(summary.get("promotionCandidates") or 0)
+    bad = blocked > 0
+    watch = review > 0 or strategies == 0
+    blockers = lifecycle.get("blockers") if isinstance(lifecycle.get("blockers"), list) else []
+    recommendations = lifecycle.get("recommendations") if isinstance(lifecycle.get("recommendations"), list) else []
+    return [
+        {
+            "id": "strategy-development-lifecycle",
+            "kind": "incident" if bad else "action" if watch else "evidence",
+            "title": "Strategy development lifecycle",
+            "source": "Trading research lifecycle",
+            "owner": "Trading Research",
+            "severity": "critical" if bad else "warning" if watch else "ready",
+            "state": "blocked" if bad else "review" if watch else "ready",
+            "whyItMatters": "Strategy ideas need a consistent idea-to-backtest-to-review lifecycle before any promotion decision is trustworthy.",
+            "nextAction": str((blockers or recommendations or ["Review strategy lifecycle gates and record operator review."])[0]),
+            "clearingProof": "Lifecycle summary has no blocked strategies, review gates are recorded, and liveTradingLocked remains true.",
+            "evidence": (
+                f"strategies={strategies}; blocked={blocked}; review={review}; "
+                f"promotionCandidates={promotion_candidates}; health={lifecycle.get('health')}"
+            ),
+            "safeAction": None,
+            "requiresApproval": bad,
+            "updatedAt": lifecycle.get("generatedAt"),
+            "route": "/trading/strategies",
+        }
+    ]
 
 
 def _summary(items: Iterable[Dict[str, Any]]) -> Dict[str, int]:

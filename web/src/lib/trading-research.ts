@@ -45,6 +45,48 @@ export interface StrategySummary {
   blockers: string[];
 }
 
+export interface StrategyLifecycleSummary {
+  contractVersion: string;
+  generatedAt: string;
+  health: TradingResearchHealth;
+  summary: {
+    strategies: number;
+    ready: number;
+    review: number;
+    blocked: number;
+    promotionCandidates: number;
+    active: number;
+    retired: number;
+  };
+  stages: Array<{
+    id: string;
+    label: string;
+    count: number;
+    blocked: number;
+  }>;
+  strategies: Array<{
+    id: string;
+    strategyId: string;
+    sourceProject: string;
+    hypothesis: string;
+    stage: string;
+    state: TradingResearchHealth;
+    evidenceCount: number;
+    backtestStatus: string;
+    promotionGate: string;
+    winRate: number | null;
+    expectancy: number | null;
+    maxDrawdown: number | null;
+    datasetWindow: string;
+    falsificationCriteria: string;
+    blockers: string[];
+    nextActions: string[];
+    liveTradingLocked: boolean;
+  }>;
+  blockers: string[];
+  recommendations: string[];
+}
+
 export interface BacktestingSummary {
   contractVersion: string;
   generatedAt: string;
@@ -103,6 +145,7 @@ export interface TradingEvidenceLedger {
 export interface StrategySnapshot {
   summary: StrategySummary;
   series: TradingResearchSeries;
+  lifecycle: StrategyLifecycleSummary;
 }
 
 export interface BacktestingSnapshot {
@@ -116,11 +159,12 @@ export interface TradingEvidenceSnapshot {
 }
 
 export async function fetchStrategySnapshot(window: WarehouseWindow = "24h"): Promise<StrategySnapshot> {
-  const [summary, series] = await Promise.all([
+  const [summary, series, lifecycle] = await Promise.all([
     fetchJSON<StrategySummary>("/api/trading-research/strategies/summary"),
     fetchJSON<TradingResearchSeries>(`/api/trading-research/strategies/series?window=${encodeURIComponent(window)}`),
+    fetchJSON<StrategyLifecycleSummary>("/api/trading-research/strategies/lifecycle"),
   ]);
-  return { summary, series };
+  return { summary, series, lifecycle };
 }
 
 export async function fetchBacktestingSnapshot(window: WarehouseWindow = "24h"): Promise<BacktestingSnapshot> {

@@ -34,6 +34,31 @@ async def test_backtesting_summary_series_and_review(tmp_path, monkeypatch):
 
 
 @pytest.mark.asyncio
+async def test_strategy_lifecycle_summary(tmp_path, monkeypatch):
+    monkeypatch.setenv("HERMES_HOME", str(tmp_path / "home"))
+    monkeypatch.delenv("INVESTING_SYSTEM_API_BASE_URL", raising=False)
+    monkeypatch.delenv("KHASHI_VC_API_BASE_URL", raising=False)
+
+    from hermes_cli.trading_research import strategy_lifecycle_summary
+
+    lifecycle = await strategy_lifecycle_summary()
+    assert lifecycle["contractVersion"] == "trading-strategy-lifecycle.v1"
+    assert lifecycle["summary"]["strategies"] >= 1
+    assert {"idea", "hypothesis", "backtest", "review", "promotion_candidate"}.issubset({stage["id"] for stage in lifecycle["stages"]})
+    assert {
+        "strategyId",
+        "sourceProject",
+        "stage",
+        "state",
+        "promotionGate",
+        "blockers",
+        "nextActions",
+        "liveTradingLocked",
+    }.issubset(lifecycle["strategies"][0])
+    assert lifecycle["strategies"][0]["liveTradingLocked"] is True
+
+
+@pytest.mark.asyncio
 async def test_evidence_ledger_series_and_review(tmp_path, monkeypatch):
     monkeypatch.setenv("HERMES_HOME", str(tmp_path / "home"))
     monkeypatch.delenv("INVESTING_SYSTEM_API_BASE_URL", raising=False)
