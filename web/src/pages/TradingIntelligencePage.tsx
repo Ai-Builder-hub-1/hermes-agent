@@ -85,7 +85,7 @@ import {
   type TradingEvent,
 } from "@/lib/trading-command-center";
 
-type TradingViewMode = "overview" | "investing" | "khashi";
+type TradingViewMode = "overview" | "investing" | "khashi" | "shadow-paper";
 
 const VIEW_COPY: Record<TradingViewMode, { eyebrow: string; title: string; description: string; projectId: string | null }> = {
   overview: {
@@ -105,6 +105,12 @@ const VIEW_COPY: Record<TradingViewMode, { eyebrow: string; title: string; descr
     title: "Khashi trading state",
     description: "Kalshi/Khashi market, paper, proof, and activation state. Cash is only shown when Khashi explicitly reports production, demo, or paper bankroll provenance.",
     projectId: "khashi-vc",
+  },
+  "shadow-paper": {
+    eyebrow: "Shadow / paper",
+    title: "Shadow and paper state",
+    description: "Read-only view of simulated bankrolls, paper/shadow activity, and proof signals. It keeps paper performance visibly separate from live account metrics.",
+    projectId: null,
   },
 };
 
@@ -276,6 +282,7 @@ export default function TradingIntelligencePage() {
   const mode = useMemo<TradingViewMode>(() => {
     if (pathname.replace(/\/$/, "") === "/trading/investing") return "investing";
     if (pathname.replace(/\/$/, "") === "/trading/khashi") return "khashi";
+    if (pathname.replace(/\/$/, "") === "/trading/shadow-paper") return "shadow-paper";
     return "overview";
   }, [pathname]);
   const [eventFilter, setEventFilter] = useState("all");
@@ -494,6 +501,46 @@ export default function TradingIntelligencePage() {
 }
 
 function scopeCommandCenter(data: TradingCommandCenter, mode: TradingViewMode): TradingCommandCenter {
+  if (mode === "shadow-paper") {
+    const rows = data.dailyMetrics.bySource.filter((row) => {
+      const source = `${row.capitalSource ?? ""} ${row.capitalSemantics ?? ""}`.toLowerCase();
+      return row.paperBankrollUsd !== null || source.includes("paper") || source.includes("simulated") || source.includes("shadow");
+    });
+    const events = data.recentEvents.filter((event) => {
+      const text = `${event.type} ${event.summary} ${event.instrument ?? ""}`.toLowerCase();
+      return text.includes("paper") || text.includes("shadow") || text.includes("simulation") || text.includes("simulated");
+    });
+    const actions = data.actionQueue.filter((item) => {
+      const text = `${item.title} ${item.recommendedAction} ${item.type}`.toLowerCase();
+      return text.includes("paper") || text.includes("shadow") || text.includes("simulation") || text.includes("simulated");
+    });
+    const scopedMetrics = aggregateDailyMetrics(data.dailyMetrics, rows, events, actions);
+    const scopedPoints = data.dailySeries.points.map((point) => {
+      const bySource = point.bySource.filter((row) => {
+        const source = `${row.capitalSource ?? ""} ${row.capitalSemantics ?? ""}`.toLowerCase();
+        return row.paperBankrollUsd !== null || source.includes("paper") || source.includes("simulated") || source.includes("shadow");
+      });
+      return {
+        ...point,
+        ...aggregatePoint(point, bySource),
+        bySource,
+      };
+    }).filter((point) => point.bySource.length);
+    return {
+      ...data,
+      lanes: data.lanes.filter((lane) => {
+        const text = `${lane.label} ${lane.purpose} ${lane.kind} ${lane.status} ${lane.blockers.join(" ")} ${lane.recommendations.join(" ")}`.toLowerCase();
+        return text.includes("paper") || text.includes("shadow") || text.includes("simulation") || text.includes("simulated");
+      }),
+      dailyMetrics: scopedMetrics,
+      dailySeries: { ...data.dailySeries, points: scopedPoints },
+      recentEvents: events,
+      actionQueue: actions,
+      freshness: data.freshness,
+      blockers: data.blockers.filter((blocker) => blocker.toLowerCase().includes("paper") || blocker.toLowerCase().includes("shadow")),
+      recommendations: data.recommendations.filter((recommendation) => recommendation.toLowerCase().includes("paper") || recommendation.toLowerCase().includes("shadow")),
+    };
+  }
   const projectId = VIEW_COPY[mode].projectId;
   if (!projectId) return data;
   const rows = data.dailyMetrics.bySource.filter((row) => row.sourceProject === projectId);

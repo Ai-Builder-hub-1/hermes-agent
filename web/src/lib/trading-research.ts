@@ -142,6 +142,33 @@ export interface TradingEvidenceLedger {
   recommendations: string[];
 }
 
+export interface OutcomeLearningSummary {
+  contractVersion: string;
+  generatedAt: string;
+  health: TradingResearchHealth;
+  summary: {
+    strategies: number;
+    backtestRuns: number;
+    passedBacktests: number;
+    evidenceRecords: number;
+    missingProofHashes: number;
+    reliabilityScore: number;
+    calibration: "ready" | "watch" | "blocked" | string;
+  };
+  signals: Array<{ id: string; status: string; detail: string }>;
+  researchTasks: Array<{
+    id: string;
+    title: string;
+    priority: string;
+    status: string;
+    evidence: string[];
+    nextAction: string;
+    liveTradingLocked: boolean;
+  }>;
+  blockers: string[];
+  recommendations: string[];
+}
+
 export interface StrategySnapshot {
   summary: StrategySummary;
   series: TradingResearchSeries;
@@ -156,6 +183,7 @@ export interface BacktestingSnapshot {
 export interface TradingEvidenceSnapshot {
   ledger: TradingEvidenceLedger;
   series: TradingResearchSeries;
+  outcome: OutcomeLearningSummary;
 }
 
 export async function fetchStrategySnapshot(window: WarehouseWindow = "24h"): Promise<StrategySnapshot> {
@@ -176,11 +204,12 @@ export async function fetchBacktestingSnapshot(window: WarehouseWindow = "24h"):
 }
 
 export async function fetchTradingEvidenceSnapshot(window: WarehouseWindow = "24h"): Promise<TradingEvidenceSnapshot> {
-  const [ledger, series] = await Promise.all([
+  const [ledger, series, outcome] = await Promise.all([
     fetchJSON<TradingEvidenceLedger>("/api/trading-research/evidence/ledger"),
     fetchJSON<TradingResearchSeries>(`/api/trading-research/evidence/series?window=${encodeURIComponent(window)}`),
+    fetchJSON<OutcomeLearningSummary>("/api/trading-research/outcomes/summary"),
   ]);
-  return { ledger, series };
+  return { ledger, series, outcome };
 }
 
 export function runStrategyReview(): Promise<Record<string, unknown>> {
@@ -193,6 +222,10 @@ export function runBacktestReview(): Promise<Record<string, unknown>> {
 
 export function runTradingEvidenceReview(): Promise<Record<string, unknown>> {
   return fetchJSON<Record<string, unknown>>("/api/trading-research/evidence/review", { method: "POST" });
+}
+
+export function runOutcomeLearningReview(): Promise<Record<string, unknown>> {
+  return fetchJSON<Record<string, unknown>>("/api/trading-research/outcomes/review", { method: "POST" });
 }
 
 export function tradingResearchTone(health: string): "success" | "warning" | "critical" | "info" {

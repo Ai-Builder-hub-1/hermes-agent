@@ -255,6 +255,118 @@ export interface ResearchTask {
   metadata: Record<string, unknown>;
 }
 
+export interface PreflightRequest {
+  task: string;
+  project?: string;
+  workflow?: string;
+  riskClass: "low" | "medium" | "high" | "critical";
+  entities?: string[];
+  ticker?: string;
+  strategy?: string;
+  sourceRefs?: EvidenceRef[];
+  metadata?: Record<string, unknown>;
+}
+
+export interface PreflightCheck {
+  id: string;
+  request: PreflightRequest;
+  policy: "pass" | "warn" | "acknowledge" | "block";
+  relevantMemories: BrainNode[];
+  relevantDecisions: DecisionRecord[];
+  contradictions: ContradictionRecord[];
+  staleMemories: BrainNode[];
+  warnings: string[];
+  requiredAcknowledgements: string[];
+  blockReasons: string[];
+  citations: string[];
+  createdAt: string;
+  metadata: Record<string, unknown>;
+}
+
+export interface DecisionIntelligenceMetricsReport {
+  generatedAt: string;
+  status: "ready" | "watch" | "critical";
+  counts: {
+    memories: number;
+    decisions: number;
+    decisionsWithLineage: number;
+    contradictionsOpen: number;
+    contradictionsBlocking: number;
+    researchTasksOpen: number;
+    staleResearchTasks: number;
+    preflightChecks: number;
+    memoryPoorProjects: number;
+  };
+  lineageCoverage: {
+    decisions: number;
+    covered: number;
+    percent: number;
+    missingDecisionIds: string[];
+  };
+  contradictionsByRisk: Record<string, number>;
+  researchAge: {
+    oldestOpenTaskAgeHours: number | null;
+    averageOpenTaskAgeHours: number | null;
+    staleTaskIds: string[];
+  };
+  preflightRates: {
+    pass: number;
+    warn: number;
+    acknowledge: number;
+    block: number;
+    total: number;
+  };
+  memoryUsefulness: {
+    memoriesWithSources: number;
+    memoriesLinkedToDecisions: number;
+    decisionsWithOutcomeFollowUp: number;
+    percentWithSources: number;
+    percentLinkedToDecisions: number;
+    percentDecisionsWithOutcomeFollowUp: number;
+  };
+  sourceCoverage: Array<{
+    project: string;
+    memories: number;
+    decisions: number;
+    researchTasks: number;
+    contradictions: number;
+    latestActivityAt: string | null;
+    status: "learning" | "quiet" | "memory-poor";
+  }>;
+  slo: {
+    lineageCoverageTargetPercent: number;
+    staleResearchTaskMaxAgeHours: number;
+    blockingContradictionTarget: number;
+    memorySourceCoverageTargetPercent: number;
+    breaches: string[];
+  };
+  findings: string[];
+}
+
+export interface FrontierAuditPacket {
+  id: string;
+  recordType: "decision" | "contradiction" | "research_task" | "preflight";
+  recordId: string;
+  generatedAt: string;
+  subject: string;
+  outcomeState: string;
+  sourceRefs: EvidenceRef[];
+  memoryRefs: string[];
+  decisionRefs: string[];
+  contradictionRefs: string[];
+  researchTaskRefs: string[];
+  preflightRefs: string[];
+  warehouse: {
+    manifestHash: string | null;
+    syncedAt: string | null;
+    destination: string | null;
+    eventIds: string[];
+  };
+  findings: string[];
+  payload: Record<string, unknown>;
+  packetHash: string;
+}
+
 export async function fetchSecondBrainSummary(): Promise<SecondBrainSummary> {
   return fetchJSON<SecondBrainSummary>(`${BASE}/summary`);
 }
@@ -314,6 +426,31 @@ export async function fetchResearchTasks(status?: string): Promise<{ tasks: Rese
 
 export async function generateResearchTasks(): Promise<{ tasks: ResearchTask[] }> {
   return fetchJSON<{ tasks: ResearchTask[] }>(`${BASE}/research-tasks/generate`, { method: "POST" });
+}
+
+export async function runPreflightCheck(request: PreflightRequest): Promise<{ check: PreflightCheck }> {
+  return fetchJSON<{ check: PreflightCheck }>(`${BASE}/preflight`, {
+    method: "POST",
+    body: JSON.stringify(request),
+  });
+}
+
+export async function fetchPreflightChecks(): Promise<{ checks: PreflightCheck[] }> {
+  return fetchJSON<{ checks: PreflightCheck[] }>(`${BASE}/preflight-checks`);
+}
+
+export async function fetchDecisionIntelligenceMetrics(): Promise<DecisionIntelligenceMetricsReport> {
+  return fetchJSON<DecisionIntelligenceMetricsReport>(`${BASE}/decision-intelligence/metrics`);
+}
+
+export async function fetchDecisionIntelligenceAuditPacket(params: {
+  recordType: FrontierAuditPacket["recordType"];
+  recordId: string;
+}): Promise<FrontierAuditPacket> {
+  const query = new URLSearchParams();
+  query.set("recordType", params.recordType);
+  query.set("recordId", params.recordId);
+  return fetchJSON<FrontierAuditPacket>(`${BASE}/decision-intelligence/audit-packet?${query.toString()}`);
 }
 
 export async function scanSecondBrainStaleness(): Promise<{ staleNodes: BrainNode[] }> {

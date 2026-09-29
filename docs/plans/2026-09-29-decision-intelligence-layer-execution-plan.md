@@ -488,13 +488,18 @@ Tests:
 
 ## Phase 18: Agent Preflight API
 
-Status: blocked pending authenticated exposure.
+Status: complete through token-gated Hermes Brain API plus authenticated Nous proxy; production requires shared token configuration.
 
 Evidence:
 
 - The Hermes Brain service-layer preflight contract is implemented and warehouse-synced.
 - Direct unauthenticated Hermes Brain API exposure was blocked by safety review because preflight returns sensitive memory, decision, and contradiction context.
-- Next safe implementation path: expose preflight only through the authenticated Nous proxy or add Hermes Brain API auth before enabling direct `/api/brain/preflight`.
+- Added token-gated Hermes Brain endpoints: `POST /api/brain/preflight` and `GET /api/brain/preflight-checks`.
+- Added Nous proxy endpoints: `POST /api/second-brain/preflight` and `GET /api/second-brain/preflight-checks`.
+- Nous forwards `HERMES_BRAIN_SERVICE_TOKEN` to Hermes Brain and returns a clear `hermes_brain_service_token_missing` configuration error if the token is not set.
+- Live local proof: unauthenticated Hermes Brain preflight returned `401`; token-authenticated preflight returned `201` with persisted `policy: block`; token-authenticated history returned the stored check.
+- Production docs now require the same long random `HERMES_BRAIN_SERVICE_TOKEN` on Nous Hermes and Hermes Brain.
+- Hermes Brain production compose and deployment docs now include `HERMES_BRAIN_SERVICE_TOKEN`.
 
 Build:
 
@@ -515,6 +520,15 @@ Tests:
 
 ## Phase 19: Agent Runtime Integration
 
+Status: partially complete; callable preflight contract exists and selected second-brain actions are guarded, broader agent-task hooks still pending.
+
+Evidence:
+
+- Runtime-safe preflight invocation is now possible through the Nous proxy and token-gated Hermes Brain endpoint.
+- Stored preflight checks are persisted and visible through the dashboard.
+- Second-brain research task generation and warehouse sync now run a preflight guard before execution and return `409 second_brain_preflight_blocked` when Hermes Brain blocks the action.
+- Remaining work is to insert preflight calls into broader high-impact agent/workflow execution paths before actions are executed.
+
 Build:
 
 - Integrate preflight checks before selected agent tasks.
@@ -533,6 +547,17 @@ Tests:
 
 ## Phase 20: Nous Preflight UI
 
+Status: complete.
+
+Evidence:
+
+- Added `/preflight` operate route.
+- UI can run a preflight request, show `pass` / `warn` / `acknowledge` / `block`, warnings, block reasons, required acknowledgements, cited memories, linked decisions, contradictions, stale memory counts, and stored preflight audit history.
+- UI can export the selected preflight check as a hashed frontier audit packet and shows the packet hash, warehouse manifest hash, finding count, and source-reference count after export.
+- Added frontend client methods and tests for `runPreflightCheck` and `fetchPreflightChecks`.
+- Added route registration, sidebar entry, page metadata, and operational page contract.
+- Web tests, typecheck, and production build passed.
+
 Build:
 
 - Add preflight panel to relevant pages.
@@ -550,6 +575,17 @@ Tests:
 
 ## Phase 21: Evidence And Audit Packets
 
+Status: complete in Hermes Brain service/proof layer and authenticated Nous operator surface.
+
+Evidence:
+
+- Added `FrontierAuditPacket` contract for decisions, contradictions, research tasks, and stored preflight checks.
+- Audit packets include source refs, memory refs, decision refs, contradiction refs, research task refs, preflight refs, warehouse manifest hash, sync event ids, outcome state, findings, payload, and packet hash.
+- Added test proof that creates a decision lineage, blocking contradiction, stale research task, preflight block, warehouse sync, and exportable decision audit packet.
+- Added token-gated Hermes Brain endpoint and authenticated Nous proxy for audit packets.
+- Added `/preflight` export action for the selected preflight audit packet.
+- Direct unauthenticated API exposure was not added because packet payloads can include sensitive memory and decision context.
+
 Build:
 
 - Generate exportable audit packets for decisions, contradictions, research tasks, and preflight checks.
@@ -566,6 +602,17 @@ Tests:
 - Packet restore/verification test.
 
 ## Phase 22: Operating Metrics And SLOs
+
+Status: complete in Hermes Brain service/proof layer.
+
+Evidence:
+
+- Added `DecisionIntelligenceMetricsReport` with decision lineage coverage, unresolved contradictions by risk, stale research task age, preflight pass/warn/acknowledge/block rates, memory source coverage, memory-to-decision linkage, outcome follow-up rate, project source coverage, and SLO breaches.
+- Source coverage now flags memory-poor projects across Investing System, Khashi VC, Nous Hermes, TLC Capital Group OS, and Hermes Brain.
+- Tests prove blocking contradictions move status to `critical`, stale research tasks breach SLO, preflight block rate is counted, and investing source coverage is marked learning.
+- Added token-gated Hermes Brain metrics endpoint and Nous proxy: `/api/second-brain/decision-intelligence/metrics`.
+- `/preflight` now displays the decision-intelligence operating status, lineage coverage, blocking contradictions, open research tasks, preflight count, and SLO breaches.
+- Live local proof: unauthenticated metrics endpoint returned `401`; token-authenticated metrics endpoint returned `200`.
 
 Build:
 
@@ -586,6 +633,17 @@ Tests:
 
 ## Phase 23: Production Automation
 
+Status: complete as a schedulable Hermes Brain command; production cadence still needs ops scheduler wiring.
+
+Evidence:
+
+- Added `npm run maintenance:decision-intelligence`.
+- Maintenance runs staleness scan, contradiction detection, research queue generation, warehouse sync, restore proof, and decision intelligence metrics.
+- Command exits successfully and reports `ok: false` when critical SLO breaches exist, such as unresolved blocking contradictions, instead of hiding the condition.
+- Latest local proof wrote a warehouse manifest and clean restore proof while surfacing `1 blocking contradiction(s) remain unresolved.`
+- Hermes Brain production deployment docs now include the schedulable maintenance command and explain that `ok: false` should alert rather than hide critical blockers.
+- Nous production docs now include the expected cron cadence, log path, and protected proxy verification commands for decision-intelligence metrics and audit-packet retrieval.
+
 Build:
 
 - Schedule staleness scans.
@@ -605,6 +663,14 @@ Tests:
 
 ## Phase 24: Cross-Project Source Coverage
 
+Status: complete in Hermes Brain metrics layer.
+
+Evidence:
+
+- Decision intelligence metrics include project-level memory, decision, research task, contradiction, latest activity, and status for Investing System, Khashi VC, Nous Hermes, TLC Capital Group OS, and Hermes Brain.
+- Metrics classify each project as `learning`, `quiet`, or `memory-poor`.
+- Tests verify memory-poor project detection and investing-system learning coverage.
+
 Build:
 
 - Ensure Investing System, Khashi VC, Nous Hermes, TLC OS, and Hermes Brain contribute candidates.
@@ -621,6 +687,14 @@ Tests:
 - Healthy project source is green.
 
 ## Phase 25: Final Decision Intelligence Proof
+
+Status: complete locally.
+
+Evidence:
+
+- Added `npm run proof:decision-intelligence`.
+- Proof creates a source-backed investing memory, creates a high-impact decision record, links memory to decision lineage, creates an investing contradiction, creates a Khashi/trading contradiction, creates a research task, runs stored preflight, syncs to warehouse, restores the warehouse, exports a hashed audit packet, and reports operating metrics.
+- Latest proof returned `ok: true`, `lineageCoverage.percent: 100`, `tradingContradictionId`, preflight `policy: block`, an audit packet hash, matching warehouse manifest hash, and restore proof `ok: true`.
 
 Build:
 

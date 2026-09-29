@@ -159,17 +159,20 @@ https://agent.tlccapitalgroup.com/api/second-brain/*
 ```
 
 Nous Hermes proxies those requests to Hermes Brain through `HERMES_BRAIN_URL`.
+Sensitive decision-intelligence preflight endpoints also require a shared service token. Set the same long random value on both services:
 
 Production target when both services share a Docker Compose network:
 
 ```sh
 HERMES_BRAIN_URL=http://hermes-brain:3115
+HERMES_BRAIN_SERVICE_TOKEN=<long-random-shared-token>
 ```
 
 Same-host fallback when Hermes Brain is bound to localhost instead of a shared Docker network:
 
 ```sh
 HERMES_BRAIN_URL=http://127.0.0.1:3115
+HERMES_BRAIN_SERVICE_TOKEN=<long-random-shared-token>
 ```
 
 Required production proof:
@@ -178,9 +181,30 @@ Required production proof:
 ssh hermes-os curl -sS http://127.0.0.1:3115/health
 curl -sS https://agent.tlccapitalgroup.com/api/second-brain/compounding-intelligence
 curl -sS "https://agent.tlccapitalgroup.com/api/second-brain/retrieval-pack?q=production&project=nous-hermes-agent"
+curl -sS https://agent.tlccapitalgroup.com/api/second-brain/preflight-checks
 ```
 
-If the public endpoint returns `second brain backend unavailable`, the problem is not the public domain. Check whether the Hermes Brain container is running, whether `HERMES_BRAIN_URL` is set on the Nous service, and whether the services can reach each other on port `3115`.
+If the public endpoint returns `second brain backend unavailable`, the problem is not the public domain. Check whether the Hermes Brain container is running, whether `HERMES_BRAIN_URL` is set on the Nous service, and whether the services can reach each other on port `3115`. If preflight endpoints return `hermes_brain_service_token_missing`, set `HERMES_BRAIN_SERVICE_TOKEN` on Nous Hermes and Hermes Brain with the same value.
+
+Decision-intelligence maintenance should run on a cadence from the Hermes Brain host or container. It refreshes stale-memory scans, contradiction detection, research task generation, warehouse sync, restore proof, and operating metrics:
+
+```sh
+cd /path/to/hermes-brain
+HERMES_BRAIN_SERVICE_TOKEN=<long-random-shared-token> npm run maintenance:decision-intelligence
+```
+
+Production scheduling target:
+
+```cron
+*/15 * * * * cd /path/to/hermes-brain && HERMES_BRAIN_SERVICE_TOKEN=<long-random-shared-token> npm run maintenance:decision-intelligence >> /var/log/hermes-brain/decision-intelligence-maintenance.log 2>&1
+```
+
+After scheduling, verify the cadence through the protected operator proxy:
+
+```sh
+curl -sS https://agent.tlccapitalgroup.com/api/second-brain/decision-intelligence/metrics
+curl -sS "https://agent.tlccapitalgroup.com/api/second-brain/decision-intelligence/audit-packet?recordType=preflight&recordId=<preflight-id>"
+```
 
 ## Main Cutover Blocker
 

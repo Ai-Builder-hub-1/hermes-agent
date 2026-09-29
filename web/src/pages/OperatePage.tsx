@@ -39,6 +39,7 @@ import {
   loadFleetOperatorSnapshots,
   loadUnifiedOperatorQueue,
   type FleetOperatorQueueResponse,
+  type FleetOperatorQueueItem,
   type FleetOperatorSnapshot,
 } from "./fleet-operator-data";
 import { loadOperatingRuntimeState } from "./operating-runtime";
@@ -146,16 +147,20 @@ function OperatePage({ mode }: { mode: OperateMode }) {
   const blockers = blockerStages(operatingSystemStages);
   const runtime = useMemo(() => loadOperatingRuntimeState(), []);
   const [fleetSnapshots, setFleetSnapshots] = useState<FleetOperatorSnapshot[]>(fallbackFleetOperatorSnapshots);
+  const [unifiedQueue, setUnifiedQueue] = useState<FleetOperatorQueueResponse | null>(null);
   useEffect(() => {
     let cancelled = false;
     loadFleetOperatorSnapshots().then((snapshots) => {
       if (!cancelled) setFleetSnapshots(snapshots);
     });
+    loadUnifiedOperatorQueue(50).then((queue) => {
+      if (!cancelled) setUnifiedQueue(queue);
+    });
     return () => {
       cancelled = true;
     };
   }, []);
-  const operateItems = useMemo(() => buildOperateItems({
+  const baselineOperateItems = useMemo(() => buildOperateItems({
     stages: operatingSystemStages,
     tasks: routedTasks,
     decisions: decisionLedger,
@@ -164,6 +169,8 @@ function OperatePage({ mode }: { mode: OperateMode }) {
     runtime,
     fleetSnapshots,
   }), [fleetSnapshots, runtime]);
+  const liveOperateItems = useMemo(() => (unifiedQueue?.items ?? []).map(queueItemToOperateItem), [unifiedQueue]);
+  const operateItems = liveOperateItems.length ? liveOperateItems : baselineOperateItems;
   const summary = operateSummary(operateItems);
   const incidents = operatingSystemStages.filter((stage) =>
     [
@@ -192,7 +199,7 @@ function OperatePage({ mode }: { mode: OperateMode }) {
           </div>
           <div className="grid min-w-[220px] gap-2 text-xs font-semibold text-muted-foreground sm:grid-cols-2">
             <MiniStat label="Needs attention" value={summary.attention} />
-            <MiniStat label="Gated work" value={summary.blockers} />
+            <MiniStat label="Queue source" value={liveOperateItems.length ? "live" : "fallback"} />
           </div>
         </div>
       </section>
@@ -266,6 +273,26 @@ function Overview({ blockers, items }: { blockers: OperatingSystemStage[]; items
       </section>
     </>
   );
+}
+
+function queueItemToOperateItem(item: FleetOperatorQueueItem): OperateItem {
+  return {
+    id: item.id,
+    kind: item.kind,
+    title: item.title,
+    source: item.source,
+    owner: item.owner,
+    severity: item.severity,
+    state: item.state,
+    whyItMatters: item.whyItMatters,
+    nextAction: item.nextAction,
+    clearingProof: item.clearingProof,
+    evidence: item.evidence,
+    safeAction: item.safeAction,
+    requiresApproval: item.requiresApproval,
+    updatedAt: item.updatedAt,
+    route: item.route,
+  };
 }
 
 function Blockers({ blockers }: { blockers: OperatingSystemStage[] }) {

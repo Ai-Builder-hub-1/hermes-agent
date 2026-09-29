@@ -2,6 +2,7 @@ import { Database, FileCheck2, GitBranch, ShieldCheck } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import {
   fetchTradingEvidenceSnapshot,
+  runOutcomeLearningReview,
   runTradingEvidenceReview,
   tradingResearchTone,
   type TradingEvidenceSnapshot,
@@ -24,6 +25,7 @@ export default function TradingEvidencePage() {
   const [snapshot, setSnapshot] = useState<TradingEvidenceSnapshot | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [actionStatus, setActionStatus] = useState<string | null>(null);
+  const [outcomeStatus, setOutcomeStatus] = useState<string | null>(null);
 
   const load = async (nextWindow = window) => {
     try {
@@ -47,6 +49,17 @@ export default function TradingEvidencePage() {
       await load(window);
     } catch (exc) {
       setActionStatus(`Evidence review failed: ${exc instanceof Error ? exc.message : String(exc)}`);
+    }
+  };
+
+  const reviewOutcome = async () => {
+    setOutcomeStatus("Outcome review running");
+    try {
+      await runOutcomeLearningReview();
+      setOutcomeStatus("Outcome review recorded");
+      await load(window);
+    } catch (exc) {
+      setOutcomeStatus(`Outcome review failed: ${exc instanceof Error ? exc.message : String(exc)}`);
     }
   };
 
@@ -76,7 +89,16 @@ export default function TradingEvidencePage() {
       {!snapshot && !error ? <LoadingPanel /> : null}
       {!snapshot && error ? <ErrorPanel error={error} retry={() => void load(window)} /> : null}
       {snapshot ? (
-        <EvidenceContent snapshot={snapshot} window={window} setWindow={setWindow} error={error} review={review} actionStatus={actionStatus} />
+        <EvidenceContent
+          snapshot={snapshot}
+          window={window}
+          setWindow={setWindow}
+          error={error}
+          review={review}
+          reviewOutcome={reviewOutcome}
+          actionStatus={actionStatus}
+          outcomeStatus={outcomeStatus}
+        />
       ) : null}
     </main>
   );
@@ -88,16 +110,20 @@ function EvidenceContent({
   setWindow,
   error,
   review,
+  reviewOutcome,
   actionStatus,
+  outcomeStatus,
 }: {
   snapshot: TradingEvidenceSnapshot;
   window: WarehouseWindow;
   setWindow: (window: WarehouseWindow) => void;
   error: string | null;
   review: () => void;
+  reviewOutcome: () => void;
   actionStatus: string | null;
+  outcomeStatus: string | null;
 }) {
-  const { ledger, series } = snapshot;
+  const { ledger, series, outcome } = snapshot;
   return (
     <div className="grid gap-4" data-data-state={error ? "partial" : "ready"}>
       <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
@@ -132,6 +158,38 @@ function EvidenceContent({
           </div>
         </Panel>
       </section>
+
+      <Panel title="Outcome learning" count={outcome.signals.length + outcome.researchTasks.length}>
+        <div className="grid gap-3 p-3 xl:grid-cols-[minmax(0,0.48fr)_minmax(0,0.52fr)]">
+          <div className="grid gap-3">
+            <div className="grid gap-2 sm:grid-cols-2">
+              <MiniStat label="Reliability" value={`${outcome.summary.reliabilityScore}%`} />
+              <MiniStat label="Calibration" value={outcome.summary.calibration} />
+              <MiniStat label="Passed tests" value={`${outcome.summary.passedBacktests}/${outcome.summary.backtestRuns}`} />
+              <MiniStat label="Missing hashes" value={outcome.summary.missingProofHashes} />
+            </div>
+            <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border bg-background p-3">
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Outcome health</div>
+                <div className="mt-1 text-sm font-semibold text-foreground">{new Date(outcome.generatedAt).toLocaleString()}</div>
+              </div>
+              <ToneBadge tone={tradingResearchTone(outcome.health)}>{outcome.health}</ToneBadge>
+            </div>
+            <button type="button" className="rounded border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted" onClick={reviewOutcome}>
+              Record outcome review
+            </button>
+            {outcomeStatus ? <p className="text-xs font-medium text-muted-foreground">{outcomeStatus}</p> : null}
+          </div>
+          <div className="grid gap-2">
+            {outcome.signals.length ? outcome.signals.map((signal) => (
+              <PolicyCallout key={signal.id} title={signal.status} detail={signal.detail} tone={tradingResearchTone(signal.status)} />
+            )) : <PolicyCallout title="No outcome signals" detail="Outcome learning has not reported calibration signals yet." tone="warning" />}
+            {outcome.researchTasks.map((task) => (
+              <PolicyCallout key={task.id} title={`${task.priority}: ${task.title}`} detail={task.nextAction} tone={tradingResearchTone(task.status)} />
+            ))}
+          </div>
+        </div>
+      </Panel>
 
       <Panel title="Ledger records" count={ledger.records.length}>
         <div className="overflow-x-auto p-3">

@@ -1901,16 +1901,24 @@ def _hermes_brain_base_url() -> str:
     return os.environ.get("HERMES_BRAIN_URL", "http://127.0.0.1:3115").rstrip("/")
 
 
+def _hermes_brain_service_token() -> str:
+    return os.environ.get("HERMES_BRAIN_SERVICE_TOKEN", "").strip()
+
+
 async def _hermes_brain_request(path: str, method: str = "GET", payload: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     url = f"{_hermes_brain_base_url()}{path}"
 
     def _request() -> Dict[str, Any]:
         data = None if payload is None else json.dumps(payload).encode("utf-8")
+        headers = {"content-type": "application/json"}
+        token = _hermes_brain_service_token()
+        if token:
+            headers["authorization"] = f"Bearer {token}"
         req = urllib.request.Request(
             url,
             data=data,
             method=method,
-            headers={"content-type": "application/json"},
+            headers=headers,
         )
         try:
             with urllib.request.urlopen(req, timeout=5) as resp:
@@ -1989,6 +1997,98 @@ async def get_second_brain_retrieval_pack(
     return await _hermes_brain_request(f"/api/brain/retrieval-pack?{params}")
 
 
+@app.get("/api/second-brain/preflight-checks")
+async def get_second_brain_preflight_checks():
+    if not _hermes_brain_service_token():
+        raise HTTPException(
+            status_code=503,
+            detail={
+                "error": "hermes_brain_service_token_missing",
+                "message": "Set HERMES_BRAIN_SERVICE_TOKEN on Nous Hermes before reading sensitive preflight checks.",
+            },
+        )
+    return await _hermes_brain_request("/api/brain/preflight-checks")
+
+
+@app.post("/api/second-brain/preflight")
+async def post_second_brain_preflight(body: Dict[str, Any]):
+    if not _hermes_brain_service_token():
+        raise HTTPException(
+            status_code=503,
+            detail={
+                "error": "hermes_brain_service_token_missing",
+                "message": "Set HERMES_BRAIN_SERVICE_TOKEN on Nous Hermes before running sensitive preflight checks.",
+            },
+        )
+    return await _hermes_brain_request("/api/brain/preflight", method="POST", payload=body)
+
+
+async def _second_brain_preflight_guard(
+    *,
+    task: str,
+    workflow: str,
+    risk_class: str,
+    entities: Optional[List[str]] = None,
+) -> Dict[str, Any]:
+    if not _hermes_brain_service_token():
+        raise HTTPException(
+            status_code=503,
+            detail={
+                "error": "hermes_brain_service_token_missing",
+                "message": "Set HERMES_BRAIN_SERVICE_TOKEN on Nous Hermes before running guarded second-brain actions.",
+            },
+        )
+    result = await _hermes_brain_request(
+        "/api/brain/preflight",
+        method="POST",
+        payload={
+            "task": task,
+            "project": "nous-hermes-agent",
+            "workflow": workflow,
+            "riskClass": risk_class,
+            "entities": entities or ["second-brain", "data-warehouse"],
+        },
+    )
+    check = result.get("check", {})
+    if check.get("policy") == "block":
+        raise HTTPException(
+            status_code=409,
+            detail={
+                "error": "second_brain_preflight_blocked",
+                "message": "Hermes Brain blocked this high-impact action because critical memory is stale, contradicted, or missing.",
+                "preflight": check,
+            },
+        )
+    return check
+
+
+@app.get("/api/second-brain/decision-intelligence/metrics")
+async def get_second_brain_decision_intelligence_metrics():
+    if not _hermes_brain_service_token():
+        raise HTTPException(
+            status_code=503,
+            detail={
+                "error": "hermes_brain_service_token_missing",
+                "message": "Set HERMES_BRAIN_SERVICE_TOKEN on Nous Hermes before reading decision intelligence metrics.",
+            },
+        )
+    return await _hermes_brain_request("/api/brain/decision-intelligence/metrics")
+
+
+@app.get("/api/second-brain/decision-intelligence/audit-packet")
+async def get_second_brain_decision_intelligence_audit_packet(recordType: str, recordId: str):
+    if not _hermes_brain_service_token():
+        raise HTTPException(
+            status_code=503,
+            detail={
+                "error": "hermes_brain_service_token_missing",
+                "message": "Set HERMES_BRAIN_SERVICE_TOKEN on Nous Hermes before exporting sensitive audit packets.",
+            },
+        )
+    params = urllib.parse.urlencode({"recordType": recordType, "recordId": recordId})
+    return await _hermes_brain_request(f"/api/brain/decision-intelligence/audit-packet?{params}")
+
+
 @app.get("/api/second-brain/decisions")
 async def get_second_brain_decisions():
     return await _hermes_brain_request("/api/brain/decisions")
@@ -2023,6 +2123,12 @@ async def get_second_brain_research_tasks(status: Optional[str] = None):
 
 @app.post("/api/second-brain/research-tasks/generate")
 async def post_second_brain_research_tasks_generate():
+    await _second_brain_preflight_guard(
+        task="Generate second-brain research tasks from stale memories and contradictions",
+        workflow="second-brain-research-task-generation",
+        risk_class="medium",
+        entities=["second-brain", "research-tasks", "contradictions"],
+    )
     return await _hermes_brain_request("/api/brain/research-tasks/generate", method="POST", payload={})
 
 
@@ -2033,6 +2139,12 @@ async def post_second_brain_staleness_scan():
 
 @app.post("/api/second-brain/warehouse/sync")
 async def post_second_brain_warehouse_sync():
+    await _second_brain_preflight_guard(
+        task="Sync second brain records to the durable data warehouse",
+        workflow="second-brain-warehouse-sync",
+        risk_class="high",
+        entities=["second-brain", "data-warehouse", "warehouse-sync"],
+    )
     return await _hermes_brain_request("/api/brain/warehouse/sync", method="POST", payload={})
 
 

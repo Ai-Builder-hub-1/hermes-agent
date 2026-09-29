@@ -7,8 +7,12 @@ import {
   fetchDecisionLineage,
   fetchDecisionRecords,
   fetchMemoryRetrievalPack,
+  fetchDecisionIntelligenceAuditPacket,
+  fetchDecisionIntelligenceMetrics,
+  fetchPreflightChecks,
   fetchResearchTasks,
   generateResearchTasks,
+  runPreflightCheck,
 } from "./second-brain";
 
 afterEach(() => {
@@ -152,5 +156,81 @@ describe("second brain API client", () => {
     expect(fetchMock.mock.calls[0][0]).toBe("/api/second-brain/research-tasks?status=queued");
     expect(fetchMock.mock.calls[1][0]).toBe("/api/second-brain/research-tasks/generate");
     expect(fetchMock.mock.calls[1][1]).toEqual(expect.objectContaining({ method: "POST", credentials: "include" }));
+  });
+
+  it("runs and reads preflight checks through the sensitive proxy endpoints", async () => {
+    vi.stubGlobal("window", {});
+    const fetchMock = jsonFetchMock({ checks: [] });
+    vi.stubGlobal("fetch", fetchMock);
+
+    await runPreflightCheck({
+      task: "Deploy dashboard change",
+      project: "nous-hermes-agent",
+      workflow: "production-deploy",
+      riskClass: "high",
+      entities: ["dashboard"],
+    });
+    await fetchPreflightChecks();
+
+    expect(fetchMock.mock.calls[0][0]).toBe("/api/second-brain/preflight");
+    expect(fetchMock.mock.calls[0][1]).toEqual(expect.objectContaining({
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify({
+        task: "Deploy dashboard change",
+        project: "nous-hermes-agent",
+        workflow: "production-deploy",
+        riskClass: "high",
+        entities: ["dashboard"],
+      }),
+    }));
+    expect(fetchMock.mock.calls[1][0]).toBe("/api/second-brain/preflight-checks");
+  });
+
+  it("loads decision intelligence metrics and audit packets through protected proxy routes", async () => {
+    vi.stubGlobal("window", {});
+    const fetchMock = jsonFetchMock({
+      generatedAt: "2026-09-29T00:00:00.000Z",
+      status: "ready",
+      counts: {
+        memories: 1,
+        decisions: 1,
+        decisionsWithLineage: 1,
+        contradictionsOpen: 0,
+        contradictionsBlocking: 0,
+        researchTasksOpen: 0,
+        staleResearchTasks: 0,
+        preflightChecks: 1,
+        memoryPoorProjects: 0,
+      },
+      lineageCoverage: { decisions: 1, covered: 1, percent: 100, missingDecisionIds: [] },
+      contradictionsByRisk: {},
+      researchAge: { oldestOpenTaskAgeHours: null, averageOpenTaskAgeHours: null, staleTaskIds: [] },
+      preflightRates: { pass: 1, warn: 0, acknowledge: 0, block: 0, total: 1 },
+      memoryUsefulness: {
+        memoriesWithSources: 1,
+        memoriesLinkedToDecisions: 1,
+        decisionsWithOutcomeFollowUp: 1,
+        percentWithSources: 100,
+        percentLinkedToDecisions: 100,
+        percentDecisionsWithOutcomeFollowUp: 100,
+      },
+      sourceCoverage: [],
+      slo: {
+        lineageCoverageTargetPercent: 80,
+        staleResearchTaskMaxAgeHours: 48,
+        blockingContradictionTarget: 0,
+        memorySourceCoverageTargetPercent: 80,
+        breaches: [],
+      },
+      findings: [],
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    await fetchDecisionIntelligenceMetrics();
+    await fetchDecisionIntelligenceAuditPacket({ recordType: "decision", recordId: "decision/with space" });
+
+    expect(fetchMock.mock.calls[0][0]).toBe("/api/second-brain/decision-intelligence/metrics");
+    expect(fetchMock.mock.calls[1][0]).toBe("/api/second-brain/decision-intelligence/audit-packet?recordType=decision&recordId=decision%2Fwith+space");
   });
 });
