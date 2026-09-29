@@ -11,6 +11,12 @@ import {
 import type { ReactNode } from "react";
 import { Link } from "react-router";
 import {
+  blockerKindCounts,
+  blockerStages,
+  explainOperatingBlocker,
+  type OperatingBlockerKind,
+} from "@/lib/operate-blockers";
+import {
   businessScorecards,
   decisionLedger,
   liveSignalIntegrations,
@@ -120,7 +126,7 @@ export function OperateChatActionsPage() {
 
 function OperatePage({ mode }: { mode: OperateMode }) {
   const copy = modeCopy[mode];
-  const blockers = operatingSystemStages.filter((stage) => stage.risk === "high" || stage.status === "gated");
+  const blockers = blockerStages(operatingSystemStages);
   const incidents = operatingSystemStages.filter((stage) =>
     [
       "Incident Command",
@@ -224,16 +230,47 @@ function Overview({ blockers }: { blockers: OperatingSystemStage[] }) {
 }
 
 function Blockers({ blockers }: { blockers: OperatingSystemStage[] }) {
+  const counts = blockerKindCounts(blockers);
+  const topCategories = Object.entries(counts)
+    .filter(([, count]) => count > 0)
+    .sort((left, right) => right[1] - left[1]);
+
   return (
     <section className="grid gap-4 xl:grid-cols-[minmax(0,0.58fr)_minmax(360px,0.42fr)]">
+      <div className="xl:col-span-2 grid gap-3 md:grid-cols-4">
+        <MetricCard label="Total displayed" value={blockers.length} detail="gated or high-risk stages" tone="warning" icon={AlertTriangle} />
+        <MetricCard label="Live failures" value={0} detail="this page is roadmap/gate data" tone="success" icon={ShieldCheck} />
+        <MetricCard label="Manual gates" value={counts.manual_approval} detail="need operator approval/proof" tone="critical" icon={MessageSquare} />
+        <MetricCard label="Infra dependencies" value={counts.infrastructure_dependency} detail="server, secrets, storage, provider proof" tone="warning" icon={Database} />
+      </div>
+
       <Panel title="Blocker queue" count={blockers.length}>
         <div className="grid gap-2 p-3">
           {blockers.map((stage) => (
-            <StageRow key={stage.version} stage={stage} />
+            <BlockerRow key={stage.version} stage={stage} />
           ))}
         </div>
       </Panel>
-      <Panel title="Why blocked">
+      <Panel title="How to read this">
+        <div className="grid gap-3 p-3">
+          <PolicyCallout
+            title="These are not automatically live outages"
+            detail="The queue comes from the static operating-system maturity roadmap. A stage appears here when it is gated or high risk."
+            tone="info"
+          />
+          <PolicyCallout
+            title="Unblocking means evidence, not optimism"
+            detail="Clear a blocker only after the required proof exists: approval record, production health evidence, breaker result, secret-name proof, artifact pointer, or successful run history."
+            tone="warning"
+          />
+          <div className="grid gap-2">
+            {topCategories.map(([kind, count]) => (
+              <MiniFact key={kind} label={labelForBlockerKind(kind as OperatingBlockerKind)} value={`${count} stage${count === 1 ? "" : "s"}`} />
+            ))}
+          </div>
+        </div>
+      </Panel>
+      <Panel title="Clearing proof">
         <div className="grid gap-3 p-3">
           {blockers.slice(0, 5).map((stage) => (
             <article key={stage.version} className="rounded-lg border border-border bg-background p-3">
@@ -241,9 +278,9 @@ function Blockers({ blockers }: { blockers: OperatingSystemStage[] }) {
                 <h2 className="text-sm font-semibold text-foreground">{stage.title}</h2>
                 <ToneBadge tone={stage.risk === "high" ? "critical" : "warning"}>{stage.risk} risk</ToneBadge>
               </div>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">{stage.sectionDescription}</p>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">{explainOperatingBlocker(stage).clearingProof}</p>
               <div className="mt-3 grid gap-2">
-                {stage.rows.filter((row) => row.state === "gated" || row.state === "blocked").map((row) => (
+                {explainOperatingBlocker(stage).gatedRows.map((row) => (
                   <MiniFact key={row.id} label={row.capability} value={row.nextStep} />
                 ))}
               </div>
@@ -252,6 +289,32 @@ function Blockers({ blockers }: { blockers: OperatingSystemStage[] }) {
         </div>
       </Panel>
     </section>
+  );
+}
+
+function BlockerRow({ stage }: { stage: OperatingSystemStage }) {
+  const explanation = explainOperatingBlocker(stage);
+  const tone = toneForBlockerKind(explanation.kind);
+
+  return (
+    <article className="rounded-lg border border-border bg-background p-3">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{stage.version}</span>
+            <ToneBadge tone={tone}>{explanation.label}</ToneBadge>
+            {explanation.isLiveFailure ? <ToneBadge tone="critical">live failure</ToneBadge> : <ToneBadge tone="info">not live failure</ToneBadge>}
+          </div>
+          <h2 className="mt-1 text-sm font-semibold text-foreground">{stage.title}</h2>
+        </div>
+        <ToneBadge tone={stage.status === "ready" ? "success" : stage.status === "gated" ? "warning" : "info"}>{stage.status}</ToneBadge>
+      </div>
+      <p className="mt-2 text-sm leading-6 text-muted-foreground">{explanation.meaning}</p>
+      <div className="mt-3 grid gap-2 sm:grid-cols-2">
+        <MiniFact label="Origin" value={explanation.origin} />
+        <MiniFact label="Clears when" value={explanation.clearingProof} />
+      </div>
+    </article>
   );
 }
 
@@ -569,4 +632,38 @@ function ToneBadge({ tone, children }: { tone: Tone; children: ReactNode }) {
 
 function priorityRank(priority: RoutedTask["priority"]) {
   return priority === "critical" ? 4 : priority === "high" ? 3 : priority === "normal" ? 2 : 1;
+}
+
+function labelForBlockerKind(kind: OperatingBlockerKind) {
+  switch (kind) {
+    case "manual_approval":
+      return "Manual approval";
+    case "infrastructure_dependency":
+      return "Infrastructure dependency";
+    case "live_readiness_gate":
+      return "Live readiness";
+    case "safety_gate":
+      return "Safety gate";
+    case "risk_review":
+      return "High-risk review";
+    case "roadmap_gate":
+    default:
+      return "Roadmap gate";
+  }
+}
+
+function toneForBlockerKind(kind: OperatingBlockerKind): Tone {
+  switch (kind) {
+    case "manual_approval":
+    case "safety_gate":
+      return "critical";
+    case "infrastructure_dependency":
+    case "live_readiness_gate":
+      return "warning";
+    case "risk_review":
+      return "info";
+    case "roadmap_gate":
+    default:
+      return "neutral";
+  }
 }
