@@ -39,7 +39,15 @@ Use the narrowest relevant checks after each phase, then run broad checks before
 
 ## Phase 1: Restore Hermes Brain Runtime
 
-Status: blocked dependency.
+Status: locally complete on 2026-09-29; production service wiring remains Phase 2.
+
+Evidence:
+
+- Hermes Brain local health: `GET http://127.0.0.1:3115/health` returned `ok: true` with warehouse configured at `.data/warehouse`.
+- Nous Hermes dashboard ran with `HERMES_BRAIN_URL=http://127.0.0.1:3115`.
+- Operational live-source validation moved from `43/48` reachable with `5` Hermes Brain dependency-unavailable sources to `48/48` reachable.
+- Operational route validation passed `32/32` routes; `/second-brain` and `/compounding-intelligence` returned live content.
+- Web gates passed: targeted operational tests, full web test suite, typecheck, and production build.
 
 Build:
 

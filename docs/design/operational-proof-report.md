@@ -1,6 +1,6 @@
 # Operational Proof Report
 
-Generated: 2026-09-29T13:32:06.965Z
+Generated: 2026-09-29T13:46:09.864Z
 
 ## Summary
 
@@ -20,13 +20,13 @@ Generated: 2026-09-29T13:32:06.965Z
 | routeValidationPassed | 32 |
 | routeValidationFailed | 0 |
 | routeValidationBlocked | 0 |
-| liveSourceValidationStatus | dependency_unavailable |
-| liveSourcesReachable | 43 |
+| liveSourceValidationStatus | ready |
+| liveSourcesReachable | 48 |
 | liveSourcesAuthRequired | 0 |
-| liveSourcesDependencyUnavailable | 5 |
+| liveSourcesDependencyUnavailable | 0 |
 | liveSourcesFailed | 0 |
 | liveSourcesBlocked | 0 |
-| liveSourceImpactedRoutes | 2 |
+| liveSourceImpactedRoutes | 0 |
 
 ## Groups
 
@@ -75,19 +75,18 @@ Generated: 2026-09-29T13:32:06.965Z
 
 | Metric | Value |
 | --- | --- |
-| status | dependency_unavailable |
+| status | ready |
 | sources | 48 |
-| reachable | 43 |
+| reachable | 48 |
 | authRequired | 0 |
-| dependencyUnavailable | 5 |
+| dependencyUnavailable | 0 |
 | failed | 0 |
 | blocked | 0 |
-| impactedRoutes | 2 |
+| impactedRoutes | 0 |
 | authMode | loopback_session_token |
 | sessionTokenDiscovered | true |
-| generatedAt | 2026-09-29T13:32:00.298Z |
+| generatedAt | 2026-09-29T13:45:40.180Z |
 
 ## Next Actions
 
-- Start or configure Hermes Brain, then rerun live-source validation for Second Brain and Compounding Intelligence sources.
 - Persist route validation output as operating-runtime evidence when a writable dashboard backend is available.

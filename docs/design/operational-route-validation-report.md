@@ -1,6 +1,6 @@
 # Operational Route Validation Report
 
-Generated: 2026-09-29T13:29:51.283Z
+Generated: 2026-09-29T13:47:03.179Z
 
 ## Summary
 
@@ -23,9 +23,9 @@ Generated: 2026-09-29T13:29:51.283Z
 | /operate/incidents | operate | actionable | passed | 200 | 10490 | none |
 | /operate/approvals | operate | actionable | passed | 200 | 3049 | none |
 | /operate/runs | operate | actionable | passed | 200 | 1857 | none |
-| /system/warehouse | system | charted | passed | 200 | 5736 | none |
-| /system/storage | system | charted | passed | 200 | 2309 | none |
-| /system/freshness | system | charted | passed | 200 | 6007 | none |
+| /system/warehouse | system | charted | passed | 200 | 5749 | none |
+| /system/storage | system | charted | passed | 200 | 2315 | none |
+| /system/freshness | system | charted | passed | 200 | 6039 | none |
 | /system/workers | system | charted | passed | 200 | 3042 | none |
 | /system/deployments | system | charted | passed | 200 | 2992 | none |
 | /system/credentials | system | charted | passed | 200 | 2507 | none |
@@ -34,10 +34,10 @@ Generated: 2026-09-29T13:29:51.283Z
 | /system/sessions | system | live | passed | 200 | 448 | none |
 | /system/logs | system | live | passed | 200 | 17952 | none |
 | /system/plugins | system | live | passed | 200 | 23157 | none |
-| /system/admin | system | live | passed | 200 | 1949 | none |
+| /system/admin | system | live | passed | 200 | 1948 | none |
 | /system/analytics | system | live | passed | 200 | 1129 | none |
-| /second-brain | operate | live | passed | 200 | 452 | none |
-| /compounding-intelligence | operate | live | passed | 200 | 482 | none |
+| /second-brain | operate | live | passed | 200 | 1992 | none |
+| /compounding-intelligence | operate | live | passed | 200 | 4069 | none |
 | /operate/chat-actions | operate | actionable | passed | 200 | 1223 | none |
 | /trading/strategies | trading | charted | passed | 200 | 3474 | none |
 | /trading | trading | live | passed | 200 | 4159 | none |

@@ -1,6 +1,6 @@
 # Operational Live Source Validation Report
 
-Generated: 2026-09-29T13:32:00.298Z
+Generated: 2026-09-29T13:45:40.180Z
 
 ## Summary
 
@@ -8,13 +8,13 @@ Generated: 2026-09-29T13:32:00.298Z
 | --- | --- |
 | baseUrl | http://127.0.0.1:9119 |
 | sources | 48 |
-| reachable | 43 |
+| reachable | 48 |
 | authRequired | 0 |
-| dependencyUnavailable | 5 |
+| dependencyUnavailable | 0 |
 | failed | 0 |
 | blocked | 0 |
-| impactedRoutes | 2 |
-| status | dependency_unavailable |
+| impactedRoutes | 0 |
+| status | ready |
 | authMode | loopback_session_token |
 | sessionTokenDiscovered | true |
 
@@ -38,11 +38,11 @@ Generated: 2026-09-29T13:32:00.298Z
 | /api/operating-runtime/incidents | reachable | 200 | /operate/incidents | none |
 | /api/operating-runtime/summary | reachable | 200 | /operate | none |
 | /api/operating-runtime/workbench | reachable | 200 | /operate/actions | none |
-| /api/second-brain/candidates | dependency_unavailable | 503 | /second-brain | HTTP status 503 |
-| /api/second-brain/compounding-intelligence | dependency_unavailable | 503 | /compounding-intelligence | HTTP status 503 |
-| /api/second-brain/retrieval-pack | dependency_unavailable | 503 | /compounding-intelligence | HTTP status 503 |
-| /api/second-brain/search | dependency_unavailable | 503 | /second-brain | HTTP status 503 |
-| /api/second-brain/summary | dependency_unavailable | 503 | /second-brain | HTTP status 503 |
+| /api/second-brain/candidates | reachable | 200 | /second-brain | none |
+| /api/second-brain/compounding-intelligence | reachable | 200 | /compounding-intelligence | none |
+| /api/second-brain/retrieval-pack | reachable | 200 | /compounding-intelligence | none |
+| /api/second-brain/search | reachable | 200 | /second-brain | none |
+| /api/second-brain/summary | reachable | 200 | /second-brain | none |
 | /api/sessions | reachable | 200 | /system/sessions | none |
 | /api/status | reachable | 200 | /system/admin | none |
 | /api/system/credentials/series | reachable | 200 | /system/credentials | none |
@@ -73,7 +73,4 @@ Generated: 2026-09-29T13:32:00.298Z
 
 ## Impacted Routes
 
-| Route | Blocked sources |
-| --- | --- |
-| /compounding-intelligence | /api/second-brain/compounding-intelligence, /api/second-brain/retrieval-pack |
-| /second-brain | /api/second-brain/candidates, /api/second-brain/search, /api/second-brain/summary |
+No routes have unreachable declared live sources.

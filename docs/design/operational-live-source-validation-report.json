@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-29T13:32:00.298Z",
+  "generatedAt": "2026-09-29T13:45:40.180Z",
   "summary": {
     "baseUrl": "http://127.0.0.1:9119",
     "sources": 48,
-    "reachable": 43,
+    "reachable": 48,
     "authRequired": 0,
-    "dependencyUnavailable": 5,
+    "dependencyUnavailable": 0,
     "failed": 0,
     "blocked": 0,
-    "impactedRoutes": 2,
-    "status": "dependency_unavailable",
+    "impactedRoutes": 0,
+    "status": "ready",
     "authMode": "loopback_session_token",
     "sessionTokenDiscovered": true
   },
@@ -190,53 +190,53 @@
     },
     {
       "source": "/api/second-brain/candidates",
-      "status": "dependency_unavailable",
-      "httpStatus": 503,
+      "status": "reachable",
+      "httpStatus": 200,
       "contentType": "application/json",
       "pages": [
         "/second-brain"
       ],
-      "issue": "HTTP status 503"
+      "issue": ""
     },
     {
       "source": "/api/second-brain/compounding-intelligence",
-      "status": "dependency_unavailable",
-      "httpStatus": 503,
+      "status": "reachable",
+      "httpStatus": 200,
       "contentType": "application/json",
       "pages": [
         "/compounding-intelligence"
       ],
-      "issue": "HTTP status 503"
+      "issue": ""
     },
     {
       "source": "/api/second-brain/retrieval-pack",
-      "status": "dependency_unavailable",
-      "httpStatus": 503,
+      "status": "reachable",
+      "httpStatus": 200,
       "contentType": "application/json",
       "pages": [
         "/compounding-intelligence"
       ],
-      "issue": "HTTP status 503"
+      "issue": ""
     },
     {
       "source": "/api/second-brain/search",
-      "status": "dependency_unavailable",
-      "httpStatus": 503,
+      "status": "reachable",
+      "httpStatus": 200,
       "contentType": "application/json",
       "pages": [
         "/second-brain"
       ],
-      "issue": "HTTP status 503"
+      "issue": ""
     },
     {
       "source": "/api/second-brain/summary",
-      "status": "dependency_unavailable",
-      "httpStatus": 503,
+      "status": "reachable",
+      "httpStatus": 200,
       "contentType": "application/json",
       "pages": [
         "/second-brain"
       ],
-      "issue": "HTTP status 503"
+      "issue": ""
     },
     {
       "source": "/api/sessions",
@@ -518,21 +518,5 @@
       "issue": ""
     }
   ],
-  "routeImpacts": [
-    {
-      "route": "/compounding-intelligence",
-      "blockedSources": [
-        "/api/second-brain/compounding-intelligence",
-        "/api/second-brain/retrieval-pack"
-      ]
-    },
-    {
-      "route": "/second-brain",
-      "blockedSources": [
-        "/api/second-brain/candidates",
-        "/api/second-brain/search",
-        "/api/second-brain/summary"
-      ]
-    }
-  ]
+  "routeImpacts": []
 }
