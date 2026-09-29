@@ -4,7 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { OPERATIONAL_PAGE_CONTRACTS } from "../web/src/lib/operational-page-contracts.ts";
 
-type SourceStatus = "reachable" | "failed" | "blocked";
+type SourceStatus = "reachable" | "auth_required" | "failed" | "blocked";
 
 interface SourceResult {
   source: string;
@@ -27,6 +27,20 @@ function argValue(name: string, fallback: string) {
 
 function hasFlag(name: string) {
   return process.argv.includes(name);
+}
+
+function requestHeaders() {
+  const headers: Record<string, string> = { accept: "application/json,text/plain,*/*" };
+  const bearer = process.env.DASHBOARD_BEARER_TOKEN;
+  const cookie = process.env.DASHBOARD_AUTH_COOKIE;
+  const header = argValue("--header", "");
+  if (bearer) headers.authorization = `Bearer ${bearer}`;
+  if (cookie) headers.cookie = cookie;
+  if (header.includes(":")) {
+    const [name, ...valueParts] = header.split(":");
+    headers[name.trim()] = valueParts.join(":").trim();
+  }
+  return headers;
 }
 
 function markdownTable(headers: string[], rows: Array<Array<string | number>>) {
@@ -58,16 +72,17 @@ async function validateSource(baseUrl: string, source: string, pages: string[]):
   try {
     const response = await fetch(new URL(source, baseUrl), {
       method: "GET",
-      headers: { accept: "application/json,text/plain,*/*" },
+      headers: requestHeaders(),
       signal: controller.signal,
     });
     const contentType = response.headers.get("content-type") ?? "";
     let issue = "";
     if (!response.ok) issue = `HTTP status ${response.status}`;
     if (response.ok && response.status === 204) issue = "empty 204 response";
+    const status = response.ok ? "reachable" : response.status === 401 || response.status === 403 ? "auth_required" : "failed";
     return {
       source,
-      status: response.ok ? "reachable" : "failed",
+      status,
       httpStatus: response.status,
       contentType,
       pages,
@@ -95,18 +110,27 @@ async function main() {
     results.push(await validateSource(baseUrl, source.source, source.pages));
   }
 
+  const authRequiredSources = results.filter((result) => result.status === "auth_required");
   const failedSources = results.filter((result) => result.status === "failed");
   const blockedSources = results.filter((result) => result.status === "blocked");
   const reachableSources = results.filter((result) => result.status === "reachable");
-  const impactedRoutes = new Set([...failedSources, ...blockedSources].flatMap((result) => result.pages));
+  const impactedRoutes = new Set([...authRequiredSources, ...failedSources, ...blockedSources].flatMap((result) => result.pages));
   const summary = {
     baseUrl,
     sources: results.length,
     reachable: reachableSources.length,
+    authRequired: authRequiredSources.length,
     failed: failedSources.length,
     blocked: blockedSources.length,
     impactedRoutes: impactedRoutes.size,
-    status: failedSources.length || blockedSources.length ? "attention" : "ready",
+    status: failedSources.length || blockedSources.length ? "attention" : authRequiredSources.length ? "auth_required" : "ready",
+    authMode: process.env.DASHBOARD_BEARER_TOKEN
+      ? "bearer"
+      : process.env.DASHBOARD_AUTH_COOKIE
+        ? "cookie"
+        : argValue("--header", "")
+          ? "custom_header"
+          : "none",
   };
   const report = {
     schemaVersion: 1,
@@ -160,7 +184,9 @@ ${report.routeImpacts.length
 
   fs.writeFileSync(outMd, md);
   console.log(`Operational live source validation wrote ${path.relative(root, outJson)} and ${path.relative(root, outMd)}`);
-  console.log(`${summary.reachable}/${summary.sources} sources reachable (${summary.failed} failed, ${summary.blocked} blocked).`);
+  console.log(
+    `${summary.reachable}/${summary.sources} sources reachable (${summary.authRequired} auth required, ${summary.failed} failed, ${summary.blocked} blocked).`,
+  );
 
   if (hasFlag("--strict") && (summary.failed || summary.blocked)) {
     process.exitCode = 1;

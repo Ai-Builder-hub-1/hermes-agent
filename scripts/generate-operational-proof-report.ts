@@ -65,9 +65,11 @@ function readLiveSourceValidationSummary() {
       status?: string;
       sources?: number;
       reachable?: number;
+      authRequired?: number;
       failed?: number;
       blocked?: number;
       impactedRoutes?: number;
+      authMode?: string;
     };
   };
   const summary = report.summary ?? {};
@@ -75,9 +77,11 @@ function readLiveSourceValidationSummary() {
     status: summary.status ?? ((summary.failed ?? 0) || (summary.blocked ?? 0) ? "attention" : "ready"),
     sources: summary.sources ?? 0,
     reachable: summary.reachable ?? 0,
+    authRequired: summary.authRequired ?? 0,
     failed: summary.failed ?? 0,
     blocked: summary.blocked ?? 0,
     impactedRoutes: summary.impactedRoutes ?? 0,
+    authMode: summary.authMode ?? "unknown",
     generatedAt: report.generatedAt ?? "",
   };
 }
@@ -134,6 +138,7 @@ const report = {
     routeValidationBlocked: routeValidation.blocked,
     liveSourceValidationStatus: liveSourceValidation.status,
     liveSourcesReachable: liveSourceValidation.reachable,
+    liveSourcesAuthRequired: liveSourceValidation.authRequired,
     liveSourcesFailed: liveSourceValidation.failed,
     liveSourcesBlocked: liveSourceValidation.blocked,
     liveSourceImpactedRoutes: liveSourceValidation.impactedRoutes,
@@ -152,7 +157,8 @@ const report = {
     ...(evidenceGaps.length ? [`Add evidence contracts for ${evidenceGaps.length} route(s).`] : []),
     ...(safeActionAudit.totals.needsHardening ? [`Close ${safeActionAudit.totals.needsHardening} safe-action hardening gap(s).`] : []),
     ...(routeValidation.status === "ready" ? [] : ["Run Playwright route validation and clear failed or blocked operational routes."]),
-    ...(liveSourceValidation.status === "ready" ? [] : ["Run live-source validation against the dashboard API and clear failed or blocked declared sources."]),
+    ...(liveSourceValidation.status === "auth_required" ? ["Rerun live-source validation with a dashboard session cookie or bearer token to prove authenticated sources end to end."] : []),
+    ...(liveSourceValidation.status === "ready" || liveSourceValidation.status === "auth_required" ? [] : ["Run live-source validation against the dashboard API and clear failed or blocked declared sources."]),
     "Persist route validation output as operating-runtime evidence when a writable dashboard backend is available.",
   ],
 };

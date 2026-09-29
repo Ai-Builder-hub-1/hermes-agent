@@ -1,133 +1,135 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-29T13:15:49.902Z",
+  "generatedAt": "2026-09-29T13:18:29.629Z",
   "summary": {
     "baseUrl": "http://127.0.0.1:9119",
     "sources": 49,
-    "reachable": 0,
+    "reachable": 3,
+    "authRequired": 46,
     "failed": 0,
-    "blocked": 49,
-    "impactedRoutes": 32,
-    "status": "attention"
+    "blocked": 0,
+    "impactedRoutes": 31,
+    "status": "auth_required",
+    "authMode": "none"
   },
   "sources": [
     {
       "source": "/api/analytics",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/system/analytics"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/cron/jobs",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/system/automations"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/head-trader/audit",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/trading/head-trader"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/head-trader/credential-status",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/system/credentials"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/head-trader/incidents",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/operate/incidents",
         "/trading/head-trader"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/head-trader/risk-check",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/trading/risk"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/head-trader/summary",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/trading/head-trader",
         "/trading/risk"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/logs",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/system/logs"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/model/auxiliary",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/system/models"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/model/info",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "reachable",
+      "httpStatus": 200,
+      "contentType": "application/json",
       "pages": [
         "/system/models"
       ],
-      "issue": "fetch failed"
+      "issue": ""
     },
     {
       "source": "/api/model/options",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/system/models"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/operating-runtime/audit",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/operate",
         "/operate/approvals",
@@ -135,13 +137,13 @@
         "/operate/chat-actions",
         "/operate/evidence"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/operating-runtime/evidence",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/operate",
         "/operate/actions",
@@ -152,275 +154,275 @@
         "/system/deployments",
         "/system/workers"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/operating-runtime/incidents",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/operate/incidents"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/operating-runtime/permission-decision",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/operate/approvals"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/operating-runtime/summary",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/operate"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/operating-runtime/workbench",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/operate/actions"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/second-brain/candidates",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/second-brain"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/second-brain/compounding-intelligence",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/compounding-intelligence"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/second-brain/retrieval-pack",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/compounding-intelligence"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/second-brain/search",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/second-brain"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/second-brain/summary",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/second-brain"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/sessions",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/system/sessions"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/status",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "reachable",
+      "httpStatus": 200,
+      "contentType": "application/json",
       "pages": [
         "/system/admin"
       ],
-      "issue": "fetch failed"
+      "issue": ""
     },
     {
       "source": "/api/system/credentials/series",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/system/credentials"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/credentials/summary",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/system/credentials"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/deployments/series",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/system/deployments"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/deployments/summary",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/system/deployments"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/freshness/series",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/system/freshness"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/freshness/summary",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/system/freshness"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/stats",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/system/admin"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/storage/series",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/system/storage"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/storage/summary",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/system/storage"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/warehouse/jobs",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/system/warehouse"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/warehouse/series",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/system/warehouse"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/warehouse/sources",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/system/freshness",
         "/system/warehouse"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/warehouse/summary",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/system/warehouse"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/workers/series",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/system/workers"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/workers/summary",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/operate/runs",
         "/system/workers"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/trading-intelligence/command-center",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/trading",
         "/trading/investing",
@@ -429,99 +431,99 @@
         "/trading/shadow-paper",
         "/trading/strategies"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/trading-intelligence/controls",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/trading"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/trading-intelligence/events",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/trading/evidence",
         "/trading/shadow-paper"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/trading-research/backtesting/series",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/trading/backtesting"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/trading-research/backtesting/summary",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/trading/backtesting"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/trading-research/evidence/ledger",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/trading/evidence"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/trading-research/evidence/series",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/trading/evidence"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/trading-research/strategies/series",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/trading/strategies"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/trading-research/strategies/summary",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
       "pages": [
         "/trading/backtesting",
         "/trading/strategies"
       ],
-      "issue": "fetch failed"
+      "issue": "HTTP status 401"
     },
     {
       "source": "/dashboard-plugins/registry",
-      "status": "blocked",
-      "httpStatus": null,
-      "contentType": "",
+      "status": "reachable",
+      "httpStatus": 200,
+      "contentType": "text/html; charset=utf-8",
       "pages": [
         "/system/plugins"
       ],
-      "issue": "fetch failed"
+      "issue": ""
     }
   ],
   "routeImpacts": [
@@ -600,7 +602,6 @@
     {
       "route": "/system/admin",
       "blockedSources": [
-        "/api/status",
         "/api/system/stats"
       ]
     },
@@ -650,14 +651,7 @@
       "route": "/system/models",
       "blockedSources": [
         "/api/model/auxiliary",
-        "/api/model/info",
         "/api/model/options"
-      ]
-    },
-    {
-      "route": "/system/plugins",
-      "blockedSources": [
-        "/dashboard-plugins/registry"
       ]
     },
     {

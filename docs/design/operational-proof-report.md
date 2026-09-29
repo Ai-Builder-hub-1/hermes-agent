@@ -1,6 +1,6 @@
 # Operational Proof Report
 
-Generated: 2026-09-29T13:15:57.167Z
+Generated: 2026-09-29T13:18:35.890Z
 
 ## Summary
 
@@ -20,11 +20,12 @@ Generated: 2026-09-29T13:15:57.167Z
 | routeValidationPassed | 32 |
 | routeValidationFailed | 0 |
 | routeValidationBlocked | 0 |
-| liveSourceValidationStatus | attention |
-| liveSourcesReachable | 0 |
+| liveSourceValidationStatus | auth_required |
+| liveSourcesReachable | 3 |
+| liveSourcesAuthRequired | 46 |
 | liveSourcesFailed | 0 |
-| liveSourcesBlocked | 49 |
-| liveSourceImpactedRoutes | 32 |
+| liveSourcesBlocked | 0 |
+| liveSourceImpactedRoutes | 31 |
 
 ## Groups
 
@@ -73,15 +74,17 @@ Generated: 2026-09-29T13:15:57.167Z
 
 | Metric | Value |
 | --- | --- |
-| status | attention |
+| status | auth_required |
 | sources | 49 |
-| reachable | 0 |
+| reachable | 3 |
+| authRequired | 46 |
 | failed | 0 |
-| blocked | 49 |
-| impactedRoutes | 32 |
-| generatedAt | 2026-09-29T13:15:49.902Z |
+| blocked | 0 |
+| impactedRoutes | 31 |
+| authMode | none |
+| generatedAt | 2026-09-29T13:18:29.629Z |
 
 ## Next Actions
 
-- Run live-source validation against the dashboard API and clear failed or blocked declared sources.
+- Rerun live-source validation with a dashboard session cookie or bearer token to prove authenticated sources end to end.
 - Persist route validation output as operating-runtime evidence when a writable dashboard backend is available.
