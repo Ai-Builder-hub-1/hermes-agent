@@ -70,6 +70,13 @@ Tests:
 
 ## Phase 2: Production Service Wiring
 
+Status: pending production deployment/access.
+
+Local evidence:
+
+- Hermes Brain service contract is proven locally on `http://127.0.0.1:3115`.
+- Production still needs a durable `file` repository mode, mounted data file, mounted warehouse root, and Nous `HERMES_BRAIN_URL` pointed at the production Hermes Brain service.
+
 Build:
 
 - Deploy or start `hermes-brain` as an internal service.
@@ -88,6 +95,13 @@ Tests:
 - `curl -sS https://agent.tlccapitalgroup.com/api/second-brain/compounding-intelligence`
 
 ## Phase 3: Decision Record Schema
+
+Status: complete in Hermes Brain commit `24e81a2`.
+
+Evidence:
+
+- Added first-class `DecisionRecord` schema with project, business unit, decision type, owner, status, risk, impact, evidence refs, prior memory refs, assumptions, expected outcome, actual outcome, review state, and stable warehouse id.
+- Added tests for an investing decision record with evidence, assumptions, and prior memory references.
 
 Build:
 
@@ -108,6 +122,14 @@ Tests:
 
 ## Phase 4: Decision Lineage Graph
 
+Status: complete in Hermes Brain commit `24e81a2`.
+
+Evidence:
+
+- Added `DecisionLineageEdge` records for `source_event`, `memory`, `decision`, and `outcome` nodes.
+- Added service/API lineage report that answers `whyBelieved`, `whatChanged`, and findings for missing or contradicted context.
+- Live API proof created decision `decision_6042012c37bf0ab34da4c2f2` and returned lineage with a source-event support edge.
+
 Build:
 
 - Add lineage edges: `source_event -> memory -> decision -> outcome`.
@@ -127,6 +149,14 @@ Tests:
 - Superseded memory changes the "what changed" answer.
 
 ## Phase 5: Decision Lineage Warehouse Sync
+
+Status: complete in Hermes Brain commit `24e81a2`.
+
+Evidence:
+
+- Warehouse sync now exports `decisions` and `decisionLineageEdges`.
+- Restore proof validates both new record arrays.
+- `npm run proof:compounding-intelligence` and `npm run proof:second-brain` passed with warehouse counts including `decisions: 1` and `decisionLineageEdges: 1`.
 
 Build:
 
