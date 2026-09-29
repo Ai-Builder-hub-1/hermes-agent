@@ -54,6 +54,8 @@ describe("operate items", () => {
     expect(fleetItems.length).toBe(fleetOperatorSnapshots.length);
     expect(fleetItems.some((item) => item.title.includes("Khashi VC") && item.state === "ready")).toBe(true);
     expect(fleetItems.some((item) => item.title.includes("TLC Capital Group OS") && item.state === "blocked")).toBe(true);
+    expect(fleetItems.find((item) => item.title.includes("Khashi VC"))?.route).toBe("/trading/khashi");
+    expect(fleetItems.find((item) => item.title.includes("Investing System"))?.route).toBe("/trading/investing");
     expect(fleetItems.every((item) => item.safeAction === "dashboard:monitoring:check:strict")).toBe(true);
   });
 });

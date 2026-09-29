@@ -253,8 +253,14 @@ function fleetSnapshotToOperateItem(snapshot: FleetOperatorSnapshot): OperateIte
     safeAction: "dashboard:monitoring:check:strict",
     requiresApproval: failed || pressureFailed,
     updatedAt: snapshot.latestCheck?.capturedAt ?? null,
-    route: snapshot.projectId === "khashi-vc" || snapshot.projectId === "investing-system" ? "/trading" : "/system/freshness",
+    route: routeForFleetSnapshot(snapshot.projectId),
   };
+}
+
+function routeForFleetSnapshot(projectId: string): string {
+  if (projectId === "khashi-vc") return "/trading/khashi";
+  if (projectId === "investing-system") return "/trading/investing";
+  return "/system/freshness";
 }
 
 function isIncidentStage(stage: OperatingSystemStage): boolean {
