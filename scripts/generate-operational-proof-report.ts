@@ -14,6 +14,7 @@ const root = path.resolve(scriptDir, "..");
 const outJson = path.join(root, "docs/design/operational-proof-report.json");
 const outMd = path.join(root, "docs/design/operational-proof-report.md");
 const routeValidationJson = path.join(root, "docs/design/operational-route-validation-report.json");
+const sourceValidationJson = path.join(root, "docs/design/operational-live-source-validation-report.json");
 
 function readRouteValidationSummary() {
   if (!fs.existsSync(routeValidationJson)) {
@@ -42,6 +43,41 @@ function readRouteValidationSummary() {
     passed: summary.passed ?? 0,
     failed: summary.failed ?? 0,
     blocked: summary.blocked ?? 0,
+    generatedAt: report.generatedAt ?? "",
+  };
+}
+
+function readLiveSourceValidationSummary() {
+  if (!fs.existsSync(sourceValidationJson)) {
+    return {
+      status: "missing",
+      sources: 0,
+      reachable: 0,
+      failed: 0,
+      blocked: 0,
+      impactedRoutes: 0,
+      generatedAt: "",
+    };
+  }
+  const report = JSON.parse(fs.readFileSync(sourceValidationJson, "utf8")) as {
+    generatedAt?: string;
+    summary?: {
+      status?: string;
+      sources?: number;
+      reachable?: number;
+      failed?: number;
+      blocked?: number;
+      impactedRoutes?: number;
+    };
+  };
+  const summary = report.summary ?? {};
+  return {
+    status: summary.status ?? ((summary.failed ?? 0) || (summary.blocked ?? 0) ? "attention" : "ready"),
+    sources: summary.sources ?? 0,
+    reachable: summary.reachable ?? 0,
+    failed: summary.failed ?? 0,
+    blocked: summary.blocked ?? 0,
+    impactedRoutes: summary.impactedRoutes ?? 0,
     generatedAt: report.generatedAt ?? "",
   };
 }
@@ -76,6 +112,7 @@ const liveSourceGaps = OPERATIONAL_PAGE_CONTRACTS.filter((contract) => contract.
 const evidenceGaps = OPERATIONAL_PAGE_CONTRACTS.filter((contract) => contract.evidence.length === 0);
 const chartedOrBetter = OPERATIONAL_PAGE_CONTRACTS.filter((contract) => ["charted", "controlled", "intelligent"].includes(contract.maturity));
 const routeValidation = readRouteValidationSummary();
+const liveSourceValidation = readLiveSourceValidationSummary();
 
 const report = {
   schemaVersion: 1,
@@ -95,10 +132,16 @@ const report = {
     routeValidationPassed: routeValidation.passed,
     routeValidationFailed: routeValidation.failed,
     routeValidationBlocked: routeValidation.blocked,
+    liveSourceValidationStatus: liveSourceValidation.status,
+    liveSourcesReachable: liveSourceValidation.reachable,
+    liveSourcesFailed: liveSourceValidation.failed,
+    liveSourcesBlocked: liveSourceValidation.blocked,
+    liveSourceImpactedRoutes: liveSourceValidation.impactedRoutes,
   },
   groups: groupCounts(),
   routes: routeAudits,
   routeValidation,
+  liveSourceValidation,
   staticRoutes: staticRoutes.map((route) => ({ route: route.route, label: route.label, nextAction: route.gaps[0] ?? "Add live data contract." })),
   liveSourceGaps: liveSourceGaps.map((route) => ({ route: route.route, label: route.label, maturity: route.maturity })),
   evidenceGaps: evidenceGaps.map((route) => ({ route: route.route, label: route.label, maturity: route.maturity })),
@@ -109,6 +152,7 @@ const report = {
     ...(evidenceGaps.length ? [`Add evidence contracts for ${evidenceGaps.length} route(s).`] : []),
     ...(safeActionAudit.totals.needsHardening ? [`Close ${safeActionAudit.totals.needsHardening} safe-action hardening gap(s).`] : []),
     ...(routeValidation.status === "ready" ? [] : ["Run Playwright route validation and clear failed or blocked operational routes."]),
+    ...(liveSourceValidation.status === "ready" ? [] : ["Run live-source validation against the dashboard API and clear failed or blocked declared sources."]),
     "Persist route validation output as operating-runtime evidence when a writable dashboard backend is available.",
   ],
 };
@@ -154,6 +198,13 @@ ${markdownTable(
 ${markdownTable(
   ["Metric", "Value"],
   Object.entries(report.routeValidation).map(([key, value]) => [key, value]),
+)}
+
+## Live Source Validation
+
+${markdownTable(
+  ["Metric", "Value"],
+  Object.entries(report.liveSourceValidation).map(([key, value]) => [key, value]),
 )}
 
 ## Next Actions

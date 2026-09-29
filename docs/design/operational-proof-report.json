@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-29T13:13:36.018Z",
+  "generatedAt": "2026-09-29T13:15:57.167Z",
   "summary": {
     "routes": 32,
     "readyRoutes": 32,
@@ -15,7 +15,12 @@
     "routeValidationStatus": "ready",
     "routeValidationPassed": 32,
     "routeValidationFailed": 0,
-    "routeValidationBlocked": 0
+    "routeValidationBlocked": 0,
+    "liveSourceValidationStatus": "attention",
+    "liveSourcesReachable": 0,
+    "liveSourcesFailed": 0,
+    "liveSourcesBlocked": 49,
+    "liveSourceImpactedRoutes": 32
   },
   "groups": {
     "operate": {
@@ -369,6 +374,15 @@
     "failed": 0,
     "blocked": 0,
     "generatedAt": "2026-09-29T13:13:27.433Z"
+  },
+  "liveSourceValidation": {
+    "status": "attention",
+    "sources": 49,
+    "reachable": 0,
+    "failed": 0,
+    "blocked": 49,
+    "impactedRoutes": 32,
+    "generatedAt": "2026-09-29T13:15:49.902Z"
   },
   "staticRoutes": [],
   "liveSourceGaps": [],
@@ -818,6 +832,7 @@
     "gaps": []
   },
   "nextActions": [
+    "Run live-source validation against the dashboard API and clear failed or blocked declared sources.",
     "Persist route validation output as operating-runtime evidence when a writable dashboard backend is available."
   ]
 }

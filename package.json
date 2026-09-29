@@ -154,6 +154,7 @@
     "dashboard:operating-system:validate": "node scripts/validate-dashboard-operating-system-layers.mjs",
     "dashboard:operating-system:report": "node scripts/generate-dashboard-operating-system-layer-report.mjs",
     "dashboard:operational-proof:report": "npx tsx scripts/generate-operational-proof-report.ts",
+    "dashboard:operational-sources:validate": "npx tsx scripts/validate-operational-live-sources.ts",
     "dashboard:operational-routes:validate": "npx tsx scripts/validate-operational-routes.ts",
     "dashboard:fleet:v60:e2e": "node scripts/run-dashboard-fleet-v60-e2e.mjs",
     "dashboard:fleet:v60:e2e:full": "node scripts/run-dashboard-fleet-v60-e2e.mjs --full",

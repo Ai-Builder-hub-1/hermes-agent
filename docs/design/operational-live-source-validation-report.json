@@ -1,0 +1,760 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-29T13:15:49.902Z",
+  "summary": {
+    "baseUrl": "http://127.0.0.1:9119",
+    "sources": 49,
+    "reachable": 0,
+    "failed": 0,
+    "blocked": 49,
+    "impactedRoutes": 32,
+    "status": "attention"
+  },
+  "sources": [
+    {
+      "source": "/api/analytics",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/analytics"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/cron/jobs",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/automations"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/head-trader/audit",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/trading/head-trader"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/head-trader/credential-status",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/credentials"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/head-trader/incidents",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/operate/incidents",
+        "/trading/head-trader"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/head-trader/risk-check",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/trading/risk"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/head-trader/summary",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/trading/head-trader",
+        "/trading/risk"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/logs",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/logs"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/model/auxiliary",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/models"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/model/info",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/models"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/model/options",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/models"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/operating-runtime/audit",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/operate",
+        "/operate/approvals",
+        "/operate/blockers",
+        "/operate/chat-actions",
+        "/operate/evidence"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/operating-runtime/evidence",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/operate",
+        "/operate/actions",
+        "/operate/blockers",
+        "/operate/chat-actions",
+        "/operate/evidence",
+        "/operate/runs",
+        "/system/deployments",
+        "/system/workers"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/operating-runtime/incidents",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/operate/incidents"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/operating-runtime/permission-decision",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/operate/approvals"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/operating-runtime/summary",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/operate"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/operating-runtime/workbench",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/operate/actions"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/second-brain/candidates",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/second-brain"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/second-brain/compounding-intelligence",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/compounding-intelligence"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/second-brain/retrieval-pack",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/compounding-intelligence"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/second-brain/search",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/second-brain"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/second-brain/summary",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/second-brain"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/sessions",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/sessions"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/status",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/admin"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/system/credentials/series",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/credentials"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/system/credentials/summary",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/credentials"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/system/deployments/series",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/deployments"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/system/deployments/summary",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/deployments"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/system/freshness/series",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/freshness"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/system/freshness/summary",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/freshness"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/system/stats",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/admin"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/system/storage/series",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/storage"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/system/storage/summary",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/storage"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/system/warehouse/jobs",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/warehouse"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/system/warehouse/series",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/warehouse"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/system/warehouse/sources",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/freshness",
+        "/system/warehouse"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/system/warehouse/summary",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/warehouse"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/system/workers/series",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/workers"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/system/workers/summary",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/operate/runs",
+        "/system/workers"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/trading-intelligence/command-center",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/trading",
+        "/trading/investing",
+        "/trading/khashi",
+        "/trading/risk",
+        "/trading/shadow-paper",
+        "/trading/strategies"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/trading-intelligence/controls",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/trading"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/trading-intelligence/events",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/trading/evidence",
+        "/trading/shadow-paper"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/trading-research/backtesting/series",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/trading/backtesting"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/trading-research/backtesting/summary",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/trading/backtesting"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/trading-research/evidence/ledger",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/trading/evidence"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/trading-research/evidence/series",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/trading/evidence"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/trading-research/strategies/series",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/trading/strategies"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/api/trading-research/strategies/summary",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/trading/backtesting",
+        "/trading/strategies"
+      ],
+      "issue": "fetch failed"
+    },
+    {
+      "source": "/dashboard-plugins/registry",
+      "status": "blocked",
+      "httpStatus": null,
+      "contentType": "",
+      "pages": [
+        "/system/plugins"
+      ],
+      "issue": "fetch failed"
+    }
+  ],
+  "routeImpacts": [
+    {
+      "route": "/compounding-intelligence",
+      "blockedSources": [
+        "/api/second-brain/compounding-intelligence",
+        "/api/second-brain/retrieval-pack"
+      ]
+    },
+    {
+      "route": "/operate",
+      "blockedSources": [
+        "/api/operating-runtime/audit",
+        "/api/operating-runtime/evidence",
+        "/api/operating-runtime/summary"
+      ]
+    },
+    {
+      "route": "/operate/actions",
+      "blockedSources": [
+        "/api/operating-runtime/evidence",
+        "/api/operating-runtime/workbench"
+      ]
+    },
+    {
+      "route": "/operate/approvals",
+      "blockedSources": [
+        "/api/operating-runtime/audit",
+        "/api/operating-runtime/permission-decision"
+      ]
+    },
+    {
+      "route": "/operate/blockers",
+      "blockedSources": [
+        "/api/operating-runtime/audit",
+        "/api/operating-runtime/evidence"
+      ]
+    },
+    {
+      "route": "/operate/chat-actions",
+      "blockedSources": [
+        "/api/operating-runtime/audit",
+        "/api/operating-runtime/evidence"
+      ]
+    },
+    {
+      "route": "/operate/evidence",
+      "blockedSources": [
+        "/api/operating-runtime/audit",
+        "/api/operating-runtime/evidence"
+      ]
+    },
+    {
+      "route": "/operate/incidents",
+      "blockedSources": [
+        "/api/head-trader/incidents",
+        "/api/operating-runtime/incidents"
+      ]
+    },
+    {
+      "route": "/operate/runs",
+      "blockedSources": [
+        "/api/operating-runtime/evidence",
+        "/api/system/workers/summary"
+      ]
+    },
+    {
+      "route": "/second-brain",
+      "blockedSources": [
+        "/api/second-brain/candidates",
+        "/api/second-brain/search",
+        "/api/second-brain/summary"
+      ]
+    },
+    {
+      "route": "/system/admin",
+      "blockedSources": [
+        "/api/status",
+        "/api/system/stats"
+      ]
+    },
+    {
+      "route": "/system/analytics",
+      "blockedSources": [
+        "/api/analytics"
+      ]
+    },
+    {
+      "route": "/system/automations",
+      "blockedSources": [
+        "/api/cron/jobs"
+      ]
+    },
+    {
+      "route": "/system/credentials",
+      "blockedSources": [
+        "/api/head-trader/credential-status",
+        "/api/system/credentials/series",
+        "/api/system/credentials/summary"
+      ]
+    },
+    {
+      "route": "/system/deployments",
+      "blockedSources": [
+        "/api/operating-runtime/evidence",
+        "/api/system/deployments/series",
+        "/api/system/deployments/summary"
+      ]
+    },
+    {
+      "route": "/system/freshness",
+      "blockedSources": [
+        "/api/system/freshness/series",
+        "/api/system/freshness/summary",
+        "/api/system/warehouse/sources"
+      ]
+    },
+    {
+      "route": "/system/logs",
+      "blockedSources": [
+        "/api/logs"
+      ]
+    },
+    {
+      "route": "/system/models",
+      "blockedSources": [
+        "/api/model/auxiliary",
+        "/api/model/info",
+        "/api/model/options"
+      ]
+    },
+    {
+      "route": "/system/plugins",
+      "blockedSources": [
+        "/dashboard-plugins/registry"
+      ]
+    },
+    {
+      "route": "/system/sessions",
+      "blockedSources": [
+        "/api/sessions"
+      ]
+    },
+    {
+      "route": "/system/storage",
+      "blockedSources": [
+        "/api/system/storage/series",
+        "/api/system/storage/summary"
+      ]
+    },
+    {
+      "route": "/system/warehouse",
+      "blockedSources": [
+        "/api/system/warehouse/jobs",
+        "/api/system/warehouse/series",
+        "/api/system/warehouse/sources",
+        "/api/system/warehouse/summary"
+      ]
+    },
+    {
+      "route": "/system/workers",
+      "blockedSources": [
+        "/api/operating-runtime/evidence",
+        "/api/system/workers/series",
+        "/api/system/workers/summary"
+      ]
+    },
+    {
+      "route": "/trading",
+      "blockedSources": [
+        "/api/trading-intelligence/command-center",
+        "/api/trading-intelligence/controls"
+      ]
+    },
+    {
+      "route": "/trading/backtesting",
+      "blockedSources": [
+        "/api/trading-research/backtesting/series",
+        "/api/trading-research/backtesting/summary",
+        "/api/trading-research/strategies/summary"
+      ]
+    },
+    {
+      "route": "/trading/evidence",
+      "blockedSources": [
+        "/api/trading-intelligence/events",
+        "/api/trading-research/evidence/ledger",
+        "/api/trading-research/evidence/series"
+      ]
+    },
+    {
+      "route": "/trading/head-trader",
+      "blockedSources": [
+        "/api/head-trader/audit",
+        "/api/head-trader/incidents",
+        "/api/head-trader/summary"
+      ]
+    },
+    {
+      "route": "/trading/investing",
+      "blockedSources": [
+        "/api/trading-intelligence/command-center"
+      ]
+    },
+    {
+      "route": "/trading/khashi",
+      "blockedSources": [
+        "/api/trading-intelligence/command-center"
+      ]
+    },
+    {
+      "route": "/trading/risk",
+      "blockedSources": [
+        "/api/head-trader/risk-check",
+        "/api/head-trader/summary",
+        "/api/trading-intelligence/command-center"
+      ]
+    },
+    {
+      "route": "/trading/shadow-paper",
+      "blockedSources": [
+        "/api/trading-intelligence/command-center",
+        "/api/trading-intelligence/events"
+      ]
+    },
+    {
+      "route": "/trading/strategies",
+      "blockedSources": [
+        "/api/trading-intelligence/command-center",
+        "/api/trading-research/strategies/series",
+        "/api/trading-research/strategies/summary"
+      ]
+    }
+  ]
+}

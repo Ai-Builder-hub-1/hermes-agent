@@ -1,6 +1,6 @@
 # Operational Proof Report
 
-Generated: 2026-09-29T13:13:36.018Z
+Generated: 2026-09-29T13:15:57.167Z
 
 ## Summary
 
@@ -20,6 +20,11 @@ Generated: 2026-09-29T13:13:36.018Z
 | routeValidationPassed | 32 |
 | routeValidationFailed | 0 |
 | routeValidationBlocked | 0 |
+| liveSourceValidationStatus | attention |
+| liveSourcesReachable | 0 |
+| liveSourcesFailed | 0 |
+| liveSourcesBlocked | 49 |
+| liveSourceImpactedRoutes | 32 |
 
 ## Groups
 
@@ -64,6 +69,19 @@ Generated: 2026-09-29T13:13:36.018Z
 | blocked | 0 |
 | generatedAt | 2026-09-29T13:13:27.433Z |
 
+## Live Source Validation
+
+| Metric | Value |
+| --- | --- |
+| status | attention |
+| sources | 49 |
+| reachable | 0 |
+| failed | 0 |
+| blocked | 49 |
+| impactedRoutes | 32 |
+| generatedAt | 2026-09-29T13:15:49.902Z |
+
 ## Next Actions
 
+- Run live-source validation against the dashboard API and clear failed or blocked declared sources.
 - Persist route validation output as operating-runtime evidence when a writable dashboard backend is available.
