@@ -5,6 +5,7 @@ import type {
   PermissionPolicy,
   RoutedTask,
 } from "@/pages/operating-system-data";
+import type { FleetOperatorSnapshot } from "@/pages/fleet-operator-data";
 import type { OperatingRuntimeState, RuntimeEvidenceRecord } from "@/pages/operating-runtime";
 import { blockerStages, explainOperatingBlocker } from "./operate-blockers";
 
@@ -37,6 +38,7 @@ export interface BuildOperateItemsInput {
   policies: PermissionPolicy[];
   loops: OperatingLoop[];
   runtime: OperatingRuntimeState;
+  fleetSnapshots?: FleetOperatorSnapshot[];
 }
 
 const NOWISH = "roadmap baseline";
@@ -50,6 +52,7 @@ export function buildOperateItems(input: BuildOperateItemsInput): OperateItem[] 
     ...input.policies.filter((policy) => policy.approval !== "none" || policy.audit).map(policyToApprovalItem),
     ...input.loops.map(loopToRunItem),
     ...input.runtime.evidence.map(evidenceToOperateItem),
+    ...(input.fleetSnapshots ?? []).map(fleetSnapshotToOperateItem),
   ];
 }
 
@@ -208,6 +211,49 @@ function evidenceToOperateItem(record: RuntimeEvidenceRecord): OperateItem {
     safeAction: null,
     requiresApproval: bad,
     updatedAt: record.updatedAt,
+  };
+}
+
+function fleetSnapshotToOperateItem(snapshot: FleetOperatorSnapshot): OperateItem {
+  const health = snapshot.latestCheck?.checks.health;
+  const dashboard = snapshot.latestCheck?.checks.snapshot;
+  const pressure = snapshot.latestCheck?.pressure;
+  const failed = snapshot.latestCheck?.status !== "passed";
+  const pressureFailed = pressure?.status === "failed";
+  const severity: OperateItemSeverity = failed ? "critical" : pressureFailed ? "warning" : "ready";
+  const state: OperateItemState = failed ? "blocked" : pressureFailed ? "review" : "ready";
+  const pressureDetail = pressure?.violations.length
+    ? pressure.violations.map((violation) => `${violation.check} ${violation.actual}/${violation.budget}${violation.unit}`).join("; ")
+    : "health and snapshot are inside fleet pressure budget";
+  const endpointDetail = [
+    `health=${health?.status ?? health?.error ?? "missing"} ${health?.ms ?? 0}ms`,
+    `snapshot=${dashboard?.status ?? dashboard?.error ?? "missing"} ${dashboard?.ms ?? 0}ms`,
+  ].join("; ");
+
+  return {
+    id: `fleet-${snapshot.projectId}`,
+    kind: failed ? "incident" : pressureFailed ? "action" : "evidence",
+    title: `${snapshot.label} production snapshot`,
+    source: "Fleet monitoring registry",
+    owner: snapshot.owner,
+    severity,
+    state,
+    whyItMatters: "Hermes daily operation depends on child-system health, freshness, and cheap dashboard snapshots matching production reality.",
+    nextAction: failed
+      ? "Repair or re-run the production health and dashboard snapshot check; keep child-system actions gated until monitoring passes."
+      : pressureFailed
+        ? "Trim the endpoint payload or latency, then rerun the strict fleet pressure check."
+        : "Keep monitoring on cadence; use drill-through only when this system needs attention.",
+    clearingProof: failed
+      ? "Strict fleet monitoring check passes with health and snapshot status 200."
+      : pressureFailed
+        ? "Strict fleet pressure check passes with no latency or payload violations."
+        : "Latest fleet monitoring check is passing.",
+    evidence: `${endpointDetail}; ${pressureDetail}`,
+    safeAction: "dashboard:monitoring:check:strict",
+    requiresApproval: failed || pressureFailed,
+    updatedAt: snapshot.latestCheck?.capturedAt ?? null,
+    route: snapshot.projectId === "khashi-vc" || snapshot.projectId === "investing-system" ? "/trading" : "/system/freshness",
   };
 }
 

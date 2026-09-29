@@ -34,6 +34,7 @@ import {
   type LiveSignalIntegration,
   type OperatingSystemStage,
 } from "./operating-system-data";
+import { fleetOperatorSnapshots } from "./fleet-operator-data";
 import { loadOperatingRuntimeState } from "./operating-runtime";
 import {
   loadOperatingRuntimeStateFromServer,
@@ -144,6 +145,7 @@ function OperatePage({ mode }: { mode: OperateMode }) {
     policies: permissionPolicies,
     loops: operatingLoops,
     runtime,
+    fleetSnapshots: fleetOperatorSnapshots,
   }), [runtime]);
   const summary = operateSummary(operateItems);
   const incidents = operatingSystemStages.filter((stage) =>
