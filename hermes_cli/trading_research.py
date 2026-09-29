@@ -182,3 +182,101 @@ async def record_backtest_review() -> dict[str, Any]:
     summary = await backtesting_summary()
     evidence = _record_action("Backtest review", "Backtest readiness review recorded. No promotion was executed.", summary)
     return {"ok": True, "generatedAt": now_iso(), "evidence": evidence, "summary": summary}
+
+
+def _runtime_evidence() -> list[dict[str, Any]]:
+    try:
+        from hermes_cli.operating_runtime import connect, list_evidence
+
+        with connect() as conn:
+            return list_evidence(conn, None)
+    except Exception:
+        return []
+
+
+async def evidence_ledger(limit: int = 50) -> dict[str, Any]:
+    from hermes_cli.trading_intelligence import trading_intelligence_events
+
+    bounded = max(1, min(100, int(limit or 50)))
+    strategies, backtests, events = await strategy_summary(), await backtesting_summary(), await trading_intelligence_events(bounded)
+    rows: list[dict[str, Any]] = []
+    for event in events.get("events") or []:
+        rows.append({
+            "id": str(event.get("id") or f"event-{len(rows)}"),
+            "kind": "source_event",
+            "sourceProject": str(event.get("sourceProject") or event.get("projectId") or "trading-source"),
+            "subject": str(event.get("type") or event.get("title") or "Trading event"),
+            "status": str(event.get("severity") or "info"),
+            "occurredAt": str(event.get("occurredAt") or event.get("timestamp") or now_iso()),
+            "proofHash": str(event.get("proofHash") or ""),
+            "artifact": str(event.get("artifact") or ""),
+            "detail": str(event.get("detail") or event.get("message") or "Source trading event."),
+        })
+    for candidate in strategies.get("candidates") or []:
+        rows.append({
+            "id": str(candidate["id"]),
+            "kind": "strategy",
+            "sourceProject": str(candidate["sourceProject"]),
+            "subject": str(candidate["hypothesis"]),
+            "status": str(candidate["status"]),
+            "occurredAt": strategies["generatedAt"],
+            "proofHash": "",
+            "artifact": str(candidate["promotionGate"]),
+            "detail": str(candidate["falsificationCriteria"]),
+        })
+    for run in backtests.get("runs") or []:
+        rows.append({
+            "id": str(run["id"]),
+            "kind": "backtest",
+            "sourceProject": str(run["sourceProject"]),
+            "subject": str(run["strategyId"]),
+            "status": str(run["status"]),
+            "occurredAt": backtests["generatedAt"],
+            "proofHash": "",
+            "artifact": str(run["datasetWindow"]),
+            "detail": str(run["failure"] or "; ".join(run.get("assumptions") or [])),
+        })
+    for record in _runtime_evidence()[:bounded]:
+        subject = str(record.get("subject") or "")
+        owner = str(record.get("owner") or "")
+        if not any(token in f"{subject} {owner}".lower() for token in ("trading", "strategy", "backtest", "head trader", "khashi", "investing")):
+            continue
+        rows.append({
+            "id": str(record.get("id") or f"runtime-{len(rows)}"),
+            "kind": str(record.get("kind") or "runtime_evidence"),
+            "sourceProject": owner or "runtime",
+            "subject": subject or "Runtime evidence",
+            "status": str(record.get("state") or "unknown"),
+            "occurredAt": str(record.get("updated_at") or record.get("updatedAt") or now_iso()),
+            "proofHash": str((record.get("payload") or {}).get("proofHash") or ""),
+            "artifact": str((record.get("payload") or {}).get("artifact") or ""),
+            "detail": str(record.get("detail") or "Runtime evidence record."),
+        })
+    rows.sort(key=lambda row: row["occurredAt"], reverse=True)
+    missing_hashes = len([row for row in rows if not row["proofHash"]])
+    return {
+        "contractVersion": "trading-evidence-ledger.v1",
+        "generatedAt": now_iso(),
+        "health": "warning" if missing_hashes else "ready",
+        "summary": {
+            "records": len(rows[:bounded]),
+            "sourceEvents": len([row for row in rows if row["kind"] == "source_event"]),
+            "strategies": len([row for row in rows if row["kind"] == "strategy"]),
+            "backtests": len([row for row in rows if row["kind"] == "backtest"]),
+            "missingProofHashes": missing_hashes,
+        },
+        "records": rows[:bounded],
+        "blockers": [f"{missing_hashes} evidence rows do not have proof hashes yet."] if missing_hashes else [],
+        "recommendations": ["Add source-native artifact previews and proof hashes for promoted strategy/backtest evidence."] if missing_hashes else [],
+    }
+
+
+async def evidence_series(window: Window = "24h") -> dict[str, Any]:
+    ledger = await evidence_ledger(100)
+    return _series(window, max(int(ledger["summary"]["records"]), 1), ("records", "sourceEvents", "missingProofHashes"))
+
+
+async def record_evidence_review() -> dict[str, Any]:
+    ledger = await evidence_ledger(100)
+    evidence = _record_action("Trading evidence review", "Trading evidence ledger review recorded. No trading action was executed.", ledger)
+    return {"ok": True, "generatedAt": now_iso(), "evidence": evidence, "summary": ledger}

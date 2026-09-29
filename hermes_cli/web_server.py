@@ -1832,6 +1832,29 @@ async def post_trading_backtesting_review():
     return await record_backtest_review()
 
 
+@app.get("/api/trading-research/evidence/ledger")
+async def get_trading_evidence_ledger(limit: int = 50):
+    from hermes_cli.trading_research import evidence_ledger
+
+    return await evidence_ledger(limit)
+
+
+@app.get("/api/trading-research/evidence/series")
+async def get_trading_evidence_series(window: str = "24h"):
+    from hermes_cli.trading_research import evidence_series
+
+    if window not in {"1h", "24h", "7d", "30d"}:
+        raise HTTPException(status_code=400, detail="window must be one of 1h, 24h, 7d, 30d")
+    return await evidence_series(window)  # type: ignore[arg-type]
+
+
+@app.post("/api/trading-research/evidence/review")
+async def post_trading_evidence_review():
+    from hermes_cli.trading_research import record_evidence_review
+
+    return await record_evidence_review()
+
+
 def _hermes_brain_base_url() -> str:
     return os.environ.get("HERMES_BRAIN_URL", "http://127.0.0.1:3115").rstrip("/")
 

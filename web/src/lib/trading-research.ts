@@ -74,6 +74,32 @@ export interface BacktestingSummary {
   recommendations: string[];
 }
 
+export interface TradingEvidenceLedger {
+  contractVersion: string;
+  generatedAt: string;
+  health: TradingResearchHealth;
+  summary: {
+    records: number;
+    sourceEvents: number;
+    strategies: number;
+    backtests: number;
+    missingProofHashes: number;
+  };
+  records: Array<{
+    id: string;
+    kind: string;
+    sourceProject: string;
+    subject: string;
+    status: string;
+    occurredAt: string;
+    proofHash: string;
+    artifact: string;
+    detail: string;
+  }>;
+  blockers: string[];
+  recommendations: string[];
+}
+
 export interface StrategySnapshot {
   summary: StrategySummary;
   series: TradingResearchSeries;
@@ -81,6 +107,11 @@ export interface StrategySnapshot {
 
 export interface BacktestingSnapshot {
   summary: BacktestingSummary;
+  series: TradingResearchSeries;
+}
+
+export interface TradingEvidenceSnapshot {
+  ledger: TradingEvidenceLedger;
   series: TradingResearchSeries;
 }
 
@@ -100,12 +131,24 @@ export async function fetchBacktestingSnapshot(window: WarehouseWindow = "24h"):
   return { summary, series };
 }
 
+export async function fetchTradingEvidenceSnapshot(window: WarehouseWindow = "24h"): Promise<TradingEvidenceSnapshot> {
+  const [ledger, series] = await Promise.all([
+    fetchJSON<TradingEvidenceLedger>("/api/trading-research/evidence/ledger"),
+    fetchJSON<TradingResearchSeries>(`/api/trading-research/evidence/series?window=${encodeURIComponent(window)}`),
+  ]);
+  return { ledger, series };
+}
+
 export function runStrategyReview(): Promise<Record<string, unknown>> {
   return fetchJSON<Record<string, unknown>>("/api/trading-research/strategies/review", { method: "POST" });
 }
 
 export function runBacktestReview(): Promise<Record<string, unknown>> {
   return fetchJSON<Record<string, unknown>>("/api/trading-research/backtesting/review", { method: "POST" });
+}
+
+export function runTradingEvidenceReview(): Promise<Record<string, unknown>> {
+  return fetchJSON<Record<string, unknown>>("/api/trading-research/evidence/review", { method: "POST" });
 }
 
 export function tradingResearchTone(health: string): "success" | "warning" | "critical" | "info" {

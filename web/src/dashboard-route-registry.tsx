@@ -53,6 +53,7 @@ const TradingIntelligencePage = lazy(() => import("@/pages/TradingIntelligencePa
 const HeadTraderPage = lazy(() => import("@/pages/HeadTraderPage"));
 const SecondBrainPage = lazy(() => import("@/pages/SecondBrainPage"));
 const CompoundingIntelligencePage = lazy(() => import("@/pages/CompoundingIntelligencePage"));
+const TradingEvidencePage = lazy(() => import("@/pages/TradingEvidencePage"));
 const TradingResearchDevelopmentPage = lazy(() => import("@/pages/TradingDevelopmentPage").then((module) => ({ default: module.TradingResearchDevelopmentPage })));
 const TradingBacktestingPage = lazy(() => import("@/pages/TradingDevelopmentPage").then((module) => ({ default: module.TradingBacktestingPage })));
 const ProductionScreenshotRunnerPage = lazy(() => import("@/pages/ProductionScreenshotRunnerPage"));
@@ -203,7 +204,7 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/trading/shadow-paper": TradingIntelligencePage,
   "/trading/risk": HeadTraderPage,
   "/trading/head-trader": HeadTraderPage,
-  "/trading/evidence": TradingIntelligencePage,
+  "/trading/evidence": TradingEvidencePage,
   "/system/warehouse": SystemWarehousePage,
   "/system/freshness": SystemFreshnessPage,
   "/system/storage": SystemStoragePage,
