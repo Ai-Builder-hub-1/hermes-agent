@@ -269,6 +269,245 @@ Every Operate, Trading, and System page should have the same minimum contract:
   - actions create audit/evidence records
   - route-specific Trading pages no longer look interchangeable
 
+## Beyond Operational: Additional Maturity Layers
+
+Once the pages above are live, charted, evidence-backed, and action-capable, the next maturity target is not more pages. It is moving from **operational visibility** to **operational intelligence**.
+
+### Phase 11: Predictive Operations
+
+Goal: predict likely failures, capacity issues, and data slowdowns before they become incidents.
+
+Required work:
+
+- Forecast warehouse capacity based on ingest growth by source.
+- Detect material ingestion slowdowns against source-specific baselines.
+- Predict worker failure risk from recent failures, deploys, credential age, and runtime changes.
+- Raise early warning states before a hard blocker or Discord critical alert fires.
+- Add forecast cards to Warehouse, Workers, Freshness, and Operate.
+
+Example outputs:
+
+- `Warehouse projected 85% full in 11 days.`
+- `Khashi ingest is 42% below normal Tuesday cadence.`
+- `Worker failure risk elevated after deploy because credential proof is stale.`
+
+### Phase 12: Cross-System Causality
+
+Goal: show cause and effect across Nous Hermes, Khashi VC, Investing System, Hermes Brain, workers, warehouse, and Discord alerts.
+
+Required work:
+
+- Create a causal event graph that links collectors, workers, warehouse jobs, alerts, dashboard stale states, blockers, and operator actions.
+- Add correlation IDs across runtime events, warehouse records, Discord messages, evidence artifacts, and dashboard actions.
+- Add cause/effect drilldowns on Operate, System, and Trading pages.
+- Show incident chains as timelines.
+
+Example chain:
+
+`Collector failed -> warehouse source stale -> trading dashboard stale -> blocker opened -> Discord alert sent -> action assigned -> restore proof requested.`
+
+### Phase 13: Automated Evidence Capture
+
+Goal: make proof automatic whenever operational state changes.
+
+Required work:
+
+- Capture API snapshots for major page states.
+- Capture screenshots after deploys, production checks, page maturity checks, and restore proof runs.
+- Attach logs, job output, source payload hashes, manifest hashes, and deployed SHAs to evidence records.
+- Link every blocker/action/incident/run to evidence artifacts.
+- Add evidence retention and dedupe rules.
+
+Evidence should be captured for:
+
+- data warehouse sync
+- restore proof
+- prune dry-run
+- worker run
+- deploy promotion
+- trading decision
+- backtest result
+- strategy promotion
+- stale-source detection
+
+### Phase 14: SLO and SLA Layer
+
+Goal: define operating promises and show whether the system is meeting them.
+
+Required work:
+
+- Define freshness SLOs by source and dashboard.
+- Define warehouse sync and mirror lag SLOs.
+- Define restore proof cadence.
+- Define worker success-rate and max-lag targets.
+- Define Discord alert acknowledgement and resolution targets.
+- Add SLO breach cards, burn-rate indicators, and violation history.
+
+Candidate SLOs:
+
+- Warehouse critical sources fresh within 15 minutes.
+- Mirror lag under 4 hours.
+- Restore proof generated every 7 days.
+- Trading source freshness under 5 minutes during market windows.
+- Worker success rate above 95% over 7 days.
+
+### Phase 15: Remediation Playbooks
+
+Goal: every issue should explain exactly how to fix it safely.
+
+Required work:
+
+- Add playbook IDs to blockers, incidents, stale sources, failed workers, credential issues, and capacity warnings.
+- Define prechecks, safe commands/actions, approval level, rollback path, expected evidence, and closeout criteria.
+- Add guided remediation panels to Operate and System pages.
+- Separate read-only diagnostics from mutating actions.
+- Require audit writeback for every remediation attempt.
+
+Each playbook should answer:
+
+- What broke?
+- Why does it matter?
+- What should be checked first?
+- What can be done safely?
+- What requires approval?
+- What proof closes the issue?
+
+### Phase 16: Autonomous Triage With Human Approval
+
+Goal: let Hermes classify, prioritize, and prepare remediation while keeping dangerous actions human-gated.
+
+Required work:
+
+- Auto-classify new alerts by severity, owner, project, and likely cause.
+- Auto-prepare diagnostic context and suggested repair steps.
+- Auto-draft remediation commands without executing dangerous actions.
+- Add approval packets for deploy, secret, live trading, pruning, rollback, and production mutation work.
+- Add denial/superseded flows so the system learns from operator judgment.
+
+Allowed automation:
+
+- classify issue
+- gather context
+- suggest owner
+- prepare command
+- run read-only check
+- create evidence packet
+
+Approval-gated automation:
+
+- deploy
+- rollback
+- prune
+- rotate secret
+- run paid provider batch
+- mutate broker/trading state
+- change scheduler/autonomy settings
+
+### Phase 17: Business Impact Layer
+
+Goal: translate infrastructure health into business meaning.
+
+Required work:
+
+- Map sources, workers, warehouse datasets, and dashboard pages to business units.
+- Add impact labels for Khashi VC, Investing System, Nous Hermes, Hermes Brain, and second brain.
+- Show which business decisions are affected by stale or missing data.
+- Add impact severity alongside technical severity.
+- Tie warehouse/source failures to trading, analysis, operations, and memory quality.
+
+Example translations:
+
+- `Investing System analysis is stale because SEC/filing ingest is behind.`
+- `Khashi shadow/paper reporting is incomplete because event ingestion stopped.`
+- `Second Brain retrieval quality is degraded because warehouse sync has not completed.`
+- `Restore confidence is reduced because mirror lag exceeded the SLO.`
+
+### Phase 18: Historical Reliability Score
+
+Goal: score each subsystem based on real operating history.
+
+Required work:
+
+- Build reliability scoring across uptime, freshness, worker success, incident count, restore proof, unresolved blockers, and evidence completeness.
+- Show reliability by page, source, worker, project, and business unit.
+- Add trend direction and confidence.
+- Track regressions after deployments or configuration changes.
+- Use score movement to prioritize maturity work.
+
+Reliability score inputs:
+
+- successful runs
+- failed runs
+- stale duration
+- incident frequency
+- unresolved blockers
+- restore-proof age
+- evidence completeness
+- source coverage
+- alert acknowledgement time
+
+### Phase 19: Capacity and Cost Intelligence
+
+Goal: make storage and compute decisions based on value, cost, and retrieval use.
+
+Required work:
+
+- Attribute warehouse growth by source, project, data type, and retention class.
+- Identify data with high growth and low usage.
+- Recommend compression, archive, pruning, or retention changes.
+- Show cost and capacity forecast before critical alerts.
+- Link data value to retrieval, analysis, audit, restore, and trading use.
+
+The system should be able to say:
+
+- what is growing fastest
+- what is worth keeping
+- what can be compressed
+- what should be archived
+- what has no retrieval or audit value
+- what is expensive but operationally important
+
+### Phase 20: Self-Auditing Dashboard
+
+Goal: make the dashboard continuously audit its own maturity.
+
+Required work:
+
+- Detect pages without live data contracts.
+- Detect pages without stale/error/loading states.
+- Detect charts without live series data.
+- Detect actions without audit writeback.
+- Detect pages without Playwright or dashboard validation coverage.
+- Detect pages with labels that overpromise the data shown.
+- Add a dashboard maturity score by route.
+- Create issues/actions automatically when a page regresses.
+
+Self-audit checks:
+
+- page has live API source or explicitly declares static mode
+- page has freshness state
+- page has empty state
+- page has error state
+- page has evidence link
+- page has tests
+- page has owner
+- page has route-specific purpose
+- page has no misleading metrics
+- page has safe action semantics
+
+## Expanded Priority After Phase 10
+
+1. Predictive warehouse capacity and ingest slowdown detection.
+2. Cross-system causal timeline for stale sources and alerts.
+3. Automated evidence capture for warehouse sync, restore proof, workers, and deploys.
+4. SLO/SLA layer for freshness, mirror lag, restore proof, worker success, and alert response.
+5. Remediation playbooks for warehouse, worker, credential, deploy, and trading source failures.
+6. Autonomous triage packets with human approval for dangerous actions.
+7. Business impact mapping from technical failures to Khashi VC, Investing System, Hermes Brain, and Nous Hermes.
+8. Historical reliability scoring by project, route, source, and worker.
+9. Capacity/cost intelligence for warehouse growth and retention value.
+10. Self-auditing dashboard maturity engine.
+
 ## Priority Order
 
 1. `/system/warehouse`
@@ -287,3 +526,5 @@ Every Operate, Trading, and System page should have the same minimum contract:
 The dashboard route map is ahead of the operational data contracts. That is why many pages exist but do not yet answer the natural question implied by their name.
 
 For the specific **Data Warehouse** complaint, the page should not be considered mature until it shows capacity, ingestion, freshness, mirroring, pruning, restore proof, source coverage, trends, and safe actions.
+
+After that, the system should mature from answering **what is happening** to answering **what will happen next, why it happened, what it affects, what to do, and what proof closed the loop**.
