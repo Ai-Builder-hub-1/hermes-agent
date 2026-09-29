@@ -4,6 +4,7 @@ import {
   Activity,
   BarChart3,
   BookOpen,
+  BrainCircuit,
   BriefcaseBusiness,
   Building2,
   CandlestickChart,
@@ -51,6 +52,7 @@ const FleetMaturityReviewPage = lazy(() => import("@/pages/FleetMaturityReviewPa
 const TradingIntelligencePage = lazy(() => import("@/pages/TradingIntelligencePage"));
 const HeadTraderPage = lazy(() => import("@/pages/HeadTraderPage"));
 const SecondBrainPage = lazy(() => import("@/pages/SecondBrainPage"));
+const CompoundingIntelligencePage = lazy(() => import("@/pages/CompoundingIntelligencePage"));
 const TradingResearchDevelopmentPage = lazy(() => import("@/pages/TradingDevelopmentPage").then((module) => ({ default: module.TradingResearchDevelopmentPage })));
 const TradingBacktestingPage = lazy(() => import("@/pages/TradingDevelopmentPage").then((module) => ({ default: module.TradingBacktestingPage })));
 const ProductionScreenshotRunnerPage = lazy(() => import("@/pages/ProductionScreenshotRunnerPage"));
@@ -222,6 +224,7 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/trading-intelligence": TradingIntelligencePage,
   "/head-trader": HeadTraderPage,
   "/second-brain": SecondBrainPage,
+  "/compounding-intelligence": CompoundingIntelligencePage,
   "/executive-summary": RedirectToOperate,
   "/executive-briefing": RedirectToOperateEvidence,
   "/dashboard-migrations": RedirectToSystemDeployments,
@@ -385,6 +388,7 @@ export const BUILTIN_NAV_REST: BuiltinNavItem[] = [
   { path: "/trading-intelligence", label: "Command Center", icon: CandlestickChart },
   { path: "/head-trader", label: "Head Trader", icon: MessageSquare },
   { path: "/second-brain", label: "Second Brain", icon: Database },
+  { path: "/compounding-intelligence", label: "Compounding Intel", icon: BrainCircuit },
   { path: "/fleet-maturity-review", label: "Fleet Review", icon: ListChecks },
   { path: "/models", labelKey: "models", label: "Models", icon: Cpu },
   { path: "/logs", labelKey: "logs", label: "Logs", icon: FileText },
@@ -416,6 +420,8 @@ export const OPERATOR_NAV_GROUPS: OperatorNavGroup[] = [
       "/incident-command",
       "/operating-loops",
       "/fleet-maturity-review",
+      "/second-brain",
+      "/compounding-intelligence",
     ],
     items: [
       { path: "/operate", label: "Overview", icon: Building2 },
@@ -425,6 +431,8 @@ export const OPERATOR_NAV_GROUPS: OperatorNavGroup[] = [
       { path: "/operate/approvals", label: "Approvals", icon: BookOpen },
       { path: "/operate/runs", label: "Recent Runs", icon: RotateCw },
       { path: "/operate/evidence", label: "Evidence", icon: Database },
+      { path: "/second-brain", label: "Second Brain", icon: Database },
+      { path: "/compounding-intelligence", label: "Compounding Intel", icon: BrainCircuit },
       { path: "/operate/chat-actions", label: "Chat Actions", icon: Terminal },
     ],
   },
