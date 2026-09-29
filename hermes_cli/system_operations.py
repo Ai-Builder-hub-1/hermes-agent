@@ -401,6 +401,74 @@ def record_deployment_check() -> dict[str, Any]:
     return {"ok": True, "generatedAt": now_iso(), "evidence": evidence, "summary": summary}
 
 
+def recovery_summary() -> dict[str, Any]:
+    incidents = _runtime_evidence("incident")
+    deployments = deployments_summary()
+    open_incidents = []
+    rollback_gaps = []
+    for record in incidents[:50]:
+        payload = record.get("payload") or {}
+        status = str(payload.get("status") or "open")
+        rollback = str(payload.get("rollback") or "")
+        state = str(record.get("state") or "warning")
+        if status not in {"resolved", "closed"} and state not in {"ready", "stored", "allowed"}:
+            item = {
+                "id": str(record.get("id") or record.get("subject") or "incident"),
+                "title": str(record.get("subject") or "Incident"),
+                "owner": str(record.get("owner") or "Operations"),
+                "severity": str(payload.get("severity") or "warning"),
+                "status": status,
+                "rollback": rollback,
+                "nextStep": str(record.get("detail") or "Review incident evidence and attach recovery proof."),
+                "updatedAt": str(record.get("updated_at") or record.get("updatedAt") or now_iso()),
+            }
+            open_incidents.append(item)
+            if not rollback:
+                rollback_gaps.append(item["id"])
+
+    failed_deployments = [row for row in deployments.get("deployments", []) if row.get("state") == "failed"]
+    gated_deployments = [row for row in deployments.get("deployments", []) if row.get("state") == "gated"]
+    deployment_rollback_gaps = [
+        str(row.get("id"))
+        for row in failed_deployments + gated_deployments
+        if not row.get("rollback") and not row.get("evidence")
+    ]
+    blockers = []
+    if open_incidents:
+        blockers.append(f"{len(open_incidents)} open incident(s) need recovery proof.")
+    if failed_deployments:
+        blockers.append(f"{len(failed_deployments)} failed deployment record(s) need rollback or repair proof.")
+    if rollback_gaps or deployment_rollback_gaps:
+        blockers.append(f"{len(rollback_gaps) + len(deployment_rollback_gaps)} incident/deployment item(s) lack rollback proof.")
+    health = "critical" if failed_deployments or rollback_gaps or deployment_rollback_gaps else "warning" if open_incidents or gated_deployments else "ready"
+    return {
+        "contractVersion": "system-recovery.v1",
+        "generatedAt": now_iso(),
+        "health": health,
+        "summary": {
+            "openIncidents": len(open_incidents),
+            "failedDeployments": len(failed_deployments),
+            "gatedDeployments": len(gated_deployments),
+            "rollbackGaps": len(rollback_gaps) + len(deployment_rollback_gaps),
+            "rollbackProofs": deployments.get("summary", {}).get("rollbackProofs", 0),
+        },
+        "incidents": open_incidents[:20],
+        "failedDeployments": failed_deployments,
+        "gatedDeployments": gated_deployments,
+        "blockers": blockers,
+        "recommendations": [
+            "Attach rollback or no-op proof to every open incident and failed deployment.",
+            "Run read-only deployment and worker checks before any production promotion.",
+        ] if blockers else ["Keep incident and deployment recovery proof on cadence."],
+    }
+
+
+def record_recovery_check() -> dict[str, Any]:
+    summary = recovery_summary()
+    evidence = _record_catalog_action("Recovery check", "Incident and deployment recovery posture recorded. No remediation was executed.", summary)
+    return {"ok": True, "generatedAt": now_iso(), "evidence": evidence, "summary": summary}
+
+
 def credentials_summary() -> dict[str, Any]:
     try:
         from hermes_cli.credential_status import credential_status

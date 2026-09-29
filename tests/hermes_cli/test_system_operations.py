@@ -57,6 +57,42 @@ def test_deployments_summary_and_check(tmp_path, monkeypatch):
     assert record_deployment_check()["ok"] is True
 
 
+def test_recovery_summary_and_check(tmp_path, monkeypatch):
+    home = tmp_path / "home"
+    monkeypatch.setenv("HERMES_HOME", str(home))
+
+    from hermes_cli.operating_runtime import connect, record_deployment, record_incident
+    from hermes_cli.system_operations import record_recovery_check, recovery_summary
+
+    with connect() as conn:
+        record_incident(
+            conn,
+            title="Worker restart loop",
+            severity="critical",
+            owner="Operations",
+            next_step="Restart loop needs recovery proof.",
+            source="test",
+        )
+        record_deployment(
+            conn,
+            project="Nous Hermes",
+            version="abc123",
+            environment="production",
+            status="failed",
+            rollback="Restore previous image.",
+            evidence=["health-check-failed"],
+        )
+
+    summary = recovery_summary()
+    assert summary["contractVersion"] == "system-recovery.v1"
+    assert summary["health"] == "critical"
+    assert summary["summary"]["openIncidents"] >= 1
+    assert summary["summary"]["failedDeployments"] >= 1
+    assert summary["summary"]["rollbackGaps"] >= 1
+    assert summary["blockers"]
+    assert record_recovery_check()["ok"] is True
+
+
 def test_credentials_summary_and_scan(tmp_path, monkeypatch):
     home = tmp_path / "home"
     monkeypatch.setenv("HERMES_HOME", str(home))

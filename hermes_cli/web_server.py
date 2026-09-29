@@ -3713,6 +3713,20 @@ async def post_system_deployments_check():
     return record_deployment_check()
 
 
+@app.get("/api/system/recovery/summary")
+async def get_system_recovery_summary():
+    from hermes_cli.system_operations import recovery_summary
+
+    return recovery_summary()
+
+
+@app.post("/api/system/recovery/check")
+async def post_system_recovery_check():
+    from hermes_cli.system_operations import record_recovery_check
+
+    return record_recovery_check()
+
+
 @app.get("/api/system/credentials/summary")
 async def get_system_credentials_summary():
     from hermes_cli.system_operations import credentials_summary

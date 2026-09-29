@@ -148,6 +148,7 @@ def test_operate_queue_merges_fleet_and_runtime_evidence(monkeypatch, tmp_path):
     assert "runtime-incident-live-worker" in ids
     assert "system-storage" in ids
     assert "system-credentials" in ids
+    assert "system-recovery" in ids
     assert "trading-account-visibility" in ids
     assert "broker-account-robinhood-mcp" in ids
     assert "broker-account-oanda" in ids
@@ -157,6 +158,9 @@ def test_operate_queue_merges_fleet_and_runtime_evidence(monkeypatch, tmp_path):
     runtime_item = next(item for item in body["items"] if item["id"] == "runtime-incident-live-worker")
     assert runtime_item["severity"] == "critical"
     assert runtime_item["route"] == "/operate/incidents"
+    recovery_item = next(item for item in body["items"] if item["id"] == "system-recovery")
+    assert recovery_item["severity"] in {"critical", "warning"}
+    assert recovery_item["route"] == "/operate/incidents"
     trading_item = next(item for item in body["items"] if item["id"] == "trading-account-visibility")
     assert trading_item["severity"] == "warning"
     assert "capitalKnown=False" in trading_item["evidence"]

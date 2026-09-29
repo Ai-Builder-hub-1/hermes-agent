@@ -129,6 +129,7 @@ def _system_summary_items() -> list[Dict[str, Any]]:
         credentials_summary,
         deployments_summary,
         freshness_summary,
+        recovery_summary,
         storage_summary,
         workers_summary,
     )
@@ -140,6 +141,7 @@ def _system_summary_items() -> list[Dict[str, Any]]:
         ("system-freshness", "Freshness posture", freshness_summary, "/system/freshness"),
         ("system-workers", "Worker posture", workers_summary, "/system/workers"),
         ("system-deployments", "Deployment posture", deployments_summary, "/system/deployments"),
+        ("system-recovery", "Incident and recovery posture", recovery_summary, "/operate/incidents"),
         ("system-credentials", "Credential posture", credentials_summary, "/system/credentials"),
     ]
     items: list[Dict[str, Any]] = []
