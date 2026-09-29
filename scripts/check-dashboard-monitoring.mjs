@@ -8,6 +8,7 @@ const outputPath = path.join(root, "docs/design/dashboard-monitoring-registry.js
 const args = process.argv.slice(2);
 const projectFilter = valueAfter("--project") ?? valueAfter("--id") ?? null;
 const timeoutMs = Number(valueAfter("--timeout-ms") ?? 8000);
+const strict = args.includes("--strict");
 const defaultPressureBudget = {
   healthMaxMs: 2000,
   healthMaxBytes: 100000,
@@ -178,4 +179,7 @@ for (const entry of failures) {
     ? ` pressure=${pressure.violations.map((violation) => `${violation.check}:${violation.actual}/${violation.budget}${violation.unit}`).join(",")}`
     : "";
   console.log(`fail ${entry.projectId}: health=${entry.latestCheck.checks.health.status ?? entry.latestCheck.checks.health.error} snapshot=${entry.latestCheck.checks.snapshot.status ?? entry.latestCheck.checks.snapshot.error}${pressureDetail}`);
+}
+if (strict && failures.length > 0) {
+  process.exitCode = 1;
 }

@@ -121,6 +121,7 @@
     "dashboard:live-e2e:check": "node scripts/check-dashboard-live-e2e.mjs",
     "dashboard:monitoring:registry": "node scripts/generate-dashboard-monitoring-registry.mjs",
     "dashboard:monitoring:check": "node scripts/check-dashboard-monitoring.mjs",
+    "dashboard:monitoring:check:strict": "node scripts/check-dashboard-monitoring.mjs --strict",
     "dashboard:bridge:coverage": "node scripts/check-dashboard-bridge-coverage.mjs",
     "dashboard:tier-assessment:sync": "node scripts/sync-dashboard-tier-assessment.mjs",
     "dashboard:tier-assessment:validate": "node scripts/validate-dashboard-tier-assessment.mjs",
