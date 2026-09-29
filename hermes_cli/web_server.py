@@ -2648,6 +2648,13 @@ async def get_fleet_operator_snapshots():
     return fleet_operator_snapshots()
 
 
+@app.get("/api/fleet/operator-queue")
+async def get_fleet_operator_queue(limit: int = 12):
+    from hermes_cli.fleet_monitoring import fleet_operator_queue
+
+    return fleet_operator_queue(limit=limit)
+
+
 @app.get("/api/operating-runtime/evidence")
 async def get_operating_runtime_evidence(kind: str = ""):
     from hermes_cli.operating_runtime import list_evidence

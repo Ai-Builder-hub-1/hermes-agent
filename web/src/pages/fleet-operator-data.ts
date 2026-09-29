@@ -43,6 +43,37 @@ export interface FleetOperatorSnapshotResponse {
   snapshots: FleetOperatorSnapshot[];
 }
 
+export interface FleetOperatorQueueItem {
+  id: string;
+  kind: "blocker" | "action" | "incident" | "approval" | "run" | "evidence";
+  title: string;
+  source: string;
+  owner: string;
+  severity: "critical" | "warning" | "info" | "ready";
+  state: "blocked" | "gated" | "queued" | "assigned" | "ready" | "done" | "stale" | "review";
+  whyItMatters: string;
+  nextAction: string;
+  clearingProof: string;
+  evidence: string;
+  safeAction: string | null;
+  requiresApproval: boolean;
+  updatedAt: string | null;
+  route?: string;
+}
+
+export interface FleetOperatorQueueResponse {
+  schemaVersion: number;
+  generatedAt: string | null;
+  source: string;
+  summary: {
+    attention: number;
+    blocked: number;
+    ready: number;
+    executable: number;
+  };
+  items: FleetOperatorQueueItem[];
+}
+
 export const fallbackFleetOperatorSnapshots: FleetOperatorSnapshot[] = [
   failedSnapshot("tlc-capital-group-os", "TLC Capital Group OS", "tlc-enterprise", "https://tlc.tlccapitalgroup.com/health", "https://tlc.tlccapitalgroup.com/dashboard-snapshot"),
   failedSnapshot("nous-hermes-agent", "Nous Hermes Agent", "hermes-standards", "https://agent.tlccapitalgroup.com/api/status", "https://agent.tlccapitalgroup.com/api/dashboard-snapshot"),
@@ -72,6 +103,14 @@ export async function loadFleetOperatorSnapshots(): Promise<FleetOperatorSnapsho
     return response.snapshots.length ? response.snapshots : fallbackFleetOperatorSnapshots;
   } catch {
     return fallbackFleetOperatorSnapshots;
+  }
+}
+
+export async function loadFleetOperatorQueue(limit = 6): Promise<FleetOperatorQueueResponse | null> {
+  try {
+    return await fetchJSON<FleetOperatorQueueResponse>(`/api/fleet/operator-queue?limit=${limit}`);
+  } catch {
+    return null;
   }
 }
 

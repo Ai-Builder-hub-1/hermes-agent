@@ -29,6 +29,29 @@ def fleet_operator_snapshots(registry_path: Optional[Path] = None) -> Dict[str, 
     }
 
 
+def fleet_operator_queue(registry_path: Optional[Path] = None, limit: int = 12) -> Dict[str, Any]:
+    """Return a ranked, chat-readable operator queue from fleet evidence."""
+
+    snapshots = fleet_operator_snapshots(registry_path)
+    items = sorted(
+        [_snapshot_to_operator_item(snapshot) for snapshot in snapshots["snapshots"]],
+        key=lambda item: (-_severity_rank(item["severity"]), -_state_rank(item["state"]), item["title"]),
+    )
+    safe_limit = max(1, min(int(limit), 50))
+    return {
+        "schemaVersion": 1,
+        "generatedAt": snapshots["generatedAt"],
+        "source": snapshots["source"],
+        "summary": {
+            "attention": len([item for item in items if item["state"] != "done" and item["severity"] != "ready"]),
+            "blocked": len([item for item in items if item["state"] in {"blocked", "gated"}]),
+            "ready": len([item for item in items if item["severity"] == "ready"]),
+            "executable": len([item for item in items if item["safeAction"]]),
+        },
+        "items": items[:safe_limit],
+    }
+
+
 def _normalize_entry(entry: Dict[str, Any]) -> Dict[str, Any]:
     latest_check = entry.get("latestCheck")
     return {
@@ -98,3 +121,79 @@ def _string_or_none(value: Any) -> Optional[str]:
 
 def _one_of(value: Any, choices: set[str], fallback: str) -> str:
     return value if isinstance(value, str) and value in choices else fallback
+
+
+def _snapshot_to_operator_item(snapshot: Dict[str, Any]) -> Dict[str, Any]:
+    latest_check = snapshot.get("latestCheck") if isinstance(snapshot.get("latestCheck"), dict) else None
+    health = latest_check.get("checks", {}).get("health", {}) if latest_check else {}
+    dashboard = latest_check.get("checks", {}).get("snapshot", {}) if latest_check else {}
+    pressure = latest_check.get("pressure", {}) if latest_check else {}
+    failed = latest_check is None or latest_check.get("status") != "passed"
+    pressure_failed = pressure.get("status") == "failed"
+    severity = "critical" if failed else "warning" if pressure_failed else "ready"
+    state = "blocked" if failed else "review" if pressure_failed else "ready"
+    pressure_detail = _pressure_detail(pressure)
+    endpoint_detail = (
+        f"health={health.get('status') or health.get('error') or 'missing'} {health.get('ms') or 0}ms; "
+        f"snapshot={dashboard.get('status') or dashboard.get('error') or 'missing'} {dashboard.get('ms') or 0}ms"
+    )
+    return {
+        "id": f"fleet-{snapshot['projectId']}",
+        "kind": "incident" if failed else "action" if pressure_failed else "evidence",
+        "title": f"{snapshot['label']} production snapshot",
+        "source": "Fleet monitoring registry",
+        "owner": snapshot["owner"],
+        "severity": severity,
+        "state": state,
+        "whyItMatters": "Hermes daily operation depends on child-system health, freshness, and cheap dashboard snapshots matching production reality.",
+        "nextAction": _next_action(failed, pressure_failed),
+        "clearingProof": _clearing_proof(failed, pressure_failed),
+        "evidence": f"{endpoint_detail}; {pressure_detail}",
+        "safeAction": "dashboard:monitoring:check:strict",
+        "requiresApproval": failed or pressure_failed,
+        "updatedAt": latest_check.get("capturedAt") if latest_check else None,
+        "route": _route_for_project(snapshot["projectId"]),
+    }
+
+
+def _pressure_detail(pressure: Dict[str, Any]) -> str:
+    violations = pressure.get("violations") if isinstance(pressure.get("violations"), list) else []
+    if not violations:
+        return "health and snapshot are inside fleet pressure budget"
+    return "; ".join(
+        f"{violation.get('check')} {violation.get('actual')}/{violation.get('budget')}{violation.get('unit')}"
+        for violation in violations
+        if isinstance(violation, dict)
+    )
+
+
+def _next_action(failed: bool, pressure_failed: bool) -> str:
+    if failed:
+        return "Repair or re-run the production health and dashboard snapshot check; keep child-system actions gated until monitoring passes."
+    if pressure_failed:
+        return "Trim the endpoint payload or latency, then rerun the strict fleet pressure check."
+    return "Keep monitoring on cadence; use drill-through only when this system needs attention."
+
+
+def _clearing_proof(failed: bool, pressure_failed: bool) -> str:
+    if failed:
+        return "Strict fleet monitoring check passes with health and snapshot status 200."
+    if pressure_failed:
+        return "Strict fleet pressure check passes with no latency or payload violations."
+    return "Latest fleet monitoring check is passing."
+
+
+def _route_for_project(project_id: str) -> str:
+    if project_id == "khashi-vc":
+        return "/trading/khashi"
+    if project_id == "investing-system":
+        return "/trading/investing"
+    return "/system/freshness"
+
+
+def _severity_rank(severity: str) -> int:
+    return {"critical": 4, "warning": 3, "info": 2, "ready": 1}.get(severity, 0)
+
+
+def _state_rank(state: str) -> int:
+    return {"blocked": 7, "gated": 6, "review": 5, "stale": 4, "assigned": 3, "queued": 2, "ready": 1}.get(state, 0)

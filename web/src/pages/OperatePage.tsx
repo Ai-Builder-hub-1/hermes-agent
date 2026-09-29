@@ -36,7 +36,9 @@ import {
 } from "./operating-system-data";
 import {
   fallbackFleetOperatorSnapshots,
+  loadFleetOperatorQueue,
   loadFleetOperatorSnapshots,
+  type FleetOperatorQueueResponse,
   type FleetOperatorSnapshot,
 } from "./fleet-operator-data";
 import { loadOperatingRuntimeState } from "./operating-runtime";
@@ -473,6 +475,7 @@ function Runs({ items }: { items: OperateItem[] }) {
 
 function ChatActions() {
   const [runtime, setRuntime] = useState<OperatingRuntimeState | null>(null);
+  const [queue, setQueue] = useState<FleetOperatorQueueResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [actionStatus, setActionStatus] = useState<string | null>(null);
   const prompts = [
@@ -510,6 +513,7 @@ function ChatActions() {
 
   useEffect(() => {
     void load();
+    loadFleetOperatorQueue(6).then(setQueue);
   }, []);
 
   const recordIntent = async (item: { title: string; prompt: string }) => {
@@ -553,6 +557,8 @@ function ChatActions() {
           <div className="grid gap-2 sm:grid-cols-2">
             <MiniFact label="Runtime evidence" value={runtime?.evidence.length ?? "..."} />
             <MiniFact label="Recorded intents" value={chatEvidence.length} />
+            <MiniFact label="Fleet attention" value={queue?.summary.attention ?? "..."} />
+            <MiniFact label="Blocked systems" value={queue?.summary.blocked ?? "..."} />
           </div>
           <Link
             className="flex items-center justify-between gap-3 rounded-lg border border-border bg-background p-4 text-sm font-semibold text-foreground transition hover:border-primary/60 hover:bg-primary/5"
@@ -572,6 +578,15 @@ function ChatActions() {
                 <ToneBadge tone="success">{record.state}</ToneBadge>
               </div>
               <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{record.detail}</p>
+            </article>
+          ))}
+          {queue?.items.slice(0, 3).map((item) => (
+            <article key={item.id} className="rounded-lg border border-border bg-background p-3">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <h2 className="text-sm font-semibold text-foreground">{item.title}</h2>
+                <ToneBadge tone={toneForOperateSeverity(item.severity)}>{item.state}</ToneBadge>
+              </div>
+              <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{item.nextAction}</p>
             </article>
           ))}
           <p className="mt-3 text-sm leading-6 text-muted-foreground">
