@@ -8,7 +8,7 @@ from hermes_cli.fleet_monitoring import fleet_operator_queue
 from hermes_cli.operating_runtime import connect, list_evidence
 
 
-def operator_queue(limit: int = 12) -> Dict[str, Any]:
+def operator_queue(limit: int = 12, include_system: bool = False) -> Dict[str, Any]:
     """Return the server-side answer to "what needs attention?"."""
 
     safe_limit = max(1, min(int(limit), 50))
@@ -18,14 +18,15 @@ def operator_queue(limit: int = 12) -> Dict[str, Any]:
         runtime_items = [_runtime_evidence_to_item(record) for record in list_evidence(conn)]
     finally:
         conn.close()
+    system_items = _system_summary_items() if include_system else []
     items = sorted(
-        [*fleet["items"], *runtime_items],
+        [*fleet["items"], *runtime_items, *system_items],
         key=lambda item: (-_severity_rank(item["severity"]), -_state_rank(item["state"]), item["title"]),
     )
     return {
         "schemaVersion": 1,
         "generatedAt": fleet["generatedAt"],
-        "source": "fleet registry + operating runtime evidence",
+        "source": "fleet registry + operating runtime evidence" + (" + system summaries" if include_system else ""),
         "summary": _summary(items),
         "items": items[:safe_limit],
     }
@@ -60,6 +61,90 @@ def _runtime_evidence_to_item(record: Dict[str, Any]) -> Dict[str, Any]:
         "updatedAt": record.get("updatedAt") or record.get("updated_at"),
         "route": _route_for_runtime_kind(record["kind"]),
     }
+
+
+def _system_summary_items() -> list[Dict[str, Any]]:
+    from hermes_cli.system_operations import (
+        credentials_summary,
+        deployments_summary,
+        freshness_summary,
+        storage_summary,
+        workers_summary,
+    )
+    from hermes_cli.system_warehouse import warehouse_summary
+
+    specs = [
+        ("system-storage", "Storage pressure", storage_summary, "/system/storage"),
+        ("system-warehouse", "Warehouse posture", warehouse_summary, "/system/warehouse"),
+        ("system-freshness", "Freshness posture", freshness_summary, "/system/freshness"),
+        ("system-workers", "Worker posture", workers_summary, "/system/workers"),
+        ("system-deployments", "Deployment posture", deployments_summary, "/system/deployments"),
+        ("system-credentials", "Credential posture", credentials_summary, "/system/credentials"),
+    ]
+    items: list[Dict[str, Any]] = []
+    for id_, title, loader, route in specs:
+        try:
+            summary = loader()
+            items.append(_system_summary_to_item(id_, title, summary, route))
+        except Exception as exc:
+            items.append(
+                {
+                    "id": id_,
+                    "kind": "incident",
+                    "title": title,
+                    "source": "System summary",
+                    "owner": "Operations",
+                    "severity": "critical",
+                    "state": "blocked",
+                    "whyItMatters": "Hermes needs this local system summary to decide whether operations are safe.",
+                    "nextAction": "Repair the system summary loader and rerun the operator queue.",
+                    "clearingProof": "The system summary loads successfully and reports ready/warning/critical health.",
+                    "evidence": str(exc),
+                    "safeAction": None,
+                    "requiresApproval": True,
+                    "updatedAt": None,
+                    "route": route,
+                }
+            )
+    return items
+
+
+def _system_summary_to_item(id_: str, title: str, summary: Dict[str, Any], route: str) -> Dict[str, Any]:
+    health = str(summary.get("health") or "warning")
+    bad = health in {"critical", "blocked", "failed"}
+    watch = health in {"warning", "partial", "watch", "unknown"}
+    evidence = _compact_system_evidence(summary)
+    return {
+        "id": id_,
+        "kind": "incident" if bad else "action" if watch else "evidence",
+        "title": title,
+        "source": "System summary",
+        "owner": "Operations",
+        "severity": "critical" if bad else "warning" if watch else "ready",
+        "state": "blocked" if bad else "review" if watch else "ready",
+        "whyItMatters": "System storage, freshness, workers, deployments, credentials, and warehouse posture decide whether Hermes can safely operate.",
+        "nextAction": "Review the domain page and attach clearing proof for any warning or blocked state." if (bad or watch) else "Keep this posture on cadence.",
+        "clearingProof": "Summary health returns ready and the domain page has no open breaches." if (bad or watch) else "Summary health is ready.",
+        "evidence": evidence,
+        "safeAction": None,
+        "requiresApproval": bad,
+        "updatedAt": summary.get("generatedAt"),
+        "route": route,
+    }
+
+
+def _compact_system_evidence(summary: Dict[str, Any]) -> str:
+    parts = [f"health={summary.get('health') or 'unknown'}"]
+    details = summary.get("summary") if isinstance(summary.get("summary"), dict) else None
+    if details:
+        for key in ("failed", "blocked", "gated", "watch", "staleSources", "cleanupCandidates", "missing", "blockers"):
+            if key in details:
+                parts.append(f"{key}={details[key]}")
+    slo = summary.get("slo") if isinstance(summary.get("slo"), dict) else None
+    breaches = slo.get("breaches") if isinstance(slo, dict) else None
+    if isinstance(breaches, list) and breaches:
+        parts.append(f"breaches={len(breaches)}")
+    return "; ".join(parts)
 
 
 def _summary(items: Iterable[Dict[str, Any]]) -> Dict[str, int]:

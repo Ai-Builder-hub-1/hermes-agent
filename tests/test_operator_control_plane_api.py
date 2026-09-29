@@ -38,6 +38,8 @@ def test_operate_queue_merges_fleet_and_runtime_evidence(monkeypatch, tmp_path):
     )
     monkeypatch.setattr(fleet_monitoring, "REGISTRY_PATH", registry)
     monkeypatch.setattr(operating_runtime, "db_path", lambda: tmp_path / "operating_runtime.db")
+    monkeypatch.setenv("HERMES_HOME", str(tmp_path / "home"))
+    monkeypatch.setenv("HERMES_WAREHOUSE_ROOT", str(tmp_path / "warehouse"))
 
     conn = operating_runtime.connect()
     try:
@@ -55,7 +57,7 @@ def test_operate_queue_merges_fleet_and_runtime_evidence(monkeypatch, tmp_path):
 
     client = TestClient(web_server.app)
     response = client.get(
-        "/api/operate/queue?limit=10",
+        "/api/operate/queue?limit=50&include_system=true",
         headers={"X-Hermes-Session-Token": web_server._SESSION_TOKEN},
     )
 
@@ -64,6 +66,8 @@ def test_operate_queue_merges_fleet_and_runtime_evidence(monkeypatch, tmp_path):
     ids = [item["id"] for item in body["items"]]
     assert "fleet-tlc-capital-group-os" in ids
     assert "runtime-incident-live-worker" in ids
+    assert "system-storage" in ids
+    assert "system-credentials" in ids
     assert body["summary"]["attention"] >= 2
     runtime_item = next(item for item in body["items"] if item["id"] == "runtime-incident-live-worker")
     assert runtime_item["severity"] == "critical"
