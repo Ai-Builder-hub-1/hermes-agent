@@ -1,23 +1,23 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-29T14:05:43.442Z",
+  "generatedAt": "2026-09-29T14:13:45.914Z",
   "summary": {
-    "routes": 34,
-    "readyRoutes": 34,
+    "routes": 35,
+    "readyRoutes": 35,
     "partialRoutes": 0,
     "blockedRoutes": 0,
     "chartedOrBetter": 11,
     "staticRoutes": 0,
     "liveSourceGaps": 0,
     "evidenceGaps": 0,
-    "safeActions": 24,
+    "safeActions": 25,
     "safeActionHardeningGaps": 0,
     "routeValidationStatus": "ready",
-    "routeValidationPassed": 34,
+    "routeValidationPassed": 35,
     "routeValidationFailed": 0,
     "routeValidationBlocked": 0,
     "liveSourceValidationStatus": "ready",
-    "liveSourcesReachable": 50,
+    "liveSourcesReachable": 51,
     "liveSourcesAuthRequired": 0,
     "liveSourcesDependencyUnavailable": 0,
     "liveSourcesFailed": 0,
@@ -26,8 +26,8 @@
   },
   "groups": {
     "operate": {
-      "routes": 12,
-      "ready": 12,
+      "routes": 13,
+      "ready": 13,
       "partial": 0,
       "blocked": 0,
       "averageScore": 100
@@ -157,6 +157,16 @@
       "status": "ready",
       "missing": [],
       "nextAction": "loop run history"
+    },
+    {
+      "route": "/research-queue",
+      "group": "operate",
+      "label": "Research Queue",
+      "maturity": "live",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "inline run/reject actions"
     },
     {
       "route": "/second-brain",
@@ -391,16 +401,16 @@
   ],
   "routeValidation": {
     "status": "ready",
-    "routes": 34,
-    "passed": 34,
+    "routes": 35,
+    "passed": 35,
     "failed": 0,
     "blocked": 0,
-    "generatedAt": "2026-09-29T14:05:35.193Z"
+    "generatedAt": "2026-09-29T14:13:38.092Z"
   },
   "liveSourceValidation": {
     "status": "ready",
-    "sources": 50,
-    "reachable": 50,
+    "sources": 51,
+    "reachable": 51,
     "authRequired": 0,
     "dependencyUnavailable": 0,
     "failed": 0,
@@ -408,7 +418,7 @@
     "impactedRoutes": 0,
     "authMode": "loopback_session_token",
     "sessionTokenDiscovered": true,
-    "generatedAt": "2026-09-29T14:04:06.268Z"
+    "generatedAt": "2026-09-29T14:12:04.170Z"
   },
   "staticRoutes": [],
   "liveSourceGaps": [],
@@ -697,6 +707,23 @@
         "gaps": []
       },
       {
+        "id": "/research-queue:/api/second-brain/research-tasks/generate",
+        "route": "/research-queue",
+        "group": "operate",
+        "pageLabel": "Research Queue",
+        "endpoint": "/api/second-brain/research-tasks/generate",
+        "risk": "review_required",
+        "evidenceContract": [
+          "Hermes Brain research tasks",
+          "generated candidate refs"
+        ],
+        "liveSources": [
+          "/api/second-brain/research-tasks"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
         "id": "/operate/chat-actions:/api/operating-runtime/evidence",
         "route": "/operate/chat-actions",
         "group": "operate",
@@ -865,9 +892,9 @@
       }
     ],
     "totals": {
-      "actions": 24,
-      "evidenceBacked": 24,
-      "auditExpected": 24,
+      "actions": 25,
+      "evidenceBacked": 25,
+      "auditExpected": 25,
       "needsHardening": 0
     },
     "gaps": []

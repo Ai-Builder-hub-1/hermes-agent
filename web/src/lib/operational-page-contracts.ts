@@ -321,6 +321,18 @@ export const OPERATIONAL_PAGE_CONTRACTS: OperationalPageContract[] = [
     evidence: ["Hermes Brain contradiction records", "resolution audit trail"],
   },
   {
+    route: "/research-queue",
+    group: "operate",
+    label: "Research Queue",
+    purpose: "Show stale-memory, contradiction, and decision-critical research tasks with required evidence and candidate output.",
+    maturity: "live",
+    liveSources: ["/api/second-brain/research-tasks"],
+    requiredSignals: REQUIRED_SURFACE_SIGNALS,
+    gaps: ["inline run/reject actions", "candidate review drill-through", "research age SLO"],
+    safeActions: ["/api/second-brain/research-tasks/generate"],
+    evidence: ["Hermes Brain research tasks", "generated candidate refs"],
+  },
+  {
     route: "/operate/chat-actions",
     group: "operate",
     label: "Chat Actions",

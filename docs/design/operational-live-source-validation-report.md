@@ -1,14 +1,14 @@
 # Operational Live Source Validation Report
 
-Generated: 2026-09-29T14:04:06.268Z
+Generated: 2026-09-29T14:12:04.170Z
 
 ## Summary
 
 | Metric | Value |
 | --- | --- |
-| baseUrl | http://127.0.0.1:9121 |
-| sources | 50 |
-| reachable | 50 |
+| baseUrl | http://127.0.0.1:9122 |
+| sources | 51 |
+| reachable | 51 |
 | authRequired | 0 |
 | dependencyUnavailable | 0 |
 | failed | 0 |
@@ -42,6 +42,7 @@ Generated: 2026-09-29T14:04:06.268Z
 | /api/second-brain/compounding-intelligence | reachable | 200 | /compounding-intelligence | none |
 | /api/second-brain/contradictions | reachable | 200 | /contradictions | none |
 | /api/second-brain/decisions | reachable | 200 | /decision-lineage | none |
+| /api/second-brain/research-tasks | reachable | 200 | /research-queue | none |
 | /api/second-brain/retrieval-pack | reachable | 200 | /compounding-intelligence | none |
 | /api/second-brain/search | reachable | 200 | /second-brain | none |
 | /api/second-brain/summary | reachable | 200 | /second-brain | none |

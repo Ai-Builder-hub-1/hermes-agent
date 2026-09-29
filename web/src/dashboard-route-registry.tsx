@@ -13,6 +13,7 @@ import {
   Database,
   Cpu,
   FileText,
+  FlaskConical,
   FolderOpen,
   GalleryVerticalEnd,
   GitBranch,
@@ -56,6 +57,7 @@ const SecondBrainPage = lazy(() => import("@/pages/SecondBrainPage"));
 const CompoundingIntelligencePage = lazy(() => import("@/pages/CompoundingIntelligencePage"));
 const DecisionLineagePage = lazy(() => import("@/pages/DecisionLineagePage"));
 const ContradictionDashboardPage = lazy(() => import("@/pages/ContradictionDashboardPage"));
+const ResearchQueuePage = lazy(() => import("@/pages/ResearchQueuePage"));
 const TradingEvidencePage = lazy(() => import("@/pages/TradingEvidencePage"));
 const TradingResearchDevelopmentPage = lazy(() => import("@/pages/TradingDevelopmentPage").then((module) => ({ default: module.TradingResearchDevelopmentPage })));
 const TradingBacktestingPage = lazy(() => import("@/pages/TradingDevelopmentPage").then((module) => ({ default: module.TradingBacktestingPage })));
@@ -233,6 +235,7 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/compounding-intelligence": CompoundingIntelligencePage,
   "/decision-lineage": DecisionLineagePage,
   "/contradictions": ContradictionDashboardPage,
+  "/research-queue": ResearchQueuePage,
   "/executive-summary": RedirectToOperate,
   "/executive-briefing": RedirectToOperateEvidence,
   "/dashboard-migrations": RedirectToSystemDeployments,
@@ -399,6 +402,7 @@ export const BUILTIN_NAV_REST: BuiltinNavItem[] = [
   { path: "/compounding-intelligence", label: "Compounding Intel", icon: BrainCircuit },
   { path: "/decision-lineage", label: "Decision Lineage", icon: GitBranch },
   { path: "/contradictions", label: "Contradictions", icon: ShieldAlert },
+  { path: "/research-queue", label: "Research Queue", icon: FlaskConical },
   { path: "/fleet-maturity-review", label: "Fleet Review", icon: ListChecks },
   { path: "/models", labelKey: "models", label: "Models", icon: Cpu },
   { path: "/logs", labelKey: "logs", label: "Logs", icon: FileText },
@@ -434,6 +438,7 @@ export const OPERATOR_NAV_GROUPS: OperatorNavGroup[] = [
       "/compounding-intelligence",
       "/decision-lineage",
       "/contradictions",
+      "/research-queue",
     ],
     items: [
       { path: "/operate", label: "Overview", icon: Building2 },
@@ -447,6 +452,7 @@ export const OPERATOR_NAV_GROUPS: OperatorNavGroup[] = [
       { path: "/compounding-intelligence", label: "Compounding Intel", icon: BrainCircuit },
       { path: "/decision-lineage", label: "Decision Lineage", icon: GitBranch },
       { path: "/contradictions", label: "Contradictions", icon: ShieldAlert },
+      { path: "/research-queue", label: "Research Queue", icon: FlaskConical },
       { path: "/operate/chat-actions", label: "Chat Actions", icon: Terminal },
     ],
   },

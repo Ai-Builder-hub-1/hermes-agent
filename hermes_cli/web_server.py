@@ -1973,6 +1973,17 @@ async def post_second_brain_contradictions_detect():
     return await _hermes_brain_request("/api/brain/contradictions/detect", method="POST", payload={})
 
 
+@app.get("/api/second-brain/research-tasks")
+async def get_second_brain_research_tasks(status: Optional[str] = None):
+    suffix = f"?status={urllib.parse.quote(status)}" if status else ""
+    return await _hermes_brain_request(f"/api/brain/research-tasks{suffix}")
+
+
+@app.post("/api/second-brain/research-tasks/generate")
+async def post_second_brain_research_tasks_generate():
+    return await _hermes_brain_request("/api/brain/research-tasks/generate", method="POST", payload={})
+
+
 @app.post("/api/second-brain/staleness/scan")
 async def post_second_brain_staleness_scan():
     return await _hermes_brain_request("/api/brain/staleness/scan", method="POST", payload={})

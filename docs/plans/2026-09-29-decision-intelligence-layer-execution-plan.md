@@ -437,6 +437,15 @@ Tests:
 
 ## Phase 16: Research Queue UI
 
+Status: complete.
+
+Evidence:
+
+- Added `/research-queue` operate route with task queue, adapter/reason/priority/status, linked memory/decision/contradiction refs, required evidence, blockers, and candidate output state.
+- Added Nous proxy endpoints for research task list and generation.
+- Operational live-source validation passed `51/51` sources and route validation passed `35/35` routes against the fresh dashboard server.
+- Web tests passed: targeted second-brain/client contracts, full web suite, typecheck, and production build.
+
 Build:
 
 - Add research queue to Nous or Second Brain page.

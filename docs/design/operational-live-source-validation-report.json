@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-29T14:04:06.268Z",
+  "generatedAt": "2026-09-29T14:12:04.170Z",
   "summary": {
-    "baseUrl": "http://127.0.0.1:9121",
-    "sources": 50,
-    "reachable": 50,
+    "baseUrl": "http://127.0.0.1:9122",
+    "sources": 51,
+    "reachable": 51,
     "authRequired": 0,
     "dependencyUnavailable": 0,
     "failed": 0,
@@ -225,6 +225,16 @@
       "contentType": "application/json",
       "pages": [
         "/decision-lineage"
+      ],
+      "issue": ""
+    },
+    {
+      "source": "/api/second-brain/research-tasks",
+      "status": "reachable",
+      "httpStatus": 200,
+      "contentType": "application/json",
+      "pages": [
+        "/research-queue"
       ],
       "issue": ""
     },

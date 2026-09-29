@@ -7,6 +7,8 @@ import {
   fetchDecisionLineage,
   fetchDecisionRecords,
   fetchMemoryRetrievalPack,
+  fetchResearchTasks,
+  generateResearchTasks,
 } from "./second-brain";
 
 afterEach(() => {
@@ -136,6 +138,19 @@ describe("second brain API client", () => {
 
     expect(fetchMock.mock.calls[0][0]).toBe("/api/second-brain/contradictions?status=open");
     expect(fetchMock.mock.calls[1][0]).toBe("/api/second-brain/contradictions/detect");
+    expect(fetchMock.mock.calls[1][1]).toEqual(expect.objectContaining({ method: "POST", credentials: "include" }));
+  });
+
+  it("loads and generates research tasks through the proxy", async () => {
+    vi.stubGlobal("window", {});
+    const fetchMock = jsonFetchMock({ tasks: [] });
+    vi.stubGlobal("fetch", fetchMock);
+
+    await fetchResearchTasks("queued");
+    await generateResearchTasks();
+
+    expect(fetchMock.mock.calls[0][0]).toBe("/api/second-brain/research-tasks?status=queued");
+    expect(fetchMock.mock.calls[1][0]).toBe("/api/second-brain/research-tasks/generate");
     expect(fetchMock.mock.calls[1][1]).toEqual(expect.objectContaining({ method: "POST", credentials: "include" }));
   });
 });

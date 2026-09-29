@@ -234,6 +234,27 @@ export interface ContradictionRecord {
   metadata: Record<string, unknown>;
 }
 
+export interface ResearchTask {
+  id: string;
+  adapter: string;
+  reason: string;
+  sourceSystem: string;
+  linkedMemoryId?: string | null;
+  linkedDecisionId?: string | null;
+  linkedContradictionId?: string | null;
+  requiredEvidence: string[];
+  status: string;
+  priority: string;
+  createdAt: string;
+  updatedAt: string;
+  completedAt?: string | null;
+  candidateId?: string | null;
+  blocker?: string | null;
+  evidenceRefs: EvidenceRef[];
+  summary: string;
+  metadata: Record<string, unknown>;
+}
+
 export async function fetchSecondBrainSummary(): Promise<SecondBrainSummary> {
   return fetchJSON<SecondBrainSummary>(`${BASE}/summary`);
 }
@@ -284,6 +305,15 @@ export async function fetchContradictions(status?: string): Promise<{ contradict
 
 export async function detectContradictions(): Promise<{ contradictions: ContradictionRecord[] }> {
   return fetchJSON<{ contradictions: ContradictionRecord[] }>(`${BASE}/contradictions/detect`, { method: "POST" });
+}
+
+export async function fetchResearchTasks(status?: string): Promise<{ tasks: ResearchTask[] }> {
+  const suffix = status ? `?status=${encodeURIComponent(status)}` : "";
+  return fetchJSON<{ tasks: ResearchTask[] }>(`${BASE}/research-tasks${suffix}`);
+}
+
+export async function generateResearchTasks(): Promise<{ tasks: ResearchTask[] }> {
+  return fetchJSON<{ tasks: ResearchTask[] }>(`${BASE}/research-tasks/generate`, { method: "POST" });
 }
 
 export async function scanSecondBrainStaleness(): Promise<{ staleNodes: BrainNode[] }> {
