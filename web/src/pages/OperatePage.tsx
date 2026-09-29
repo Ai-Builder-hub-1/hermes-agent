@@ -34,7 +34,11 @@ import {
   type LiveSignalIntegration,
   type OperatingSystemStage,
 } from "./operating-system-data";
-import { fleetOperatorSnapshots } from "./fleet-operator-data";
+import {
+  fallbackFleetOperatorSnapshots,
+  loadFleetOperatorSnapshots,
+  type FleetOperatorSnapshot,
+} from "./fleet-operator-data";
 import { loadOperatingRuntimeState } from "./operating-runtime";
 import {
   loadOperatingRuntimeStateFromServer,
@@ -138,6 +142,16 @@ function OperatePage({ mode }: { mode: OperateMode }) {
   const copy = modeCopy[mode];
   const blockers = blockerStages(operatingSystemStages);
   const runtime = useMemo(() => loadOperatingRuntimeState(), []);
+  const [fleetSnapshots, setFleetSnapshots] = useState<FleetOperatorSnapshot[]>(fallbackFleetOperatorSnapshots);
+  useEffect(() => {
+    let cancelled = false;
+    loadFleetOperatorSnapshots().then((snapshots) => {
+      if (!cancelled) setFleetSnapshots(snapshots);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
   const operateItems = useMemo(() => buildOperateItems({
     stages: operatingSystemStages,
     tasks: routedTasks,
@@ -145,8 +159,8 @@ function OperatePage({ mode }: { mode: OperateMode }) {
     policies: permissionPolicies,
     loops: operatingLoops,
     runtime,
-    fleetSnapshots: fleetOperatorSnapshots,
-  }), [runtime]);
+    fleetSnapshots,
+  }), [fleetSnapshots, runtime]);
   const summary = operateSummary(operateItems);
   const incidents = operatingSystemStages.filter((stage) =>
     [

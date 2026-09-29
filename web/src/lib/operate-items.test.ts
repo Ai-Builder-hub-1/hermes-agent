@@ -7,7 +7,7 @@ import {
   permissionPolicies,
   routedTasks,
 } from "@/pages/operating-system-data";
-import { fleetOperatorSnapshots } from "@/pages/fleet-operator-data";
+import { fallbackFleetOperatorSnapshots } from "@/pages/fleet-operator-data";
 import { loadOperatingRuntimeState } from "@/pages/operating-runtime";
 import { attentionItems, buildOperateItems, itemsForKind, operateSummary } from "./operate-items";
 
@@ -19,7 +19,7 @@ function items() {
     policies: permissionPolicies,
     loops: operatingLoops,
     runtime: loadOperatingRuntimeState(),
-    fleetSnapshots: fleetOperatorSnapshots,
+    fleetSnapshots: fallbackFleetOperatorSnapshots,
   });
 }
 
@@ -51,7 +51,7 @@ describe("operate items", () => {
     const all = items();
     const fleetItems = all.filter((item) => item.id.startsWith("fleet-"));
 
-    expect(fleetItems.length).toBe(fleetOperatorSnapshots.length);
+    expect(fleetItems.length).toBe(fallbackFleetOperatorSnapshots.length);
     expect(fleetItems.some((item) => item.title.includes("Khashi VC") && item.state === "ready")).toBe(true);
     expect(fleetItems.some((item) => item.title.includes("TLC Capital Group OS") && item.state === "blocked")).toBe(true);
     expect(fleetItems.find((item) => item.title.includes("Khashi VC"))?.route).toBe("/trading/khashi");

@@ -2641,6 +2641,13 @@ async def get_operating_runtime_summary():
         return summary(conn)
 
 
+@app.get("/api/fleet/operator-snapshots")
+async def get_fleet_operator_snapshots():
+    from hermes_cli.fleet_monitoring import fleet_operator_snapshots
+
+    return fleet_operator_snapshots()
+
+
 @app.get("/api/operating-runtime/evidence")
 async def get_operating_runtime_evidence(kind: str = ""):
     from hermes_cli.operating_runtime import list_evidence

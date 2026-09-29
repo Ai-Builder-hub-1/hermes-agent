@@ -1,3 +1,5 @@
+import { fetchJSON } from "@/lib/api";
+
 export interface FleetOperatorEndpointCheck {
   ok: boolean;
   status: number | null;
@@ -34,7 +36,14 @@ export interface FleetOperatorSnapshot {
   } | null;
 }
 
-export const fleetOperatorSnapshots: FleetOperatorSnapshot[] = [
+export interface FleetOperatorSnapshotResponse {
+  schemaVersion: number;
+  generatedAt: string | null;
+  source: string;
+  snapshots: FleetOperatorSnapshot[];
+}
+
+export const fallbackFleetOperatorSnapshots: FleetOperatorSnapshot[] = [
   failedSnapshot("tlc-capital-group-os", "TLC Capital Group OS", "tlc-enterprise", "https://tlc.tlccapitalgroup.com/health", "https://tlc.tlccapitalgroup.com/dashboard-snapshot"),
   failedSnapshot("nous-hermes-agent", "Nous Hermes Agent", "hermes-standards", "https://agent.tlccapitalgroup.com/api/status", "https://agent.tlccapitalgroup.com/api/dashboard-snapshot"),
   failedSnapshot("hermes-os", "Hermes OS", "hermes-runtime", "https://hermes.tlccapitalgroup.com/api/dashboard-summary", "https://hermes.tlccapitalgroup.com/api/dashboard-summary"),
@@ -56,6 +65,15 @@ export const fleetOperatorSnapshots: FleetOperatorSnapshot[] = [
     snapshotBytes: 1488,
   }),
 ];
+
+export async function loadFleetOperatorSnapshots(): Promise<FleetOperatorSnapshot[]> {
+  try {
+    const response = await fetchJSON<FleetOperatorSnapshotResponse>("/api/fleet/operator-snapshots");
+    return response.snapshots.length ? response.snapshots : fallbackFleetOperatorSnapshots;
+  } catch {
+    return fallbackFleetOperatorSnapshots;
+  }
+}
 
 function passedSnapshot(
   projectId: string,
