@@ -462,6 +462,14 @@ Tests:
 
 ## Phase 17: Agent Preflight Contract
 
+Status: complete in Hermes Brain service layer.
+
+Evidence:
+
+- Added preflight request/response contract with task, project, workflow, risk class, entities, ticker/strategy/source refs, relevant memories, decisions, contradictions, stale memories, warnings, acknowledgements, block reasons, citations, and persisted audit record.
+- Added policy levels: `pass`, `warn`, `acknowledge`, and `block`.
+- Tests prove low-risk warnings, medium-risk acknowledgement requirements, and high-risk blocking on unresolved contradictions.
+
 Build:
 
 - Define preflight request: task description, project, workflow, risk class, entities, ticker/strategy/source refs.
@@ -479,6 +487,14 @@ Tests:
 - High-risk task blocks on unresolved contradiction.
 
 ## Phase 18: Agent Preflight API
+
+Status: blocked pending authenticated exposure.
+
+Evidence:
+
+- The Hermes Brain service-layer preflight contract is implemented and warehouse-synced.
+- Direct unauthenticated Hermes Brain API exposure was blocked by safety review because preflight returns sensitive memory, decision, and contradiction context.
+- Next safe implementation path: expose preflight only through the authenticated Nous proxy or add Hermes Brain API auth before enabling direct `/api/brain/preflight`.
 
 Build:
 
