@@ -524,6 +524,36 @@ export async function recordOperatingEvidenceReview(state: OperatingRuntimeState
   return next;
 }
 
+export async function recordChatActionIntent(
+  state: OperatingRuntimeState,
+  input: { title: string; prompt: string },
+): Promise<OperatingRuntimeState> {
+  const response = await fetchJSON<ServerEvidenceRecord>("/api/operating-runtime/evidence", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      kind: "workbench",
+      subject: `Chat action intent: ${input.title}`,
+      state: "ready",
+      owner: "Operations",
+      detail: input.prompt,
+      payload: {
+        source: "operate-chat-actions",
+        title: input.title,
+        prompt: input.prompt,
+        generated_at: new Date().toISOString(),
+      },
+    }),
+  });
+  const evidence = normalizeEvidence(response);
+  const next = {
+    evidence: mergeById(state.evidence, [evidence]),
+    audit: state.audit,
+  };
+  saveOperatingRuntimeState(next);
+  return next;
+}
+
 function normalizeAudit(record: ServerAuditRecord): RuntimeAuditRecord {
   return {
     id: record.id,

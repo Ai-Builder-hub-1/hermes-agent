@@ -1,0 +1,812 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-29T12:55:27.664Z",
+  "summary": {
+    "routes": 32,
+    "readyRoutes": 32,
+    "partialRoutes": 0,
+    "blockedRoutes": 0,
+    "chartedOrBetter": 11,
+    "staticRoutes": 0,
+    "liveSourceGaps": 0,
+    "evidenceGaps": 0,
+    "safeActions": 23,
+    "safeActionHardeningGaps": 0
+  },
+  "groups": {
+    "operate": {
+      "routes": 10,
+      "ready": 10,
+      "partial": 0,
+      "blocked": 0,
+      "averageScore": 100
+    },
+    "trading": {
+      "routes": 9,
+      "ready": 9,
+      "partial": 0,
+      "blocked": 0,
+      "averageScore": 100
+    },
+    "system": {
+      "routes": 13,
+      "ready": 13,
+      "partial": 0,
+      "blocked": 0,
+      "averageScore": 100
+    }
+  },
+  "routes": [
+    {
+      "route": "/compounding-intelligence",
+      "group": "operate",
+      "label": "Compounding Intelligence",
+      "maturity": "live",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "scheduled freshness proof"
+    },
+    {
+      "route": "/operate",
+      "group": "operate",
+      "label": "Operate",
+      "maturity": "actionable",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "server-first runtime hydration"
+    },
+    {
+      "route": "/operate/actions",
+      "group": "operate",
+      "label": "Actions",
+      "maturity": "actionable",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "action completion API"
+    },
+    {
+      "route": "/operate/approvals",
+      "group": "operate",
+      "label": "Approvals",
+      "maturity": "actionable",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "approval inbox persistence"
+    },
+    {
+      "route": "/operate/blockers",
+      "group": "operate",
+      "label": "Blockers",
+      "maturity": "actionable",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "blocker close/reopen audit"
+    },
+    {
+      "route": "/operate/chat-actions",
+      "group": "operate",
+      "label": "Chat Actions",
+      "maturity": "actionable",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "permission preview"
+    },
+    {
+      "route": "/operate/evidence",
+      "group": "operate",
+      "label": "Operate Evidence",
+      "maturity": "charted",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "artifact previews"
+    },
+    {
+      "route": "/operate/incidents",
+      "group": "operate",
+      "label": "Incidents",
+      "maturity": "actionable",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "incident timeline"
+    },
+    {
+      "route": "/operate/runs",
+      "group": "operate",
+      "label": "Recent Runs",
+      "maturity": "actionable",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "loop run history"
+    },
+    {
+      "route": "/second-brain",
+      "group": "operate",
+      "label": "Second Brain",
+      "maturity": "live",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "warehouse sync trend"
+    },
+    {
+      "route": "/system/admin",
+      "group": "system",
+      "label": "Admin",
+      "maturity": "live",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "control audit linking"
+    },
+    {
+      "route": "/system/analytics",
+      "group": "system",
+      "label": "Analytics",
+      "maturity": "live",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "warehouse correlation"
+    },
+    {
+      "route": "/system/automations",
+      "group": "system",
+      "label": "Automations",
+      "maturity": "live",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "worker runtime correlation"
+    },
+    {
+      "route": "/system/credentials",
+      "group": "system",
+      "label": "Credentials",
+      "maturity": "charted",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "rotation dates"
+    },
+    {
+      "route": "/system/deployments",
+      "group": "system",
+      "label": "Deployments",
+      "maturity": "charted",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "current deployed SHA adapter"
+    },
+    {
+      "route": "/system/freshness",
+      "group": "system",
+      "label": "Freshness",
+      "maturity": "charted",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "source-level acknowledgement"
+    },
+    {
+      "route": "/system/logs",
+      "group": "system",
+      "label": "Logs",
+      "maturity": "live",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "severity aggregation"
+    },
+    {
+      "route": "/system/models",
+      "group": "system",
+      "label": "Models",
+      "maturity": "live",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "provider latency trend"
+    },
+    {
+      "route": "/system/plugins",
+      "group": "system",
+      "label": "Plugins",
+      "maturity": "live",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "plugin capability gap scoring"
+    },
+    {
+      "route": "/system/sessions",
+      "group": "system",
+      "label": "Sessions",
+      "maturity": "live",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "warehouse retention link"
+    },
+    {
+      "route": "/system/storage",
+      "group": "system",
+      "label": "Storage",
+      "maturity": "charted",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "object-store provider adapter"
+    },
+    {
+      "route": "/system/warehouse",
+      "group": "system",
+      "label": "Data Warehouse",
+      "maturity": "charted",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "production collector history"
+    },
+    {
+      "route": "/system/workers",
+      "group": "system",
+      "label": "Workers",
+      "maturity": "charted",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "scheduler next-run source of truth"
+    },
+    {
+      "route": "/trading",
+      "group": "trading",
+      "label": "Trading Overview",
+      "maturity": "live",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "route-specific drilldowns"
+    },
+    {
+      "route": "/trading/backtesting",
+      "group": "trading",
+      "label": "Backtesting",
+      "maturity": "charted",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "source-native backtest run artifacts"
+    },
+    {
+      "route": "/trading/evidence",
+      "group": "trading",
+      "label": "Trading Evidence",
+      "maturity": "charted",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "artifact previews"
+    },
+    {
+      "route": "/trading/head-trader",
+      "group": "trading",
+      "label": "Head Trader",
+      "maturity": "controlled",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "action-to-evidence closeout"
+    },
+    {
+      "route": "/trading/investing",
+      "group": "trading",
+      "label": "Investing System",
+      "maturity": "live",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "financial-analysis pipeline status"
+    },
+    {
+      "route": "/trading/khashi",
+      "group": "trading",
+      "label": "Khashi",
+      "maturity": "live",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "Khashi-specific panels"
+    },
+    {
+      "route": "/trading/risk",
+      "group": "trading",
+      "label": "Risk & Capital",
+      "maturity": "live",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "risk acknowledgement flow"
+    },
+    {
+      "route": "/trading/shadow-paper",
+      "group": "trading",
+      "label": "Shadow / Paper",
+      "maturity": "live",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "dedicated paper ledger"
+    },
+    {
+      "route": "/trading/strategies",
+      "group": "trading",
+      "label": "Strategies",
+      "maturity": "charted",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "strategy evidence ledger"
+    }
+  ],
+  "staticRoutes": [],
+  "liveSourceGaps": [],
+  "evidenceGaps": [],
+  "safeActions": {
+    "actions": [
+      {
+        "id": "/operate/actions:/api/operating-runtime/workbench",
+        "route": "/operate/actions",
+        "group": "operate",
+        "pageLabel": "Actions",
+        "endpoint": "/api/operating-runtime/workbench",
+        "risk": "proxy_control",
+        "evidenceContract": [
+          "workbench records",
+          "operating-runtime evidence"
+        ],
+        "liveSources": [
+          "/api/operating-runtime/workbench",
+          "/api/operating-runtime/evidence"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/operate/incidents:/api/operating-runtime/incidents",
+        "route": "/operate/incidents",
+        "group": "operate",
+        "pageLabel": "Incidents",
+        "endpoint": "/api/operating-runtime/incidents",
+        "risk": "proxy_control",
+        "evidenceContract": [
+          "incident evidence"
+        ],
+        "liveSources": [
+          "/api/operating-runtime/incidents",
+          "/api/head-trader/incidents"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/operate/approvals:/api/operating-runtime/permission-decision",
+        "route": "/operate/approvals",
+        "group": "operate",
+        "pageLabel": "Approvals",
+        "endpoint": "/api/operating-runtime/permission-decision",
+        "risk": "proxy_control",
+        "evidenceContract": [
+          "permission audit records"
+        ],
+        "liveSources": [
+          "/api/operating-runtime/permission-decision",
+          "/api/operating-runtime/audit"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/operate/runs:/api/system/workers/dry-run",
+        "route": "/operate/runs",
+        "group": "operate",
+        "pageLabel": "Recent Runs",
+        "endpoint": "/api/system/workers/dry-run",
+        "risk": "read_only",
+        "evidenceContract": [
+          "loop evidence",
+          "worker dry-run evidence"
+        ],
+        "liveSources": [
+          "/api/system/workers/summary",
+          "/api/operating-runtime/evidence"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/system/warehouse:/api/system/warehouse/sync",
+        "route": "/system/warehouse",
+        "group": "system",
+        "pageLabel": "Data Warehouse",
+        "endpoint": "/api/system/warehouse/sync",
+        "risk": "evidence_write",
+        "evidenceContract": [
+          "operating-runtime catalog evidence",
+          "restore proof manifest",
+          "warehouse job records"
+        ],
+        "liveSources": [
+          "/api/system/warehouse/summary",
+          "/api/system/warehouse/sources",
+          "/api/system/warehouse/series",
+          "/api/system/warehouse/jobs"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/system/warehouse:/api/system/warehouse/restore-proof",
+        "route": "/system/warehouse",
+        "group": "system",
+        "pageLabel": "Data Warehouse",
+        "endpoint": "/api/system/warehouse/restore-proof",
+        "risk": "evidence_write",
+        "evidenceContract": [
+          "operating-runtime catalog evidence",
+          "restore proof manifest",
+          "warehouse job records"
+        ],
+        "liveSources": [
+          "/api/system/warehouse/summary",
+          "/api/system/warehouse/sources",
+          "/api/system/warehouse/series",
+          "/api/system/warehouse/jobs"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/system/warehouse:/api/system/warehouse/prune-dry-run",
+        "route": "/system/warehouse",
+        "group": "system",
+        "pageLabel": "Data Warehouse",
+        "endpoint": "/api/system/warehouse/prune-dry-run",
+        "risk": "read_only",
+        "evidenceContract": [
+          "operating-runtime catalog evidence",
+          "restore proof manifest",
+          "warehouse job records"
+        ],
+        "liveSources": [
+          "/api/system/warehouse/summary",
+          "/api/system/warehouse/sources",
+          "/api/system/warehouse/series",
+          "/api/system/warehouse/jobs"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/system/storage:/api/system/storage/scan",
+        "route": "/system/storage",
+        "group": "system",
+        "pageLabel": "Storage",
+        "endpoint": "/api/system/storage/scan",
+        "risk": "read_only",
+        "evidenceContract": [
+          "storage scan evidence",
+          "operating-runtime catalog evidence"
+        ],
+        "liveSources": [
+          "/api/system/storage/summary",
+          "/api/system/storage/series"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/system/freshness:/api/system/freshness/check",
+        "route": "/system/freshness",
+        "group": "system",
+        "pageLabel": "Freshness",
+        "endpoint": "/api/system/freshness/check",
+        "risk": "read_only",
+        "evidenceContract": [
+          "freshness check evidence",
+          "operating-runtime data source evidence"
+        ],
+        "liveSources": [
+          "/api/system/freshness/summary",
+          "/api/system/freshness/series",
+          "/api/system/warehouse/sources"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/system/workers:/api/system/workers/dry-run",
+        "route": "/system/workers",
+        "group": "system",
+        "pageLabel": "Workers",
+        "endpoint": "/api/system/workers/dry-run",
+        "risk": "read_only",
+        "evidenceContract": [
+          "worker dry-run evidence",
+          "operating-runtime loop evidence"
+        ],
+        "liveSources": [
+          "/api/system/workers/summary",
+          "/api/system/workers/series",
+          "/api/operating-runtime/evidence"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/system/deployments:/api/system/deployments/check",
+        "route": "/system/deployments",
+        "group": "system",
+        "pageLabel": "Deployments",
+        "endpoint": "/api/system/deployments/check",
+        "risk": "read_only",
+        "evidenceContract": [
+          "deployment evidence",
+          "release train records"
+        ],
+        "liveSources": [
+          "/api/system/deployments/summary",
+          "/api/system/deployments/series",
+          "/api/operating-runtime/evidence"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/system/credentials:/api/system/credentials/scan",
+        "route": "/system/credentials",
+        "group": "system",
+        "pageLabel": "Credentials",
+        "endpoint": "/api/system/credentials/scan",
+        "risk": "read_only",
+        "evidenceContract": [
+          "secret presence evidence",
+          "credential status contract"
+        ],
+        "liveSources": [
+          "/api/system/credentials/summary",
+          "/api/system/credentials/series",
+          "/api/head-trader/credential-status"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/second-brain:/api/second-brain/warehouse/sync",
+        "route": "/second-brain",
+        "group": "operate",
+        "pageLabel": "Second Brain",
+        "endpoint": "/api/second-brain/warehouse/sync",
+        "risk": "evidence_write",
+        "evidenceContract": [
+          "Hermes Brain report",
+          "warehouse restore proof"
+        ],
+        "liveSources": [
+          "/api/second-brain/summary",
+          "/api/second-brain/candidates",
+          "/api/second-brain/search"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/second-brain:/api/second-brain/staleness/scan",
+        "route": "/second-brain",
+        "group": "operate",
+        "pageLabel": "Second Brain",
+        "endpoint": "/api/second-brain/staleness/scan",
+        "risk": "read_only",
+        "evidenceContract": [
+          "Hermes Brain report",
+          "warehouse restore proof"
+        ],
+        "liveSources": [
+          "/api/second-brain/summary",
+          "/api/second-brain/candidates",
+          "/api/second-brain/search"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/operate/chat-actions:/api/operating-runtime/evidence",
+        "route": "/operate/chat-actions",
+        "group": "operate",
+        "pageLabel": "Chat Actions",
+        "endpoint": "/api/operating-runtime/evidence",
+        "risk": "evidence_write",
+        "evidenceContract": [
+          "chat action intent evidence",
+          "operating-runtime audit"
+        ],
+        "liveSources": [
+          "/api/operating-runtime/evidence",
+          "/api/operating-runtime/audit"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/trading/strategies:/api/trading-research/strategies/review",
+        "route": "/trading/strategies",
+        "group": "trading",
+        "pageLabel": "Strategies",
+        "endpoint": "/api/trading-research/strategies/review",
+        "risk": "read_only",
+        "evidenceContract": [
+          "trading command center strategies",
+          "strategy review evidence"
+        ],
+        "liveSources": [
+          "/api/trading-research/strategies/summary",
+          "/api/trading-research/strategies/series",
+          "/api/trading-intelligence/command-center"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/trading:/api/trading-intelligence/control",
+        "route": "/trading",
+        "group": "trading",
+        "pageLabel": "Trading Overview",
+        "endpoint": "/api/trading-intelligence/control",
+        "risk": "proxy_control",
+        "evidenceContract": [
+          "trading command center contract"
+        ],
+        "liveSources": [
+          "/api/trading-intelligence/command-center",
+          "/api/trading-intelligence/controls"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/trading/backtesting:/api/trading-research/backtesting/review",
+        "route": "/trading/backtesting",
+        "group": "trading",
+        "pageLabel": "Backtesting",
+        "endpoint": "/api/trading-research/backtesting/review",
+        "risk": "read_only",
+        "evidenceContract": [
+          "backtest readiness evidence",
+          "strategy review evidence"
+        ],
+        "liveSources": [
+          "/api/trading-research/backtesting/summary",
+          "/api/trading-research/backtesting/series",
+          "/api/trading-research/strategies/summary"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/trading/risk:/api/head-trader/risk-check",
+        "route": "/trading/risk",
+        "group": "trading",
+        "pageLabel": "Risk & Capital",
+        "endpoint": "/api/head-trader/risk-check",
+        "risk": "read_only",
+        "evidenceContract": [
+          "head trader audit",
+          "trading command center"
+        ],
+        "liveSources": [
+          "/api/head-trader/summary",
+          "/api/head-trader/risk-check",
+          "/api/trading-intelligence/command-center"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/trading/head-trader:/api/head-trader/risk-check",
+        "route": "/trading/head-trader",
+        "group": "trading",
+        "pageLabel": "Head Trader",
+        "endpoint": "/api/head-trader/risk-check",
+        "risk": "read_only",
+        "evidenceContract": [
+          "head trader audit",
+          "incident evidence"
+        ],
+        "liveSources": [
+          "/api/head-trader/summary",
+          "/api/head-trader/incidents",
+          "/api/head-trader/audit"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/trading/head-trader:/api/head-trader/decisions",
+        "route": "/trading/head-trader",
+        "group": "trading",
+        "pageLabel": "Head Trader",
+        "endpoint": "/api/head-trader/decisions",
+        "risk": "proxy_control",
+        "evidenceContract": [
+          "head trader audit",
+          "incident evidence"
+        ],
+        "liveSources": [
+          "/api/head-trader/summary",
+          "/api/head-trader/incidents",
+          "/api/head-trader/audit"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/trading/evidence:/api/trading-research/evidence/review",
+        "route": "/trading/evidence",
+        "group": "trading",
+        "pageLabel": "Trading Evidence",
+        "endpoint": "/api/trading-research/evidence/review",
+        "risk": "read_only",
+        "evidenceContract": [
+          "trading evidence ledger",
+          "trading events",
+          "strategy/backtest proof rows"
+        ],
+        "liveSources": [
+          "/api/trading-research/evidence/ledger",
+          "/api/trading-research/evidence/series",
+          "/api/trading-intelligence/events"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/operate/evidence:/api/operating-runtime/evidence",
+        "route": "/operate/evidence",
+        "group": "operate",
+        "pageLabel": "Operate Evidence",
+        "endpoint": "/api/operating-runtime/evidence",
+        "risk": "evidence_write",
+        "evidenceContract": [
+          "operating-runtime evidence",
+          "operating-runtime audit"
+        ],
+        "liveSources": [
+          "/api/operating-runtime/evidence",
+          "/api/operating-runtime/audit"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      }
+    ],
+    "totals": {
+      "actions": 23,
+      "evidenceBacked": 23,
+      "auditExpected": 23,
+      "needsHardening": 0
+    },
+    "gaps": []
+  },
+  "nextActions": [
+    "Add Playwright route validation for Operate, Trading, and System pages.",
+    "Persist route validation output as operating-runtime evidence."
+  ]
+}

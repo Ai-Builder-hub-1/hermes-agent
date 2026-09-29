@@ -8,7 +8,7 @@ import {
   ShieldCheck,
   type LucideIcon,
 } from "lucide-react";
-import { useMemo, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router";
 import {
   attentionItems,
@@ -35,6 +35,11 @@ import {
   type OperatingSystemStage,
 } from "./operating-system-data";
 import { loadOperatingRuntimeState } from "./operating-runtime";
+import {
+  loadOperatingRuntimeStateFromServer,
+  recordChatActionIntent,
+  type OperatingRuntimeState,
+} from "./operating-runtime";
 
 type OperateMode =
   | "overview"
@@ -451,6 +456,9 @@ function Runs({ items }: { items: OperateItem[] }) {
 }
 
 function ChatActions() {
+  const [runtime, setRuntime] = useState<OperatingRuntimeState | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [actionStatus, setActionStatus] = useState<string | null>(null);
   const prompts = [
     {
       title: "Daily operator brief",
@@ -474,6 +482,33 @@ function ChatActions() {
     },
   ];
 
+  const load = async () => {
+    try {
+      setRuntime(await loadOperatingRuntimeStateFromServer());
+      setError(null);
+    } catch (exc) {
+      setRuntime(loadOperatingRuntimeState());
+      setError(exc instanceof Error ? exc.message : String(exc));
+    }
+  };
+
+  useEffect(() => {
+    void load();
+  }, []);
+
+  const recordIntent = async (item: { title: string; prompt: string }) => {
+    if (!runtime) return;
+    setActionStatus(`${item.title} recording`);
+    try {
+      setRuntime(await recordChatActionIntent(runtime, item));
+      setActionStatus(`${item.title} recorded`);
+    } catch (exc) {
+      setActionStatus(`${item.title} failed: ${exc instanceof Error ? exc.message : String(exc)}`);
+    }
+  };
+
+  const chatEvidence = (runtime?.evidence ?? []).filter((record) => record.kind === "workbench" && record.subject.startsWith("Chat action intent:"));
+
   return (
     <section className="grid gap-4 xl:grid-cols-[minmax(0,0.62fr)_minmax(320px,0.38fr)]">
       <Panel title="Chat-ready operator prompts" count={prompts.length}>
@@ -485,12 +520,24 @@ function ChatActions() {
                 <ToneBadge tone={item.tone}>prompt</ToneBadge>
               </div>
               <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.prompt}</p>
+              <button
+                type="button"
+                className="mt-3 rounded border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground hover:bg-muted"
+                onClick={() => void recordIntent(item)}
+              >
+                Record intent
+              </button>
             </article>
           ))}
         </div>
       </Panel>
-      <Panel title="Open chat">
-        <div className="p-3">
+      <Panel title="Open chat and evidence" count={chatEvidence.length}>
+        <div className="grid gap-3 p-3">
+          {error ? <PolicyCallout title="Showing cached runtime evidence" detail={error} tone="warning" /> : null}
+          <div className="grid gap-2 sm:grid-cols-2">
+            <MiniFact label="Runtime evidence" value={runtime?.evidence.length ?? "..."} />
+            <MiniFact label="Recorded intents" value={chatEvidence.length} />
+          </div>
           <Link
             className="flex items-center justify-between gap-3 rounded-lg border border-border bg-background p-4 text-sm font-semibold text-foreground transition hover:border-primary/60 hover:bg-primary/5"
             to="/chat"
@@ -501,6 +548,16 @@ function ChatActions() {
             </span>
             <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
+          {actionStatus ? <p className="text-xs font-medium text-muted-foreground">{actionStatus}</p> : null}
+          {chatEvidence.slice(0, 4).map((record) => (
+            <article key={record.id} className="rounded-lg border border-border bg-background p-3">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <h2 className="text-sm font-semibold text-foreground">{record.subject.replace("Chat action intent: ", "")}</h2>
+                <ToneBadge tone="success">{record.state}</ToneBadge>
+              </div>
+              <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{record.detail}</p>
+            </article>
+          ))}
           <p className="mt-3 text-sm leading-6 text-muted-foreground">
             Use chat for judgment and approvals. Use the Operate pages for the compact state map.
           </p>
