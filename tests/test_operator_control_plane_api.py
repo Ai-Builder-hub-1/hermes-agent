@@ -61,6 +61,45 @@ def test_operate_queue_merges_fleet_and_runtime_evidence(monkeypatch, tmp_path):
                     "sourceProject": "investing-system",
                 }
             ],
+            "sourceProjects": [
+                {
+                    "label": "Investing System",
+                    "summary": {
+                        "accountObservability": {
+                            "brokers": [
+                                {
+                                    "brokerId": "robinhood-mcp",
+                                    "label": "Robinhood",
+                                    "status": "not_configured",
+                                    "credentialConfigured": False,
+                                    "accountVisible": False,
+                                    "positionsVisible": False,
+                                    "ordersVisible": False,
+                                    "fillsVisible": False,
+                                    "pnlVisible": False,
+                                    "freshnessStatus": "missing",
+                                    "liveSubmit": False,
+                                    "nextAction": "Configure Robinhood read-only credentials.",
+                                },
+                                {
+                                    "brokerId": "oanda",
+                                    "label": "OANDA",
+                                    "status": "ready_read_only",
+                                    "credentialConfigured": True,
+                                    "accountVisible": True,
+                                    "positionsVisible": True,
+                                    "ordersVisible": True,
+                                    "fillsVisible": True,
+                                    "pnlVisible": True,
+                                    "freshnessStatus": "fresh",
+                                    "liveSubmit": False,
+                                    "nextAction": "Keep OANDA read-only snapshot refresh on cadence.",
+                                },
+                            ]
+                        }
+                    },
+                }
+            ],
         }
 
     monkeypatch.setattr(trading_intelligence, "trading_command_center", fake_trading_command_center)
@@ -93,6 +132,8 @@ def test_operate_queue_merges_fleet_and_runtime_evidence(monkeypatch, tmp_path):
     assert "system-storage" in ids
     assert "system-credentials" in ids
     assert "trading-account-visibility" in ids
+    assert "broker-account-robinhood-mcp" in ids
+    assert "broker-account-oanda" in ids
     assert body["summary"]["attention"] >= 2
     runtime_item = next(item for item in body["items"] if item["id"] == "runtime-incident-live-worker")
     assert runtime_item["severity"] == "critical"
@@ -100,6 +141,9 @@ def test_operate_queue_merges_fleet_and_runtime_evidence(monkeypatch, tmp_path):
     trading_item = next(item for item in body["items"] if item["id"] == "trading-account-visibility")
     assert trading_item["severity"] == "warning"
     assert "capitalKnown=False" in trading_item["evidence"]
+    robinhood_item = next(item for item in body["items"] if item["id"] == "broker-account-robinhood-mcp")
+    assert robinhood_item["severity"] == "critical"
+    assert "liveSubmit=False" in robinhood_item["evidence"]
 
 
 def test_operate_action_intent_records_audit_and_evidence(monkeypatch, tmp_path):

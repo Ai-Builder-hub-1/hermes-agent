@@ -292,6 +292,51 @@ def _trading_command_to_items(command: Dict[str, Any]) -> list[Dict[str, Any]]:
                 "route": "/trading/investing",
             }
         )
+    items.extend(_broker_account_observability_items(command))
+    return items
+
+
+def _broker_account_observability_items(command: Dict[str, Any]) -> list[Dict[str, Any]]:
+    items: list[Dict[str, Any]] = []
+    for project in command.get("sourceProjects") or []:
+        if not isinstance(project, dict):
+            continue
+        summary = project.get("summary") if isinstance(project.get("summary"), dict) else {}
+        observability = summary.get("accountObservability") if isinstance(summary.get("accountObservability"), dict) else None
+        if not observability:
+            continue
+        for broker in observability.get("brokers") or []:
+            if not isinstance(broker, dict):
+                continue
+            status = str(broker.get("status") or "unknown")
+            blocked = status in {"not_configured", "error"}
+            watch = status == "partial" or broker.get("freshnessStatus") in {"stale", "missing"}
+            broker_id = str(broker.get("brokerId") or "unknown")
+            label = str(broker.get("label") or broker_id)
+            items.append(
+                {
+                    "id": f"broker-account-{broker_id}",
+                    "kind": "incident" if blocked else "action" if watch else "evidence",
+                    "title": f"{label} account observability",
+                    "source": "Trading account observability",
+                    "owner": str(project.get("label") or "Investing System"),
+                    "severity": "critical" if blocked else "warning" if watch else "ready",
+                    "state": "blocked" if blocked else "review" if watch else "ready",
+                    "whyItMatters": "Hermes needs broker account, positions, orders, fills, P/L, and freshness proof before account-aware strategy work is trustworthy.",
+                    "nextAction": str(broker.get("nextAction") or "Review broker read proof and credential posture."),
+                    "clearingProof": "Broker account observability is ready_read_only with fresh read proof and live submit disabled.",
+                    "evidence": (
+                        f"status={status}; configured={broker.get('credentialConfigured')}; "
+                        f"account={broker.get('accountVisible')}; positions={broker.get('positionsVisible')}; "
+                        f"orders={broker.get('ordersVisible')}; fills={broker.get('fillsVisible')}; pnl={broker.get('pnlVisible')}; "
+                        f"freshness={broker.get('freshnessStatus')}; liveSubmit={broker.get('liveSubmit')}"
+                    ),
+                    "safeAction": None,
+                    "requiresApproval": blocked,
+                    "updatedAt": command.get("generatedAt"),
+                    "route": "/trading/investing",
+                }
+            )
     return items
 
 
