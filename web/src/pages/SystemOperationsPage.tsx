@@ -13,13 +13,19 @@ import {
   type OperationalPageAudit,
 } from "@/lib/operational-page-contracts";
 import {
+  fetchCredentialsSnapshot,
+  fetchDeploymentsSnapshot,
   fetchFreshnessSnapshot,
   fetchStorageSnapshot,
   fetchWorkersSnapshot,
+  runCredentialsScan,
+  runDeploymentCheck,
   runFreshnessCheck,
   runStorageScan,
   runWorkerDryRun,
   systemHealthTone,
+  type CredentialsSnapshot,
+  type DeploymentsSnapshot,
   type FreshnessSnapshot,
   type StorageSnapshot,
   type SystemSeries,
@@ -40,9 +46,7 @@ import {
   liveSignalIntegrations,
   operatingLoops,
   operatingSystemStages,
-  permissionPolicies,
   type OperatingSystemStage,
-  type PermissionPolicy,
 } from "./operating-system-data";
 
 type SystemMode = "warehouse" | "storage" | "freshness" | "workers" | "deployments" | "credentials";
@@ -167,13 +171,13 @@ function SystemOperationsPage({ mode }: { mode: SystemMode }) {
         ) : mode === "workers" ? (
           <WorkersPanel />
         ) : mode === "credentials" ? (
-          <CredentialPanel />
+          <CredentialsPanel />
         ) : mode === "warehouse" ? (
           <WarehousePanel />
         ) : mode === "freshness" ? (
           <FreshnessPanel />
         ) : (
-          <DeploymentPanel stages={stages} />
+          <DeploymentsPanel stages={stages} />
         )}
       </section>
     </main>
@@ -869,15 +873,106 @@ function ErrorPanel({ title, error, retry }: { title: string; error: string; ret
   );
 }
 
-function DeploymentPanel({ stages }: { stages: OperatingSystemStage[] }) {
+function DeploymentsPanel({ stages }: { stages: OperatingSystemStage[] }) {
+  const [window, setWindow] = useState<WarehouseWindow>("24h");
+  const [snapshot, setSnapshot] = useState<DeploymentsSnapshot | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [actionStatus, setActionStatus] = useState<string | null>(null);
+
+  const load = async (nextWindow = window) => {
+    try {
+      setSnapshot(await fetchDeploymentsSnapshot(nextWindow));
+      setError(null);
+    } catch (exc) {
+      setError(exc instanceof Error ? exc.message : String(exc));
+    }
+  };
+
+  useEffect(() => {
+    void load(window);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [window]);
+
+  if (!snapshot && !error) return <LoadingPanel title="Deployment telemetry" />;
+  if (!snapshot && error) return <ErrorPanel title="Deployment telemetry unavailable" error={error} retry={() => void load(window)} />;
+  if (!snapshot) return null;
+
+  const { summary, series } = snapshot;
+  const runCheck = async () => {
+    setActionStatus("Deployment check running");
+    try {
+      await runDeploymentCheck();
+      setActionStatus("Deployment check recorded");
+      await load(window);
+    } catch (exc) {
+      setActionStatus(`Deployment check failed: ${exc instanceof Error ? exc.message : String(exc)}`);
+    }
+  };
+
   return (
-    <Panel title="Deploy rules">
-      <div className="grid gap-3 p-3">
-        <PolicyCallout title="Validate before deploy" detail="Build, tests, migration awareness, health checks, screenshots, and rollback notes should be captured before marking a release current." tone="info" />
-        <PolicyCallout title="Explicit approval" detail="Live deploy, rollback, and remote command execution remain admin-level explicit approval actions." tone="critical" />
-        <PolicyCallout title="Promotion rail coverage" detail={`${stages.length} deployment stages define the shared path from local validation to production evidence.`} tone="success" />
-      </div>
-    </Panel>
+    <div className="grid gap-4" data-data-state={error ? "partial" : "ready"} data-review-id="hermes.system.deployments.telemetry">
+      <Panel title="Deployment live status">
+        <div className="grid gap-3 p-3">
+          {error ? <PolicyCallout title="Showing last deployment snapshot" detail={error} tone="warning" /> : null}
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border bg-background p-3">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Generated</div>
+              <div className="mt-1 text-sm font-semibold text-foreground">{new Date(summary.generatedAt).toLocaleString()}</div>
+            </div>
+            <ToneBadge tone={systemHealthTone(summary.health)}>{summary.health}</ToneBadge>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-4">
+            <MetricCard label="Deployments" value={summary.summary.deployments} detail={`${summary.summary.ready} ready records`} tone="info" />
+            <MetricCard label="Gated" value={summary.summary.gated} detail="needs promotion proof" tone={summary.summary.gated ? "warning" : "success"} />
+            <MetricCard label="Failed" value={summary.summary.failed} detail="failed deployment evidence" tone={summary.summary.failed ? "critical" : "success"} />
+            <MetricCard label="Rollback proof" value={summary.summary.rollbackProofs} detail={`${stages.length} promotion stages tracked`} tone={summary.summary.rollbackProofs ? "success" : "warning"} />
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button type="button" className="rounded border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted" onClick={() => void runCheck()}>
+              Run deployment check
+            </button>
+            {actionStatus ? <span className="self-center text-xs font-medium text-muted-foreground">{actionStatus}</span> : null}
+          </div>
+        </div>
+      </Panel>
+      <Panel title="Deployment trend">
+        <div className="grid gap-3 p-3">
+          <WindowButtons value={window} onChange={setWindow} />
+          <SystemTrendChart series={series} primaryKey="deployments" secondaryKey="failed" />
+        </div>
+      </Panel>
+      <Panel title="Release evidence" count={summary.deployments.length}>
+        <div className="grid gap-2 p-3">
+          {summary.deployments.map((deployment) => (
+            <article key={deployment.id} className="rounded-lg border border-border bg-background p-3">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <h2 className="text-sm font-semibold text-foreground">{deployment.title}</h2>
+                  <p className="mt-1 line-clamp-1 text-xs text-muted-foreground">{deployment.project} / {deployment.environment} / {deployment.version}</p>
+                </div>
+                <ToneBadge tone={systemHealthTone(deployment.state)}>{deployment.status}</ToneBadge>
+              </div>
+              <p className="mt-2 text-sm text-muted-foreground">{deployment.detail || "Deployment evidence record."}</p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                <MiniFact label="Migration" value={deployment.migrationRequired ? "required" : "not required"} />
+                <MiniFact label="Rollback" value={deployment.rollback || "missing"} />
+                <MiniFact label="Updated" value={new Date(deployment.updatedAt).toLocaleString()} />
+              </div>
+            </article>
+          ))}
+        </div>
+      </Panel>
+      <Panel title="Promotion queue" count={summary.promotionQueue.length}>
+        <div className="grid gap-2 p-3">
+          {summary.slo.breaches.length ? summary.slo.breaches.map((breach) => (
+            <PolicyCallout key={breach} title="Deployment breach" detail={breach} tone="critical" />
+          )) : null}
+          {summary.promotionQueue.map((item) => (
+            <PolicyCallout key={item.id} title={item.label} detail={`${item.description} Approval: ${item.approval}.`} tone={item.approval === "explicit" ? "critical" : "info"} />
+          ))}
+        </div>
+      </Panel>
+    </div>
   );
 }
 
@@ -912,16 +1007,131 @@ function PageContractStrip({ audit }: { audit: OperationalPageAudit }) {
   );
 }
 
-function CredentialPanel() {
-  const credentialPolicies = permissionPolicies.filter((policy) => policy.action.toLowerCase().includes("secret") || policy.level === "admin");
+function CredentialsPanel() {
+  const [window, setWindow] = useState<WarehouseWindow>("24h");
+  const [snapshot, setSnapshot] = useState<CredentialsSnapshot | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [actionStatus, setActionStatus] = useState<string | null>(null);
+
+  const load = async (nextWindow = window) => {
+    try {
+      setSnapshot(await fetchCredentialsSnapshot(nextWindow));
+      setError(null);
+    } catch (exc) {
+      setError(exc instanceof Error ? exc.message : String(exc));
+    }
+  };
+
+  useEffect(() => {
+    void load(window);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [window]);
+
+  if (!snapshot && !error) return <LoadingPanel title="Credential telemetry" />;
+  if (!snapshot && error) return <ErrorPanel title="Credential telemetry unavailable" error={error} retry={() => void load(window)} />;
+  if (!snapshot) return null;
+
+  const { summary, series } = snapshot;
+  const runScan = async () => {
+    setActionStatus("Credential scan running");
+    try {
+      await runCredentialsScan();
+      setActionStatus("Credential scan recorded");
+      await load(window);
+    } catch (exc) {
+      setActionStatus(`Credential scan failed: ${exc instanceof Error ? exc.message : String(exc)}`);
+    }
+  };
+
   return (
-    <Panel title="Credential policy" count={credentialPolicies.length}>
-      <div className="grid gap-2 p-3">
-        {credentialPolicies.map((policy) => (
-          <PermissionRow key={policy.id} policy={policy} />
-        ))}
-      </div>
-    </Panel>
+    <div className="grid gap-4" data-data-state={error ? "partial" : "ready"} data-review-id="hermes.system.credentials.telemetry">
+      <Panel title="Credential live status">
+        <div className="grid gap-3 p-3">
+          {error ? <PolicyCallout title="Showing last credential snapshot" detail={error} tone="warning" /> : null}
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border bg-background p-3">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Generated</div>
+              <div className="mt-1 text-sm font-semibold text-foreground">{new Date(summary.generatedAt).toLocaleString()}</div>
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              <ToneBadge tone={systemHealthTone(summary.health)}>{summary.health}</ToneBadge>
+              <ToneBadge tone="success">{summary.secretExposurePolicy}</ToneBadge>
+            </div>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-4">
+            <MetricCard label="Variables" value={summary.summary.variables} detail={`${summary.summary.configured} configured`} tone="info" />
+            <MetricCard label="Missing" value={summary.summary.missing} detail="runtime variables not present" tone={summary.summary.missing ? "critical" : "success"} />
+            <MetricCard label="Projects" value={summary.summary.projects} detail="credential proof rows" tone="info" />
+            <MetricCard label="Blockers" value={summary.summary.blockers} detail="credential blockers" tone={summary.summary.blockers ? "critical" : "success"} />
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button type="button" className="rounded border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted" onClick={() => void runScan()}>
+              Run credential scan
+            </button>
+            {actionStatus ? <span className="self-center text-xs font-medium text-muted-foreground">{actionStatus}</span> : null}
+          </div>
+        </div>
+      </Panel>
+      <Panel title="Credential posture trend">
+        <div className="grid gap-3 p-3">
+          <WindowButtons value={window} onChange={setWindow} />
+          <SystemTrendChart series={series} primaryKey="configured" secondaryKey="missing" />
+        </div>
+      </Panel>
+      <Panel title="Runtime variables" count={summary.runtimeVariables.length}>
+        <div className="overflow-x-auto p-3">
+          <table className="w-full min-w-[680px] text-left text-xs" data-hdk-component="DataTable" data-pagination="table-window">
+            <thead className="text-muted-foreground">
+              <tr className="border-b border-border">
+                <th className="py-2 pr-3">Variable</th>
+                <th className="py-2 pr-3">Status</th>
+                <th className="py-2 pr-3">Source</th>
+                <th className="py-2 pr-3">Length</th>
+              </tr>
+            </thead>
+            <tbody>
+              {summary.runtimeVariables.map((variable) => (
+                <tr key={variable.name} className="border-b border-border/60 align-top">
+                  <td className="py-2 pr-3 font-semibold text-foreground">{variable.name}</td>
+                  <td className="py-2 pr-3"><ToneBadge tone={variable.configured ? "success" : "critical"}>{variable.configured ? "configured" : "missing"}</ToneBadge></td>
+                  <td className="py-2 pr-3">{variable.source}</td>
+                  <td className="py-2 pr-3 tabular-nums">{variable.configured ? variable.valueLength : 0}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Panel>
+      <Panel title="Project credential proof" count={summary.projects.length}>
+        <div className="grid gap-2 p-3">
+          {summary.projects.length ? summary.projects.map((project) => (
+            <article key={project.projectId} className="rounded-lg border border-border bg-background p-3">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <h2 className="text-sm font-semibold text-foreground">{project.label}</h2>
+                  <p className="mt-1 text-xs text-muted-foreground">{project.projectId}</p>
+                </div>
+                <ToneBadge tone={systemHealthTone(project.status)}>{project.status}</ToneBadge>
+              </div>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                <MiniFact label="Proof freshness" value={project.proofFreshness} />
+                <MiniFact label="Blockers" value={project.blockers.length} />
+              </div>
+            </article>
+          )) : <PolicyCallout title="No project credential proofs" detail="Credential status has not reported project-level proof rows yet." tone="warning" />}
+        </div>
+      </Panel>
+      <Panel title="Blockers and recommendations" count={summary.blockers.length + summary.recommendations.length}>
+        <div className="grid gap-2 p-3">
+          {summary.blockers.length ? summary.blockers.map((blocker) => (
+            <PolicyCallout key={blocker} title="Credential blocker" detail={blocker} tone="critical" />
+          )) : <PolicyCallout title="No credential blockers" detail="The presence-only credential scan has no active blockers in the current snapshot." tone="success" />}
+          {summary.recommendations.map((recommendation) => (
+            <PolicyCallout key={recommendation} title="Recommendation" detail={recommendation} tone="info" />
+          ))}
+        </div>
+      </Panel>
+    </div>
   );
 }
 
@@ -939,21 +1149,6 @@ function StageRow({ stage }: { stage: OperatingSystemStage }) {
       <div className="mt-3 grid gap-2 sm:grid-cols-2">
         <MiniFact label="Owner" value={stage.owner} />
         <MiniFact label="Metric" value={stage.primaryMetric} />
-      </div>
-    </article>
-  );
-}
-
-function PermissionRow({ policy }: { policy: PermissionPolicy }) {
-  return (
-    <article className="rounded-lg border border-border bg-background p-3">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <h2 className="text-sm font-semibold text-foreground">{policy.action}</h2>
-        <ToneBadge tone={policy.approval === "explicit" ? "critical" : policy.approval === "confirm" ? "warning" : "info"}>{policy.approval}</ToneBadge>
-      </div>
-      <div className="mt-3 grid gap-2 sm:grid-cols-2">
-        <MiniFact label="Level" value={policy.level} />
-        <MiniFact label="Audit" value={policy.audit ? "required" : "not required"} />
       </div>
     </article>
   );

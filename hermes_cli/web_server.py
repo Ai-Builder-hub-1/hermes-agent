@@ -3524,6 +3524,52 @@ async def post_system_workers_dry_run():
     return record_worker_dry_run()
 
 
+@app.get("/api/system/deployments/summary")
+async def get_system_deployments_summary():
+    from hermes_cli.system_operations import deployments_summary
+
+    return deployments_summary()
+
+
+@app.get("/api/system/deployments/series")
+async def get_system_deployments_series(window: str = "24h"):
+    from hermes_cli.system_operations import deployments_series
+
+    if window not in {"1h", "24h", "7d", "30d"}:
+        raise HTTPException(status_code=400, detail="window must be one of 1h, 24h, 7d, 30d")
+    return deployments_series(window)  # type: ignore[arg-type]
+
+
+@app.post("/api/system/deployments/check")
+async def post_system_deployments_check():
+    from hermes_cli.system_operations import record_deployment_check
+
+    return record_deployment_check()
+
+
+@app.get("/api/system/credentials/summary")
+async def get_system_credentials_summary():
+    from hermes_cli.system_operations import credentials_summary
+
+    return credentials_summary()
+
+
+@app.get("/api/system/credentials/series")
+async def get_system_credentials_series(window: str = "24h"):
+    from hermes_cli.system_operations import credentials_series
+
+    if window not in {"1h", "24h", "7d", "30d"}:
+        raise HTTPException(status_code=400, detail="window must be one of 1h, 24h, 7d, 30d")
+    return credentials_series(window)  # type: ignore[arg-type]
+
+
+@app.post("/api/system/credentials/scan")
+async def post_system_credentials_scan():
+    from hermes_cli.system_operations import record_credentials_scan
+
+    return record_credentials_scan()
+
+
 # ---------------------------------------------------------------------------
 # Curator endpoints — background skill-maintenance status + controls.
 #

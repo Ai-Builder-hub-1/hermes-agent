@@ -309,3 +309,168 @@ def record_worker_dry_run() -> dict[str, Any]:
     summary = workers_summary()
     evidence = _record_catalog_action("Worker dry-run", "Worker dry-run evidence recorded. No mutating production worker was executed.", summary)
     return {"ok": True, "generatedAt": now_iso(), "evidence": evidence, "summary": summary}
+
+
+def deployments_summary() -> dict[str, Any]:
+    records = _runtime_evidence("deployment")
+    if not records:
+        records = [{
+            "id": "deployment-nous-hermes-production",
+            "subject": "Nous Hermes production deployment",
+            "state": "warning",
+            "owner": "Nous Hermes",
+            "detail": "No live deployment evidence has been recorded yet.",
+            "updated_at": now_iso(),
+            "payload": {
+                "version": os.environ.get("HEROKU_SLUG_COMMIT") or os.environ.get("RENDER_GIT_COMMIT") or os.environ.get("GIT_SHA") or "unknown",
+                "environment": "production",
+                "status": "unknown",
+                "rollback": "",
+                "evidence": [],
+            },
+        }]
+
+    deployments = []
+    for record in records[:24]:
+        payload = record.get("payload") or {}
+        state = str(record.get("state") or "warning")
+        status = str(payload.get("status") or ("healthy" if state == "ready" else "failed" if state == "failed" else "unknown"))
+        deployments.append({
+            "id": str(record.get("id") or record.get("subject") or "deployment"),
+            "project": str(record.get("owner") or "Unknown project"),
+            "title": str(record.get("subject") or "Deployment"),
+            "environment": str(payload.get("environment") or "production"),
+            "version": str(payload.get("version") or "unknown"),
+            "status": status,
+            "state": "ready" if state in {"ready", "stored", "allowed"} else "failed" if state in {"failed", "blocked"} else "gated",
+            "migrationRequired": bool(payload.get("migration_required") or payload.get("migrationRequired") or False),
+            "rollback": str(payload.get("rollback") or ""),
+            "evidence": list(payload.get("evidence") or []),
+            "updatedAt": str(record.get("updated_at") or record.get("updatedAt") or now_iso()),
+            "detail": str(record.get("detail") or ""),
+        })
+
+    failed = [row for row in deployments if row["state"] == "failed"]
+    gated = [row for row in deployments if row["state"] == "gated"]
+    rollback_ready = [row for row in deployments if row["rollback"] or row["evidence"]]
+    return {
+        "contractVersion": "system-deployments.v1",
+        "generatedAt": now_iso(),
+        "health": "critical" if failed else "warning" if gated else "ready",
+        "summary": {
+            "deployments": len(deployments),
+            "ready": len(deployments) - len(failed) - len(gated),
+            "gated": len(gated),
+            "failed": len(failed),
+            "rollbackProofs": len(rollback_ready),
+        },
+        "deployments": deployments,
+        "promotionQueue": [
+            {
+                "id": "promotion-health-sweep",
+                "label": "Promotion health sweep",
+                "approval": "none",
+                "description": "Read-only promotion readiness and rollback evidence check.",
+            },
+            {
+                "id": "production-deploy",
+                "label": "Production deploy",
+                "approval": "explicit",
+                "description": "Live deploy remains explicit approval gated.",
+            },
+        ],
+        "slo": {
+            "breaches": [f"{len(failed)} deployment records are failed."] if failed else [],
+        },
+    }
+
+
+def deployments_series(window: Window = "24h") -> dict[str, Any]:
+    summary = deployments_summary()
+    return {
+        "generatedAt": summary["generatedAt"],
+        "window": window,
+        "historyStatus": "runtime_deployment_inferred_series",
+        "points": _series(window, max(summary["summary"]["deployments"], 1), ("deployments", "failed", "gated")),
+    }
+
+
+def record_deployment_check() -> dict[str, Any]:
+    summary = deployments_summary()
+    evidence = _record_catalog_action("Deployment check", "Deployment promotion readiness check recorded. No deploy was executed.", summary)
+    return {"ok": True, "generatedAt": now_iso(), "evidence": evidence, "summary": summary}
+
+
+def credentials_summary() -> dict[str, Any]:
+    try:
+        from hermes_cli.credential_status import credential_status
+
+        status = credential_status()
+    except Exception as exc:
+        status = {
+            "contractVersion": "fleet-credential-status.v1",
+            "generatedAt": now_iso(),
+            "status": "unknown",
+            "secretExposurePolicy": "values_never_returned",
+            "runtime": {"variables": []},
+            "projects": [],
+            "blockers": [str(exc)],
+            "recommendations": ["Credential status helper is unavailable."],
+        }
+
+    runtime_variables = (status.get("runtime") or {}).get("variables") or []
+    projects = status.get("projects") or []
+    configured = [var for var in runtime_variables if var.get("configured")]
+    missing = [var for var in runtime_variables if not var.get("configured")]
+    project_rows = []
+    for project in projects:
+        project_rows.append({
+            "projectId": str(project.get("projectId") or "unknown"),
+            "label": str(project.get("label") or project.get("projectId") or "Unknown project"),
+            "status": str(project.get("status") or "unknown"),
+            "proofFreshness": str(project.get("proofFreshness") or "missing"),
+            "blockers": list(project.get("blockers") or []),
+        })
+
+    return {
+        "contractVersion": "system-credentials.v1",
+        "generatedAt": now_iso(),
+        "health": "critical" if status.get("status") == "blocked" else "warning" if status.get("status") in {"watch", "unknown"} else "ready",
+        "secretExposurePolicy": status.get("secretExposurePolicy") or "values_never_returned",
+        "summary": {
+            "variables": len(runtime_variables),
+            "configured": len(configured),
+            "missing": len(missing),
+            "projects": len(project_rows),
+            "blockers": len(status.get("blockers") or []),
+        },
+        "runtimeVariables": [
+            {
+                "name": str(var.get("name") or "unknown"),
+                "configured": bool(var.get("configured")),
+                "source": str(var.get("source") or "runtime_env"),
+                "valueLength": int(var.get("valueLength") or 0),
+            }
+            for var in runtime_variables
+        ],
+        "projects": project_rows,
+        "blockers": list(status.get("blockers") or []),
+        "recommendations": list(status.get("recommendations") or []),
+        "productionProof": status.get("productionProof") or {},
+    }
+
+
+def credentials_series(window: Window = "24h") -> dict[str, Any]:
+    summary = credentials_summary()
+    return {
+        "generatedAt": summary["generatedAt"],
+        "window": window,
+        "historyStatus": "credential_posture_inferred_series",
+        "points": _series(window, max(summary["summary"]["variables"], 1), ("configured", "missing", "blockers")),
+    }
+
+
+def record_credentials_scan() -> dict[str, Any]:
+    summary = credentials_summary()
+    evidence = _record_catalog_action("Credential posture scan", "Presence-only credential posture scan recorded. No secret values were exposed.", summary)
+    return {"ok": True, "generatedAt": now_iso(), "evidence": evidence, "summary": summary}

@@ -89,6 +89,65 @@ export interface WorkersSummary {
   actions: Array<{ id: string; label: string; approval: string; description: string }>;
 }
 
+export interface DeploymentsSummary {
+  contractVersion: string;
+  generatedAt: string;
+  health: SystemHealth;
+  summary: {
+    deployments: number;
+    ready: number;
+    gated: number;
+    failed: number;
+    rollbackProofs: number;
+  };
+  deployments: Array<{
+    id: string;
+    project: string;
+    title: string;
+    environment: string;
+    version: string;
+    status: string;
+    state: SystemHealth;
+    migrationRequired: boolean;
+    rollback: string;
+    evidence: string[];
+    updatedAt: string;
+    detail: string;
+  }>;
+  promotionQueue: Array<{ id: string; label: string; approval: string; description: string }>;
+  slo: { breaches: string[] };
+}
+
+export interface CredentialsSummary {
+  contractVersion: string;
+  generatedAt: string;
+  health: SystemHealth;
+  secretExposurePolicy: string;
+  summary: {
+    variables: number;
+    configured: number;
+    missing: number;
+    projects: number;
+    blockers: number;
+  };
+  runtimeVariables: Array<{
+    name: string;
+    configured: boolean;
+    source: string;
+    valueLength: number;
+  }>;
+  projects: Array<{
+    projectId: string;
+    label: string;
+    status: string;
+    proofFreshness: string;
+    blockers: string[];
+  }>;
+  blockers: string[];
+  recommendations: string[];
+  productionProof: Record<string, unknown>;
+}
+
 export interface SystemSeries {
   generatedAt: string;
   window: WarehouseWindow;
@@ -108,6 +167,16 @@ export interface FreshnessSnapshot {
 
 export interface WorkersSnapshot {
   summary: WorkersSummary;
+  series: SystemSeries;
+}
+
+export interface DeploymentsSnapshot {
+  summary: DeploymentsSummary;
+  series: SystemSeries;
+}
+
+export interface CredentialsSnapshot {
+  summary: CredentialsSummary;
   series: SystemSeries;
 }
 
@@ -135,6 +204,22 @@ export async function fetchWorkersSnapshot(window: WarehouseWindow = "24h"): Pro
   return { summary, series };
 }
 
+export async function fetchDeploymentsSnapshot(window: WarehouseWindow = "24h"): Promise<DeploymentsSnapshot> {
+  const [summary, series] = await Promise.all([
+    fetchJSON<DeploymentsSummary>("/api/system/deployments/summary"),
+    fetchJSON<SystemSeries>(`/api/system/deployments/series?window=${encodeURIComponent(window)}`),
+  ]);
+  return { summary, series };
+}
+
+export async function fetchCredentialsSnapshot(window: WarehouseWindow = "24h"): Promise<CredentialsSnapshot> {
+  const [summary, series] = await Promise.all([
+    fetchJSON<CredentialsSummary>("/api/system/credentials/summary"),
+    fetchJSON<SystemSeries>(`/api/system/credentials/series?window=${encodeURIComponent(window)}`),
+  ]);
+  return { summary, series };
+}
+
 export function runStorageScan(): Promise<Record<string, unknown>> {
   return fetchJSON<Record<string, unknown>>("/api/system/storage/scan", { method: "POST" });
 }
@@ -145,6 +230,14 @@ export function runFreshnessCheck(): Promise<Record<string, unknown>> {
 
 export function runWorkerDryRun(): Promise<Record<string, unknown>> {
   return fetchJSON<Record<string, unknown>>("/api/system/workers/dry-run", { method: "POST" });
+}
+
+export function runDeploymentCheck(): Promise<Record<string, unknown>> {
+  return fetchJSON<Record<string, unknown>>("/api/system/deployments/check", { method: "POST" });
+}
+
+export function runCredentialsScan(): Promise<Record<string, unknown>> {
+  return fetchJSON<Record<string, unknown>>("/api/system/credentials/scan", { method: "POST" });
 }
 
 export function systemHealthTone(health: string): "success" | "warning" | "critical" | "info" {

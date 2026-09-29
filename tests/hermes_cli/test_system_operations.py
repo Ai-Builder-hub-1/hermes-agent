@@ -40,3 +40,33 @@ def test_workers_summary_and_dry_run(tmp_path, monkeypatch):
     assert summary["summary"]["workers"] >= 1
     assert len(workers_series("1h")["points"]) == 6
     assert record_worker_dry_run()["ok"] is True
+
+
+def test_deployments_summary_and_check(tmp_path, monkeypatch):
+    home = tmp_path / "home"
+    monkeypatch.setenv("HERMES_HOME", str(home))
+    monkeypatch.setenv("GIT_SHA", "abc123")
+
+    from hermes_cli.system_operations import deployments_series, deployments_summary, record_deployment_check
+
+    summary = deployments_summary()
+    assert summary["contractVersion"] == "system-deployments.v1"
+    assert summary["summary"]["deployments"] >= 1
+    assert {"id", "project", "environment", "version", "state"}.issubset(summary["deployments"][0])
+    assert len(deployments_series("30d")["points"]) == 15
+    assert record_deployment_check()["ok"] is True
+
+
+def test_credentials_summary_and_scan(tmp_path, monkeypatch):
+    home = tmp_path / "home"
+    monkeypatch.setenv("HERMES_HOME", str(home))
+    monkeypatch.setenv("DASHBOARD_RESET_DISCORD_USER_IDS", "123")
+
+    from hermes_cli.system_operations import credentials_series, credentials_summary, record_credentials_scan
+
+    summary = credentials_summary()
+    assert summary["contractVersion"] == "system-credentials.v1"
+    assert summary["secretExposurePolicy"] == "values_never_returned"
+    assert "runtimeVariables" in summary
+    assert len(credentials_series("24h")["points"]) == 12
+    assert record_credentials_scan()["ok"] is True
