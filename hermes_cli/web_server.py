@@ -1853,6 +1853,31 @@ async def get_second_brain_search(q: str = "", includeStale: bool = False):
     return await _hermes_brain_request(f"/api/brain/search?{params}")
 
 
+@app.get("/api/second-brain/compounding-intelligence")
+async def get_second_brain_compounding_intelligence():
+    return await _hermes_brain_request("/api/brain/compounding-intelligence")
+
+
+@app.get("/api/second-brain/retrieval-pack")
+async def get_second_brain_retrieval_pack(
+    q: str = "",
+    project: Optional[str] = None,
+    businessUnit: Optional[str] = None,
+    ticker: Optional[str] = None,
+    strategy: Optional[str] = None,
+    workflow: Optional[str] = None,
+):
+    params = urllib.parse.urlencode({
+        "q": q,
+        "project": project or "",
+        "businessUnit": businessUnit or "",
+        "ticker": ticker or "",
+        "strategy": strategy or "",
+        "workflow": workflow or "",
+    })
+    return await _hermes_brain_request(f"/api/brain/retrieval-pack?{params}")
+
+
 @app.post("/api/second-brain/staleness/scan")
 async def post_second_brain_staleness_scan():
     return await _hermes_brain_request("/api/brain/staleness/scan", method="POST", payload={})
