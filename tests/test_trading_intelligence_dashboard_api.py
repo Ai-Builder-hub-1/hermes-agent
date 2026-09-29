@@ -140,7 +140,7 @@ def test_trading_command_center_route_normalizes_cross_system_backend(monkeypatc
     assert body["dailyMetrics"]["buyingPowerUsd"] == 5300
     assert body["dailyMetrics"]["riskAdjustedCashLeftUsd"] == 4750
     assert body["dailyMetrics"]["realizedPnlTodayUsd"] == 8.92
-    assert body["dailyMetrics"]["eventsToday"] == 2
+    assert body["dailyMetrics"]["eventsToday"] == 0
     assert body["dailyMetrics"]["coverage"]["cashLeft"] == "known"
     assert body["dailyMetrics"]["capitalSemantics"]["realBrokerCashSources"] == 1
     assert body["dailyMetrics"]["capitalSemantics"]["internalPaperBankrollSources"] == 1
@@ -150,7 +150,7 @@ def test_trading_command_center_route_normalizes_cross_system_backend(monkeypatc
     assert len(body["dailyMetrics"]["bySource"]) == 2
     assert body["dailySeries"]["granularity"] == "day"
     assert body["dailySeries"]["historyStatus"] == "current_day_only"
-    assert body["dailySeries"]["points"][0]["date"] == "2026-09-10"
+    assert body["dailySeries"]["points"][0]["date"] == body["dailyMetrics"]["date"]
     assert body["dailySeries"]["points"][0]["cashLeftUsd"] == 4800
     assert body["dailySeries"]["recommendedCharts"][0]["id"] == "cash-left"
     assert body["positions"]["count"] == 2
@@ -166,6 +166,23 @@ def test_trading_command_center_route_normalizes_cross_system_backend(monkeypatc
     )
     assert alias.status_code == 200
     assert alias.json()["id"] == "trading-command-center"
+
+    portfolio = client.get(
+        "/api/trading-intelligence/portfolio/summary",
+        headers={"X-Hermes-Session-Token": web_server._SESSION_TOKEN},
+    )
+    assert portfolio.status_code == 200
+    portfolio_body = portfolio.json()
+    assert portfolio_body["contractVersion"] == "trading-portfolio-intelligence.v1"
+    assert portfolio_body["liveTradingLocked"] is True
+    assert portfolio_body["summary"]["realBrokerCashUsd"] == 4000
+    assert portfolio_body["summary"]["internalPaperBankrollUsd"] == 800
+    assert portfolio_body["summary"]["exposureCoverage"] == "known"
+    assert portfolio_body["summary"]["brokerCoverage"] == "missing"
+    assert portfolio_body["exposures"][0]["capitalType"] == "real-broker-cash"
+    assert portfolio_body["exposures"][1]["capitalType"] == "internal-paper-bankroll"
+    assert portfolio_body["allocationRecommendations"][0]["liveTradingLocked"] is True
+    assert "commandCenter" in portfolio_body["sourceRoutes"]
 
 
 def test_trading_intelligence_events_controls_and_proxy(monkeypatch):

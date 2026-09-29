@@ -1876,6 +1876,13 @@ async def post_trading_outcome_learning_review():
     return await record_outcome_learning_review()
 
 
+@app.get("/api/trading-intelligence/portfolio/summary")
+async def get_trading_portfolio_intelligence_summary():
+    from hermes_cli.portfolio_intelligence import portfolio_intelligence_summary
+
+    return await portfolio_intelligence_summary()
+
+
 def _hermes_brain_base_url() -> str:
     return os.environ.get("HERMES_BRAIN_URL", "http://127.0.0.1:3115").rstrip("/")
 

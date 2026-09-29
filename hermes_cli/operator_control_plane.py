@@ -212,6 +212,7 @@ def _compact_system_evidence(summary: Dict[str, Any]) -> str:
 
 async def _trading_items() -> list[Dict[str, Any]]:
     try:
+        from hermes_cli.portfolio_intelligence import portfolio_intelligence_from_command
         from hermes_cli.trading_intelligence import trading_command_center
         from hermes_cli.trading_research import outcome_learning_summary, strategy_lifecycle_summary
 
@@ -219,6 +220,7 @@ async def _trading_items() -> list[Dict[str, Any]]:
             asyncio.gather(trading_command_center(limit=5), strategy_lifecycle_summary(), outcome_learning_summary()),
             timeout=3,
         )
+        portfolio = portfolio_intelligence_from_command(command)
     except Exception as exc:
         return [
             {
@@ -239,7 +241,12 @@ async def _trading_items() -> list[Dict[str, Any]]:
                 "route": "/trading/investing",
             }
         ]
-    return [*_trading_command_to_items(command), *_strategy_lifecycle_items(lifecycle), *_outcome_learning_items(outcomes)]
+    return [
+        *_trading_command_to_items(command),
+        *_strategy_lifecycle_items(lifecycle),
+        *_outcome_learning_items(outcomes),
+        *_portfolio_intelligence_items(portfolio),
+    ]
 
 
 def _trading_command_to_items(command: Dict[str, Any]) -> list[Dict[str, Any]]:
@@ -328,7 +335,7 @@ def _broker_account_observability_items(command: Dict[str, Any]) -> list[Dict[st
                     "source": "Trading account observability",
                     "owner": str(project.get("label") or "Investing System"),
                     "severity": "critical" if blocked else "warning" if watch else "ready",
-                    "state": "blocked" if blocked else "review" if watch else "ready",
+                    "state": "blocked" if blocked else "review",
                     "whyItMatters": "Hermes needs broker account, positions, orders, fills, P/L, and freshness proof before account-aware strategy work is trustworthy.",
                     "nextAction": str(broker.get("nextAction") or "Review broker read proof and credential posture."),
                     "clearingProof": "Broker account observability is ready_read_only with fresh read proof and live submit disabled.",
@@ -449,6 +456,39 @@ def _outcome_learning_items(outcomes: Dict[str, Any]) -> list[Dict[str, Any]]:
             "requiresApproval": blocked,
             "updatedAt": outcomes.get("generatedAt"),
             "route": "/trading/evidence",
+        }
+    ]
+
+
+def _portfolio_intelligence_items(portfolio: Dict[str, Any]) -> list[Dict[str, Any]]:
+    summary = portfolio.get("summary") if isinstance(portfolio.get("summary"), dict) else {}
+    recommendations = portfolio.get("allocationRecommendations") if isinstance(portfolio.get("allocationRecommendations"), list) else []
+    posture = str(summary.get("allocationPosture") or "unknown")
+    blocked = posture == "blocked"
+    watch = posture != "ready"
+    top = recommendations[0] if recommendations else {}
+    return [
+        {
+            "id": "trading-portfolio-intelligence",
+            "kind": "incident" if blocked else "action" if watch else "evidence",
+            "title": "Portfolio risk office",
+            "source": "Portfolio intelligence",
+            "owner": "Trading systems",
+            "severity": "critical" if blocked else "warning" if watch else "ready",
+            "state": "blocked" if blocked else "review" if watch else "ready",
+            "whyItMatters": "Capital allocation needs a cross-system view of real broker cash, simulated bankrolls, exposure coverage, broker coverage, concentration, and open risk.",
+            "nextAction": str(top.get("title") or "Review portfolio risk office before changing allocation."),
+            "clearingProof": "Portfolio intelligence reports known exposure and broker coverage, acceptable concentration risk, and review-only allocation recommendations.",
+            "evidence": (
+                f"capitalKnown={summary.get('capitalKnown')}; exposureCoverage={summary.get('exposureCoverage')}; "
+                f"brokerCoverage={summary.get('brokerCoverage')}; concentrationRisk={summary.get('concentrationRisk')}; "
+                f"realBrokerCashUsd={summary.get('realBrokerCashUsd')}; internalPaperBankrollUsd={summary.get('internalPaperBankrollUsd')}; "
+                f"openRiskUsd={summary.get('openRiskUsd')}; recommendations={len(recommendations)}"
+            ),
+            "safeAction": None,
+            "requiresApproval": blocked,
+            "updatedAt": portfolio.get("generatedAt"),
+            "route": "/trading/risk",
         }
     ]
 
