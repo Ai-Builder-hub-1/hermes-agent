@@ -204,6 +204,13 @@ Tests:
 
 ## Phase 7: Contradiction Model
 
+Status: complete in Hermes Brain.
+
+Evidence:
+
+- Added first-class contradiction records with type, severity, confidence, business risk, affected projects, affected decisions, conflicting node ids, evidence refs, status, blocker flag, and audit trail.
+- Added durable repository and warehouse support for contradiction records.
+
 Build:
 
 - Add contradiction records or graph edges.
@@ -222,6 +229,14 @@ Tests:
 - False-positive resolution test.
 
 ## Phase 8: Contradiction Detection
+
+Status: complete in Hermes Brain.
+
+Evidence:
+
+- Added deterministic contradiction detection from explicit `contradicts` memory graph edges.
+- Added deterministic contradiction detection from decision records marked `reviewState: contradicted`.
+- Detection is idempotent and does not reopen or overwrite previously reviewed contradiction records.
 
 Build:
 
@@ -242,6 +257,14 @@ Tests:
 
 ## Phase 9: Business-Risk Ranking
 
+Status: complete in Hermes Brain.
+
+Evidence:
+
+- Added explainable business-risk score based on severity, confidence, affected project count, and affected decision count.
+- Added `blocksHighImpactUse` when the computed risk score reaches the high-impact threshold.
+- Tests prove high-confidence/high-severity contradictions sort and block above lower-risk probes.
+
 Build:
 
 - Score contradictions by capital impact, operational impact, freshness gap, confidence delta, project criticality, and decision dependency.
@@ -259,6 +282,14 @@ Tests:
 - High-impact dependency blocks retrieval.
 
 ## Phase 10: Contradiction Resolution Workflow
+
+Status: complete in Hermes Brain.
+
+Evidence:
+
+- Added contradiction resolution actions: acknowledge, resolve by superseding, resolve by source correction, mark false-positive, and create research task.
+- Resolution updates status, resolved actor/time/reason, and appends an audit-trail event without deleting the contradiction.
+- Live API probe created, listed, resolved, and warehouse-synced a contradiction record with `contradictions: 1`.
 
 Build:
 
