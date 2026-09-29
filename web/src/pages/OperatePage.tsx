@@ -8,8 +8,15 @@ import {
   ShieldCheck,
   type LucideIcon,
 } from "lucide-react";
-import type { ReactNode } from "react";
+import { useMemo, type ReactNode } from "react";
 import { Link } from "react-router";
+import {
+  attentionItems,
+  buildOperateItems,
+  itemsForKind,
+  operateSummary,
+  type OperateItem,
+} from "@/lib/operate-items";
 import {
   blockerKindCounts,
   blockerStages,
@@ -24,13 +31,10 @@ import {
   operatingSystemStages,
   permissionPolicies,
   routedTasks,
-  type DecisionRecord,
   type LiveSignalIntegration,
-  type OperatingLoop,
   type OperatingSystemStage,
-  type PermissionPolicy,
-  type RoutedTask,
 } from "./operating-system-data";
+import { loadOperatingRuntimeState } from "./operating-runtime";
 
 type OperateMode =
   | "overview"
@@ -127,6 +131,16 @@ export function OperateChatActionsPage() {
 function OperatePage({ mode }: { mode: OperateMode }) {
   const copy = modeCopy[mode];
   const blockers = blockerStages(operatingSystemStages);
+  const runtime = useMemo(() => loadOperatingRuntimeState(), []);
+  const operateItems = useMemo(() => buildOperateItems({
+    stages: operatingSystemStages,
+    tasks: routedTasks,
+    decisions: decisionLedger,
+    policies: permissionPolicies,
+    loops: operatingLoops,
+    runtime,
+  }), [runtime]);
+  const summary = operateSummary(operateItems);
   const incidents = operatingSystemStages.filter((stage) =>
     [
       "Incident Command",
@@ -140,8 +154,6 @@ function OperatePage({ mode }: { mode: OperateMode }) {
       "Incident Automation",
     ].includes(stage.title),
   );
-  const approvalPolicies = permissionPolicies.filter((policy) => policy.approval !== "none" || policy.audit);
-
   return (
     <main className="mx-auto flex w-full max-w-[1500px] flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8" data-review-id={`hermes.operate.${mode}`}>
       <section className="rounded-lg border border-border bg-card p-5 shadow-sm">
@@ -155,24 +167,24 @@ function OperatePage({ mode }: { mode: OperateMode }) {
             <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">{copy.description}</p>
           </div>
           <div className="grid min-w-[220px] gap-2 text-xs font-semibold text-muted-foreground sm:grid-cols-2">
-            <MiniStat label="Open actions" value={routedTasks.filter((task) => task.status !== "done").length} />
-            <MiniStat label="Gated work" value={blockers.length} />
+            <MiniStat label="Needs attention" value={summary.attention} />
+            <MiniStat label="Gated work" value={summary.blockers} />
           </div>
         </div>
       </section>
 
       {mode === "overview" ? (
-        <Overview blockers={blockers} />
+        <Overview blockers={blockers} items={operateItems} />
       ) : mode === "blockers" ? (
         <Blockers blockers={blockers} />
       ) : mode === "actions" ? (
-        <Actions tasks={routedTasks} />
+        <Actions items={itemsForKind(operateItems, "action")} />
       ) : mode === "incidents" ? (
-        <Incidents incidents={incidents} />
+        <Incidents incidents={incidents} items={itemsForKind(operateItems, "incident")} />
       ) : mode === "approvals" ? (
-        <Approvals decisions={decisionLedger} policies={approvalPolicies} />
+        <Approvals items={itemsForKind(operateItems, "approval")} />
       ) : mode === "runs" ? (
-        <Runs loops={operatingLoops} />
+        <Runs items={itemsForKind(operateItems, "run")} />
       ) : (
         <ChatActions />
       )}
@@ -180,21 +192,24 @@ function OperatePage({ mode }: { mode: OperateMode }) {
   );
 }
 
-function Overview({ blockers }: { blockers: OperatingSystemStage[] }) {
+function Overview({ blockers, items }: { blockers: OperatingSystemStage[]; items: OperateItem[] }) {
+  const attention = attentionItems(items);
+  const summary = operateSummary(items);
+
   return (
     <>
       <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-4" aria-label="Operator summary">
-        <MetricCard label="Signal integrations" value={liveSignalIntegrations.length} detail="project feeds registered" tone="info" icon={Database} />
-        <MetricCard label="Critical tasks" value={routedTasks.filter((task) => task.priority === "critical").length} detail="operator attention required" tone="critical" icon={AlertTriangle} />
-        <MetricCard label="Approval policies" value={permissionPolicies.filter((policy) => policy.approval !== "none").length} detail="confirm or explicit gates" tone="warning" icon={ShieldCheck} />
-        <MetricCard label="Ready loops" value={operatingLoops.filter((loop) => loop.status === "ready").length} detail="manual-safe loop definitions" tone="success" icon={RotateCw} />
+        <MetricCard label="Needs attention" value={summary.attention} detail="non-ready items across Operate" tone="critical" icon={AlertTriangle} />
+        <MetricCard label="Safe actions" value={summary.executable} detail="routes or manual actions available" tone="info" icon={ArrowRight} />
+        <MetricCard label="Approval gates" value={summary.approvals} detail="explicit human decision required" tone="warning" icon={ShieldCheck} />
+        <MetricCard label="Ready loops" value={itemsForKind(items, "run").filter((item) => item.state === "ready").length} detail="manual-safe loop definitions" tone="success" icon={RotateCw} />
       </section>
 
       <section className="grid gap-4 xl:grid-cols-[minmax(0,0.6fr)_minmax(360px,0.4fr)]">
-        <Panel title="Next operator actions" count={routedTasks.length}>
+        <Panel title="Next operator actions" count={attention.length}>
           <div className="grid gap-2 p-3">
-            {routedTasks.map((task) => (
-              <TaskRow key={task.id} task={task} />
+            {attention.map((item) => (
+              <OperateItemRow key={item.id} item={item} />
             ))}
           </div>
         </Panel>
@@ -318,14 +333,47 @@ function BlockerRow({ stage }: { stage: OperatingSystemStage }) {
   );
 }
 
-function Actions({ tasks }: { tasks: RoutedTask[] }) {
-  const ordered = [...tasks].sort((left, right) => priorityRank(right.priority) - priorityRank(left.priority));
+function OperateItemRow({ item }: { item: OperateItem }) {
+  return (
+    <article className="rounded-lg border border-border bg-background p-3">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-2">
+            <ToneBadge tone={toneForOperateSeverity(item.severity)}>{item.severity}</ToneBadge>
+            <ToneBadge tone={toneForOperateState(item.state)}>{item.state}</ToneBadge>
+            {item.requiresApproval ? <ToneBadge tone="warning">approval</ToneBadge> : null}
+          </div>
+          <h2 className="mt-2 text-sm font-semibold text-foreground">{item.title}</h2>
+          <p className="mt-1 text-xs font-medium text-muted-foreground">{item.source}</p>
+        </div>
+        {item.route ? (
+          <Link to={item.route} className="inline-flex items-center gap-1 rounded border border-border bg-card px-2 py-1 text-xs font-semibold text-foreground hover:bg-muted">
+            Open
+            <ArrowRight className="h-3 w-3" aria-hidden />
+          </Link>
+        ) : item.safeAction ? (
+          <span className="rounded border border-border bg-card px-2 py-1 text-xs font-semibold text-muted-foreground">{item.safeAction}</span>
+        ) : null}
+      </div>
+      <p className="mt-3 text-sm leading-6 text-muted-foreground">{item.whyItMatters}</p>
+      <div className="mt-3 grid gap-2 lg:grid-cols-2">
+        <MiniFact label="Next action" value={item.nextAction} />
+        <MiniFact label="Clearing proof" value={item.clearingProof} />
+        <MiniFact label="Owner" value={item.owner} />
+        <MiniFact label="Evidence" value={item.evidence} />
+      </div>
+      {item.updatedAt ? <p className="mt-2 text-[11px] font-medium text-muted-foreground">Updated: {item.updatedAt}</p> : null}
+    </article>
+  );
+}
+
+function Actions({ items }: { items: OperateItem[] }) {
   return (
     <section className="grid gap-4 xl:grid-cols-[minmax(0,0.64fr)_minmax(320px,0.36fr)]">
-      <Panel title="Routed actions" count={ordered.length}>
+      <Panel title="Routed actions" count={items.length}>
         <div className="grid gap-2 p-3">
-          {ordered.map((task) => (
-            <TaskRow key={task.id} task={task} />
+          {items.map((item) => (
+            <OperateItemRow key={item.id} item={item} />
           ))}
         </div>
       </Panel>
@@ -340,13 +388,13 @@ function Actions({ tasks }: { tasks: RoutedTask[] }) {
   );
 }
 
-function Incidents({ incidents }: { incidents: OperatingSystemStage[] }) {
+function Incidents({ incidents, items }: { incidents: OperatingSystemStage[]; items: OperateItem[] }) {
   return (
     <section className="grid gap-4 xl:grid-cols-[minmax(0,0.62fr)_minmax(340px,0.38fr)]">
       <Panel title="Incident readiness" count={incidents.length}>
         <div className="grid gap-2 p-3">
-          {incidents.map((stage) => (
-            <StageRow key={stage.version} stage={stage} />
+          {items.map((item) => (
+            <OperateItemRow key={item.id} item={item} />
           ))}
         </div>
       </Panel>
@@ -361,65 +409,33 @@ function Incidents({ incidents }: { incidents: OperatingSystemStage[] }) {
   );
 }
 
-function Approvals({ decisions, policies }: { decisions: DecisionRecord[]; policies: PermissionPolicy[] }) {
+function Approvals({ items }: { items: OperateItem[] }) {
   return (
     <section className="grid gap-4 xl:grid-cols-[minmax(0,0.56fr)_minmax(380px,0.44fr)]">
-      <Panel title="Decision ledger" count={decisions.length}>
+      <Panel title="Approval inbox" count={items.length}>
         <div className="grid gap-2 p-3">
-          {decisions.map((decision) => (
-            <article key={decision.id} className="rounded-lg border border-border bg-background p-3">
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <h2 className="text-sm font-semibold text-foreground">{decision.decision}</h2>
-                <ToneBadge tone={decision.status === "active" ? "success" : decision.status === "needs-review" ? "warning" : "neutral"}>{decision.status}</ToneBadge>
-              </div>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">{decision.reason}</p>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                <MiniFact label="Owner" value={decision.owner} />
-                <MiniFact label="Reviewed" value={decision.reviewedAt} />
-              </div>
-            </article>
+          {items.map((item) => (
+            <OperateItemRow key={item.id} item={item} />
           ))}
         </div>
       </Panel>
-      <Panel title="Permission policies" count={policies.length}>
-        <div className="grid gap-2 p-3">
-          {policies.map((policy) => (
-            <article key={policy.id} className="rounded-lg border border-border bg-background p-3">
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <h2 className="text-sm font-semibold text-foreground">{policy.action}</h2>
-                <ToneBadge tone={policy.approval === "explicit" ? "critical" : policy.approval === "confirm" ? "warning" : "info"}>{policy.approval}</ToneBadge>
-              </div>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                <MiniFact label="Level" value={policy.level} />
-                <MiniFact label="Audit" value={policy.audit ? "required" : "not required"} />
-              </div>
-            </article>
-          ))}
+      <Panel title="Decision rules">
+        <div className="grid gap-3 p-3">
+          <PolicyCallout title="Approval is a queue" detail="Items here should end in an explicit approval, denial, superseded decision, or audit record." tone="warning" />
+          <PolicyCallout title="High-risk stays gated" detail="Deploy, secret, scheduler, provider, autonomy, and release-train work should remain explicit-approval only." tone="critical" />
         </div>
       </Panel>
     </section>
   );
 }
 
-function Runs({ loops }: { loops: OperatingLoop[] }) {
+function Runs({ items }: { items: OperateItem[] }) {
   return (
     <section className="grid gap-4 xl:grid-cols-[minmax(0,0.62fr)_minmax(340px,0.38fr)]">
-      <Panel title="Loop registry" count={loops.length}>
+      <Panel title="Loop registry" count={items.length}>
         <div className="grid gap-2 p-3">
-          {loops.map((loop) => (
-            <article key={loop.id} className="rounded-lg border border-border bg-background p-3">
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                  <h2 className="text-sm font-semibold text-foreground">{loop.name}</h2>
-                  <p className="mt-1 text-xs font-medium text-muted-foreground">{loop.cadence}</p>
-                </div>
-                <ToneBadge tone={loop.status === "ready" ? "success" : loop.status === "paused" ? "warning" : "neutral"}>{loop.status}</ToneBadge>
-              </div>
-              <p className="mt-3 text-sm leading-6 text-muted-foreground">{loop.output}</p>
-              <div className="mt-3">
-                <MiniFact label="Owner" value={loop.owner} />
-              </div>
-            </article>
+          {items.map((item) => (
+            <OperateItemRow key={item.id} item={item} />
           ))}
         </div>
       </Panel>
@@ -533,27 +549,6 @@ function MetricCard({
   );
 }
 
-function TaskRow({ task }: { task: RoutedTask }) {
-  return (
-    <article className="rounded-lg border border-border bg-background p-3">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="min-w-0">
-          <h2 className="text-sm font-semibold text-foreground">{task.title}</h2>
-          <p className="mt-1 text-xs font-medium text-muted-foreground">{task.source}</p>
-        </div>
-        <div className="flex flex-wrap gap-1.5">
-          <ToneBadge tone={task.priority === "critical" ? "critical" : task.priority === "high" ? "warning" : "info"}>{task.priority}</ToneBadge>
-          <ToneBadge tone={task.status === "blocked" ? "critical" : task.status === "done" ? "success" : "neutral"}>{task.status}</ToneBadge>
-        </div>
-      </div>
-      <p className="mt-3 text-sm leading-6 text-muted-foreground">{task.nextStep}</p>
-      <div className="mt-3">
-        <MiniFact label="Owner" value={task.owner} />
-      </div>
-    </article>
-  );
-}
-
 function StageRow({ stage }: { stage: OperatingSystemStage }) {
   return (
     <article className="rounded-lg border border-border bg-background p-3">
@@ -630,8 +625,18 @@ function ToneBadge({ tone, children }: { tone: Tone; children: ReactNode }) {
   );
 }
 
-function priorityRank(priority: RoutedTask["priority"]) {
-  return priority === "critical" ? 4 : priority === "high" ? 3 : priority === "normal" ? 2 : 1;
+function toneForOperateSeverity(severity: OperateItem["severity"]): Tone {
+  if (severity === "critical") return "critical";
+  if (severity === "warning") return "warning";
+  if (severity === "ready") return "success";
+  return "info";
+}
+
+function toneForOperateState(state: OperateItem["state"]): Tone {
+  if (state === "blocked" || state === "gated") return "critical";
+  if (state === "review" || state === "stale") return "warning";
+  if (state === "ready" || state === "done") return "success";
+  return "info";
 }
 
 function labelForBlockerKind(kind: OperatingBlockerKind) {
