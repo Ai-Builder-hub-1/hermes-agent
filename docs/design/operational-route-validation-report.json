@@ -1,0 +1,371 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-29T13:13:27.433Z",
+  "summary": {
+    "routes": 32,
+    "passed": 32,
+    "failed": 0,
+    "blocked": 0,
+    "baseUrl": "http://127.0.0.1:4177",
+    "browserStatus": "available"
+  },
+  "baseCheck": {
+    "ok": true,
+    "status": 200,
+    "error": ""
+  },
+  "routes": [
+    {
+      "route": "/operate",
+      "group": "operate",
+      "label": "Operate",
+      "maturity": "actionable",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 7932,
+      "issues": []
+    },
+    {
+      "route": "/operate/blockers",
+      "group": "operate",
+      "label": "Blockers",
+      "maturity": "actionable",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 14469,
+      "issues": []
+    },
+    {
+      "route": "/operate/actions",
+      "group": "operate",
+      "label": "Actions",
+      "maturity": "actionable",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 2247,
+      "issues": []
+    },
+    {
+      "route": "/operate/incidents",
+      "group": "operate",
+      "label": "Incidents",
+      "maturity": "actionable",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 10466,
+      "issues": []
+    },
+    {
+      "route": "/operate/approvals",
+      "group": "operate",
+      "label": "Approvals",
+      "maturity": "actionable",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 3025,
+      "issues": []
+    },
+    {
+      "route": "/operate/runs",
+      "group": "operate",
+      "label": "Recent Runs",
+      "maturity": "actionable",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 1833,
+      "issues": []
+    },
+    {
+      "route": "/system/warehouse",
+      "group": "system",
+      "label": "Data Warehouse",
+      "maturity": "charted",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 1716,
+      "issues": []
+    },
+    {
+      "route": "/system/storage",
+      "group": "system",
+      "label": "Storage",
+      "maturity": "charted",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 1460,
+      "issues": []
+    },
+    {
+      "route": "/system/freshness",
+      "group": "system",
+      "label": "Freshness",
+      "maturity": "charted",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 1772,
+      "issues": []
+    },
+    {
+      "route": "/system/workers",
+      "group": "system",
+      "label": "Workers",
+      "maturity": "charted",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 1369,
+      "issues": []
+    },
+    {
+      "route": "/system/deployments",
+      "group": "system",
+      "label": "Deployments",
+      "maturity": "charted",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 1771,
+      "issues": []
+    },
+    {
+      "route": "/system/credentials",
+      "group": "system",
+      "label": "Credentials",
+      "maturity": "charted",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 1655,
+      "issues": []
+    },
+    {
+      "route": "/system/models",
+      "group": "system",
+      "label": "Models",
+      "maturity": "live",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 436,
+      "issues": []
+    },
+    {
+      "route": "/system/automations",
+      "group": "system",
+      "label": "Automations",
+      "maturity": "live",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 377,
+      "issues": []
+    },
+    {
+      "route": "/system/sessions",
+      "group": "system",
+      "label": "Sessions",
+      "maturity": "live",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 348,
+      "issues": []
+    },
+    {
+      "route": "/system/logs",
+      "group": "system",
+      "label": "Logs",
+      "maturity": "live",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 452,
+      "issues": []
+    },
+    {
+      "route": "/system/plugins",
+      "group": "system",
+      "label": "Plugins",
+      "maturity": "live",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 747,
+      "issues": []
+    },
+    {
+      "route": "/system/admin",
+      "group": "system",
+      "label": "Admin",
+      "maturity": "live",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 1382,
+      "issues": []
+    },
+    {
+      "route": "/system/analytics",
+      "group": "system",
+      "label": "Analytics",
+      "maturity": "live",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 1077,
+      "issues": []
+    },
+    {
+      "route": "/second-brain",
+      "group": "operate",
+      "label": "Second Brain",
+      "maturity": "live",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 288,
+      "issues": []
+    },
+    {
+      "route": "/compounding-intelligence",
+      "group": "operate",
+      "label": "Compounding Intelligence",
+      "maturity": "live",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 318,
+      "issues": []
+    },
+    {
+      "route": "/operate/chat-actions",
+      "group": "operate",
+      "label": "Chat Actions",
+      "maturity": "actionable",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 1237,
+      "issues": []
+    },
+    {
+      "route": "/trading/strategies",
+      "group": "trading",
+      "label": "Strategies",
+      "maturity": "charted",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 2141,
+      "issues": []
+    },
+    {
+      "route": "/trading",
+      "group": "trading",
+      "label": "Trading Overview",
+      "maturity": "live",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 396,
+      "issues": []
+    },
+    {
+      "route": "/trading/khashi",
+      "group": "trading",
+      "label": "Khashi",
+      "maturity": "live",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 403,
+      "issues": []
+    },
+    {
+      "route": "/trading/investing",
+      "group": "trading",
+      "label": "Investing System",
+      "maturity": "live",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 406,
+      "issues": []
+    },
+    {
+      "route": "/trading/backtesting",
+      "group": "trading",
+      "label": "Backtesting",
+      "maturity": "charted",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 2073,
+      "issues": []
+    },
+    {
+      "route": "/trading/shadow-paper",
+      "group": "trading",
+      "label": "Shadow / Paper",
+      "maturity": "live",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 409,
+      "issues": []
+    },
+    {
+      "route": "/trading/risk",
+      "group": "trading",
+      "label": "Risk & Capital",
+      "maturity": "live",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 615,
+      "issues": []
+    },
+    {
+      "route": "/trading/head-trader",
+      "group": "trading",
+      "label": "Head Trader",
+      "maturity": "controlled",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 622,
+      "issues": []
+    },
+    {
+      "route": "/trading/evidence",
+      "group": "trading",
+      "label": "Trading Evidence",
+      "maturity": "charted",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 504,
+      "issues": []
+    },
+    {
+      "route": "/operate/evidence",
+      "group": "operate",
+      "label": "Operate Evidence",
+      "maturity": "charted",
+      "status": "passed",
+      "httpStatus": 200,
+      "title": "Hermes Agent - Dashboard",
+      "textLength": 14448,
+      "issues": []
+    }
+  ]
+}

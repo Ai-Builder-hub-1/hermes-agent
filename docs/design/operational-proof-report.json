@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-29T12:55:27.664Z",
+  "generatedAt": "2026-09-29T13:13:36.018Z",
   "summary": {
     "routes": 32,
     "readyRoutes": 32,
@@ -11,7 +11,11 @@
     "liveSourceGaps": 0,
     "evidenceGaps": 0,
     "safeActions": 23,
-    "safeActionHardeningGaps": 0
+    "safeActionHardeningGaps": 0,
+    "routeValidationStatus": "ready",
+    "routeValidationPassed": 32,
+    "routeValidationFailed": 0,
+    "routeValidationBlocked": 0
   },
   "groups": {
     "operate": {
@@ -358,6 +362,14 @@
       "nextAction": "strategy evidence ledger"
     }
   ],
+  "routeValidation": {
+    "status": "ready",
+    "routes": 32,
+    "passed": 32,
+    "failed": 0,
+    "blocked": 0,
+    "generatedAt": "2026-09-29T13:13:27.433Z"
+  },
   "staticRoutes": [],
   "liveSourceGaps": [],
   "evidenceGaps": [],
@@ -806,7 +818,6 @@
     "gaps": []
   },
   "nextActions": [
-    "Add Playwright route validation for Operate, Trading, and System pages.",
-    "Persist route validation output as operating-runtime evidence."
+    "Persist route validation output as operating-runtime evidence when a writable dashboard backend is available."
   ]
 }

@@ -1,6 +1,6 @@
 # Operational Proof Report
 
-Generated: 2026-09-29T12:55:27.664Z
+Generated: 2026-09-29T13:13:36.018Z
 
 ## Summary
 
@@ -16,6 +16,10 @@ Generated: 2026-09-29T12:55:27.664Z
 | evidenceGaps | 0 |
 | safeActions | 23 |
 | safeActionHardeningGaps | 0 |
+| routeValidationStatus | ready |
+| routeValidationPassed | 32 |
+| routeValidationFailed | 0 |
+| routeValidationBlocked | 0 |
 
 ## Groups
 
@@ -49,7 +53,17 @@ Generated: 2026-09-29T12:55:27.664Z
 | auditExpected | 23 |
 | needsHardening | 0 |
 
+## Route Validation
+
+| Metric | Value |
+| --- | --- |
+| status | ready |
+| routes | 32 |
+| passed | 32 |
+| failed | 0 |
+| blocked | 0 |
+| generatedAt | 2026-09-29T13:13:27.433Z |
+
 ## Next Actions
 
-- Add Playwright route validation for Operate, Trading, and System pages.
-- Persist route validation output as operating-runtime evidence.
+- Persist route validation output as operating-runtime evidence when a writable dashboard backend is available.

@@ -13,6 +13,38 @@ const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(scriptDir, "..");
 const outJson = path.join(root, "docs/design/operational-proof-report.json");
 const outMd = path.join(root, "docs/design/operational-proof-report.md");
+const routeValidationJson = path.join(root, "docs/design/operational-route-validation-report.json");
+
+function readRouteValidationSummary() {
+  if (!fs.existsSync(routeValidationJson)) {
+    return {
+      status: "missing",
+      routes: 0,
+      passed: 0,
+      failed: 0,
+      blocked: 0,
+      generatedAt: "",
+    };
+  }
+  const report = JSON.parse(fs.readFileSync(routeValidationJson, "utf8")) as {
+    generatedAt?: string;
+    summary?: {
+      routes?: number;
+      passed?: number;
+      failed?: number;
+      blocked?: number;
+    };
+  };
+  const summary = report.summary ?? {};
+  return {
+    status: (summary.failed ?? 0) || (summary.blocked ?? 0) ? "attention" : "ready",
+    routes: summary.routes ?? 0,
+    passed: summary.passed ?? 0,
+    failed: summary.failed ?? 0,
+    blocked: summary.blocked ?? 0,
+    generatedAt: report.generatedAt ?? "",
+  };
+}
 
 function groupCounts() {
   const groups: OperationalGroup[] = ["operate", "trading", "system"];
@@ -43,6 +75,7 @@ const staticRoutes = OPERATIONAL_PAGE_CONTRACTS.filter((contract) => contract.ma
 const liveSourceGaps = OPERATIONAL_PAGE_CONTRACTS.filter((contract) => contract.liveSources.length === 0);
 const evidenceGaps = OPERATIONAL_PAGE_CONTRACTS.filter((contract) => contract.evidence.length === 0);
 const chartedOrBetter = OPERATIONAL_PAGE_CONTRACTS.filter((contract) => ["charted", "controlled", "intelligent"].includes(contract.maturity));
+const routeValidation = readRouteValidationSummary();
 
 const report = {
   schemaVersion: 1,
@@ -58,9 +91,14 @@ const report = {
     evidenceGaps: evidenceGaps.length,
     safeActions: safeActionAudit.totals.actions,
     safeActionHardeningGaps: safeActionAudit.totals.needsHardening,
+    routeValidationStatus: routeValidation.status,
+    routeValidationPassed: routeValidation.passed,
+    routeValidationFailed: routeValidation.failed,
+    routeValidationBlocked: routeValidation.blocked,
   },
   groups: groupCounts(),
   routes: routeAudits,
+  routeValidation,
   staticRoutes: staticRoutes.map((route) => ({ route: route.route, label: route.label, nextAction: route.gaps[0] ?? "Add live data contract." })),
   liveSourceGaps: liveSourceGaps.map((route) => ({ route: route.route, label: route.label, maturity: route.maturity })),
   evidenceGaps: evidenceGaps.map((route) => ({ route: route.route, label: route.label, maturity: route.maturity })),
@@ -70,8 +108,8 @@ const report = {
     ...(liveSourceGaps.length ? [`Add live-source contracts for ${liveSourceGaps.length} route(s).`] : []),
     ...(evidenceGaps.length ? [`Add evidence contracts for ${evidenceGaps.length} route(s).`] : []),
     ...(safeActionAudit.totals.needsHardening ? [`Close ${safeActionAudit.totals.needsHardening} safe-action hardening gap(s).`] : []),
-    "Add Playwright route validation for Operate, Trading, and System pages.",
-    "Persist route validation output as operating-runtime evidence.",
+    ...(routeValidation.status === "ready" ? [] : ["Run Playwright route validation and clear failed or blocked operational routes."]),
+    "Persist route validation output as operating-runtime evidence when a writable dashboard backend is available.",
   ],
 };
 
@@ -109,6 +147,13 @@ ${markdownTable(
 ${markdownTable(
   ["Metric", "Value"],
   Object.entries(report.safeActions.totals).map(([key, value]) => [key, value]),
+)}
+
+## Route Validation
+
+${markdownTable(
+  ["Metric", "Value"],
+  Object.entries(report.routeValidation).map(([key, value]) => [key, value]),
 )}
 
 ## Next Actions
