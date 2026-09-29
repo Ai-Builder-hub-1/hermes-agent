@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 from typing import Any, Dict, Iterable, Optional
 
 from hermes_cli.fleet_monitoring import fleet_operator_queue
@@ -11,6 +12,19 @@ from hermes_cli.operating_runtime import connect, list_evidence
 def operator_queue(limit: int = 12, include_system: bool = False) -> Dict[str, Any]:
     """Return the server-side answer to "what needs attention?"."""
 
+    return _build_operator_queue(limit=limit, include_system=include_system, extra_items=[])
+
+
+async def operator_queue_async(limit: int = 12, include_system: bool = False, include_trading: bool = False) -> Dict[str, Any]:
+    """Async queue builder with optional bounded external aggregations."""
+
+    extra_items: list[Dict[str, Any]] = []
+    if include_trading:
+        extra_items.extend(await _trading_items())
+    return _build_operator_queue(limit=limit, include_system=include_system, extra_items=extra_items)
+
+
+def _build_operator_queue(limit: int, include_system: bool, extra_items: list[Dict[str, Any]]) -> Dict[str, Any]:
     safe_limit = max(1, min(int(limit), 50))
     fleet = fleet_operator_queue(limit=50)
     conn = connect()
@@ -20,13 +34,15 @@ def operator_queue(limit: int = 12, include_system: bool = False) -> Dict[str, A
         conn.close()
     system_items = _system_summary_items() if include_system else []
     items = sorted(
-        [*fleet["items"], *runtime_items, *system_items],
+        [*fleet["items"], *runtime_items, *system_items, *extra_items],
         key=lambda item: (-_severity_rank(item["severity"]), -_state_rank(item["state"]), item["title"]),
     )
     return {
         "schemaVersion": 1,
         "generatedAt": fleet["generatedAt"],
-        "source": "fleet registry + operating runtime evidence" + (" + system summaries" if include_system else ""),
+        "source": "fleet registry + operating runtime evidence"
+        + (" + system summaries" if include_system else "")
+        + (" + trading intelligence" if extra_items else ""),
         "summary": _summary(items),
         "items": items[:safe_limit],
     }
@@ -145,6 +161,93 @@ def _compact_system_evidence(summary: Dict[str, Any]) -> str:
     if isinstance(breaches, list) and breaches:
         parts.append(f"breaches={len(breaches)}")
     return "; ".join(parts)
+
+
+async def _trading_items() -> list[Dict[str, Any]]:
+    try:
+        from hermes_cli.trading_intelligence import trading_command_center
+
+        command = await asyncio.wait_for(trading_command_center(limit=5), timeout=3)
+    except Exception as exc:
+        return [
+            {
+                "id": "trading-command-center-unavailable",
+                "kind": "incident",
+                "title": "Trading command center unavailable",
+                "source": "Trading intelligence",
+                "owner": "Trading systems",
+                "severity": "critical",
+                "state": "blocked",
+                "whyItMatters": "Hermes needs broker/account and Khashi state to decide whether trading systems need attention.",
+                "nextAction": "Check Investing/Khashi API base URLs, read tokens, and service health; keep trading actions gated.",
+                "clearingProof": "Trading command center returns within the operator queue timeout.",
+                "evidence": str(exc),
+                "safeAction": None,
+                "requiresApproval": True,
+                "updatedAt": None,
+                "route": "/trading/investing",
+            }
+        ]
+    return _trading_command_to_items(command)
+
+
+def _trading_command_to_items(command: Dict[str, Any]) -> list[Dict[str, Any]]:
+    items: list[Dict[str, Any]] = []
+    summary = command.get("summary") if isinstance(command.get("summary"), dict) else {}
+    status = str(command.get("status") or "unknown")
+    live_locked = command.get("liveTradingLocked") is not False
+    capital_known = bool(summary.get("totalCapitalKnown"))
+    cash_known = bool(summary.get("cashLeftKnown"))
+    blocked = status in {"blocked", "unavailable"} or not live_locked
+    watch = status in {"watch", "unknown"} or not capital_known or not cash_known
+    items.append(
+        {
+            "id": "trading-account-visibility",
+            "kind": "incident" if blocked else "action" if watch else "evidence",
+            "title": "Trading account visibility",
+            "source": "Trading intelligence",
+            "owner": "Trading systems",
+            "severity": "critical" if blocked else "warning" if watch else "ready",
+            "state": "blocked" if blocked else "review" if watch else "ready",
+            "whyItMatters": "Hermes needs current account, cash, buying power, risk, and live-lock state before recommending trading work.",
+            "nextAction": "Connect or refresh broker/Khashi read-only sources until capital and cash coverage are known." if watch or blocked else "Keep broker and Khashi reads on cadence.",
+            "clearingProof": "Trading command center reports known capital/cash coverage and liveTradingLocked remains true.",
+            "evidence": (
+                f"status={status}; liveTradingLocked={live_locked}; "
+                f"capitalKnown={capital_known}; cashKnown={cash_known}; "
+                f"openTrades={summary.get('openTrades')}; humanActionsRequired={summary.get('humanActionsRequired')}"
+            ),
+            "safeAction": None,
+            "requiresApproval": blocked,
+            "updatedAt": command.get("generatedAt"),
+            "route": "/trading/investing",
+        }
+    )
+    for action in command.get("actionQueue") or []:
+        if not isinstance(action, dict):
+            continue
+        risk = str(action.get("risk") or action.get("riskLevel") or action.get("severity") or "medium")
+        critical = risk in {"high", "critical"}
+        items.append(
+            {
+                "id": f"trading-action-{action.get('id') or action.get('controlId') or len(items)}",
+                "kind": "approval" if critical else "action",
+                "title": str(action.get("title") or action.get("label") or "Trading action"),
+                "source": "Trading intelligence",
+                "owner": str(action.get("sourceProject") or "Trading systems"),
+                "severity": "critical" if critical else "warning",
+                "state": "gated" if critical else "review",
+                "whyItMatters": "Trading actions can affect broker, strategy, or market-operation state and must stay governed.",
+                "nextAction": str(action.get("recommendedAction") or "Review action and route through the project-owned control endpoint."),
+                "clearingProof": "Action has explicit owner, approval level, result evidence, and rollback/no-op proof.",
+                "evidence": f"risk={risk}; source={action.get('sourceProject') or 'unknown'}",
+                "safeAction": None,
+                "requiresApproval": critical,
+                "updatedAt": command.get("generatedAt"),
+                "route": "/trading/investing",
+            }
+        )
+    return items
 
 
 def _summary(items: Iterable[Dict[str, Any]]) -> Dict[str, int]:

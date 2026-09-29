@@ -6,7 +6,7 @@ from fastapi.testclient import TestClient
 
 
 def test_operate_queue_merges_fleet_and_runtime_evidence(monkeypatch, tmp_path):
-    from hermes_cli import fleet_monitoring, operating_runtime, web_server
+    from hermes_cli import fleet_monitoring, operating_runtime, trading_intelligence, web_server
 
     registry = tmp_path / "dashboard-monitoring-registry.json"
     registry.write_text(
@@ -41,6 +41,30 @@ def test_operate_queue_merges_fleet_and_runtime_evidence(monkeypatch, tmp_path):
     monkeypatch.setenv("HERMES_HOME", str(tmp_path / "home"))
     monkeypatch.setenv("HERMES_WAREHOUSE_ROOT", str(tmp_path / "warehouse"))
 
+    async def fake_trading_command_center(limit=5):
+        return {
+            "generatedAt": "2026-09-29T15:24:00.000Z",
+            "status": "watch",
+            "liveTradingLocked": True,
+            "summary": {
+                "totalCapitalKnown": False,
+                "cashLeftKnown": False,
+                "openTrades": 2,
+                "humanActionsRequired": 1,
+            },
+            "actionQueue": [
+                {
+                    "id": "review-oanda-runtime",
+                    "title": "Review OANDA runtime",
+                    "risk": "medium",
+                    "recommendedAction": "Review runtime evidence before changing state.",
+                    "sourceProject": "investing-system",
+                }
+            ],
+        }
+
+    monkeypatch.setattr(trading_intelligence, "trading_command_center", fake_trading_command_center)
+
     conn = operating_runtime.connect()
     try:
         operating_runtime.upsert_evidence(
@@ -57,7 +81,7 @@ def test_operate_queue_merges_fleet_and_runtime_evidence(monkeypatch, tmp_path):
 
     client = TestClient(web_server.app)
     response = client.get(
-        "/api/operate/queue?limit=50&include_system=true",
+        "/api/operate/queue?limit=50&include_system=true&include_trading=true",
         headers={"X-Hermes-Session-Token": web_server._SESSION_TOKEN},
     )
 
@@ -68,7 +92,11 @@ def test_operate_queue_merges_fleet_and_runtime_evidence(monkeypatch, tmp_path):
     assert "runtime-incident-live-worker" in ids
     assert "system-storage" in ids
     assert "system-credentials" in ids
+    assert "trading-account-visibility" in ids
     assert body["summary"]["attention"] >= 2
     runtime_item = next(item for item in body["items"] if item["id"] == "runtime-incident-live-worker")
     assert runtime_item["severity"] == "critical"
     assert runtime_item["route"] == "/operate/incidents"
+    trading_item = next(item for item in body["items"] if item["id"] == "trading-account-visibility")
+    assert trading_item["severity"] == "warning"
+    assert "capitalKnown=False" in trading_item["evidence"]

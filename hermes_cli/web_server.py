@@ -2656,10 +2656,10 @@ async def get_fleet_operator_queue(limit: int = 12):
 
 
 @app.get("/api/operate/queue")
-async def get_operate_queue(limit: int = 12, include_system: bool = False):
-    from hermes_cli.operator_control_plane import operator_queue
+async def get_operate_queue(limit: int = 12, include_system: bool = False, include_trading: bool = False):
+    from hermes_cli.operator_control_plane import operator_queue_async
 
-    return operator_queue(limit=limit, include_system=include_system)
+    return await operator_queue_async(limit=limit, include_system=include_system, include_trading=include_trading)
 
 
 @app.get("/api/operating-runtime/evidence")

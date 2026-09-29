@@ -116,7 +116,7 @@ export async function loadFleetOperatorQueue(limit = 6): Promise<FleetOperatorQu
 
 export async function loadUnifiedOperatorQueue(limit = 6): Promise<FleetOperatorQueueResponse | null> {
   try {
-    return await fetchJSON<FleetOperatorQueueResponse>(`/api/operate/queue?limit=${limit}&include_system=true`);
+    return await fetchJSON<FleetOperatorQueueResponse>(`/api/operate/queue?limit=${limit}&include_system=true&include_trading=true`);
   } catch {
     return null;
   }
