@@ -14,6 +14,19 @@ function readJson(file, fallback = null) {
 const fleet = readJson(fleetPath, { projects: [] });
 const previous = readJson(outputPath, { entries: [] });
 const previousByProject = new Map((previous.entries ?? []).map((entry) => [entry.projectId, entry]));
+const defaultPressureBudget = {
+  healthMaxMs: 2000,
+  healthMaxBytes: 100000,
+  snapshotMaxMs: 2000,
+  snapshotMaxBytes: 250000
+};
+
+function pressureBudgetFor(project) {
+  return {
+    ...defaultPressureBudget,
+    ...(project.production?.pressureBudget ?? {})
+  };
+}
 
 const entries = (fleet.projects ?? []).map((project) => {
   const prior = previousByProject.get(project.id) ?? {};
@@ -33,9 +46,11 @@ const entries = (fleet.projects ?? []).map((project) => {
     healthUrl: project.production?.healthUrl ?? null,
     snapshotUrl: project.production?.snapshotUrl ?? null,
     alertOwner: prior.alertOwner ?? project.ownerSystem ?? null,
+    pressureBudget: pressureBudgetFor(project),
     requiredSignals: prior.requiredSignals ?? [
       "health endpoint status",
       "snapshot freshness",
+      "snapshot latency and payload pressure budget",
       "primary dashboard proof freshness",
       "deployment promotion status",
       "error rate or failure count"

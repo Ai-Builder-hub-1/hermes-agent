@@ -8,6 +8,12 @@ const outputPath = path.join(root, "docs/design/dashboard-monitoring-registry.js
 const args = process.argv.slice(2);
 const projectFilter = valueAfter("--project") ?? valueAfter("--id") ?? null;
 const timeoutMs = Number(valueAfter("--timeout-ms") ?? 8000);
+const defaultPressureBudget = {
+  healthMaxMs: 2000,
+  healthMaxBytes: 100000,
+  snapshotMaxMs: 2000,
+  snapshotMaxBytes: 250000
+};
 
 function valueAfter(flag) {
   const index = args.indexOf(flag);
@@ -36,15 +42,17 @@ async function fetchCheck(url, { expectJson = false } = {}) {
       signal: controller.signal
     });
     const contentType = response.headers.get("content-type") ?? "";
+    const body = await response.text();
     let parsed = false;
     if (expectJson && contentType.includes("json")) {
-      await response.clone().json();
+      JSON.parse(body);
       parsed = true;
     }
     return {
       ok: response.ok && (!expectJson || parsed || !contentType.includes("json")),
       status: response.status,
       ms: Date.now() - started,
+      bytes: Buffer.byteLength(body),
       contentType
     };
   } catch (error) {
@@ -59,6 +67,34 @@ async function fetchCheck(url, { expectJson = false } = {}) {
   }
 }
 
+function pressureBudgetFor(project) {
+  return {
+    ...defaultPressureBudget,
+    ...(project.production?.pressureBudget ?? {})
+  };
+}
+
+function assessPressure({ health, snapshot, budget }) {
+  const violations = [];
+  if (health.ms > budget.healthMaxMs) {
+    violations.push({ check: "health.latency", actual: health.ms, budget: budget.healthMaxMs, unit: "ms" });
+  }
+  if (Number(health.bytes ?? 0) > budget.healthMaxBytes) {
+    violations.push({ check: "health.payload", actual: health.bytes, budget: budget.healthMaxBytes, unit: "bytes" });
+  }
+  if (snapshot.ms > budget.snapshotMaxMs) {
+    violations.push({ check: "snapshot.latency", actual: snapshot.ms, budget: budget.snapshotMaxMs, unit: "ms" });
+  }
+  if (Number(snapshot.bytes ?? 0) > budget.snapshotMaxBytes) {
+    violations.push({ check: "snapshot.payload", actual: snapshot.bytes, budget: budget.snapshotMaxBytes, unit: "bytes" });
+  }
+  return {
+    status: violations.length === 0 ? "passed" : "failed",
+    budget,
+    violations
+  };
+}
+
 const fleet = readJson(fleetPath, { projects: [] });
 const previous = readJson(outputPath, { entries: [] });
 const previousByProject = new Map((previous.entries ?? []).map((entry) => [entry.projectId, entry]));
@@ -68,9 +104,11 @@ const checkedAt = new Date().toISOString();
 const checkedEntries = [];
 for (const project of projects) {
   const prior = previousByProject.get(project.id) ?? {};
+  const budget = pressureBudgetFor(project);
   const health = await fetchCheck(project.production?.healthUrl, { expectJson: true });
   const snapshot = await fetchCheck(project.production?.snapshotUrl, { expectJson: true });
-  const passed = health.ok && snapshot.ok;
+  const pressure = assessPressure({ health, snapshot, budget });
+  const passed = health.ok && snapshot.ok && pressure.status === "passed";
   checkedEntries.push({
     schemaVersion: 1,
     projectId: project.id,
@@ -89,7 +127,8 @@ for (const project of projects) {
     latestCheck: {
       status: passed ? "passed" : "failed",
       capturedAt: checkedAt,
-      checks: { health, snapshot }
+      checks: { health, snapshot },
+      pressure
     },
     recommendedFix: passed
       ? null
@@ -134,5 +173,9 @@ writeJson(outputPath, {
 const failures = checkedEntries.filter((entry) => entry.latestCheck.status !== "passed");
 console.log(`Checked ${checkedEntries.length} monitoring target(s): ${checkedEntries.length - failures.length} passed, ${failures.length} failed.`);
 for (const entry of failures) {
-  console.log(`fail ${entry.projectId}: health=${entry.latestCheck.checks.health.status ?? entry.latestCheck.checks.health.error} snapshot=${entry.latestCheck.checks.snapshot.status ?? entry.latestCheck.checks.snapshot.error}`);
+  const pressure = entry.latestCheck.pressure;
+  const pressureDetail = pressure?.violations?.length
+    ? ` pressure=${pressure.violations.map((violation) => `${violation.check}:${violation.actual}/${violation.budget}${violation.unit}`).join(",")}`
+    : "";
+  console.log(`fail ${entry.projectId}: health=${entry.latestCheck.checks.health.status ?? entry.latestCheck.checks.health.error} snapshot=${entry.latestCheck.checks.snapshot.status ?? entry.latestCheck.checks.snapshot.error}${pressureDetail}`);
 }

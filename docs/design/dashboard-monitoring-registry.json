@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-15T18:51:30.520Z",
+  "generatedAt": "2026-09-29T15:19:36.997Z",
   "purpose": "Dashboard monitoring evidence registry for production health, freshness, and alert ownership.",
   "statusMeaning": {
     "current": "Monitoring is connected and latestCheck evidence is present.",
-    "declared": "Health/snapshot contracts exist, but no monitoring check evidence is recorded.",
+    "declared": "Health/snapshot contracts exist, but no monitoring check evidence is recorded or the latest check failed.",
     "missing": "The project lacks enough health/snapshot contract evidence for monitoring."
   },
   "entries": [
@@ -16,6 +16,12 @@
       "healthUrl": "https://tlc.tlccapitalgroup.com/health",
       "snapshotUrl": "https://tlc.tlccapitalgroup.com/dashboard-snapshot",
       "alertOwner": "tlc-enterprise",
+      "pressureBudget": {
+        "healthMaxMs": 2000,
+        "healthMaxBytes": 100000,
+        "snapshotMaxMs": 2000,
+        "snapshotMaxBytes": 250000
+      },
       "requiredSignals": [
         "health endpoint status",
         "snapshot freshness",
@@ -51,6 +57,12 @@
       "healthUrl": "https://agent.tlccapitalgroup.com/api/status",
       "snapshotUrl": "https://agent.tlccapitalgroup.com/api/dashboard-snapshot",
       "alertOwner": "hermes-standards",
+      "pressureBudget": {
+        "healthMaxMs": 2000,
+        "healthMaxBytes": 100000,
+        "snapshotMaxMs": 2000,
+        "snapshotMaxBytes": 250000
+      },
       "requiredSignals": [
         "health endpoint status",
         "snapshot freshness",
@@ -86,6 +98,12 @@
       "healthUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
       "snapshotUrl": "https://hermes.tlccapitalgroup.com/api/dashboard-summary",
       "alertOwner": "hermes-runtime",
+      "pressureBudget": {
+        "healthMaxMs": 2000,
+        "healthMaxBytes": 100000,
+        "snapshotMaxMs": 2000,
+        "snapshotMaxBytes": 250000
+      },
       "requiredSignals": [
         "health endpoint status",
         "snapshot freshness",
@@ -121,6 +139,12 @@
       "healthUrl": "https://media.tlccapitalgroup.com/health",
       "snapshotUrl": "https://media.tlccapitalgroup.com/dashboard-snapshot",
       "alertOwner": "media-production",
+      "pressureBudget": {
+        "healthMaxMs": 2000,
+        "healthMaxBytes": 100000,
+        "snapshotMaxMs": 2000,
+        "snapshotMaxBytes": 250000
+      },
       "requiredSignals": [
         "health endpoint status",
         "snapshot freshness",
@@ -156,6 +180,12 @@
       "healthUrl": "https://media-business-operations.tlccapitalgroup.com/health",
       "snapshotUrl": "https://media-business-operations.tlccapitalgroup.com/api/dashboard-summary",
       "alertOwner": "media-business",
+      "pressureBudget": {
+        "healthMaxMs": 2000,
+        "healthMaxBytes": 100000,
+        "snapshotMaxMs": 2000,
+        "snapshotMaxBytes": 250000
+      },
       "requiredSignals": [
         "health endpoint status",
         "snapshot freshness",
@@ -187,7 +217,7 @@
       "schemaVersion": 1,
       "projectId": "khashi-vc",
       "label": "Khashi VC",
-      "status": "declared",
+      "status": "current",
       "healthUrl": "https://roc.tlccapitalgroup.com/readyz",
       "snapshotUrl": "https://roc.tlccapitalgroup.com/api/dashboard-snapshot",
       "alertOwner": "market-intelligence",
@@ -199,24 +229,36 @@
         "error rate or failure count"
       ],
       "latestCheck": {
-        "status": "failed",
-        "capturedAt": "2026-08-11T17:06:37.726Z",
+        "status": "passed",
+        "capturedAt": "2026-09-29T15:08:09.680Z",
         "checks": {
           "health": {
-            "ok": false,
-            "status": null,
-            "ms": 0,
-            "error": "fetch failed"
+            "ok": true,
+            "status": 200,
+            "ms": 292,
+            "bytes": 125,
+            "contentType": "application/json"
           },
           "snapshot": {
-            "ok": false,
-            "status": null,
-            "ms": 1,
-            "error": "fetch failed"
+            "ok": true,
+            "status": 200,
+            "ms": 1128,
+            "bytes": 1340,
+            "contentType": "application/json"
           }
+        },
+        "pressure": {
+          "status": "passed",
+          "budget": {
+            "healthMaxMs": 2000,
+            "healthMaxBytes": 100000,
+            "snapshotMaxMs": 2000,
+            "snapshotMaxBytes": 250000
+          },
+          "violations": []
         }
       },
-      "recommendedFix": "Connect dashboard health/snapshot signals to a monitoring job and persist latestCheck evidence."
+      "recommendedFix": null
     },
     {
       "schemaVersion": 1,
@@ -226,6 +268,12 @@
       "healthUrl": "https://business-mapper.tlccapitalgroup.com/health",
       "snapshotUrl": "https://business-mapper.tlccapitalgroup.com/api/dashboard-snapshot",
       "alertOwner": "consulting",
+      "pressureBudget": {
+        "healthMaxMs": 2000,
+        "healthMaxBytes": 100000,
+        "snapshotMaxMs": 2000,
+        "snapshotMaxBytes": 250000
+      },
       "requiredSignals": [
         "health endpoint status",
         "snapshot freshness",
@@ -261,6 +309,12 @@
       "healthUrl": "https://meal.tlccapitalgroup.com/health",
       "snapshotUrl": "https://meal.tlccapitalgroup.com/api/dashboard-snapshot",
       "alertOwner": "household-product",
+      "pressureBudget": {
+        "healthMaxMs": 2000,
+        "healthMaxBytes": 100000,
+        "snapshotMaxMs": 2000,
+        "snapshotMaxBytes": 250000
+      },
       "requiredSignals": [
         "health endpoint status",
         "snapshot freshness",
@@ -296,6 +350,12 @@
       "healthUrl": "https://rinseables.tlccapitalgroup.com/health",
       "snapshotUrl": "https://rinseables.tlccapitalgroup.com/api/dashboard-snapshot",
       "alertOwner": "rinseables-business",
+      "pressureBudget": {
+        "healthMaxMs": 2000,
+        "healthMaxBytes": 100000,
+        "snapshotMaxMs": 2000,
+        "snapshotMaxBytes": 250000
+      },
       "requiredSignals": [
         "health endpoint status",
         "snapshot freshness",
@@ -327,7 +387,7 @@
       "schemaVersion": 1,
       "projectId": "investing-system",
       "label": "Investing System",
-      "status": "declared",
+      "status": "current",
       "healthUrl": "https://investing.tlccapitalgroup.com/health",
       "snapshotUrl": "https://investing.tlccapitalgroup.com/api/dashboard-snapshot",
       "alertOwner": "investment-operations",
@@ -339,24 +399,36 @@
         "error rate or failure count"
       ],
       "latestCheck": {
-        "status": "failed",
-        "capturedAt": "2026-08-11T17:06:37.726Z",
+        "status": "passed",
+        "capturedAt": "2026-09-29T15:19:36.997Z",
         "checks": {
           "health": {
-            "ok": false,
-            "status": null,
-            "ms": 0,
-            "error": "fetch failed"
+            "ok": true,
+            "status": 200,
+            "ms": 230,
+            "bytes": 90,
+            "contentType": "application/json"
           },
           "snapshot": {
-            "ok": false,
-            "status": null,
-            "ms": 1,
-            "error": "fetch failed"
+            "ok": true,
+            "status": 200,
+            "ms": 774,
+            "bytes": 1488,
+            "contentType": "application/json"
           }
+        },
+        "pressure": {
+          "status": "passed",
+          "budget": {
+            "healthMaxMs": 2000,
+            "healthMaxBytes": 100000,
+            "snapshotMaxMs": 2000,
+            "snapshotMaxBytes": 250000
+          },
+          "violations": []
         }
       },
-      "recommendedFix": "Connect dashboard health/snapshot signals to a monitoring job and persist latestCheck evidence."
+      "recommendedFix": null
     }
   ]
 }
