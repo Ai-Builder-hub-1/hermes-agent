@@ -439,6 +439,8 @@ def _predictive_and_causal_layer(
     ]
     causal_chains = [chain for chain in causal_chains if chain["weight"] > 0]
     causal_graph = _causal_graph(causal_chains, evidence_layer)
+    _persist_predictive_causal(forecasts, causal_chains, causal_graph, evidence_layer)
+    backbone = predictive_causal_backbone_audit()
     return {
         "contractVersion": "hermes-predictive-causal.v1",
         "generatedAt": now_iso(),
@@ -449,10 +451,169 @@ def _predictive_and_causal_layer(
             "graphNodes": causal_graph["summary"]["nodes"],
             "graphEdges": causal_graph["summary"]["edges"],
             "correlationId": _correlation_id(evidence_layer),
+            "backboneReady": backbone["summary"]["ready"],
+            "backboneCategories": backbone["summary"]["categories"],
+            "predictiveCausalEnough": backbone["summary"]["predictiveCausalEnough"],
         },
         "forecasts": forecasts,
         "causalChains": causal_chains,
         "causalGraph": causal_graph,
+        "predictiveBackbone": backbone,
+    }
+
+
+def _predictive_tables() -> set[str]:
+    return {"predictive_baseline_points", "causal_event_joins"}
+
+
+def _predictive_rows(table: str, limit: int = 100) -> list[dict[str, Any]]:
+    if table not in _predictive_tables():
+        return []
+    try:
+        from hermes_cli.operating_runtime import connect
+
+        with connect() as conn:
+            rows = conn.execute(
+                f"SELECT * FROM {table} ORDER BY recorded_at DESC LIMIT ?",
+                (max(1, min(int(limit or 100), 500)),),
+            ).fetchall()
+            records: list[dict[str, Any]] = []
+            for row in rows:
+                record = dict(row)
+                payload = record.get("payload")
+                if isinstance(payload, str):
+                    try:
+                        record["payload"] = json.loads(payload)
+                    except json.JSONDecodeError:
+                        record["payload"] = {}
+                records.append(record)
+            return records
+    except Exception:
+        return []
+
+
+def _upsert_predictive_record(table: str, record: dict[str, Any]) -> None:
+    if table not in _predictive_tables():
+        return
+    from hermes_cli.operating_runtime import connect
+
+    row = dict(record)
+    row["payload"] = json.dumps(row.get("payload") or {}, sort_keys=True, default=str)
+    row.setdefault("recorded_at", now_iso())
+    columns = list(row)
+    placeholders = ", ".join("?" for _ in columns)
+    updates = ", ".join(f"{column} = excluded.{column}" for column in columns if column != "id")
+    with connect() as conn:
+        conn.execute(
+            f"""
+            INSERT INTO {table} ({', '.join(columns)})
+            VALUES ({placeholders})
+            ON CONFLICT(id) DO UPDATE SET {updates}
+            """,
+            [row[column] for column in columns],
+        )
+        conn.commit()
+
+
+def _persist_predictive_causal(
+    forecasts: list[dict[str, Any]],
+    causal_chains: list[dict[str, Any]],
+    causal_graph: dict[str, Any],
+    evidence_layer: dict[str, Any],
+) -> None:
+    ts = now_iso()
+    baseline_inputs = forecasts or [
+        {"id": "no-current-forecast", "signal": 0, "severity": "ready", "horizon": "next_operator_cycle", "reason": "No active forecast pressure."}
+    ]
+    for forecast in baseline_inputs:
+        fingerprint = json.dumps(forecast, sort_keys=True, default=str)
+        _upsert_predictive_record(
+            "predictive_baseline_points",
+            {
+                "id": f"predictive-baseline-{_safe_ref(forecast.get('id'))}",
+                "source": str(forecast.get("id") or "forecast"),
+                "metric": "forecast_signal",
+                "value": float(forecast.get("signal") or 0),
+                "unit": "risk_signal",
+                "horizon": str(forecast.get("horizon") or "next_operator_cycle"),
+                "content_hash": hashlib.sha256(fingerprint.encode("utf-8")).hexdigest(),
+                "captured_at": ts,
+                "payload": {"forecast": forecast, "evidenceSummary": evidence_layer.get("summary") or {}},
+                "recorded_at": ts,
+            },
+        )
+    correlation_id = str(causal_graph.get("correlationId") or _correlation_id(evidence_layer))
+    chain_inputs = causal_chains or [
+        {"id": "no-current-chain", "nodes": ["evidence-layer", "forecast-layer"], "weight": 0, "summary": "No active causal chain pressure."}
+    ]
+    for chain in chain_inputs:
+        nodes = list(chain.get("nodes") or [])
+        target = str(nodes[-1] if nodes else chain.get("id") or "unknown")
+        fingerprint = json.dumps(chain, sort_keys=True, default=str)
+        _upsert_predictive_record(
+            "causal_event_joins",
+            {
+                "id": f"causal-join-{_safe_ref(chain.get('id'))}",
+                "correlation_id": correlation_id,
+                "source_event": str(nodes[0] if nodes else chain.get("id") or "unknown"),
+                "target_node": target,
+                "join_type": "local-causal-chain",
+                "weight": float(chain.get("weight") or 0),
+                "content_hash": hashlib.sha256(fingerprint.encode("utf-8")).hexdigest(),
+                "observed_at": ts,
+                "payload": {"chain": chain, "graphSummary": causal_graph.get("summary") or {}},
+                "recorded_at": ts,
+            },
+        )
+
+
+def _predictive_backbone_item(item_id: str, label: str, rows: list[dict[str, Any]], missing: list[str], next_action: str) -> dict[str, Any]:
+    return {
+        "id": item_id,
+        "label": label,
+        "status": "ready" if rows else "missing",
+        "predictiveCausalEnough": bool(rows),
+        "evidence": [str(row.get("content_hash") or row.get("id")) for row in rows[:6]],
+        "missing": [] if rows else missing,
+        "nextAction": next_action,
+    }
+
+
+def predictive_causal_backbone_audit() -> dict[str, Any]:
+    baselines = _predictive_rows("predictive_baseline_points")
+    joins = _predictive_rows("causal_event_joins")
+    items = [
+        _predictive_backbone_item(
+            "production-time-series-baselines",
+            "Production time-series baselines",
+            baselines,
+            ["predictive_baseline_points rows with source, metric, value, horizon, content hash, and captured time"],
+            "Persist capacity, ingest, worker, source, and forecast baseline points.",
+        ),
+        _predictive_backbone_item(
+            "causal-event-joins",
+            "Live causal graph event joins",
+            joins,
+            ["causal_event_joins rows with correlation ID, source event, target node, weight, content hash, and observed time"],
+            "Persist correlation-aware event joins into the local causal graph.",
+        ),
+    ]
+    ready = len([item for item in items if item["status"] == "ready"])
+    missing = len([item for item in items if item["status"] == "missing"])
+    enough = all(item["predictiveCausalEnough"] for item in items)
+    return {
+        "contractVersion": "predictive-causal-backbone-audit.v1",
+        "generatedAt": now_iso(),
+        "summary": {
+            "categories": len(items),
+            "ready": ready,
+            "partial": 0,
+            "missing": missing,
+            "predictiveCausalEnough": enough,
+            "posture": "sufficient" if enough else "needs_local_proof",
+        },
+        "items": items,
+        "recommendations": [] if enough else [item["nextAction"] for item in items if not item["predictiveCausalEnough"]],
     }
 
 

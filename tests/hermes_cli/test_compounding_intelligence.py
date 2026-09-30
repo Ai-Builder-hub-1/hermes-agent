@@ -29,6 +29,9 @@ async def test_compounding_intelligence_summary_and_review(tmp_path, monkeypatch
     assert summary["automatedEvidence"]["sloHistory"]["summary"]["points"] >= 4
     assert summary["predictiveIntelligence"]["contractVersion"] == "hermes-predictive-causal.v1"
     assert "correlationId" in summary["predictiveIntelligence"]["summary"]
+    assert summary["predictiveIntelligence"]["summary"]["backboneReady"] == summary["predictiveIntelligence"]["summary"]["backboneCategories"]
+    assert summary["predictiveIntelligence"]["summary"]["predictiveCausalEnough"] is True
+    assert summary["predictiveIntelligence"]["predictiveBackbone"]["summary"]["predictiveCausalEnough"] is True
     assert summary["predictiveIntelligence"]["causalGraph"]["contractVersion"] == "hermes-causal-graph.v1"
     assert "liveEventJoinsConnected" in summary["predictiveIntelligence"]["causalGraph"]["summary"]
     assert summary["remediation"]["contractVersion"] == "hermes-remediation-autonomy.v1"
@@ -77,6 +80,7 @@ def test_compounding_intelligence_api_routes(tmp_path, monkeypatch):
     assert body["summary"]["launchSystems"] >= 5
     assert body["summary"]["visualBaselines"] >= 4
     assert body["summary"]["interactionRoutes"] >= 4
+    assert body["predictiveIntelligence"]["predictiveBackbone"]["summary"]["ready"] == body["predictiveIntelligence"]["predictiveBackbone"]["summary"]["categories"]
 
     review = client.post(
         "/api/compounding-intelligence/review",

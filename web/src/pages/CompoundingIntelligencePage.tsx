@@ -210,7 +210,17 @@ export default function CompoundingIntelligencePage() {
             <div className="grid gap-2 sm:grid-cols-2">
               <MiniFact label="Graph nodes" value={summary.predictiveIntelligence.causalGraph.summary.nodes} />
               <MiniFact label="Graph edges" value={summary.predictiveIntelligence.causalGraph.summary.edges} />
+              <MiniFact label="Backbone" value={`${summary.predictiveIntelligence.summary.backboneReady ?? 0}/${summary.predictiveIntelligence.summary.backboneCategories ?? 0}`} />
+              <MiniFact label="Posture" value={summary.predictiveIntelligence.summary.predictiveCausalEnough ? "sufficient" : "needs proof"} />
             </div>
+            {summary.predictiveIntelligence.predictiveBackbone ? summary.predictiveIntelligence.predictiveBackbone.items.map((item) => (
+              <Callout
+                key={item.id}
+                title={`${item.label}: ${item.status}`}
+                detail={item.predictiveCausalEnough ? item.evidence.slice(0, 2).join(" | ") || "Local predictive rows are present." : item.missing.join("; ") || item.nextAction}
+                tone={tone(item.status === "ready" ? "ready" : "warning")}
+              />
+            )) : null}
             {summary.predictiveIntelligence.forecasts.length ? summary.predictiveIntelligence.forecasts.map((forecast) => (
               <Callout key={forecast.id} title={forecast.title} detail={`${forecast.horizon}; ${forecast.reason}`} tone={tone(forecast.severity)} />
             )) : <Callout title="No active forecasts" detail="The current evidence bundle does not predict an immediate operator-cycle failure." tone="ready" />}

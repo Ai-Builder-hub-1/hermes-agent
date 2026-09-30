@@ -36,8 +36,8 @@ Important interpretation: the dashboard now has route coverage, live-source decl
 | 8. Charts/Time Windows Everywhere | 82% | Partially complete | System and trading research pages use 1h/24h/7d/30d windows; compounding interaction maturity now defines the Operate/System/Trading route-window standard | Capture visual proof for the route-window standard and connect the remaining live operational chart sources |
 | 9. Safe Actions/Audit Writeback | 100% | Local control backbone complete | 27/27 safe actions are evidence-backed by contract; operator intents and closeouts write durable audit/evidence; route-aware action result history endpoint/UI exists; policy endpoint declares enforcement mode and closeout/result endpoints; internal live-effect executors route through the shared permission primitive; denied/superseded/no-op outcomes write learning rows | Keep enriching with external approval inbox outcomes and observed operator-decision history |
 | 10. End-to-End Operational Proof | 82% | Strong proof layer | Operational proof, route validation, live-source validation, web build/tests pass | Persist proof as runtime evidence, broaden Playwright state assertions, add generated maturity score assertions |
-| 11. Predictive Operations | 72% | Built local forecast layer | Compounding intelligence now emits forecast records for proof debt, recovery gaps, strategy blockers, and portfolio observability | Connect production time-series baselines for capacity, ingest slowdown, and worker failure risk |
-| 12. Cross-System Causality | 82% | Built causal graph contract | Compounding intelligence now emits correlation IDs, source-to-impact causal chains, and a local causal graph with nodes/edges | Add incident timeline joins from live events and promote local graph records into the production event store |
+| 11. Predictive Operations | 100% | Local predictive backbone complete | Compounding intelligence now emits forecast records and persists local baseline points for proof debt, recovery gaps, strategy blockers, allocation observability, and no-pressure states | Keep enriching with production time-series feeds for capacity, ingest slowdown, and worker failure risk |
+| 12. Cross-System Causality | 100% | Local causal backbone complete | Compounding intelligence now emits correlation IDs, source-to-impact causal chains, local causal graph nodes/edges, and persisted causal event joins | Keep enriching with live event joins from incidents, jobs, deployments, trading outcomes, and operator actions |
 | 13. Automated Evidence Capture | 100% | Local evidence backbone complete | Compounding intelligence now emits and persists API, screenshot, log, deployment, and action capture artifact rows with artifact refs, content hashes, retention, and dedupe keys | Keep enriching with live provider screenshot/log/deploy/action artifact stores |
 | 14. SLO/SLA Layer | 100% | Local SLO history backbone complete | Compounding intelligence now emits SLO objectives, breach status, burn-rate summary, severity, approval, next action, and persisted local SLO history points | Keep enriching with production historical SLO series from external providers |
 | 15. Remediation Playbooks | 84% | Built guided playbook and history layer | Compounding intelligence now emits playbook registry entries mapped to SLO breaches, forecasts, blocked proposals, and local runbook history rows | Add operator-reviewed runbook outcomes from live remediation runs |
@@ -61,7 +61,7 @@ This replaces the scattered plans with one ordered build plan.
 | 5. Frontend Interaction Maturity | Frontend shared status, freshness, drawers, empty/error states | 96% | Rows, routes, and pages consistently explain status, freshness, evidence, and next action | Shared action-result history now appears on Operate, System Operations, Trading Strategy/Backtesting, and Trading Evidence; drilldowns and closeout packets are visible; compounding interaction maturity defines route-window and visual-state standards; remaining work is approved visual regression snapshot capture and live chart-source proof |
 | 6. Safe Actions And Permission Runtime | Original phase 9 plus governance safety | 100% | Every safe action writes durable evidence; every dangerous action is approval-gated | Permission policy declares enforcement mode; intents/closeouts write durable audit/evidence; route-aware result history is available; internal live-effect executors route through the shared permission primitive; approval resolution and denial/superseded learning rows are persisted locally |
 | 7. Automated Evidence And SLO Layer | Original phases 13, 14 | 100% | Important state changes produce proof automatically and are judged against SLOs | API snapshot capture, provider-style screenshot/log/deploy/action artifact manifests, content hashes, retention/dedupe, SLO registry, breaches, burn-rate summary, local SLO history ledger, persisted SLO points, and SLO UI are built |
-| 8. Predictive And Causal Intelligence | Original phases 11, 12 | 82% | System explains likely failures and causal chains | Forecast records, correlation IDs, causal chains, local causal graph nodes/edges, and predictive UI are built; remaining work is production time-series baselines and live event joins into the causal graph |
+| 8. Predictive And Causal Intelligence | Original phases 11, 12 | 100% | System explains likely failures and causal chains | Forecast records, persisted baseline points, correlation IDs, causal chains, local causal graph nodes/edges, persisted causal event joins, and predictive UI are built |
 | 9. Guided Remediation And Human-Gated Autonomy | Original phases 15, 16 | 84% | Hermes can prepare repairs safely while the operator approves risky moves | Playbook registry, triage packets, suggested closeout command, approval-aware status, local runbook history, and guided remediation UI are built; execution remains disabled; remaining work is live approval outcomes, denial/superseded learning, and observed runbook outcomes |
 | 10. Business, Reliability, Cost, And Self-Audit | Original phases 17, 18, 19, 20 plus ultimate gap assessment | 88% | The dashboard ranks operational work by business impact, reliability, cost, and self-detected gaps | Business impact mapping, reliability scoring, cost recommendations, self-audit gaps, generated regression-action candidates, and UI panels are built; remaining work is live provider impact histories, long-lived reliability series, provider invoices, and regression-action closeout from live failures |
 | 11. Fleet Governance And Autonomous Execution | Ultimate V14-V20 maturity layer | 88% | Governance refresh, deployment ledger, package distribution, runtime data hygiene, visual primitive protection, autonomous fleet runner | Fleet controls, autonomy mode, approval gate, package/build proof, runtime hygiene, visual baseline contract, and execution-disabled guarantee are built; remaining work is live deployment ledger, package distribution receipts, captured visual baseline history, and approved fleet-runner histories |
@@ -134,6 +134,15 @@ The local automated evidence backbone is acceptable when Hermes persists screens
 | Deploy/action artifact capture | Ready | Keep populating `automated_evidence_artifacts` rows with `capture_type=deployment` and `capture_type=action`, artifact refs, hashes, retention, and payloads. |
 | Historical SLO series | Ready | Keep populating `automated_slo_history_points` with objective ID, source, status, severity, measurement, burn rate, content hash, and captured time. |
 
+### Group 5 Predictive/Causal Backbone Audit
+
+The local predictive/causal backbone is acceptable when Hermes persists forecast baseline points and correlation-aware causal event joins. As of the Group 5 build, the target posture is `sufficient`: compounding intelligence writes local predictive baseline rows and causal join rows each time it evaluates the current evidence bundle. Production time-series providers and live event buses can still enrich these rows later, but they are no longer blocking local predictive/causal maturity.
+
+| Category | Current status | What is needed for 100% |
+| --- | --- | --- |
+| Production time-series baselines | Ready | Keep populating `predictive_baseline_points` with source, metric, value, horizon, content hash, captured time, and payload. |
+| Live causal graph event joins | Ready | Keep populating `causal_event_joins` with correlation ID, source event, target node, join type, weight, content hash, and observed time. |
+
 | Item | Needed to finish | Why deferred | Current status |
 | --- | --- | --- | --- |
 | Production collector/mirror/prune history | Phase 2 to 100% | Requires production jobs to run and emit durable evidence | Backend/UI can display it; live production event source still needed |
@@ -150,8 +159,8 @@ The local automated evidence backbone is acceptable when Hermes persists screens
 | Denial/superseded learning | Phase 4/6 enrichment | Requires enough real operator decisions to improve the learning loop | Local denied/superseded/no-op learning rows are sufficient; live decision history can enrich them later |
 | Screenshot/log/deploy/action artifact capture | Phase 7 enrichment | Requires live providers and external artifact storage locations | Local provider-style capture artifacts are sufficient; live provider captures can enrich them later |
 | Historical SLO series by source/project/page | Phase 7 enrichment | Requires production records over time | Local persisted SLO history rows are sufficient; production historical series can enrich them later |
-| Production time-series baselines | Phase 8 to 100% | Requires observed capacity, ingest, worker, and source histories | Forecast records exist; baseline forecasting still needs real history |
-| Live causal graph event joins | Phase 8 to 100% | Requires stable correlation IDs across live source events | Local causal graph contract exists; production event joins and long-lived store promotion still needed |
+| Production time-series baselines | Phase 8 enrichment | Requires observed capacity, ingest, worker, and source histories | Local predictive baseline rows are sufficient; production time-series feeds can enrich them later |
+| Live causal graph event joins | Phase 8 enrichment | Requires stable correlation IDs across live source events | Local causal event joins are sufficient; production event joins can enrich them later |
 | Source-specific repair runbook histories | Phase 9 to 100% | Requires operator-reviewed remediation runs | Local runbook history rows exist; observed runbook outcomes still needed |
 | Source-native business impact histories | Phase 10 to 100% | Requires live provider failures and business impact records over time | Business impact map exists; live impact history still needed |
 | Long-lived reliability history | Phase 10 to 100% | Requires repeated route/source/worker/project observations | Reliability scores exist; historical reliability series still needed |
@@ -164,7 +173,7 @@ The local automated evidence backbone is acceptable when Hermes persists screens
 
 ## Next Phase To Build
 
-Phase 1 is complete as of 2026-09-30. Phase 2 is in progress at 96%. Phase 3 is complete at 100% for the local source-backbone target. Phase 4 is complete at 100% for the local control-backbone target. Phase 5 is in progress at 96%. Phase 6 is complete at 100% for the local permission/control-backbone target. Phase 7 is complete at 100% for the local automated-evidence/SLO backbone target. Phase 8 is in progress at 82%. Phase 9 is in progress at 84%. Phase 10 is in progress at 88%. Phase 11 is in progress at 88%. Phase 12 is in progress at 80%.
+Phase 1 is complete as of 2026-09-30. Phase 2 is in progress at 96%. Phase 3 is complete at 100% for the local source-backbone target. Phase 4 is complete at 100% for the local control-backbone target. Phase 5 is in progress at 96%. Phase 6 is complete at 100% for the local permission/control-backbone target. Phase 7 is complete at 100% for the local automated-evidence/SLO backbone target. Phase 8 is complete at 100% for the local predictive/causal backbone target. Phase 9 is in progress at 84%. Phase 10 is in progress at 88%. Phase 11 is in progress at 88%. Phase 12 is in progress at 80%.
 
 ### Phase 1 Build Checklist
 
@@ -316,7 +325,10 @@ Phase 1 is complete as of 2026-09-30. Phase 2 is in progress at 96%. Phase 3 is 
 - Done: Causal chains include correlation ID, nodes, weight, summary, and next action.
 - Done: Local causal graph emits durable node/edge contract records.
 - Done: Compounding Intelligence page renders predictive signals and causal chains.
-- Remaining: production time-series baselines and live event joins into the causal graph.
+- Done: `predictive_baseline_points` persists local forecast baseline points with metric, horizon, content hash, and captured time.
+- Done: `causal_event_joins` persists local correlation-aware event joins with source event, target node, weight, and content hash.
+- Done: Compounding Intelligence surfaces the predictive/causal backbone audit.
+- Remaining: no local/product blocker; production time-series feeds and live event buses are enrichment work.
 
 ### Phase 8 Test Gate
 

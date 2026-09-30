@@ -418,6 +418,36 @@ def init_db(conn: sqlite3.Connection) -> None:
         );
         CREATE INDEX IF NOT EXISTS idx_automated_slo_history_points_objective ON automated_slo_history_points(objective_id);
         CREATE INDEX IF NOT EXISTS idx_automated_slo_history_points_recorded ON automated_slo_history_points(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS predictive_baseline_points (
+            id TEXT PRIMARY KEY,
+            source TEXT NOT NULL,
+            metric TEXT NOT NULL,
+            value REAL NOT NULL DEFAULT 0,
+            unit TEXT NOT NULL DEFAULT '',
+            horizon TEXT NOT NULL DEFAULT '',
+            content_hash TEXT NOT NULL DEFAULT '',
+            captured_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_predictive_baseline_points_source ON predictive_baseline_points(source);
+        CREATE INDEX IF NOT EXISTS idx_predictive_baseline_points_recorded ON predictive_baseline_points(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS causal_event_joins (
+            id TEXT PRIMARY KEY,
+            correlation_id TEXT NOT NULL,
+            source_event TEXT NOT NULL,
+            target_node TEXT NOT NULL,
+            join_type TEXT NOT NULL DEFAULT 'local',
+            weight REAL NOT NULL DEFAULT 0,
+            content_hash TEXT NOT NULL DEFAULT '',
+            observed_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_causal_event_joins_correlation ON causal_event_joins(correlation_id);
+        CREATE INDEX IF NOT EXISTS idx_causal_event_joins_recorded ON causal_event_joins(recorded_at);
         """
     )
     conn.commit()

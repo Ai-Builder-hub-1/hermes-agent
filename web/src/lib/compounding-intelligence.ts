@@ -162,6 +162,9 @@ export interface CompoundingSummary {
       graphNodes: number;
       graphEdges: number;
       correlationId: string;
+      backboneReady?: number;
+      backboneCategories?: number;
+      predictiveCausalEnough?: boolean;
     };
     forecasts: Array<{
       id: string;
@@ -193,6 +196,28 @@ export interface CompoundingSummary {
       };
       nodes: Array<Record<string, string | number | boolean>>;
       edges: Array<Record<string, string | number | boolean>>;
+    };
+    predictiveBackbone?: {
+      contractVersion: string;
+      generatedAt: string;
+      summary: {
+        categories: number;
+        ready: number;
+        partial: number;
+        missing: number;
+        predictiveCausalEnough: boolean;
+        posture: string;
+      };
+      items: Array<{
+        id: string;
+        label: string;
+        status: string;
+        predictiveCausalEnough: boolean;
+        evidence: string[];
+        missing: string[];
+        nextAction: string;
+      }>;
+      recommendations: string[];
     };
   };
   remediation: {
