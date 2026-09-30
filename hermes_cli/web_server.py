@@ -2881,6 +2881,14 @@ async def get_operate_action_policy():
     return action_policy_summary()
 
 
+@app.get("/api/operate/control-backbone")
+async def get_operate_control_backbone():
+    from hermes_cli.operating_runtime import operate_control_backbone_audit
+
+    with _operating_runtime_conn() as conn:
+        return operate_control_backbone_audit(conn)
+
+
 @app.get("/api/operate/action-results")
 async def get_operate_action_results(route: str = "", limit: int = 50):
     from hermes_cli.operating_runtime import list_action_results

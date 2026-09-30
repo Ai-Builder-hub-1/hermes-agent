@@ -14,6 +14,7 @@ import {
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router";
 import { ActionResultHistory } from "@/components/ActionResultHistory";
+import { fetchJSON } from "@/lib/api";
 import {
   attentionItems,
   buildOperateItems,
@@ -73,6 +74,29 @@ type OperateMode =
 type Tone = "success" | "info" | "warning" | "critical" | "neutral";
 type FreshnessState = "fresh" | "aging" | "stale" | "unknown";
 type QueueLoadState = "loading" | "live" | "fallback" | "error";
+
+interface OperateControlBackbone {
+  contractVersion: string;
+  generatedAt: string;
+  summary: {
+    categories: number;
+    ready: number;
+    partial: number;
+    missing: number;
+    controlPlaneEnough: boolean;
+    posture: string;
+  };
+  items: Array<{
+    id: string;
+    label: string;
+    status: string;
+    controlPlaneEnough: boolean;
+    evidence: string[];
+    missing: string[];
+    nextAction: string;
+  }>;
+  recommendations: string[];
+}
 
 type OperateStatusModel = {
   label: string;
@@ -174,6 +198,7 @@ function OperatePage({ mode }: { mode: OperateMode }) {
   const [unifiedQueue, setUnifiedQueue] = useState<FleetOperatorQueueResponse | null>(null);
   const [queueLoadState, setQueueLoadState] = useState<QueueLoadState>("loading");
   const [queueLoadError, setQueueLoadError] = useState<string | null>(null);
+  const [controlBackbone, setControlBackbone] = useState<OperateControlBackbone | null>(null);
   const [evidenceItem, setEvidenceItem] = useState<OperateItem | null>(null);
   useEffect(() => {
     let cancelled = false;
@@ -198,6 +223,13 @@ function OperatePage({ mode }: { mode: OperateMode }) {
           setQueueLoadState("error");
           setQueueLoadError(exc instanceof Error ? exc.message : String(exc));
         }
+      });
+    fetchJSON<OperateControlBackbone>("/api/operate/control-backbone")
+      .then((audit) => {
+        if (!cancelled) setControlBackbone(audit);
+      })
+      .catch(() => {
+        if (!cancelled) setControlBackbone(null);
       });
     return () => {
       cancelled = true;
@@ -252,6 +284,7 @@ function OperatePage({ mode }: { mode: OperateMode }) {
       {audit ? <PageContractStrip audit={audit} proof={proof} /> : null}
       <ActionResultHistory route={route} compact />
       <QueueLoadBanner state={queueLoadState} error={queueLoadError} />
+      {controlBackbone ? <ControlBackbonePanel audit={controlBackbone} /> : null}
 
       {mode === "overview" ? (
         <Overview blockers={blockers} items={operateItems} onOpenEvidence={setEvidenceItem} />
@@ -977,6 +1010,31 @@ function QueueLoadBanner({ state, error }: { state: QueueLoadState; error: strin
   return <PolicyCallout title={selected.title} detail={selected.detail} tone={selected.tone} />;
 }
 
+function ControlBackbonePanel({ audit }: { audit: OperateControlBackbone }) {
+  return (
+    <section className="rounded-lg border border-border bg-card p-3 shadow-sm" data-review-id="hermes.operate.control-backbone">
+      <div className="grid gap-3 xl:grid-cols-[minmax(0,0.34fr)_minmax(0,0.66fr)]">
+        <div className="grid gap-2 sm:grid-cols-4 xl:grid-cols-2">
+          <MiniStat label="Control proof" value={`${audit.summary.ready}/${audit.summary.categories}`} />
+          <MiniStat label="Posture" value={audit.summary.posture} />
+          <MiniStat label="Partial" value={audit.summary.partial} />
+          <MiniStat label="Missing" value={audit.summary.missing} />
+        </div>
+        <div className="grid gap-2 md:grid-cols-2">
+          {audit.items.map((item) => (
+            <PolicyCallout
+              key={item.id}
+              title={`${item.label}: ${item.status}`}
+              detail={item.controlPlaneEnough ? item.evidence.slice(0, 2).join(" | ") || "Local control-plane rows are present." : item.missing.join("; ") || item.nextAction}
+              tone={toneForControlBackbone(item.status)}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function PageContractStrip({
   audit,
   proof,
@@ -1014,6 +1072,13 @@ function PageContractStrip({
       ) : null}
     </section>
   );
+}
+
+function toneForControlBackbone(status: string): Tone {
+  if (status === "ready") return "success";
+  if (status === "missing") return "warning";
+  if (status === "partial") return "info";
+  return "neutral";
 }
 
 function EmptyState({ title, detail }: { title: string; detail: string }) {

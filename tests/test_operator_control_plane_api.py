@@ -304,3 +304,77 @@ def test_operate_action_closeout_records_audit_and_evidence(monkeypatch, tmp_pat
     assert results_body["summary"]["closeouts"] == 1
     assert results_body["records"][0]["route"] == "/system/storage"
     assert results_body["records"][0]["auditId"] == body["audit"]["id"]
+
+
+def test_operate_control_backbone_reaches_local_sufficiency(monkeypatch, tmp_path):
+    from hermes_cli import operating_runtime, web_server
+
+    monkeypatch.setattr(operating_runtime, "db_path", lambda: tmp_path / "operating_runtime.db")
+    monkeypatch.setenv("HERMES_HOME", str(tmp_path / "home"))
+
+    client = TestClient(web_server.app)
+    headers = {"X-Hermes-Session-Token": web_server._SESSION_TOKEN}
+
+    initial = client.get("/api/operate/control-backbone", headers=headers)
+    assert initial.status_code == 200
+    assert initial.json()["summary"]["controlPlaneEnough"] is False
+
+    incident = client.post(
+        "/api/operating-runtime/incidents",
+        headers=headers,
+        json={
+            "title": "Worker restart loop",
+            "severity": "critical",
+            "owner": "Operations",
+            "next_step": "Acknowledge the worker incident and attach recovery proof.",
+            "rollback": "Keep worker disabled until recovery proof exists.",
+            "source": "test",
+            "status": "open",
+        },
+    )
+    assert incident.status_code == 200
+
+    intent = client.post(
+        "/api/operate/action-intent",
+        headers=headers,
+        json={
+            "item_id": "incident-worker-restart-loop",
+            "title": "Worker restart loop",
+            "action": "review:incident-worker-restart-loop",
+            "actor_role": "operator",
+            "explicit_approval": False,
+            "payload": {"route": "/operate/incidents"},
+        },
+    )
+    assert intent.status_code == 200
+
+    closeout = client.post(
+        "/api/operate/action-closeout",
+        headers=headers,
+        json={
+            "item_id": "incident-worker-restart-loop",
+            "title": "Worker restart loop",
+            "action": "review:incident-worker-restart-loop",
+            "result": "denied",
+            "actor_role": "operator",
+            "proof": "Denied remediation because recovery proof was insufficient.",
+            "route": "/operate/incidents",
+            "rollback": "Keep the incident open and collect worker logs.",
+            "payload": {"severity": "critical", "run_id": "worker-review-test"},
+        },
+    )
+    assert closeout.status_code == 200
+
+    audit = client.get("/api/operate/control-backbone", headers=headers)
+    assert audit.status_code == 200
+    body = audit.json()
+    assert body["contractVersion"] == "operate-control-backbone-audit.v1"
+    assert body["summary"]["ready"] == body["summary"]["categories"]
+    assert body["summary"]["controlPlaneEnough"] is True
+    ids = {item["id"] for item in body["items"]}
+    assert {
+        "approval-inbox-resolution",
+        "incident-lifecycle-timeline",
+        "run-output-artifacts",
+        "decision-learning",
+    }.issubset(ids)

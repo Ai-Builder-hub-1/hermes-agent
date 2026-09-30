@@ -323,6 +323,70 @@ def init_db(conn: sqlite3.Connection) -> None:
         );
         CREATE INDEX IF NOT EXISTS idx_trading_strategy_observations_strategy ON trading_strategy_observations(strategy_id);
         CREATE INDEX IF NOT EXISTS idx_trading_strategy_observations_recorded ON trading_strategy_observations(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS operate_approval_resolutions (
+            id TEXT PRIMARY KEY,
+            item_id TEXT NOT NULL,
+            title TEXT NOT NULL DEFAULT '',
+            action TEXT NOT NULL DEFAULT '',
+            status TEXT NOT NULL DEFAULT 'pending',
+            approval TEXT NOT NULL DEFAULT 'none',
+            allowed INTEGER NOT NULL DEFAULT 0,
+            audit_id TEXT NOT NULL DEFAULT '',
+            route TEXT NOT NULL DEFAULT '',
+            resolved_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_operate_approval_resolutions_item ON operate_approval_resolutions(item_id);
+        CREATE INDEX IF NOT EXISTS idx_operate_approval_resolutions_recorded ON operate_approval_resolutions(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS operate_incident_timeline (
+            id TEXT PRIMARY KEY,
+            incident_id TEXT NOT NULL,
+            title TEXT NOT NULL DEFAULT '',
+            status TEXT NOT NULL DEFAULT 'open',
+            severity TEXT NOT NULL DEFAULT '',
+            owner TEXT NOT NULL DEFAULT '',
+            event_type TEXT NOT NULL DEFAULT 'opened',
+            artifact_ref TEXT NOT NULL DEFAULT '',
+            occurred_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_operate_incident_timeline_incident ON operate_incident_timeline(incident_id);
+        CREATE INDEX IF NOT EXISTS idx_operate_incident_timeline_recorded ON operate_incident_timeline(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS operate_run_artifacts (
+            id TEXT PRIMARY KEY,
+            item_id TEXT NOT NULL,
+            run_id TEXT NOT NULL DEFAULT '',
+            route TEXT NOT NULL DEFAULT '',
+            artifact_ref TEXT NOT NULL DEFAULT '',
+            artifact_type TEXT NOT NULL DEFAULT 'operator-proof',
+            proof_hash TEXT NOT NULL DEFAULT '',
+            status TEXT NOT NULL DEFAULT 'recorded',
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_operate_run_artifacts_item ON operate_run_artifacts(item_id);
+        CREATE INDEX IF NOT EXISTS idx_operate_run_artifacts_recorded ON operate_run_artifacts(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS operate_decision_learning (
+            id TEXT PRIMARY KEY,
+            item_id TEXT NOT NULL,
+            action TEXT NOT NULL DEFAULT '',
+            result TEXT NOT NULL DEFAULT '',
+            learning_type TEXT NOT NULL DEFAULT '',
+            reason TEXT NOT NULL DEFAULT '',
+            route TEXT NOT NULL DEFAULT '',
+            audit_id TEXT NOT NULL DEFAULT '',
+            observed_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_operate_decision_learning_item ON operate_decision_learning(item_id);
+        CREATE INDEX IF NOT EXISTS idx_operate_decision_learning_recorded ON operate_decision_learning(recorded_at);
         """
     )
     conn.commit()
@@ -501,6 +565,151 @@ def list_action_results(conn: sqlite3.Connection, *, route: str = "", limit: int
     }
 
 
+def _operate_tables() -> set[str]:
+    return {
+        "operate_approval_resolutions",
+        "operate_incident_timeline",
+        "operate_run_artifacts",
+        "operate_decision_learning",
+    }
+
+
+def _operate_rows(conn: sqlite3.Connection, table: str, limit: int = 100) -> list[dict[str, Any]]:
+    if table not in _operate_tables():
+        return []
+    rows = conn.execute(
+        f"SELECT * FROM {table} ORDER BY recorded_at DESC LIMIT ?",
+        (max(1, min(int(limit or 100), 500)),),
+    ).fetchall()
+    records: list[dict[str, Any]] = []
+    for row in rows:
+        record = dict(row)
+        payload = record.get("payload")
+        if isinstance(payload, str):
+            record["payload"] = _json(payload, {})
+        records.append(record)
+    return records
+
+
+def _upsert_operate_record(conn: sqlite3.Connection, table: str, record: dict[str, Any]) -> None:
+    if table not in _operate_tables():
+        return
+    row = dict(record)
+    row["payload"] = json.dumps(row.get("payload") or {}, sort_keys=True, default=str)
+    row.setdefault("recorded_at", now_iso())
+    columns = list(row)
+    placeholders = ", ".join("?" for _ in columns)
+    updates = ", ".join(f"{column} = excluded.{column}" for column in columns if column != "id")
+    conn.execute(
+        f"""
+        INSERT INTO {table} ({', '.join(columns)})
+        VALUES ({placeholders})
+        ON CONFLICT(id) DO UPDATE SET {updates}
+        """,
+        [row[column] for column in columns],
+    )
+    conn.commit()
+
+
+def _write_operate_artifact(kind: str, item_id: str, payload: dict[str, Any]) -> str:
+    try:
+        from hermes_cli.system_warehouse import _record_object_inventory, _write_artifact
+
+        relative_path = f"operate/{_slug(kind)}/{_slug(item_id)}.json"
+        artifact_ref = _write_artifact(relative_path, payload)
+        _record_object_inventory(Path(artifact_ref).parent, provider="local-artifact-store", source_system="operate-control-plane", retention_class="operator-proof")
+        return artifact_ref
+    except Exception:
+        return ""
+
+
+def _operate_backbone_item(
+    *,
+    item_id: str,
+    label: str,
+    status: str,
+    control_plane_enough: bool,
+    evidence: list[str],
+    missing: list[str],
+    next_action: str,
+) -> dict[str, Any]:
+    return {
+        "id": item_id,
+        "label": label,
+        "status": status,
+        "controlPlaneEnough": control_plane_enough,
+        "evidence": evidence,
+        "missing": missing,
+        "nextAction": next_action,
+    }
+
+
+def operate_control_backbone_audit(conn: sqlite3.Connection) -> dict[str, Any]:
+    approvals = _operate_rows(conn, "operate_approval_resolutions")
+    incidents = _operate_rows(conn, "operate_incident_timeline")
+    artifacts = _operate_rows(conn, "operate_run_artifacts")
+    learning = _operate_rows(conn, "operate_decision_learning")
+    resolved_approvals = [row for row in approvals if row.get("status") not in {"", "pending"}]
+    incident_lifecycle = [row for row in incidents if row.get("event_type") in {"opened", "acknowledged", "resolved", "closeout"}]
+    decision_learning = [row for row in learning if row.get("result") in {"denied", "superseded", "failed", "no-op", "noop"}]
+    items = [
+        _operate_backbone_item(
+            item_id="approval-inbox-resolution",
+            label="Approval inbox resolution",
+            status="ready" if resolved_approvals else "partial" if approvals else "missing",
+            control_plane_enough=bool(resolved_approvals),
+            evidence=[str(row.get("audit_id") or row.get("id")) for row in resolved_approvals[:6]] or [str(row.get("id")) for row in approvals[:6]],
+            missing=[] if resolved_approvals else ["operate_approval_resolutions rows with a resolved/denied/superseded/completed status"],
+            next_action="Record an operator action closeout so pending approval intent rows resolve into durable decisions.",
+        ),
+        _operate_backbone_item(
+            item_id="incident-lifecycle-timeline",
+            label="Incident acknowledgement/resolution timelines",
+            status="ready" if incident_lifecycle else "missing",
+            control_plane_enough=bool(incident_lifecycle),
+            evidence=[str(row.get("id")) for row in incident_lifecycle[:6]],
+            missing=[] if incident_lifecycle else ["operate_incident_timeline rows with opened/acknowledged/resolved/closeout events"],
+            next_action="Record incident creation or closeout events into the incident timeline.",
+        ),
+        _operate_backbone_item(
+            item_id="run-output-artifacts",
+            label="Run output artifact links",
+            status="ready" if artifacts else "missing",
+            control_plane_enough=bool(artifacts),
+            evidence=[str(row.get("artifact_ref") or row.get("id")) for row in artifacts[:6]],
+            missing=[] if artifacts else ["operate_run_artifacts rows with proof artifact refs and proof hashes"],
+            next_action="Record a closeout with proof/rollback so Hermes writes a local run artifact.",
+        ),
+        _operate_backbone_item(
+            item_id="decision-learning",
+            label="Denial/superseded learning",
+            status="ready" if decision_learning else "missing",
+            control_plane_enough=bool(decision_learning),
+            evidence=[str(row.get("id")) for row in decision_learning[:6]],
+            missing=[] if decision_learning else ["operate_decision_learning rows for denied, superseded, failed, or no-op operator outcomes"],
+            next_action="Record a denied, superseded, failed, or no-op closeout so the learning loop has observed operator decisions.",
+        ),
+    ]
+    ready = len([item for item in items if item["status"] == "ready"])
+    partial = len([item for item in items if item["status"] == "partial"])
+    missing = len([item for item in items if item["status"] == "missing"])
+    enough = all(item["controlPlaneEnough"] for item in items)
+    return {
+        "contractVersion": "operate-control-backbone-audit.v1",
+        "generatedAt": now_iso(),
+        "summary": {
+            "categories": len(items),
+            "ready": ready,
+            "partial": partial,
+            "missing": missing,
+            "controlPlaneEnough": enough,
+            "posture": "sufficient" if enough else "needs_local_proof",
+        },
+        "items": items,
+        "recommendations": [] if enough else [item["nextAction"] for item in items if not item["controlPlaneEnough"]],
+    }
+
+
 def audit(
     conn: sqlite3.Connection,
     *,
@@ -654,6 +863,27 @@ def require_permission(
         decision=decision,
         payload={"actor_role": actor_role, "policy": policy.__dict__, **(payload or {})},
     )
+    ts = now_iso()
+    request_payload = payload or {}
+    item_id = str(request_payload.get("item_id") or action)
+    _upsert_operate_record(
+        conn,
+        "operate_approval_resolutions",
+        {
+            "id": f"approval-resolution-{_slug(item_id)}-{_slug(action)}",
+            "item_id": item_id,
+            "title": str(request_payload.get("title") or item_id),
+            "action": action,
+            "status": "approved" if decision.allowed else "blocked",
+            "approval": decision.approval,
+            "allowed": 1 if decision.allowed else 0,
+            "audit_id": audit_record["id"],
+            "route": str(request_payload.get("route") or ""),
+            "resolved_at": ts,
+            "payload": {"actor_role": actor_role, "policy": policy.__dict__, **request_payload},
+            "recorded_at": ts,
+        },
+    )
     return {"decision": decision.__dict__, "policy": policy.__dict__, "audit": audit_record}
 
 
@@ -708,6 +938,93 @@ def record_action_closeout(
             "operator_payload": extra_payload,
         },
     )
+    artifact_payload = {
+        "contractVersion": "operate-run-artifact.v1",
+        "generatedAt": now_iso(),
+        "itemId": item_id,
+        "title": title,
+        "action": action,
+        "result": normalized_result,
+        "proof": proof,
+        "route": route,
+        "rollback": rollback,
+        "auditId": audit_record["id"],
+        "operatorPayload": extra_payload,
+        "liveEffect": policy.live_effect,
+    }
+    artifact_ref = _write_operate_artifact("run-artifacts", f"{item_id}-{action}", artifact_payload)
+    proof_hash = hashlib.sha256(json.dumps(artifact_payload, sort_keys=True, default=str).encode("utf-8")).hexdigest()[:16]
+    ts = now_iso()
+    _upsert_operate_record(
+        conn,
+        "operate_approval_resolutions",
+        {
+            "id": f"approval-resolution-{_slug(item_id)}-{_slug(action)}",
+            "item_id": item_id,
+            "title": title,
+            "action": action,
+            "status": normalized_result,
+            "approval": decision.approval,
+            "allowed": 1 if decision.allowed else 0,
+            "audit_id": audit_record["id"],
+            "route": route,
+            "resolved_at": ts,
+            "payload": {"policy": policy.__dict__, "proof": proof, "rollback": rollback, "operator_payload": extra_payload},
+            "recorded_at": ts,
+        },
+    )
+    _upsert_operate_record(
+        conn,
+        "operate_run_artifacts",
+        {
+            "id": f"run-artifact-{_slug(item_id)}-{_slug(action)}",
+            "item_id": item_id,
+            "run_id": str(extra_payload.get("run_id") or extra_payload.get("runId") or audit_record["id"]),
+            "route": route,
+            "artifact_ref": artifact_ref,
+            "artifact_type": "operator-closeout",
+            "proof_hash": proof_hash,
+            "status": normalized_result,
+            "payload": artifact_payload,
+            "recorded_at": ts,
+        },
+    )
+    if normalized_result in {"denied", "superseded", "failed", "error", "no-op", "noop"}:
+        _upsert_operate_record(
+            conn,
+            "operate_decision_learning",
+            {
+                "id": f"decision-learning-{_slug(item_id)}-{_slug(action)}-{_slug(normalized_result)}",
+                "item_id": item_id,
+                "action": action,
+                "result": normalized_result,
+                "learning_type": "operator_outcome",
+                "reason": proof or f"Operator recorded {normalized_result} for {action}.",
+                "route": route,
+                "audit_id": audit_record["id"],
+                "observed_at": ts,
+                "payload": {"policy": policy.__dict__, "rollback": rollback, "operator_payload": extra_payload},
+                "recorded_at": ts,
+            },
+        )
+    if "incident" in f"{item_id} {title} {action} {route}".lower():
+        _upsert_operate_record(
+            conn,
+            "operate_incident_timeline",
+            {
+                "id": f"incident-timeline-{_slug(item_id)}-{_slug(normalized_result)}",
+                "incident_id": item_id,
+                "title": title,
+                "status": normalized_result,
+                "severity": str(extra_payload.get("severity") or "operator-closeout"),
+                "owner": actor_role,
+                "event_type": "closeout",
+                "artifact_ref": artifact_ref,
+                "occurred_at": ts,
+                "payload": {"action": action, "proof": proof, "rollback": rollback, "audit_id": audit_record["id"]},
+                "recorded_at": ts,
+            },
+        )
     evidence = upsert_evidence(
         conn,
         id=f"workbench-action-closeout-{_slug(item_id)}",
@@ -878,9 +1195,10 @@ def record_incident(
     status: str = "open",
 ) -> dict[str, Any]:
     state: RuntimeState = "failed" if severity == "critical" else "warning" if severity in {"high", "warning"} else "ready"
-    return upsert_evidence(
+    incident_id = f"incident-{_slug(title)}"
+    evidence = upsert_evidence(
         conn,
-        id=f"incident-{_slug(title)}",
+        id=incident_id,
         kind="incident",
         subject=title,
         state=state,
@@ -888,6 +1206,38 @@ def record_incident(
         detail=next_step,
         payload={"severity": severity, "rollback": rollback, "source": source, "status": status},
     )
+    ts = now_iso()
+    artifact_payload = {
+        "contractVersion": "operate-incident-timeline.v1",
+        "generatedAt": ts,
+        "incidentId": incident_id,
+        "title": title,
+        "severity": severity,
+        "owner": owner,
+        "status": status,
+        "nextStep": next_step,
+        "rollback": rollback,
+        "source": source,
+    }
+    artifact_ref = _write_operate_artifact("incidents", incident_id, artifact_payload)
+    _upsert_operate_record(
+        conn,
+        "operate_incident_timeline",
+        {
+            "id": f"incident-timeline-{_slug(title)}-{_slug(status or 'open')}",
+            "incident_id": incident_id,
+            "title": title,
+            "status": status,
+            "severity": severity,
+            "owner": owner,
+            "event_type": "opened" if status in {"", "open"} else status,
+            "artifact_ref": artifact_ref,
+            "occurred_at": ts,
+            "payload": artifact_payload,
+            "recorded_at": ts,
+        },
+    )
+    return evidence
 
 
 def record_gate_coverage(
