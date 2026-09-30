@@ -387,6 +387,37 @@ def init_db(conn: sqlite3.Connection) -> None:
         );
         CREATE INDEX IF NOT EXISTS idx_operate_decision_learning_item ON operate_decision_learning(item_id);
         CREATE INDEX IF NOT EXISTS idx_operate_decision_learning_recorded ON operate_decision_learning(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS automated_evidence_artifacts (
+            id TEXT PRIMARY KEY,
+            capture_type TEXT NOT NULL,
+            source TEXT NOT NULL DEFAULT '',
+            subject TEXT NOT NULL DEFAULT '',
+            artifact_ref TEXT NOT NULL DEFAULT '',
+            content_hash TEXT NOT NULL DEFAULT '',
+            retention TEXT NOT NULL DEFAULT 'standard',
+            status TEXT NOT NULL DEFAULT 'captured',
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_automated_evidence_artifacts_type ON automated_evidence_artifacts(capture_type);
+        CREATE INDEX IF NOT EXISTS idx_automated_evidence_artifacts_recorded ON automated_evidence_artifacts(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS automated_slo_history_points (
+            id TEXT PRIMARY KEY,
+            objective_id TEXT NOT NULL,
+            source TEXT NOT NULL DEFAULT '',
+            status TEXT NOT NULL DEFAULT '',
+            severity TEXT NOT NULL DEFAULT '',
+            measurement TEXT NOT NULL DEFAULT '',
+            burn_rate REAL NOT NULL DEFAULT 0,
+            content_hash TEXT NOT NULL DEFAULT '',
+            captured_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_automated_slo_history_points_objective ON automated_slo_history_points(objective_id);
+        CREATE INDEX IF NOT EXISTS idx_automated_slo_history_points_recorded ON automated_slo_history_points(recorded_at);
         """
     )
     conn.commit()

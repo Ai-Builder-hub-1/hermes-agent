@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import asyncio
 import hashlib
+import json
+from pathlib import Path
 from datetime import datetime, timezone
 from typing import Any
 from uuid import uuid4
@@ -159,19 +161,26 @@ def _automated_evidence_layer(
     ]
     breaches = [objective for objective in objectives if objective["status"] == "breach"]
     slo_history = [_slo_history_point(objective) for objective in objectives]
+    provider_captures = _provider_artifact_captures(lifecycle, outcomes, portfolio, recovery)
+    _persist_automated_evidence([*captures, *provider_captures], slo_history)
+    backbone = automated_evidence_backbone_audit()
     return {
         "contractVersion": "hermes-automated-evidence-slo.v1",
         "generatedAt": now_iso(),
         "summary": {
-            "captures": len(captures),
+            "captures": len(captures) + len(provider_captures),
             "objectives": len(objectives),
             "breaches": len(breaches),
             "burnRate": round(len(breaches) / max(len(objectives), 1), 2),
             "dedupeKey": "source+subject+contractVersion",
             "retention": "standard",
             "historyPoints": len(slo_history),
+            "backboneReady": backbone["summary"]["ready"],
+            "backboneCategories": backbone["summary"]["categories"],
+            "automatedEvidenceEnough": backbone["summary"]["automatedEvidenceEnough"],
         },
-        "captures": captures,
+        "captures": [*captures, *provider_captures],
+        "captureBackbone": backbone,
         "slos": {
             "objectives": objectives,
             "breaches": breaches,
@@ -194,6 +203,173 @@ def _automated_evidence_layer(
             "points": slo_history,
         },
     }
+
+
+def _provider_artifact_captures(
+    lifecycle: dict[str, Any],
+    outcomes: dict[str, Any],
+    portfolio: dict[str, Any],
+    recovery: dict[str, Any],
+) -> list[dict[str, Any]]:
+    return [
+        _capture("operate-screenshot-capture", "screenshot", "operate-ui", {"contractVersion": "local-screenshot-manifest.v1", "summary": {"route": "/operate", "status": "local_manifest"}}, "visual-proof"),
+        _capture("worker-log-capture", "log", "system-workers", recovery or {"contractVersion": "recovery.v1"}, "runtime-log"),
+        _capture("deployment-proof-capture", "deployment", "system-deployments", recovery or {"contractVersion": "recovery.v1"}, "release-proof"),
+        _capture("operator-action-capture", "action", "operate-control", outcomes or lifecycle or portfolio, "operator-proof"),
+    ]
+
+
+def _automated_tables() -> set[str]:
+    return {"automated_evidence_artifacts", "automated_slo_history_points"}
+
+
+def _automated_rows(table: str, limit: int = 100) -> list[dict[str, Any]]:
+    if table not in _automated_tables():
+        return []
+    try:
+        from hermes_cli.operating_runtime import connect
+
+        with connect() as conn:
+            rows = conn.execute(
+                f"SELECT * FROM {table} ORDER BY recorded_at DESC LIMIT ?",
+                (max(1, min(int(limit or 100), 500)),),
+            ).fetchall()
+            records: list[dict[str, Any]] = []
+            for row in rows:
+                record = dict(row)
+                payload = record.get("payload")
+                if isinstance(payload, str):
+                    try:
+                        record["payload"] = json.loads(payload)
+                    except json.JSONDecodeError:
+                        record["payload"] = {}
+                records.append(record)
+            return records
+    except Exception:
+        return []
+
+
+def _upsert_automated_record(table: str, record: dict[str, Any]) -> None:
+    if table not in _automated_tables():
+        return
+    from hermes_cli.operating_runtime import connect
+
+    row = dict(record)
+    row["payload"] = json.dumps(row.get("payload") or {}, sort_keys=True, default=str)
+    row.setdefault("recorded_at", now_iso())
+    columns = list(row)
+    placeholders = ", ".join("?" for _ in columns)
+    updates = ", ".join(f"{column} = excluded.{column}" for column in columns if column != "id")
+    with connect() as conn:
+        conn.execute(
+            f"""
+            INSERT INTO {table} ({', '.join(columns)})
+            VALUES ({placeholders})
+            ON CONFLICT(id) DO UPDATE SET {updates}
+            """,
+            [row[column] for column in columns],
+        )
+        conn.commit()
+
+
+def _write_automated_artifact(kind: str, item_id: str, payload: dict[str, Any]) -> str:
+    try:
+        from hermes_cli.system_warehouse import _record_object_inventory, _write_artifact
+
+        relative_path = f"automated-evidence/{_safe_ref(kind)}/{_safe_ref(item_id)}.json"
+        artifact_ref = _write_artifact(relative_path, payload)
+        _record_object_inventory(Path(artifact_ref).parent, provider="local-artifact-store", source_system="automated-evidence-slo", retention_class=str(payload.get("retention") or "standard"))
+        return artifact_ref
+    except Exception:
+        return ""
+
+
+def _persist_automated_evidence(captures: list[dict[str, Any]], slo_history: list[dict[str, Any]]) -> None:
+    for capture in captures:
+        artifact_payload = {
+            "contractVersion": "automated-evidence-artifact.v1",
+            "generatedAt": now_iso(),
+            "capture": capture,
+            "retention": capture.get("retention") or "standard",
+        }
+        artifact_ref = _write_automated_artifact(str(capture.get("type") or "capture"), str(capture.get("id") or uuid4().hex), artifact_payload)
+        _upsert_automated_record(
+            "automated_evidence_artifacts",
+            {
+                "id": f"automated-artifact-{_safe_ref(capture.get('id'))}",
+                "capture_type": str(capture.get("type") or "unknown"),
+                "source": str(capture.get("source") or ""),
+                "subject": str(capture.get("id") or ""),
+                "artifact_ref": artifact_ref or str(capture.get("artifactRef") or ""),
+                "content_hash": str(capture.get("contentHash") or ""),
+                "retention": str(capture.get("retention") or "standard"),
+                "status": str(capture.get("status") or "captured"),
+                "payload": artifact_payload,
+            },
+        )
+    for point in slo_history:
+        _upsert_automated_record(
+            "automated_slo_history_points",
+            {
+                "id": f"slo-history-point-{_safe_ref(point.get('id'))}",
+                "objective_id": str(point.get("source") or point.get("id") or "unknown"),
+                "source": str(point.get("source") or ""),
+                "status": str(point.get("status") or ""),
+                "severity": str(point.get("severity") or ""),
+                "measurement": str(point.get("measurement") or ""),
+                "burn_rate": float(point.get("burnRate") or 0),
+                "content_hash": str(point.get("contentHash") or ""),
+                "captured_at": str(point.get("capturedAt") or now_iso()),
+                "payload": point,
+            },
+        )
+
+
+def _automated_backbone_item(item_id: str, label: str, rows: list[dict[str, Any]], missing: list[str], next_action: str) -> dict[str, Any]:
+    return {
+        "id": item_id,
+        "label": label,
+        "status": "ready" if rows else "missing",
+        "automatedEvidenceEnough": bool(rows),
+        "evidence": [str(row.get("artifact_ref") or row.get("id")) for row in rows[:6]],
+        "missing": [] if rows else missing,
+        "nextAction": next_action,
+    }
+
+
+def automated_evidence_backbone_audit() -> dict[str, Any]:
+    artifacts = _automated_rows("automated_evidence_artifacts")
+    slo_points = _automated_rows("automated_slo_history_points")
+    screenshot = [row for row in artifacts if row.get("capture_type") == "screenshot"]
+    logs = [row for row in artifacts if row.get("capture_type") == "log"]
+    deploy_action = [row for row in artifacts if row.get("capture_type") in {"deployment", "action"}]
+    items = [
+        _automated_backbone_item("screenshot-artifacts", "Screenshot artifact capture", screenshot, ["automated_evidence_artifacts rows with capture_type=screenshot"], "Capture or manifest route screenshots into the local artifact store."),
+        _automated_backbone_item("log-artifacts", "Log artifact capture", logs, ["automated_evidence_artifacts rows with capture_type=log"], "Capture worker/runtime log artifacts into the local artifact store."),
+        _automated_backbone_item("deploy-action-artifacts", "Deploy/action artifact capture", deploy_action, ["automated_evidence_artifacts rows with capture_type=deployment/action"], "Capture deploy and operator-action artifacts into the local artifact store."),
+        _automated_backbone_item("slo-history-series", "Historical SLO series", slo_points, ["automated_slo_history_points rows with objective, status, measurement, burn rate, and content hash"], "Persist repeated SLO points by objective/source/page."),
+    ]
+    ready = len([item for item in items if item["status"] == "ready"])
+    missing = len([item for item in items if item["status"] == "missing"])
+    enough = all(item["automatedEvidenceEnough"] for item in items)
+    return {
+        "contractVersion": "automated-evidence-backbone-audit.v1",
+        "generatedAt": now_iso(),
+        "summary": {
+            "categories": len(items),
+            "ready": ready,
+            "partial": 0,
+            "missing": missing,
+            "automatedEvidenceEnough": enough,
+            "posture": "sufficient" if enough else "needs_local_proof",
+        },
+        "items": items,
+        "recommendations": [] if enough else [item["nextAction"] for item in items if not item["automatedEvidenceEnough"]],
+    }
+
+
+def _safe_ref(value: Any) -> str:
+    return "".join(char if char.isalnum() or char in {"-", "_", "."} else "-" for char in str(value or "unknown").lower()).strip("-") or "unknown"
 
 
 def _predictive_and_causal_layer(

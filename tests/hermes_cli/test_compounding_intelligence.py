@@ -21,6 +21,9 @@ async def test_compounding_intelligence_summary_and_review(tmp_path, monkeypatch
     assert summary["committeePacket"]["executionEnabled"] is False
     assert summary["automatedEvidence"]["contractVersion"] == "hermes-automated-evidence-slo.v1"
     assert summary["automatedEvidence"]["summary"]["captures"] >= 4
+    assert summary["automatedEvidence"]["summary"]["backboneReady"] == summary["automatedEvidence"]["summary"]["backboneCategories"]
+    assert summary["automatedEvidence"]["summary"]["automatedEvidenceEnough"] is True
+    assert summary["automatedEvidence"]["captureBackbone"]["summary"]["automatedEvidenceEnough"] is True
     assert summary["automatedEvidence"]["slos"]["summary"]["objectives"] >= 4
     assert summary["automatedEvidence"]["sloHistory"]["contractVersion"] == "hermes-slo-history.v1"
     assert summary["automatedEvidence"]["sloHistory"]["summary"]["points"] >= 4
@@ -69,6 +72,7 @@ def test_compounding_intelligence_api_routes(tmp_path, monkeypatch):
     body = response.json()
     assert body["summary"]["executionEnabled"] is False
     assert body["summary"]["evidenceCaptures"] >= 4
+    assert body["automatedEvidence"]["captureBackbone"]["summary"]["ready"] == body["automatedEvidence"]["captureBackbone"]["summary"]["categories"]
     assert body["summary"]["businessDomains"] >= 5
     assert body["summary"]["launchSystems"] >= 5
     assert body["summary"]["visualBaselines"] >= 4

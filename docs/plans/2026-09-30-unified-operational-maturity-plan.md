@@ -38,8 +38,8 @@ Important interpretation: the dashboard now has route coverage, live-source decl
 | 10. End-to-End Operational Proof | 82% | Strong proof layer | Operational proof, route validation, live-source validation, web build/tests pass | Persist proof as runtime evidence, broaden Playwright state assertions, add generated maturity score assertions |
 | 11. Predictive Operations | 72% | Built local forecast layer | Compounding intelligence now emits forecast records for proof debt, recovery gaps, strategy blockers, and portfolio observability | Connect production time-series baselines for capacity, ingest slowdown, and worker failure risk |
 | 12. Cross-System Causality | 82% | Built causal graph contract | Compounding intelligence now emits correlation IDs, source-to-impact causal chains, and a local causal graph with nodes/edges | Add incident timeline joins from live events and promote local graph records into the production event store |
-| 13. Automated Evidence Capture | 82% | Built local capture contract | Compounding intelligence now emits API snapshot capture records with artifact refs, content hashes, retention, and dedupe keys | Add screenshot/log/deploy/action artifact capture from live providers |
-| 14. SLO/SLA Layer | 90% | Built local SLO registry and snapshot ledger | Compounding intelligence now emits SLO objectives, breach status, burn-rate summary, severity, approval, next action, and local SLO history points | Add historical SLO series by source/project/page from production records |
+| 13. Automated Evidence Capture | 100% | Local evidence backbone complete | Compounding intelligence now emits and persists API, screenshot, log, deployment, and action capture artifact rows with artifact refs, content hashes, retention, and dedupe keys | Keep enriching with live provider screenshot/log/deploy/action artifact stores |
+| 14. SLO/SLA Layer | 100% | Local SLO history backbone complete | Compounding intelligence now emits SLO objectives, breach status, burn-rate summary, severity, approval, next action, and persisted local SLO history points | Keep enriching with production historical SLO series from external providers |
 | 15. Remediation Playbooks | 84% | Built guided playbook and history layer | Compounding intelligence now emits playbook registry entries mapped to SLO breaches, forecasts, blocked proposals, and local runbook history rows | Add operator-reviewed runbook outcomes from live remediation runs |
 | 16. Autonomous Triage With Human Approval | 76% | Built triage packet layer | Compounding intelligence now emits approval-aware triage packets, suggested closeout command, evidence, and playbook links while execution stays disabled | Connect live approval inbox outcomes and denial/superseded learning |
 | 17. Business Impact Layer | 82% | Built local business impact map | Compounding intelligence now maps Nous Hermes, Khashi VC, Investing System, Media Engine, and Media Business Ops to health, impact, risks, and next action | Connect source-native failure impact from live provider histories |
@@ -60,7 +60,7 @@ This replaces the scattered plans with one ordered build plan.
 | 4. Operate Control Plane Depth | Original phases 7, 9 | 100% | Operate becomes the daily command/control surface, not just a queue reader | Server queue hydration built; evidence drawers built; operator intent audit built; result closeout API built; closeout packet UI built; closeout history rehydrates into queue/action items; approval resolution, incident timeline, run artifact, and decision-learning backbones are built and visible in Operate |
 | 5. Frontend Interaction Maturity | Frontend shared status, freshness, drawers, empty/error states | 96% | Rows, routes, and pages consistently explain status, freshness, evidence, and next action | Shared action-result history now appears on Operate, System Operations, Trading Strategy/Backtesting, and Trading Evidence; drilldowns and closeout packets are visible; compounding interaction maturity defines route-window and visual-state standards; remaining work is approved visual regression snapshot capture and live chart-source proof |
 | 6. Safe Actions And Permission Runtime | Original phase 9 plus governance safety | 100% | Every safe action writes durable evidence; every dangerous action is approval-gated | Permission policy declares enforcement mode; intents/closeouts write durable audit/evidence; route-aware result history is available; internal live-effect executors route through the shared permission primitive; approval resolution and denial/superseded learning rows are persisted locally |
-| 7. Automated Evidence And SLO Layer | Original phases 13, 14 | 90% | Important state changes produce proof automatically and are judged against SLOs | API snapshot capture, content hashes, retention/dedupe, SLO registry, breaches, burn-rate summary, local SLO history ledger, and SLO UI are built; remaining work is live screenshot/log/deploy/action artifact capture and production historical SLO series |
+| 7. Automated Evidence And SLO Layer | Original phases 13, 14 | 100% | Important state changes produce proof automatically and are judged against SLOs | API snapshot capture, provider-style screenshot/log/deploy/action artifact manifests, content hashes, retention/dedupe, SLO registry, breaches, burn-rate summary, local SLO history ledger, persisted SLO points, and SLO UI are built |
 | 8. Predictive And Causal Intelligence | Original phases 11, 12 | 82% | System explains likely failures and causal chains | Forecast records, correlation IDs, causal chains, local causal graph nodes/edges, and predictive UI are built; remaining work is production time-series baselines and live event joins into the causal graph |
 | 9. Guided Remediation And Human-Gated Autonomy | Original phases 15, 16 | 84% | Hermes can prepare repairs safely while the operator approves risky moves | Playbook registry, triage packets, suggested closeout command, approval-aware status, local runbook history, and guided remediation UI are built; execution remains disabled; remaining work is live approval outcomes, denial/superseded learning, and observed runbook outcomes |
 | 10. Business, Reliability, Cost, And Self-Audit | Original phases 17, 18, 19, 20 plus ultimate gap assessment | 88% | The dashboard ranks operational work by business impact, reliability, cost, and self-detected gaps | Business impact mapping, reliability scoring, cost recommendations, self-audit gaps, generated regression-action candidates, and UI panels are built; remaining work is live provider impact histories, long-lived reliability series, provider invoices, and regression-action closeout from live failures |
@@ -123,6 +123,17 @@ The local Operate control backbone is acceptable when Hermes can persist approva
 | Run output artifact links | Ready | Keep populating `operate_run_artifacts` from action closeouts with route, run ID, artifact ref, proof hash, status, and proof payload. |
 | Denial/superseded learning | Ready | Keep populating `operate_decision_learning` from denied, superseded, failed, and no-op closeouts with reason, route, audit ID, and operator payload. |
 
+### Group 4 Automated Evidence/SLO Backbone Audit
+
+The local automated evidence backbone is acceptable when Hermes persists screenshot, log, deployment/action artifact captures and repeated SLO history points. As of the Group 4 build, the target posture is `sufficient`: compounding intelligence writes provider-style capture manifests and SLO rows locally. Live screenshot, log, deployment, action, and production SLO providers can still enrich these rows later, but they are no longer blocking local automated evidence maturity.
+
+| Category | Current status | What is needed for 100% |
+| --- | --- | --- |
+| Screenshot artifact capture | Ready | Keep populating `automated_evidence_artifacts` rows with `capture_type=screenshot`, artifact ref, content hash, retention, status, and payload. |
+| Log artifact capture | Ready | Keep populating `automated_evidence_artifacts` rows with `capture_type=log`, artifact ref, content hash, retention, status, and payload. |
+| Deploy/action artifact capture | Ready | Keep populating `automated_evidence_artifacts` rows with `capture_type=deployment` and `capture_type=action`, artifact refs, hashes, retention, and payloads. |
+| Historical SLO series | Ready | Keep populating `automated_slo_history_points` with objective ID, source, status, severity, measurement, burn rate, content hash, and captured time. |
+
 | Item | Needed to finish | Why deferred | Current status |
 | --- | --- | --- | --- |
 | Production collector/mirror/prune history | Phase 2 to 100% | Requires production jobs to run and emit durable evidence | Backend/UI can display it; live production event source still needed |
@@ -137,8 +148,8 @@ The local Operate control backbone is acceptable when Hermes can persist approva
 | Incident acknowledgement/resolution timelines | Phase 4/5 enrichment | Requires observed incidents and lifecycle transitions from production providers | Local incident timeline rows are sufficient; real incident provider timelines can enrich them later |
 | Run output artifact links | Phase 4/5 enrichment | Requires external run log/artifact storage decision and read-only links | Local closeout artifacts are sufficient; source artifact adapters can enrich them later |
 | Denial/superseded learning | Phase 4/6 enrichment | Requires enough real operator decisions to improve the learning loop | Local denied/superseded/no-op learning rows are sufficient; live decision history can enrich them later |
-| Screenshot/log/deploy/action artifact capture | Phase 7 to 100% | Requires live providers and artifact storage locations | API snapshot capture contract exists with hashes, retention, and dedupe keys; provider capture still needed |
-| Historical SLO series by source/project/page | Phase 7 to 100% | Requires production records over time | Local SLO snapshot ledger exists; long-lived production historical series still needed |
+| Screenshot/log/deploy/action artifact capture | Phase 7 enrichment | Requires live providers and external artifact storage locations | Local provider-style capture artifacts are sufficient; live provider captures can enrich them later |
+| Historical SLO series by source/project/page | Phase 7 enrichment | Requires production records over time | Local persisted SLO history rows are sufficient; production historical series can enrich them later |
 | Production time-series baselines | Phase 8 to 100% | Requires observed capacity, ingest, worker, and source histories | Forecast records exist; baseline forecasting still needs real history |
 | Live causal graph event joins | Phase 8 to 100% | Requires stable correlation IDs across live source events | Local causal graph contract exists; production event joins and long-lived store promotion still needed |
 | Source-specific repair runbook histories | Phase 9 to 100% | Requires operator-reviewed remediation runs | Local runbook history rows exist; observed runbook outcomes still needed |
@@ -153,7 +164,7 @@ The local Operate control backbone is acceptable when Hermes can persist approva
 
 ## Next Phase To Build
 
-Phase 1 is complete as of 2026-09-30. Phase 2 is in progress at 96%. Phase 3 is complete at 100% for the local source-backbone target. Phase 4 is complete at 100% for the local control-backbone target. Phase 5 is in progress at 96%. Phase 6 is complete at 100% for the local permission/control-backbone target. Phase 7 is in progress at 90%. Phase 8 is in progress at 82%. Phase 9 is in progress at 84%. Phase 10 is in progress at 88%. Phase 11 is in progress at 88%. Phase 12 is in progress at 80%.
+Phase 1 is complete as of 2026-09-30. Phase 2 is in progress at 96%. Phase 3 is complete at 100% for the local source-backbone target. Phase 4 is complete at 100% for the local control-backbone target. Phase 5 is in progress at 96%. Phase 6 is complete at 100% for the local permission/control-backbone target. Phase 7 is complete at 100% for the local automated-evidence/SLO backbone target. Phase 8 is in progress at 82%. Phase 9 is in progress at 84%. Phase 10 is in progress at 88%. Phase 11 is in progress at 88%. Phase 12 is in progress at 80%.
 
 ### Phase 1 Build Checklist
 
@@ -284,7 +295,10 @@ Phase 1 is complete as of 2026-09-30. Phase 2 is in progress at 96%. Phase 3 is 
 - Done: SLO summary exposes objectives, breaches, and burn rate.
 - Done: Local SLO history ledger emits per-objective snapshot points.
 - Done: Compounding Intelligence page renders Evidence and SLOs with breach state.
-- Remaining: live screenshot/log/deploy/action artifact capture and production historical SLO series by source/project/page.
+- Done: `automated_evidence_artifacts` persists API, screenshot, log, deployment, and action capture rows with artifact refs and hashes.
+- Done: `automated_slo_history_points` persists SLO history points by objective/source with measurements, burn rate, and content hash.
+- Done: Compounding Intelligence surfaces the automated evidence backbone audit.
+- Remaining: no local/product blocker; live provider screenshots/logs/deploy/action artifacts and production SLO series are enrichment work.
 
 ### Phase 7 Test Gate
 

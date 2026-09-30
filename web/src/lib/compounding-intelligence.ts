@@ -85,8 +85,33 @@ export interface CompoundingSummary {
       dedupeKey: string;
       retention: string;
       historyPoints: number;
+      backboneReady?: number;
+      backboneCategories?: number;
+      automatedEvidenceEnough?: boolean;
     };
     captures: Array<Record<string, string | number | boolean>>;
+    captureBackbone?: {
+      contractVersion: string;
+      generatedAt: string;
+      summary: {
+        categories: number;
+        ready: number;
+        partial: number;
+        missing: number;
+        automatedEvidenceEnough: boolean;
+        posture: string;
+      };
+      items: Array<{
+        id: string;
+        label: string;
+        status: string;
+        automatedEvidenceEnough: boolean;
+        evidence: string[];
+        missing: string[];
+        nextAction: string;
+      }>;
+      recommendations: string[];
+    };
     slos: {
       objectives: Array<{
         id: string;

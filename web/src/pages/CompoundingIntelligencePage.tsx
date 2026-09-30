@@ -135,8 +135,20 @@ export default function CompoundingIntelligencePage() {
               <MiniFact label="Captures" value={summary.automatedEvidence.summary.captures} />
               <MiniFact label="Burn rate" value={summary.automatedEvidence.summary.burnRate} />
               <MiniFact label="SLO history" value={`${summary.automatedEvidence.sloHistory.summary.points} local points`} />
-              <MiniFact label="Live series" value={summary.automatedEvidence.sloHistory.summary.liveSeriesConnected ? "connected" : "deferred"} />
+              <MiniFact label="Backbone" value={`${summary.automatedEvidence.summary.backboneReady ?? 0}/${summary.automatedEvidence.summary.backboneCategories ?? 0}`} />
             </div>
+            {summary.automatedEvidence.captureBackbone ? (
+              <div className="grid gap-2">
+                {summary.automatedEvidence.captureBackbone.items.map((item) => (
+                  <Callout
+                    key={item.id}
+                    title={`${item.label}: ${item.status}`}
+                    detail={item.automatedEvidenceEnough ? item.evidence.slice(0, 2).join(" | ") || "Local evidence rows are present." : item.missing.join("; ") || item.nextAction}
+                    tone={tone(item.status === "ready" ? "ready" : "warning")}
+                  />
+                ))}
+              </div>
+            ) : null}
             {summary.automatedEvidence.slos.objectives.map((slo) => (
               <Callout key={slo.id} title={slo.title} detail={`${slo.measurement} / ${slo.nextAction}`} tone={tone(slo.status === "breach" ? slo.severity : "ready")} />
             ))}
