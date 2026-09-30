@@ -95,12 +95,12 @@ The local data warehouse is acceptable as the Group 1 read model only when it co
 | Live database backup proof | Ready | Treat the configured live DB as source of truth and keep writing database backup manifests/copies into the warehouse for archive, restore, replay, and long-term evidence. |
 | Collector, mirror, and prune history | Ready | Keep populating `ops_job_runs` rows for collector, mirror, and prune jobs with status, timing, source, rows/files changed, errors, and proof IDs. |
 | Object-store/provider history | Ready | Keep populating `ops_storage_objects` rows from the local artifact store or a configured provider path with provider, object ref, checksum, size, modified time, and retention class. |
-| External scheduler/provider history | Ready | Keep populating `ops_scheduler_runs` rows from `HERMES_SCHEDULER_PROVIDER` when configured, or the local runtime scheduler proof path until a production scheduler provider is connected. |
+| External scheduler/provider history | Ready | Default production recommendation is `systemd` on Hetzner; keep populating `ops_scheduler_runs` rows from `HERMES_SCHEDULER_PROVIDER` when configured, or the accepted systemd default until overridden. |
 | Worker log endpoint or artifact links | Ready | Keep populating `ops_worker_logs` rows with run ID, worker ID, log ref/artifact URI, severity counts, and error tail. |
-| Deployment provider history | Ready | Keep ingesting deployment receipts with environment, SHA/version, status, timing, and proof IDs. |
+| Deployment provider history | Ready | Default production recommendation is Hetzner; keep ingesting deployment receipts with environment, SHA/version, status, timing, and proof IDs. |
 | Rollback proof artifacts | Ready | Keep populating `ops_rollback_proofs` rows with rollback/no-op artifact refs, prior/current SHA where known, and verification status. |
-| Vault/secret rotation history | Ready | Keep values redacted; retain provider, secret class, last rotated, age, and proof freshness only. |
-| Credential safe-test results | Ready | Keep populating `ops_safe_test_results` rows with credential class, provider, status, checked-at, and redacted error class. |
+| Vault/secret rotation history | Ready | Default recommendation is `server-env` first, external vault later; keep values redacted and retain provider, secret class, last rotated, age, and proof freshness only. |
+| Credential safe-test results | Ready | Keep populating `ops_safe_test_results` rows with credential class, provider, status, checked-at, and redacted error class using presence-only checks. |
 
 ### Group 2 Trading/Khashi Source Backbone Audit
 

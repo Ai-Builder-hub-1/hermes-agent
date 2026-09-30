@@ -361,11 +361,11 @@ def record_worker_dry_run() -> dict[str, Any]:
     summary = workers_summary()
     evidence = _record_catalog_action("Worker dry-run", "Worker dry-run evidence recorded. No mutating production worker was executed.", summary)
     try:
-        from hermes_cli.system_warehouse import _env_value, _upsert_ops_record, _write_artifact
+        from hermes_cli.system_warehouse import _recommended_env_value, _upsert_ops_record, _write_artifact
 
         ts = now_iso()
         for worker in summary["workers"][:12]:
-            scheduler_provider = _env_value("HERMES_SCHEDULER_PROVIDER", "HERMES_EXTERNAL_SCHEDULER_PROVIDER") or worker.get("scheduleSource") or "local-runtime"
+            scheduler_provider = _recommended_env_value("HERMES_SCHEDULER_PROVIDER", "HERMES_EXTERNAL_SCHEDULER_PROVIDER") or worker.get("scheduleSource") or "local-runtime"
             worker_artifact = _write_artifact(
                 f"worker-logs/{worker['id']}-{ts.replace(':', '-')}.json",
                 {
@@ -503,9 +503,10 @@ def record_deployment_check() -> dict[str, Any]:
     summary = deployments_summary()
     evidence = _record_catalog_action("Deployment check", "Deployment promotion readiness check recorded. No deploy was executed.", summary)
     try:
-        from hermes_cli.system_warehouse import _upsert_ops_record, _write_artifact
+        from hermes_cli.system_warehouse import _recommended_env_value, _upsert_ops_record, _write_artifact
 
         ts = now_iso()
+        deployment_provider = _recommended_env_value("HERMES_DEPLOYMENT_PROVIDER") or "runtime-evidence"
         for deployment in summary["deployments"][:50]:
             deploy_artifact = _write_artifact(
                 f"deployments/{deployment['id']}-{ts.replace(':', '-')}.json",
@@ -519,7 +520,7 @@ def record_deployment_check() -> dict[str, Any]:
                 "ops_deployments",
                 {
                     "id": f"ops-deployment-{deployment['id']}",
-                    "provider": deployment.get("promotionSource") or "runtime-evidence",
+                    "provider": deployment.get("promotionSource") if deployment.get("promotionSource") and deployment.get("promotionSource") != "runtime-evidence" else deployment_provider,
                     "project": deployment["project"],
                     "environment": deployment["environment"],
                     "deployed_sha": deployment["deployedSha"],
@@ -723,15 +724,16 @@ def record_credentials_scan() -> dict[str, Any]:
     summary = credentials_summary()
     evidence = _record_catalog_action("Credential posture scan", "Presence-only credential posture scan recorded. No secret values were exposed.", summary)
     try:
-        from hermes_cli.system_warehouse import _upsert_ops_record
+        from hermes_cli.system_warehouse import _recommended_env_value, _upsert_ops_record
 
         ts = now_iso()
+        secret_provider = _recommended_env_value("HERMES_SECRET_PROVIDER", "HERMES_VAULT_PROVIDER") or "runtime_env"
         for variable in summary["runtimeVariables"][:50]:
             _upsert_ops_record(
                 "ops_secret_rotations",
                 {
                     "id": f"ops-secret-rotation-{variable['name']}",
-                    "provider": variable.get("source") or "runtime_env",
+                    "provider": variable.get("source") if variable.get("source") and variable.get("source") != "runtime_env" else secret_provider,
                     "secret_name": variable["name"],
                     "secret_class": variable["secretClass"],
                     "last_rotated_at": ts if variable["configured"] else None,
@@ -744,7 +746,7 @@ def record_credentials_scan() -> dict[str, Any]:
                 "ops_safe_test_results",
                 {
                     "id": f"ops-safe-test-{variable['name']}",
-                    "provider": variable.get("source") or "runtime_env",
+                    "provider": variable.get("source") if variable.get("source") and variable.get("source") != "runtime_env" else secret_provider,
                     "credential_class": variable["secretClass"],
                     "status": variable["safeTestStatus"],
                     "checked_at": ts,

@@ -36,6 +36,48 @@ def _env_value(*names: str) -> str:
     return ""
 
 
+def _recommended_group_one_default(name: str) -> str:
+    home = get_hermes_home()
+    defaults = {
+        "HERMES_WAREHOUSE_ROOT": str(home / "warehouse"),
+        "HERMES_WAREHOUSE_MIRROR_ROOT": str(home / "warehouse-mirror"),
+        "HERMES_ARTIFACT_STORE_ROOT": str(home / "artifacts"),
+        "HERMES_OBJECT_STORE_ROOT": str(home / "artifacts"),
+        "HERMES_SCHEDULER_PROVIDER": "systemd",
+        "HERMES_EXTERNAL_SCHEDULER_PROVIDER": "systemd",
+        "HERMES_WORKER_LOG_ROOT": str(home / "logs"),
+        "HERMES_LOG_ARTIFACT_ROOT": str(home / "artifacts" / "logs"),
+        "HERMES_DEPLOYMENT_PROVIDER": "hetzner",
+        "HERMES_ROLLBACK_ARTIFACT_ROOT": str(home / "artifacts" / "rollback-proofs"),
+        "HERMES_SECRET_PROVIDER": "server-env",
+        "HERMES_VISUAL_BASELINE_ROOT": str(home / "artifacts" / "visual-baselines"),
+        "HERMES_CHART_SOURCE_PROOF_ROOT": str(home / "artifacts" / "chart-source-proof"),
+    }
+    return defaults.get(name, "")
+
+
+def _recommended_env_value(*names: str) -> str:
+    configured = _env_value(*names)
+    if configured:
+        return configured
+    for name in names:
+        value = _recommended_group_one_default(name)
+        if value:
+            return value
+    return ""
+
+
+def _recommended_env_label(*names: str) -> str:
+    configured = _env_value(*names)
+    if configured:
+        return next((name for name in names if _env_value(name)), "")
+    for name in names:
+        value = _recommended_group_one_default(name)
+        if value:
+            return f"default:{name}={value}"
+    return ""
+
+
 def _path_from_env(*names: str, default: Path | None = None) -> Path:
     raw = _env_value(*names)
     if raw:
@@ -364,7 +406,7 @@ def _evidence_matches(*needles: str) -> list[dict[str, Any]]:
 
 
 def _local_artifact_root_configured(*names: str) -> bool:
-    raw = _env_value(*names)
+    raw = _recommended_env_value(*names)
     return bool(raw and Path(raw).expanduser().resolve(strict=False).exists())
 
 
@@ -418,7 +460,7 @@ def warehouse_backbone_audit() -> dict[str, Any]:
     mirror_or_prune = [job for job in job_records if job["kind"] in {"mirror", "prune"}]
     ops_collector_jobs = [row for row in ops_job_runs if row.get("kind") in {"collector", "mirror", "prune"}]
     ops_mirror_or_prune = [row for row in ops_job_runs if row.get("kind") in {"mirror", "prune"}]
-    scheduler_external = _env_value("HERMES_SCHEDULER_PROVIDER", "HERMES_EXTERNAL_SCHEDULER_PROVIDER")
+    scheduler_external = _recommended_env_value("HERMES_SCHEDULER_PROVIDER", "HERMES_EXTERNAL_SCHEDULER_PROVIDER")
     deployment_with_rollback = [
         record for record in deployment_evidence
         if (record.get("payload") or {}).get("rollback") or (record.get("payload") or {}).get("rollbackSha") or (record.get("payload") or {}).get("rollback_sha") or (record.get("payload") or {}).get("evidence")
@@ -468,7 +510,7 @@ def warehouse_backbone_audit() -> dict[str, Any]:
         _backbone_item(
             item_id="ops-deployments",
             label="Deployment provider history",
-            status="ready" if ops_deployments else "partial" if deployment_evidence or _env_value("GIT_SHA", "RENDER_GIT_COMMIT", "HEROKU_SLUG_COMMIT") else "missing",
+            status="ready" if ops_deployments else "partial" if deployment_evidence or _recommended_env_value("HERMES_DEPLOYMENT_PROVIDER", "GIT_SHA", "RENDER_GIT_COMMIT", "HEROKU_SLUG_COMMIT") else "missing",
             warehouse_enough=bool(ops_deployments),
             evidence=[str(row["id"]) for row in ops_deployments[:6]] or [str(record.get("id") or record.get("subject") or "deployment") for record in deployment_evidence[:6]],
             missing=[] if ops_deployments else ["ops_deployments rows from the deployment provider with environment, SHA, status, and timestamps"],
@@ -486,7 +528,7 @@ def warehouse_backbone_audit() -> dict[str, Any]:
         _backbone_item(
             item_id="ops-secret-rotations",
             label="Vault/secret rotation history",
-            status="ready" if ops_secret_rotations else "partial" if credential_evidence or _env_value("HERMES_SECRET_PROVIDER", "HERMES_VAULT_PROVIDER") else "missing",
+            status="ready" if ops_secret_rotations else "partial" if credential_evidence or _recommended_env_value("HERMES_SECRET_PROVIDER", "HERMES_VAULT_PROVIDER") else "missing",
             warehouse_enough=bool(ops_secret_rotations),
             evidence=[str(row["id"]) for row in ops_secret_rotations[:6]] or [str(record.get("id") or record.get("subject") or "credential") for record in credential_evidence[:6]],
             missing=[] if ops_secret_rotations else ["ops_secret_rotations rows with secret class, provider, last rotated, and age; no secret values"],
@@ -586,11 +628,8 @@ def database_backup_contract() -> dict[str, Any]:
 
 
 def _provider_ready_from_env(*names: str) -> tuple[bool, str]:
-    for name in names:
-        value = _env_value(name)
-        if value:
-            return True, name
-    return False, ""
+    label = _recommended_env_label(*names)
+    return (bool(label), label)
 
 
 def _provider_readiness_item(

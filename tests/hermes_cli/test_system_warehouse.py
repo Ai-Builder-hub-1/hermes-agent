@@ -179,3 +179,19 @@ def test_provider_readiness_capture_records_plugin_ready_contract(tmp_path, monk
     assert result["results"]["databaseBackup"]["ok"] is True
     assert result["providerReadiness"]["summary"]["ready"] >= before["summary"]["ready"]
     assert "provider-readiness" in result["evidence"]["subject"].lower()
+
+
+def test_provider_readiness_uses_accepted_group_one_defaults(tmp_path, monkeypatch):
+    monkeypatch.setenv("HERMES_HOME", str(tmp_path / "home"))
+
+    from hermes_cli.system_warehouse import provider_readiness_contract
+
+    contract = provider_readiness_contract()
+    providers = {item["id"]: item["provider"] for item in contract["items"]}
+    assert providers["external-scheduler"] == "default:HERMES_SCHEDULER_PROVIDER=systemd"
+    assert providers["deployment-provider"] == "default:HERMES_DEPLOYMENT_PROVIDER=hetzner"
+    assert providers["vault-rotation"] == "default:HERMES_SECRET_PROVIDER=server-env"
+    assert providers["credential-safe-tests"] == "default:HERMES_SECRET_PROVIDER=server-env"
+    checklist = {item["id"]: item for item in contract["connectionChecklist"]}
+    assert "systemd" in checklist["external-scheduler"]["currentProvider"]
+    assert "hetzner" in checklist["deployment-provider"]["currentProvider"]
