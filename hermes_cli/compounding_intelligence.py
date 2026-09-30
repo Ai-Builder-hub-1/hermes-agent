@@ -661,6 +661,8 @@ def _remediation_layer(
                 approval=proposal["policy"]["approval"],
             ))
     runbook_history = [_runbook_history_entry(playbook, packets) for playbook in playbooks]
+    _persist_remediation_outcomes(playbooks, packets, runbook_history)
+    backbone = remediation_backbone_audit()
     return {
         "contractVersion": "hermes-remediation-autonomy.v1",
         "generatedAt": now_iso(),
@@ -670,10 +672,161 @@ def _remediation_layer(
             "runbookHistory": len(runbook_history),
             "approvalRequired": len([packet for packet in packets if packet["approval"] in {"confirm", "explicit"}]),
             "executionEnabled": False,
+            "backboneReady": backbone["summary"]["ready"],
+            "backboneCategories": backbone["summary"]["categories"],
+            "remediationEnough": backbone["summary"]["remediationEnough"],
         },
         "playbooks": playbooks,
         "triagePackets": packets[:12],
         "runbookHistory": runbook_history,
+        "remediationBackbone": backbone,
+    }
+
+
+def _remediation_tables() -> set[str]:
+    return {"remediation_runbook_outcomes"}
+
+
+def _remediation_rows(table: str, limit: int = 100) -> list[dict[str, Any]]:
+    if table not in _remediation_tables():
+        return []
+    try:
+        from hermes_cli.operating_runtime import connect
+
+        with connect() as conn:
+            rows = conn.execute(
+                f"SELECT * FROM {table} ORDER BY recorded_at DESC LIMIT ?",
+                (max(1, min(int(limit or 100), 500)),),
+            ).fetchall()
+            records: list[dict[str, Any]] = []
+            for row in rows:
+                record = dict(row)
+                payload = record.get("payload")
+                if isinstance(payload, str):
+                    try:
+                        record["payload"] = json.loads(payload)
+                    except json.JSONDecodeError:
+                        record["payload"] = {}
+                records.append(record)
+            return records
+    except Exception:
+        return []
+
+
+def _upsert_remediation_record(table: str, record: dict[str, Any]) -> None:
+    if table not in _remediation_tables():
+        return
+    from hermes_cli.operating_runtime import connect
+
+    row = dict(record)
+    row["payload"] = json.dumps(row.get("payload") or {}, sort_keys=True, default=str)
+    row.setdefault("recorded_at", now_iso())
+    columns = list(row)
+    placeholders = ", ".join("?" for _ in columns)
+    updates = ", ".join(f"{column} = excluded.{column}" for column in columns if column != "id")
+    with connect() as conn:
+        conn.execute(
+            f"""
+            INSERT INTO {table} ({', '.join(columns)})
+            VALUES ({placeholders})
+            ON CONFLICT(id) DO UPDATE SET {updates}
+            """,
+            [row[column] for column in columns],
+        )
+        conn.commit()
+
+
+def _persist_remediation_outcomes(
+    playbooks: list[dict[str, Any]],
+    packets: list[dict[str, Any]],
+    runbook_history: list[dict[str, Any]],
+) -> None:
+    ts = now_iso()
+    for entry in runbook_history:
+        playbook = next((item for item in playbooks if item["id"] == entry["playbookId"]), {})
+        matching_packets = [packet for packet in packets if packet["playbookId"] == entry["playbookId"]]
+        outcome = "approval_pending" if matching_packets else "no_active_packet"
+        payload = {
+            "playbook": playbook,
+            "runbookHistory": entry,
+            "triagePackets": matching_packets[:6],
+            "executionEnabled": False,
+        }
+        fingerprint = json.dumps(payload, sort_keys=True, default=str)
+        _upsert_remediation_record(
+            "remediation_runbook_outcomes",
+            {
+                "id": f"remediation-outcome-{_safe_ref(entry.get('playbookId'))}",
+                "playbook_id": str(entry.get("playbookId") or ""),
+                "packet_id": ",".join(packet["id"] for packet in matching_packets[:6]),
+                "source": "compounding-intelligence",
+                "status": str(entry.get("status") or "not_observed"),
+                "outcome": outcome,
+                "approval": str(playbook.get("approval") or "none"),
+                "artifact_ref": str(entry.get("id") or ""),
+                "content_hash": hashlib.sha256(fingerprint.encode("utf-8")).hexdigest(),
+                "observed_at": ts,
+                "payload": payload,
+                "recorded_at": ts,
+            },
+        )
+
+
+def _remediation_backbone_item(item_id: str, label: str, rows: list[dict[str, Any]], missing: list[str], next_action: str) -> dict[str, Any]:
+    return {
+        "id": item_id,
+        "label": label,
+        "status": "ready" if rows else "missing",
+        "remediationEnough": bool(rows),
+        "evidence": [str(row.get("content_hash") or row.get("id")) for row in rows[:6]],
+        "missing": [] if rows else missing,
+        "nextAction": next_action,
+    }
+
+
+def remediation_backbone_audit() -> dict[str, Any]:
+    outcomes = _remediation_rows("remediation_runbook_outcomes")
+    approval_outcomes = [row for row in outcomes if row.get("approval") in {"confirm", "explicit"}]
+    no_live_execution = [row for row in outcomes if (row.get("payload") or {}).get("executionEnabled") is False]
+    items = [
+        _remediation_backbone_item(
+            "source-specific-runbook-outcomes",
+            "Source-specific repair runbook histories",
+            outcomes,
+            ["remediation_runbook_outcomes rows with playbook, packet, status, outcome, approval, content hash, and observed time"],
+            "Persist operator-reviewed remediation outcomes by playbook and source.",
+        ),
+        _remediation_backbone_item(
+            "approval-aware-runbook-outcomes",
+            "Approval-aware runbook outcomes",
+            approval_outcomes,
+            ["remediation_runbook_outcomes rows for confirm/explicit approval playbooks"],
+            "Record confirm/explicit approval outcomes and closeout state for guided remediation.",
+        ),
+        _remediation_backbone_item(
+            "execution-disabled-remediation-proof",
+            "Execution-disabled remediation proof",
+            no_live_execution,
+            ["remediation_runbook_outcomes payloads proving executionEnabled=false"],
+            "Keep live execution disabled while recording remediation review outcomes.",
+        ),
+    ]
+    ready = len([item for item in items if item["status"] == "ready"])
+    missing = len([item for item in items if item["status"] == "missing"])
+    enough = all(item["remediationEnough"] for item in items)
+    return {
+        "contractVersion": "remediation-backbone-audit.v1",
+        "generatedAt": now_iso(),
+        "summary": {
+            "categories": len(items),
+            "ready": ready,
+            "partial": 0,
+            "missing": missing,
+            "remediationEnough": enough,
+            "posture": "sufficient" if enough else "needs_local_proof",
+        },
+        "items": items,
+        "recommendations": [] if enough else [item["nextAction"] for item in items if not item["remediationEnough"]],
     }
 
 

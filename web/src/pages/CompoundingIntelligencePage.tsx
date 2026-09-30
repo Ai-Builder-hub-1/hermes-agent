@@ -236,6 +236,19 @@ export default function CompoundingIntelligencePage() {
 
         <Panel title="Triage and playbooks" aside={summary.remediation.summary.triagePackets}>
           <div className="space-y-2">
+            <div className="grid gap-2 sm:grid-cols-2">
+              <MiniFact label="Backbone" value={`${summary.remediation.summary.backboneReady ?? 0}/${summary.remediation.summary.backboneCategories ?? 0}`} />
+              <MiniFact label="Posture" value={summary.remediation.summary.remediationEnough ? "sufficient" : "needs proof"} />
+            </div>
+            {summary.remediation.remediationBackbone ? summary.remediation.remediationBackbone.items.map((item) => (
+              <Callout
+                key={item.id}
+                title={item.label}
+                detail={item.remediationEnough ? item.evidence.slice(0, 2).join(" | ") || "Local remediation outcomes are present." : item.missing.join("; ") || item.nextAction}
+                tone={tone(item.status === "ready" ? "ready" : "warning")}
+                icon={ShieldCheck}
+              />
+            )) : null}
             {summary.remediation.triagePackets.length ? summary.remediation.triagePackets.slice(0, 5).map((packet) => (
               <Callout key={packet.id} title={packet.title} detail={`${packet.playbookId}; ${packet.recommendedAction}`} tone={tone(packet.severity)} icon={ShieldCheck} />
             )) : <Callout title="No triage packets" detail="There are no guided remediation packets waiting for review." tone="ready" icon={ShieldCheck} />}

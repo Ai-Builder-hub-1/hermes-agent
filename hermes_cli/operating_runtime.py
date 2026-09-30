@@ -448,6 +448,23 @@ def init_db(conn: sqlite3.Connection) -> None:
         );
         CREATE INDEX IF NOT EXISTS idx_causal_event_joins_correlation ON causal_event_joins(correlation_id);
         CREATE INDEX IF NOT EXISTS idx_causal_event_joins_recorded ON causal_event_joins(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS remediation_runbook_outcomes (
+            id TEXT PRIMARY KEY,
+            playbook_id TEXT NOT NULL,
+            packet_id TEXT NOT NULL DEFAULT '',
+            source TEXT NOT NULL DEFAULT '',
+            status TEXT NOT NULL DEFAULT 'not_observed',
+            outcome TEXT NOT NULL DEFAULT '',
+            approval TEXT NOT NULL DEFAULT 'none',
+            artifact_ref TEXT NOT NULL DEFAULT '',
+            content_hash TEXT NOT NULL DEFAULT '',
+            observed_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_remediation_runbook_outcomes_playbook ON remediation_runbook_outcomes(playbook_id);
+        CREATE INDEX IF NOT EXISTS idx_remediation_runbook_outcomes_recorded ON remediation_runbook_outcomes(recorded_at);
         """
     )
     conn.commit()

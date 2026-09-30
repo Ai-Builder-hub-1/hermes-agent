@@ -229,6 +229,9 @@ export interface CompoundingSummary {
       runbookHistory: number;
       approvalRequired: number;
       executionEnabled: boolean;
+      backboneReady?: number;
+      backboneCategories?: number;
+      remediationEnough?: boolean;
     };
     playbooks: Array<{
       id: string;
@@ -261,6 +264,28 @@ export interface CompoundingSummary {
       executionEnabled: boolean;
       nextAction: string;
     }>;
+    remediationBackbone?: {
+      contractVersion: string;
+      generatedAt: string;
+      summary: {
+        categories: number;
+        ready: number;
+        partial: number;
+        missing: number;
+        remediationEnough: boolean;
+        posture: string;
+      };
+      items: Array<{
+        id: string;
+        label: string;
+        status: string;
+        remediationEnough: boolean;
+        evidence: string[];
+        missing: string[];
+        nextAction: string;
+      }>;
+      recommendations: string[];
+    };
   };
   businessReliabilityCost: {
     contractVersion: string;

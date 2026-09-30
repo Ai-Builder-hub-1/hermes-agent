@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-30T20:21:47.746Z",
+  "generatedAt": "2026-09-30T20:25:47.108Z",
   "summary": {
     "routes": 36,
     "readyRoutes": 36,
@@ -960,7 +960,7 @@
     "owner": "Hermes",
     "detail": "36/36 operational routes ready; 51 live sources reachable; 27 safe actions evidence-backed.",
     "payload": {
-      "generatedAt": "2026-09-30T20:21:47.746Z",
+      "generatedAt": "2026-09-30T20:25:47.108Z",
       "summary": {
         "routes": 36,
         "readyRoutes": 36,
