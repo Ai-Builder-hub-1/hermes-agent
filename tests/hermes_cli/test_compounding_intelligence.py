@@ -50,6 +50,9 @@ async def test_compounding_intelligence_summary_and_review(tmp_path, monkeypatch
     assert summary["businessReliabilityCost"]["regressionActions"]
     assert summary["fleetGovernance"]["contractVersion"] == "hermes-fleet-governance-autonomous-execution.v1"
     assert summary["fleetGovernance"]["summary"]["executionEnabled"] is False
+    assert summary["fleetGovernance"]["summary"]["backboneReady"] == summary["fleetGovernance"]["summary"]["backboneCategories"]
+    assert summary["fleetGovernance"]["summary"]["fleetGovernanceEnough"] is True
+    assert summary["fleetGovernance"]["fleetBackbone"]["summary"]["fleetGovernanceEnough"] is True
     assert summary["fleetGovernance"]["controls"]
     assert summary["fleetGovernance"]["visualBaselines"]
     assert summary["launchReadiness"]["contractVersion"] == "hermes-launch-readiness-closure.v1"
@@ -89,6 +92,7 @@ def test_compounding_intelligence_api_routes(tmp_path, monkeypatch):
     assert body["predictiveIntelligence"]["predictiveBackbone"]["summary"]["ready"] == body["predictiveIntelligence"]["predictiveBackbone"]["summary"]["categories"]
     assert body["remediation"]["remediationBackbone"]["summary"]["ready"] == body["remediation"]["remediationBackbone"]["summary"]["categories"]
     assert body["businessReliabilityCost"]["businessBackbone"]["summary"]["ready"] == body["businessReliabilityCost"]["businessBackbone"]["summary"]["categories"]
+    assert body["fleetGovernance"]["fleetBackbone"]["summary"]["ready"] == body["fleetGovernance"]["fleetBackbone"]["summary"]["categories"]
 
     review = client.post(
         "/api/compounding-intelligence/review",

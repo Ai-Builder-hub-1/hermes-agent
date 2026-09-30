@@ -524,6 +524,50 @@ def init_db(conn: sqlite3.Connection) -> None:
         );
         CREATE INDEX IF NOT EXISTS idx_regression_action_closeouts_action ON regression_action_closeouts(action_id);
         CREATE INDEX IF NOT EXISTS idx_regression_action_closeouts_recorded ON regression_action_closeouts(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS fleet_deployment_receipts (
+            id TEXT PRIMARY KEY,
+            control_id TEXT NOT NULL,
+            receipt_type TEXT NOT NULL DEFAULT '',
+            status TEXT NOT NULL DEFAULT '',
+            artifact_ref TEXT NOT NULL DEFAULT '',
+            content_hash TEXT NOT NULL DEFAULT '',
+            observed_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_fleet_deployment_receipts_control ON fleet_deployment_receipts(control_id);
+        CREATE INDEX IF NOT EXISTS idx_fleet_deployment_receipts_recorded ON fleet_deployment_receipts(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS fleet_visual_baseline_history (
+            id TEXT PRIMARY KEY,
+            route TEXT NOT NULL,
+            baseline_id TEXT NOT NULL DEFAULT '',
+            status TEXT NOT NULL DEFAULT '',
+            artifact_ref TEXT NOT NULL DEFAULT '',
+            comparison_storage TEXT NOT NULL DEFAULT '',
+            content_hash TEXT NOT NULL DEFAULT '',
+            observed_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_fleet_visual_baseline_history_route ON fleet_visual_baseline_history(route);
+        CREATE INDEX IF NOT EXISTS idx_fleet_visual_baseline_history_recorded ON fleet_visual_baseline_history(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS autonomous_fleet_runner_history (
+            id TEXT PRIMARY KEY,
+            runner_id TEXT NOT NULL,
+            mode TEXT NOT NULL DEFAULT 'operator_review_only',
+            status TEXT NOT NULL DEFAULT '',
+            approval TEXT NOT NULL DEFAULT 'explicit',
+            execution_enabled INTEGER NOT NULL DEFAULT 0,
+            content_hash TEXT NOT NULL DEFAULT '',
+            observed_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_autonomous_fleet_runner_history_runner ON autonomous_fleet_runner_history(runner_id);
+        CREATE INDEX IF NOT EXISTS idx_autonomous_fleet_runner_history_recorded ON autonomous_fleet_runner_history(recorded_at);
         """
     )
     conn.commit()

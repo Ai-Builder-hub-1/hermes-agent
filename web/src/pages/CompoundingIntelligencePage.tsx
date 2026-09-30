@@ -198,6 +198,19 @@ export default function CompoundingIntelligencePage() {
         <Panel title="Fleet governance" aside={`${summary.fleetGovernance.summary.ready}/${summary.fleetGovernance.summary.controls}`}>
           <div className="space-y-2">
             <Callout title="Autonomy mode" detail={`${summary.fleetGovernance.autonomy.mode}; next gate: ${summary.fleetGovernance.autonomy.nextApprovalGate}`} tone={summary.fleetGovernance.summary.blocked ? "critical" : "warning"} icon={Lock} />
+            <div className="grid gap-2 sm:grid-cols-2">
+              <MiniFact label="Backbone" value={`${summary.fleetGovernance.summary.backboneReady ?? 0}/${summary.fleetGovernance.summary.backboneCategories ?? 0}`} />
+              <MiniFact label="Posture" value={summary.fleetGovernance.summary.fleetGovernanceEnough ? "sufficient" : "needs proof"} />
+            </div>
+            {summary.fleetGovernance.fleetBackbone ? summary.fleetGovernance.fleetBackbone.items.map((item) => (
+              <Callout
+                key={item.id}
+                title={item.label}
+                detail={item.fleetGovernanceEnough ? item.evidence.slice(0, 2).join(" | ") || "Local fleet governance rows are present." : item.missing.join("; ") || item.nextAction}
+                tone={tone(item.status === "ready" ? "ready" : "warning")}
+                icon={ShieldCheck}
+              />
+            )) : null}
             {summary.fleetGovernance.controls.slice(0, 6).map((control) => (
               <MiniFact key={control.id} label={control.status} value={`${control.title} / ${control.proof}`} />
             ))}

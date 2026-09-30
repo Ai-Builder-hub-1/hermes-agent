@@ -378,6 +378,9 @@ export interface CompoundingSummary {
       businessDomains: number;
       visualBaselines: number;
       executionEnabled: boolean;
+      backboneReady?: number;
+      backboneCategories?: number;
+      fleetGovernanceEnough?: boolean;
     };
     controls: Array<{
       id: string;
@@ -400,6 +403,28 @@ export interface CompoundingSummary {
       executionEnabled: boolean;
       dangerousActions: string;
       nextApprovalGate: string;
+    };
+    fleetBackbone?: {
+      contractVersion: string;
+      generatedAt: string;
+      summary: {
+        categories: number;
+        ready: number;
+        partial: number;
+        missing: number;
+        fleetGovernanceEnough: boolean;
+        posture: string;
+      };
+      items: Array<{
+        id: string;
+        label: string;
+        status: string;
+        fleetGovernanceEnough: boolean;
+        evidence: string[];
+        missing: string[];
+        nextAction: string;
+      }>;
+      recommendations: string[];
     };
   };
   launchReadiness: {

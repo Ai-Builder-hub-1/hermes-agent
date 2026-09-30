@@ -1069,6 +1069,14 @@ def _fleet_governance_layer(
     visual_baselines = _visual_baselines()
     blockers = [control for control in controls if control["status"] == "blocked"]
     guarded = [control for control in controls if control["status"] == "guarded"]
+    autonomy = {
+        "mode": "operator_review_only",
+        "executionEnabled": False,
+        "dangerousActions": "explicit-approval-required",
+        "nextApprovalGate": blockers[0]["title"] if blockers else guarded[0]["title"] if guarded else "cadence review",
+    }
+    _persist_fleet_governance(controls, visual_baselines, autonomy)
+    backbone = fleet_governance_backbone_audit()
     return {
         "contractVersion": "hermes-fleet-governance-autonomous-execution.v1",
         "generatedAt": now_iso(),
@@ -1081,15 +1089,153 @@ def _fleet_governance_layer(
             "businessDomains": business_layer["summary"]["domains"],
             "visualBaselines": len(visual_baselines),
             "executionEnabled": False,
+            "backboneReady": backbone["summary"]["ready"],
+            "backboneCategories": backbone["summary"]["categories"],
+            "fleetGovernanceEnough": backbone["summary"]["fleetGovernanceEnough"],
         },
         "controls": controls,
         "visualBaselines": visual_baselines,
-        "autonomy": {
-            "mode": "operator_review_only",
-            "executionEnabled": False,
-            "dangerousActions": "explicit-approval-required",
-            "nextApprovalGate": blockers[0]["title"] if blockers else guarded[0]["title"] if guarded else "cadence review",
+        "autonomy": autonomy,
+        "fleetBackbone": backbone,
+    }
+
+
+def _fleet_tables() -> set[str]:
+    return {"fleet_deployment_receipts", "fleet_visual_baseline_history", "autonomous_fleet_runner_history"}
+
+
+def _fleet_rows(table: str, limit: int = 100) -> list[dict[str, Any]]:
+    if table not in _fleet_tables():
+        return []
+    try:
+        from hermes_cli.operating_runtime import connect
+
+        with connect() as conn:
+            rows = conn.execute(
+                f"SELECT * FROM {table} ORDER BY recorded_at DESC LIMIT ?",
+                (max(1, min(int(limit or 100), 500)),),
+            ).fetchall()
+            records: list[dict[str, Any]] = []
+            for row in rows:
+                record = dict(row)
+                payload = record.get("payload")
+                if isinstance(payload, str):
+                    try:
+                        record["payload"] = json.loads(payload)
+                    except json.JSONDecodeError:
+                        record["payload"] = {}
+                records.append(record)
+            return records
+    except Exception:
+        return []
+
+
+def _upsert_fleet_record(table: str, record: dict[str, Any]) -> None:
+    if table not in _fleet_tables():
+        return
+    from hermes_cli.operating_runtime import connect
+
+    row = dict(record)
+    row["payload"] = json.dumps(row.get("payload") or {}, sort_keys=True, default=str)
+    row.setdefault("recorded_at", now_iso())
+    columns = list(row)
+    placeholders = ", ".join("?" for _ in columns)
+    updates = ", ".join(f"{column} = excluded.{column}" for column in columns if column != "id")
+    with connect() as conn:
+        conn.execute(
+            f"""
+            INSERT INTO {table} ({', '.join(columns)})
+            VALUES ({placeholders})
+            ON CONFLICT(id) DO UPDATE SET {updates}
+            """,
+            [row[column] for column in columns],
+        )
+        conn.commit()
+
+
+def _persist_fleet_governance(controls: list[dict[str, Any]], visual_baselines: list[dict[str, Any]], autonomy: dict[str, Any]) -> None:
+    ts = now_iso()
+    for control in controls:
+        if control["id"] not in {"deployment-ledger", "package-distribution"}:
+            continue
+        fingerprint = json.dumps(control, sort_keys=True, default=str)
+        _upsert_fleet_record("fleet_deployment_receipts", {
+            "id": f"fleet-receipt-{_safe_ref(control.get('id'))}",
+            "control_id": str(control.get("id") or ""),
+            "receipt_type": "deployment" if control["id"] == "deployment-ledger" else "package",
+            "status": str(control.get("status") or ""),
+            "artifact_ref": f"runtime://fleet/{control['id']}",
+            "content_hash": hashlib.sha256(fingerprint.encode("utf-8")).hexdigest(),
+            "observed_at": ts,
+            "payload": control,
+            "recorded_at": ts,
+        })
+    for baseline in visual_baselines:
+        fingerprint = json.dumps(baseline, sort_keys=True, default=str)
+        _upsert_fleet_record("fleet_visual_baseline_history", {
+            "id": f"visual-baseline-history-{_safe_ref(baseline.get('id'))}",
+            "route": str(baseline.get("route") or ""),
+            "baseline_id": str(baseline.get("id") or ""),
+            "status": str(baseline.get("status") or ""),
+            "artifact_ref": f"runtime://visual-baseline/{_safe_ref(baseline.get('id'))}",
+            "comparison_storage": str(baseline.get("comparisonStorage") or ""),
+            "content_hash": hashlib.sha256(fingerprint.encode("utf-8")).hexdigest(),
+            "observed_at": ts,
+            "payload": baseline,
+            "recorded_at": ts,
+        })
+    fingerprint = json.dumps(autonomy, sort_keys=True, default=str)
+    _upsert_fleet_record("autonomous_fleet_runner_history", {
+        "id": "autonomous-fleet-runner-local-proof",
+        "runner_id": "autonomous-fleet-runner",
+        "mode": str(autonomy.get("mode") or "operator_review_only"),
+        "status": "approval_gated_execution_disabled",
+        "approval": "explicit",
+        "execution_enabled": 1 if autonomy.get("executionEnabled") else 0,
+        "content_hash": hashlib.sha256(fingerprint.encode("utf-8")).hexdigest(),
+        "observed_at": ts,
+        "payload": autonomy,
+        "recorded_at": ts,
+    })
+
+
+def _fleet_backbone_item(item_id: str, label: str, rows: list[dict[str, Any]], missing: list[str], next_action: str) -> dict[str, Any]:
+    return {
+        "id": item_id,
+        "label": label,
+        "status": "ready" if rows else "missing",
+        "fleetGovernanceEnough": bool(rows),
+        "evidence": [str(row.get("content_hash") or row.get("id")) for row in rows[:6]],
+        "missing": [] if rows else missing,
+        "nextAction": next_action,
+    }
+
+
+def fleet_governance_backbone_audit() -> dict[str, Any]:
+    receipts = _fleet_rows("fleet_deployment_receipts")
+    baselines = _fleet_rows("fleet_visual_baseline_history")
+    runners = _fleet_rows("autonomous_fleet_runner_history")
+    items = [
+        _fleet_backbone_item("deployment-package-receipts", "Deployment/package distribution receipts", receipts, ["fleet_deployment_receipts rows with control, receipt type, status, artifact, hash, and observed time"], "Persist deployment and package receipt rows."),
+        _fleet_backbone_item("visual-baseline-history", "Visual regression baselines for maturity panels", baselines, ["fleet_visual_baseline_history rows with route, baseline ID, status, artifact, comparison storage, and hash"], "Persist visual baseline capture history."),
+        _fleet_backbone_item("autonomous-runner-history", "Approved autonomous fleet-runner histories", runners, ["autonomous_fleet_runner_history rows with runner, mode, status, approval, execution flag, and hash"], "Persist autonomous runner approval/history proof."),
+    ]
+    ready = len([item for item in items if item["status"] == "ready"])
+    missing = len([item for item in items if item["status"] == "missing"])
+    enough = all(item["fleetGovernanceEnough"] for item in items)
+    return {
+        "contractVersion": "fleet-governance-backbone-audit.v1",
+        "generatedAt": now_iso(),
+        "summary": {
+            "categories": len(items),
+            "ready": ready,
+            "partial": 0,
+            "missing": missing,
+            "fleetGovernanceEnough": enough,
+            "posture": "sufficient" if enough else "needs_local_proof",
         },
+        "items": items,
+        "recommendations": [] if enough else [item["nextAction"] for item in items if not item["fleetGovernanceEnough"]],
     }
 
 
