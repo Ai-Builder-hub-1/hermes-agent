@@ -58,6 +58,9 @@ async def test_compounding_intelligence_summary_and_review(tmp_path, monkeypatch
     assert summary["launchReadiness"]["contractVersion"] == "hermes-launch-readiness-closure.v1"
     assert summary["launchReadiness"]["summary"]["systems"] >= 5
     assert summary["launchReadiness"]["decision"]["executionEnabled"] is False
+    assert summary["launchReadiness"]["summary"]["backboneReady"] == summary["launchReadiness"]["summary"]["backboneCategories"]
+    assert summary["launchReadiness"]["summary"]["launchReadinessEnough"] is True
+    assert summary["launchReadiness"]["launchBackbone"]["summary"]["launchReadinessEnough"] is True
     assert summary["interactionMaturity"]["contractVersion"] == "hermes-frontend-interaction-maturity.v1"
     assert summary["interactionMaturity"]["summary"]["routes"] >= 4
     assert {"lifecycle", "outcomes", "portfolio", "policy", "recovery"}.issubset(summary["evidence"])
@@ -93,6 +96,7 @@ def test_compounding_intelligence_api_routes(tmp_path, monkeypatch):
     assert body["remediation"]["remediationBackbone"]["summary"]["ready"] == body["remediation"]["remediationBackbone"]["summary"]["categories"]
     assert body["businessReliabilityCost"]["businessBackbone"]["summary"]["ready"] == body["businessReliabilityCost"]["businessBackbone"]["summary"]["categories"]
     assert body["fleetGovernance"]["fleetBackbone"]["summary"]["ready"] == body["fleetGovernance"]["fleetBackbone"]["summary"]["categories"]
+    assert body["launchReadiness"]["launchBackbone"]["summary"]["ready"] == body["launchReadiness"]["launchBackbone"]["summary"]["categories"]
 
     review = client.post(
         "/api/compounding-intelligence/review",

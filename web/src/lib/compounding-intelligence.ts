@@ -438,6 +438,9 @@ export interface CompoundingSummary {
       businessDomains: number;
       outcomeReliability?: number;
       executionEnabled: boolean;
+      backboneReady?: number;
+      backboneCategories?: number;
+      launchReadinessEnough?: boolean;
     };
     systems: Array<{
       id: string;
@@ -452,6 +455,28 @@ export interface CompoundingSummary {
       launchMode: string;
       executionEnabled: boolean;
       nextAction: string;
+    };
+    launchBackbone?: {
+      contractVersion: string;
+      generatedAt: string;
+      summary: {
+        categories: number;
+        ready: number;
+        partial: number;
+        missing: number;
+        launchReadinessEnough: boolean;
+        posture: string;
+      };
+      items: Array<{
+        id: string;
+        label: string;
+        status: string;
+        launchReadinessEnough: boolean;
+        evidence: string[];
+        missing: string[];
+        nextAction: string;
+      }>;
+      recommendations: string[];
     };
   };
   interactionMaturity: {

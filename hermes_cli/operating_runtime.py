@@ -568,6 +568,34 @@ def init_db(conn: sqlite3.Connection) -> None:
         );
         CREATE INDEX IF NOT EXISTS idx_autonomous_fleet_runner_history_runner ON autonomous_fleet_runner_history(runner_id);
         CREATE INDEX IF NOT EXISTS idx_autonomous_fleet_runner_history_recorded ON autonomous_fleet_runner_history(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS launch_system_telemetry (
+            id TEXT PRIMARY KEY,
+            system_id TEXT NOT NULL,
+            status TEXT NOT NULL DEFAULT '',
+            gates TEXT NOT NULL DEFAULT '',
+            evidence_ref TEXT NOT NULL DEFAULT '',
+            content_hash TEXT NOT NULL DEFAULT '',
+            observed_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_launch_system_telemetry_system ON launch_system_telemetry(system_id);
+        CREATE INDEX IF NOT EXISTS idx_launch_system_telemetry_recorded ON launch_system_telemetry(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS launch_decision_history (
+            id TEXT PRIMARY KEY,
+            launch_mode TEXT NOT NULL,
+            status TEXT NOT NULL DEFAULT '',
+            execution_enabled INTEGER NOT NULL DEFAULT 0,
+            next_action TEXT NOT NULL DEFAULT '',
+            content_hash TEXT NOT NULL DEFAULT '',
+            observed_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_launch_decision_history_mode ON launch_decision_history(launch_mode);
+        CREATE INDEX IF NOT EXISTS idx_launch_decision_history_recorded ON launch_decision_history(recorded_at);
         """
     )
     conn.commit()

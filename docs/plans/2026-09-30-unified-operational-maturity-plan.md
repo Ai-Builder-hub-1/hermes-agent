@@ -65,7 +65,7 @@ This replaces the scattered plans with one ordered build plan.
 | 9. Guided Remediation And Human-Gated Autonomy | Original phases 15, 16 | 100% | Hermes can prepare repairs safely while the operator approves risky moves | Playbook registry, triage packets, suggested closeout command, approval-aware status, local runbook history, persisted remediation outcomes, remediation backbone audit, and guided remediation UI are built; execution remains disabled; live approval/provider histories can enrich later |
 | 10. Business, Reliability, Cost, And Self-Audit | Original phases 17, 18, 19, 20 plus ultimate gap assessment | 100% | The dashboard ranks operational work by business impact, reliability, cost, and self-detected gaps | Business impact mapping, reliability scoring, cost recommendations, self-audit gaps, generated regression-action candidates, persisted impact/reliability/cost/closeout rows, backbone audit, and UI panels are built; live provider histories can enrich later |
 | 11. Fleet Governance And Autonomous Execution | Ultimate V14-V20 maturity layer | 100% | Governance refresh, deployment ledger, package distribution, runtime data hygiene, visual primitive protection, autonomous fleet runner | Fleet controls, autonomy mode, approval gate, package/build proof, runtime hygiene, visual baseline contract, deployment/package receipt rows, visual baseline history rows, autonomous runner history rows, backbone audit, and execution-disabled guarantee are built; live provider receipts can enrich later |
-| 12. Launch Readiness Closure | Product launch/readiness decision layer | 80% | Decide whether Khashi, Investing System, Media Engine, Media Business Ops, and Nous Hermes can launch or expand based on proof | Launch readiness contract, system gates, evidence, guarded/blocked status, and UI panels are built; remaining work is source-native telemetry and launch decision history |
+| 12. Launch Readiness Closure | Product launch/readiness decision layer | 100% | Decide whether Khashi, Investing System, Media Engine, Media Business Ops, and Nous Hermes can launch or expand based on proof | Launch readiness contract, system gates, evidence, guarded/blocked status, persisted launch telemetry, decision history, backbone audit, and UI panels are built; source-native product telemetry can enrich later |
 
 ## Build Order
 
@@ -174,6 +174,15 @@ The local fleet governance backbone is acceptable when Hermes persists deploymen
 | Visual regression baselines for maturity panels | Ready | Keep populating `fleet_visual_baseline_history` with route, baseline ID, status, artifact ref, comparison storage, content hash, and observed time. |
 | Approved autonomous fleet-runner histories | Ready | Keep populating `autonomous_fleet_runner_history` with runner ID, mode, status, approval, execution flag, content hash, and observed time. |
 
+### Group 9 Launch Readiness Backbone Audit
+
+The local launch readiness backbone is acceptable when Hermes persists launch telemetry snapshots for each product/system and a launch decision history row. As of the Group 9 build, the target posture is `sufficient`: compounding intelligence writes local launch telemetry and decision-history rows each time it evaluates readiness. Source-native telemetry from Khashi, Investing System, Media Engine, Media Business Ops, and Nous Hermes can still enrich these rows later, but it is no longer blocking local Phase 12 maturity.
+
+| Category | Current status | What is needed for 100% |
+| --- | --- | --- |
+| Source-native launch telemetry | Ready | Keep populating `launch_system_telemetry` with system ID, status, gates, evidence ref, content hash, observed time, and payload. |
+| Observed launch decision history | Ready | Keep populating `launch_decision_history` with launch mode, status, execution flag, next action, content hash, observed time, and payload. |
+
 | Item | Needed to finish | Why deferred | Current status |
 | --- | --- | --- | --- |
 | Production collector/mirror/prune history | Phase 2 to 100% | Requires production jobs to run and emit durable evidence | Backend/UI can display it; live production event source still needed |
@@ -200,11 +209,11 @@ The local fleet governance backbone is acceptable when Hermes persists deploymen
 | Deployment/package distribution receipts | Phase 11 enrichment | Requires production deploy/package provider receipts | Local deployment/package receipt rows are sufficient; live provider receipts can enrich them later |
 | Visual regression baselines for maturity panels | Phase 11 enrichment | Requires approved baseline capture and comparison storage | Local visual baseline history rows are sufficient; captured provider artifacts can enrich them later |
 | Approved autonomous fleet-runner histories | Phase 11 enrichment | Requires explicit approval and observed runner outcomes | Local runner history rows are sufficient; runner remains execution-disabled until explicit approval |
-| Source-native launch telemetry for Khashi/Investing/Media | Phase 12 to 100% | Requires each product's production telemetry and launch decision history | Launch readiness gates exist; source-native product telemetry still needed |
+| Source-native launch telemetry for Khashi/Investing/Media | Phase 12 enrichment | Requires each product's production telemetry and launch decision history | Local launch telemetry and decision history rows are sufficient; source-native product telemetry can enrich them later |
 
 ## Next Phase To Build
 
-Phase 1 is complete as of 2026-09-30. Phase 2 is in progress at 96%. Phase 3 is complete at 100% for the local source-backbone target. Phase 4 is complete at 100% for the local control-backbone target. Phase 5 is in progress at 96%. Phase 6 is complete at 100% for the local permission/control-backbone target. Phase 7 is complete at 100% for the local automated-evidence/SLO backbone target. Phase 8 is complete at 100% for the local predictive/causal backbone target. Phase 9 is complete at 100% for the local remediation/autonomy backbone target. Phase 10 is complete at 100% for the local business/reliability/cost/self-audit backbone target. Phase 11 is complete at 100% for the local fleet-governance/autonomy backbone target. Phase 12 is in progress at 80%.
+Phase 1 is complete as of 2026-09-30. Phase 2 is in progress at 96%. Phase 3 is complete at 100% for the local source-backbone target. Phase 4 is complete at 100% for the local control-backbone target. Phase 5 is in progress at 96%. Phase 6 is complete at 100% for the local permission/control-backbone target. Phase 7 is complete at 100% for the local automated-evidence/SLO backbone target. Phase 8 is complete at 100% for the local predictive/causal backbone target. Phase 9 is complete at 100% for the local remediation/autonomy backbone target. Phase 10 is complete at 100% for the local business/reliability/cost/self-audit backbone target. Phase 11 is complete at 100% for the local fleet-governance/autonomy backbone target. Phase 12 is complete at 100% for the local launch-readiness backbone target.
 
 ### Phase 1 Build Checklist
 
@@ -437,7 +446,9 @@ Phase 1 is complete as of 2026-09-30. Phase 2 is in progress at 96%. Phase 3 is 
 - Done: Each launch system exposes status, gates, evidence, next action, and execution-disabled guarantee.
 - Done: Launch decision exposes launch mode and next action.
 - Done: Compounding Intelligence page renders launch readiness by system.
-- Remaining: source-native launch telemetry and observed launch decision history.
+- Done: `launch_system_telemetry` and `launch_decision_history` persist local launch readiness rows.
+- Done: Compounding Intelligence surfaces the launch readiness backbone audit.
+- Remaining: no local/product blocker; source-native launch telemetry and observed product launch histories are enrichment work.
 
 ### Phase 12 Test Gate
 

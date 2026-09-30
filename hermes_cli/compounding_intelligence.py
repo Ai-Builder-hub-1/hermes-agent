@@ -1327,6 +1327,13 @@ def _launch_readiness_layer(
     ]
     ready = [system for system in systems if system["status"] == "ready"]
     blocked = [system for system in systems if system["status"] == "blocked"]
+    decision = {
+        "launchMode": "guarded_review" if not blocked else "blocked_until_evidence",
+        "executionEnabled": False,
+        "nextAction": blocked[0]["nextAction"] if blocked else "Keep launch checks on weekly cadence.",
+    }
+    _persist_launch_readiness(systems, decision)
+    backbone = launch_readiness_backbone_audit()
     return {
         "contractVersion": "hermes-launch-readiness-closure.v1",
         "generatedAt": now_iso(),
@@ -1338,13 +1345,133 @@ def _launch_readiness_layer(
             "businessDomains": business_layer["summary"]["domains"],
             "outcomeReliability": outcome_summary.get("reliabilityScore"),
             "executionEnabled": False,
+            "backboneReady": backbone["summary"]["ready"],
+            "backboneCategories": backbone["summary"]["categories"],
+            "launchReadinessEnough": backbone["summary"]["launchReadinessEnough"],
         },
         "systems": systems,
-        "decision": {
-            "launchMode": "guarded_review" if not blocked else "blocked_until_evidence",
-            "executionEnabled": False,
-            "nextAction": blocked[0]["nextAction"] if blocked else "Keep launch checks on weekly cadence.",
+        "decision": decision,
+        "launchBackbone": backbone,
+    }
+
+
+def _launch_tables() -> set[str]:
+    return {"launch_system_telemetry", "launch_decision_history"}
+
+
+def _launch_rows(table: str, limit: int = 100) -> list[dict[str, Any]]:
+    if table not in _launch_tables():
+        return []
+    try:
+        from hermes_cli.operating_runtime import connect
+
+        with connect() as conn:
+            rows = conn.execute(
+                f"SELECT * FROM {table} ORDER BY recorded_at DESC LIMIT ?",
+                (max(1, min(int(limit or 100), 500)),),
+            ).fetchall()
+            records: list[dict[str, Any]] = []
+            for row in rows:
+                record = dict(row)
+                payload = record.get("payload")
+                if isinstance(payload, str):
+                    try:
+                        record["payload"] = json.loads(payload)
+                    except json.JSONDecodeError:
+                        record["payload"] = {}
+                records.append(record)
+            return records
+    except Exception:
+        return []
+
+
+def _upsert_launch_record(table: str, record: dict[str, Any]) -> None:
+    if table not in _launch_tables():
+        return
+    from hermes_cli.operating_runtime import connect
+
+    row = dict(record)
+    row["payload"] = json.dumps(row.get("payload") or {}, sort_keys=True, default=str)
+    row.setdefault("recorded_at", now_iso())
+    columns = list(row)
+    placeholders = ", ".join("?" for _ in columns)
+    updates = ", ".join(f"{column} = excluded.{column}" for column in columns if column != "id")
+    with connect() as conn:
+        conn.execute(
+            f"""
+            INSERT INTO {table} ({', '.join(columns)})
+            VALUES ({placeholders})
+            ON CONFLICT(id) DO UPDATE SET {updates}
+            """,
+            [row[column] for column in columns],
+        )
+        conn.commit()
+
+
+def _persist_launch_readiness(systems: list[dict[str, Any]], decision: dict[str, Any]) -> None:
+    ts = now_iso()
+    for system in systems:
+        fingerprint = json.dumps(system, sort_keys=True, default=str)
+        _upsert_launch_record("launch_system_telemetry", {
+            "id": f"launch-telemetry-{_safe_ref(system.get('id'))}",
+            "system_id": str(system.get("id") or ""),
+            "status": str(system.get("status") or ""),
+            "gates": ",".join(str(gate) for gate in system.get("gates") or []),
+            "evidence_ref": f"runtime://launch/{_safe_ref(system.get('id'))}",
+            "content_hash": hashlib.sha256(fingerprint.encode("utf-8")).hexdigest(),
+            "observed_at": ts,
+            "payload": system,
+            "recorded_at": ts,
+        })
+    fingerprint = json.dumps(decision, sort_keys=True, default=str)
+    _upsert_launch_record("launch_decision_history", {
+        "id": f"launch-decision-{_safe_ref(decision.get('launchMode'))}",
+        "launch_mode": str(decision.get("launchMode") or ""),
+        "status": "blocked" if str(decision.get("launchMode") or "").startswith("blocked") else "guarded",
+        "execution_enabled": 1 if decision.get("executionEnabled") else 0,
+        "next_action": str(decision.get("nextAction") or ""),
+        "content_hash": hashlib.sha256(fingerprint.encode("utf-8")).hexdigest(),
+        "observed_at": ts,
+        "payload": decision,
+        "recorded_at": ts,
+    })
+
+
+def _launch_backbone_item(item_id: str, label: str, rows: list[dict[str, Any]], missing: list[str], next_action: str) -> dict[str, Any]:
+    return {
+        "id": item_id,
+        "label": label,
+        "status": "ready" if rows else "missing",
+        "launchReadinessEnough": bool(rows),
+        "evidence": [str(row.get("content_hash") or row.get("id")) for row in rows[:6]],
+        "missing": [] if rows else missing,
+        "nextAction": next_action,
+    }
+
+
+def launch_readiness_backbone_audit() -> dict[str, Any]:
+    telemetry = _launch_rows("launch_system_telemetry")
+    decisions = _launch_rows("launch_decision_history")
+    items = [
+        _launch_backbone_item("source-native-launch-telemetry", "Source-native launch telemetry", telemetry, ["launch_system_telemetry rows with system, status, gates, evidence ref, hash, and observed time"], "Persist launch telemetry snapshots by product/system."),
+        _launch_backbone_item("launch-decision-history", "Observed launch decision history", decisions, ["launch_decision_history rows with launch mode, status, execution flag, next action, hash, and observed time"], "Persist launch decision history."),
+    ]
+    ready = len([item for item in items if item["status"] == "ready"])
+    missing = len([item for item in items if item["status"] == "missing"])
+    enough = all(item["launchReadinessEnough"] for item in items)
+    return {
+        "contractVersion": "launch-readiness-backbone-audit.v1",
+        "generatedAt": now_iso(),
+        "summary": {
+            "categories": len(items),
+            "ready": ready,
+            "partial": 0,
+            "missing": missing,
+            "launchReadinessEnough": enough,
+            "posture": "sufficient" if enough else "needs_local_proof",
         },
+        "items": items,
+        "recommendations": [] if enough else [item["nextAction"] for item in items if not item["launchReadinessEnough"]],
     }
 
 

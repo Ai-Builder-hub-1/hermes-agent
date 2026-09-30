@@ -224,6 +224,19 @@ export default function CompoundingIntelligencePage() {
 
         <Panel title="Launch readiness" aside={summary.launchReadiness.decision.launchMode}>
           <div className="space-y-2">
+            <div className="grid gap-2 sm:grid-cols-2">
+              <MiniFact label="Backbone" value={`${summary.launchReadiness.summary.backboneReady ?? 0}/${summary.launchReadiness.summary.backboneCategories ?? 0}`} />
+              <MiniFact label="Posture" value={summary.launchReadiness.summary.launchReadinessEnough ? "sufficient" : "needs proof"} />
+            </div>
+            {summary.launchReadiness.launchBackbone ? summary.launchReadiness.launchBackbone.items.map((item) => (
+              <Callout
+                key={item.id}
+                title={item.label}
+                detail={item.launchReadinessEnough ? item.evidence.slice(0, 2).join(" | ") || "Local launch rows are present." : item.missing.join("; ") || item.nextAction}
+                tone={tone(item.status === "ready" ? "ready" : "warning")}
+                icon={ShieldCheck}
+              />
+            )) : null}
             {summary.launchReadiness.systems.map((system) => (
               <Callout key={system.id} title={`${system.label}: ${system.status}`} detail={`${system.evidence.join("; ")} / ${system.nextAction}`} tone={tone(system.status)} icon={ShieldCheck} />
             ))}
