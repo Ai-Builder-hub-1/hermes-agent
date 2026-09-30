@@ -27,8 +27,11 @@ def test_warehouse_summary_reports_configured_root(tmp_path, monkeypatch):
     assert summary["backbone"]["contractVersion"] == "warehouse-backbone-audit.v1"
     assert summary["backbone"]["summary"]["categories"] == 8
     assert "ops_job_runs" in summary["backbone"]["requiredTables"]
+    assert summary["databaseBackup"]["contractVersion"] == "database-backup.v1"
+    assert summary["databaseBackup"]["sourceOfTruth"]["role"] == "live-operational-source-of-truth"
+    assert summary["databaseBackup"]["warehouseRole"] == "backup-long-term-storage-replay-evidence"
     assert summary["providerReadiness"]["contractVersion"] == "system-provider-readiness.v1"
-    assert summary["providerReadiness"]["summary"]["categories"] >= 10
+    assert summary["providerReadiness"]["summary"]["categories"] >= 11
 
 
 def test_warehouse_series_has_points(tmp_path, monkeypatch):
@@ -53,13 +56,17 @@ def test_warehouse_actions_record_evidence(tmp_path, monkeypatch):
     monkeypatch.setenv("HERMES_HOME", str(tmp_path / "home"))
     monkeypatch.setenv("HERMES_WAREHOUSE_ROOT", str(warehouse))
 
-    from hermes_cli.system_warehouse import record_prune_dry_run, record_restore_proof, record_sync
+    from hermes_cli.system_warehouse import record_database_backup_proof, record_prune_dry_run, record_restore_proof, record_sync
 
     sync = record_sync()
+    backup = record_database_backup_proof()
     restore = record_restore_proof()
     prune = record_prune_dry_run()
 
     assert sync["ok"] is True
+    assert backup["ok"] is True
+    assert backup["databaseBackup"]["latestBackup"]["ok"] is True
+    assert Path(backup["manifest"]["backupRef"]).exists()
     assert restore["ok"] is True
     assert prune["ok"] is True
     assert restore["manifestHash"]
@@ -161,9 +168,10 @@ def test_provider_readiness_capture_records_plugin_ready_contract(tmp_path, monk
     from hermes_cli.system_warehouse import provider_readiness_contract, record_provider_readiness_capture
 
     before = provider_readiness_contract()
-    assert before["summary"]["categories"] >= 10
+    assert before["summary"]["categories"] >= 11
 
     result = record_provider_readiness_capture()
     assert result["ok"] is True
+    assert result["results"]["databaseBackup"]["ok"] is True
     assert result["providerReadiness"]["summary"]["ready"] >= before["summary"]["ready"]
     assert "provider-readiness" in result["evidence"]["subject"].lower()

@@ -38,6 +38,7 @@ import {
 import {
   fetchWarehouseSnapshot,
   formatBytes,
+  runWarehouseDatabaseBackup,
   runWarehousePruneDryRun,
   runWarehouseProviderReadiness,
   runWarehouseRestoreProof,
@@ -361,9 +362,12 @@ function WarehousePanel() {
             <WarehouseRootCard label="Warehouse root" volume={summary.warehouse} onOpen={() => setEvidenceItem({ type: "root", label: "Warehouse root", volume: summary.warehouse })} />
             <WarehouseRootCard label="Mirror root" volume={summary.mirror} onOpen={() => setEvidenceItem({ type: "root", label: "Mirror root", volume: summary.mirror })} />
           </div>
-          <div className="grid gap-2 sm:grid-cols-4">
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
             <button type="button" className="rounded border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted" onClick={() => void runAction("Warehouse sync", runWarehouseSync)}>
               Run sync check
+            </button>
+            <button type="button" className="rounded border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted" onClick={() => void runAction("Database backup", runWarehouseDatabaseBackup)}>
+              DB backup proof
             </button>
             <button type="button" className="rounded border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted" onClick={() => void runAction("Restore proof", runWarehouseRestoreProof)}>
               Restore proof
@@ -384,6 +388,7 @@ function WarehousePanel() {
         <MetricCard label="24h ingest" value={formatBytes(summary.ingest.bytes24h)} detail={`${summary.ingest.records24h} records across ${summary.ingest.sources} sources`} tone="info" />
         <MetricCard label="Days until full" value={summary.forecast.daysUntilFull ?? "unknown"} detail={summary.forecast.confidence.replaceAll("_", " ")} tone={summary.forecast.daysUntilFull !== null && summary.forecast.daysUntilFull < 14 ? "critical" : "warning"} />
         <MetricCard label="Mirror" value={summary.mirror.configured ? "mounted" : "missing"} detail={summary.mirror.lastMirrorAt ? `last mirror ${summary.mirror.lastMirrorAt}` : "no mirror proof yet"} tone={summary.mirror.configured ? "success" : "critical"} />
+        <MetricCard label="Live DB backup" value={summary.databaseBackup.latestBackup.ok ? "current" : summary.databaseBackup.status} detail={summary.databaseBackup.latestBackup.createdAt ?? summary.databaseBackup.sourceOfTruth.path} tone={summary.databaseBackup.latestBackup.ok ? "success" : summary.databaseBackup.sourceOfTruth.exists ? "warning" : "critical"} />
         <MetricCard label="Restore proof" value={summary.restoreProof.ok ? "current" : "missing"} detail={summary.restoreProof.lastRestoreProofAt ?? "no restore proof evidence found"} tone={summary.restoreProof.ok ? "success" : "warning"} />
         <MetricCard label="Stale sources" value={summary.ingest.staleSources} detail={`${stale.length} partial or blocked rows in source table`} tone={summary.ingest.staleSources ? "critical" : "success"} />
         <MetricCard label="Backbone" value={`${summary.backbone.summary.ready}/${summary.backbone.summary.categories}`} detail={summary.backbone.summary.posture.replaceAll("_", " ")} tone={summary.backbone.summary.warehouseEnough ? "success" : summary.backbone.summary.ready || summary.backbone.summary.partial ? "warning" : "critical"} />
@@ -482,6 +487,25 @@ function WarehousePanel() {
                 tone={item.status === "ready" ? "success" : item.status === "partial" ? "warning" : "critical"}
               />
             ))}
+          </div>
+        </Panel>
+        <Panel title="Live database backup">
+          <div className="grid gap-2 p-3">
+            <div className="grid gap-2 sm:grid-cols-3">
+              <MiniFact label="Source" value={summary.databaseBackup.sourceOfTruth.exists ? "present" : "missing"} />
+              <MiniFact label="Backup" value={summary.databaseBackup.latestBackup.ok ? "current" : summary.databaseBackup.status} />
+              <MiniFact label="Size" value={formatBytes(summary.databaseBackup.latestBackup.sizeBytes || summary.databaseBackup.sourceOfTruth.sizeBytes)} />
+            </div>
+            <PolicyCallout
+              title="Database is live source of truth"
+              detail={`${summary.databaseBackup.sourceOfTruth.path} / ${summary.databaseBackup.warehouseRole.replaceAll("-", " ")}`}
+              tone={summary.databaseBackup.sourceOfTruth.exists ? "info" : "critical"}
+            />
+            <PolicyCallout
+              title={summary.databaseBackup.latestBackup.ok ? "Backup proof current" : "Backup proof needed"}
+              detail={summary.databaseBackup.latestBackup.backupRef || summary.databaseBackup.nextAction}
+              tone={summary.databaseBackup.latestBackup.ok ? "success" : "warning"}
+            />
           </div>
         </Panel>
         <Panel title="SLO and remediation">

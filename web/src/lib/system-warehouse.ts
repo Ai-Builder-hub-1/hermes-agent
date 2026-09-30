@@ -93,6 +93,32 @@ export interface WarehouseSummary {
     }>;
     recommendations: string[];
   };
+  databaseBackup: {
+    contractVersion: string;
+    generatedAt: string;
+    status: string;
+    sourceOfTruth: {
+      type: string;
+      path: string;
+      exists: boolean;
+      sizeBytes: number;
+      modifiedAt: string | null;
+      role: string;
+    };
+    warehouseRole: string;
+    latestBackup: {
+      ok: boolean;
+      backupRef: string;
+      createdAt: string | null;
+      ageMinutes: number | null;
+      maxAgeMinutes: number;
+      sizeBytes: number;
+      contentHash: string;
+      restoreMode: string;
+    };
+    requirements: string[];
+    nextAction: string;
+  };
   providerReadiness: {
     contractVersion: string;
     generatedAt: string;
@@ -197,6 +223,10 @@ export function runWarehouseRestoreProof(): Promise<Record<string, unknown>> {
 
 export function runWarehousePruneDryRun(): Promise<Record<string, unknown>> {
   return fetchJSON<Record<string, unknown>>(`${BASE}/prune-dry-run`, { method: "POST" });
+}
+
+export function runWarehouseDatabaseBackup(): Promise<Record<string, unknown>> {
+  return fetchJSON<Record<string, unknown>>(`${BASE}/database-backup`, { method: "POST" });
 }
 
 export function runWarehouseProviderReadiness(): Promise<Record<string, unknown>> {

@@ -14,6 +14,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import sqlite3
 from typing import Any, Literal
 from uuid import uuid4
 
@@ -70,12 +71,45 @@ def artifact_store_root() -> Path:
     )
 
 
+def live_database_path() -> Path:
+    configured = _env_value("HERMES_LIVE_DATABASE_PATH", "HERMES_OPERATING_RUNTIME_DB", "HERMES_DATABASE_PATH")
+    if configured:
+        return Path(configured).expanduser()
+    from hermes_cli.operating_runtime import db_path
+
+    return db_path()
+
+
 def _write_artifact(relative_path: str, payload: dict[str, Any]) -> str:
     root = artifact_store_root().expanduser().resolve(strict=False)
     path = root / relative_path
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2, sort_keys=True, default=str), encoding="utf-8")
     return str(path)
+
+
+def _file_modified_iso(path: Path) -> str | None:
+    try:
+        return datetime.fromtimestamp(path.stat().st_mtime, timezone.utc).isoformat()
+    except OSError:
+        return None
+
+
+def _sha256_file(path: Path, max_bytes: int | None = None) -> str:
+    digest = hashlib.sha256()
+    remaining = max_bytes
+    with path.open("rb") as handle:
+        while True:
+            read_size = 1024 * 1024 if remaining is None else min(1024 * 1024, remaining)
+            if read_size <= 0:
+                break
+            chunk = handle.read(read_size)
+            if not chunk:
+                break
+            digest.update(chunk)
+            if remaining is not None:
+                remaining -= len(chunk)
+    return digest.hexdigest()
 
 
 def _path_usage(path: Path) -> dict[str, Any]:
@@ -191,6 +225,7 @@ def _ops_rows(table: str, limit: int = 50) -> list[dict[str, Any]]:
         "ops_secret_rotations",
         "ops_safe_test_results",
         "ops_provider_readiness",
+        "ops_database_backups",
     }
     if table not in allowed:
         return []
@@ -228,6 +263,7 @@ def _upsert_ops_record(table: str, record: dict[str, Any]) -> None:
         "ops_secret_rotations",
         "ops_safe_test_results",
         "ops_provider_readiness",
+        "ops_database_backups",
     }
     if table not in allowed:
         return
@@ -499,6 +535,56 @@ def warehouse_backbone_audit() -> dict[str, Any]:
     }
 
 
+def database_backup_contract() -> dict[str, Any]:
+    """Treat the live DB as source of truth and the warehouse as archive/restore proof."""
+
+    source = live_database_path().expanduser().resolve(strict=False)
+    exists = source.exists()
+    size = source.stat().st_size if exists else 0
+    modified_at = _file_modified_iso(source) if exists else None
+    backups = _ops_rows("ops_database_backups", 20)
+    latest = backups[0] if backups else None
+    latest_payload = (latest or {}).get("payload") or {}
+    latest_status = str((latest or {}).get("status") or "")
+    latest_ref = str((latest or {}).get("backup_ref") or latest_payload.get("backupRef") or "")
+    last_backup_at = (latest or {}).get("backup_created_at") or (latest or {}).get("recorded_at")
+    age_minutes = _age_minutes(str(last_backup_at)) if last_backup_at else None
+    max_age = int(_env_value("HERMES_DATABASE_BACKUP_MAX_AGE_MINUTES") or "1440")
+    current = bool(latest and latest_status == "ready" and (age_minutes is None or age_minutes <= max_age))
+    status = "ready" if exists and current else "partial" if exists and latest else "missing"
+    return {
+        "contractVersion": "database-backup.v1",
+        "generatedAt": now_iso(),
+        "status": status,
+        "sourceOfTruth": {
+            "type": "sqlite",
+            "path": str(source),
+            "exists": exists,
+            "sizeBytes": size,
+            "modifiedAt": modified_at,
+            "role": "live-operational-source-of-truth",
+        },
+        "warehouseRole": "backup-long-term-storage-replay-evidence",
+        "latestBackup": {
+            "ok": current,
+            "backupRef": latest_ref,
+            "createdAt": last_backup_at,
+            "ageMinutes": age_minutes,
+            "maxAgeMinutes": max_age,
+            "sizeBytes": int((latest or {}).get("size_bytes") or 0),
+            "contentHash": str((latest or {}).get("content_hash") or ""),
+            "restoreMode": str((latest or {}).get("restore_mode") or latest_payload.get("restoreMode") or ""),
+        },
+        "requirements": [
+            "Live database must exist and open cleanly.",
+            "Warehouse backup copy must be created without mutating live tables.",
+            "Backup manifest must include path, size, content hash, and restore mode.",
+            "Restore proof must reference the database backup manifest.",
+        ],
+        "nextAction": "Run database backup proof from System Warehouse." if exists and not current else "Keep scheduled database backup proof current.",
+    }
+
+
 def _provider_ready_from_env(*names: str) -> tuple[bool, str]:
     for name in names:
         value = _env_value(name)
@@ -542,6 +628,7 @@ def provider_readiness_contract() -> dict[str, Any]:
     rollback_proofs = _ops_rows("ops_rollback_proofs", 500)
     secret_rotations = _ops_rows("ops_secret_rotations", 500)
     safe_tests = _ops_rows("ops_safe_test_results", 500)
+    database_backups = _ops_rows("ops_database_backups", 500)
     visual_matrix = Path("docs/design/dashboard-fleet-visual-regression-run.json")
     visual_count = 1 if visual_matrix.exists() else 0
     chart_sources = _evidence_matches("chart-source", "chart source", "live chart", "visual regression")
@@ -553,6 +640,14 @@ def provider_readiness_contract() -> dict[str, Any]:
             proof_table="ops_job_runs",
             proof_count=len([row for row in job_runs if row.get("kind") in {"collector", "mirror", "prune"}]),
             next_action="Run the read-only warehouse readiness capture after production warehouse and mirror roots are configured.",
+        ),
+        _provider_readiness_item(
+            category="database-backup",
+            label="Live database backup and replay proof",
+            required_env=["HERMES_LIVE_DATABASE_PATH", "HERMES_OPERATING_RUNTIME_DB", "HERMES_DATABASE_PATH"],
+            proof_table="ops_database_backups",
+            proof_count=len(database_backups),
+            next_action="Run database backup proof so the warehouse archives the live DB source of truth.",
         ),
         _provider_readiness_item(
             category="object-store",
@@ -784,8 +879,11 @@ def warehouse_summary() -> dict[str, Any]:
     elif stale_sources or not mirror_usage["exists"]:
         health = "partial"
     backbone = warehouse_backbone_audit()
+    database_backup = database_backup_contract()
     provider_readiness = provider_readiness_contract()
     if backbone["summary"]["missing"] and health == "ready":
+        health = "partial"
+    if database_backup["status"] == "missing" and health == "ready":
         health = "partial"
 
     return {
@@ -836,6 +934,7 @@ def warehouse_summary() -> dict[str, Any]:
             "breaches": _slo_breaches(stale_sources, mirror_usage, restore),
         },
         "backbone": backbone,
+        "databaseBackup": database_backup,
         "providerReadiness": provider_readiness,
     }
 
@@ -946,6 +1045,88 @@ def warehouse_jobs() -> dict[str, Any]:
             }
         )
     return {"generatedAt": now_iso(), "jobs": jobs}
+
+
+def record_database_backup_proof() -> dict[str, Any]:
+    from hermes_cli.operating_runtime import connect
+
+    with connect():
+        pass
+
+    source = live_database_path().expanduser().resolve(strict=False)
+    ts = now_iso()
+    backup_dir = warehouse_root().expanduser().resolve(strict=False) / "database-backups"
+    backup_dir.mkdir(parents=True, exist_ok=True)
+    status = "ready" if source.exists() else "warning"
+    backup_ref = ""
+    content_hash = ""
+    error_class = ""
+    if source.exists():
+        backup_path = backup_dir / f"{source.stem}-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}-{uuid4().hex[:8]}.db"
+        try:
+            with sqlite3.connect(f"file:{source}?mode=ro", uri=True) as src, sqlite3.connect(backup_path) as dst:
+                src.backup(dst)
+            backup_ref = str(backup_path)
+            content_hash = _sha256_file(backup_path)
+        except Exception as exc:
+            status = "warning"
+            error_class = exc.__class__.__name__
+            backup_ref = str(backup_path)
+    manifest = {
+        "generatedAt": ts,
+        "sourceDatabase": str(source),
+        "sourceExists": source.exists(),
+        "sourceModifiedAt": _file_modified_iso(source) if source.exists() else None,
+        "backupRef": backup_ref,
+        "backupSizeBytes": Path(backup_ref).stat().st_size if backup_ref and Path(backup_ref).exists() else 0,
+        "contentHash": content_hash,
+        "restoreMode": "manual-sqlite-replace-after-service-stop",
+        "warehouseRole": "backup-long-term-storage-replay-evidence",
+        "errorClass": error_class,
+    }
+    manifest_ref = _write_artifact(f"warehouse/database-backup-manifest-{uuid4().hex[:10]}.json", manifest)
+    evidence = _record_action(
+        "database-backup-proof",
+        "ready" if status == "ready" else "warning",
+        "Live database backup proof recorded into the warehouse archive. The warehouse is backup/long-term storage, not the live source of truth.",
+        {"manifest": manifest, "artifactUri": manifest_ref},
+    )
+    _upsert_ops_record(
+        "ops_database_backups",
+        {
+            "id": f"db-backup-{uuid4().hex[:10]}",
+            "database_ref": str(source),
+            "backup_ref": backup_ref,
+            "status": status,
+            "size_bytes": int(manifest["backupSizeBytes"] or 0),
+            "source_modified_at": manifest["sourceModifiedAt"],
+            "backup_created_at": ts,
+            "content_hash": content_hash,
+            "restore_mode": manifest["restoreMode"],
+            "payload": {**manifest, "manifestRef": manifest_ref, "proofId": evidence["id"]},
+            "recorded_at": ts,
+        },
+    )
+    _upsert_ops_record(
+        "ops_job_runs",
+        {
+            "id": f"ops-job-db-backup-{uuid4().hex[:10]}",
+            "kind": "database-backup",
+            "source": "dashboard-database-backup-proof",
+            "status": status,
+            "started_at": ts,
+            "finished_at": now_iso(),
+            "rows_changed": 0,
+            "files_changed": 1 if backup_ref else 0,
+            "bytes_changed": int(manifest["backupSizeBytes"] or 0),
+            "error_class": error_class,
+            "artifact_ref": manifest_ref,
+            "proof_id": evidence["id"],
+            "payload": manifest,
+        },
+    )
+    _record_object_inventory(warehouse_root(), provider="local-warehouse", source_system="database-backup", retention_class="database-backup", max_files=50)
+    return {"ok": status == "ready", "generatedAt": now_iso(), "databaseBackup": database_backup_contract(), "evidence": evidence, "manifest": manifest}
 
 
 def record_sync() -> dict[str, Any]:
@@ -1095,6 +1276,7 @@ def record_provider_readiness_capture() -> dict[str, Any]:
     """Run read-only captures that hydrate provider readiness proof tables."""
 
     results: dict[str, Any] = {}
+    results["databaseBackup"] = record_database_backup_proof()
     results["sync"] = record_sync()
     results["restoreProof"] = record_restore_proof()
     results["pruneDryRun"] = record_prune_dry_run()
