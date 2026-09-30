@@ -3817,6 +3817,13 @@ async def post_system_warehouse_prune_dry_run():
     return record_prune_dry_run()
 
 
+@app.post("/api/system/warehouse/provider-readiness")
+async def post_system_warehouse_provider_readiness():
+    from hermes_cli.system_warehouse import record_provider_readiness_capture
+
+    return record_provider_readiness_capture()
+
+
 @app.get("/api/system/storage/summary")
 async def get_system_storage_summary():
     from hermes_cli.system_operations import storage_summary

@@ -93,6 +93,30 @@ export interface WarehouseSummary {
     }>;
     recommendations: string[];
   };
+  providerReadiness: {
+    contractVersion: string;
+    generatedAt: string;
+    summary: {
+      categories: number;
+      ready: number;
+      partial: number;
+      missing: number;
+      providerReady: boolean;
+      posture: string;
+    };
+    items: Array<{
+      id: string;
+      category: string;
+      label: string;
+      status: string;
+      provider: string;
+      requiredEnv: string[];
+      proofTable: string;
+      proofCount: number;
+      nextAction: string;
+    }>;
+    recommendations: string[];
+  };
 }
 
 export interface WarehouseSource {
@@ -173,6 +197,10 @@ export function runWarehouseRestoreProof(): Promise<Record<string, unknown>> {
 
 export function runWarehousePruneDryRun(): Promise<Record<string, unknown>> {
   return fetchJSON<Record<string, unknown>>(`${BASE}/prune-dry-run`, { method: "POST" });
+}
+
+export function runWarehouseProviderReadiness(): Promise<Record<string, unknown>> {
+  return fetchJSON<Record<string, unknown>>(`${BASE}/provider-readiness`, { method: "POST" });
 }
 
 export function formatBytes(value: number | null | undefined): string {

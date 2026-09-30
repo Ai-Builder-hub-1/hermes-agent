@@ -258,6 +258,23 @@ def init_db(conn: sqlite3.Connection) -> None:
         CREATE INDEX IF NOT EXISTS idx_ops_safe_test_results_provider ON ops_safe_test_results(provider);
         CREATE INDEX IF NOT EXISTS idx_ops_safe_test_results_recorded ON ops_safe_test_results(recorded_at);
 
+        CREATE TABLE IF NOT EXISTS ops_provider_readiness (
+            id TEXT PRIMARY KEY,
+            category TEXT NOT NULL,
+            provider TEXT NOT NULL DEFAULT '',
+            status TEXT NOT NULL DEFAULT '',
+            required_env TEXT NOT NULL DEFAULT '',
+            proof_table TEXT NOT NULL DEFAULT '',
+            proof_count INTEGER NOT NULL DEFAULT 0,
+            next_action TEXT NOT NULL DEFAULT '',
+            content_hash TEXT NOT NULL DEFAULT '',
+            observed_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_ops_provider_readiness_category ON ops_provider_readiness(category);
+        CREATE INDEX IF NOT EXISTS idx_ops_provider_readiness_recorded ON ops_provider_readiness(recorded_at);
+
         CREATE TABLE IF NOT EXISTS trading_strategy_artifacts (
             id TEXT PRIMARY KEY,
             source_project TEXT NOT NULL,

@@ -39,6 +39,7 @@ import {
   fetchWarehouseSnapshot,
   formatBytes,
   runWarehousePruneDryRun,
+  runWarehouseProviderReadiness,
   runWarehouseRestoreProof,
   runWarehouseSync,
   warehouseHealthTone,
@@ -360,7 +361,7 @@ function WarehousePanel() {
             <WarehouseRootCard label="Warehouse root" volume={summary.warehouse} onOpen={() => setEvidenceItem({ type: "root", label: "Warehouse root", volume: summary.warehouse })} />
             <WarehouseRootCard label="Mirror root" volume={summary.mirror} onOpen={() => setEvidenceItem({ type: "root", label: "Mirror root", volume: summary.mirror })} />
           </div>
-          <div className="grid gap-2 sm:grid-cols-3">
+          <div className="grid gap-2 sm:grid-cols-4">
             <button type="button" className="rounded border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted" onClick={() => void runAction("Warehouse sync", runWarehouseSync)}>
               Run sync check
             </button>
@@ -369,6 +370,9 @@ function WarehousePanel() {
             </button>
             <button type="button" className="rounded border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted" onClick={() => void runAction("Prune dry-run", runWarehousePruneDryRun)}>
               Prune dry-run
+            </button>
+            <button type="button" className="rounded border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted" onClick={() => void runAction("Provider readiness", runWarehouseProviderReadiness)}>
+              Provider readiness
             </button>
           </div>
           {actionStatus ? <p className="text-xs font-medium text-muted-foreground">{actionStatus}</p> : null}
@@ -383,6 +387,7 @@ function WarehousePanel() {
         <MetricCard label="Restore proof" value={summary.restoreProof.ok ? "current" : "missing"} detail={summary.restoreProof.lastRestoreProofAt ?? "no restore proof evidence found"} tone={summary.restoreProof.ok ? "success" : "warning"} />
         <MetricCard label="Stale sources" value={summary.ingest.staleSources} detail={`${stale.length} partial or blocked rows in source table`} tone={summary.ingest.staleSources ? "critical" : "success"} />
         <MetricCard label="Backbone" value={`${summary.backbone.summary.ready}/${summary.backbone.summary.categories}`} detail={summary.backbone.summary.posture.replaceAll("_", " ")} tone={summary.backbone.summary.warehouseEnough ? "success" : summary.backbone.summary.ready || summary.backbone.summary.partial ? "warning" : "critical"} />
+        <MetricCard label="Providers" value={`${summary.providerReadiness.summary.ready}/${summary.providerReadiness.summary.categories}`} detail={summary.providerReadiness.summary.posture.replaceAll("_", " ")} tone={summary.providerReadiness.summary.providerReady ? "success" : summary.providerReadiness.summary.ready || summary.providerReadiness.summary.partial ? "warning" : "critical"} />
       </section>
 
       <Panel title="Ingestion and capacity trend">
@@ -457,6 +462,23 @@ function WarehousePanel() {
                 key={item.id}
                 title={`${item.label}: ${item.status}`}
                 detail={item.warehouseEnough ? `Evidence: ${item.evidence.slice(0, 2).join(", ") || "warehouse record"}` : `${item.missing[0] ?? item.nextAction}`}
+                tone={item.status === "ready" ? "success" : item.status === "partial" ? "warning" : "critical"}
+              />
+            ))}
+          </div>
+        </Panel>
+        <Panel title="Provider readiness" count={summary.providerReadiness.summary.categories}>
+          <div className="grid gap-2 p-3">
+            <div className="grid gap-2 sm:grid-cols-3">
+              <MiniFact label="Ready" value={summary.providerReadiness.summary.ready} />
+              <MiniFact label="Partial" value={summary.providerReadiness.summary.partial} />
+              <MiniFact label="Missing" value={summary.providerReadiness.summary.missing} />
+            </div>
+            {summary.providerReadiness.items.map((item) => (
+              <PolicyCallout
+                key={item.id}
+                title={`${item.label}: ${item.status}`}
+                detail={item.proofCount ? `${item.proofTable}: ${item.proofCount} proof row(s)` : `${item.requiredEnv.join(" or ")} / ${item.nextAction}`}
                 tone={item.status === "ready" ? "success" : item.status === "partial" ? "warning" : "critical"}
               />
             ))}

@@ -27,6 +27,8 @@ def test_warehouse_summary_reports_configured_root(tmp_path, monkeypatch):
     assert summary["backbone"]["contractVersion"] == "warehouse-backbone-audit.v1"
     assert summary["backbone"]["summary"]["categories"] == 8
     assert "ops_job_runs" in summary["backbone"]["requiredTables"]
+    assert summary["providerReadiness"]["contractVersion"] == "system-provider-readiness.v1"
+    assert summary["providerReadiness"]["summary"]["categories"] >= 10
 
 
 def test_warehouse_series_has_points(tmp_path, monkeypatch):
@@ -130,3 +132,38 @@ def test_warehouse_backbone_audit_classifies_group_one_gaps(tmp_path, monkeypatc
     assert statuses["ops-rollback-proofs"] == "ready"
     assert statuses["ops-safe-test-results"] == "ready"
     assert statuses["ops-scheduler-runs"] == "ready"
+
+
+def test_provider_readiness_capture_records_plugin_ready_contract(tmp_path, monkeypatch):
+    warehouse = tmp_path / "warehouse"
+    mirror = tmp_path / "mirror"
+    object_store = tmp_path / "objects"
+    logs = tmp_path / "logs"
+    rollback = tmp_path / "rollback"
+    visual = tmp_path / "visual"
+    for path in (warehouse, mirror, object_store, logs, rollback, visual):
+        path.mkdir(parents=True)
+    (warehouse / "events.jsonl").write_text("one\n", encoding="utf-8")
+    (object_store / "receipt.json").write_text("{}", encoding="utf-8")
+
+    monkeypatch.setenv("HERMES_HOME", str(tmp_path / "home"))
+    monkeypatch.setenv("HERMES_WAREHOUSE_ROOT", str(warehouse))
+    monkeypatch.setenv("HERMES_WAREHOUSE_MIRROR_ROOT", str(mirror))
+    monkeypatch.setenv("HERMES_OBJECT_STORE_ROOT", str(object_store))
+    monkeypatch.setenv("HERMES_WORKER_LOG_ROOT", str(logs))
+    monkeypatch.setenv("HERMES_SCHEDULER_PROVIDER", "local-cron")
+    monkeypatch.setenv("HERMES_DEPLOYMENT_PROVIDER", "local-deploy")
+    monkeypatch.setenv("HERMES_ROLLBACK_ARTIFACT_ROOT", str(rollback))
+    monkeypatch.setenv("HERMES_SECRET_PROVIDER", "runtime-env")
+    monkeypatch.setenv("HERMES_VISUAL_BASELINE_ROOT", str(visual))
+    monkeypatch.setenv("DASHBOARD_RESET_DISCORD_USER_IDS", "123")
+
+    from hermes_cli.system_warehouse import provider_readiness_contract, record_provider_readiness_capture
+
+    before = provider_readiness_contract()
+    assert before["summary"]["categories"] >= 10
+
+    result = record_provider_readiness_capture()
+    assert result["ok"] is True
+    assert result["providerReadiness"]["summary"]["ready"] >= before["summary"]["ready"]
+    assert "provider-readiness" in result["evidence"]["subject"].lower()

@@ -190,6 +190,7 @@ def _ops_rows(table: str, limit: int = 50) -> list[dict[str, Any]]:
         "ops_rollback_proofs",
         "ops_secret_rotations",
         "ops_safe_test_results",
+        "ops_provider_readiness",
     }
     if table not in allowed:
         return []
@@ -226,6 +227,7 @@ def _upsert_ops_record(table: str, record: dict[str, Any]) -> None:
         "ops_rollback_proofs",
         "ops_secret_rotations",
         "ops_safe_test_results",
+        "ops_provider_readiness",
     }
     if table not in allowed:
         return
@@ -497,6 +499,180 @@ def warehouse_backbone_audit() -> dict[str, Any]:
     }
 
 
+def _provider_ready_from_env(*names: str) -> tuple[bool, str]:
+    for name in names:
+        value = _env_value(name)
+        if value:
+            return True, name
+    return False, ""
+
+
+def _provider_readiness_item(
+    *,
+    category: str,
+    label: str,
+    required_env: list[str],
+    proof_table: str,
+    proof_count: int,
+    next_action: str,
+) -> dict[str, Any]:
+    configured, configured_env = _provider_ready_from_env(*required_env)
+    status = "ready" if proof_count > 0 else "partial" if configured else "missing"
+    return {
+        "id": category,
+        "category": category,
+        "label": label,
+        "status": status,
+        "provider": configured_env or "not-configured",
+        "requiredEnv": required_env,
+        "proofTable": proof_table,
+        "proofCount": proof_count,
+        "nextAction": next_action,
+    }
+
+
+def provider_readiness_contract() -> dict[str, Any]:
+    """Explain exactly what live sources remain and whether local proof exists."""
+
+    job_runs = _ops_rows("ops_job_runs", 500)
+    storage_objects = _ops_rows("ops_storage_objects", 500)
+    scheduler_runs = _ops_rows("ops_scheduler_runs", 500)
+    worker_logs = _ops_rows("ops_worker_logs", 500)
+    deployments = _ops_rows("ops_deployments", 500)
+    rollback_proofs = _ops_rows("ops_rollback_proofs", 500)
+    secret_rotations = _ops_rows("ops_secret_rotations", 500)
+    safe_tests = _ops_rows("ops_safe_test_results", 500)
+    visual_matrix = Path("docs/design/dashboard-fleet-visual-regression-run.json")
+    visual_count = 1 if visual_matrix.exists() else 0
+    chart_sources = _evidence_matches("chart-source", "chart source", "live chart", "visual regression")
+    items = [
+        _provider_readiness_item(
+            category="collector-mirror-prune",
+            label="Production collector/mirror/prune history",
+            required_env=["HERMES_WAREHOUSE_ROOT", "HERMES_WAREHOUSE_MIRROR_ROOT"],
+            proof_table="ops_job_runs",
+            proof_count=len([row for row in job_runs if row.get("kind") in {"collector", "mirror", "prune"}]),
+            next_action="Run the read-only warehouse readiness capture after production warehouse and mirror roots are configured.",
+        ),
+        _provider_readiness_item(
+            category="object-store",
+            label="Object-store/provider adapter history",
+            required_env=["HERMES_OBJECT_STORE_ROOT", "HERMES_ARTIFACT_STORE_ROOT"],
+            proof_table="ops_storage_objects",
+            proof_count=len(storage_objects),
+            next_action="Set HERMES_OBJECT_STORE_ROOT or HERMES_ARTIFACT_STORE_ROOT and capture object inventory metadata.",
+        ),
+        _provider_readiness_item(
+            category="external-scheduler",
+            label="External scheduler/provider history",
+            required_env=["HERMES_SCHEDULER_PROVIDER", "HERMES_EXTERNAL_SCHEDULER_PROVIDER"],
+            proof_table="ops_scheduler_runs",
+            proof_count=len(scheduler_runs),
+            next_action="Set scheduler provider metadata and run worker readiness capture.",
+        ),
+        _provider_readiness_item(
+            category="worker-logs",
+            label="Worker log endpoint or artifact links",
+            required_env=["HERMES_WORKER_LOG_ROOT", "HERMES_LOG_ARTIFACT_ROOT", "HERMES_WORKER_LOG_URL", "HERMES_LOG_ARTIFACT_URL"],
+            proof_table="ops_worker_logs",
+            proof_count=len(worker_logs),
+            next_action="Set worker log root/URL and run worker readiness capture.",
+        ),
+        _provider_readiness_item(
+            category="deployment-provider",
+            label="Deployment provider history",
+            required_env=["HERMES_DEPLOYMENT_PROVIDER", "GIT_SHA", "RENDER_GIT_COMMIT", "HEROKU_SLUG_COMMIT"],
+            proof_table="ops_deployments",
+            proof_count=len(deployments),
+            next_action="Set deployment provider/SHA metadata and run deployment readiness capture.",
+        ),
+        _provider_readiness_item(
+            category="rollback-proof",
+            label="Rollback proof artifacts",
+            required_env=["HERMES_ROLLBACK_ARTIFACT_ROOT", "HERMES_ARTIFACT_STORE_ROOT"],
+            proof_table="ops_rollback_proofs",
+            proof_count=len(rollback_proofs),
+            next_action="Attach rollback/no-op proof artifact roots and run deployment readiness capture.",
+        ),
+        _provider_readiness_item(
+            category="vault-rotation",
+            label="Vault/secret rotation history",
+            required_env=["HERMES_SECRET_PROVIDER", "HERMES_VAULT_PROVIDER"],
+            proof_table="ops_secret_rotations",
+            proof_count=len(secret_rotations),
+            next_action="Set vault/secret provider metadata and run presence-only credential scan.",
+        ),
+        _provider_readiness_item(
+            category="credential-safe-tests",
+            label="Provider-specific credential safe tests",
+            required_env=["HERMES_SECRET_PROVIDER", "HERMES_VAULT_PROVIDER"],
+            proof_table="ops_safe_test_results",
+            proof_count=len(safe_tests),
+            next_action="Run provider safe tests that never expose secret values.",
+        ),
+        _provider_readiness_item(
+            category="visual-baselines",
+            label="Approved visual regression snapshots",
+            required_env=["HERMES_VISUAL_BASELINE_ROOT", "HERMES_ARTIFACT_STORE_ROOT"],
+            proof_table="docs/design/dashboard-fleet-visual-regression-run.json",
+            proof_count=visual_count,
+            next_action="Run dashboard visual regression capture/compare and approve baseline storage.",
+        ),
+        _provider_readiness_item(
+            category="chart-source-proof",
+            label="Live chart-source proof",
+            required_env=["HERMES_CHART_SOURCE_PROOF_ROOT", "HERMES_ARTIFACT_STORE_ROOT"],
+            proof_table="runtime_evidence",
+            proof_count=len(chart_sources),
+            next_action="Record chart-source proof evidence for remaining operational charts.",
+        ),
+    ]
+    ready = [item for item in items if item["status"] == "ready"]
+    partial = [item for item in items if item["status"] == "partial"]
+    missing = [item for item in items if item["status"] == "missing"]
+    return {
+        "contractVersion": "system-provider-readiness.v1",
+        "generatedAt": now_iso(),
+        "summary": {
+            "categories": len(items),
+            "ready": len(ready),
+            "partial": len(partial),
+            "missing": len(missing),
+            "providerReady": len(ready) == len(items),
+            "posture": "ready" if len(ready) == len(items) else "plug_in_ready",
+        },
+        "items": items,
+        "recommendations": [item["nextAction"] for item in items if item["status"] != "ready"],
+    }
+
+
+def _persist_provider_readiness(contract: dict[str, Any]) -> None:
+    ts = now_iso()
+    for item in contract.get("items") or []:
+        fingerprint = json.dumps(item, sort_keys=True, default=str)
+        _upsert_ops_record(
+            "ops_provider_readiness",
+            {
+                "id": f"provider-readiness-{_safe_ref(item.get('id'))}",
+                "category": str(item.get("category") or item.get("id") or ""),
+                "provider": str(item.get("provider") or ""),
+                "status": str(item.get("status") or ""),
+                "required_env": ",".join(item.get("requiredEnv") or []),
+                "proof_table": str(item.get("proofTable") or ""),
+                "proof_count": int(item.get("proofCount") or 0),
+                "next_action": str(item.get("nextAction") or ""),
+                "content_hash": hashlib.sha256(fingerprint.encode("utf-8")).hexdigest(),
+                "observed_at": ts,
+                "payload": item,
+                "recorded_at": ts,
+            },
+        )
+
+
+def _safe_ref(value: Any) -> str:
+    return "".join(char if char.isalnum() or char in {"-", "_", "."} else "-" for char in str(value or "unknown").lower()).strip("-") or "unknown"
+
+
 def _record_action(action: str, state: str, detail: str, payload: dict[str, Any]) -> dict[str, Any]:
     from hermes_cli.operating_runtime import connect, upsert_evidence
 
@@ -608,6 +784,7 @@ def warehouse_summary() -> dict[str, Any]:
     elif stale_sources or not mirror_usage["exists"]:
         health = "partial"
     backbone = warehouse_backbone_audit()
+    provider_readiness = provider_readiness_contract()
     if backbone["summary"]["missing"] and health == "ready":
         health = "partial"
 
@@ -659,6 +836,7 @@ def warehouse_summary() -> dict[str, Any]:
             "breaches": _slo_breaches(stale_sources, mirror_usage, restore),
         },
         "backbone": backbone,
+        "providerReadiness": provider_readiness,
     }
 
 
@@ -911,3 +1089,29 @@ def record_prune_dry_run() -> dict[str, Any]:
     )
     _record_object_inventory(artifact_store_root(), provider="local-artifact-store", source_system="hermes-artifacts", retention_class="artifact", max_files=50)
     return {"ok": True, "generatedAt": now_iso(), "reclaimableBytes": reclaimable, "evidence": record}
+
+
+def record_provider_readiness_capture() -> dict[str, Any]:
+    """Run read-only captures that hydrate provider readiness proof tables."""
+
+    results: dict[str, Any] = {}
+    results["sync"] = record_sync()
+    results["restoreProof"] = record_restore_proof()
+    results["pruneDryRun"] = record_prune_dry_run()
+    try:
+        from hermes_cli.system_operations import record_credentials_scan, record_deployment_check, record_worker_dry_run
+
+        results["workerDryRun"] = record_worker_dry_run()
+        results["deploymentCheck"] = record_deployment_check()
+        results["credentialsScan"] = record_credentials_scan()
+    except Exception as exc:
+        results["systemOperationsError"] = str(exc)
+    contract = provider_readiness_contract()
+    _persist_provider_readiness(contract)
+    evidence = _record_action(
+        "provider-readiness",
+        "ready" if contract["summary"]["providerReady"] else "warning",
+        "Read-only provider readiness capture recorded. No live mutation was executed.",
+        {"providerReadiness": contract, "results": results},
+    )
+    return {"ok": True, "generatedAt": now_iso(), "providerReadiness": contract, "evidence": evidence, "results": results}
