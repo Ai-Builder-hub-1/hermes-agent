@@ -489,6 +489,18 @@ function WarehousePanel() {
             ))}
           </div>
         </Panel>
+        <Panel title="Group 1 connection checklist" count={summary.providerReadiness.connectionChecklist.filter((item) => item.status !== "ready").length}>
+          <div className="grid gap-2 p-3">
+            {summary.providerReadiness.connectionChecklist.map((item) => (
+              <PolicyCallout
+                key={item.id}
+                title={`${item.label}: ${item.status}`}
+                detail={`${item.needed} Inputs: ${item.acceptedInputs}. Safe test: ${item.safeTest}`}
+                tone={item.status === "ready" ? "success" : item.status === "partial" ? "warning" : "critical"}
+              />
+            ))}
+          </div>
+        </Panel>
         <Panel title="Live database backup">
           <div className="grid gap-2 p-3">
             <div className="grid gap-2 sm:grid-cols-3">

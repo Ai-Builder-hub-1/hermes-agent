@@ -141,6 +141,19 @@ export interface WarehouseSummary {
       proofCount: number;
       nextAction: string;
     }>;
+    connectionChecklist: Array<{
+      id: string;
+      label: string;
+      status: string;
+      needed: string;
+      acceptedInputs: string;
+      safeTest: string;
+      whyUserProvided: string;
+      currentProvider: string;
+      proofTable: string;
+      proofCount: number;
+      nextAction: string;
+    }>;
     recommendations: string[];
   };
 }

@@ -617,6 +617,64 @@ def _provider_readiness_item(
     }
 
 
+_GROUP_ONE_CONNECTION_REQUIREMENTS: dict[str, dict[str, str]] = {
+    "collector-mirror-prune": {
+        "needed": "Production warehouse root and mirror root, plus the production job source that runs collector/mirror/prune.",
+        "accepted": "HERMES_WAREHOUSE_ROOT and HERMES_WAREHOUSE_MIRROR_ROOT.",
+        "safeTest": "Provider readiness capture records collector/mirror/prune proof rows without mutating production data.",
+        "whyUserProvided": "Only the production environment knows which jobs are canonical and where their history is stored.",
+    },
+    "database-backup": {
+        "needed": "Live database path when it is not the default Hermes operating runtime DB.",
+        "accepted": "HERMES_LIVE_DATABASE_PATH, HERMES_OPERATING_RUNTIME_DB, or HERMES_DATABASE_PATH.",
+        "safeTest": "Database backup proof uses SQLite backup into the warehouse and writes a manifest/hash.",
+        "whyUserProvided": "Codex can infer the default DB, but only you can confirm another production DB path if one exists.",
+    },
+    "object-store": {
+        "needed": "Canonical object/artifact store location: local path, mounted drive, NAS path, bucket path, or provider root.",
+        "accepted": "HERMES_OBJECT_STORE_ROOT or HERMES_ARTIFACT_STORE_ROOT.",
+        "safeTest": "Object inventory records file/object refs, sizes, checksums, modified times, and retention class.",
+        "whyUserProvided": "The store location is an infrastructure decision; guessing it would produce fake durability proof.",
+    },
+    "external-scheduler": {
+        "needed": "Scheduler provider name/source for production job history.",
+        "accepted": "HERMES_SCHEDULER_PROVIDER or HERMES_EXTERNAL_SCHEDULER_PROVIDER.",
+        "safeTest": "Worker readiness capture records scheduler metadata and linked local run proofs.",
+        "whyUserProvided": "Hermes needs to know whether production uses cron, launchd, systemd, GitHub Actions, Render cron, or another scheduler.",
+    },
+    "worker-logs": {
+        "needed": "Worker log root, artifact root, or read-only log URL for production workers.",
+        "accepted": "HERMES_WORKER_LOG_ROOT, HERMES_LOG_ARTIFACT_ROOT, HERMES_WORKER_LOG_URL, or HERMES_LOG_ARTIFACT_URL.",
+        "safeTest": "Worker readiness capture records log references and redacted error tails.",
+        "whyUserProvided": "Log locations differ by deployment and can contain sensitive data, so Hermes needs an explicit safe source.",
+    },
+    "deployment-provider": {
+        "needed": "Production deployment provider and commit/SHA source.",
+        "accepted": "HERMES_DEPLOYMENT_PROVIDER, GIT_SHA, RENDER_GIT_COMMIT, or HEROKU_SLUG_COMMIT.",
+        "safeTest": "Deployment readiness capture records provider, environment, SHA/version, status, and proof IDs.",
+        "whyUserProvided": "Only the production deploy system can prove which release is actually live.",
+    },
+    "rollback-proof": {
+        "needed": "Rollback/no-op deploy proof artifact location.",
+        "accepted": "HERMES_ROLLBACK_ARTIFACT_ROOT or HERMES_ARTIFACT_STORE_ROOT.",
+        "safeTest": "Deployment readiness capture records rollback artifact refs and verification status.",
+        "whyUserProvided": "Rollback proof must point to a real artifact; generating one locally would not prove production recovery.",
+    },
+    "vault-rotation": {
+        "needed": "Canonical secret/vault provider and rotation history source.",
+        "accepted": "HERMES_SECRET_PROVIDER or HERMES_VAULT_PROVIDER.",
+        "safeTest": "Presence-only credential scan records provider, secret class, age, and redacted rotation status.",
+        "whyUserProvided": "Secret providers require explicit selection and safe permissions; Codex must not discover or expose secrets.",
+    },
+    "credential-safe-tests": {
+        "needed": "Permission to run provider-specific presence-only credential checks.",
+        "accepted": "HERMES_SECRET_PROVIDER or HERMES_VAULT_PROVIDER.",
+        "safeTest": "Credential safe tests record pass/fail and redacted error class without secret values.",
+        "whyUserProvided": "Provider-specific safe checks may touch real integrations, so they need an approved provider and credentials.",
+    },
+}
+
+
 def provider_readiness_contract() -> dict[str, Any]:
     """Explain exactly what live sources remain and whether local proof exists."""
 
@@ -725,6 +783,26 @@ def provider_readiness_contract() -> dict[str, Any]:
     ready = [item for item in items if item["status"] == "ready"]
     partial = [item for item in items if item["status"] == "partial"]
     missing = [item for item in items if item["status"] == "missing"]
+    connection_checklist = []
+    for item in items:
+        requirement = _GROUP_ONE_CONNECTION_REQUIREMENTS.get(item["id"])
+        if not requirement:
+            continue
+        connection_checklist.append(
+            {
+                "id": item["id"],
+                "label": item["label"],
+                "status": item["status"],
+                "needed": requirement["needed"],
+                "acceptedInputs": requirement["accepted"],
+                "safeTest": requirement["safeTest"],
+                "whyUserProvided": requirement["whyUserProvided"],
+                "currentProvider": item["provider"],
+                "proofTable": item["proofTable"],
+                "proofCount": item["proofCount"],
+                "nextAction": item["nextAction"],
+            }
+        )
     return {
         "contractVersion": "system-provider-readiness.v1",
         "generatedAt": now_iso(),
@@ -737,6 +815,7 @@ def provider_readiness_contract() -> dict[str, Any]:
             "posture": "ready" if len(ready) == len(items) else "plug_in_ready",
         },
         "items": items,
+        "connectionChecklist": connection_checklist,
         "recommendations": [item["nextAction"] for item in items if item["status"] != "ready"],
     }
 

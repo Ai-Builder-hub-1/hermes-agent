@@ -32,6 +32,9 @@ def test_warehouse_summary_reports_configured_root(tmp_path, monkeypatch):
     assert summary["databaseBackup"]["warehouseRole"] == "backup-long-term-storage-replay-evidence"
     assert summary["providerReadiness"]["contractVersion"] == "system-provider-readiness.v1"
     assert summary["providerReadiness"]["summary"]["categories"] >= 11
+    checklist = summary["providerReadiness"]["connectionChecklist"]
+    assert {item["id"] for item in checklist} >= {"database-backup", "object-store", "deployment-provider", "vault-rotation"}
+    assert all(item["needed"] and item["acceptedInputs"] and item["safeTest"] for item in checklist)
 
 
 def test_warehouse_series_has_points(tmp_path, monkeypatch):
@@ -169,6 +172,7 @@ def test_provider_readiness_capture_records_plugin_ready_contract(tmp_path, monk
 
     before = provider_readiness_contract()
     assert before["summary"]["categories"] >= 11
+    assert len(before["connectionChecklist"]) >= 9
 
     result = record_provider_readiness_capture()
     assert result["ok"] is True
