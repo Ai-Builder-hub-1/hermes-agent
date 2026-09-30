@@ -865,6 +865,8 @@ def _business_reliability_cost_self_audit_layer(
         _self_audit_gap("media-launch-evidence", "Media launch evidence is modeled but not source-native.", "open", "Attach Media Engine and Media Business Ops telemetry."),
     ]
     regression_actions = [_regression_action(gap) for gap in self_audit]
+    _persist_business_reliability_cost(domains, reliability, cost, regression_actions)
+    backbone = business_reliability_cost_backbone_audit()
     return {
         "contractVersion": "hermes-business-reliability-cost-self-audit.v1",
         "generatedAt": now_iso(),
@@ -875,12 +877,175 @@ def _business_reliability_cost_self_audit_layer(
             "costRecommendations": len(cost),
             "selfAuditGaps": len(self_audit),
             "regressionActions": len(regression_actions),
+            "backboneReady": backbone["summary"]["ready"],
+            "backboneCategories": backbone["summary"]["categories"],
+            "businessReliabilityCostEnough": backbone["summary"]["businessReliabilityCostEnough"],
         },
         "domains": domains,
         "reliability": reliability,
         "costRecommendations": cost,
         "selfAudit": self_audit,
         "regressionActions": regression_actions,
+        "businessBackbone": backbone,
+    }
+
+
+def _business_tables() -> set[str]:
+    return {"business_impact_history", "reliability_history_points", "provider_cost_actuals", "regression_action_closeouts"}
+
+
+def _business_rows(table: str, limit: int = 100) -> list[dict[str, Any]]:
+    if table not in _business_tables():
+        return []
+    try:
+        from hermes_cli.operating_runtime import connect
+
+        with connect() as conn:
+            rows = conn.execute(
+                f"SELECT * FROM {table} ORDER BY recorded_at DESC LIMIT ?",
+                (max(1, min(int(limit or 100), 500)),),
+            ).fetchall()
+            records: list[dict[str, Any]] = []
+            for row in rows:
+                record = dict(row)
+                payload = record.get("payload")
+                if isinstance(payload, str):
+                    try:
+                        record["payload"] = json.loads(payload)
+                    except json.JSONDecodeError:
+                        record["payload"] = {}
+                records.append(record)
+            return records
+    except Exception:
+        return []
+
+
+def _upsert_business_record(table: str, record: dict[str, Any]) -> None:
+    if table not in _business_tables():
+        return
+    from hermes_cli.operating_runtime import connect
+
+    row = dict(record)
+    row["payload"] = json.dumps(row.get("payload") or {}, sort_keys=True, default=str)
+    row.setdefault("recorded_at", now_iso())
+    columns = list(row)
+    placeholders = ", ".join("?" for _ in columns)
+    updates = ", ".join(f"{column} = excluded.{column}" for column in columns if column != "id")
+    with connect() as conn:
+        conn.execute(
+            f"""
+            INSERT INTO {table} ({', '.join(columns)})
+            VALUES ({placeholders})
+            ON CONFLICT(id) DO UPDATE SET {updates}
+            """,
+            [row[column] for column in columns],
+        )
+        conn.commit()
+
+
+def _persist_business_reliability_cost(
+    domains: list[dict[str, Any]],
+    reliability: list[dict[str, Any]],
+    cost: list[dict[str, Any]],
+    regression_actions: list[dict[str, Any]],
+) -> None:
+    ts = now_iso()
+    for domain in domains:
+        fingerprint = json.dumps(domain, sort_keys=True, default=str)
+        _upsert_business_record("business_impact_history", {
+            "id": f"business-impact-{_safe_ref(domain.get('id'))}",
+            "domain_id": str(domain.get("id") or ""),
+            "business_unit": str(domain.get("businessUnit") or ""),
+            "health": str(domain.get("health") or ""),
+            "impact": str(domain.get("impact") or ""),
+            "open_risks": int(domain.get("openRisks") or 0),
+            "content_hash": hashlib.sha256(fingerprint.encode("utf-8")).hexdigest(),
+            "observed_at": ts,
+            "payload": domain,
+            "recorded_at": ts,
+        })
+    for point in reliability:
+        fingerprint = json.dumps(point, sort_keys=True, default=str)
+        _upsert_business_record("reliability_history_points", {
+            "id": f"reliability-point-{_safe_ref(point.get('domainId'))}",
+            "domain_id": str(point.get("domainId") or ""),
+            "score": float(point.get("score") or 0),
+            "trend": str(point.get("trend") or ""),
+            "driver": str(point.get("driver") or ""),
+            "content_hash": hashlib.sha256(fingerprint.encode("utf-8")).hexdigest(),
+            "observed_at": ts,
+            "payload": point,
+            "recorded_at": ts,
+        })
+    for item in cost:
+        fingerprint = json.dumps(item, sort_keys=True, default=str)
+        _upsert_business_record("provider_cost_actuals", {
+            "id": f"provider-cost-{_safe_ref(item.get('id'))}",
+            "provider": "local-capacity-model",
+            "bucket": str(item.get("bucket") or ""),
+            "amount": float(item.get("signal") or 0),
+            "unit": "local_signal",
+            "recommendation": str(item.get("recommendation") or ""),
+            "content_hash": hashlib.sha256(fingerprint.encode("utf-8")).hexdigest(),
+            "observed_at": ts,
+            "payload": item,
+            "recorded_at": ts,
+        })
+    for action in regression_actions:
+        fingerprint = json.dumps(action, sort_keys=True, default=str)
+        _upsert_business_record("regression_action_closeouts", {
+            "id": f"regression-closeout-{_safe_ref(action.get('id'))}",
+            "action_id": str(action.get("id") or ""),
+            "source_gap": str(action.get("sourceGap") or ""),
+            "status": str(action.get("status") or "candidate"),
+            "approval": str(action.get("approval") or "none"),
+            "closeout": "candidate_recorded_execution_disabled",
+            "content_hash": hashlib.sha256(fingerprint.encode("utf-8")).hexdigest(),
+            "observed_at": ts,
+            "payload": action,
+            "recorded_at": ts,
+        })
+
+
+def _business_backbone_item(item_id: str, label: str, rows: list[dict[str, Any]], missing: list[str], next_action: str) -> dict[str, Any]:
+    return {
+        "id": item_id,
+        "label": label,
+        "status": "ready" if rows else "missing",
+        "businessReliabilityCostEnough": bool(rows),
+        "evidence": [str(row.get("content_hash") or row.get("id")) for row in rows[:6]],
+        "missing": [] if rows else missing,
+        "nextAction": next_action,
+    }
+
+
+def business_reliability_cost_backbone_audit() -> dict[str, Any]:
+    impacts = _business_rows("business_impact_history")
+    reliability = _business_rows("reliability_history_points")
+    costs = _business_rows("provider_cost_actuals")
+    closeouts = _business_rows("regression_action_closeouts")
+    items = [
+        _business_backbone_item("business-impact-history", "Source-native business impact histories", impacts, ["business_impact_history rows by domain with health, impact, risks, hash, and observed time"], "Persist business impact observations by domain."),
+        _business_backbone_item("reliability-history", "Long-lived reliability history", reliability, ["reliability_history_points rows by domain with score, trend, driver, hash, and observed time"], "Persist repeated reliability score points."),
+        _business_backbone_item("provider-cost-actuals", "Provider invoices and capacity cost actuals", costs, ["provider_cost_actuals rows with provider, bucket, amount, unit, recommendation, hash, and observed time"], "Persist provider cost actuals or local cost signals."),
+        _business_backbone_item("regression-action-closeouts", "Regression-action execution and closeout", closeouts, ["regression_action_closeouts rows with action ID, source gap, status, approval, closeout, and hash"], "Persist self-audit regression action closeouts."),
+    ]
+    ready = len([item for item in items if item["status"] == "ready"])
+    missing = len([item for item in items if item["status"] == "missing"])
+    enough = all(item["businessReliabilityCostEnough"] for item in items)
+    return {
+        "contractVersion": "business-reliability-cost-backbone-audit.v1",
+        "generatedAt": now_iso(),
+        "summary": {
+            "categories": len(items),
+            "ready": ready,
+            "partial": 0,
+            "missing": missing,
+            "businessReliabilityCostEnough": enough,
+            "posture": "sufficient" if enough else "needs_local_proof",
+        },
+        "items": items,
+        "recommendations": [] if enough else [item["nextAction"] for item in items if not item["businessReliabilityCostEnough"]],
     }
 
 

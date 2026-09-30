@@ -465,6 +465,65 @@ def init_db(conn: sqlite3.Connection) -> None:
         );
         CREATE INDEX IF NOT EXISTS idx_remediation_runbook_outcomes_playbook ON remediation_runbook_outcomes(playbook_id);
         CREATE INDEX IF NOT EXISTS idx_remediation_runbook_outcomes_recorded ON remediation_runbook_outcomes(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS business_impact_history (
+            id TEXT PRIMARY KEY,
+            domain_id TEXT NOT NULL,
+            business_unit TEXT NOT NULL DEFAULT '',
+            health TEXT NOT NULL DEFAULT '',
+            impact TEXT NOT NULL DEFAULT '',
+            open_risks INTEGER NOT NULL DEFAULT 0,
+            content_hash TEXT NOT NULL DEFAULT '',
+            observed_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_business_impact_history_domain ON business_impact_history(domain_id);
+        CREATE INDEX IF NOT EXISTS idx_business_impact_history_recorded ON business_impact_history(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS reliability_history_points (
+            id TEXT PRIMARY KEY,
+            domain_id TEXT NOT NULL,
+            score REAL NOT NULL DEFAULT 0,
+            trend TEXT NOT NULL DEFAULT '',
+            driver TEXT NOT NULL DEFAULT '',
+            content_hash TEXT NOT NULL DEFAULT '',
+            observed_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_reliability_history_points_domain ON reliability_history_points(domain_id);
+        CREATE INDEX IF NOT EXISTS idx_reliability_history_points_recorded ON reliability_history_points(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS provider_cost_actuals (
+            id TEXT PRIMARY KEY,
+            provider TEXT NOT NULL,
+            bucket TEXT NOT NULL DEFAULT '',
+            amount REAL NOT NULL DEFAULT 0,
+            unit TEXT NOT NULL DEFAULT '',
+            recommendation TEXT NOT NULL DEFAULT '',
+            content_hash TEXT NOT NULL DEFAULT '',
+            observed_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_provider_cost_actuals_provider ON provider_cost_actuals(provider);
+        CREATE INDEX IF NOT EXISTS idx_provider_cost_actuals_recorded ON provider_cost_actuals(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS regression_action_closeouts (
+            id TEXT PRIMARY KEY,
+            action_id TEXT NOT NULL,
+            source_gap TEXT NOT NULL DEFAULT '',
+            status TEXT NOT NULL DEFAULT 'candidate',
+            approval TEXT NOT NULL DEFAULT 'none',
+            closeout TEXT NOT NULL DEFAULT '',
+            content_hash TEXT NOT NULL DEFAULT '',
+            observed_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_regression_action_closeouts_action ON regression_action_closeouts(action_id);
+        CREATE INDEX IF NOT EXISTS idx_regression_action_closeouts_recorded ON regression_action_closeouts(recorded_at);
         """
     )
     conn.commit()

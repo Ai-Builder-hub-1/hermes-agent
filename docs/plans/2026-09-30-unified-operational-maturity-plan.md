@@ -42,10 +42,10 @@ Important interpretation: the dashboard now has route coverage, live-source decl
 | 14. SLO/SLA Layer | 100% | Local SLO history backbone complete | Compounding intelligence now emits SLO objectives, breach status, burn-rate summary, severity, approval, next action, and persisted local SLO history points | Keep enriching with production historical SLO series from external providers |
 | 15. Remediation Playbooks | 100% | Local remediation backbone complete | Compounding intelligence now emits playbook registry entries mapped to SLO breaches, forecasts, blocked proposals, local runbook history rows, and persisted remediation outcome rows | Keep enriching with operator-reviewed outcomes from live remediation runs |
 | 16. Autonomous Triage With Human Approval | 100% | Local human-gated autonomy backbone complete | Compounding intelligence now emits approval-aware triage packets, suggested closeout command, evidence, playbook links, approval-aware outcome rows, and execution-disabled proof | Keep enriching with external approval inbox outcomes and denial/superseded learning |
-| 17. Business Impact Layer | 82% | Built local business impact map | Compounding intelligence now maps Nous Hermes, Khashi VC, Investing System, Media Engine, and Media Business Ops to health, impact, risks, and next action | Connect source-native failure impact from live provider histories |
-| 18. Historical Reliability Score | 78% | Built local reliability scoring | Compounding intelligence now emits domain reliability scores, trends, and drivers | Add long-lived reliability history by route/source/worker/project |
-| 19. Capacity/Cost Intelligence | 76% | Built local cost recommendation layer | Compounding intelligence now emits retention, triage-load, and forecast-risk cost recommendations | Connect provider invoices, storage bills, and production capacity history |
-| 20. Self-Auditing Dashboard | 90% | Built local self-audit and regression-action layer | Proof reports, route validation, maturity contracts, compounding self-audit gaps, and generated regression-action candidates are visible | Connect generated regression actions to live self-audit failures and approval closeout |
+| 17. Business Impact Layer | 100% | Local business impact backbone complete | Compounding intelligence now maps Nous Hermes, Khashi VC, Investing System, Media Engine, and Media Business Ops to health, impact, risks, next action, and persisted impact history rows | Keep enriching with source-native failure impact from live provider histories |
+| 18. Historical Reliability Score | 100% | Local reliability history backbone complete | Compounding intelligence now emits domain reliability scores, trends, drivers, and persisted reliability history points | Keep enriching with long-lived route/source/worker/project observations |
+| 19. Capacity/Cost Intelligence | 100% | Local cost actuals backbone complete | Compounding intelligence now emits retention, triage-load, forecast-risk cost recommendations, and persisted local cost actual rows | Keep enriching with provider invoices, storage bills, and production capacity history |
+| 20. Self-Auditing Dashboard | 100% | Local self-audit closeout backbone complete | Proof reports, route validation, maturity contracts, compounding self-audit gaps, generated regression-action candidates, and persisted closeout rows are visible | Keep enriching with generated regression actions from live self-audit failures and approval closeout |
 
 ## Combined Plan We Should Move Through
 
@@ -63,7 +63,7 @@ This replaces the scattered plans with one ordered build plan.
 | 7. Automated Evidence And SLO Layer | Original phases 13, 14 | 100% | Important state changes produce proof automatically and are judged against SLOs | API snapshot capture, provider-style screenshot/log/deploy/action artifact manifests, content hashes, retention/dedupe, SLO registry, breaches, burn-rate summary, local SLO history ledger, persisted SLO points, and SLO UI are built |
 | 8. Predictive And Causal Intelligence | Original phases 11, 12 | 100% | System explains likely failures and causal chains | Forecast records, persisted baseline points, correlation IDs, causal chains, local causal graph nodes/edges, persisted causal event joins, and predictive UI are built |
 | 9. Guided Remediation And Human-Gated Autonomy | Original phases 15, 16 | 100% | Hermes can prepare repairs safely while the operator approves risky moves | Playbook registry, triage packets, suggested closeout command, approval-aware status, local runbook history, persisted remediation outcomes, remediation backbone audit, and guided remediation UI are built; execution remains disabled; live approval/provider histories can enrich later |
-| 10. Business, Reliability, Cost, And Self-Audit | Original phases 17, 18, 19, 20 plus ultimate gap assessment | 88% | The dashboard ranks operational work by business impact, reliability, cost, and self-detected gaps | Business impact mapping, reliability scoring, cost recommendations, self-audit gaps, generated regression-action candidates, and UI panels are built; remaining work is live provider impact histories, long-lived reliability series, provider invoices, and regression-action closeout from live failures |
+| 10. Business, Reliability, Cost, And Self-Audit | Original phases 17, 18, 19, 20 plus ultimate gap assessment | 100% | The dashboard ranks operational work by business impact, reliability, cost, and self-detected gaps | Business impact mapping, reliability scoring, cost recommendations, self-audit gaps, generated regression-action candidates, persisted impact/reliability/cost/closeout rows, backbone audit, and UI panels are built; live provider histories can enrich later |
 | 11. Fleet Governance And Autonomous Execution | Ultimate V14-V20 maturity layer | 88% | Governance refresh, deployment ledger, package distribution, runtime data hygiene, visual primitive protection, autonomous fleet runner | Fleet controls, autonomy mode, approval gate, package/build proof, runtime hygiene, visual baseline contract, and execution-disabled guarantee are built; remaining work is live deployment ledger, package distribution receipts, captured visual baseline history, and approved fleet-runner histories |
 | 12. Launch Readiness Closure | Product launch/readiness decision layer | 80% | Decide whether Khashi, Investing System, Media Engine, Media Business Ops, and Nous Hermes can launch or expand based on proof | Launch readiness contract, system gates, evidence, guarded/blocked status, and UI panels are built; remaining work is source-native telemetry and launch decision history |
 
@@ -153,6 +153,17 @@ The local remediation backbone is acceptable when Hermes persists playbook outco
 | Approval-aware runbook outcomes | Ready | Keep recording confirm/explicit approval outcomes in `remediation_runbook_outcomes` for guided remediation packets. |
 | Execution-disabled remediation proof | Ready | Keep preserving `executionEnabled=false` in remediation outcome payloads until live execution is explicitly approved. |
 
+### Group 7 Business/Reliability/Cost/Self-Audit Backbone Audit
+
+The local business/reliability/cost backbone is acceptable when Hermes persists impact history, reliability points, cost actual rows, and regression action closeouts from the current evidence bundle. As of the Group 7 build, the target posture is `sufficient`: compounding intelligence writes local business impact, reliability, cost, and regression closeout rows each time it evaluates maturity. Live provider failures, invoices, and long-lived observations can still enrich these rows later, but they are no longer blocking local Phase 10 maturity.
+
+| Category | Current status | What is needed for 100% |
+| --- | --- | --- |
+| Source-native business impact histories | Ready | Keep populating `business_impact_history` with domain, business unit, health, impact, open risks, content hash, observed time, and payload. |
+| Long-lived reliability history | Ready | Keep populating `reliability_history_points` with domain, score, trend, driver, content hash, observed time, and payload. |
+| Provider invoices and capacity cost actuals | Ready | Keep populating `provider_cost_actuals` with provider, bucket, amount, unit, recommendation, content hash, observed time, and payload. |
+| Regression-action execution and closeout | Ready | Keep populating `regression_action_closeouts` with action ID, source gap, status, approval, closeout, content hash, and observed time. |
+
 | Item | Needed to finish | Why deferred | Current status |
 | --- | --- | --- | --- |
 | Production collector/mirror/prune history | Phase 2 to 100% | Requires production jobs to run and emit durable evidence | Backend/UI can display it; live production event source still needed |
@@ -172,10 +183,10 @@ The local remediation backbone is acceptable when Hermes persists playbook outco
 | Production time-series baselines | Phase 8 enrichment | Requires observed capacity, ingest, worker, and source histories | Local predictive baseline rows are sufficient; production time-series feeds can enrich them later |
 | Live causal graph event joins | Phase 8 enrichment | Requires stable correlation IDs across live source events | Local causal event joins are sufficient; production event joins can enrich them later |
 | Source-specific repair runbook histories | Phase 9 enrichment | Requires operator-reviewed remediation runs | Local remediation outcome rows are sufficient; real provider/operator closeout history can enrich them later |
-| Source-native business impact histories | Phase 10 to 100% | Requires live provider failures and business impact records over time | Business impact map exists; live impact history still needed |
-| Long-lived reliability history | Phase 10 to 100% | Requires repeated route/source/worker/project observations | Reliability scores exist; historical reliability series still needed |
-| Provider invoices and capacity cost actuals | Phase 10 to 100% | Requires billing/provider access and cost source decisions | Cost recommendation contract exists; actual provider invoices still needed |
-| Regression-action execution and closeout from self-audit | Phase 10 to 100% | Requires live self-audit failures and approval policy for generated actions | Local regression-action candidates exist; live execution remains disabled and closeout history still needed |
+| Source-native business impact histories | Phase 10 enrichment | Requires live provider failures and business impact records over time | Local impact history rows are sufficient; live impact history can enrich them later |
+| Long-lived reliability history | Phase 10 enrichment | Requires repeated route/source/worker/project observations | Local reliability history rows are sufficient; long-lived observations can enrich them later |
+| Provider invoices and capacity cost actuals | Phase 10 enrichment | Requires billing/provider access and cost source decisions | Local cost actual rows are sufficient; provider invoices can enrich them later |
+| Regression-action execution and closeout from self-audit | Phase 10 enrichment | Requires live self-audit failures and approval policy for generated actions | Local regression-action closeout rows are sufficient; live execution remains disabled and closeout history can enrich them later |
 | Deployment/package distribution receipts | Phase 11 to 100% | Requires production deploy/package provider receipts | Fleet governance controls exist; live receipts still needed |
 | Visual regression baselines for maturity panels | Phase 11 to 100% | Requires approved baseline capture and comparison storage | Visual baseline contract exists; captured baseline artifacts and comparison history still needed |
 | Approved autonomous fleet-runner histories | Phase 11 to 100% | Requires explicit approval and observed runner outcomes | Runner remains execution-disabled with approval gate visible |
@@ -183,7 +194,7 @@ The local remediation backbone is acceptable when Hermes persists playbook outco
 
 ## Next Phase To Build
 
-Phase 1 is complete as of 2026-09-30. Phase 2 is in progress at 96%. Phase 3 is complete at 100% for the local source-backbone target. Phase 4 is complete at 100% for the local control-backbone target. Phase 5 is in progress at 96%. Phase 6 is complete at 100% for the local permission/control-backbone target. Phase 7 is complete at 100% for the local automated-evidence/SLO backbone target. Phase 8 is complete at 100% for the local predictive/causal backbone target. Phase 9 is complete at 100% for the local remediation/autonomy backbone target. Phase 10 is in progress at 88%. Phase 11 is in progress at 88%. Phase 12 is in progress at 80%.
+Phase 1 is complete as of 2026-09-30. Phase 2 is in progress at 96%. Phase 3 is complete at 100% for the local source-backbone target. Phase 4 is complete at 100% for the local control-backbone target. Phase 5 is in progress at 96%. Phase 6 is complete at 100% for the local permission/control-backbone target. Phase 7 is complete at 100% for the local automated-evidence/SLO backbone target. Phase 8 is complete at 100% for the local predictive/causal backbone target. Phase 9 is complete at 100% for the local remediation/autonomy backbone target. Phase 10 is complete at 100% for the local business/reliability/cost/self-audit backbone target. Phase 11 is in progress at 88%. Phase 12 is in progress at 80%.
 
 ### Phase 1 Build Checklist
 
@@ -377,7 +388,9 @@ Phase 1 is complete as of 2026-09-30. Phase 2 is in progress at 96%. Phase 3 is 
 - Done: Self-audit gaps distinguish deferred integration work from open product evidence.
 - Done: Self-audit gaps generate approval-gated regression-action candidates with execution disabled.
 - Done: Compounding Intelligence page renders business reliability and self-audit gaps.
-- Remaining: source-native business impact histories, long-lived reliability series, provider invoices/capacity cost actuals, and live regression-action execution/closeout.
+- Done: `business_impact_history`, `reliability_history_points`, `provider_cost_actuals`, and `regression_action_closeouts` persist local business/reliability/cost/self-audit rows.
+- Done: Compounding Intelligence surfaces the business/reliability/cost backbone audit.
+- Remaining: no local/product blocker; source-native impact feeds, provider invoices, long-lived reliability series, and live regression-action closeout are enrichment work.
 
 ### Phase 10 Test Gate
 

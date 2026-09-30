@@ -297,6 +297,9 @@ export interface CompoundingSummary {
       costRecommendations: number;
       selfAuditGaps: number;
       regressionActions: number;
+      backboneReady?: number;
+      backboneCategories?: number;
+      businessReliabilityCostEnough?: boolean;
     };
     domains: Array<{
       id: string;
@@ -340,6 +343,28 @@ export interface CompoundingSummary {
       recommendedAction: string;
       closeoutRequired: boolean;
     }>;
+    businessBackbone?: {
+      contractVersion: string;
+      generatedAt: string;
+      summary: {
+        categories: number;
+        ready: number;
+        partial: number;
+        missing: number;
+        businessReliabilityCostEnough: boolean;
+        posture: string;
+      };
+      items: Array<{
+        id: string;
+        label: string;
+        status: string;
+        businessReliabilityCostEnough: boolean;
+        evidence: string[];
+        missing: string[];
+        nextAction: string;
+      }>;
+      recommendations: string[];
+    };
   };
   fleetGovernance: {
     contractVersion: string;

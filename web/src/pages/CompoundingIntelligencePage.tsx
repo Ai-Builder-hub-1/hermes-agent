@@ -167,6 +167,18 @@ export default function CompoundingIntelligencePage() {
       <section className="flex min-h-0 flex-col gap-3">
         <Panel title="Business reliability" aside={`${summary.businessReliabilityCost.summary.averageReliability}%`}>
           <div className="space-y-2">
+            <div className="grid gap-2 sm:grid-cols-2">
+              <MiniFact label="Backbone" value={`${summary.businessReliabilityCost.summary.backboneReady ?? 0}/${summary.businessReliabilityCost.summary.backboneCategories ?? 0}`} />
+              <MiniFact label="Posture" value={summary.businessReliabilityCost.summary.businessReliabilityCostEnough ? "sufficient" : "needs proof"} />
+            </div>
+            {summary.businessReliabilityCost.businessBackbone ? summary.businessReliabilityCost.businessBackbone.items.map((item) => (
+              <Callout
+                key={item.id}
+                title={item.label}
+                detail={item.businessReliabilityCostEnough ? item.evidence.slice(0, 2).join(" | ") || "Local business/reliability/cost rows are present." : item.missing.join("; ") || item.nextAction}
+                tone={tone(item.status === "ready" ? "ready" : "warning")}
+              />
+            )) : null}
             {summary.businessReliabilityCost.domains.map((domain) => (
               <Callout key={domain.id} title={`${domain.label}: ${domain.impact}`} detail={`${domain.businessUnit}; risks=${domain.openRisks}; ${domain.nextAction}`} tone={tone(domain.health)} />
             ))}

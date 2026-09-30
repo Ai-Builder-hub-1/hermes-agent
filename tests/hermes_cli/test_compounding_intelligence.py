@@ -43,6 +43,9 @@ async def test_compounding_intelligence_summary_and_review(tmp_path, monkeypatch
     assert summary["remediation"]["runbookHistory"]
     assert summary["businessReliabilityCost"]["contractVersion"] == "hermes-business-reliability-cost-self-audit.v1"
     assert summary["businessReliabilityCost"]["summary"]["domains"] >= 5
+    assert summary["businessReliabilityCost"]["summary"]["backboneReady"] == summary["businessReliabilityCost"]["summary"]["backboneCategories"]
+    assert summary["businessReliabilityCost"]["summary"]["businessReliabilityCostEnough"] is True
+    assert summary["businessReliabilityCost"]["businessBackbone"]["summary"]["businessReliabilityCostEnough"] is True
     assert summary["businessReliabilityCost"]["reliability"]
     assert summary["businessReliabilityCost"]["regressionActions"]
     assert summary["fleetGovernance"]["contractVersion"] == "hermes-fleet-governance-autonomous-execution.v1"
@@ -85,6 +88,7 @@ def test_compounding_intelligence_api_routes(tmp_path, monkeypatch):
     assert body["summary"]["interactionRoutes"] >= 4
     assert body["predictiveIntelligence"]["predictiveBackbone"]["summary"]["ready"] == body["predictiveIntelligence"]["predictiveBackbone"]["summary"]["categories"]
     assert body["remediation"]["remediationBackbone"]["summary"]["ready"] == body["remediation"]["remediationBackbone"]["summary"]["categories"]
+    assert body["businessReliabilityCost"]["businessBackbone"]["summary"]["ready"] == body["businessReliabilityCost"]["businessBackbone"]["summary"]["categories"]
 
     review = client.post(
         "/api/compounding-intelligence/review",
