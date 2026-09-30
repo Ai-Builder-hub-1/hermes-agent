@@ -195,6 +195,31 @@ function loopToRunItem(loop: OperatingLoop): OperateItem {
 }
 
 function evidenceToOperateItem(record: RuntimeEvidenceRecord): OperateItem {
+  if (record.payload?.source === "operate-action-closeout") {
+    const result = String(record.payload.result ?? "recorded");
+    const state: OperateItemState = ["completed", "done", "no-op", "noop", "denied", "superseded", "recorded"].includes(result)
+      ? "done"
+      : ["failed", "error"].includes(result)
+        ? "blocked"
+        : "review";
+    return {
+      id: `evidence-${record.id}`,
+      kind: "action",
+      title: record.subject,
+      source: "Runtime action closeout",
+      owner: record.owner,
+      severity: state === "blocked" ? "critical" : state === "done" ? "ready" : "warning",
+      state,
+      whyItMatters: "This records the result of an operator action intent so the queue has a durable closeout trail.",
+      nextAction: "Use the linked route for follow-up if the result was failed or still in review.",
+      clearingProof: String(record.payload.proof ?? record.detail),
+      evidence: `result=${result}; audit=${record.payload.audit_id ?? "missing"}; approval=${record.payload.approval ?? "unknown"}`,
+      safeAction: null,
+      requiresApproval: false,
+      updatedAt: record.updatedAt,
+      route: typeof record.payload.route === "string" && record.payload.route ? record.payload.route : undefined,
+    };
+  }
   const bad = ["blocked", "gated", "warning", "failed"].includes(record.state);
   return {
     id: `evidence-${record.id}`,

@@ -1,19 +1,19 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-29T14:13:45.914Z",
+  "generatedAt": "2026-09-30T19:09:06.048Z",
   "summary": {
-    "routes": 35,
-    "readyRoutes": 35,
+    "routes": 36,
+    "readyRoutes": 36,
     "partialRoutes": 0,
     "blockedRoutes": 0,
-    "chartedOrBetter": 11,
+    "chartedOrBetter": 12,
     "staticRoutes": 0,
     "liveSourceGaps": 0,
     "evidenceGaps": 0,
-    "safeActions": 25,
+    "safeActions": 27,
     "safeActionHardeningGaps": 0,
     "routeValidationStatus": "ready",
-    "routeValidationPassed": 35,
+    "routeValidationPassed": 36,
     "routeValidationFailed": 0,
     "routeValidationBlocked": 0,
     "liveSourceValidationStatus": "ready",
@@ -26,8 +26,8 @@
   },
   "groups": {
     "operate": {
-      "routes": 13,
-      "ready": 13,
+      "routes": 14,
+      "ready": 14,
       "partial": 0,
       "blocked": 0,
       "averageScore": 100
@@ -52,11 +52,11 @@
       "route": "/compounding-intelligence",
       "group": "operate",
       "label": "Compounding Intelligence",
-      "maturity": "live",
+      "maturity": "intelligent",
       "score": 100,
       "status": "ready",
       "missing": [],
-      "nextAction": "scheduled freshness proof"
+      "nextAction": "proposal drill-through"
     },
     {
       "route": "/contradictions",
@@ -86,7 +86,7 @@
       "score": 100,
       "status": "ready",
       "missing": [],
-      "nextAction": "server-first runtime hydration"
+      "nextAction": "closeout audit flow"
     },
     {
       "route": "/operate/actions",
@@ -157,6 +157,16 @@
       "status": "ready",
       "missing": [],
       "nextAction": "loop run history"
+    },
+    {
+      "route": "/preflight",
+      "group": "operate",
+      "label": "Agent Preflight",
+      "maturity": "actionable",
+      "score": 100,
+      "status": "ready",
+      "missing": [],
+      "nextAction": "acknowledgement persistence"
     },
     {
       "route": "/research-queue",
@@ -401,11 +411,11 @@
   ],
   "routeValidation": {
     "status": "ready",
-    "routes": 35,
-    "passed": 35,
+    "routes": 36,
+    "passed": 36,
     "failed": 0,
     "blocked": 0,
-    "generatedAt": "2026-09-29T14:13:38.092Z"
+    "generatedAt": "2026-09-30T03:16:37.190Z"
   },
   "liveSourceValidation": {
     "status": "ready",
@@ -690,6 +700,23 @@
         "gaps": []
       },
       {
+        "id": "/compounding-intelligence:/api/compounding-intelligence/review",
+        "route": "/compounding-intelligence",
+        "group": "operate",
+        "pageLabel": "Compounding Intelligence",
+        "endpoint": "/api/compounding-intelligence/review",
+        "risk": "read_only",
+        "evidenceContract": [
+          "compounding intelligence summary",
+          "committee packet"
+        ],
+        "liveSources": [
+          "/api/compounding-intelligence/summary"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
         "id": "/contradictions:/api/second-brain/contradictions/detect",
         "route": "/contradictions",
         "group": "operate",
@@ -719,6 +746,26 @@
         ],
         "liveSources": [
           "/api/second-brain/research-tasks"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/preflight:/api/second-brain/preflight",
+        "route": "/preflight",
+        "group": "operate",
+        "pageLabel": "Agent Preflight",
+        "endpoint": "/api/second-brain/preflight",
+        "risk": "review_required",
+        "evidenceContract": [
+          "Hermes Brain preflight checks",
+          "decision intelligence metrics",
+          "policy warnings",
+          "cited memory refs"
+        ],
+        "liveSources": [
+          "/api/second-brain/preflight-checks",
+          "/api/second-brain/decision-intelligence/metrics"
         ],
         "auditWritebackExpected": true,
         "gaps": []
@@ -797,24 +844,6 @@
         "gaps": []
       },
       {
-        "id": "/trading/risk:/api/head-trader/risk-check",
-        "route": "/trading/risk",
-        "group": "trading",
-        "pageLabel": "Risk & Capital",
-        "endpoint": "/api/head-trader/risk-check",
-        "risk": "read_only",
-        "evidenceContract": [
-          "head trader audit",
-          "trading command center"
-        ],
-        "liveSources": [
-          "/api/head-trader/summary",
-          "/api/trading-intelligence/command-center"
-        ],
-        "auditWritebackExpected": true,
-        "gaps": []
-      },
-      {
         "id": "/trading/head-trader:/api/head-trader/risk-check",
         "route": "/trading/head-trader",
         "group": "trading",
@@ -861,12 +890,36 @@
         "risk": "read_only",
         "evidenceContract": [
           "trading evidence ledger",
+          "outcome learning summary",
           "trading events",
           "strategy/backtest proof rows"
         ],
         "liveSources": [
           "/api/trading-research/evidence/ledger",
           "/api/trading-research/evidence/series",
+          "/api/trading-research/outcomes/summary",
+          "/api/trading-intelligence/events"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
+        "id": "/trading/evidence:/api/trading-research/outcomes/review",
+        "route": "/trading/evidence",
+        "group": "trading",
+        "pageLabel": "Trading Evidence",
+        "endpoint": "/api/trading-research/outcomes/review",
+        "risk": "read_only",
+        "evidenceContract": [
+          "trading evidence ledger",
+          "outcome learning summary",
+          "trading events",
+          "strategy/backtest proof rows"
+        ],
+        "liveSources": [
+          "/api/trading-research/evidence/ledger",
+          "/api/trading-research/evidence/series",
+          "/api/trading-research/outcomes/summary",
           "/api/trading-intelligence/events"
         ],
         "auditWritebackExpected": true,
@@ -892,12 +945,73 @@
       }
     ],
     "totals": {
-      "actions": 25,
-      "evidenceBacked": 25,
-      "auditExpected": 25,
+      "actions": 27,
+      "evidenceBacked": 27,
+      "auditExpected": 27,
       "needsHardening": 0
     },
     "gaps": []
+  },
+  "proofEvidence": {
+    "id": "operational-proof-latest",
+    "kind": "quality",
+    "subject": "Operational route proof report",
+    "state": "ready",
+    "owner": "Hermes",
+    "detail": "36/36 operational routes ready; 51 live sources reachable; 27 safe actions evidence-backed.",
+    "payload": {
+      "generatedAt": "2026-09-30T19:09:06.048Z",
+      "summary": {
+        "routes": 36,
+        "readyRoutes": 36,
+        "partialRoutes": 0,
+        "blockedRoutes": 0,
+        "chartedOrBetter": 12,
+        "staticRoutes": 0,
+        "liveSourceGaps": 0,
+        "evidenceGaps": 0,
+        "safeActions": 27,
+        "safeActionHardeningGaps": 0,
+        "routeValidationStatus": "ready",
+        "routeValidationPassed": 36,
+        "routeValidationFailed": 0,
+        "routeValidationBlocked": 0,
+        "liveSourceValidationStatus": "ready",
+        "liveSourcesReachable": 51,
+        "liveSourcesAuthRequired": 0,
+        "liveSourcesDependencyUnavailable": 0,
+        "liveSourcesFailed": 0,
+        "liveSourcesBlocked": 0,
+        "liveSourceImpactedRoutes": 0
+      },
+      "routeValidation": {
+        "status": "ready",
+        "routes": 36,
+        "passed": 36,
+        "failed": 0,
+        "blocked": 0,
+        "generatedAt": "2026-09-30T03:16:37.190Z"
+      },
+      "liveSourceValidation": {
+        "status": "ready",
+        "sources": 51,
+        "reachable": 51,
+        "authRequired": 0,
+        "dependencyUnavailable": 0,
+        "failed": 0,
+        "blocked": 0,
+        "impactedRoutes": 0,
+        "authMode": "loopback_session_token",
+        "sessionTokenDiscovered": true,
+        "generatedAt": "2026-09-29T14:12:04.170Z"
+      },
+      "reportPath": "docs/design/operational-proof-report.json"
+    }
+  },
+  "proofEvidencePersistence": {
+    "attempted": false,
+    "status": "skipped",
+    "detail": "Set HERMES_OPERATIONAL_PROOF_PERSIST=1 and HERMES_OPERATIONAL_PROOF_BASE_URL to persist proof evidence."
   },
   "nextActions": [
     "Persist route validation output as operating-runtime evidence when a writable dashboard backend is available."

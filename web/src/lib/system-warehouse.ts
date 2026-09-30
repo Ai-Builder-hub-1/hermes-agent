@@ -9,6 +9,16 @@ export interface WarehouseVolume {
   path: string;
   exists: boolean;
   configured: boolean;
+  scope?: string;
+  host?: string;
+  mountProof?: {
+    verifiedAt: string;
+    pathExists: boolean;
+    probePath: string;
+    totalBytes?: number;
+    freeBytes?: number;
+    error?: string;
+  };
   totalBytes: number;
   usedBytes: number;
   freeBytes: number;
@@ -40,6 +50,14 @@ export interface WarehouseSummary {
     ok: boolean;
     lastRestoreProofAt: string | null;
     manifestHash: string | null;
+    manifest?: {
+      objectCount: number;
+      missingObjects: number;
+      corruptObjects: number;
+      bundleUri: string;
+      verifiedAt: string | null;
+      source: string;
+    };
   };
   forecast: {
     daysUntilFull: number | null;
@@ -51,6 +69,29 @@ export interface WarehouseSummary {
     mirrorLagHours: number;
     restoreProofDays: number;
     breaches: string[];
+  };
+  backbone: {
+    contractVersion: string;
+    generatedAt: string;
+    summary: {
+      categories: number;
+      ready: number;
+      partial: number;
+      missing: number;
+      warehouseEnough: boolean;
+      posture: string;
+    };
+    requiredTables: string[];
+    items: Array<{
+      id: string;
+      label: string;
+      status: string;
+      warehouseEnough: boolean;
+      evidence: string[];
+      missing: string[];
+      nextAction: string;
+    }>;
+    recommendations: string[];
   };
 }
 
@@ -67,6 +108,8 @@ export interface WarehouseSource {
   errorCount24h: number;
   lastError: string | null;
   detail: string;
+  sourceScope?: string;
+  proofId?: string;
 }
 
 export interface WarehouseSeriesPoint {
@@ -98,6 +141,9 @@ export interface WarehouseJob {
   bytes: number;
   records: number;
   detail: string;
+  proofId?: string;
+  artifactUri?: string;
+  manifestHash?: string;
 }
 
 export interface WarehouseSnapshot {

@@ -69,6 +69,44 @@ def record_operator_action_intent(
         conn.close()
 
 
+def record_operator_action_closeout(
+    *,
+    item_id: str,
+    title: str,
+    action: str,
+    result: str,
+    actor: str = "Hermes operator",
+    actor_role: str = "operator",
+    explicit_approval: bool = False,
+    proof: str = "",
+    route: str = "",
+    rollback: str = "",
+    payload: Optional[Dict[str, Any]] = None,
+) -> Dict[str, Any]:
+    """Audit and persist the outcome/closeout for an operator queue item."""
+
+    from hermes_cli.operating_runtime import record_action_closeout
+
+    conn = connect()
+    try:
+        return record_action_closeout(
+            conn,
+            item_id=item_id,
+            title=title,
+            action=action,
+            result=result,
+            actor=actor,
+            actor_role=actor_role,
+            explicit_approval=explicit_approval,
+            proof=proof,
+            route=route,
+            rollback=rollback,
+            payload=payload or {},
+        )
+    finally:
+        conn.close()
+
+
 def _build_operator_queue(limit: int, include_system: bool, extra_items: list[Dict[str, Any]]) -> Dict[str, Any]:
     safe_limit = max(1, min(int(limit), 50))
     fleet = fleet_operator_queue(limit=50)
@@ -94,6 +132,28 @@ def _build_operator_queue(limit: int, include_system: bool, extra_items: list[Di
 
 
 def _runtime_evidence_to_item(record: Dict[str, Any]) -> Dict[str, Any]:
+    payload = record.get("payload") if isinstance(record.get("payload"), dict) else {}
+    if payload.get("source") == "operate-action-closeout":
+        result = str(payload.get("result") or "recorded")
+        route = str(payload.get("route") or "") or _route_for_runtime_kind(record["kind"])
+        state = "done" if result in {"completed", "done", "no-op", "noop", "denied", "superseded", "recorded"} else "blocked" if result in {"failed", "error"} else "review"
+        return {
+            "id": f"runtime-{record['id']}",
+            "kind": "action",
+            "title": record["subject"],
+            "source": "Runtime action closeout",
+            "owner": record["owner"],
+            "severity": "critical" if state == "blocked" else "ready" if state == "done" else "warning",
+            "state": state,
+            "whyItMatters": "This records the result of an operator action intent so the queue has a durable closeout trail.",
+            "nextAction": "Use the linked route for follow-up if the result was failed or still in review.",
+            "clearingProof": str(payload.get("proof") or record["detail"]),
+            "evidence": f"result={result}; audit={payload.get('audit_id') or 'missing'}; approval={payload.get('approval') or 'unknown'}",
+            "safeAction": None,
+            "requiresApproval": False,
+            "updatedAt": record.get("updatedAt") or record.get("updated_at"),
+            "route": route,
+        }
     bad = record["state"] in {"blocked", "gated", "warning", "failed"}
     severity = "critical" if record["state"] in {"failed", "blocked"} else "warning" if bad else "ready"
     state = (

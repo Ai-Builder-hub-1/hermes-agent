@@ -14,6 +14,7 @@ import {
   contractForRoute,
   type OperationalPageAudit,
 } from "@/lib/operational-page-contracts";
+import { ActionResultHistory } from "@/components/ActionResultHistory";
 import {
   fetchBacktestingSnapshot,
   fetchStrategySnapshot,
@@ -92,6 +93,7 @@ function TradingDevelopmentPage({ mode }: { mode: TradingDevelopmentMode }) {
       </section>
 
       {audit ? <PageContractStrip audit={audit} /> : null}
+      <ActionResultHistory route={route} compact />
 
       <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-4" aria-label={`${copy.title} summary`}>
         {summaryCards(mode, stages).map((card) => (
@@ -229,7 +231,12 @@ function ResearchDecisionPanel() {
                   <MiniFact label="Evidence" value={strategy.evidenceCount} />
                   <MiniFact label="Backtest" value={strategy.backtestStatus} />
                   <MiniFact label="Dataset" value={strategy.datasetWindow} />
-                  <MiniFact label="Live locked" value={strategy.liveTradingLocked ? "yes" : "no"} />
+                  <MiniFact label="Assumptions" value={strategy.assumptionStatus} />
+                </div>
+                <div className="mt-2 grid gap-2 sm:grid-cols-3">
+                  <MiniFact label="Falsification" value={strategy.falsificationStatus} />
+                  <MiniFact label="Proof" value={strategy.proofHash || "missing"} />
+                  <MiniFact label="Closeout" value={strategy.decisionCloseout} />
                 </div>
                 <p className="mt-2 text-xs leading-5 text-muted-foreground">
                   {(strategy.blockers[0] || strategy.nextActions[0] || strategy.falsificationCriteria)}
@@ -256,6 +263,12 @@ function ResearchDecisionPanel() {
                 <MiniFact label="Win rate" value={candidate.winRate === null ? "unknown" : `${Math.round(candidate.winRate * 100)}%`} />
                 <MiniFact label="Expected edge" value={candidate.expectedEdge} />
               </div>
+              <div className="mt-2 grid gap-2 sm:grid-cols-3">
+                <MiniFact label="Assumptions" value={candidate.assumptionStatus} />
+                <MiniFact label="Falsification" value={candidate.falsificationStatus} />
+                <MiniFact label="Proof hash" value={candidate.proofHash || "missing"} />
+              </div>
+              <p className="mt-2 break-all text-xs text-muted-foreground">{candidate.sourceArtifact}</p>
             </article>
           ))}
         </div>
@@ -319,6 +332,11 @@ function BacktestDecisionPanel() {
             <MetricCard label="Review" value={summary.summary.review} detail="needs operator review" tone={summary.summary.review ? "warning" : "success"} icon={LineChart} />
             <MetricCard label="Blocked" value={summary.summary.blocked} detail="missing dataset/proof" tone={summary.summary.blocked ? "critical" : "success"} icon={GitBranch} />
           </div>
+          <div className="grid gap-2 sm:grid-cols-3">
+            <MiniFact label="Comparison" value={summary.comparison.persisted ? "persisted" : "snapshot"} />
+            <MiniFact label="Best candidate" value={summary.comparison.bestCandidate || "none"} />
+            <MiniFact label="Comparison hash" value={summary.comparison.comparisonHash || "missing"} />
+          </div>
           <div className="flex flex-wrap gap-2">
             <button type="button" className="rounded border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted" onClick={() => void review()}>
               Record backtest review
@@ -335,13 +353,15 @@ function BacktestDecisionPanel() {
       </Panel>
       <Panel title="Backtest runs" count={summary.runs.length}>
         <div className="overflow-x-auto p-3">
-          <table className="w-full min-w-[760px] text-left text-xs" data-hdk-component="DataTable" data-pagination="table-window">
+          <table className="w-full min-w-[980px] text-left text-xs" data-hdk-component="DataTable" data-pagination="table-window">
             <thead className="text-muted-foreground">
               <tr className="border-b border-border">
                 <th className="py-2 pr-3">Strategy</th>
                 <th className="py-2 pr-3">Status</th>
                 <th className="py-2 pr-3">Dataset</th>
                 <th className="py-2 pr-3">Trades</th>
+                <th className="py-2 pr-3">Assumptions</th>
+                <th className="py-2 pr-3">Proof</th>
                 <th className="py-2 pr-3">Gate</th>
               </tr>
             </thead>
@@ -355,6 +375,11 @@ function BacktestDecisionPanel() {
                   <td className="py-2 pr-3"><ToneBadge tone={tradingResearchTone(run.status)}>{run.status}</ToneBadge></td>
                   <td className="py-2 pr-3">{run.datasetWindow}</td>
                   <td className="py-2 pr-3 tabular-nums">{run.trades}</td>
+                  <td className="py-2 pr-3">{run.assumptionStatus}</td>
+                  <td className="py-2 pr-3">
+                    <div>{run.proofHash || "missing"}</div>
+                    <div className="max-w-[220px] truncate text-muted-foreground">{run.sourceArtifact}</div>
+                  </td>
                   <td className="py-2 pr-3">{run.promotionGate}</td>
                 </tr>
               ))}

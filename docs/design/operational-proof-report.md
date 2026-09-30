@@ -1,23 +1,23 @@
 # Operational Proof Report
 
-Generated: 2026-09-29T14:13:45.914Z
+Generated: 2026-09-30T19:09:06.048Z
 
 ## Summary
 
 | Metric | Value |
 | --- | --- |
-| routes | 35 |
-| readyRoutes | 35 |
+| routes | 36 |
+| readyRoutes | 36 |
 | partialRoutes | 0 |
 | blockedRoutes | 0 |
-| chartedOrBetter | 11 |
+| chartedOrBetter | 12 |
 | staticRoutes | 0 |
 | liveSourceGaps | 0 |
 | evidenceGaps | 0 |
-| safeActions | 25 |
+| safeActions | 27 |
 | safeActionHardeningGaps | 0 |
 | routeValidationStatus | ready |
-| routeValidationPassed | 35 |
+| routeValidationPassed | 36 |
 | routeValidationFailed | 0 |
 | routeValidationBlocked | 0 |
 | liveSourceValidationStatus | ready |
@@ -32,7 +32,7 @@ Generated: 2026-09-29T14:13:45.914Z
 
 | Group | Routes | Ready | Partial | Blocked | Average score |
 | --- | --- | --- | --- | --- | --- |
-| operate | 13 | 13 | 0 | 0 | 100 |
+| operate | 14 | 14 | 0 | 0 | 100 |
 | trading | 9 | 9 | 0 | 0 | 100 |
 | system | 13 | 13 | 0 | 0 | 100 |
 
@@ -40,10 +40,10 @@ Generated: 2026-09-29T14:13:45.914Z
 
 | Route | Group | Maturity | Score | Status | Next action |
 | --- | --- | --- | --- | --- | --- |
-| /compounding-intelligence | operate | live | 100 | ready | scheduled freshness proof |
+| /compounding-intelligence | operate | intelligent | 100 | ready | proposal drill-through |
 | /contradictions | operate | live | 100 | ready | inline resolution actions |
 | /decision-lineage | operate | live | 100 | ready | resolution actions |
-| /operate | operate | actionable | 100 | ready | server-first runtime hydration |
+| /operate | operate | actionable | 100 | ready | closeout audit flow |
 | /operate/actions | operate | actionable | 100 | ready | action completion API |
 | /operate/approvals | operate | actionable | 100 | ready | approval inbox persistence |
 | /operate/blockers | operate | actionable | 100 | ready | blocker close/reopen audit |
@@ -55,9 +55,9 @@ Generated: 2026-09-29T14:13:45.914Z
 
 | Metric | Value |
 | --- | --- |
-| actions | 25 |
-| evidenceBacked | 25 |
-| auditExpected | 25 |
+| actions | 27 |
+| evidenceBacked | 27 |
+| auditExpected | 27 |
 | needsHardening | 0 |
 
 ## Route Validation
@@ -65,11 +65,11 @@ Generated: 2026-09-29T14:13:45.914Z
 | Metric | Value |
 | --- | --- |
 | status | ready |
-| routes | 35 |
-| passed | 35 |
+| routes | 36 |
+| passed | 36 |
 | failed | 0 |
 | blocked | 0 |
-| generatedAt | 2026-09-29T14:13:38.092Z |
+| generatedAt | 2026-09-30T03:16:37.190Z |
 
 ## Live Source Validation
 
@@ -86,6 +86,14 @@ Generated: 2026-09-29T14:13:45.914Z
 | authMode | loopback_session_token |
 | sessionTokenDiscovered | true |
 | generatedAt | 2026-09-29T14:12:04.170Z |
+
+## Runtime Evidence Persistence
+
+| Metric | Value |
+| --- | --- |
+| attempted | false |
+| status | skipped |
+| detail | Set HERMES_OPERATIONAL_PROOF_PERSIST=1 and HERMES_OPERATIONAL_PROOF_BASE_URL to persist proof evidence. |
 
 ## Next Actions
 

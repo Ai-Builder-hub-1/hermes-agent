@@ -1,0 +1,391 @@
+# Unified Operational Maturity Plan
+
+Generated: 2026-09-30
+
+Purpose: consolidate the overlapping Operate/Trading/System, frontend maturity, dashboard governance, and future intelligence plans into one ordered plan that can be executed phase by phase.
+
+## Current Proof Snapshot
+
+This audit uses the current repo state plus regenerated proof reports.
+
+| Signal | Current result |
+| --- | ---: |
+| Operational routes validated | 36/36 |
+| Operational route failures | 0 |
+| Declared live sources reachable | 51/51 |
+| Impacted routes from live-source failures | 0 |
+| Static operational routes | 0 |
+| Safe actions in registry | 27 |
+| Evidence-backed safe actions | 27/27 |
+| Web tests | 197/197 passing |
+| Web build | passing |
+
+Important interpretation: the dashboard now has route coverage, live-source declarations, and proof reports. That does not mean every route is fully mature as a live control surface. The remaining gap is deeper: production persistence, source-native adapters, action closeout, automated evidence capture, SLOs, playbooks, causality, reliability, and autonomous fleet execution.
+
+## Audited Percentages By Original 20-Phase Plan
+
+| Original phase | Current % | Status | Evidence | Remaining work |
+| --- | ---: | --- | --- | --- |
+| 1. Page Contract Registry | 90% | Mostly complete | `operational-page-contracts.ts` covers 36 routes; proof report has 36/36 ready | Add contract strip to Operate pages, persist route validation as runtime evidence, keep docs synced to machine reports |
+| 2. System Warehouse | 94% | Built, needs live histories | Warehouse page, API client, chart, jobs/evidence, safe actions, source/job/root drilldowns, mount proof, source proof IDs, restore manifest and artifact metadata exist | Persist real collector/mirror/prune history from production jobs and verify production mounts from live infrastructure |
+| 3. System Storage/Freshness/Workers | 96% | Built, needs live provider histories | Storage, freshness, workers pages and contracts exist with chart windows, provider metadata, schedule-source fields, worker log refs, durable cron execution ingestion, and safe actions | Connect source-native object-store/provider adapters, external scheduler/provider history, worker log endpoint, and long-term persisted history |
+| 4. System Deployments/Credentials | 91% | Built, needs live deploy/vault adapters | Deployment and credential pages/contracts exist with deployed SHA, promotion source, health, rollback SHA, secret class, rotation status, age, and safe-test metadata | Connect real deployment provider/vault rotation histories, rollback proof artifacts, and provider-specific credential safe tests |
+| 5. Trading Strategies/Backtesting | 100% | Local source backbone complete | Strategy/backtesting routes now charted with live contracts, assumption registry, falsification status, proof hashes, artifact URIs, persisted comparison hashes, decision closeout fields, and durable local strategy/backtest artifact rows | Keep enriching with live Khashi/Investing source adapters when read-only artifact URLs and datasets are available |
+| 6. Trading Evidence | 100% | Local source backbone complete | Dedicated trading evidence page and ledger contract exist with artifact previews, proof hashes, decision closeout links, source-backbone posture, durable falsification rows, and durable observation closeouts | Keep enriching with observed live paper/shadow/promotion histories as real decisions happen |
+| 7. Operate Evidence/Runtime Hydration | 91% | Built, needs live approval depth | Dedicated Operate evidence page exists; Operate rows have evidence drawers, freshness, queue state, closeout packet, route backlinks, durable closeout evidence, and route-aware action result history | Add live approval inbox resolution, richer incident/run timelines, and source-native output artifact links |
+| 8. Charts/Time Windows Everywhere | 82% | Partially complete | System and trading research pages use 1h/24h/7d/30d windows; compounding interaction maturity now defines the Operate/System/Trading route-window standard | Capture visual proof for the route-window standard and connect the remaining live operational chart sources |
+| 9. Safe Actions/Audit Writeback | 96% | Contract, enforcement contract, and result writeback built | 27/27 safe actions are evidence-backed by contract; operator intents and closeouts write durable audit/evidence; route-aware action result history endpoint/UI exists; policy endpoint declares enforcement mode and closeout/result endpoints; internal live-effect executors route through the shared permission primitive | Add live approval resolution, richer approval result states, and denial/superseded learning from observed decisions |
+| 10. End-to-End Operational Proof | 82% | Strong proof layer | Operational proof, route validation, live-source validation, web build/tests pass | Persist proof as runtime evidence, broaden Playwright state assertions, add generated maturity score assertions |
+| 11. Predictive Operations | 72% | Built local forecast layer | Compounding intelligence now emits forecast records for proof debt, recovery gaps, strategy blockers, and portfolio observability | Connect production time-series baselines for capacity, ingest slowdown, and worker failure risk |
+| 12. Cross-System Causality | 82% | Built causal graph contract | Compounding intelligence now emits correlation IDs, source-to-impact causal chains, and a local causal graph with nodes/edges | Add incident timeline joins from live events and promote local graph records into the production event store |
+| 13. Automated Evidence Capture | 82% | Built local capture contract | Compounding intelligence now emits API snapshot capture records with artifact refs, content hashes, retention, and dedupe keys | Add screenshot/log/deploy/action artifact capture from live providers |
+| 14. SLO/SLA Layer | 90% | Built local SLO registry and snapshot ledger | Compounding intelligence now emits SLO objectives, breach status, burn-rate summary, severity, approval, next action, and local SLO history points | Add historical SLO series by source/project/page from production records |
+| 15. Remediation Playbooks | 84% | Built guided playbook and history layer | Compounding intelligence now emits playbook registry entries mapped to SLO breaches, forecasts, blocked proposals, and local runbook history rows | Add operator-reviewed runbook outcomes from live remediation runs |
+| 16. Autonomous Triage With Human Approval | 76% | Built triage packet layer | Compounding intelligence now emits approval-aware triage packets, suggested closeout command, evidence, and playbook links while execution stays disabled | Connect live approval inbox outcomes and denial/superseded learning |
+| 17. Business Impact Layer | 82% | Built local business impact map | Compounding intelligence now maps Nous Hermes, Khashi VC, Investing System, Media Engine, and Media Business Ops to health, impact, risks, and next action | Connect source-native failure impact from live provider histories |
+| 18. Historical Reliability Score | 78% | Built local reliability scoring | Compounding intelligence now emits domain reliability scores, trends, and drivers | Add long-lived reliability history by route/source/worker/project |
+| 19. Capacity/Cost Intelligence | 76% | Built local cost recommendation layer | Compounding intelligence now emits retention, triage-load, and forecast-risk cost recommendations | Connect provider invoices, storage bills, and production capacity history |
+| 20. Self-Auditing Dashboard | 90% | Built local self-audit and regression-action layer | Proof reports, route validation, maturity contracts, compounding self-audit gaps, and generated regression-action candidates are visible | Connect generated regression actions to live self-audit failures and approval closeout |
+
+## Combined Plan We Should Move Through
+
+This replaces the scattered plans with one ordered build plan.
+
+| Unified phase | Combines original work | Current % | Goal | Exit criteria |
+| --- | --- | ---: | --- | --- |
+| 0. Canonical Plan And Proof Baseline | Plan reconciliation, current proof reports | 100% | One source of truth and known baseline | This document exists; proof report regenerated; web check/build passing |
+| 1. Contract Visibility And Proof Persistence | Original phases 1, 10, 20 | 100% | Every route shows its maturity and writes validation proof into runtime evidence | Operate/System/Trading all show page contract strip; proof generator emits runtime evidence payload; writable backend persistence is env-gated; stale docs fail validation |
+| 2. System Operations Depth | Original phases 2, 3, 4, 8 | 96% | Warehouse, storage, freshness, workers, deployments, credentials become production-grade consoles | Warehouse/source/job/root drilldowns built; mount/source proof fields built; restore manifests built; provider metadata built; worker scheduler/log metadata and cron execution ledger ingestion built; deployment SHA/promotion/health/rollback metadata built; credential rotation/safe-test metadata built; remaining gaps are live persisted histories and production provider/vault/deploy adapters |
+| 3. Trading Strategy Development Depth | Original phases 5, 6, 8 | 100% | Strategies/backtesting/evidence become real research and decision-development surfaces | Assumption registry built; falsification status built; strategy/backtest source artifacts built; proof hashes built; persisted comparison hash built; artifact previews and decision closeout fields built; durable local strategy/backtest/falsification/observation backbone built and visible in Trading Evidence |
+| 4. Operate Control Plane Depth | Original phases 7, 9 | 90% | Operate becomes the daily command/control surface, not just a queue reader | Server queue hydration built; evidence drawers built; operator intent audit built; no-op/result closeout API built; closeout packet UI built; closeout history rehydrates into queue/action items; dangerous-action enforcement is covered by Phase 6; remaining gaps are live approval resolution, incident/run timelines, and output artifact links |
+| 5. Frontend Interaction Maturity | Frontend shared status, freshness, drawers, empty/error states | 96% | Rows, routes, and pages consistently explain status, freshness, evidence, and next action | Shared action-result history now appears on Operate, System Operations, Trading Strategy/Backtesting, and Trading Evidence; drilldowns and closeout packets are visible; compounding interaction maturity defines route-window and visual-state standards; remaining work is approved visual regression snapshot capture and live chart-source proof |
+| 6. Safe Actions And Permission Runtime | Original phase 9 plus governance safety | 96% | Every safe action writes durable evidence; every dangerous action is approval-gated | Permission policy declares enforcement mode; intents/closeouts write durable audit/evidence; route-aware result history is available; internal live-effect executors route through the shared permission primitive; remaining work is live approval resolution and observed denial/superseded learning |
+| 7. Automated Evidence And SLO Layer | Original phases 13, 14 | 90% | Important state changes produce proof automatically and are judged against SLOs | API snapshot capture, content hashes, retention/dedupe, SLO registry, breaches, burn-rate summary, local SLO history ledger, and SLO UI are built; remaining work is live screenshot/log/deploy/action artifact capture and production historical SLO series |
+| 8. Predictive And Causal Intelligence | Original phases 11, 12 | 82% | System explains likely failures and causal chains | Forecast records, correlation IDs, causal chains, local causal graph nodes/edges, and predictive UI are built; remaining work is production time-series baselines and live event joins into the causal graph |
+| 9. Guided Remediation And Human-Gated Autonomy | Original phases 15, 16 | 84% | Hermes can prepare repairs safely while the operator approves risky moves | Playbook registry, triage packets, suggested closeout command, approval-aware status, local runbook history, and guided remediation UI are built; execution remains disabled; remaining work is live approval outcomes, denial/superseded learning, and observed runbook outcomes |
+| 10. Business, Reliability, Cost, And Self-Audit | Original phases 17, 18, 19, 20 plus ultimate gap assessment | 88% | The dashboard ranks operational work by business impact, reliability, cost, and self-detected gaps | Business impact mapping, reliability scoring, cost recommendations, self-audit gaps, generated regression-action candidates, and UI panels are built; remaining work is live provider impact histories, long-lived reliability series, provider invoices, and regression-action closeout from live failures |
+| 11. Fleet Governance And Autonomous Execution | Ultimate V14-V20 maturity layer | 88% | Governance refresh, deployment ledger, package distribution, runtime data hygiene, visual primitive protection, autonomous fleet runner | Fleet controls, autonomy mode, approval gate, package/build proof, runtime hygiene, visual baseline contract, and execution-disabled guarantee are built; remaining work is live deployment ledger, package distribution receipts, captured visual baseline history, and approved fleet-runner histories |
+| 12. Launch Readiness Closure | Product launch/readiness decision layer | 80% | Decide whether Khashi, Investing System, Media Engine, Media Business Ops, and Nous Hermes can launch or expand based on proof | Launch readiness contract, system gates, evidence, guarded/blocked status, and UI panels are built; remaining work is source-native telemetry and launch decision history |
+
+## Build Order
+
+1. Phase 1: Contract Visibility And Proof Persistence
+2. Phase 2: System Operations Depth
+3. Phase 3: Trading Strategy Development Depth
+4. Phase 4: Operate Control Plane Depth
+5. Phase 5: Frontend Interaction Maturity
+6. Phase 6: Safe Actions And Permission Runtime
+7. Phase 7: Automated Evidence And SLO Layer
+8. Phase 8: Predictive And Causal Intelligence
+9. Phase 9: Guided Remediation And Human-Gated Autonomy
+10. Phase 10: Business, Reliability, Cost, And Self-Audit
+11. Phase 11: Fleet Governance And Autonomous Execution
+12. Phase 12: Launch Readiness Closure
+
+## Deferred Live Integration Worklist
+
+Use this as the running list of real-world integration items that should not block local/product maturity work unless a later phase explicitly depends on them. These are the items we will work through last, or earlier only when they become blockers.
+
+### Group 1 Warehouse Backbone Audit
+
+The local data warehouse is acceptable as the Group 1 read model only when it contains durable operational facts or artifact references for each required category. As of the current local audit, the posture is `sufficient`: 8/8 categories ready, 0 partial, and 0 missing. This means the warehouse can remain the Group 1 backbone. Cloud/provider adapters can still enrich the rows later, but they are no longer blocking the local Group 1 build.
+
+| Category | Current status | What is needed for 100% |
+| --- | --- | --- |
+| Collector, mirror, and prune history | Ready | Keep populating `ops_job_runs` rows for collector, mirror, and prune jobs with status, timing, source, rows/files changed, errors, and proof IDs. |
+| Object-store/provider history | Ready | Keep populating `ops_storage_objects` rows from the local artifact store or a configured provider path with provider, object ref, checksum, size, modified time, and retention class. |
+| External scheduler/provider history | Ready | Keep populating `ops_scheduler_runs` rows from `HERMES_SCHEDULER_PROVIDER` when configured, or the local runtime scheduler proof path until a production scheduler provider is connected. |
+| Worker log endpoint or artifact links | Ready | Keep populating `ops_worker_logs` rows with run ID, worker ID, log ref/artifact URI, severity counts, and error tail. |
+| Deployment provider history | Ready | Keep ingesting deployment receipts with environment, SHA/version, status, timing, and proof IDs. |
+| Rollback proof artifacts | Ready | Keep populating `ops_rollback_proofs` rows with rollback/no-op artifact refs, prior/current SHA where known, and verification status. |
+| Vault/secret rotation history | Ready | Keep values redacted; retain provider, secret class, last rotated, age, and proof freshness only. |
+| Credential safe-test results | Ready | Keep populating `ops_safe_test_results` rows with credential class, provider, status, checked-at, and redacted error class. |
+
+### Group 2 Trading/Khashi Source Backbone Audit
+
+The local trading source backbone is acceptable when Hermes has durable proof rows or artifact references for strategy artifacts, backtest artifacts, falsification outcomes, and observation closeouts. As of the Group 2 build, the target posture is `sufficient`: review actions populate all four categories locally without executing trades. Live Khashi/Investing adapters can still enrich these rows later, but they are no longer blocking local strategy development maturity.
+
+| Category | Current status | What is needed for 100% |
+| --- | --- | --- |
+| Strategy source artifacts | Ready | Keep populating `trading_strategy_artifacts` with source project, strategy ID, artifact ref, proof hash, hypothesis, and falsification criteria. |
+| Backtest report artifacts and datasets | Ready | Keep populating `trading_backtest_artifacts` with source project, strategy ID, run ID, dataset window, artifact ref, metrics, status, and proof hash. |
+| Source-authored falsification outcomes | Ready | Keep populating `trading_falsification_outcomes` with strategy ID, criteria, status, outcome, evidence ref, and proof hash. |
+| Paper/shadow/promotion observation closeouts | Ready | Keep populating `trading_strategy_observations` with mode, status, decision closeout, artifact ref, observed time, and proof hash. |
+
+| Item | Needed to finish | Why deferred | Current status |
+| --- | --- | --- | --- |
+| Production collector/mirror/prune history | Phase 2 to 100% | Requires production jobs to run and emit durable evidence | Backend/UI can display it; live production event source still needed |
+| Object-store/provider adapter history | Phase 2 to 100% | Requires canonical provider choice and read-only bucket/path access | Provider metadata contract exists; real provider adapter still needed |
+| External scheduler/provider history beyond local cron ledger | Phase 2 to 100% | Requires external scheduler source such as Chronos, systemd, NAS webhook, GitHub Actions, or another provider | Local cron execution ledger is wired; external provider history still needed |
+| Worker log endpoint or artifact links | Phase 2 to 100% | Requires log storage decision and read-only log access | Worker contract exposes log refs; source log endpoint/artifact adapter still needed |
+| Deployment provider history and rollback proof artifacts | Phase 2 to 100% | Requires production deploy provider, release ledger, receipts, rollback artifact locations, and observed deployments | Deployment contract exposes SHA, promotion, health, rollback fields; live provider adapter still needed |
+| Vault/secret manager rotation history and provider-specific safe tests | Phase 2 to 100% | Requires canonical vault/secrets provider and read-only/safe-test credentials | Presence-only credential contract exists; provider rotation and safe-test adapters still needed |
+| Trading source-native artifact adapters | Phase 3 enrichment | Requires Khashi/Investing System source artifact URLs, datasets, backtest reports, and read-only access | Local source backbone is sufficient; live source adapters can enrich artifact rows later |
+| Observed strategy promotion/outcome history | Phase 3 enrichment | Requires actual operator decisions, paper/shadow/live observations, and closed outcome records | Local observation closeout rows are sufficient; real observed closeout history will enrich them as decisions happen |
+| Live approval inbox resolution | Phase 4/6 to 100% | Requires a real approval source of truth and operator decisions over time | Permission and closeout records exist; live inbox state changes still needed |
+| Incident acknowledgement/resolution timelines | Phase 4/5 to 100% | Requires observed incidents and lifecycle transitions | Evidence drawers exist; real incident timeline adapter still needed |
+| Run output artifact links | Phase 4/5 to 100% | Requires run log/artifact storage decision and read-only links | Queue/run rows can display evidence; source artifact adapter still needed |
+| Denial/superseded learning | Phase 4/6 to 100% | Requires enough operator decisions to learn from denied/superseded action outcomes | Closeout result schema supports denied/superseded; learning loop still needed |
+| Screenshot/log/deploy/action artifact capture | Phase 7 to 100% | Requires live providers and artifact storage locations | API snapshot capture contract exists with hashes, retention, and dedupe keys; provider capture still needed |
+| Historical SLO series by source/project/page | Phase 7 to 100% | Requires production records over time | Local SLO snapshot ledger exists; long-lived production historical series still needed |
+| Production time-series baselines | Phase 8 to 100% | Requires observed capacity, ingest, worker, and source histories | Forecast records exist; baseline forecasting still needs real history |
+| Live causal graph event joins | Phase 8 to 100% | Requires stable correlation IDs across live source events | Local causal graph contract exists; production event joins and long-lived store promotion still needed |
+| Source-specific repair runbook histories | Phase 9 to 100% | Requires operator-reviewed remediation runs | Local runbook history rows exist; observed runbook outcomes still needed |
+| Source-native business impact histories | Phase 10 to 100% | Requires live provider failures and business impact records over time | Business impact map exists; live impact history still needed |
+| Long-lived reliability history | Phase 10 to 100% | Requires repeated route/source/worker/project observations | Reliability scores exist; historical reliability series still needed |
+| Provider invoices and capacity cost actuals | Phase 10 to 100% | Requires billing/provider access and cost source decisions | Cost recommendation contract exists; actual provider invoices still needed |
+| Regression-action execution and closeout from self-audit | Phase 10 to 100% | Requires live self-audit failures and approval policy for generated actions | Local regression-action candidates exist; live execution remains disabled and closeout history still needed |
+| Deployment/package distribution receipts | Phase 11 to 100% | Requires production deploy/package provider receipts | Fleet governance controls exist; live receipts still needed |
+| Visual regression baselines for maturity panels | Phase 11 to 100% | Requires approved baseline capture and comparison storage | Visual baseline contract exists; captured baseline artifacts and comparison history still needed |
+| Approved autonomous fleet-runner histories | Phase 11 to 100% | Requires explicit approval and observed runner outcomes | Runner remains execution-disabled with approval gate visible |
+| Source-native launch telemetry for Khashi/Investing/Media | Phase 12 to 100% | Requires each product's production telemetry and launch decision history | Launch readiness gates exist; source-native product telemetry still needed |
+
+## Next Phase To Build
+
+Phase 1 is complete as of 2026-09-30. Phase 2 is in progress at 96%. Phase 3 is complete at 100% for the local source-backbone target. Phase 4 is in progress at 90%. Phase 5 is in progress at 96%. Phase 6 is in progress at 96%. Phase 7 is in progress at 90%. Phase 8 is in progress at 82%. Phase 9 is in progress at 84%. Phase 10 is in progress at 88%. Phase 11 is in progress at 88%. Phase 12 is in progress at 80%.
+
+### Phase 1 Build Checklist
+
+- Done: Operate routes show the same page contract strip pattern as System and Trading.
+- Done: Operate headers show page maturity and proof-route counts.
+- Done: `dashboard:operational-proof:report` emits `docs/design/operational-proof-evidence.json`.
+- Done: proof persistence can POST to `/api/operating-runtime/evidence` when `HERMES_OPERATIONAL_PROOF_PERSIST=1` and `HERMES_OPERATIONAL_PROOF_BASE_URL` are set.
+- Done: `dashboard:operational-plan:validate` fails if this plan contradicts the current proof report.
+- Done: proof reports regenerated after implementation.
+
+### Phase 1 Test Gate
+
+- `npm run check` in `web`
+- `npm run build` in `web`
+- `npm run dashboard:operational-proof:report`
+- Route validation if a preview server is available
+
+### Phase 2 Build Checklist
+
+- Done: Warehouse roots classify local/configured/production-like/missing state and expose scope, host, and mount proof.
+- Done: Warehouse sources expose source scope and proof IDs.
+- Done: Warehouse jobs expose proof IDs, artifact URIs, and manifest hashes.
+- Done: Restore proof exposes manifest-level totals, missing counts, corrupt counts, and source.
+- Done: Storage exposes object/artifact provider metadata when configured.
+- Done: Workers expose scheduler source and log references.
+- Done: Workers ingest durable cron execution ledger records when available.
+- Done: Deployments expose deployed SHA, promotion source, health status, and rollback SHA.
+- Done: Credentials expose secret class, rotation status, rotation age, and safe-test status without secret values.
+- Done: System Operations frontend surfaces the new truth fields in drilldowns and proof drawers.
+- Remaining: connect live production adapters for collector/mirror/prune histories, object-store histories, scheduler/log history, deployment provider history, vault rotation history, and production mount verification.
+
+### Phase 2 Test Gate
+
+- `uv run pytest tests/hermes_cli/test_system_warehouse.py tests/hermes_cli/test_system_operations.py`
+- `npm run check` in `web`
+- `npm run build` in `web`
+- `npm run dashboard:operational-proof:report`
+- `npm run dashboard:operational-plan:validate`
+
+### Phase 3 Build Checklist
+
+- Done: Strategy candidates expose assumption registry and assumption status.
+- Done: Strategy candidates expose falsification status.
+- Done: Strategy candidates expose source artifact URI, proof hash, and decision closeout state.
+- Done: Backtest runs expose assumption registry/status, source artifact URI, proof hash, comparison key, and decision closeout state.
+- Done: Backtest comparison exposes persisted comparison status and comparison hash.
+- Done: Lifecycle rows surface falsification, assumption, proof, artifact, and closeout state.
+- Done: Trading evidence ledger exposes proof hashes, artifact previews, artifact refs, and decision closeout state.
+- Done: Trading Strategy and Backtesting pages render the new maturity fields.
+- Done: Trading Evidence page renders artifact previews and decision closeout fields.
+- Done: `trading_strategy_artifacts`, `trading_backtest_artifacts`, `trading_falsification_outcomes`, and `trading_strategy_observations` persist durable local proof rows.
+- Done: Strategy, backtest, evidence, and outcome reviews write local artifact JSON into the artifact store without executing trades.
+- Done: Trading Evidence surfaces the source-backbone audit and reports local sufficiency.
+- Remaining: no local/product blocker; live Khashi/Investing artifact URLs, paper/shadow/promotion histories, and long-lived external histories are enrichment work.
+
+### Phase 3 Test Gate
+
+- `uv run pytest tests/hermes_cli/test_trading_research.py`
+- `npm run check` in `web`
+- `npm run build` in `web`
+- `npm run dashboard:operational-proof:report`
+- `npm run dashboard:operational-plan:validate`
+
+### Phase 4 Build Checklist
+
+- Done: Operator action intents write durable permission audit and workbench evidence.
+- Done: Operator action closeouts write durable audit and workbench evidence without executing the underlying action.
+- Done: Closeout payload records item ID, action, result, approval, proof, route backlink, rollback/no-op note, and policy details.
+- Done: Operate evidence drawer shows a closeout packet with result path, approval level, audit action, and route backlink.
+- Done: Operate evidence drawer can record no-op closeout from the current item.
+- Done: Closeout records rehydrate into Operate as action-history items instead of generic evidence.
+- Done: API test covers closeout audit/evidence persistence.
+- Remaining: live approval inbox resolution, denial/superseded learning, incident acknowledgement/resolution timelines, and run output artifact links.
+
+### Phase 4 Test Gate
+
+- `uv run pytest tests/test_operator_control_plane_api.py`
+- `npm run check` in `web`
+- `npm run build` in `web`
+- `npm run dashboard:operational-proof:report`
+- `npm run dashboard:operational-plan:validate`
+
+### Phase 5 Build Checklist
+
+- Done: Shared `ActionResultHistory` component has loading, error, empty, compact, and full states.
+- Done: Operate root page shows route-aware action result history.
+- Done: Operate evidence drawer shows action result history for the selected item route.
+- Done: System Operations pages show route-aware action result history.
+- Done: Trading Strategy and Backtesting pages show route-aware action result history.
+- Done: Trading Evidence page shows route-aware action result history.
+- Done: Compounding interaction maturity defines Operate/System/Trading route-window and visual-state standards.
+- Remaining: capture approved visual regression snapshots and connect remaining live chart-source proof.
+
+### Phase 5 Test Gate
+
+- `npm run check`
+- `npm run build --workspace web`
+- `npm run dashboard:operational-proof:report`
+- `npm run dashboard:operational-plan:validate`
+
+### Phase 6 Build Checklist
+
+- Done: Action policy endpoint declares enforcement mode, permission primitive, intent endpoint, closeout endpoint, result-history endpoint, and secret safety policy.
+- Done: Action closeouts preserve caller payload without letting it override system-owned source markers.
+- Done: Action result history endpoint returns route-aware intent/closeout records and summary counts.
+- Done: Production sweep, promotion execution, secret scans, project outcome ingest, and adapter runs route through `require_permission`.
+- Done: Backend API test covers policy enforcement metadata and action result history after closeout.
+- Done: Frontend exposes safe-action results by route on daily operator and trading/system pages.
+- Remaining: wire real approval inbox resolution and connect denial/superseded learning once live decisions exist.
+
+### Phase 6 Test Gate
+
+- `uv run pytest tests/test_operator_control_plane_api.py`
+- `npm run check`
+- `npm run build --workspace web`
+- `npm run dashboard:operational-proof:report`
+- `npm run dashboard:operational-plan:validate`
+
+### Phase 7 Build Checklist
+
+- Done: Compounding intelligence emits `hermes-automated-evidence-slo.v1`.
+- Done: API snapshot captures include source, artifact ref, stable content hash, retention, status, and dedupe key.
+- Done: SLO objectives include status, measurement, severity, burn rate, approval level, and next action.
+- Done: SLO summary exposes objectives, breaches, and burn rate.
+- Done: Local SLO history ledger emits per-objective snapshot points.
+- Done: Compounding Intelligence page renders Evidence and SLOs with breach state.
+- Remaining: live screenshot/log/deploy/action artifact capture and production historical SLO series by source/project/page.
+
+### Phase 7 Test Gate
+
+- `uv run pytest tests/hermes_cli/test_compounding_intelligence.py`
+- `npm run typecheck --workspace web`
+- `npm run test --workspace web -- compounding-intelligence`
+- `npm run build --workspace web`
+- `npm run dashboard:operational-plan:validate`
+
+### Phase 8 Build Checklist
+
+- Done: Compounding intelligence emits `hermes-predictive-causal.v1`.
+- Done: Forecasts cover proof debt, recovery gaps, strategy blockers, and allocation observability.
+- Done: Forecasts include horizon, confidence, severity, reason, and next action.
+- Done: Causal chains include correlation ID, nodes, weight, summary, and next action.
+- Done: Local causal graph emits durable node/edge contract records.
+- Done: Compounding Intelligence page renders predictive signals and causal chains.
+- Remaining: production time-series baselines and live event joins into the causal graph.
+
+### Phase 8 Test Gate
+
+- `uv run pytest tests/hermes_cli/test_compounding_intelligence.py`
+- `npm run typecheck --workspace web`
+- `npm run test --workspace web -- compounding-intelligence`
+- `npm run build --workspace web`
+- `npm run dashboard:operational-plan:validate`
+
+### Phase 9 Build Checklist
+
+- Done: Compounding intelligence emits `hermes-remediation-autonomy.v1`.
+- Done: Playbook registry maps proof, recovery, portfolio observability, and strategy blocker work to policy actions and approval levels.
+- Done: Triage packets are generated from SLO breaches, forecasts, and blocked proposals.
+- Done: Triage packets include evidence, playbook link, approval status, suggested closeout command, and execution-disabled guarantee.
+- Done: Local runbook history records playbook status, pending packets, observed runs, and next action.
+- Done: Compounding Intelligence page renders triage packets and playbooks.
+- Remaining: live approval outcomes, denial/superseded learning, and observed source-specific runbook outcomes.
+
+### Phase 9 Test Gate
+
+- `uv run pytest tests/hermes_cli/test_compounding_intelligence.py`
+- `npm run typecheck --workspace web`
+- `npm run test --workspace web -- compounding-intelligence`
+- `npm run build --workspace web`
+- `npm run dashboard:operational-plan:validate`
+
+### Phase 10 Build Checklist
+
+- Done: Compounding intelligence emits `hermes-business-reliability-cost-self-audit.v1`.
+- Done: Business domains cover Nous Hermes, Khashi VC, Investing System, Media Engine, and Media Business Ops.
+- Done: Reliability records include score, trend, and driver by domain.
+- Done: Cost recommendations cover proof retention, triage load, and forecast risk.
+- Done: Self-audit gaps distinguish deferred integration work from open product evidence.
+- Done: Self-audit gaps generate approval-gated regression-action candidates with execution disabled.
+- Done: Compounding Intelligence page renders business reliability and self-audit gaps.
+- Remaining: source-native business impact histories, long-lived reliability series, provider invoices/capacity cost actuals, and live regression-action execution/closeout.
+
+### Phase 10 Test Gate
+
+- `uv run pytest tests/hermes_cli/test_compounding_intelligence.py`
+- `npm run typecheck --workspace web`
+- `npm run test --workspace web -- compounding-intelligence executive-intelligence`
+- `npm run build --workspace web`
+- `npm run dashboard:operational-plan:validate`
+
+### Phase 11 Build Checklist
+
+- Done: Compounding intelligence emits `hermes-fleet-governance-autonomous-execution.v1`.
+- Done: Fleet controls cover governance refresh, deployment ledger, package distribution, runtime hygiene, visual primitive protection, and autonomous fleet runner.
+- Done: Autonomy mode remains `operator_review_only` with execution disabled.
+- Done: Next approval gate is visible from blocked/guarded fleet controls.
+- Done: Visual baseline contract defines maturity-panel routes and capture command.
+- Done: Compounding Intelligence page renders fleet governance controls.
+- Remaining: live deployment/package receipts, captured visual regression baseline history, and approved autonomous fleet-runner histories.
+
+### Phase 11 Test Gate
+
+- `uv run pytest tests/hermes_cli/test_compounding_intelligence.py`
+- `npm run typecheck --workspace web`
+- `npm run test --workspace web -- compounding-intelligence executive-intelligence`
+- `npm run build --workspace web`
+- `npm run dashboard:operational-plan:validate`
+
+### Phase 12 Build Checklist
+
+- Done: Compounding intelligence emits `hermes-launch-readiness-closure.v1`.
+- Done: Launch readiness covers Khashi VC, Investing System, Media Engine, Media Business Ops, and Nous Hermes Control Plane.
+- Done: Each launch system exposes status, gates, evidence, next action, and execution-disabled guarantee.
+- Done: Launch decision exposes launch mode and next action.
+- Done: Compounding Intelligence page renders launch readiness by system.
+- Remaining: source-native launch telemetry and observed launch decision history.
+
+### Phase 12 Test Gate
+
+- `uv run pytest tests/hermes_cli/test_compounding_intelligence.py`
+- `npm run typecheck --workspace web`
+- `npm run test --workspace web -- compounding-intelligence executive-intelligence`
+- `npm run build --workspace web`
+- `npm run dashboard:operational-plan:validate`
+
+## Current Known Dirty Files
+
+- `web/src/pages/OperatePage.tsx`
+- `docs/design/operational-proof-report.md`
+- `docs/design/operational-proof-report.json`
+- `docs/design/operational-proof-evidence.json`
+- `scripts/generate-operational-proof-report.ts`
+- `scripts/validate-operational-plan-consistency.mjs`
+- `package.json`
+- `hermes_cli/operating_runtime.py`
+- `hermes_cli/web_server.py`
+- `tests/test_operator_control_plane_api.py`
+- `tests/hermes_cli/test_compounding_intelligence.py`
+- `web/src/components/ActionResultHistory.tsx`
+- `web/src/lib/compounding-intelligence.ts`
+- `web/src/pages/CompoundingIntelligencePage.tsx`
+- `web/src/pages/SystemOperationsPage.tsx`
+- `web/src/pages/TradingDevelopmentPage.tsx`
+- `web/src/pages/TradingEvidencePage.tsx`
+- this unified plan

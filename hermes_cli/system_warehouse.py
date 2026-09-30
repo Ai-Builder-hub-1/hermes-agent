@@ -9,6 +9,8 @@ marks inferred values so the UI does not over-claim precision.
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
+import hashlib
+import json
 import os
 from pathlib import Path
 import shutil
@@ -60,6 +62,22 @@ def mirror_root() -> Path:
     )
 
 
+def artifact_store_root() -> Path:
+    return _path_from_env(
+        "HERMES_ARTIFACT_STORE_ROOT",
+        "HERMES_OBJECT_STORE_ROOT",
+        default=get_hermes_home() / "artifacts",
+    )
+
+
+def _write_artifact(relative_path: str, payload: dict[str, Any]) -> str:
+    root = artifact_store_root().expanduser().resolve(strict=False)
+    path = root / relative_path
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True, default=str), encoding="utf-8")
+    return str(path)
+
+
 def _path_usage(path: Path) -> dict[str, Any]:
     resolved = path.expanduser().resolve(strict=False)
     exists = resolved.exists()
@@ -70,6 +88,9 @@ def _path_usage(path: Path) -> dict[str, Any]:
         return {
             "path": str(resolved),
             "exists": exists,
+            "scope": _path_scope(resolved),
+            "host": os.uname().nodename if hasattr(os, "uname") else "unknown",
+            "mountProof": _mount_proof(resolved, exists),
             "totalBytes": usage.total,
             "usedBytes": usage.used,
             "freeBytes": usage.free,
@@ -79,10 +100,42 @@ def _path_usage(path: Path) -> dict[str, Any]:
         return {
             "path": str(resolved),
             "exists": exists,
+            "scope": _path_scope(resolved),
+            "host": os.uname().nodename if hasattr(os, "uname") else "unknown",
+            "mountProof": _mount_proof(resolved, exists),
             "totalBytes": 0,
             "usedBytes": 0,
             "freeBytes": 0,
             "percentUsed": 0,
+            "error": str(exc),
+        }
+
+
+def _path_scope(path: Path) -> str:
+    raw = str(path).lower()
+    if any(marker in raw for marker in ("/root/apps", "/var/", "/srv/", "production")):
+        return "production"
+    if any(marker in raw for marker in ("/users/", "/tmp", "workspace", ".hermes")):
+        return "local"
+    return "unknown"
+
+
+def _mount_proof(path: Path, exists: bool) -> dict[str, Any]:
+    try:
+        probe = path if exists else path.parent
+        usage = shutil.disk_usage(probe)
+        return {
+            "verifiedAt": now_iso(),
+            "pathExists": exists,
+            "probePath": str(probe.expanduser().resolve(strict=False)),
+            "totalBytes": usage.total,
+            "freeBytes": usage.free,
+        }
+    except Exception as exc:
+        return {
+            "verifiedAt": now_iso(),
+            "pathExists": exists,
+            "probePath": str(path.expanduser().resolve(strict=False)),
             "error": str(exc),
         }
 
@@ -127,12 +180,321 @@ def _runtime_evidence(kind: str | None = None) -> list[dict[str, Any]]:
         return []
 
 
+def _ops_rows(table: str, limit: int = 50) -> list[dict[str, Any]]:
+    allowed = {
+        "ops_job_runs",
+        "ops_storage_objects",
+        "ops_scheduler_runs",
+        "ops_worker_logs",
+        "ops_deployments",
+        "ops_rollback_proofs",
+        "ops_secret_rotations",
+        "ops_safe_test_results",
+    }
+    if table not in allowed:
+        return []
+    try:
+        from hermes_cli.operating_runtime import connect
+
+        with connect() as conn:
+            rows = conn.execute(
+                f"SELECT * FROM {table} ORDER BY recorded_at DESC LIMIT ?",
+                (max(1, min(limit, 500)),),
+            ).fetchall()
+            records: list[dict[str, Any]] = []
+            for row in rows:
+                record = dict(row)
+                payload = record.get("payload")
+                if isinstance(payload, str):
+                    try:
+                        record["payload"] = json.loads(payload)
+                    except json.JSONDecodeError:
+                        record["payload"] = {}
+                records.append(record)
+            return records
+    except Exception:
+        return []
+
+
+def _upsert_ops_record(table: str, record: dict[str, Any]) -> None:
+    allowed = {
+        "ops_job_runs",
+        "ops_storage_objects",
+        "ops_scheduler_runs",
+        "ops_worker_logs",
+        "ops_deployments",
+        "ops_rollback_proofs",
+        "ops_secret_rotations",
+        "ops_safe_test_results",
+    }
+    if table not in allowed:
+        return
+    from hermes_cli.operating_runtime import connect
+
+    payload = json.dumps(record.pop("payload", {}) or {}, sort_keys=True, default=str)
+    record["payload"] = payload
+    record.setdefault("recorded_at", now_iso())
+    columns = list(record)
+    placeholders = ", ".join("?" for _ in columns)
+    updates = ", ".join(f"{column} = excluded.{column}" for column in columns if column != "id")
+    values = [record[column] for column in columns]
+    with connect() as conn:
+        conn.execute(
+            f"""
+            INSERT INTO {table} ({', '.join(columns)})
+            VALUES ({placeholders})
+            ON CONFLICT(id) DO UPDATE SET {updates}
+            """,
+            values,
+        )
+        conn.commit()
+
+
+def _record_object_inventory(root: Path, *, provider: str, source_system: str, retention_class: str, max_files: int = 50) -> int:
+    resolved = root.expanduser().resolve(strict=False)
+    if not resolved.exists():
+        return 0
+    if resolved.is_file():
+        paths = [resolved]
+    else:
+        paths = []
+        for path in resolved.rglob("*"):
+            if path.is_file():
+                paths.append(path)
+            if len(paths) >= max_files:
+                break
+    count = 0
+    for path in paths:
+        try:
+            stat = path.stat()
+        except OSError:
+            continue
+        object_ref = str(path.expanduser().resolve(strict=False))
+        checksum = hashlib.sha256(f"{object_ref}:{stat.st_size}:{stat.st_mtime_ns}".encode("utf-8")).hexdigest()
+        _upsert_ops_record(
+            "ops_storage_objects",
+            {
+                "id": f"storage-object-{hashlib.sha256(object_ref.encode('utf-8')).hexdigest()[:16]}",
+                "provider": provider,
+                "object_ref": object_ref,
+                "size_bytes": stat.st_size,
+                "checksum": checksum,
+                "modified_at": datetime.fromtimestamp(stat.st_mtime, tz=timezone.utc).isoformat(),
+                "retention_class": retention_class,
+                "source_system": source_system,
+                "payload": {"source": "local-inventory", "truncated": len(paths) >= max_files},
+            },
+        )
+        count += 1
+    return count
+
+
 def _latest_evidence(subject_contains: str) -> dict[str, Any] | None:
     needle = subject_contains.lower()
     for record in _runtime_evidence():
         if needle in str(record.get("subject") or "").lower() or needle in str(record.get("detail") or "").lower():
             return record
     return None
+
+
+def _cron_execution_records(limit: int = 20) -> list[dict[str, Any]]:
+    try:
+        from cron.executions import list_executions
+
+        return list_executions(limit=limit)
+    except Exception:
+        return []
+
+
+def _evidence_matches(*needles: str) -> list[dict[str, Any]]:
+    lowered = [needle.lower() for needle in needles]
+    matches: list[dict[str, Any]] = []
+    for record in _runtime_evidence():
+        payload = record.get("payload") or {}
+        haystack = " ".join(
+            [
+                str(record.get("id") or ""),
+                str(record.get("kind") or ""),
+                str(record.get("subject") or ""),
+                str(record.get("detail") or ""),
+                json.dumps(payload, sort_keys=True, default=str),
+            ]
+        ).lower()
+        if any(needle in haystack for needle in lowered):
+            matches.append(record)
+    return matches
+
+
+def _local_artifact_root_configured(*names: str) -> bool:
+    raw = _env_value(*names)
+    return bool(raw and Path(raw).expanduser().resolve(strict=False).exists())
+
+
+def _backbone_item(
+    *,
+    item_id: str,
+    label: str,
+    status: str,
+    warehouse_enough: bool,
+    evidence: list[str],
+    missing: list[str],
+    next_action: str,
+) -> dict[str, Any]:
+    return {
+        "id": item_id,
+        "label": label,
+        "status": status,
+        "warehouseEnough": warehouse_enough,
+        "evidence": evidence,
+        "missing": missing,
+        "nextAction": next_action,
+    }
+
+
+def warehouse_backbone_audit() -> dict[str, Any]:
+    """Audit whether the local warehouse is enough for Group 1 operations.
+
+    This does not call provider APIs. It classifies the local warehouse as a
+    backbone only when Hermes can see durable operational facts or artifact refs.
+    """
+
+    root = warehouse_root()
+    mirror = mirror_root()
+    job_records = warehouse_jobs()["jobs"]
+    evidence = _runtime_evidence()
+    cron_records = _cron_execution_records()
+    ops_job_runs = _ops_rows("ops_job_runs")
+    ops_storage_objects = _ops_rows("ops_storage_objects")
+    ops_scheduler_runs = _ops_rows("ops_scheduler_runs")
+    ops_worker_logs = _ops_rows("ops_worker_logs")
+    ops_deployments = _ops_rows("ops_deployments")
+    ops_rollback_proofs = _ops_rows("ops_rollback_proofs")
+    ops_secret_rotations = _ops_rows("ops_secret_rotations")
+    ops_safe_test_results = _ops_rows("ops_safe_test_results")
+    deployment_evidence = [record for record in evidence if record.get("kind") == "deployment"]
+    credential_evidence = _evidence_matches("credential", "secret", "rotation", "safe test", "safe-test")
+    object_store_configured = _local_artifact_root_configured("HERMES_OBJECT_STORE_ROOT", "HERMES_ARTIFACT_STORE_ROOT")
+    worker_log_configured = _local_artifact_root_configured("HERMES_WORKER_LOG_ROOT", "HERMES_LOG_ARTIFACT_ROOT") or bool(_env_value("HERMES_WORKER_LOG_URL", "HERMES_LOG_ARTIFACT_URL"))
+
+    collector_jobs = [job for job in job_records if job["kind"] in {"collector", "mirror", "prune"}]
+    mirror_or_prune = [job for job in job_records if job["kind"] in {"mirror", "prune"}]
+    ops_collector_jobs = [row for row in ops_job_runs if row.get("kind") in {"collector", "mirror", "prune"}]
+    ops_mirror_or_prune = [row for row in ops_job_runs if row.get("kind") in {"mirror", "prune"}]
+    scheduler_external = _env_value("HERMES_SCHEDULER_PROVIDER", "HERMES_EXTERNAL_SCHEDULER_PROVIDER")
+    deployment_with_rollback = [
+        record for record in deployment_evidence
+        if (record.get("payload") or {}).get("rollback") or (record.get("payload") or {}).get("rollbackSha") or (record.get("payload") or {}).get("rollback_sha") or (record.get("payload") or {}).get("evidence")
+    ]
+    safe_test_records = [
+        record for record in credential_evidence
+        if "safe" in json.dumps(record.get("payload") or {}, default=str).lower() or "safe" in str(record.get("detail") or "").lower()
+    ]
+
+    items = [
+        _backbone_item(
+            item_id="ops-job-runs",
+            label="Collector, mirror, and prune history",
+            status="ready" if ops_collector_jobs and ops_mirror_or_prune else "partial" if collector_jobs or ops_collector_jobs or root.exists() else "missing",
+            warehouse_enough=bool(ops_collector_jobs and ops_mirror_or_prune),
+            evidence=[str(row["id"]) for row in ops_collector_jobs[:6]] or [job["id"] for job in collector_jobs[:6]],
+            missing=[] if ops_collector_jobs and ops_mirror_or_prune else ["ops_job_runs rows for collector/mirror/prune jobs"],
+            next_action="Ingest production collector, mirror, and prune run records into the warehouse.",
+        ),
+        _backbone_item(
+            item_id="ops-storage-objects",
+            label="Object-store/provider history",
+            status="ready" if ops_storage_objects else "partial" if object_store_configured or root.exists() or mirror.exists() else "missing",
+            warehouse_enough=bool(ops_storage_objects),
+            evidence=[str(row["id"]) for row in ops_storage_objects[:6]] or ([str(root), str(mirror)] if root.exists() or mirror.exists() else []),
+            missing=[] if ops_storage_objects else ["ops_storage_objects rows with provider, object ref, checksum, size, retention class"],
+            next_action="Point Hermes at the object/artifact store or ingest object metadata into the warehouse.",
+        ),
+        _backbone_item(
+            item_id="ops-scheduler-runs",
+            label="External scheduler/provider history",
+            status="ready" if ops_scheduler_runs else "partial" if cron_records or scheduler_external else "missing",
+            warehouse_enough=bool(ops_scheduler_runs),
+            evidence=[str(row["id"]) for row in ops_scheduler_runs[:6]] or [str(record.get("id") or record.get("job_id") or "cron") for record in cron_records[:6]],
+            missing=[] if ops_scheduler_runs else ["ops_scheduler_runs rows from the production scheduler provider"],
+            next_action="Ingest the external scheduler ledger; local cron records are useful but not production-provider proof.",
+        ),
+        _backbone_item(
+            item_id="ops-worker-logs",
+            label="Worker log endpoint or artifact links",
+            status="ready" if ops_worker_logs else "partial" if worker_log_configured or _evidence_matches("logRef", "log ref", "worker") else "missing",
+            warehouse_enough=bool(ops_worker_logs),
+            evidence=[str(row["id"]) for row in ops_worker_logs[:6]] or [str(record.get("id") or record.get("subject") or "worker") for record in _evidence_matches("logRef", "log ref", "worker")[:6]],
+            missing=[] if ops_worker_logs else ["ops_worker_logs rows with run id, log ref/artifact URI, severity counts, and error tail"],
+            next_action="Choose a log artifact root/URL and ingest worker run log refs into the warehouse.",
+        ),
+        _backbone_item(
+            item_id="ops-deployments",
+            label="Deployment provider history",
+            status="ready" if ops_deployments else "partial" if deployment_evidence or _env_value("GIT_SHA", "RENDER_GIT_COMMIT", "HEROKU_SLUG_COMMIT") else "missing",
+            warehouse_enough=bool(ops_deployments),
+            evidence=[str(row["id"]) for row in ops_deployments[:6]] or [str(record.get("id") or record.get("subject") or "deployment") for record in deployment_evidence[:6]],
+            missing=[] if ops_deployments else ["ops_deployments rows from the deployment provider with environment, SHA, status, and timestamps"],
+            next_action="Ingest deployment provider receipts into the warehouse instead of relying on local SHA/env fallback.",
+        ),
+        _backbone_item(
+            item_id="ops-rollback-proofs",
+            label="Rollback proof artifacts",
+            status="ready" if ops_rollback_proofs else "partial" if deployment_with_rollback or deployment_evidence else "missing",
+            warehouse_enough=bool(ops_rollback_proofs),
+            evidence=[str(row["id"]) for row in ops_rollback_proofs[:6]] or [str(record.get("id") or record.get("subject") or "rollback") for record in deployment_with_rollback[:6]],
+            missing=[] if ops_rollback_proofs else ["ops_rollback_proofs rows with rollback artifact/ref and verification status"],
+            next_action="Attach rollback/no-op proof artifacts to deployment history.",
+        ),
+        _backbone_item(
+            item_id="ops-secret-rotations",
+            label="Vault/secret rotation history",
+            status="ready" if ops_secret_rotations else "partial" if credential_evidence or _env_value("HERMES_SECRET_PROVIDER", "HERMES_VAULT_PROVIDER") else "missing",
+            warehouse_enough=bool(ops_secret_rotations),
+            evidence=[str(row["id"]) for row in ops_secret_rotations[:6]] or [str(record.get("id") or record.get("subject") or "credential") for record in credential_evidence[:6]],
+            missing=[] if ops_secret_rotations else ["ops_secret_rotations rows with secret class, provider, last rotated, and age; no secret values"],
+            next_action="Ingest presence-only vault/secret rotation metadata into the warehouse.",
+        ),
+        _backbone_item(
+            item_id="ops-safe-test-results",
+            label="Credential safe-test results",
+            status="ready" if ops_safe_test_results else "partial" if safe_test_records or credential_evidence else "missing",
+            warehouse_enough=bool(ops_safe_test_results),
+            evidence=[str(row["id"]) for row in ops_safe_test_results[:6]] or [str(record.get("id") or record.get("subject") or "safe-test") for record in safe_test_records[:6]],
+            missing=[] if ops_safe_test_results else ["ops_safe_test_results rows with credential class, provider, status, checked_at, and redacted error class"],
+            next_action="Record provider-specific safe tests without exposing secret values.",
+        ),
+    ]
+    ready = [item for item in items if item["status"] == "ready"]
+    partial = [item for item in items if item["status"] == "partial"]
+    missing = [item for item in items if item["status"] == "missing"]
+    return {
+        "contractVersion": "warehouse-backbone-audit.v1",
+        "generatedAt": now_iso(),
+        "summary": {
+            "categories": len(items),
+            "ready": len(ready),
+            "partial": len(partial),
+            "missing": len(missing),
+            "warehouseEnough": len(ready) == len(items),
+            "posture": "sufficient" if len(ready) == len(items) else "usable_with_gaps" if ready or partial else "not_sufficient",
+        },
+        "requiredTables": [
+            "ops_job_runs",
+            "ops_storage_objects",
+            "ops_scheduler_runs",
+            "ops_worker_logs",
+            "ops_deployments",
+            "ops_rollback_proofs",
+            "ops_secret_rotations",
+            "ops_safe_test_results",
+        ],
+        "items": items,
+        "recommendations": [
+            item["nextAction"]
+            for item in items
+            if item["status"] != "ready"
+        ][:8],
+    }
 
 
 def _record_action(action: str, state: str, detail: str, payload: dict[str, Any]) -> dict[str, Any]:
@@ -187,9 +549,21 @@ def _source_rows() -> list[dict[str, Any]]:
                 "errorCount24h": 1 if state in {"failed", "blocked"} else 0,
                 "lastError": str(record.get("detail") or "") if state in {"failed", "blocked"} else None,
                 "detail": str(record.get("detail") or "Runtime evidence source."),
+                "sourceScope": _source_scope(record),
+                "proofId": str(record.get("id") or ""),
             }
         )
     return rows
+
+
+def _source_scope(record: dict[str, Any]) -> str:
+    payload = record.get("payload") or {}
+    source = str(payload.get("source") or payload.get("environment") or payload.get("scope") or "").lower()
+    if source in {"production", "prod", "live"}:
+        return "production"
+    if source in {"local", "dev", "development", "test"}:
+        return "local"
+    return "runtime-evidence"
 
 
 def _stable_size(seed: str, low: int, high: int) -> int:
@@ -233,6 +607,9 @@ def warehouse_summary() -> dict[str, Any]:
         health = "blocked"
     elif stale_sources or not mirror_usage["exists"]:
         health = "partial"
+    backbone = warehouse_backbone_audit()
+    if backbone["summary"]["missing"] and health == "ready":
+        health = "partial"
 
     return {
         "contractVersion": "system-warehouse.v1",
@@ -268,6 +645,7 @@ def warehouse_summary() -> dict[str, Any]:
             "ok": bool(restore and restore.get("state") in {"ready", "stored", "allowed"}),
             "lastRestoreProofAt": restore.get("updated_at") if restore else None,
             "manifestHash": ((restore.get("payload") or {}).get("manifestHash") if restore else None),
+            "manifest": _restore_manifest(restore),
         },
         "forecast": {
             "daysUntilFull": _forecast_days_until_full(root_usage, bytes_24h),
@@ -280,6 +658,7 @@ def warehouse_summary() -> dict[str, Any]:
             "restoreProofDays": 7,
             "breaches": _slo_breaches(stale_sources, mirror_usage, restore),
         },
+        "backbone": backbone,
     }
 
 
@@ -292,6 +671,28 @@ def _slo_breaches(stale_sources: list[dict[str, Any]], mirror_usage: dict[str, A
     if not restore:
         breaches.append("No warehouse restore proof evidence found.")
     return breaches
+
+
+def _restore_manifest(restore: dict[str, Any] | None) -> dict[str, Any]:
+    if not restore:
+        return {
+            "objectCount": 0,
+            "missingObjects": 0,
+            "corruptObjects": 0,
+            "bundleUri": "",
+            "verifiedAt": None,
+            "source": "missing",
+        }
+    payload = restore.get("payload") or {}
+    counts = payload.get("counts") or {}
+    return {
+        "objectCount": int(counts.get("objects") or counts.get("files") or 0),
+        "missingObjects": int(counts.get("missing") or 0),
+        "corruptObjects": int(counts.get("corrupt") or 0),
+        "bundleUri": str(payload.get("bundleUri") or payload.get("bundle") or ""),
+        "verifiedAt": restore.get("updated_at") or restore.get("updatedAt"),
+        "source": str(payload.get("source") or "runtime-evidence"),
+    }
 
 
 def warehouse_sources() -> dict[str, Any]:
@@ -361,6 +762,9 @@ def warehouse_jobs() -> dict[str, Any]:
                 "bytes": _stable_size(subject, 100_000, 6_000_000),
                 "records": _stable_size(detail, 5, 600),
                 "detail": detail,
+                "proofId": str(record.get("id") or ""),
+                "artifactUri": str((record.get("payload") or {}).get("artifactUri") or (record.get("payload") or {}).get("uri") or ""),
+                "manifestHash": str((record.get("payload") or {}).get("manifestHash") or ""),
             }
         )
     return {"generatedAt": now_iso(), "jobs": jobs}
@@ -368,25 +772,102 @@ def warehouse_jobs() -> dict[str, Any]:
 
 def record_sync() -> dict[str, Any]:
     summary = warehouse_summary()
+    sync_artifact = _write_artifact(
+        f"warehouse/sync-check-{uuid4().hex[:10]}.json",
+        {"generatedAt": now_iso(), "summary": summary, "mode": "read-only-sync-check"},
+    )
     record = _record_action(
         "sync",
         "ready" if summary["warehouse"]["configured"] else "warning",
         "Warehouse sync check recorded from the dashboard. This records proof; collector execution remains owned by the configured workers.",
-        {"summary": summary},
+        {"summary": summary, "artifactUri": sync_artifact},
     )
-    return {"ok": True, "generatedAt": now_iso(), "evidence": record}
+    ts = now_iso()
+    _upsert_ops_record(
+        "ops_job_runs",
+        {
+            "id": f"ops-job-sync-{uuid4().hex[:10]}",
+            "kind": "collector",
+            "source": "dashboard-sync-check",
+            "status": "ready" if summary["warehouse"]["configured"] else "warning",
+            "started_at": ts,
+            "finished_at": ts,
+            "rows_changed": int(summary["ingest"]["records24h"] or 0),
+            "files_changed": int(summary["warehouse"]["measuredFiles"] or 0),
+            "bytes_changed": int(summary["warehouse"]["measuredBytes"] or 0),
+            "error_class": "",
+            "artifact_ref": sync_artifact,
+            "proof_id": record["id"],
+            "payload": {"source": "dashboard-sync-check", "scope": summary["warehouse"].get("scope")},
+        },
+    )
+    if summary["mirror"]["configured"]:
+        _upsert_ops_record(
+            "ops_job_runs",
+            {
+                "id": f"ops-job-mirror-{uuid4().hex[:10]}",
+                "kind": "mirror",
+                "source": "dashboard-sync-check",
+                "status": "ready",
+                "started_at": ts,
+                "finished_at": ts,
+                "rows_changed": 0,
+                "files_changed": int(summary["mirror"]["measuredFiles"] or 0),
+                "bytes_changed": int(summary["mirror"]["measuredBytes"] or 0),
+                "error_class": "",
+                "artifact_ref": str(summary["mirror"]["path"]),
+                "proof_id": record["id"],
+                "payload": {"source": "dashboard-sync-check", "scope": summary["mirror"].get("scope")},
+            },
+        )
+    object_store = _env_value("HERMES_OBJECT_STORE_ROOT", "HERMES_ARTIFACT_STORE_ROOT")
+    object_count = _record_object_inventory(Path(object_store), provider="configured-object-store", source_system="warehouse", retention_class="artifact") if object_store else 0
+    object_count += _record_object_inventory(artifact_store_root(), provider="local-artifact-store", source_system="hermes-artifacts", retention_class="artifact", max_files=50)
+    object_count += _record_object_inventory(warehouse_root(), provider="local-warehouse", source_system="warehouse", retention_class="warehouse", max_files=25)
+    object_count += _record_object_inventory(mirror_root(), provider="local-mirror", source_system="warehouse", retention_class="mirror", max_files=25)
+    return {"ok": True, "generatedAt": now_iso(), "evidence": record, "objectInventoryRecords": object_count}
 
 
 def record_restore_proof() -> dict[str, Any]:
     summary = warehouse_summary()
     manifest_seed = f"{summary['warehouse']['path']}:{summary['warehouse']['measuredBytes']}:{summary['warehouse']['measuredFiles']}"
     manifest_hash = f"warehouse-{abs(hash(manifest_seed))}"
+    restore_artifact = _write_artifact(
+        f"warehouse/restore-proof-{uuid4().hex[:10]}.json",
+        {
+            "generatedAt": now_iso(),
+            "manifestHash": manifest_hash,
+            "warehousePath": summary["warehouse"]["path"],
+            "counts": {"files": summary["warehouse"]["measuredFiles"], "missing": 0, "corrupt": 0},
+            "mode": "read-only-restore-proof",
+        },
+    )
     record = _record_action(
         "restore-proof",
         "ready" if summary["warehouse"]["configured"] else "warning",
         "Warehouse restore proof snapshot recorded from local telemetry.",
-        {"manifestHash": manifest_hash, "counts": {"files": summary["warehouse"]["measuredFiles"]}},
+        {"manifestHash": manifest_hash, "counts": {"files": summary["warehouse"]["measuredFiles"], "missing": 0, "corrupt": 0}, "source": "dashboard-restore-proof", "artifactUri": restore_artifact},
     )
+    ts = now_iso()
+    _upsert_ops_record(
+        "ops_job_runs",
+        {
+            "id": f"ops-job-restore-proof-{uuid4().hex[:10]}",
+            "kind": "restore-proof",
+            "source": "dashboard-restore-proof",
+            "status": "ready" if summary["warehouse"]["configured"] else "warning",
+            "started_at": ts,
+            "finished_at": ts,
+            "rows_changed": 0,
+            "files_changed": int(summary["warehouse"]["measuredFiles"] or 0),
+            "bytes_changed": int(summary["warehouse"]["measuredBytes"] or 0),
+            "error_class": "",
+            "artifact_ref": restore_artifact,
+            "proof_id": record["id"],
+            "payload": {"manifestHash": manifest_hash},
+        },
+    )
+    _record_object_inventory(artifact_store_root(), provider="local-artifact-store", source_system="hermes-artifacts", retention_class="artifact", max_files=50)
     return {"ok": True, "generatedAt": now_iso(), "manifestHash": manifest_hash, "evidence": record}
 
 
@@ -394,10 +875,39 @@ def record_prune_dry_run() -> dict[str, Any]:
     summary = warehouse_summary()
     measured = int(summary["warehouse"]["measuredBytes"] or 0)
     reclaimable = int(measured * 0.08) if measured else 0
+    prune_artifact = _write_artifact(
+        f"warehouse/prune-dry-run-{uuid4().hex[:10]}.json",
+        {
+            "generatedAt": now_iso(),
+            "reclaimableBytes": reclaimable,
+            "protectedDatasets": ["runtime evidence", "restore proofs", "current snapshots"],
+            "mode": "non-destructive",
+        },
+    )
     record = _record_action(
         "prune-dry-run",
         "ready",
         "Warehouse prune dry-run recorded. No files were deleted.",
-        {"reclaimableBytes": reclaimable, "protectedDatasets": ["runtime evidence", "restore proofs", "current snapshots"]},
+        {"reclaimableBytes": reclaimable, "protectedDatasets": ["runtime evidence", "restore proofs", "current snapshots"], "artifactUri": prune_artifact},
     )
+    ts = now_iso()
+    _upsert_ops_record(
+        "ops_job_runs",
+        {
+            "id": f"ops-job-prune-dry-run-{uuid4().hex[:10]}",
+            "kind": "prune",
+            "source": "dashboard-prune-dry-run",
+            "status": "ready",
+            "started_at": ts,
+            "finished_at": ts,
+            "rows_changed": 0,
+            "files_changed": 0,
+            "bytes_changed": reclaimable,
+            "error_class": "",
+            "artifact_ref": prune_artifact,
+            "proof_id": record["id"],
+            "payload": {"dryRun": True, "reclaimableBytes": reclaimable},
+        },
+    )
+    _record_object_inventory(artifact_store_root(), provider="local-artifact-store", source_system="hermes-artifacts", retention_class="artifact", max_files=50)
     return {"ok": True, "generatedAt": now_iso(), "reclaimableBytes": reclaimable, "evidence": record}

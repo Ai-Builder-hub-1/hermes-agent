@@ -2786,6 +2786,20 @@ class OperateActionIntentRequest(BaseModel):
     payload: Dict[str, Any] = {}
 
 
+class OperateActionCloseoutRequest(BaseModel):
+    item_id: str
+    title: str
+    action: str
+    result: str = "no-op"
+    actor: str = "Hermes operator"
+    actor_role: str = "operator"
+    explicit_approval: bool = False
+    proof: str = ""
+    route: str = ""
+    rollback: str = ""
+    payload: Dict[str, Any] = {}
+
+
 @contextmanager
 def _operating_runtime_conn():
     from hermes_cli.operating_runtime import connect
@@ -2841,11 +2855,38 @@ async def post_operate_action_intent(payload: OperateActionIntentRequest):
     )
 
 
+@app.post("/api/operate/action-closeout")
+async def post_operate_action_closeout(payload: OperateActionCloseoutRequest):
+    from hermes_cli.operator_control_plane import record_operator_action_closeout
+
+    return record_operator_action_closeout(
+        item_id=payload.item_id,
+        title=payload.title,
+        action=payload.action,
+        result=payload.result,
+        actor=payload.actor,
+        actor_role=payload.actor_role,
+        explicit_approval=payload.explicit_approval,
+        proof=payload.proof,
+        route=payload.route,
+        rollback=payload.rollback,
+        payload=payload.payload,
+    )
+
+
 @app.get("/api/operate/action-policy")
 async def get_operate_action_policy():
     from hermes_cli.operating_runtime import action_policy_summary
 
     return action_policy_summary()
+
+
+@app.get("/api/operate/action-results")
+async def get_operate_action_results(route: str = "", limit: int = 50):
+    from hermes_cli.operating_runtime import list_action_results
+
+    with _operating_runtime_conn() as conn:
+        return list_action_results(conn, route=route, limit=limit)
 
 
 @app.get("/api/operating-runtime/evidence")

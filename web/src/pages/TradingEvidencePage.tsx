@@ -1,5 +1,6 @@
 import { Database, FileCheck2, GitBranch, ShieldCheck } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
+import { ActionResultHistory } from "@/components/ActionResultHistory";
 import {
   fetchTradingEvidenceSnapshot,
   runOutcomeLearningReview,
@@ -81,10 +82,13 @@ export default function TradingEvidencePage() {
             <div className="grid min-w-[220px] gap-2 text-xs font-semibold text-muted-foreground sm:grid-cols-2">
               <MiniStat label="Records" value={snapshot.ledger.summary.records} />
               <MiniStat label="Missing hashes" value={snapshot.ledger.summary.missingProofHashes} />
+              <MiniStat label="Backbone" value={`${snapshot.ledger.summary.sourceBackboneReady ?? 0}/${snapshot.ledger.summary.sourceBackboneCategories ?? 0}`} />
             </div>
           ) : null}
         </div>
       </section>
+
+      <ActionResultHistory route="/trading/evidence" compact />
 
       {!snapshot && !error ? <LoadingPanel /> : null}
       {!snapshot && error ? <ErrorPanel error={error} retry={() => void load(window)} /> : null}
@@ -131,7 +135,13 @@ function EvidenceContent({
         <MetricCard label="Source events" value={ledger.summary.sourceEvents} detail="project-owned events" tone="info" icon={GitBranch} />
         <MetricCard label="Strategies" value={ledger.summary.strategies} detail="candidate proof rows" tone="success" icon={ShieldCheck} />
         <MetricCard label="Backtests" value={ledger.summary.backtests} detail="readiness proof rows" tone="warning" icon={FileCheck2} />
-        <MetricCard label="Missing hashes" value={ledger.summary.missingProofHashes} detail="proof hardening gap" tone={ledger.summary.missingProofHashes ? "warning" : "success"} icon={FileCheck2} />
+        <MetricCard
+          label="Backbone"
+          value={`${ledger.summary.sourceBackboneReady ?? 0}/${ledger.summary.sourceBackboneCategories ?? 0}`}
+          detail={ledger.summary.sourceNativeEnough ? "local proof sufficient" : "needs proof rows"}
+          tone={ledger.summary.sourceNativeEnough ? "success" : "warning"}
+          icon={FileCheck2}
+        />
       </section>
 
       <section className="grid gap-4 xl:grid-cols-[minmax(0,0.62fr)_minmax(340px,0.38fr)]">
@@ -158,6 +168,29 @@ function EvidenceContent({
           </div>
         </Panel>
       </section>
+
+      {ledger.sourceBackbone ? (
+        <Panel title="Source backbone" count={ledger.sourceBackbone.items.length}>
+          <div className="grid gap-3 p-3 xl:grid-cols-[minmax(0,0.36fr)_minmax(0,0.64fr)]">
+            <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-1">
+              <MiniStat label="Ready" value={`${ledger.sourceBackbone.summary.ready}/${ledger.sourceBackbone.summary.categories}`} />
+              <MiniStat label="Posture" value={ledger.sourceBackbone.summary.posture} />
+              <MiniStat label="Missing" value={ledger.sourceBackbone.summary.missing} />
+              <MiniStat label="Enough" value={ledger.sourceBackbone.summary.sourceNativeEnough ? "yes" : "no"} />
+            </div>
+            <div className="grid gap-2">
+              {ledger.sourceBackbone.items.map((item) => (
+                <PolicyCallout
+                  key={item.id}
+                  title={`${item.label}: ${item.status}`}
+                  detail={item.sourceNativeEnough ? item.evidence.slice(0, 2).join(" | ") || "Local proof rows are present." : item.missing.join("; ") || item.nextAction}
+                  tone={tradingResearchTone(item.status)}
+                />
+              ))}
+            </div>
+          </div>
+        </Panel>
+      ) : null}
 
       <Panel title="Outcome learning" count={outcome.signals.length + outcome.researchTasks.length}>
         <div className="grid gap-3 p-3 xl:grid-cols-[minmax(0,0.48fr)_minmax(0,0.52fr)]">
@@ -193,7 +226,7 @@ function EvidenceContent({
 
       <Panel title="Ledger records" count={ledger.records.length}>
         <div className="overflow-x-auto p-3">
-          <table className="w-full min-w-[860px] text-left text-xs" data-hdk-component="DataTable" data-pagination="table-window">
+          <table className="w-full min-w-[1040px] text-left text-xs" data-hdk-component="DataTable" data-pagination="table-window">
             <thead className="text-muted-foreground">
               <tr className="border-b border-border">
                 <th className="py-2 pr-3">Subject</th>
@@ -201,6 +234,7 @@ function EvidenceContent({
                 <th className="py-2 pr-3">Source</th>
                 <th className="py-2 pr-3">Status</th>
                 <th className="py-2 pr-3">Proof</th>
+                <th className="py-2 pr-3">Closeout</th>
                 <th className="py-2 pr-3">Occurred</th>
               </tr>
             </thead>
@@ -214,7 +248,12 @@ function EvidenceContent({
                   <td className="py-2 pr-3">{record.kind}</td>
                   <td className="py-2 pr-3">{record.sourceProject}</td>
                   <td className="py-2 pr-3"><ToneBadge tone={tradingResearchTone(record.status)}>{record.status}</ToneBadge></td>
-                  <td className="py-2 pr-3">{record.proofHash || record.artifact || "missing"}</td>
+                  <td className="py-2 pr-3">
+                    <div>{record.proofHash || "missing"}</div>
+                    <div className="max-w-[260px] truncate text-muted-foreground">{record.artifact || "no artifact"}</div>
+                    <div className="line-clamp-1 max-w-[260px] text-muted-foreground">{record.artifactPreview || "no preview"}</div>
+                  </td>
+                  <td className="py-2 pr-3">{record.decisionCloseout}</td>
                   <td className="py-2 pr-3">{new Date(record.occurredAt).toLocaleString()}</td>
                 </tr>
               ))}

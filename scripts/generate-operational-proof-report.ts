@@ -15,6 +15,7 @@ const outJson = path.join(root, "docs/design/operational-proof-report.json");
 const outMd = path.join(root, "docs/design/operational-proof-report.md");
 const routeValidationJson = path.join(root, "docs/design/operational-route-validation-report.json");
 const sourceValidationJson = path.join(root, "docs/design/operational-live-source-validation-report.json");
+const proofEvidenceJson = path.join(root, "docs/design/operational-proof-evidence.json");
 
 function readRouteValidationSummary() {
   if (!fs.existsSync(routeValidationJson)) {
@@ -113,6 +114,71 @@ function markdownTable(headers: string[], rows: Array<Array<string | number>>) {
   ].join("\n");
 }
 
+function buildOperationalProofEvidence(report: {
+  generatedAt: string;
+  summary: Record<string, string | number>;
+  routeValidation: Record<string, string | number | boolean>;
+  liveSourceValidation: Record<string, string | number | boolean>;
+}) {
+  const failed =
+    Number(report.summary.routeValidationFailed) +
+    Number(report.summary.routeValidationBlocked) +
+    Number(report.summary.liveSourcesFailed) +
+    Number(report.summary.liveSourcesBlocked) +
+    Number(report.summary.liveSourceImpactedRoutes) +
+    Number(report.summary.safeActionHardeningGaps);
+  const state = failed ? "warning" : "ready";
+  return {
+    id: "operational-proof-latest",
+    kind: "quality",
+    subject: "Operational route proof report",
+    state,
+    owner: "Hermes",
+    detail: `${report.summary.readyRoutes}/${report.summary.routes} operational routes ready; ${report.summary.liveSourcesReachable} live sources reachable; ${report.summary.safeActions} safe actions evidence-backed.`,
+    payload: {
+      generatedAt: report.generatedAt,
+      summary: report.summary,
+      routeValidation: report.routeValidation,
+      liveSourceValidation: report.liveSourceValidation,
+      reportPath: "docs/design/operational-proof-report.json",
+    },
+  };
+}
+
+async function persistOperationalProofEvidence(evidence: ReturnType<typeof buildOperationalProofEvidence>) {
+  const baseUrl = process.env.HERMES_OPERATIONAL_PROOF_BASE_URL || process.env.HERMES_DASHBOARD_BASE_URL || "";
+  const shouldPersist = process.env.HERMES_OPERATIONAL_PROOF_PERSIST === "1";
+  if (!baseUrl || !shouldPersist) {
+    return {
+      attempted: false,
+      status: "skipped",
+      detail: "Set HERMES_OPERATIONAL_PROOF_PERSIST=1 and HERMES_OPERATIONAL_PROOF_BASE_URL to persist proof evidence.",
+    };
+  }
+  const token = process.env.HERMES_SESSION_TOKEN || process.env.HERMES_OPERATIONAL_PROOF_TOKEN || "";
+  const headers = new Headers({ "content-type": "application/json" });
+  if (token) headers.set("X-Hermes-Session-Token", token);
+  try {
+    const response = await fetch(new URL("/api/operating-runtime/evidence", baseUrl), {
+      method: "POST",
+      headers,
+      body: JSON.stringify(evidence),
+    });
+    return {
+      attempted: true,
+      status: response.ok ? "recorded" : "failed",
+      httpStatus: response.status,
+      detail: response.ok ? "Operational proof evidence persisted." : await response.text(),
+    };
+  } catch (error) {
+    return {
+      attempted: true,
+      status: "failed",
+      detail: error instanceof Error ? error.message : String(error),
+    };
+  }
+}
+
 const routeAudits = auditOperationalPages();
 const safeActionAudit = auditSafeActions();
 const staticRoutes = OPERATIONAL_PAGE_CONTRACTS.filter((contract) => contract.maturity === "static");
@@ -156,6 +222,8 @@ const report = {
   liveSourceGaps: liveSourceGaps.map((route) => ({ route: route.route, label: route.label, maturity: route.maturity })),
   evidenceGaps: evidenceGaps.map((route) => ({ route: route.route, label: route.label, maturity: route.maturity })),
   safeActions: safeActionAudit,
+  proofEvidence: null as null | ReturnType<typeof buildOperationalProofEvidence>,
+  proofEvidencePersistence: null as null | Awaited<ReturnType<typeof persistOperationalProofEvidence>>,
   nextActions: [
     ...(staticRoutes.length ? [`Convert ${staticRoutes.length} remaining static route(s) into live or charted surfaces.`] : []),
     ...(liveSourceGaps.length ? [`Add live-source contracts for ${liveSourceGaps.length} route(s).`] : []),
@@ -169,11 +237,18 @@ const report = {
   ],
 };
 
-fs.mkdirSync(path.dirname(outJson), { recursive: true });
-fs.writeFileSync(outJson, `${JSON.stringify(report, null, 2)}\n`);
+async function writeReports() {
+  const proofEvidence = buildOperationalProofEvidence(report);
+  const proofEvidencePersistence = await persistOperationalProofEvidence(proofEvidence);
+  report.proofEvidence = proofEvidence;
+  report.proofEvidencePersistence = proofEvidencePersistence;
 
-const lowestRoutes = [...routeAudits].slice(0, 10);
-const md = `# Operational Proof Report
+  fs.mkdirSync(path.dirname(outJson), { recursive: true });
+  fs.writeFileSync(outJson, `${JSON.stringify(report, null, 2)}\n`);
+  fs.writeFileSync(proofEvidenceJson, `${JSON.stringify(proofEvidence, null, 2)}\n`);
+
+  const lowestRoutes = [...routeAudits].slice(0, 10);
+  const md = `# Operational Proof Report
 
 Generated: ${report.generatedAt}
 
@@ -219,11 +294,24 @@ ${markdownTable(
   Object.entries(report.liveSourceValidation).map(([key, value]) => [key, value]),
 )}
 
+## Runtime Evidence Persistence
+
+${markdownTable(
+  ["Metric", "Value"],
+  Object.entries(report.proofEvidencePersistence).map(([key, value]) => [key, typeof value === "object" ? JSON.stringify(value) : String(value)]),
+)}
+
 ## Next Actions
 
 ${report.nextActions.map((item) => `- ${item}`).join("\n")}
 `;
 
-fs.writeFileSync(outMd, md);
+  fs.writeFileSync(outMd, md);
 
-console.log(`Operational proof report wrote ${path.relative(root, outJson)} and ${path.relative(root, outMd)}`);
+  console.log(`Operational proof report wrote ${path.relative(root, outJson)}, ${path.relative(root, outMd)}, and ${path.relative(root, proofEvidenceJson)}`);
+}
+
+writeReports().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

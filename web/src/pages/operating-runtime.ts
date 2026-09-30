@@ -40,6 +40,7 @@ export interface RuntimeEvidenceRecord {
   owner: string;
   detail: string;
   updatedAt: string;
+  payload?: Record<string, unknown>;
 }
 
 export interface RuntimeAuditRecord {
@@ -50,6 +51,7 @@ export interface RuntimeAuditRecord {
   approval: "none" | "confirm" | "explicit";
   reason: string;
   createdAt: string;
+  payload?: Record<string, unknown>;
 }
 
 export interface OperatingRuntimeState {
@@ -64,6 +66,7 @@ interface ServerEvidenceRecord {
   state: RuntimeEvidenceState;
   owner: string;
   detail: string;
+  payload?: Record<string, unknown>;
   updated_at?: string;
   updatedAt?: string;
 }
@@ -75,6 +78,7 @@ interface ServerAuditRecord {
   allowed: boolean;
   approval: "none" | "confirm" | "explicit";
   reason: string;
+  payload?: Record<string, unknown>;
   created_at?: string;
   createdAt?: string;
 }
@@ -98,6 +102,8 @@ interface ServerActionIntentResponse {
   audit: ServerAuditRecord;
   evidence: ServerEvidenceRecord;
 }
+
+interface ServerActionCloseoutResponse extends ServerActionIntentResponse {}
 
 const STORAGE_KEY = "hermes.operatingRuntime.v1";
 
@@ -505,6 +511,7 @@ function normalizeEvidence(record: ServerEvidenceRecord): RuntimeEvidenceRecord 
     owner: record.owner,
     detail: record.detail,
     updatedAt: record.updatedAt ?? record.updated_at ?? new Date().toISOString(),
+    payload: record.payload,
   };
 }
 
@@ -594,6 +601,46 @@ export async function recordOperatorQueueIntent(
   return next;
 }
 
+export async function recordOperatorActionCloseout(
+  state: OperatingRuntimeState,
+  input: {
+    id: string;
+    title: string;
+    safeAction: string | null;
+    route?: string;
+    clearingProof: string;
+  },
+  result = "no-op",
+): Promise<OperatingRuntimeState> {
+  const response = await fetchJSON<ServerActionCloseoutResponse>("/api/operate/action-closeout", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      item_id: input.id,
+      title: input.title,
+      action: input.safeAction ?? `review:${input.id}`,
+      result,
+      actor: "Hermes operator",
+      actor_role: "operator",
+      explicit_approval: false,
+      proof: input.clearingProof || "Operator recorded closeout from Operate drawer.",
+      route: input.route ?? "",
+      rollback: result === "no-op" ? "No rollback required for no-op closeout." : "",
+      payload: {
+        generated_at: new Date().toISOString(),
+      },
+    }),
+  });
+  const audit = normalizeAudit(response.audit);
+  const evidence = normalizeEvidence(response.evidence);
+  const next = {
+    evidence: mergeById(state.evidence, [evidence]),
+    audit: [audit, ...state.audit.filter((record) => record.id !== audit.id)].slice(0, 50),
+  };
+  saveOperatingRuntimeState(next);
+  return next;
+}
+
 function normalizeAudit(record: ServerAuditRecord): RuntimeAuditRecord {
   return {
     id: record.id,
@@ -603,6 +650,7 @@ function normalizeAudit(record: ServerAuditRecord): RuntimeAuditRecord {
     approval: record.approval,
     reason: record.reason,
     createdAt: record.createdAt ?? record.created_at ?? new Date().toISOString(),
+    payload: record.payload,
   };
 }
 

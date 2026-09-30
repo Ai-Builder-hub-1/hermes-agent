@@ -1,0 +1,56 @@
+{
+  "id": "operational-proof-latest",
+  "kind": "quality",
+  "subject": "Operational route proof report",
+  "state": "ready",
+  "owner": "Hermes",
+  "detail": "36/36 operational routes ready; 51 live sources reachable; 27 safe actions evidence-backed.",
+  "payload": {
+    "generatedAt": "2026-09-30T19:09:06.048Z",
+    "summary": {
+      "routes": 36,
+      "readyRoutes": 36,
+      "partialRoutes": 0,
+      "blockedRoutes": 0,
+      "chartedOrBetter": 12,
+      "staticRoutes": 0,
+      "liveSourceGaps": 0,
+      "evidenceGaps": 0,
+      "safeActions": 27,
+      "safeActionHardeningGaps": 0,
+      "routeValidationStatus": "ready",
+      "routeValidationPassed": 36,
+      "routeValidationFailed": 0,
+      "routeValidationBlocked": 0,
+      "liveSourceValidationStatus": "ready",
+      "liveSourcesReachable": 51,
+      "liveSourcesAuthRequired": 0,
+      "liveSourcesDependencyUnavailable": 0,
+      "liveSourcesFailed": 0,
+      "liveSourcesBlocked": 0,
+      "liveSourceImpactedRoutes": 0
+    },
+    "routeValidation": {
+      "status": "ready",
+      "routes": 36,
+      "passed": 36,
+      "failed": 0,
+      "blocked": 0,
+      "generatedAt": "2026-09-30T03:16:37.190Z"
+    },
+    "liveSourceValidation": {
+      "status": "ready",
+      "sources": 51,
+      "reachable": 51,
+      "authRequired": 0,
+      "dependencyUnavailable": 0,
+      "failed": 0,
+      "blocked": 0,
+      "impactedRoutes": 0,
+      "authMode": "loopback_session_token",
+      "sessionTokenDiscovered": true,
+      "generatedAt": "2026-09-29T14:12:04.170Z"
+    },
+    "reportPath": "docs/design/operational-proof-report.json"
+  }
+}

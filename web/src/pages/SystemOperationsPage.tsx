@@ -5,6 +5,7 @@ import {
   GitBranch,
   KeyRound,
   RotateCw,
+  X,
 } from "lucide-react";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
@@ -12,6 +13,7 @@ import {
   contractForRoute,
   type OperationalPageAudit,
 } from "@/lib/operational-page-contracts";
+import { ActionResultHistory } from "@/components/ActionResultHistory";
 import {
   fetchCredentialsSnapshot,
   fetchDeploymentsSnapshot,
@@ -24,7 +26,9 @@ import {
   runStorageScan,
   runWorkerDryRun,
   systemHealthTone,
+  type CredentialsSummary,
   type CredentialsSnapshot,
+  type DeploymentsSummary,
   type DeploymentsSnapshot,
   type FreshnessSnapshot,
   type StorageSnapshot,
@@ -38,8 +42,10 @@ import {
   runWarehouseRestoreProof,
   runWarehouseSync,
   warehouseHealthTone,
+  type WarehouseJob,
   type WarehouseSeriesPoint,
   type WarehouseSnapshot,
+  type WarehouseSource,
   type WarehouseWindow,
 } from "@/lib/system-warehouse";
 import {
@@ -51,6 +57,14 @@ import {
 
 type SystemMode = "warehouse" | "storage" | "freshness" | "workers" | "deployments" | "credentials";
 type Tone = "success" | "info" | "warning" | "critical" | "neutral";
+type WarehouseEvidenceItem =
+  | { type: "source"; source: WarehouseSource }
+  | { type: "job"; job: WarehouseJob }
+  | { type: "root"; label: string; volume: WarehouseSnapshot["summary"]["warehouse"] };
+type DeploymentRecord = DeploymentsSummary["deployments"][number];
+type CredentialRecord =
+  | { type: "variable"; variable: CredentialsSummary["runtimeVariables"][number] }
+  | { type: "project"; project: CredentialsSummary["projects"][number] };
 
 const modeCopy: Record<SystemMode, { eyebrow: string; title: string; description: string }> = {
   warehouse: {
@@ -151,6 +165,7 @@ function SystemOperationsPage({ mode }: { mode: SystemMode }) {
       </section>
 
       {audit ? <PageContractStrip audit={audit} /> : null}
+      <ActionResultHistory route={route} compact />
 
       <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-4" aria-label={`${copy.title} summary`}>
         {summaryCards(mode, stages).map((card) => (
@@ -264,6 +279,7 @@ function WarehousePanel() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [actionStatus, setActionStatus] = useState<string | null>(null);
+  const [evidenceItem, setEvidenceItem] = useState<WarehouseEvidenceItem | null>(null);
 
   const load = async (nextWindow = window) => {
     setLoading(true);
@@ -341,8 +357,8 @@ function WarehousePanel() {
             </div>
           </div>
           <div className="grid gap-2 sm:grid-cols-2">
-            <MiniFact label="Warehouse root" value={summary.warehouse.path} />
-            <MiniFact label="Mirror root" value={summary.mirror.path} />
+            <WarehouseRootCard label="Warehouse root" volume={summary.warehouse} onOpen={() => setEvidenceItem({ type: "root", label: "Warehouse root", volume: summary.warehouse })} />
+            <WarehouseRootCard label="Mirror root" volume={summary.mirror} onOpen={() => setEvidenceItem({ type: "root", label: "Mirror root", volume: summary.mirror })} />
           </div>
           <div className="grid gap-2 sm:grid-cols-3">
             <button type="button" className="rounded border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted" onClick={() => void runAction("Warehouse sync", runWarehouseSync)}>
@@ -366,6 +382,7 @@ function WarehousePanel() {
         <MetricCard label="Mirror" value={summary.mirror.configured ? "mounted" : "missing"} detail={summary.mirror.lastMirrorAt ? `last mirror ${summary.mirror.lastMirrorAt}` : "no mirror proof yet"} tone={summary.mirror.configured ? "success" : "critical"} />
         <MetricCard label="Restore proof" value={summary.restoreProof.ok ? "current" : "missing"} detail={summary.restoreProof.lastRestoreProofAt ?? "no restore proof evidence found"} tone={summary.restoreProof.ok ? "success" : "warning"} />
         <MetricCard label="Stale sources" value={summary.ingest.staleSources} detail={`${stale.length} partial or blocked rows in source table`} tone={summary.ingest.staleSources ? "critical" : "success"} />
+        <MetricCard label="Backbone" value={`${summary.backbone.summary.ready}/${summary.backbone.summary.categories}`} detail={summary.backbone.summary.posture.replaceAll("_", " ")} tone={summary.backbone.summary.warehouseEnough ? "success" : summary.backbone.summary.ready || summary.backbone.summary.partial ? "warning" : "critical"} />
       </section>
 
       <Panel title="Ingestion and capacity trend">
@@ -414,7 +431,12 @@ function WarehousePanel() {
                     <div className="text-muted-foreground">{source.records24h} records</div>
                   </td>
                   <td className="py-2 pr-3">{source.errorCount24h ? source.lastError ?? source.errorCount24h : "none"}</td>
-                  <td className="py-2 pr-3">{source.owner}</td>
+                  <td className="py-2 pr-3">
+                    <div>{source.owner}</div>
+                    <button type="button" className="mt-1 text-xs font-semibold text-primary hover:underline" onClick={() => setEvidenceItem({ type: "source", source })}>
+                      Inspect
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -423,6 +445,23 @@ function WarehousePanel() {
       </Panel>
 
       <section className="grid gap-4 lg:grid-cols-2">
+        <Panel title="Warehouse backbone audit" count={summary.backbone.summary.categories}>
+          <div className="grid gap-2 p-3">
+            <div className="grid gap-2 sm:grid-cols-3">
+              <MiniFact label="Ready" value={summary.backbone.summary.ready} />
+              <MiniFact label="Partial" value={summary.backbone.summary.partial} />
+              <MiniFact label="Missing" value={summary.backbone.summary.missing} />
+            </div>
+            {summary.backbone.items.map((item) => (
+              <PolicyCallout
+                key={item.id}
+                title={`${item.label}: ${item.status}`}
+                detail={item.warehouseEnough ? `Evidence: ${item.evidence.slice(0, 2).join(", ") || "warehouse record"}` : `${item.missing[0] ?? item.nextAction}`}
+                tone={item.status === "ready" ? "success" : item.status === "partial" ? "warning" : "critical"}
+              />
+            ))}
+          </div>
+        </Panel>
         <Panel title="SLO and remediation">
           <div className="grid gap-2 p-3">
             {summary.slo.breaches.length ? summary.slo.breaches.map((breach) => (
@@ -447,11 +486,15 @@ function WarehousePanel() {
                   <MiniFact label="Records" value={job.records} />
                 </div>
                 <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{job.detail}</p>
+                <button type="button" className="mt-3 rounded border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground hover:bg-muted" onClick={() => setEvidenceItem({ type: "job", job })}>
+                  Inspect evidence
+                </button>
               </article>
             )) : <PolicyCallout title="No warehouse jobs yet" detail="Collector, mirror, prune, and restore evidence will appear after runtime records are written." tone="warning" />}
           </div>
         </Panel>
       </section>
+      <WarehouseEvidenceDrawer item={evidenceItem} onClose={() => setEvidenceItem(null)} />
     </div>
   );
 }
@@ -478,6 +521,178 @@ function WarehouseTrendChart({ points }: { points: WarehouseSeriesPoint[] }) {
       </div>
     </div>
   );
+}
+
+function WarehouseRootCard({
+  label,
+  volume,
+  onOpen,
+}: {
+  label: string;
+  volume: WarehouseSnapshot["summary"]["warehouse"];
+  onOpen: () => void;
+}) {
+  const classification = classifyWarehouseRoot(volume);
+  return (
+    <article className="rounded-md border border-border bg-card px-2.5 py-2">
+      <div className="flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          <div className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">{label}</div>
+          <div className="mt-1 truncate text-sm font-medium leading-5 text-foreground">{volume.path}</div>
+        </div>
+        <ToneBadge tone={classification.tone}>{classification.label}</ToneBadge>
+      </div>
+      <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
+        <span>{formatBytes(volume.measuredBytes)} measured</span>
+        <button type="button" className="font-semibold text-primary hover:underline" onClick={onOpen}>
+          Inspect
+        </button>
+      </div>
+    </article>
+  );
+}
+
+function WarehouseEvidenceDrawer({ item, onClose }: { item: WarehouseEvidenceItem | null; onClose: () => void }) {
+  useEffect(() => {
+    if (!item) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [item, onClose]);
+
+  if (!item) return null;
+  const title = item.type === "source" ? item.source.project : item.type === "job" ? item.job.title : item.label;
+  const tone = item.type === "source" ? warehouseHealthTone(item.source.status) : item.type === "job" ? warehouseHealthTone(item.job.status) : classifyWarehouseRoot(item.volume).tone;
+
+  return (
+    <div className="fixed inset-0 z-50 flex justify-end bg-black/30 p-3 sm:p-4" role="presentation" onMouseDown={onClose}>
+      <aside
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="warehouse-evidence-title"
+        className="flex h-full w-full max-w-xl flex-col overflow-hidden rounded-lg border border-border bg-card shadow-xl"
+        onMouseDown={(event) => event.stopPropagation()}
+      >
+        <div className="flex items-start justify-between gap-4 border-b border-border bg-muted p-4">
+          <div className="min-w-0">
+            <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Warehouse drilldown</div>
+            <h2 id="warehouse-evidence-title" className="mt-1 text-lg font-semibold leading-6 text-foreground">{title}</h2>
+          </div>
+          <button
+            type="button"
+            aria-label="Close warehouse drilldown"
+            className="rounded border border-border bg-card p-2 text-muted-foreground hover:bg-background hover:text-foreground"
+            onClick={onClose}
+          >
+            <X className="h-4 w-4" aria-hidden />
+          </button>
+        </div>
+        <div className="flex-1 overflow-y-auto p-4">
+          <ToneBadge tone={tone}>{item.type}</ToneBadge>
+          {item.type === "source" ? <WarehouseSourceDrilldown source={item.source} /> : null}
+          {item.type === "job" ? <WarehouseJobDrilldown job={item.job} /> : null}
+          {item.type === "root" ? <WarehouseRootDrilldown label={item.label} volume={item.volume} /> : null}
+        </div>
+        <div className="flex justify-end border-t border-border bg-muted p-4">
+          <button type="button" className="rounded border border-border bg-card px-3 py-2 text-sm font-semibold text-foreground hover:bg-background" onClick={onClose}>
+            Close
+          </button>
+        </div>
+      </aside>
+    </div>
+  );
+}
+
+function WarehouseSourceDrilldown({ source }: { source: WarehouseSource }) {
+  const freshness = source.lagMinutes === null ? "unknown" : source.lagMinutes > source.expectedCadenceMinutes * 2 ? "stale" : "within cadence";
+  return (
+    <div className="mt-4 grid gap-3">
+      <p className="text-sm leading-6 text-muted-foreground">{source.detail}</p>
+      <div className="grid gap-2 sm:grid-cols-2">
+        <MiniFact label="Owner" value={source.owner} />
+        <MiniFact label="Status" value={source.status} />
+        <MiniFact label="Scope" value={source.sourceScope ?? "runtime-evidence"} />
+        <MiniFact label="Proof" value={source.proofId || "not reported"} />
+        <MiniFact label="Freshness" value={freshness} />
+        <MiniFact label="Lag" value={source.lagMinutes === null ? "unknown" : `${source.lagMinutes}m`} />
+        <MiniFact label="Expected cadence" value={`${source.expectedCadenceMinutes}m`} />
+        <MiniFact label="Last ingest" value={new Date(source.lastIngestAt).toLocaleString()} />
+        <MiniFact label="24h bytes" value={formatBytes(source.bytes24h)} />
+        <MiniFact label="24h records" value={source.records24h} />
+      </div>
+      <PolicyCallout
+        title={source.errorCount24h ? "Source has errors" : "Closeout proof"}
+        detail={source.errorCount24h ? source.lastError ?? `${source.errorCount24h} errors were reported.` : "A source is trusted when its latest ingest is inside cadence and downstream evidence is available."}
+        tone={source.errorCount24h ? "critical" : "info"}
+      />
+    </div>
+  );
+}
+
+function WarehouseJobDrilldown({ job }: { job: WarehouseJob }) {
+  return (
+    <div className="mt-4 grid gap-3">
+      <p className="text-sm leading-6 text-muted-foreground">{job.detail || "Runtime evidence job record."}</p>
+      <div className="grid gap-2 sm:grid-cols-2">
+        <MiniFact label="Kind" value={job.kind} />
+        <MiniFact label="Owner" value={job.owner} />
+        <MiniFact label="Status" value={job.status} />
+        <MiniFact label="Bytes" value={formatBytes(job.bytes)} />
+        <MiniFact label="Records" value={job.records} />
+        <MiniFact label="Proof" value={job.proofId || "not reported"} />
+        <MiniFact label="Artifact" value={job.artifactUri || "not reported"} />
+        <MiniFact label="Manifest" value={job.manifestHash || "not reported"} />
+        <MiniFact label="Started" value={job.startedAt ? new Date(job.startedAt).toLocaleString() : "not reported"} />
+        <MiniFact label="Finished" value={job.finishedAt ? new Date(job.finishedAt).toLocaleString() : "not reported"} />
+      </div>
+      <PolicyCallout
+        title="Evidence use"
+        detail="Use this record as proof for warehouse sync, mirror, prune, restore, deployment, or collector activity. Dangerous mutations still need explicit approval."
+        tone="info"
+      />
+    </div>
+  );
+}
+
+function WarehouseRootDrilldown({ label, volume }: { label: string; volume: WarehouseSnapshot["summary"]["warehouse"] }) {
+  const classification = classifyWarehouseRoot(volume);
+  return (
+    <div className="mt-4 grid gap-3">
+      <PolicyCallout title={classification.label} detail={classification.detail} tone={classification.tone} />
+      <div className="grid gap-2 sm:grid-cols-2">
+        <MiniFact label="Path" value={volume.path} />
+        <MiniFact label="Scope" value={volume.scope ?? "unknown"} />
+        <MiniFact label="Host" value={volume.host ?? "unknown"} />
+        <MiniFact label="Mount verified" value={volume.mountProof?.verifiedAt ? new Date(volume.mountProof.verifiedAt).toLocaleString() : "not reported"} />
+        <MiniFact label="Exists" value={volume.exists ? "yes" : "no"} />
+        <MiniFact label="Configured" value={volume.configured ? "yes" : "no"} />
+        <MiniFact label="Measured" value={formatBytes(volume.measuredBytes)} />
+        <MiniFact label="Files" value={volume.measuredFiles} />
+        <MiniFact label="Volume used" value={`${volume.percentUsed}%`} />
+        <MiniFact label="Free" value={formatBytes(volume.freeBytes)} />
+        <MiniFact label="Truncated" value={volume.measurementTruncated ? "yes" : "no"} />
+      </div>
+      <PolicyCallout
+        title="Operator note"
+        detail={`${label} is trustworthy for production decisions only when the path exists, measurement is not unexpectedly empty, mirror/restore proof is current, and the source is labeled with its deployment scope.`}
+        tone="warning"
+      />
+    </div>
+  );
+}
+
+function classifyWarehouseRoot(volume: WarehouseSnapshot["summary"]["warehouse"]): { label: string; tone: Tone; detail: string } {
+  const path = volume.path.toLowerCase();
+  if (!volume.exists) return { label: "missing", tone: "critical", detail: "The configured path does not exist on this host." };
+  if (path.includes("/root/apps") || path.includes("/var/") || path.includes("production")) {
+    return { label: "production-like", tone: "success", detail: "The path looks like a deployed or host-level runtime location." };
+  }
+  if (path.includes("/users/") || path.includes("/tmp") || path.includes("workspace")) {
+    return { label: "local", tone: "warning", detail: "The path looks local or development-scoped; confirm production mount state before treating it as production truth." };
+  }
+  return { label: "configured", tone: "info", detail: "The path exists, but deployment scope is inferred from the path only." };
 }
 
 function buildLine(points: WarehouseSeriesPoint[], key: "bytesIngested" | "storageUsedBytes") {
@@ -593,6 +808,25 @@ function StoragePanel() {
               <MiniFact label="Safe action" value={candidate.safeAction} />
             </article>
           )) : <PolicyCallout title="No cleanup candidates" detail="Storage scan did not identify reviewable cleanup candidates." tone="success" />}
+        </div>
+      </Panel>
+      <Panel title="Storage providers" count={summary.providers?.length ?? 0}>
+        <div className="grid gap-2 p-3">
+          {summary.providers?.length ? summary.providers.map((provider) => (
+            <article key={provider.id} className="rounded-lg border border-border bg-background p-3">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <h2 className="text-sm font-semibold text-foreground">{provider.label}</h2>
+                  <p className="mt-1 truncate text-xs text-muted-foreground">{provider.path || "not configured"}</p>
+                </div>
+                <ToneBadge tone={provider.status === "ready" ? "success" : "warning"}>{provider.status}</ToneBadge>
+              </div>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                <MiniFact label="Scope" value={provider.scope} />
+                <MiniFact label="Measured" value={formatBytes(provider.measuredBytes)} />
+              </div>
+            </article>
+          )) : <PolicyCallout title="No storage providers" detail="No object-store or external artifact provider is configured in the current snapshot." tone="warning" />}
         </div>
       </Panel>
     </div>
@@ -788,6 +1022,8 @@ function WorkersPanel() {
                 <MiniFact label="Last run" value={new Date(worker.lastRunAt).toLocaleString()} />
                 <MiniFact label="Next run" value={new Date(worker.nextRunAt).toLocaleString()} />
                 <MiniFact label="Duration" value={`${worker.durationSeconds}s`} />
+                <MiniFact label="Schedule source" value={worker.scheduleSource ?? "runtime-inferred"} />
+                <MiniFact label="Log ref" value={worker.logRef || "not reported"} />
               </div>
             </article>
           ))}
@@ -878,6 +1114,7 @@ function DeploymentsPanel({ stages }: { stages: OperatingSystemStage[] }) {
   const [snapshot, setSnapshot] = useState<DeploymentsSnapshot | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [actionStatus, setActionStatus] = useState<string | null>(null);
+  const [selectedDeployment, setSelectedDeployment] = useState<DeploymentRecord | null>(null);
 
   const load = async (nextWindow = window) => {
     try {
@@ -958,6 +1195,9 @@ function DeploymentsPanel({ stages }: { stages: OperatingSystemStage[] }) {
                 <MiniFact label="Rollback" value={deployment.rollback || "missing"} />
                 <MiniFact label="Updated" value={new Date(deployment.updatedAt).toLocaleString()} />
               </div>
+              <button type="button" className="mt-3 rounded border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground hover:bg-muted" onClick={() => setSelectedDeployment(deployment)}>
+                Inspect release proof
+              </button>
             </article>
           ))}
         </div>
@@ -972,6 +1212,7 @@ function DeploymentsPanel({ stages }: { stages: OperatingSystemStage[] }) {
           ))}
         </div>
       </Panel>
+      <DeploymentEvidenceDrawer deployment={selectedDeployment} onClose={() => setSelectedDeployment(null)} />
     </div>
   );
 }
@@ -1007,11 +1248,150 @@ function PageContractStrip({ audit }: { audit: OperationalPageAudit }) {
   );
 }
 
+function DeploymentEvidenceDrawer({ deployment, onClose }: { deployment: DeploymentRecord | null; onClose: () => void }) {
+  useEffect(() => {
+    if (!deployment) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [deployment, onClose]);
+
+  if (!deployment) return null;
+  return (
+    <SystemDrawer title={deployment.title} eyebrow="Release proof" onClose={onClose}>
+      <div className="grid gap-3">
+        <ToneBadge tone={systemHealthTone(deployment.state)}>{deployment.status}</ToneBadge>
+        <p className="text-sm leading-6 text-muted-foreground">{deployment.detail || "Deployment evidence record."}</p>
+        <div className="grid gap-2 sm:grid-cols-2">
+          <MiniFact label="Project" value={deployment.project} />
+        <MiniFact label="Environment" value={deployment.environment} />
+        <MiniFact label="Version" value={deployment.version} />
+        <MiniFact label="Deployed SHA" value={deployment.deployedSha ?? "unknown"} />
+        <MiniFact label="Promotion source" value={deployment.promotionSource ?? "runtime-evidence"} />
+        <MiniFact label="Health" value={deployment.healthStatus ?? deployment.status} />
+        <MiniFact label="Rollback SHA" value={deployment.rollbackSha || "missing"} />
+        <MiniFact label="Migration" value={deployment.migrationRequired ? "required" : "not required"} />
+          <MiniFact label="Rollback" value={deployment.rollback || "missing"} />
+          <MiniFact label="Updated" value={new Date(deployment.updatedAt).toLocaleString()} />
+        </div>
+        <section className="rounded-lg border border-border bg-background p-3">
+          <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Evidence refs</h3>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {deployment.evidence.length ? deployment.evidence.map((item) => (
+              <span key={item} className="rounded border border-border bg-card px-2 py-0.5 text-xs font-medium text-muted-foreground">{item}</span>
+            )) : <span className="text-sm text-muted-foreground">No evidence refs reported.</span>}
+          </div>
+        </section>
+        <PolicyCallout
+          title="Promotion rule"
+          detail="Treat deploy, rollback, migration, and production mutation as approval-gated until the release has health proof, rollback evidence, and an explicit operator decision."
+          tone="warning"
+        />
+      </div>
+    </SystemDrawer>
+  );
+}
+
+function CredentialEvidenceDrawer({ item, onClose }: { item: CredentialRecord | null; onClose: () => void }) {
+  useEffect(() => {
+    if (!item) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [item, onClose]);
+
+  if (!item) return null;
+  const title = item.type === "variable" ? item.variable.name : item.project.label;
+  return (
+    <SystemDrawer title={title} eyebrow="Credential proof" onClose={onClose}>
+      {item.type === "variable" ? (
+        <div className="grid gap-3">
+          <ToneBadge tone={item.variable.configured ? "success" : "critical"}>{item.variable.configured ? "configured" : "missing"}</ToneBadge>
+          <div className="grid gap-2 sm:grid-cols-2">
+            <MiniFact label="Variable" value={item.variable.name} />
+            <MiniFact label="Source" value={item.variable.source} />
+            <MiniFact label="Class" value={item.variable.secretClass ?? "variable"} />
+            <MiniFact label="Rotation" value={item.variable.rotationStatus ?? "unknown"} />
+            <MiniFact label="Rotation age" value={item.variable.rotationAgeDays === null || item.variable.rotationAgeDays === undefined ? "unknown" : `${item.variable.rotationAgeDays}d`} />
+            <MiniFact label="Safe test" value={item.variable.safeTestStatus ?? "not-run"} />
+            <MiniFact label="Value length" value={item.variable.configured ? item.variable.valueLength : 0} />
+            <MiniFact label="Exposure" value="presence only" />
+          </div>
+          <PolicyCallout
+            title="Secret safety"
+            detail="The dashboard only reports presence and length metadata. Secret values should never render here, and rotation work remains approval-gated."
+            tone="info"
+          />
+        </div>
+      ) : (
+        <div className="grid gap-3">
+          <ToneBadge tone={systemHealthTone(item.project.status)}>{item.project.status}</ToneBadge>
+          <div className="grid gap-2 sm:grid-cols-2">
+            <MiniFact label="Project" value={item.project.projectId} />
+            <MiniFact label="Proof freshness" value={item.project.proofFreshness} />
+            <MiniFact label="Rotation" value={item.project.rotationStatus ?? "unknown"} />
+            <MiniFact label="Safe test" value={item.project.safeTestStatus ?? "not-run"} />
+            <MiniFact label="Blockers" value={item.project.blockers.length} />
+          </div>
+          <section className="rounded-lg border border-border bg-background p-3">
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Blockers</h3>
+            <div className="mt-2 grid gap-2">
+              {item.project.blockers.length ? item.project.blockers.map((blocker) => (
+                <PolicyCallout key={blocker} title="Credential blocker" detail={blocker} tone="critical" />
+              )) : <p className="text-sm text-muted-foreground">No project credential blockers reported.</p>}
+            </div>
+          </section>
+        </div>
+      )}
+    </SystemDrawer>
+  );
+}
+
+function SystemDrawer({ title, eyebrow, children, onClose }: { title: string; eyebrow: string; children: ReactNode; onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-50 flex justify-end bg-black/30 p-3 sm:p-4" role="presentation" onMouseDown={onClose}>
+      <aside
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="system-drawer-title"
+        className="flex h-full w-full max-w-xl flex-col overflow-hidden rounded-lg border border-border bg-card shadow-xl"
+        onMouseDown={(event) => event.stopPropagation()}
+      >
+        <div className="flex items-start justify-between gap-4 border-b border-border bg-muted p-4">
+          <div className="min-w-0">
+            <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{eyebrow}</div>
+            <h2 id="system-drawer-title" className="mt-1 text-lg font-semibold leading-6 text-foreground">{title}</h2>
+          </div>
+          <button
+            type="button"
+            aria-label="Close system drilldown"
+            className="rounded border border-border bg-card p-2 text-muted-foreground hover:bg-background hover:text-foreground"
+            onClick={onClose}
+          >
+            <X className="h-4 w-4" aria-hidden />
+          </button>
+        </div>
+        <div className="flex-1 overflow-y-auto p-4">{children}</div>
+        <div className="flex justify-end border-t border-border bg-muted p-4">
+          <button type="button" className="rounded border border-border bg-card px-3 py-2 text-sm font-semibold text-foreground hover:bg-background" onClick={onClose}>
+            Close
+          </button>
+        </div>
+      </aside>
+    </div>
+  );
+}
+
 function CredentialsPanel() {
   const [window, setWindow] = useState<WarehouseWindow>("24h");
   const [snapshot, setSnapshot] = useState<CredentialsSnapshot | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [actionStatus, setActionStatus] = useState<string | null>(null);
+  const [selectedCredential, setSelectedCredential] = useState<CredentialRecord | null>(null);
 
   const load = async (nextWindow = window) => {
     try {
@@ -1095,7 +1475,12 @@ function CredentialsPanel() {
                   <td className="py-2 pr-3 font-semibold text-foreground">{variable.name}</td>
                   <td className="py-2 pr-3"><ToneBadge tone={variable.configured ? "success" : "critical"}>{variable.configured ? "configured" : "missing"}</ToneBadge></td>
                   <td className="py-2 pr-3">{variable.source}</td>
-                  <td className="py-2 pr-3 tabular-nums">{variable.configured ? variable.valueLength : 0}</td>
+                  <td className="py-2 pr-3 tabular-nums">
+                    <div>{variable.configured ? variable.valueLength : 0}</div>
+                    <button type="button" className="mt-1 text-xs font-semibold text-primary hover:underline" onClick={() => setSelectedCredential({ type: "variable", variable })}>
+                      Inspect
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -1117,6 +1502,9 @@ function CredentialsPanel() {
                 <MiniFact label="Proof freshness" value={project.proofFreshness} />
                 <MiniFact label="Blockers" value={project.blockers.length} />
               </div>
+              <button type="button" className="mt-3 rounded border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground hover:bg-muted" onClick={() => setSelectedCredential({ type: "project", project })}>
+                Inspect proof
+              </button>
             </article>
           )) : <PolicyCallout title="No project credential proofs" detail="Credential status has not reported project-level proof rows yet." tone="warning" />}
         </div>
@@ -1131,6 +1519,7 @@ function CredentialsPanel() {
           ))}
         </div>
       </Panel>
+      <CredentialEvidenceDrawer item={selectedCredential} onClose={() => setSelectedCredential(null)} />
     </div>
   );
 }

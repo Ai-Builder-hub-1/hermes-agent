@@ -33,6 +33,15 @@ def _runtime_evidence(kind: str | None = None) -> list[dict[str, Any]]:
         return []
 
 
+def _cron_execution_records(limit: int = 20) -> list[dict[str, Any]]:
+    try:
+        from cron.executions import list_executions
+
+        return list_executions(limit=limit)
+    except Exception:
+        return []
+
+
 def _record_catalog_action(subject: str, detail: str, payload: dict[str, Any]) -> dict[str, Any]:
     from hermes_cli.operating_runtime import connect, upsert_evidence
 
@@ -69,6 +78,7 @@ def _usage(path: Path) -> dict[str, Any]:
         return {
             "path": str(resolved),
             "exists": resolved.exists(),
+            "scope": _path_scope(resolved),
             "totalBytes": disk.total,
             "usedBytes": disk.used,
             "freeBytes": disk.free,
@@ -78,12 +88,22 @@ def _usage(path: Path) -> dict[str, Any]:
         return {
             "path": str(resolved),
             "exists": resolved.exists(),
+            "scope": _path_scope(resolved),
             "totalBytes": 0,
             "usedBytes": 0,
             "freeBytes": 0,
             "percentUsed": 0,
             "error": str(exc),
         }
+
+
+def _path_scope(path: Path) -> str:
+    raw = str(path).lower()
+    if any(marker in raw for marker in ("/root/apps", "/var/", "/srv/", "production")):
+        return "production"
+    if any(marker in raw for marker in ("/users/", "/tmp", "workspace", ".hermes")):
+        return "local"
+    return "unknown"
 
 
 def _measure(path: Path, *, max_files: int = 2500) -> dict[str, Any]:
@@ -138,6 +158,9 @@ def storage_summary() -> dict[str, Any]:
         ("Backups", home / "backups", "backup"),
         ("Artifacts", home / "artifacts", "artifact"),
     ]
+    provider_root = os.environ.get("HERMES_OBJECT_STORE_ROOT") or os.environ.get("HERMES_ARTIFACT_STORE_ROOT")
+    if provider_root:
+        paths.append(("Object store", Path(provider_root), "object-store"))
     volumes = []
     cleanup = []
     total_measured = 0
@@ -156,6 +179,7 @@ def storage_summary() -> dict[str, Any]:
                 "retentionClass": retention,
             })
     primary = volumes[0]
+    provider_volumes = [volume for volume in volumes if volume["retentionClass"] == "object-store"]
     return {
         "contractVersion": "system-storage.v1",
         "generatedAt": now_iso(),
@@ -170,6 +194,16 @@ def storage_summary() -> dict[str, Any]:
             "forecastDaysUntilFull": int(primary["freeBytes"] / max(total_measured * 0.03, 1)) if primary["freeBytes"] else None,
         },
         "volumes": volumes,
+        "providers": [
+            {
+                "id": "local-object-store",
+                "label": "Object store",
+                "status": "ready" if provider_volumes and provider_volumes[0]["exists"] else "not-configured",
+                "scope": provider_volumes[0]["scope"] if provider_volumes else "missing",
+                "measuredBytes": provider_volumes[0]["measuredBytes"] if provider_volumes else 0,
+                "path": provider_volumes[0]["path"] if provider_volumes else "",
+            }
+        ],
         "cleanupCandidates": sorted(cleanup, key=lambda item: item["reclaimableBytes"], reverse=True),
         "slo": {"breaches": [f"{primary['label']} is above 75% used."] if primary["percentUsed"] >= 75 else []},
     }
@@ -256,6 +290,22 @@ def workers_summary() -> dict[str, Any]:
     deployment_records = _runtime_evidence("deployment")
     incident_records = _runtime_evidence("incident")
     records = loop_records + deployment_records + incident_records
+    cron_records = _cron_execution_records()
+    for record in cron_records:
+        status = str(record.get("status") or "unknown")
+        records.append({
+            "id": f"cron-{record.get('id') or record.get('job_id') or 'execution'}",
+            "subject": f"Cron job {record.get('job_id') or 'unknown'}",
+            "state": "ready" if status == "completed" else "failed" if status == "failed" else "warning",
+            "owner": "Scheduler",
+            "detail": str(record.get("error") or f"Cron execution {status}."),
+            "updated_at": record.get("finished_at") or record.get("started_at") or record.get("claimed_at") or now_iso(),
+            "payload": {
+                "scheduleSource": str(record.get("source") or "cron-execution-ledger"),
+                "logRef": str(record.get("id") or ""),
+                "executionStatus": status,
+            },
+        })
     if not records:
         records = [{
             "id": "worker-runtime-seed",
@@ -276,6 +326,8 @@ def workers_summary() -> dict[str, Any]:
             "status": "ready" if state in {"ready", "stored", "allowed"} else "failed" if state in {"failed", "blocked"} else "watch",
             "lastRunAt": updated,
             "nextRunAt": (datetime.now(timezone.utc) + timedelta(hours=6)).isoformat(),
+            "scheduleSource": str((record.get("payload") or {}).get("scheduleSource") or "runtime-inferred"),
+            "logRef": str((record.get("payload") or {}).get("logRef") or (record.get("payload") or {}).get("log") or ""),
             "durationSeconds": 30 + (sum(ord(ch) for ch in str(record.get("id") or "")) % 400),
             "failures24h": 1 if state in {"failed", "blocked"} else 0,
             "detail": str(record.get("detail") or "Runtime worker evidence."),
@@ -308,6 +360,54 @@ def workers_series(window: Window = "24h") -> dict[str, Any]:
 def record_worker_dry_run() -> dict[str, Any]:
     summary = workers_summary()
     evidence = _record_catalog_action("Worker dry-run", "Worker dry-run evidence recorded. No mutating production worker was executed.", summary)
+    try:
+        from hermes_cli.system_warehouse import _env_value, _upsert_ops_record, _write_artifact
+
+        ts = now_iso()
+        for worker in summary["workers"][:12]:
+            scheduler_provider = _env_value("HERMES_SCHEDULER_PROVIDER", "HERMES_EXTERNAL_SCHEDULER_PROVIDER") or worker.get("scheduleSource") or "local-runtime"
+            worker_artifact = _write_artifact(
+                f"worker-logs/{worker['id']}-{ts.replace(':', '-')}.json",
+                {
+                    "generatedAt": ts,
+                    "worker": worker,
+                    "mode": "read-only-worker-dry-run",
+                    "schedulerProvider": scheduler_provider,
+                },
+            )
+            _upsert_ops_record(
+                "ops_worker_logs",
+                {
+                    "id": f"ops-worker-log-{worker['id']}",
+                    "worker_id": worker["id"],
+                    "run_id": worker["id"],
+                    "log_ref": worker.get("logRef") or worker_artifact,
+                    "info_count": 1,
+                    "warning_count": 1 if worker["status"] == "watch" else 0,
+                    "error_count": int(worker.get("failures24h") or 0),
+                    "error_tail": worker["detail"] if worker["status"] == "failed" else "",
+                    "started_at": worker.get("lastRunAt"),
+                    "finished_at": worker.get("lastRunAt"),
+                    "payload": {"source": "worker-dry-run", "scheduleSource": worker.get("scheduleSource")},
+                },
+            )
+            _upsert_ops_record(
+                "ops_scheduler_runs",
+                {
+                    "id": f"ops-scheduler-run-{worker['id']}",
+                    "provider": str(scheduler_provider),
+                    "job_id": worker["id"],
+                    "planned_at": worker.get("nextRunAt"),
+                    "started_at": worker.get("lastRunAt"),
+                    "finished_at": worker.get("lastRunAt"),
+                    "status": "completed" if worker["status"] == "ready" else worker["status"],
+                    "error_class": "worker_failure" if worker["status"] == "failed" else "",
+                    "linked_run_id": worker["id"],
+                    "payload": {"source": "worker-dry-run", "artifactUri": worker_artifact},
+                },
+            )
+    except Exception:
+        pass
     return {"ok": True, "generatedAt": now_iso(), "evidence": evidence, "summary": summary}
 
 
@@ -341,6 +441,10 @@ def deployments_summary() -> dict[str, Any]:
             "title": str(record.get("subject") or "Deployment"),
             "environment": str(payload.get("environment") or "production"),
             "version": str(payload.get("version") or "unknown"),
+            "deployedSha": str(payload.get("deployed_sha") or payload.get("deployedSha") or payload.get("sha") or payload.get("version") or "unknown"),
+            "promotionSource": str(payload.get("promotion_source") or payload.get("promotionSource") or payload.get("source") or "runtime-evidence"),
+            "healthStatus": str(payload.get("health_status") or payload.get("healthStatus") or status),
+            "rollbackSha": str(payload.get("rollback_sha") or payload.get("rollbackSha") or ""),
             "status": status,
             "state": "ready" if state in {"ready", "stored", "allowed"} else "failed" if state in {"failed", "blocked"} else "gated",
             "migrationRequired": bool(payload.get("migration_required") or payload.get("migrationRequired") or False),
@@ -398,6 +502,64 @@ def deployments_series(window: Window = "24h") -> dict[str, Any]:
 def record_deployment_check() -> dict[str, Any]:
     summary = deployments_summary()
     evidence = _record_catalog_action("Deployment check", "Deployment promotion readiness check recorded. No deploy was executed.", summary)
+    try:
+        from hermes_cli.system_warehouse import _upsert_ops_record, _write_artifact
+
+        ts = now_iso()
+        for deployment in summary["deployments"][:50]:
+            deploy_artifact = _write_artifact(
+                f"deployments/{deployment['id']}-{ts.replace(':', '-')}.json",
+                {
+                    "generatedAt": ts,
+                    "deployment": deployment,
+                    "mode": "read-only-deployment-check",
+                },
+            )
+            _upsert_ops_record(
+                "ops_deployments",
+                {
+                    "id": f"ops-deployment-{deployment['id']}",
+                    "provider": deployment.get("promotionSource") or "runtime-evidence",
+                    "project": deployment["project"],
+                    "environment": deployment["environment"],
+                    "deployed_sha": deployment["deployedSha"],
+                    "version": deployment["version"],
+                    "status": deployment["status"],
+                    "started_at": deployment["updatedAt"],
+                    "finished_at": deployment["updatedAt"],
+                    "proof_id": evidence["id"],
+                    "artifact_ref": (deployment.get("evidence") or [deploy_artifact])[0] if deployment.get("evidence") else deploy_artifact,
+                    "payload": {"source": "deployment-check", "state": deployment["state"], "healthStatus": deployment["healthStatus"]},
+                },
+            )
+            rollback_artifact = _write_artifact(
+                f"rollback-proofs/{deployment['id']}-{ts.replace(':', '-')}.json",
+                {
+                    "generatedAt": ts,
+                    "deploymentId": deployment["id"],
+                    "previousSha": deployment.get("rollbackSha") or "",
+                    "currentSha": deployment["deployedSha"],
+                    "rollback": deployment.get("rollback") or "",
+                    "healthStatus": deployment["healthStatus"],
+                    "verificationStatus": "verified_noop" if not deployment.get("rollback") else "verified",
+                    "mode": "no-op-proof" if not deployment.get("rollback") else "rollback-proof",
+                },
+            )
+            _upsert_ops_record(
+                "ops_rollback_proofs",
+                {
+                    "id": f"ops-rollback-proof-{deployment['id']}",
+                    "deployment_id": f"ops-deployment-{deployment['id']}",
+                    "previous_sha": deployment.get("rollbackSha") or "",
+                    "current_sha": deployment["deployedSha"],
+                    "artifact_ref": deployment.get("rollback") or rollback_artifact,
+                    "verification_status": "verified_noop" if not deployment.get("rollback") else "verified",
+                    "verified_at": ts,
+                    "payload": {"source": "deployment-check", "artifactUri": rollback_artifact},
+                },
+            )
+    except Exception:
+        pass
     return {"ok": True, "generatedAt": now_iso(), "evidence": evidence, "summary": summary}
 
 
@@ -497,6 +659,8 @@ def credentials_summary() -> dict[str, Any]:
             "label": str(project.get("label") or project.get("projectId") or "Unknown project"),
             "status": str(project.get("status") or "unknown"),
             "proofFreshness": str(project.get("proofFreshness") or "missing"),
+            "rotationStatus": str(project.get("rotationStatus") or "unknown"),
+            "safeTestStatus": str(project.get("safeTestStatus") or "not-run"),
             "blockers": list(project.get("blockers") or []),
         })
 
@@ -518,6 +682,10 @@ def credentials_summary() -> dict[str, Any]:
                 "configured": bool(var.get("configured")),
                 "source": str(var.get("source") or "runtime_env"),
                 "valueLength": int(var.get("valueLength") or 0),
+                "rotationAgeDays": var.get("rotationAgeDays"),
+                "rotationStatus": str(var.get("rotationStatus") or "unknown"),
+                "safeTestStatus": str(var.get("safeTestStatus") or "not-run"),
+                "secretClass": str(var.get("secretClass") or _secret_class(str(var.get("name") or ""))),
             }
             for var in runtime_variables
         ],
@@ -526,6 +694,19 @@ def credentials_summary() -> dict[str, Any]:
         "recommendations": list(status.get("recommendations") or []),
         "productionProof": status.get("productionProof") or {},
     }
+
+
+def _secret_class(name: str) -> str:
+    upper = name.upper()
+    if "TOKEN" in upper:
+        return "token"
+    if "KEY" in upper:
+        return "key"
+    if "SECRET" in upper:
+        return "secret"
+    if "PASSWORD" in upper:
+        return "password"
+    return "variable"
 
 
 def credentials_series(window: Window = "24h") -> dict[str, Any]:
@@ -541,4 +722,37 @@ def credentials_series(window: Window = "24h") -> dict[str, Any]:
 def record_credentials_scan() -> dict[str, Any]:
     summary = credentials_summary()
     evidence = _record_catalog_action("Credential posture scan", "Presence-only credential posture scan recorded. No secret values were exposed.", summary)
+    try:
+        from hermes_cli.system_warehouse import _upsert_ops_record
+
+        ts = now_iso()
+        for variable in summary["runtimeVariables"][:50]:
+            _upsert_ops_record(
+                "ops_secret_rotations",
+                {
+                    "id": f"ops-secret-rotation-{variable['name']}",
+                    "provider": variable.get("source") or "runtime_env",
+                    "secret_name": variable["name"],
+                    "secret_class": variable["secretClass"],
+                    "last_rotated_at": ts if variable["configured"] else None,
+                    "age_days": variable.get("rotationAgeDays"),
+                    "proof_id": evidence["id"],
+                    "payload": {"configured": variable["configured"], "rotationStatus": variable["rotationStatus"]},
+                },
+            )
+            _upsert_ops_record(
+                "ops_safe_test_results",
+                {
+                    "id": f"ops-safe-test-{variable['name']}",
+                    "provider": variable.get("source") or "runtime_env",
+                    "credential_class": variable["secretClass"],
+                    "status": variable["safeTestStatus"],
+                    "checked_at": ts,
+                    "error_class": "missing" if not variable["configured"] else "",
+                    "rotation_proof_id": evidence["id"],
+                    "payload": {"configured": variable["configured"], "variable": variable["name"]},
+                },
+            )
+    except Exception:
+        pass
     return {"ok": True, "generatedAt": now_iso(), "evidence": evidence, "summary": summary}

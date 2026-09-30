@@ -130,6 +130,199 @@ def init_db(conn: sqlite3.Connection) -> None:
             key TEXT PRIMARY KEY,
             value TEXT NOT NULL
         );
+
+        CREATE TABLE IF NOT EXISTS ops_job_runs (
+            id TEXT PRIMARY KEY,
+            kind TEXT NOT NULL,
+            source TEXT NOT NULL,
+            status TEXT NOT NULL,
+            started_at TEXT,
+            finished_at TEXT,
+            rows_changed INTEGER NOT NULL DEFAULT 0,
+            files_changed INTEGER NOT NULL DEFAULT 0,
+            bytes_changed INTEGER NOT NULL DEFAULT 0,
+            error_class TEXT NOT NULL DEFAULT '',
+            artifact_ref TEXT NOT NULL DEFAULT '',
+            proof_id TEXT NOT NULL DEFAULT '',
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_ops_job_runs_kind ON ops_job_runs(kind);
+        CREATE INDEX IF NOT EXISTS idx_ops_job_runs_recorded ON ops_job_runs(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS ops_storage_objects (
+            id TEXT PRIMARY KEY,
+            provider TEXT NOT NULL,
+            object_ref TEXT NOT NULL,
+            size_bytes INTEGER NOT NULL DEFAULT 0,
+            checksum TEXT NOT NULL DEFAULT '',
+            modified_at TEXT,
+            retention_class TEXT NOT NULL DEFAULT '',
+            source_system TEXT NOT NULL DEFAULT '',
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_ops_storage_objects_provider ON ops_storage_objects(provider);
+        CREATE INDEX IF NOT EXISTS idx_ops_storage_objects_recorded ON ops_storage_objects(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS ops_scheduler_runs (
+            id TEXT PRIMARY KEY,
+            provider TEXT NOT NULL,
+            job_id TEXT NOT NULL,
+            planned_at TEXT,
+            started_at TEXT,
+            finished_at TEXT,
+            status TEXT NOT NULL,
+            error_class TEXT NOT NULL DEFAULT '',
+            linked_run_id TEXT NOT NULL DEFAULT '',
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_ops_scheduler_runs_provider ON ops_scheduler_runs(provider);
+        CREATE INDEX IF NOT EXISTS idx_ops_scheduler_runs_recorded ON ops_scheduler_runs(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS ops_worker_logs (
+            id TEXT PRIMARY KEY,
+            worker_id TEXT NOT NULL,
+            run_id TEXT NOT NULL,
+            log_ref TEXT NOT NULL,
+            info_count INTEGER NOT NULL DEFAULT 0,
+            warning_count INTEGER NOT NULL DEFAULT 0,
+            error_count INTEGER NOT NULL DEFAULT 0,
+            error_tail TEXT NOT NULL DEFAULT '',
+            started_at TEXT,
+            finished_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_ops_worker_logs_worker ON ops_worker_logs(worker_id);
+        CREATE INDEX IF NOT EXISTS idx_ops_worker_logs_recorded ON ops_worker_logs(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS ops_deployments (
+            id TEXT PRIMARY KEY,
+            provider TEXT NOT NULL,
+            project TEXT NOT NULL,
+            environment TEXT NOT NULL,
+            deployed_sha TEXT NOT NULL DEFAULT '',
+            version TEXT NOT NULL DEFAULT '',
+            status TEXT NOT NULL,
+            started_at TEXT,
+            finished_at TEXT,
+            proof_id TEXT NOT NULL DEFAULT '',
+            artifact_ref TEXT NOT NULL DEFAULT '',
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_ops_deployments_project ON ops_deployments(project);
+        CREATE INDEX IF NOT EXISTS idx_ops_deployments_recorded ON ops_deployments(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS ops_rollback_proofs (
+            id TEXT PRIMARY KEY,
+            deployment_id TEXT NOT NULL,
+            previous_sha TEXT NOT NULL DEFAULT '',
+            current_sha TEXT NOT NULL DEFAULT '',
+            artifact_ref TEXT NOT NULL DEFAULT '',
+            verification_status TEXT NOT NULL,
+            verified_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_ops_rollback_proofs_deployment ON ops_rollback_proofs(deployment_id);
+        CREATE INDEX IF NOT EXISTS idx_ops_rollback_proofs_recorded ON ops_rollback_proofs(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS ops_secret_rotations (
+            id TEXT PRIMARY KEY,
+            provider TEXT NOT NULL,
+            secret_name TEXT NOT NULL,
+            secret_class TEXT NOT NULL,
+            last_rotated_at TEXT,
+            age_days INTEGER,
+            proof_id TEXT NOT NULL DEFAULT '',
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_ops_secret_rotations_provider ON ops_secret_rotations(provider);
+        CREATE INDEX IF NOT EXISTS idx_ops_secret_rotations_recorded ON ops_secret_rotations(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS ops_safe_test_results (
+            id TEXT PRIMARY KEY,
+            provider TEXT NOT NULL,
+            credential_class TEXT NOT NULL,
+            status TEXT NOT NULL,
+            checked_at TEXT,
+            error_class TEXT NOT NULL DEFAULT '',
+            rotation_proof_id TEXT NOT NULL DEFAULT '',
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_ops_safe_test_results_provider ON ops_safe_test_results(provider);
+        CREATE INDEX IF NOT EXISTS idx_ops_safe_test_results_recorded ON ops_safe_test_results(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS trading_strategy_artifacts (
+            id TEXT PRIMARY KEY,
+            source_project TEXT NOT NULL,
+            strategy_id TEXT NOT NULL,
+            artifact_ref TEXT NOT NULL,
+            proof_hash TEXT NOT NULL DEFAULT '',
+            hypothesis TEXT NOT NULL DEFAULT '',
+            falsification_criteria TEXT NOT NULL DEFAULT '',
+            created_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_trading_strategy_artifacts_strategy ON trading_strategy_artifacts(strategy_id);
+        CREATE INDEX IF NOT EXISTS idx_trading_strategy_artifacts_recorded ON trading_strategy_artifacts(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS trading_backtest_artifacts (
+            id TEXT PRIMARY KEY,
+            source_project TEXT NOT NULL,
+            strategy_id TEXT NOT NULL,
+            run_id TEXT NOT NULL,
+            dataset_window TEXT NOT NULL DEFAULT '',
+            artifact_ref TEXT NOT NULL,
+            proof_hash TEXT NOT NULL DEFAULT '',
+            trades INTEGER NOT NULL DEFAULT 0,
+            win_rate REAL,
+            expectancy REAL,
+            max_drawdown REAL,
+            status TEXT NOT NULL DEFAULT 'unknown',
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_trading_backtest_artifacts_strategy ON trading_backtest_artifacts(strategy_id);
+        CREATE INDEX IF NOT EXISTS idx_trading_backtest_artifacts_recorded ON trading_backtest_artifacts(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS trading_falsification_outcomes (
+            id TEXT PRIMARY KEY,
+            strategy_id TEXT NOT NULL,
+            source_project TEXT NOT NULL,
+            status TEXT NOT NULL DEFAULT 'unknown',
+            criteria TEXT NOT NULL DEFAULT '',
+            outcome TEXT NOT NULL DEFAULT '',
+            evidence_ref TEXT NOT NULL DEFAULT '',
+            proof_hash TEXT NOT NULL DEFAULT '',
+            observed_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_trading_falsification_outcomes_strategy ON trading_falsification_outcomes(strategy_id);
+        CREATE INDEX IF NOT EXISTS idx_trading_falsification_outcomes_recorded ON trading_falsification_outcomes(recorded_at);
+
+        CREATE TABLE IF NOT EXISTS trading_strategy_observations (
+            id TEXT PRIMARY KEY,
+            strategy_id TEXT NOT NULL,
+            source_project TEXT NOT NULL,
+            mode TEXT NOT NULL DEFAULT 'not_observed',
+            status TEXT NOT NULL DEFAULT 'unknown',
+            decision_closeout TEXT NOT NULL DEFAULT '',
+            artifact_ref TEXT NOT NULL DEFAULT '',
+            proof_hash TEXT NOT NULL DEFAULT '',
+            observed_at TEXT,
+            payload TEXT NOT NULL DEFAULT '{}',
+            recorded_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_trading_strategy_observations_strategy ON trading_strategy_observations(strategy_id);
+        CREATE INDEX IF NOT EXISTS idx_trading_strategy_observations_recorded ON trading_strategy_observations(recorded_at);
         """
     )
     conn.commit()
@@ -259,6 +452,55 @@ def list_audit(conn: sqlite3.Connection, limit: int = 50) -> list[dict[str, Any]
     return [_audit_row(row) for row in rows]
 
 
+def list_action_results(conn: sqlite3.Connection, *, route: str = "", limit: int = 50) -> dict[str, Any]:
+    """Return route-aware action intents and closeouts from runtime evidence."""
+    safe_limit = max(1, min(int(limit), 200))
+    rows = []
+    for record in list_evidence(conn):
+        payload = record.get("payload") or {}
+        source = str(payload.get("source") or "")
+        if source not in {"operate-queue", "operate-action-closeout"}:
+            continue
+        record_route = str(payload.get("route") or "")
+        if route and record_route != route:
+            continue
+        action = str(payload.get("action") or "")
+        result = str(payload.get("result") or ("intent" if source == "operate-queue" else "recorded"))
+        policy = payload.get("policy") if isinstance(payload.get("policy"), dict) else classify_action_policy(action).__dict__
+        rows.append({
+            "id": record["id"],
+            "kind": "closeout" if source == "operate-action-closeout" else "intent",
+            "title": record["subject"],
+            "itemId": str(payload.get("item_id") or ""),
+            "action": action,
+            "result": result,
+            "state": record["state"],
+            "approval": str(payload.get("approval") or policy.get("approval") or "unknown"),
+            "allowed": payload.get("allowed"),
+            "risk": str(policy.get("risk") or "unknown"),
+            "liveEffect": bool(policy.get("live_effect")),
+            "auditId": str(payload.get("audit_id") or ""),
+            "proof": str(payload.get("proof") or record["detail"]),
+            "rollback": str(payload.get("rollback") or ""),
+            "route": record_route,
+            "updatedAt": record.get("updated_at") or record.get("updatedAt"),
+        })
+    rows.sort(key=lambda item: str(item.get("updatedAt") or ""), reverse=True)
+    selected = rows[:safe_limit]
+    return {
+        "contractVersion": "operate-action-results.v1",
+        "generatedAt": now_iso(),
+        "summary": {
+            "records": len(selected),
+            "intents": len([row for row in selected if row["kind"] == "intent"]),
+            "closeouts": len([row for row in selected if row["kind"] == "closeout"]),
+            "liveEffect": len([row for row in selected if row["liveEffect"]]),
+            "explicit": len([row for row in selected if row["approval"] == "explicit"]),
+        },
+        "records": selected,
+    }
+
+
 def audit(
     conn: sqlite3.Connection,
     *,
@@ -339,6 +581,14 @@ def action_policy_summary() -> dict[str, Any]:
     return {
         "contractVersion": "hermes-action-policy.v1",
         "generatedAt": now_iso(),
+        "enforcement": {
+            "mode": "decision-required-before-execution",
+            "permissionPrimitive": "require_permission",
+            "intentEndpoint": "/api/operate/action-intent",
+            "closeoutEndpoint": "/api/operate/action-closeout",
+            "resultHistoryEndpoint": "/api/operate/action-results",
+            "secretPolicy": "presence-and-safe-test-only",
+        },
         "policies": policies,
         "summary": {
             "actions": len(policies),
@@ -346,6 +596,7 @@ def action_policy_summary() -> dict[str, Any]:
             "confirm": len([policy for policy in policies if policy["approval"] == "confirm"]),
             "readOnly": len([policy for policy in policies if policy["approval"] == "none"]),
             "liveEffect": len([policy for policy in policies if policy["live_effect"]]),
+            "runtimeAudit": "permission decisions and action closeouts write durable audit/evidence before live-effect work is represented as complete",
         },
     }
 
@@ -406,6 +657,85 @@ def require_permission(
     return {"decision": decision.__dict__, "policy": policy.__dict__, "audit": audit_record}
 
 
+def record_action_closeout(
+    conn: sqlite3.Connection,
+    *,
+    item_id: str,
+    title: str,
+    action: str,
+    result: str,
+    actor: str = "Hermes operator",
+    actor_role: str = "operator",
+    explicit_approval: bool = False,
+    proof: str = "",
+    route: str = "",
+    rollback: str = "",
+    payload: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Persist an operator action result without executing the action.
+
+    Closeout is the durable "what happened?" side of the control plane. It can
+    record completed/no-op/denied/superseded/failed outcomes, but it never
+    performs the underlying action.
+    """
+    policy = classify_action_policy(action)
+    decision = decide_permission(action, actor_role, explicit_approval)
+    extra_payload = payload or {}
+    normalized_result = str(result or "recorded").strip().lower()
+    state: RuntimeState = (
+        "ready"
+        if normalized_result in {"completed", "done", "no-op", "noop", "denied", "superseded", "recorded"}
+        else "failed"
+        if normalized_result in {"failed", "error"}
+        else "gated"
+    )
+    audit_record = audit(
+        conn,
+        action=f"closeout:{action}",
+        actor=actor,
+        decision=decision,
+        payload={
+            **extra_payload,
+            "item_id": item_id,
+            "title": title,
+            "action": action,
+            "result": normalized_result,
+            "actor_role": actor_role,
+            "policy": policy.__dict__,
+            "proof": proof,
+            "route": route,
+            "rollback": rollback,
+            "operator_payload": extra_payload,
+        },
+    )
+    evidence = upsert_evidence(
+        conn,
+        id=f"workbench-action-closeout-{_slug(item_id)}",
+        kind="workbench",
+        subject=f"Operator action closeout: {title}",
+        state=state,
+        owner=actor_role,
+        detail=proof or f"Operator recorded {normalized_result} closeout for {action}.",
+        payload={
+            **extra_payload,
+            "source": "operate-action-closeout",
+            "item_id": item_id,
+            "title": title,
+            "action": action,
+            "result": normalized_result,
+            "audit_id": audit_record["id"],
+            "approval": decision.approval,
+            "allowed": decision.allowed,
+            "policy": policy.__dict__,
+            "proof": proof,
+            "route": route,
+            "rollback": rollback,
+            "operator_payload": extra_payload,
+        },
+    )
+    return {"decision": decision.__dict__, "policy": policy.__dict__, "audit": audit_record, "evidence": evidence}
+
+
 def record_production_check(
     conn: sqlite3.Connection,
     *,
@@ -438,14 +768,16 @@ def run_production_sweep(
     live: bool = False,
 ) -> dict[str, Any]:
     action = "execute-production-sweep" if live else "dry-run-production-sweep"
-    decision = decide_permission(action, actor_role, explicit_approval)
-    audit_record = audit(
+    permission = require_permission(
         conn,
         action=action,
         actor=actor,
-        decision=decision,
-        payload={"actor_role": actor_role, "live": live},
+        actor_role=actor_role,
+        explicit_approval=explicit_approval,
+        payload={"live": live},
     )
+    decision = PermissionDecision(**permission["decision"])
+    audit_record = permission["audit"]
     target_list = list(targets)
     records: list[dict[str, Any]] = []
     breaker = None
@@ -664,9 +996,11 @@ def record_deployment(
     evidence: Iterable[str] = (),
 ) -> dict[str, Any]:
     state: RuntimeState = "ready" if status in {"current", "healthy", "deployed"} else "failed" if status in {"failed", "rolled-back"} else "gated"
-    return upsert_evidence(
+    deployment_id = f"deployment-{_slug(project)}-{_slug(environment)}"
+    evidence_list = list(evidence)
+    evidence_record = upsert_evidence(
         conn,
-        id=f"deployment-{_slug(project)}-{_slug(environment)}",
+        id=deployment_id,
         kind="deployment",
         subject=f"{project} {environment} deployment",
         state=state,
@@ -678,9 +1012,75 @@ def record_deployment(
             "status": status,
             "migration_required": migration_required,
             "rollback": rollback,
-            "evidence": list(evidence),
+            "evidence": evidence_list,
         },
     )
+    ts = now_iso()
+    conn.execute(
+        """
+        INSERT INTO ops_deployments
+        (id, provider, project, environment, deployed_sha, version, status, started_at, finished_at, proof_id, artifact_ref, payload, recorded_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(id) DO UPDATE SET
+            provider = excluded.provider,
+            project = excluded.project,
+            environment = excluded.environment,
+            deployed_sha = excluded.deployed_sha,
+            version = excluded.version,
+            status = excluded.status,
+            started_at = excluded.started_at,
+            finished_at = excluded.finished_at,
+            proof_id = excluded.proof_id,
+            artifact_ref = excluded.artifact_ref,
+            payload = excluded.payload,
+            recorded_at = excluded.recorded_at
+        """,
+        (
+            deployment_id,
+            "runtime-evidence",
+            project,
+            environment,
+            version,
+            version,
+            status,
+            ts,
+            ts,
+            evidence_record["id"],
+            evidence_list[0] if evidence_list else "",
+            json.dumps({"migration_required": migration_required, "rollback": rollback, "evidence": evidence_list}, sort_keys=True),
+            ts,
+        ),
+    )
+    if rollback or evidence_list:
+        conn.execute(
+            """
+            INSERT INTO ops_rollback_proofs
+            (id, deployment_id, previous_sha, current_sha, artifact_ref, verification_status, verified_at, payload, recorded_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(id) DO UPDATE SET
+                deployment_id = excluded.deployment_id,
+                previous_sha = excluded.previous_sha,
+                current_sha = excluded.current_sha,
+                artifact_ref = excluded.artifact_ref,
+                verification_status = excluded.verification_status,
+                verified_at = excluded.verified_at,
+                payload = excluded.payload,
+                recorded_at = excluded.recorded_at
+            """,
+            (
+                f"rollback-proof-{_slug(project)}-{_slug(environment)}",
+                deployment_id,
+                "",
+                version,
+                rollback or (evidence_list[0] if evidence_list else ""),
+                "verified" if rollback or evidence_list else "missing",
+                ts,
+                json.dumps({"rollback": rollback, "evidence": evidence_list}, sort_keys=True),
+                ts,
+            ),
+        )
+    conn.commit()
+    return evidence_record
 
 
 def plan_promotion_execution(
@@ -700,13 +1100,13 @@ def plan_promotion_execution(
     command_runner: Callable[[list[str], Path | None], dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     action = "execute-hetzner-promotion" if live else "dry-run-hetzner-promotion"
-    decision = decide_permission(action, actor_role, explicit_approval)
     command_plan = _hetzner_promotion_command_plan(app_dir=app_dir, migration_required=migration_required, url=url)
-    audit_record = audit(
+    permission = require_permission(
         conn,
         action=action,
         actor=actor,
-        decision=decision,
+        actor_role=actor_role,
+        explicit_approval=explicit_approval,
         payload={
             "project": project,
             "environment": environment,
@@ -717,6 +1117,8 @@ def plan_promotion_execution(
             "command_plan": command_plan,
         },
     )
+    decision = PermissionDecision(**permission["decision"])
+    audit_record = permission["audit"]
     breaker = None
     execution: dict[str, Any] | None = None
     if live and decision.allowed:
@@ -817,8 +1219,16 @@ def scan_secret_presence(
     explicit_approval: bool = False,
 ) -> dict[str, Any]:
     action = "scan-live-secret-presence" if live else "dry-run-secret-presence"
-    decision = decide_permission(action, actor_role, explicit_approval)
-    audit_record = audit(conn, action=action, actor=actor, decision=decision, payload={"project": project, "scope": scope, "live": live})
+    permission = require_permission(
+        conn,
+        action=action,
+        actor=actor,
+        actor_role=actor_role,
+        explicit_approval=explicit_approval,
+        payload={"project": project, "scope": scope, "live": live},
+    )
+    decision = PermissionDecision(**permission["decision"])
+    audit_record = permission["audit"]
     required_names = list(required)
     present_names = set(present)
     missing = [name for name in required_names if name not in present_names]
@@ -860,14 +1270,16 @@ def scan_github_secret_presence(
     command_runner: Callable[[list[str], Path | None], dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     action = "scan-live-github-secrets" if live else "dry-run-github-secrets"
-    decision = decide_permission(action, actor_role, explicit_approval)
-    audit_record = audit(
+    permission = require_permission(
         conn,
         action=action,
         actor=actor,
-        decision=decision,
+        actor_role=actor_role,
+        explicit_approval=explicit_approval,
         payload={"project": project, "repo": repo, "include_variables": include_variables, "live": live},
     )
+    decision = PermissionDecision(**permission["decision"])
+    audit_record = permission["audit"]
     required_names = list(required)
     present_names: set[str] = set()
     cli_results: list[dict[str, Any]] = []
@@ -1049,14 +1461,16 @@ def ingest_project_outcomes(
     explicit_approval: bool = False,
 ) -> dict[str, Any]:
     action = "execute-project-outcome-ingest" if live and url else "ingest-project-outcomes"
-    decision = decide_permission(action, actor_role, explicit_approval)
-    audit_record = audit(
+    permission = require_permission(
         conn,
         action=action,
         actor=actor,
-        decision=decision,
+        actor_role=actor_role,
+        explicit_approval=explicit_approval,
         payload={"project": project, "url": url, "live": live},
     )
+    decision = PermissionDecision(**permission["decision"])
+    audit_record = permission["audit"]
     outcome_list = list(outcomes)
     fetch_result: dict[str, Any] | None = None
     if live and url and decision.allowed:
@@ -1222,14 +1636,16 @@ def record_adapter_run(
     payload: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     action = f"execute-{_slug(adapter)}" if live else f"plan-{_slug(adapter)}"
-    decision = decide_permission(action, actor_role, explicit_approval)
-    audit_record = audit(
+    permission = require_permission(
         conn,
         action=action,
         actor=actor,
-        decision=decision,
+        actor_role=actor_role,
+        explicit_approval=explicit_approval,
         payload={"adapter": adapter, "project": project, "actor_role": actor_role, "live": live, **(payload or {})},
     )
+    decision = PermissionDecision(**permission["decision"])
+    audit_record = permission["audit"]
     state: RuntimeState = "ready" if decision.allowed and status in {"passed", "executed", "imported", "emitted", "indexed"} else "failed" if status == "failed" else "gated" if live else "warning"
     evidence = upsert_evidence(
         conn,

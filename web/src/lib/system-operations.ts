@@ -24,6 +24,7 @@ export interface StorageSummary {
     usedBytes: number;
     freeBytes: number;
     percentUsed: number;
+    scope?: string;
     retentionClass: string;
     measuredBytes: number;
     measuredFiles: number;
@@ -36,6 +37,14 @@ export interface StorageSummary {
     reclaimableBytes: number;
     safeAction: string;
     retentionClass: string;
+  }>;
+  providers?: Array<{
+    id: string;
+    label: string;
+    status: string;
+    scope: string;
+    measuredBytes: number;
+    path: string;
   }>;
   slo: { breaches: string[] };
 }
@@ -82,6 +91,8 @@ export interface WorkersSummary {
     status: SystemHealth;
     lastRunAt: string;
     nextRunAt: string;
+    scheduleSource?: string;
+    logRef?: string;
     durationSeconds: number;
     failures24h: number;
     detail: string;
@@ -106,6 +117,10 @@ export interface DeploymentsSummary {
     title: string;
     environment: string;
     version: string;
+    deployedSha?: string;
+    promotionSource?: string;
+    healthStatus?: string;
+    rollbackSha?: string;
     status: string;
     state: SystemHealth;
     migrationRequired: boolean;
@@ -135,12 +150,18 @@ export interface CredentialsSummary {
     configured: boolean;
     source: string;
     valueLength: number;
+    rotationAgeDays?: number | null;
+    rotationStatus?: string;
+    safeTestStatus?: string;
+    secretClass?: string;
   }>;
   projects: Array<{
     projectId: string;
     label: string;
     status: string;
     proofFreshness: string;
+    rotationStatus?: string;
+    safeTestStatus?: string;
     blockers: string[];
   }>;
   blockers: string[];

@@ -233,6 +233,8 @@ def test_operate_action_policy_and_high_risk_intent(monkeypatch, tmp_path):
     assert policy_response.status_code == 200
     policy = policy_response.json()
     assert policy["contractVersion"] == "hermes-action-policy.v1"
+    assert policy["enforcement"]["mode"] == "decision-required-before-execution"
+    assert policy["enforcement"]["resultHistoryEndpoint"] == "/api/operate/action-results"
     live_policy = next(item for item in policy["policies"] if item["action"] == "submit-live-order")
     assert live_policy["approval"] == "explicit"
     assert live_policy["required_role"] == "admin"
@@ -257,3 +259,48 @@ def test_operate_action_policy_and_high_risk_intent(monkeypatch, tmp_path):
     assert body["policy"]["approval"] == "explicit"
     assert body["audit"]["payload"]["policy"]["live_effect"] is True
     assert body["evidence"]["state"] == "gated"
+
+
+def test_operate_action_closeout_records_audit_and_evidence(monkeypatch, tmp_path):
+    from hermes_cli import operating_runtime, web_server
+
+    monkeypatch.setattr(operating_runtime, "db_path", lambda: tmp_path / "operating_runtime.db")
+
+    client = TestClient(web_server.app)
+    response = client.post(
+        "/api/operate/action-closeout",
+        headers={"X-Hermes-Session-Token": web_server._SESSION_TOKEN},
+        json={
+            "item_id": "system-storage",
+            "title": "Storage pressure",
+            "action": "review:system-storage",
+            "result": "no-op",
+            "actor_role": "operator",
+            "proof": "Reviewed storage posture; no mutation needed.",
+            "route": "/system/storage",
+            "rollback": "No rollback required for read-only review.",
+            "payload": {"source": "test"},
+        },
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["decision"]["allowed"] is True
+    assert body["audit"]["action"] == "closeout:review:system-storage"
+    assert body["audit"]["payload"]["result"] == "no-op"
+    assert body["evidence"]["kind"] == "workbench"
+    assert body["evidence"]["subject"] == "Operator action closeout: Storage pressure"
+    assert body["evidence"]["payload"]["item_id"] == "system-storage"
+    assert body["evidence"]["payload"]["audit_id"] == body["audit"]["id"]
+    assert body["evidence"]["payload"]["route"] == "/system/storage"
+
+    results = client.get(
+        "/api/operate/action-results?route=/system/storage",
+        headers={"X-Hermes-Session-Token": web_server._SESSION_TOKEN},
+    )
+    assert results.status_code == 200
+    results_body = results.json()
+    assert results_body["contractVersion"] == "operate-action-results.v1"
+    assert results_body["summary"]["closeouts"] == 1
+    assert results_body["records"][0]["route"] == "/system/storage"
+    assert results_body["records"][0]["auditId"] == body["audit"]["id"]

@@ -1,15 +1,19 @@
 import {
   AlertTriangle,
   ArrowRight,
+  CheckCircle2,
+  Clock3,
   Database,
   MessageSquare,
   Radio,
   RotateCw,
   ShieldCheck,
+  X,
   type LucideIcon,
 } from "lucide-react";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router";
+import { ActionResultHistory } from "@/components/ActionResultHistory";
 import {
   attentionItems,
   buildOperateItems,
@@ -17,6 +21,12 @@ import {
   operateSummary,
   type OperateItem,
 } from "@/lib/operate-items";
+import {
+  auditOperationalContract,
+  auditOperationalPages,
+  contractForRoute,
+  type OperationalPageAudit,
+} from "@/lib/operational-page-contracts";
 import {
   blockerKindCounts,
   blockerStages,
@@ -45,6 +55,7 @@ import {
 import { loadOperatingRuntimeState } from "./operating-runtime";
 import {
   loadOperatingRuntimeStateFromServer,
+  recordOperatorActionCloseout,
   recordChatActionIntent,
   recordOperatorQueueIntent,
   type OperatingRuntimeState,
@@ -60,6 +71,15 @@ type OperateMode =
   | "chat-actions";
 
 type Tone = "success" | "info" | "warning" | "critical" | "neutral";
+type FreshnessState = "fresh" | "aging" | "stale" | "unknown";
+type QueueLoadState = "loading" | "live" | "fallback" | "error";
+
+type OperateStatusModel = {
+  label: string;
+  tone: Tone;
+  detail: string;
+  freshness: FreshnessState;
+};
 
 const toneClasses: Record<Tone, string> = {
   success: "border-emerald-500/30 bg-emerald-500/10 text-emerald-700",
@@ -144,18 +164,41 @@ export function OperateChatActionsPage() {
 
 function OperatePage({ mode }: { mode: OperateMode }) {
   const copy = modeCopy[mode];
+  const route = routeForMode(mode);
+  const contract = contractForRoute(route);
+  const audit = contract ? auditOperationalContract(contract) : null;
+  const proof = operationalProofSummary();
   const blockers = blockerStages(operatingSystemStages);
   const runtime = useMemo(() => loadOperatingRuntimeState(), []);
   const [fleetSnapshots, setFleetSnapshots] = useState<FleetOperatorSnapshot[]>(fallbackFleetOperatorSnapshots);
   const [unifiedQueue, setUnifiedQueue] = useState<FleetOperatorQueueResponse | null>(null);
+  const [queueLoadState, setQueueLoadState] = useState<QueueLoadState>("loading");
+  const [queueLoadError, setQueueLoadError] = useState<string | null>(null);
+  const [evidenceItem, setEvidenceItem] = useState<OperateItem | null>(null);
   useEffect(() => {
     let cancelled = false;
-    loadFleetOperatorSnapshots().then((snapshots) => {
-      if (!cancelled) setFleetSnapshots(snapshots);
-    });
-    loadUnifiedOperatorQueue(50).then((queue) => {
-      if (!cancelled) setUnifiedQueue(queue);
-    });
+    loadFleetOperatorSnapshots()
+      .then((snapshots) => {
+        if (!cancelled) setFleetSnapshots(snapshots);
+      })
+      .catch(() => {
+        if (!cancelled) setFleetSnapshots(fallbackFleetOperatorSnapshots);
+      });
+    loadUnifiedOperatorQueue(50)
+      .then((queue) => {
+        if (!cancelled) {
+          setUnifiedQueue(queue);
+          setQueueLoadState(queue?.items.length ? "live" : "fallback");
+          setQueueLoadError(null);
+        }
+      })
+      .catch((exc) => {
+        if (!cancelled) {
+          setUnifiedQueue(null);
+          setQueueLoadState("error");
+          setQueueLoadError(exc instanceof Error ? exc.message : String(exc));
+        }
+      });
     return () => {
       cancelled = true;
     };
@@ -199,31 +242,82 @@ function OperatePage({ mode }: { mode: OperateMode }) {
           </div>
           <div className="grid min-w-[220px] gap-2 text-xs font-semibold text-muted-foreground sm:grid-cols-2">
             <MiniStat label="Needs attention" value={summary.attention} />
-            <MiniStat label="Queue source" value={liveOperateItems.length ? "live" : "fallback"} />
+            <MiniStat label="Queue source" value={labelForQueueLoadState(queueLoadState)} />
+            <MiniStat label={audit ? "Page maturity" : "Contract"} value={audit ? `${audit.score}%` : "missing"} />
+            <MiniStat label="Proof routes" value={`${proof.readyRoutes}/${proof.routes}`} />
           </div>
         </div>
       </section>
 
+      {audit ? <PageContractStrip audit={audit} proof={proof} /> : null}
+      <ActionResultHistory route={route} compact />
+      <QueueLoadBanner state={queueLoadState} error={queueLoadError} />
+
       {mode === "overview" ? (
-        <Overview blockers={blockers} items={operateItems} />
+        <Overview blockers={blockers} items={operateItems} onOpenEvidence={setEvidenceItem} />
       ) : mode === "blockers" ? (
         <Blockers blockers={blockers} />
       ) : mode === "actions" ? (
-        <Actions items={itemsForKind(operateItems, "action")} />
+        <Actions items={itemsForKind(operateItems, "action")} onOpenEvidence={setEvidenceItem} />
       ) : mode === "incidents" ? (
-        <Incidents incidents={incidents} items={itemsForKind(operateItems, "incident")} />
+        <Incidents incidents={incidents} items={itemsForKind(operateItems, "incident")} onOpenEvidence={setEvidenceItem} />
       ) : mode === "approvals" ? (
-        <Approvals items={itemsForKind(operateItems, "approval")} />
+        <Approvals items={itemsForKind(operateItems, "approval")} onOpenEvidence={setEvidenceItem} />
       ) : mode === "runs" ? (
-        <Runs items={itemsForKind(operateItems, "run")} />
+        <Runs items={itemsForKind(operateItems, "run")} onOpenEvidence={setEvidenceItem} />
       ) : (
         <ChatActions />
       )}
+      <EvidenceDrawer item={evidenceItem} onClose={() => setEvidenceItem(null)} />
     </main>
   );
 }
 
-function Overview({ blockers, items }: { blockers: OperatingSystemStage[]; items: OperateItem[] }) {
+function routeForMode(mode: OperateMode) {
+  const routes: Record<OperateMode, string> = {
+    overview: "/operate",
+    blockers: "/operate/blockers",
+    actions: "/operate/actions",
+    incidents: "/operate/incidents",
+    approvals: "/operate/approvals",
+    runs: "/operate/runs",
+    "chat-actions": "/operate/chat-actions",
+  };
+  return routes[mode];
+}
+
+function routeForOperateItemKind(kind: OperateItem["kind"]) {
+  if (kind === "incident") return "/operate/incidents";
+  if (kind === "approval") return "/operate/approvals";
+  if (kind === "run") return "/operate/runs";
+  if (kind === "action") return "/operate/actions";
+  if (kind === "blocker") return "/operate/blockers";
+  return "/operate/evidence";
+}
+
+function operationalProofSummary() {
+  const audits = auditOperationalPages();
+  const readyRoutes = audits.filter((item) => item.status === "ready").length;
+  const failedRoutes = audits.length - readyRoutes;
+  const operate = auditOperationalPages("operate");
+  return {
+    routes: audits.length,
+    readyRoutes,
+    failedRoutes,
+    operateRoutes: operate.length,
+    operateReady: operate.filter((item) => item.status === "ready").length,
+  };
+}
+
+function Overview({
+  blockers,
+  items,
+  onOpenEvidence,
+}: {
+  blockers: OperatingSystemStage[];
+  items: OperateItem[];
+  onOpenEvidence: (item: OperateItem) => void;
+}) {
   const attention = attentionItems(items);
   const summary = operateSummary(items);
 
@@ -239,9 +333,11 @@ function Overview({ blockers, items }: { blockers: OperatingSystemStage[]; items
       <section className="grid gap-4 xl:grid-cols-[minmax(0,0.6fr)_minmax(360px,0.4fr)]">
         <Panel title="Next operator actions" count={attention.length}>
           <div className="grid gap-2 p-3">
-            {attention.map((item) => (
-              <OperateItemRow key={item.id} item={item} />
-            ))}
+            {attention.length ? (
+              attention.map((item) => <OperateItemRow key={item.id} item={item} onOpenEvidence={onOpenEvidence} />)
+            ) : (
+              <EmptyState title="No attention items" detail="The current queue has no blocked, gated, stale, review, or critical operator items." />
+            )}
           </div>
         </Panel>
         <Panel title="Blocked or gated" count={blockers.length}>
@@ -384,29 +480,39 @@ function BlockerRow({ stage }: { stage: OperatingSystemStage }) {
   );
 }
 
-function OperateItemRow({ item }: { item: OperateItem }) {
+function OperateItemRow({ item, onOpenEvidence }: { item: OperateItem; onOpenEvidence?: (item: OperateItem) => void }) {
+  const status = statusForOperateItem(item);
+
   return (
     <article className="rounded-lg border border-border bg-background p-3">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <div className="flex flex-wrap items-center gap-2">
-            <ToneBadge tone={toneForOperateSeverity(item.severity)}>{item.severity}</ToneBadge>
-            <ToneBadge tone={toneForOperateState(item.state)}>{item.state}</ToneBadge>
-            {item.requiresApproval ? <ToneBadge tone="warning">approval</ToneBadge> : null}
-          </div>
+          <StatusFreshnessCluster item={item} />
           <h2 className="mt-2 text-sm font-semibold text-foreground">{item.title}</h2>
           <p className="mt-1 text-xs font-medium text-muted-foreground">{item.source}</p>
         </div>
-        {item.route ? (
-          <Link to={item.route} className="inline-flex items-center gap-1 rounded border border-border bg-card px-2 py-1 text-xs font-semibold text-foreground hover:bg-muted">
-            Open
-            <ArrowRight className="h-3 w-3" aria-hidden />
-          </Link>
-        ) : item.safeAction ? (
-          <span className="rounded border border-border bg-card px-2 py-1 text-xs font-semibold text-muted-foreground">{item.safeAction}</span>
-        ) : null}
+        <div className="flex flex-wrap justify-end gap-2">
+          {onOpenEvidence ? (
+            <button
+              type="button"
+              className="inline-flex items-center gap-1 rounded border border-border bg-card px-2 py-1 text-xs font-semibold text-foreground hover:bg-muted"
+              onClick={() => onOpenEvidence(item)}
+            >
+              <Database className="h-3 w-3" aria-hidden />
+              Evidence
+            </button>
+          ) : null}
+          {item.route ? (
+            <Link to={item.route} className="inline-flex items-center gap-1 rounded border border-border bg-card px-2 py-1 text-xs font-semibold text-foreground hover:bg-muted">
+              Open
+              <ArrowRight className="h-3 w-3" aria-hidden />
+            </Link>
+          ) : item.safeAction ? (
+            <span className="rounded border border-border bg-card px-2 py-1 text-xs font-semibold text-muted-foreground">{item.safeAction}</span>
+          ) : null}
+        </div>
       </div>
-      <p className="mt-3 text-sm leading-6 text-muted-foreground">{item.whyItMatters}</p>
+      <p className="mt-3 text-sm leading-6 text-muted-foreground">{status.detail}</p>
       <div className="mt-3 grid gap-2 lg:grid-cols-2">
         <MiniFact label="Next action" value={item.nextAction} />
         <MiniFact label="Clearing proof" value={item.clearingProof} />
@@ -418,14 +524,191 @@ function OperateItemRow({ item }: { item: OperateItem }) {
   );
 }
 
-function Actions({ items }: { items: OperateItem[] }) {
+function StatusFreshnessCluster({ item }: { item: OperateItem }) {
+  const status = statusForOperateItem(item);
+
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <ToneBadge tone={status.tone}>{status.label}</ToneBadge>
+      <FreshnessBadge freshness={status.freshness} />
+      {item.requiresApproval ? <ToneBadge tone="warning">approval</ToneBadge> : null}
+    </div>
+  );
+}
+
+function FreshnessBadge({ freshness }: { freshness: FreshnessState }) {
+  const copy: Record<FreshnessState, { label: string; tone: Tone }> = {
+    fresh: { label: "fresh", tone: "success" },
+    aging: { label: "aging", tone: "warning" },
+    stale: { label: "stale", tone: "critical" },
+    unknown: { label: "freshness unknown", tone: "neutral" },
+  };
+  const selected = copy[freshness];
+
+  return <ToneBadge tone={selected.tone}>{selected.label}</ToneBadge>;
+}
+
+function EvidenceDrawer({ item, onClose }: { item: OperateItem | null; onClose: () => void }) {
+  const [closeoutStatus, setCloseoutStatus] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!item) return;
+    setCloseoutStatus(null);
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [item, onClose]);
+
+  if (!item) return null;
+  const status = statusForOperateItem(item);
+  const checklist = checklistForOperateItem(item, status.freshness);
+  const recordCloseout = async () => {
+    setCloseoutStatus("Recording no-op closeout");
+    try {
+      const state = loadOperatingRuntimeState();
+      await recordOperatorActionCloseout(state, item, "no-op");
+      setCloseoutStatus("No-op closeout recorded");
+    } catch (exc) {
+      setCloseoutStatus(`Closeout failed: ${exc instanceof Error ? exc.message : String(exc)}`);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex justify-end bg-black/30 p-3 sm:p-4" role="presentation" onMouseDown={onClose}>
+      <aside
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="operate-evidence-title"
+        className="flex h-full w-full max-w-xl flex-col overflow-hidden rounded-lg border border-border bg-card shadow-xl"
+        onMouseDown={(event) => event.stopPropagation()}
+      >
+        <div className="flex items-start justify-between gap-4 border-b border-border bg-muted p-4">
+          <div className="min-w-0">
+            <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Evidence drilldown</div>
+            <h2 id="operate-evidence-title" className="mt-1 text-lg font-semibold leading-6 text-foreground">
+              {item.title}
+            </h2>
+            <p className="mt-1 text-xs font-medium text-muted-foreground">{item.source}</p>
+          </div>
+          <button
+            type="button"
+            aria-label="Close evidence drawer"
+            className="rounded border border-border bg-card p-2 text-muted-foreground hover:bg-background hover:text-foreground"
+            onClick={onClose}
+          >
+            <X className="h-4 w-4" aria-hidden />
+          </button>
+        </div>
+        <div className="flex-1 overflow-y-auto p-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <StatusFreshnessCluster item={item} />
+          </div>
+          <p className="mt-4 text-sm leading-6 text-muted-foreground">{status.detail}</p>
+
+          <div className="mt-4 grid gap-2 sm:grid-cols-2">
+            <MiniFact label="Owner" value={item.owner} />
+            <MiniFact label="State" value={item.state} />
+            <MiniFact label="Severity" value={item.severity} />
+            <MiniFact label="Updated" value={item.updatedAt ?? "not reported"} />
+          </div>
+
+          <div className="mt-4 grid gap-3">
+            <EvidenceSection title="Why it matters" detail={item.whyItMatters} />
+            <EvidenceSection title="Next action" detail={item.nextAction} />
+            <EvidenceSection title="Clearing proof" detail={item.clearingProof} />
+            <EvidenceSection title="Evidence source" detail={item.evidence} />
+            <EvidenceSection title="Safe action" detail={item.safeAction ?? "No direct safe action is registered for this item."} />
+          </div>
+
+          <section className="mt-4 rounded-lg border border-border bg-background p-3">
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Closeout packet</h3>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              <MiniFact label="Result path" value="no-op / completed / denied / superseded" />
+              <MiniFact label="Approval" value={item.requiresApproval ? "explicit or denied" : "none or confirm"} />
+              <MiniFact label="Audit action" value={item.safeAction ?? `review:${item.id}`} />
+              <MiniFact label="Route backlink" value={item.route ?? "not linked"} />
+            </div>
+            <p className="mt-3 text-sm leading-6 text-muted-foreground">
+              Recording a closeout stores the result and proof in the operating runtime. It does not execute the underlying action.
+            </p>
+            <button
+              type="button"
+              className="mt-3 rounded border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground hover:bg-muted"
+              onClick={() => void recordCloseout()}
+            >
+              Record no-op closeout
+            </button>
+            {closeoutStatus ? <p className="mt-2 text-xs font-medium text-muted-foreground">{closeoutStatus}</p> : null}
+          </section>
+
+          <div className="mt-4">
+            <ActionResultHistory route={item.route ?? routeForOperateItemKind(item.kind)} compact />
+          </div>
+
+          <section className="mt-4 rounded-lg border border-border bg-background p-3">
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Operator checklist</h3>
+            <div className="mt-3 grid gap-2">
+              {checklist.map((entry) => (
+                <div key={entry.label} className="flex items-start gap-2 rounded-md border border-border bg-card px-2.5 py-2">
+                  {entry.done ? (
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" aria-hidden />
+                  ) : (
+                    <Clock3 className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" aria-hidden />
+                  )}
+                  <div>
+                    <div className="text-sm font-semibold text-foreground">{entry.label}</div>
+                    <div className="mt-0.5 text-xs leading-5 text-muted-foreground">{entry.detail}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+        <div className="flex flex-wrap justify-end gap-2 border-t border-border bg-muted p-4">
+          {item.route ? (
+            <Link
+              to={item.route}
+              className="inline-flex items-center gap-2 rounded border border-border bg-background px-3 py-2 text-sm font-semibold text-foreground hover:bg-card"
+              onClick={onClose}
+            >
+              Open route
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
+          ) : null}
+          <button
+            type="button"
+            className="rounded border border-border bg-card px-3 py-2 text-sm font-semibold text-foreground hover:bg-background"
+            onClick={onClose}
+          >
+            Close
+          </button>
+        </div>
+      </aside>
+    </div>
+  );
+}
+
+function EvidenceSection({ title, detail }: { title: string; detail: string }) {
+  return (
+    <section className="rounded-lg border border-border bg-background p-3">
+      <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{title}</h3>
+      <p className="mt-2 text-sm leading-6 text-foreground">{detail}</p>
+    </section>
+  );
+}
+
+function Actions({ items, onOpenEvidence }: { items: OperateItem[]; onOpenEvidence: (item: OperateItem) => void }) {
   return (
     <section className="grid gap-4 xl:grid-cols-[minmax(0,0.64fr)_minmax(320px,0.36fr)]">
       <Panel title="Routed actions" count={items.length}>
         <div className="grid gap-2 p-3">
-          {items.map((item) => (
-            <OperateItemRow key={item.id} item={item} />
-          ))}
+          {items.length ? (
+            items.map((item) => <OperateItemRow key={item.id} item={item} onOpenEvidence={onOpenEvidence} />)
+          ) : (
+            <EmptyState title="No routed actions" detail="No action items are currently available from the live queue or fallback operating registry." />
+          )}
         </div>
       </Panel>
       <Panel title="Signal sources" count={liveSignalIntegrations.length}>
@@ -439,14 +722,24 @@ function Actions({ items }: { items: OperateItem[] }) {
   );
 }
 
-function Incidents({ incidents, items }: { incidents: OperatingSystemStage[]; items: OperateItem[] }) {
+function Incidents({
+  incidents,
+  items,
+  onOpenEvidence,
+}: {
+  incidents: OperatingSystemStage[];
+  items: OperateItem[];
+  onOpenEvidence: (item: OperateItem) => void;
+}) {
   return (
     <section className="grid gap-4 xl:grid-cols-[minmax(0,0.62fr)_minmax(340px,0.38fr)]">
       <Panel title="Incident readiness" count={incidents.length}>
         <div className="grid gap-2 p-3">
-          {items.map((item) => (
-            <OperateItemRow key={item.id} item={item} />
-          ))}
+          {items.length ? (
+            items.map((item) => <OperateItemRow key={item.id} item={item} onOpenEvidence={onOpenEvidence} />)
+          ) : (
+            <EmptyState title="No incident queue items" detail="No incident rows are currently available. Check the response policy before treating this as full production health." />
+          )}
         </div>
       </Panel>
       <Panel title="Response policy">
@@ -460,14 +753,16 @@ function Incidents({ incidents, items }: { incidents: OperatingSystemStage[]; it
   );
 }
 
-function Approvals({ items }: { items: OperateItem[] }) {
+function Approvals({ items, onOpenEvidence }: { items: OperateItem[]; onOpenEvidence: (item: OperateItem) => void }) {
   return (
     <section className="grid gap-4 xl:grid-cols-[minmax(0,0.56fr)_minmax(380px,0.44fr)]">
       <Panel title="Approval inbox" count={items.length}>
         <div className="grid gap-2 p-3">
-          {items.map((item) => (
-            <OperateItemRow key={item.id} item={item} />
-          ))}
+          {items.length ? (
+            items.map((item) => <OperateItemRow key={item.id} item={item} onOpenEvidence={onOpenEvidence} />)
+          ) : (
+            <EmptyState title="No approval items" detail="No approval rows are currently available. High-risk actions still require explicit approval when they appear." />
+          )}
         </div>
       </Panel>
       <Panel title="Decision rules">
@@ -480,14 +775,16 @@ function Approvals({ items }: { items: OperateItem[] }) {
   );
 }
 
-function Runs({ items }: { items: OperateItem[] }) {
+function Runs({ items, onOpenEvidence }: { items: OperateItem[]; onOpenEvidence: (item: OperateItem) => void }) {
   return (
     <section className="grid gap-4 xl:grid-cols-[minmax(0,0.62fr)_minmax(340px,0.38fr)]">
       <Panel title="Loop registry" count={items.length}>
         <div className="grid gap-2 p-3">
-          {items.map((item) => (
-            <OperateItemRow key={item.id} item={item} />
-          ))}
+          {items.length ? (
+            items.map((item) => <OperateItemRow key={item.id} item={item} onOpenEvidence={onOpenEvidence} />)
+          ) : (
+            <EmptyState title="No loop registry items" detail="No run loops are currently available from the queue or operating registry." />
+          )}
         </div>
       </Panel>
       <Panel title="Run rules">
@@ -656,6 +953,85 @@ function Panel({ title, count, children }: { title: string; count?: number; chil
   );
 }
 
+function QueueLoadBanner({ state, error }: { state: QueueLoadState; error: string | null }) {
+  if (state === "live") return null;
+  const copy: Record<Exclude<QueueLoadState, "live">, { title: string; detail: string; tone: Tone }> = {
+    loading: {
+      title: "Loading live operator queue",
+      detail: "The page is hydrating the live queue. Fallback rows remain visible so the operator surface does not go blank.",
+      tone: "info",
+    },
+    fallback: {
+      title: "Showing fallback registry",
+      detail: "No live queue rows were returned, so the page is using the local operating registry as the visible control surface.",
+      tone: "warning",
+    },
+    error: {
+      title: "Live queue unavailable",
+      detail: error ? `Showing fallback registry because the live queue request failed: ${error}` : "Showing fallback registry because the live queue request failed.",
+      tone: "critical",
+    },
+  };
+  const selected = copy[state];
+
+  return <PolicyCallout title={selected.title} detail={selected.detail} tone={selected.tone} />;
+}
+
+function PageContractStrip({
+  audit,
+  proof,
+}: {
+  audit: OperationalPageAudit;
+  proof: ReturnType<typeof operationalProofSummary>;
+}) {
+  return (
+    <section className="rounded-lg border border-border bg-card p-3 shadow-sm" data-review-id={`hermes.page-contract.${audit.route}`}>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-2">
+            <ToneBadge tone={audit.status === "ready" ? "success" : audit.status === "blocked" ? "critical" : "warning"}>{audit.status}</ToneBadge>
+            <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{audit.maturity} surface</span>
+            <ToneBadge tone={proof.failedRoutes ? "warning" : "success"}>{proof.readyRoutes}/{proof.routes} proofed</ToneBadge>
+          </div>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Next maturity action: <span className="font-medium text-foreground">{audit.nextAction}</span>
+          </p>
+        </div>
+        <div className="grid min-w-[260px] gap-2 sm:grid-cols-3">
+          <MiniStat label="Contract score" value={`${audit.score}%`} />
+          <MiniStat label="Missing" value={audit.missing.length} />
+          <MiniStat label="Operate proof" value={`${proof.operateReady}/${proof.operateRoutes}`} />
+        </div>
+      </div>
+      {audit.missing.length ? (
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {audit.missing.slice(0, 6).map((item) => (
+            <span key={item} className="rounded border border-border bg-background px-2 py-0.5 text-xs font-medium text-muted-foreground">
+              {item}
+            </span>
+          ))}
+        </div>
+      ) : null}
+    </section>
+  );
+}
+
+function EmptyState({ title, detail }: { title: string; detail: string }) {
+  return (
+    <div className="rounded-lg border border-dashed border-border bg-background p-4">
+      <div className="flex items-start gap-3">
+        <span className="rounded border border-border bg-card p-2 text-muted-foreground">
+          <CheckCircle2 className="h-4 w-4" aria-hidden />
+        </span>
+        <div>
+          <h2 className="text-sm font-semibold text-foreground">{title}</h2>
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">{detail}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function MetricCard({
   label,
   value,
@@ -771,6 +1147,112 @@ function toneForOperateState(state: OperateItem["state"]): Tone {
   if (state === "review" || state === "stale") return "warning";
   if (state === "ready" || state === "done") return "success";
   return "info";
+}
+
+function statusForOperateItem(item: OperateItem): OperateStatusModel {
+  const freshness = freshnessForUpdatedAt(item.updatedAt);
+  const stateTone = toneForOperateState(item.state);
+  const severityTone = toneForOperateSeverity(item.severity);
+  const tone = item.state === "ready" || item.state === "done" ? stateTone : severityTone === "info" ? stateTone : severityTone;
+
+  return {
+    label: labelForOperateState(item.state),
+    tone,
+    freshness,
+    detail: detailForOperateStatus(item, freshness),
+  };
+}
+
+function labelForQueueLoadState(state: QueueLoadState) {
+  switch (state) {
+    case "loading":
+      return "loading";
+    case "live":
+      return "live";
+    case "fallback":
+      return "fallback";
+    case "error":
+      return "fallback";
+    default:
+      return state;
+  }
+}
+
+function checklistForOperateItem(item: OperateItem, freshness: FreshnessState) {
+  return [
+    {
+      label: "Evidence source present",
+      detail: item.evidence,
+      done: Boolean(item.evidence),
+    },
+    {
+      label: "Freshness confirmed",
+      detail:
+        freshness === "fresh"
+          ? "Source timestamp is inside the daily operator window."
+          : freshness === "aging"
+            ? "Refresh before closing this item."
+            : freshness === "stale"
+              ? "Run a fresh proof check before action."
+              : "Confirm source recency because no timestamp was reported.",
+      done: freshness === "fresh",
+    },
+    {
+      label: "Approval gate clear",
+      detail: item.requiresApproval ? "Explicit approval is still required." : "No explicit approval gate is registered on this row.",
+      done: !item.requiresApproval,
+    },
+    {
+      label: "Closing proof defined",
+      detail: item.clearingProof,
+      done: Boolean(item.clearingProof),
+    },
+  ];
+}
+
+function labelForOperateState(state: OperateItem["state"]) {
+  switch (state) {
+    case "blocked":
+      return "blocked";
+    case "gated":
+      return "gated";
+    case "queued":
+      return "queued";
+    case "assigned":
+      return "assigned";
+    case "ready":
+      return "ready";
+    case "done":
+      return "done";
+    case "stale":
+      return "stale";
+    case "review":
+      return "review";
+    default:
+      return state;
+  }
+}
+
+function freshnessForUpdatedAt(updatedAt?: string | null): FreshnessState {
+  if (!updatedAt) return "unknown";
+  const timestamp = Date.parse(updatedAt);
+  if (Number.isNaN(timestamp)) return "unknown";
+  const ageHours = (Date.now() - timestamp) / (1000 * 60 * 60);
+  if (ageHours <= 24) return "fresh";
+  if (ageHours <= 72) return "aging";
+  return "stale";
+}
+
+function detailForOperateStatus(item: OperateItem, freshness: FreshnessState) {
+  const freshnessDetail: Record<FreshnessState, string> = {
+    fresh: "Its source timestamp is inside the daily operator window.",
+    aging: "Its source timestamp is older than the daily operator window and should be refreshed before closing.",
+    stale: "Its source timestamp is stale enough to require a fresh proof check before action.",
+    unknown: "Its source did not report a timestamp, so the operator should confirm recency before action.",
+  };
+  const approval = item.requiresApproval ? " It also requires explicit approval before execution." : "";
+
+  return `${item.whyItMatters} ${freshnessDetail[freshness]}${approval}`;
 }
 
 function labelForBlockerKind(kind: OperatingBlockerKind) {

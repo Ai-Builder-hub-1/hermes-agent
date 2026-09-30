@@ -18,7 +18,7 @@ const toneClass: Record<Tone, string> = {
 function tone(value?: string): Tone {
   if (value === "ready" || value === "low") return "ready";
   if (value === "critical" || value === "blocked" || value === "high") return "critical";
-  if (value === "warning" || value === "review" || value === "medium") return "warning";
+  if (value === "warning" || value === "review" || value === "medium" || value === "guarded" || value === "candidate" || value === "not_observed") return "warning";
   return "neutral";
 }
 
@@ -102,6 +102,12 @@ export default function CompoundingIntelligencePage() {
             <Metric label="Approval" value={summary.summary.requiresApproval} tone={summary.summary.requiresApproval ? "warning" : "ready"} />
             <Metric label="Blocked" value={summary.summary.blocked} tone={summary.summary.blocked ? "critical" : "ready"} />
             <Metric label="Experiments" value={summary.summary.experiments} tone="neutral" />
+            <Metric label="SLO breaches" value={summary.summary.sloBreaches} tone={summary.summary.sloBreaches ? "critical" : "ready"} />
+            <Metric label="Triage" value={summary.summary.triagePackets} tone={summary.summary.triagePackets ? "warning" : "ready"} />
+            <Metric label="Runbooks" value={summary.summary.runbookHistory} tone="neutral" />
+            <Metric label="Baselines" value={summary.summary.visualBaselines} tone="neutral" />
+            <Metric label="Reliability" value={`${summary.businessReliabilityCost.summary.averageReliability}%`} tone={summary.businessReliabilityCost.summary.averageReliability >= 80 ? "ready" : "warning"} />
+            <Metric label="Launch ready" value={`${summary.launchReadiness.summary.ready}/${summary.launchReadiness.summary.systems}`} tone={summary.launchReadiness.summary.blocked ? "critical" : "warning"} />
           </div>
           <div className="mt-3 grid gap-2">
             <Callout title="Execution remains off" detail="This page proposes experiments and reviews. It does not execute strategy, autonomy, promotion, demotion, or trading changes." tone="ready" icon={Lock} />
@@ -122,6 +128,20 @@ export default function CompoundingIntelligencePage() {
             ))}
           </div>
         </Panel>
+
+        <Panel title="Evidence and SLOs" aside={`${summary.automatedEvidence.summary.breaches}/${summary.automatedEvidence.summary.objectives}`}>
+          <div className="space-y-2">
+            <div className="grid grid-cols-2 gap-2">
+              <MiniFact label="Captures" value={summary.automatedEvidence.summary.captures} />
+              <MiniFact label="Burn rate" value={summary.automatedEvidence.summary.burnRate} />
+              <MiniFact label="SLO history" value={`${summary.automatedEvidence.sloHistory.summary.points} local points`} />
+              <MiniFact label="Live series" value={summary.automatedEvidence.sloHistory.summary.liveSeriesConnected ? "connected" : "deferred"} />
+            </div>
+            {summary.automatedEvidence.slos.objectives.map((slo) => (
+              <Callout key={slo.id} title={slo.title} detail={`${slo.measurement} / ${slo.nextAction}`} tone={tone(slo.status === "breach" ? slo.severity : "ready")} />
+            ))}
+          </div>
+        </Panel>
       </section>
 
       <section className="min-h-0">
@@ -133,6 +153,95 @@ export default function CompoundingIntelligencePage() {
       </section>
 
       <section className="flex min-h-0 flex-col gap-3">
+        <Panel title="Business reliability" aside={`${summary.businessReliabilityCost.summary.averageReliability}%`}>
+          <div className="space-y-2">
+            {summary.businessReliabilityCost.domains.map((domain) => (
+              <Callout key={domain.id} title={`${domain.label}: ${domain.impact}`} detail={`${domain.businessUnit}; risks=${domain.openRisks}; ${domain.nextAction}`} tone={tone(domain.health)} />
+            ))}
+            <div className="grid gap-2 sm:grid-cols-2">
+              {summary.businessReliabilityCost.selfAudit.slice(0, 4).map((gap) => (
+                <MiniFact key={gap.id} label={gap.status} value={`${gap.title} / ${gap.nextAction}`} />
+              ))}
+            </div>
+            <div className="grid gap-2 sm:grid-cols-2">
+              {summary.businessReliabilityCost.regressionActions.slice(0, 4).map((action) => (
+                <MiniFact key={action.id} label={action.status} value={`${action.title} / ${action.approval}`} />
+              ))}
+            </div>
+          </div>
+        </Panel>
+
+        <Panel title="Fleet governance" aside={`${summary.fleetGovernance.summary.ready}/${summary.fleetGovernance.summary.controls}`}>
+          <div className="space-y-2">
+            <Callout title="Autonomy mode" detail={`${summary.fleetGovernance.autonomy.mode}; next gate: ${summary.fleetGovernance.autonomy.nextApprovalGate}`} tone={summary.fleetGovernance.summary.blocked ? "critical" : "warning"} icon={Lock} />
+            {summary.fleetGovernance.controls.slice(0, 6).map((control) => (
+              <MiniFact key={control.id} label={control.status} value={`${control.title} / ${control.proof}`} />
+            ))}
+            <div className="grid gap-2 sm:grid-cols-2">
+              {summary.fleetGovernance.visualBaselines.slice(0, 4).map((baseline) => (
+                <MiniFact key={baseline.id} label={baseline.status} value={`${baseline.route} / ${baseline.comparisonStorage}`} />
+              ))}
+            </div>
+          </div>
+        </Panel>
+
+        <Panel title="Launch readiness" aside={summary.launchReadiness.decision.launchMode}>
+          <div className="space-y-2">
+            {summary.launchReadiness.systems.map((system) => (
+              <Callout key={system.id} title={`${system.label}: ${system.status}`} detail={`${system.evidence.join("; ")} / ${system.nextAction}`} tone={tone(system.status)} icon={ShieldCheck} />
+            ))}
+          </div>
+        </Panel>
+
+        <Panel title="Predictive signals" aside={summary.predictiveIntelligence.summary.correlationId}>
+          <div className="space-y-2">
+            <div className="grid gap-2 sm:grid-cols-2">
+              <MiniFact label="Graph nodes" value={summary.predictiveIntelligence.causalGraph.summary.nodes} />
+              <MiniFact label="Graph edges" value={summary.predictiveIntelligence.causalGraph.summary.edges} />
+            </div>
+            {summary.predictiveIntelligence.forecasts.length ? summary.predictiveIntelligence.forecasts.map((forecast) => (
+              <Callout key={forecast.id} title={forecast.title} detail={`${forecast.horizon}; ${forecast.reason}`} tone={tone(forecast.severity)} />
+            )) : <Callout title="No active forecasts" detail="The current evidence bundle does not predict an immediate operator-cycle failure." tone="ready" />}
+            {summary.predictiveIntelligence.causalChains.map((chain) => (
+              <div key={chain.id} className="rounded-md border border-border bg-background p-2 text-xs">
+                <div className="font-semibold text-foreground">{chain.summary}</div>
+                <div className="mt-1 text-muted-foreground">{chain.nodes.join(" -> ")}</div>
+                <div className="mt-1 text-muted-foreground">{chain.nextAction}</div>
+              </div>
+            ))}
+          </div>
+        </Panel>
+
+        <Panel title="Triage and playbooks" aside={summary.remediation.summary.triagePackets}>
+          <div className="space-y-2">
+            {summary.remediation.triagePackets.length ? summary.remediation.triagePackets.slice(0, 5).map((packet) => (
+              <Callout key={packet.id} title={packet.title} detail={`${packet.playbookId}; ${packet.recommendedAction}`} tone={tone(packet.severity)} icon={ShieldCheck} />
+            )) : <Callout title="No triage packets" detail="There are no guided remediation packets waiting for review." tone="ready" icon={ShieldCheck} />}
+            <div className="grid gap-2 sm:grid-cols-2">
+              {summary.remediation.playbooks.slice(0, 4).map((playbook) => (
+                <MiniFact key={playbook.id} label={playbook.mode} value={`${playbook.title} / ${playbook.approval}`} />
+              ))}
+            </div>
+            <div className="grid gap-2 sm:grid-cols-2">
+              {summary.remediation.runbookHistory.slice(0, 4).map((entry) => (
+                <MiniFact key={entry.id} label={entry.status} value={`${entry.playbookId} / pending=${entry.pendingPackets}`} />
+              ))}
+            </div>
+          </div>
+        </Panel>
+
+        <Panel title="Interaction maturity" aside={`${summary.interactionMaturity.summary.routes} routes`}>
+          <div className="space-y-2">
+            <div className="grid gap-2 sm:grid-cols-2">
+              <MiniFact label="Windows" value={summary.interactionMaturity.summary.windows} />
+              <MiniFact label="Visual states" value={summary.interactionMaturity.summary.visualStates} />
+            </div>
+            {summary.interactionMaturity.routes.slice(0, 4).map((route) => (
+              <MiniFact key={route.route} label={route.status} value={`${route.route} / ${route.windows.join(", ")}`} />
+            ))}
+          </div>
+        </Panel>
+
         <Panel title="Review control">
           <div className="space-y-3">
             <Callout title="Operator review only" detail={summary.committeePacket.decisionMode.replaceAll("_", " ")} tone={summary.committeePacket.approvalRequired ? "warning" : "ready"} icon={ShieldCheck} />

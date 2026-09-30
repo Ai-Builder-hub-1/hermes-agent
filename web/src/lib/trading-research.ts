@@ -28,6 +28,12 @@ export interface StrategySummary {
     status: TradingResearchHealth;
     expectedEdge: string;
     falsificationCriteria: string;
+    falsificationStatus: string;
+    assumptions: Array<{ id: string; text: string; status: string; source: string }>;
+    assumptionStatus: string;
+    sourceArtifact: string;
+    proofHash: string;
+    decisionCloseout: string;
     evidenceCount: number;
     winRate: number | null;
     expectancy: number | null;
@@ -79,6 +85,11 @@ export interface StrategyLifecycleSummary {
     maxDrawdown: number | null;
     datasetWindow: string;
     falsificationCriteria: string;
+    falsificationStatus: string;
+    assumptionStatus: string;
+    sourceArtifact: string;
+    proofHash: string;
+    decisionCloseout: string;
     blockers: string[];
     nextActions: string[];
     liveTradingLocked: boolean;
@@ -104,14 +115,20 @@ export interface BacktestingSummary {
     datasetWindow: string;
     status: string;
     assumptions: string[];
+    assumptionRegistry: Array<{ id: string; text: string; status: string; source: string }>;
+    assumptionStatus: string;
     trades: number;
     winRate: number | null;
     expectancy: number | null;
     maxDrawdown: number | null;
     failure: string;
+    sourceArtifact: string;
+    proofHash: string;
+    comparisonKey: string;
+    decisionCloseout: string;
     promotionGate: string;
   }>;
-  comparison: { bestCandidate: string; coverage: string };
+  comparison: { bestCandidate: string; coverage: string; persisted?: boolean; comparisonHash?: string };
   blockers: string[];
   recommendations: string[];
 }
@@ -126,6 +143,31 @@ export interface TradingEvidenceLedger {
     strategies: number;
     backtests: number;
     missingProofHashes: number;
+    sourceBackboneReady?: number;
+    sourceBackboneCategories?: number;
+    sourceNativeEnough?: boolean;
+  };
+  sourceBackbone?: {
+    contractVersion: string;
+    generatedAt: string;
+    summary: {
+      categories: number;
+      ready: number;
+      partial: number;
+      missing: number;
+      sourceNativeEnough: boolean;
+      posture: string;
+    };
+    items: Array<{
+      id: string;
+      label: string;
+      status: string;
+      sourceNativeEnough: boolean;
+      evidence: string[];
+      missing: string[];
+      nextAction: string;
+    }>;
+    recommendations: string[];
   };
   records: Array<{
     id: string;
@@ -136,6 +178,8 @@ export interface TradingEvidenceLedger {
     occurredAt: string;
     proofHash: string;
     artifact: string;
+    artifactPreview: string;
+    decisionCloseout: string;
     detail: string;
   }>;
   blockers: string[];
