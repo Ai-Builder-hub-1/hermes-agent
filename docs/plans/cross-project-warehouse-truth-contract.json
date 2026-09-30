@@ -1,0 +1,109 @@
+{
+  "id": "cross-project-warehouse-truth-contract",
+  "canonicalPlan": "CP-04",
+  "generatedAt": "2026-09-30",
+  "status": "active-blocked",
+  "blockerSummary": "OANDA archive bundles are not trusted until a lower-memory archive/compaction path produces verified bundles and restore proof.",
+  "projects": [
+    {
+      "id": "khashi-vc",
+      "role": "market-intelligence warehouse producer",
+      "currentPosture": "watch-ready",
+      "canonicalRunbooks": [
+        "khashi-vc/docs/production-data-warehouse-maturity.md",
+        "khashi-vc/docs/ops/KHASHI_STORAGE_MATURITY_RUNBOOK.md",
+        "khashi-vc/docs/ops/KHASHI_STORAGE_RECOVERY_AND_PREVENTION_PLAN.md"
+      ],
+      "requiredProofs": [
+        "production disk posture",
+        "StoreRecord dataset freshness",
+        "warehouse bundle catalog",
+        "mirror writeability",
+        "retention rollup freshness",
+        "restore rehearsal"
+      ]
+    },
+    {
+      "id": "investing-system",
+      "role": "OANDA and financial-analysis warehouse producer",
+      "currentPosture": "blocked-on-archive-trust",
+      "canonicalRunbooks": [
+        "investing-system/docs/ops/INVESTING_STORAGE_MATURITY_RUNBOOK.md"
+      ],
+      "requiredProofs": [
+        "OANDA ledger cardinality",
+        "archive bundle manifest",
+        "archive checksum verification",
+        "restore rehearsal",
+        "Postgres backup visibility",
+        "external mirror writeability"
+      ]
+    },
+    {
+      "id": "nous-hermes-agent",
+      "role": "fleet visibility and operator control plane",
+      "currentPosture": "consumer-control-plane",
+      "canonicalRunbooks": [
+        "nous-hermes-agent/docs/plans/canonical-cross-project-plan-registry.md"
+      ],
+      "requiredProofs": [
+        "warehouse page route validation",
+        "storage page route validation",
+        "freshness page route validation",
+        "workers page route validation",
+        "cross-project plan registry validation"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "id": "collector-continuity",
+      "ready": "Collectors/workers are running, restart deltas are low, and expected datasets refresh within cadence.",
+      "watch": "Some collectors are stale or restarting, but durable writes continue and alerts are visible.",
+      "blocked": "A required collector is stopped, OOM killed, or producing no fresh rows.",
+      "requiredBeforePruning": true
+    },
+    {
+      "id": "storage-runway",
+      "ready": "Production disk is below 75% used or forecast remains outside the 30-day/14-day danger windows.",
+      "watch": "Production disk is 75-85% used or runway forecast is uncertain.",
+      "blocked": "Production disk is above 85% used without verified retention/export proof.",
+      "requiredBeforePruning": true
+    },
+    {
+      "id": "archive-integrity",
+      "ready": "Archive bundles have manifests, checksums, row/file counts, and restore proof.",
+      "watch": "Archive bundles exist but restore proof or catalog coverage is incomplete.",
+      "blocked": "Archive bundles are missing, incomplete, too memory-heavy to reproduce, or fail verification.",
+      "requiredBeforePruning": true
+    },
+    {
+      "id": "mirror-integrity",
+      "ready": "External mirror is mounted in the production context, writable, cataloged, and verified.",
+      "watch": "Mirror exists locally but production mount/writeability is not proven.",
+      "blocked": "Mirror root is missing, not mounted in production, or no verified bundles exist.",
+      "requiredBeforePruning": false
+    },
+    {
+      "id": "restore-proof",
+      "ready": "At least one current archive and database backup has been restored into staging or an isolated verification target.",
+      "watch": "Backup/archive artifacts exist but restore rehearsal is stale.",
+      "blocked": "No restore proof exists for data that would be pruned or trusted as durable.",
+      "requiredBeforePruning": true
+    },
+    {
+      "id": "operator-visibility",
+      "ready": "Nous shows warehouse growth, freshness, retention, mirror, archive, restore, and failed collector status.",
+      "watch": "Some facts are visible but drilldown or action history is incomplete.",
+      "blocked": "Operators cannot tell whether data is fresh, mirrored, restorable, or safe to prune.",
+      "requiredBeforePruning": false
+    }
+  ],
+  "minimumWaveOneExit": [
+    "canonical registry validates",
+    "warehouse truth contract validates",
+    "OANDA archive blocker is explicitly represented",
+    "Khashi data-ops implementation lane points at CP-04",
+    "destructive pruning remains disabled unless archive, backup, restore, and approval gates pass"
+  ]
+}

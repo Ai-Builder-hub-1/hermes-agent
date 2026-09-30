@@ -1,0 +1,71 @@
+{
+  "id": "wave-3-intelligence-contract",
+  "generatedAt": "2026-09-30",
+  "wave": "wave-3-intelligence",
+  "status": "complete-for-contract-layer",
+  "plans": [
+    {
+      "id": "CP-03",
+      "name": "Executive / Decision / Second-Brain Intelligence",
+      "order": 7,
+      "status": "active-production-proof-required",
+      "proofFiles": [
+        "nous-hermes-agent/docs/plans/2026-09-29-decision-intelligence-layer-execution-plan.md",
+        "nous-hermes-agent/docs/compounding-intelligence-dashboard-contract.md",
+        "nous-hermes-agent/docs/plans/wave-3-intelligence-contract.json"
+      ],
+      "requiredInvariant": "stale, contradicted, or missing critical memory must be visible before high-impact work"
+    },
+    {
+      "id": "CP-06",
+      "name": "Investing Financial Analysis Maturity",
+      "order": 8,
+      "status": "active-production-data-required",
+      "proofFiles": [
+        "investing-system/docs/institutional-financial-analysis-maturity-plan.md",
+        "investing-system/docs/external-deep-dive-and-commodities-assessment.md",
+        "investing-system/docs/wave-3-financial-analysis-intelligence-lane.json"
+      ],
+      "requiredInvariant": "financial conclusions must expose source coverage, missing-data blockers, and reproducible evidence"
+    },
+    {
+      "id": "CP-07",
+      "name": "Khashi Trading / Market Intelligence",
+      "order": 9,
+      "status": "active-shadow-paper-blocked",
+      "proofFiles": [
+        "khashi-vc/docs/ops/KHASHI_CP07_MARKET_INTELLIGENCE_LANE.json",
+        "khashi-vc/docs/ops/KHASHI_CP07_MARKET_INTELLIGENCE_LANE.md"
+      ],
+      "requiredInvariant": "market intelligence can rank signals, but shadow/paper/live promotion remains gated by evidence quality"
+    }
+  ],
+  "decisionIntelligenceGates": [
+    "decision lineage exists for high-impact decisions",
+    "contradictions are ranked by business risk",
+    "stale memories create research work instead of silently informing decisions",
+    "agent preflight shows cited context and warnings",
+    "warehouse sync proof is visible"
+  ],
+  "financialAnalysisGates": [
+    "real-company coverage score is visible",
+    "filing/transcript/source gaps are explicit",
+    "valuation and forensic conclusions cite source evidence",
+    "industry-specific analysis packs are tracked",
+    "analysis output can feed Nous and second-brain memory"
+  ],
+  "khashiIntelligenceGates": [
+    "hard-stop and market-intelligence reports separate data quality from market claims",
+    "signal candidates require evidence quality and freshness",
+    "stream velocity claims stay blocked unless stream proof exists",
+    "shadow/paper readiness remains blocked until technical strategy gates clear",
+    "Khashi intelligence status is consumable by Nous"
+  ],
+  "waveThreeExit": [
+    "CP-03 intelligence contract exists and validates",
+    "CP-06 financial analysis lane exists and validates",
+    "CP-07 Khashi intelligence lane exists and validates",
+    "all high-impact intelligence paths preserve stale/contradiction warnings",
+    "no intelligence surface can bypass trading/live/pruning locks"
+  ]
+}

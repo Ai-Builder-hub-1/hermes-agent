@@ -57,6 +57,7 @@ const HeadTraderPage = lazy(() => import("@/pages/HeadTraderPage"));
 const PortfolioRiskPage = lazy(() => import("@/pages/PortfolioRiskPage"));
 const SecondBrainPage = lazy(() => import("@/pages/SecondBrainPage"));
 const CompoundingIntelligencePage = lazy(() => import("@/pages/CompoundingIntelligencePage"));
+const ExecutiveCockpitPage = lazy(() => import("@/pages/ExecutiveCockpitPage"));
 const DecisionLineagePage = lazy(() => import("@/pages/DecisionLineagePage"));
 const ContradictionDashboardPage = lazy(() => import("@/pages/ContradictionDashboardPage"));
 const ResearchQueuePage = lazy(() => import("@/pages/ResearchQueuePage"));
@@ -271,7 +272,7 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/finance-attribution": RedirectToTradingResearch,
   "/learning-engine": RedirectToTradingResearch,
   "/agent-eval-lab": RedirectToTradingBacktesting,
-  "/executive-cockpit": RedirectToOperate,
+  "/executive-cockpit": ExecutiveCockpitPage,
   "/production-verification": RedirectToSystemFreshness,
   "/command-gates": RedirectToOperateApprovals,
   "/telemetry-adapters": RedirectToSystemWarehouse,

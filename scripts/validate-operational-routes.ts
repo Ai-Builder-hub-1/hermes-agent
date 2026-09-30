@@ -64,9 +64,11 @@ async function validateRoute(browser: Browser, baseUrl: string, contract: (typeo
       waitUntil: "domcontentloaded",
     });
     httpStatus = response?.status() ?? null;
-    await page.waitForLoadState("networkidle", { timeout: 8_000 }).catch(() => undefined);
+    await page.waitForTimeout(750);
     title = await page.title().catch(() => "");
-    bodyText = (await page.locator("body").innerText({ timeout: 5_000 }).catch(() => "")).trim();
+    bodyText = (await page.locator("body").innerText({ timeout: 10_000 }).catch(async () => {
+      return page.evaluate(() => document.body?.innerText ?? "").catch(() => "");
+    })).trim();
 
     if (!response || !response.ok()) issues.push(`HTTP status ${httpStatus ?? "unknown"}`);
     if (bodyText.length < 120) issues.push("rendered body text is too short");

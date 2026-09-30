@@ -1,0 +1,65 @@
+{
+  "id": "wave-2-operational-safety-contract",
+  "generatedAt": "2026-09-30",
+  "wave": "wave-2-operational-safety",
+  "status": "complete-for-contract-layer",
+  "plans": [
+    {
+      "id": "CP-05",
+      "name": "Investing Trading / OANDA Live-Readiness",
+      "order": 4,
+      "status": "complete-for-practice-readonly-blocked-for-live",
+      "proofFiles": [
+        "investing-system/docs/oanda-live-readiness-canonical-matrix.json",
+        "investing-system/docs/oanda-live-readiness-canonical-matrix.md"
+      ],
+      "requiredInvariant": "live money remains locked"
+    },
+    {
+      "id": "CP-02",
+      "name": "Operate / Trading / System Control Plane",
+      "order": 5,
+      "status": "contract-ready-needs-live-route-regeneration",
+      "proofFiles": [
+        "nous-hermes-agent/docs/plans/wave-2-operational-safety-contract.json"
+      ],
+      "requiredInvariant": "system pages expose warehouse/storage/freshness/workers/deployments/credentials as operator facts"
+    },
+    {
+      "id": "CP-11",
+      "name": "Messaging / Agent Command Layer",
+      "order": 6,
+      "status": "contract-ready-needs-e2e-production-command-proof",
+      "proofFiles": [
+        "nous-hermes-agent/docs/plans/wave-2-operational-safety-contract.json"
+      ],
+      "requiredInvariant": "commands cannot bypass live locks, pruning locks, or role authorization"
+    }
+  ],
+  "controlPlanePages": [
+    "/system/warehouse",
+    "/system/storage",
+    "/system/freshness",
+    "/system/workers",
+    "/system/deployments",
+    "/system/credentials"
+  ],
+  "messagingChannels": [
+    "discord",
+    "telegram"
+  ],
+  "nonNegotiableGates": [
+    "OANDA live submit remains locked",
+    "destructive pruning remains disabled until archive, backup, restore, rollup, and approval gates pass",
+    "Discord and Telegram commands must check authorization before mutation",
+    "operator pages must show stale, blocked, empty, and error states",
+    "archive restore proof is required before archive trust"
+  ],
+  "waveTwoExit": [
+    "CP-05 live-readiness matrix exists and validates",
+    "CP-02 required control-plane pages are named and gated",
+    "CP-11 command safety invariants are named and gated",
+    "archive proof blocker has an implemented test-covered command path",
+    "live money and destructive pruning remain locked"
+  ]
+}

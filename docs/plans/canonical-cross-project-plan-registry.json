@@ -1,0 +1,279 @@
+{
+  "generatedAt": "2026-09-30",
+  "version": 1,
+  "workspaceRoot": "/Users/hq/Workspace/projects",
+  "waveOrder": [
+    "wave-1-truth-layer",
+    "wave-2-operational-safety",
+    "wave-3-intelligence",
+    "wave-4-presentation"
+  ],
+  "plans": [
+    {
+      "id": "CP-01",
+      "name": "Fleet Dashboard / Frontend Maturity",
+      "wave": "wave-4-presentation",
+      "order": 11,
+      "owner": "nous-hermes-agent",
+      "status": "active",
+      "percentComplete": 93,
+      "confidence": "high",
+      "canonicalInputs": [
+        "nous-hermes-agent/docs/plans/wave-4-presentation-contract.json",
+        "nous-hermes-agent/docs/fleet/tlc-operating-system-maturity-build-plan.md",
+        "nous-hermes-agent/docs/fleet/tlc-operating-system-maturity-build-assessment.md",
+        "nous-hermes-agent/docs/design/dashboard-fleet-ui-maturity-scorecard.md",
+        "nous-hermes-agent/docs/design/dashboard-product-quality-control-plane.md",
+        "nous-hermes-agent/docs/design/dashboard-product-quality-control-plane-report.md",
+        "nous-hermes-agent/docs/design/dashboard-visual-maturity-rubric.md",
+        "nous-hermes-agent/docs/design/dashboard-component-maturity-registry.json",
+        "nous-hermes-agent/docs/design/dashboard-component-evidence-backlog.md",
+        "nous-hermes-agent/docs/design/dashboard-cross-project-action-backlog.md",
+        "nous-hermes-agent/docs/design/package-native-dashboard-migration-backlog.md",
+        "nous-hermes-agent/docs/design/world-class-dashboard-system-backlog.md"
+      ],
+      "supportingInputs": [
+        "khashi-vc/docs/design/KHASHI_DASHBOARD_REDESIGN_PLAN.md",
+        "khashi-vc/docs/design/KHASHI_MOBBIN_RESEARCH_PLAN.md",
+        "khashi-vc/docs/khashi-t3c-readiness-audit-2026-09-26.md",
+        "nous-hermes-agent/docs/design/static-dashboard-route-audit.json",
+        "nous-hermes-agent/docs/design/dashboard-project-type-component-coverage-audit.md",
+        "nous-hermes-agent/docs/design/dashboard-token-debt-backlog.md"
+      ],
+      "nextProof": "Regenerate route validation and store baseline/current visual proof."
+    },
+    {
+      "id": "CP-02",
+      "name": "Operate / Trading / System Control Plane",
+      "wave": "wave-2-operational-safety",
+      "order": 5,
+      "owner": "nous-hermes-agent",
+      "status": "active-partial",
+      "percentComplete": 60,
+      "confidence": "medium",
+      "canonicalInputs": [
+        "nous-hermes-agent/docs/plans/wave-2-operational-safety-contract.json",
+        "nous-hermes-agent/docs/plans/2026-09-29-operate-trading-system-20-phase-execution-plan.md",
+        "nous-hermes-agent/docs/operate-trading-system-page-audit.md",
+        "nous-hermes-agent/docs/design/v71-v80-operational-readiness-build-plan.md",
+        "nous-hermes-agent/docs/trading-intelligence-control-plane-frontend-spec.md"
+      ],
+      "supportingInputs": [
+        "nous-hermes-agent/docs/design/dashboard-downstream-platform-assessment.md",
+        "nous-hermes-agent/docs/design/dashboard-cross-project-component-audit.md",
+        "nous-hermes-agent/docs/design/dashboard-ultimate-gap-assessment.md"
+      ],
+      "nextProof": "Re-run route validation and update the 20-phase status ledger."
+    },
+    {
+      "id": "CP-03",
+      "name": "Executive / Decision / Second-Brain Intelligence",
+      "wave": "wave-3-intelligence",
+      "order": 7,
+      "owner": "nous-hermes-agent",
+      "status": "active",
+      "percentComplete": 55,
+      "confidence": "medium",
+      "canonicalInputs": [
+        "nous-hermes-agent/docs/plans/wave-3-intelligence-contract.json",
+        "nous-hermes-agent/docs/plans/2026-09-29-decision-intelligence-layer-execution-plan.md",
+        "nous-hermes-agent/docs/compounding-intelligence-dashboard-contract.md",
+        "nous-hermes-agent/docs/design/dashboard-design-intelligence-registry.md",
+        "nous-hermes-agent/docs/design/dashboard-design-intelligence-report.md",
+        "nous-hermes-agent/docs/design/dashboard-platform-intelligence-system.md",
+        "nous-hermes-agent/docs/design/dashboard-platform-intelligence-report.md"
+      ],
+      "supportingInputs": [],
+      "nextProof": "Verify Hermes Brain, second-brain warehouse sync, and preflight memory enforcement."
+    },
+    {
+      "id": "CP-04",
+      "name": "Cross-Project Data Warehouse / Storage / Archive",
+      "wave": "wave-1-truth-layer",
+      "order": 2,
+      "owner": "cross-project",
+      "status": "active-blocked",
+      "percentComplete": 58,
+      "confidence": "medium",
+      "canonicalInputs": [
+        "nous-hermes-agent/docs/plans/cross-project-warehouse-truth-contract.md",
+        "nous-hermes-agent/docs/plans/cross-project-warehouse-truth-contract.json",
+        "khashi-vc/docs/production-data-warehouse-maturity.md",
+        "khashi-vc/docs/design/KHASHI_DATA_OPERATIONS_MATURITY_STANDARD.md",
+        "khashi-vc/docs/ops/KHASHI_STORAGE_MATURITY_RUNBOOK.md",
+        "khashi-vc/docs/ops/KHASHI_STORAGE_RECOVERY_AND_PREVENTION_PLAN.md",
+        "investing-system/docs/ops/INVESTING_STORAGE_MATURITY_RUNBOOK.md"
+      ],
+      "supportingInputs": [
+        "khashi-vc/docs/proofs/khashi-storage-maturity-production.json"
+      ],
+      "nextProof": "Produce verified archive bundles and restore proof with checksums."
+    },
+    {
+      "id": "CP-05",
+      "name": "Investing Trading / OANDA Live-Readiness",
+      "wave": "wave-2-operational-safety",
+      "order": 4,
+      "owner": "investing-system",
+      "status": "active-merge-needed",
+      "percentComplete": 78,
+      "confidence": "medium-high",
+      "canonicalInputs": [
+        "investing-system/docs/oanda-live-readiness-canonical-matrix.md",
+        "investing-system/docs/oanda-live-readiness-canonical-matrix.json",
+        "investing-system/docs/oanda-practice-to-live-level-0-9-build-plan.md",
+        "investing-system/docs/oanda-pre-fund-maturity-build-plan.md",
+        "investing-system/docs/oanda-trading-desk-plan.md",
+        "investing-system/docs/fx-automated-risk-layer-adoption-plan.md"
+      ],
+      "supportingInputs": [
+        "investing-system/docs/leon-trading-boundary-split-build-plan.md",
+        "investing-system/docs/leon-non-trading-maturity-plan.md",
+        "investing-system/docs/execution-plan.md",
+        "investing-system/docs/staged-build-plan.md"
+      ],
+      "nextProof": "Merge OANDA live-readiness phases into one status matrix."
+    },
+    {
+      "id": "CP-06",
+      "name": "Investing Financial Analysis Maturity",
+      "wave": "wave-3-intelligence",
+      "order": 8,
+      "owner": "investing-system",
+      "status": "active",
+      "percentComplete": 90,
+      "confidence": "high",
+      "canonicalInputs": [
+        "investing-system/docs/wave-3-financial-analysis-intelligence-lane.md",
+        "investing-system/docs/wave-3-financial-analysis-intelligence-lane.json",
+        "investing-system/docs/institutional-financial-analysis-maturity-plan.md",
+        "investing-system/docs/external-deep-dive-and-commodities-assessment.md"
+      ],
+      "supportingInputs": [],
+      "nextProof": "Convert analysis categories into tested contracts and dashboard freshness states."
+    },
+    {
+      "id": "CP-07",
+      "name": "Khashi Trading / Market Intelligence",
+      "wave": "wave-3-intelligence",
+      "order": 9,
+      "owner": "khashi-vc",
+      "status": "active-merge-needed",
+      "percentComplete": 72,
+      "confidence": "medium",
+      "canonicalInputs": [
+        "khashi-vc/docs/ops/KHASHI_CP07_MARKET_INTELLIGENCE_LANE.md",
+        "khashi-vc/docs/ops/KHASHI_CP07_MARKET_INTELLIGENCE_LANE.json",
+        "khashi-vc/docs/design/KHASHI_COMPREHENSIVE_TRADING_MATURITY_PLAN_2026-09-03.md",
+        "khashi-vc/docs/design/KHASHI_MARKET_INTELLIGENCE_IMPLEMENTATION_PLAN.md",
+        "khashi-vc/docs/design/KHASHI_MARKET_INTELLIGENCE_AUDIT_SUMMARY.md",
+        "khashi-vc/docs/market-intelligence-research-workspace-assessment.md"
+      ],
+      "supportingInputs": [
+        "khashi-vc/docs/design/KHASHI_CURRENT_DIRECTION_BUILD_BACKLOG_2026-08-04.md",
+        "khashi-vc/docs/design/KHASHI_PLAN_RECONCILIATION_2026-08-04.md",
+        "khashi-vc/docs/design/KHASHI_MATURITY_WORK_ASSESSMENT_2026-08-04.md",
+        "khashi-vc/docs/design/KHASHI_MATURITY_ASSESSMENT_2026-09-04.md",
+        "khashi-vc/docs/design/KHASHI_MATURITY_REASSESSMENT_2026-09-04.md"
+      ],
+      "nextProof": "Define collection cadence, signal evidence standards, and Nous visibility."
+    },
+    {
+      "id": "CP-08",
+      "name": "Khashi Data Operations / Infrastructure Reliability",
+      "wave": "wave-1-truth-layer",
+      "order": 3,
+      "owner": "khashi-vc",
+      "status": "active",
+      "percentComplete": 82,
+      "confidence": "medium-high",
+      "canonicalInputs": [
+        "khashi-vc/docs/ops/KHASHI_CP08_DATA_OPS_IMPLEMENTATION_LANE.md",
+        "khashi-vc/docs/ops/KHASHI_CP08_DATA_OPS_IMPLEMENTATION_LANE.json",
+        "khashi-vc/docs/design/INFRASTRUCTURE_SPLIT_MATURITY_AUDIT_2026-09-09.md",
+        "khashi-vc/docs/design/LANE_SPLIT_MATURITY_WORK_ANALYSIS_2026-09-09.md",
+        "khashi-vc/docs/design/END_TO_END_MATURITY_WORK_AUDIT_2026-09-09.md",
+        "khashi-vc/docs/design/KHASHI_DATA_OPERATIONS_MATURITY_STANDARD.md"
+      ],
+      "supportingInputs": [
+        "khashi-vc/docs/production-data-warehouse-maturity.md",
+        "khashi-vc/docs/ops/KHASHI_STORAGE_RECOVERY_AND_PREVENTION_PLAN.md",
+        "khashi-vc/docs/ops/KHASHI_STORAGE_MATURITY_RUNBOOK.md"
+      ],
+      "nextProof": "Confirm mounts, collector freshness, retention, archive, and recovery checks."
+    },
+    {
+      "id": "CP-09",
+      "name": "Khashi Dashboard / T3C UI Readiness",
+      "wave": "wave-4-presentation",
+      "order": 12,
+      "owner": "khashi-vc",
+      "status": "active",
+      "percentComplete": 96,
+      "confidence": "high",
+      "canonicalInputs": [
+        "nous-hermes-agent/docs/plans/wave-4-presentation-contract.json",
+        "khashi-vc/docs/design/KHASHI_DASHBOARD_REDESIGN_PLAN.md",
+        "khashi-vc/docs/khashi-t3c-readiness-audit-2026-09-26.md",
+        "khashi-vc/docs/design/KHASHI_MOBBIN_RESEARCH_PLAN.md"
+      ],
+      "supportingInputs": [],
+      "nextProof": "Store final fleet-aligned route, visual, and accessibility proof."
+    },
+    {
+      "id": "CP-10",
+      "name": "Reporting / Briefing / Daily Hard Stop",
+      "wave": "wave-4-presentation",
+      "order": 10,
+      "owner": "khashi-vc",
+      "status": "active",
+      "percentComplete": 76,
+      "confidence": "medium",
+      "canonicalInputs": [
+        "khashi-vc/docs/ops/KHASHI_CP10_REPORTING_LANE.md",
+        "khashi-vc/docs/ops/KHASHI_CP10_REPORTING_LANE.json",
+        "khashi-vc/docs/design/KHASHI_REPORT_GENERATOR_MATURITY_PLAN.md",
+        "khashi-vc/docs/reports/khashi-daily-hard-stop/2026-07-31-0600-assessment.md"
+      ],
+      "supportingInputs": [],
+      "nextProof": "Define report ingestion contract into Nous executive intelligence."
+    },
+    {
+      "id": "CP-11",
+      "name": "Messaging / Agent Command Layer",
+      "wave": "wave-2-operational-safety",
+      "order": 6,
+      "owner": "nous-hermes-agent",
+      "status": "active-support-layer",
+      "percentComplete": 75,
+      "confidence": "medium",
+      "canonicalInputs": [
+        "nous-hermes-agent/docs/plans/wave-2-operational-safety-contract.json",
+        "nous-hermes-agent/docs/plans/2026-06-09-003-fix-telegram-stream-overflow-continuations-plan.md"
+      ],
+      "supportingInputs": [],
+      "nextProof": "Verify cross-project command authorization, audit logging, and E2E tests."
+    },
+    {
+      "id": "CP-12",
+      "name": "Legacy Umbrella / Historical Plans",
+      "wave": "wave-1-truth-layer",
+      "order": 1,
+      "owner": "cross-project",
+      "status": "active-cleanup",
+      "percentComplete": 45,
+      "confidence": "high",
+      "canonicalInputs": [
+        "nous-hermes-agent/docs/plans/canonical-cross-project-plan-registry.md",
+        "nous-hermes-agent/docs/plans/canonical-cross-project-plan-registry.json"
+      ],
+      "supportingInputs": [
+        "investing-system/docs/execution-plan.md",
+        "investing-system/docs/staged-build-plan.md",
+        "khashi-vc/docs/execution-plan.md",
+        "khashi-vc/docs/staged-build-plan.md"
+      ],
+      "nextProof": "Tag legacy source headers with canonical plan IDs and superseded references."
+    }
+  ]
+}

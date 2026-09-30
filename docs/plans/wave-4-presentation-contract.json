@@ -1,0 +1,56 @@
+{
+  "id": "wave-4-presentation-contract",
+  "generatedAt": "2026-09-30",
+  "wave": "wave-4-presentation",
+  "status": "complete-for-contract-layer",
+  "plans": [
+    {
+      "id": "CP-10",
+      "name": "Reporting / Briefing / Daily Hard Stop",
+      "order": 10,
+      "status": "active-nous-ingestion-required",
+      "proofFiles": [
+        "khashi-vc/docs/ops/KHASHI_CP10_REPORTING_LANE.json",
+        "khashi-vc/docs/ops/KHASHI_CP10_REPORTING_LANE.md"
+      ],
+      "requiredInvariant": "reports must declare source freshness and blocked claims before recommendations"
+    },
+    {
+      "id": "CP-01",
+      "name": "Fleet Dashboard / Frontend Maturity",
+      "order": 11,
+      "status": "active-proof-hardening",
+      "proofFiles": [
+        "nous-hermes-agent/docs/design/dashboard-fleet-ui-maturity-scorecard.md",
+        "nous-hermes-agent/docs/design/operational-route-validation-report.json",
+        "nous-hermes-agent/docs/plans/wave-4-presentation-contract.json"
+      ],
+      "requiredInvariant": "T3C labels require route, visual, accessibility, and state proof"
+    },
+    {
+      "id": "CP-09",
+      "name": "Khashi Dashboard / T3C UI Readiness",
+      "order": 12,
+      "status": "t3c-certified-scope-limited",
+      "proofFiles": [
+        "khashi-vc/docs/khashi-t3c-readiness-audit-2026-09-26.md",
+        "khashi-vc/docs/ops/KHASHI_CP10_REPORTING_LANE.json"
+      ],
+      "requiredInvariant": "Khashi T3C certification does not certify live trading, stream velocity, or paper promotion"
+    }
+  ],
+  "presentationGates": [
+    "operator can see verdict, freshness, blockers, and next action",
+    "dashboard pages expose loading, empty, stale, partial, blocked, and error states",
+    "reports feed executive intelligence instead of living only as markdown",
+    "route validation is current",
+    "visual/accessibility proof remains required before final promotion"
+  ],
+  "waveFourExit": [
+    "CP-10 reporting lane exists and validates",
+    "CP-01 presentation proof requirements are named",
+    "CP-09 T3C scope boundaries are explicit",
+    "operational route validation has a clean proof artifact",
+    "presentation layer does not hide underlying data/trading blockers"
+  ]
+}
