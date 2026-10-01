@@ -17,7 +17,7 @@ This registry consolidates the active and historical maturity plans across Nous 
 | CP-03 | Executive / Decision / Second-Brain Intelligence | Nous Hermes Agent | Active | Decision intelligence and compounding intelligence work is in progress; final production proof depends on Hermes Brain connectivity, second-brain sync, and preflight memory enforcement. |
 | CP-04 | Cross-Project Data Warehouse / Storage / Archive | Cross-project | Active, ready | Warehouse/storage standards exist, Investing storage proof is ready, OANDA archive trust has bounded production proof, Khashi storage pressure is cleared by Docker build-cache maintenance proof, and Khashi backup/targeted restore proof is ready; destructive pruning stays approval-gated. |
 | CP-05 | Investing Trading / OANDA Live-Readiness | Investing System | Active, should be merged | OANDA, FX risk, trading desk, pre-fund, and practice-to-live plans overlap and should be operated as one live-readiness track with levels 7-9 locked. |
-| CP-06 | Investing Financial Analysis / Earnings Event Intelligence | Investing System | Active | Institutional financial analysis remains the core analysis engine roadmap, with earnings-event trading now registered as a bounded research-to-Trading-Desk lane; E01-E03 are complete through baseline, temporal event schema, aliases, universe versions, and sessions. |
+| CP-06 | Investing Financial Analysis / Earnings Event Intelligence | Investing System | Active | Institutional financial analysis remains the core analysis engine roadmap, with earnings-event trading now registered as a bounded research-to-Trading-Desk lane; E01-E04 are complete through baseline, temporal events, universe/session contracts, and raw archive policy. |
 | CP-07 | Khashi Trading / Market Intelligence | Khashi VC | Active, should be merged | Khashi trading maturity, market intelligence, and research workspace plans overlap and should become one market-intelligence implementation lane. |
 | CP-08 | Khashi Data Operations / Infrastructure Reliability | Khashi VC | Active | Khashi data ops, storage recovery, infrastructure split, lane split, and warehouse maturity should roll under the cross-project data operations standard. |
 | CP-09 | Khashi Dashboard / T3C UI Readiness | Khashi VC + Nous Hermes Agent | Active | Khashi dashboard redesign, Mobbin research, and T3C readiness belong under the fleet dashboard/frontend maturity plan. |
@@ -212,6 +212,7 @@ Canonical inputs:
 - `investing-system/docs/proofs/earnings-event-trading-phase-0-proof.md`
 - `investing-system/docs/proofs/earnings-event-trading-e02-schema-proof.md`
 - `investing-system/docs/proofs/earnings-event-trading-e03-universe-proof.md`
+- `investing-system/docs/proofs/earnings-event-trading-e04-archive-proof.md`
 
 Merged or supporting inputs:
 
@@ -223,14 +224,14 @@ Current status:
 
 - Active.
 - This is separate from OANDA execution, but it should feed the same evidence, memory, and executive reporting layers.
-- Earnings-event trading E01-E03 are complete. It is not live-authorized; execution defaults to disabled and no broker authority changes are included.
+- Earnings-event trading E01-E04 are complete. It is not live-authorized; execution defaults to disabled and no broker authority changes are included.
 
 Next proof needed:
 
 - Convert each financial analysis category into testable engines or contracts.
 - Store outputs in the warehouse and second-brain memory layer.
 - Surface company-level analysis status and stale-data warnings in Nous.
-- Start E04 raw manifests, partition archive, and quality/retention policy after keeping `npm run earnings:plan:validate`, `npm run earnings:contract:check`, `npm run earnings:schema:check`, `npm run earnings:universe:check`, and `npm run earnings:universe:test` green.
+- Start E05 provider capabilities and data-mode guard after keeping the earnings plan, contract, schema, universe, and archive checks green.
 
 ## CP-07 Khashi Trading / Market Intelligence
 
