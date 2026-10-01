@@ -92,8 +92,8 @@
       "wave": "wave-1-truth-layer",
       "order": 2,
       "owner": "cross-project",
-      "status": "active-blocked",
-      "percentComplete": 58,
+      "status": "active-watch",
+      "percentComplete": 78,
       "confidence": "medium",
       "canonicalInputs": [
         "nous-hermes-agent/docs/plans/cross-project-warehouse-truth-contract.md",
@@ -107,7 +107,7 @@
       "supportingInputs": [
         "khashi-vc/docs/proofs/khashi-storage-maturity-production.json"
       ],
-      "nextProof": "Produce verified archive bundles and restore proof with checksums."
+      "nextProof": "Run approval-gated archive/prune batches, refresh Khashi mirror/restore proof, and ingest recurring storage proof into Nous."
     },
     {
       "id": "CP-05",
@@ -116,7 +116,7 @@
       "order": 4,
       "owner": "investing-system",
       "status": "active-merge-needed",
-      "percentComplete": 78,
+      "percentComplete": 85,
       "confidence": "medium-high",
       "canonicalInputs": [
         "investing-system/docs/oanda-live-readiness-canonical-matrix.md",
@@ -132,7 +132,7 @@
         "investing-system/docs/execution-plan.md",
         "investing-system/docs/staged-build-plan.md"
       ],
-      "nextProof": "Merge OANDA live-readiness phases into one status matrix."
+      "nextProof": "Keep live levels 7-9 locked while adding fresh risk-gate, live ops review, incident drill, and explicit approval proof."
     },
     {
       "id": "CP-06",

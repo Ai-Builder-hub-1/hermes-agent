@@ -15,8 +15,8 @@ This registry consolidates the active and historical maturity plans across Nous 
 | CP-01 | Fleet Dashboard / Frontend Maturity | Nous Hermes Agent | Active | Dashboard quality system is mature, but proof hardening remains the gating item before treating dashboards as fully T3C-ready. |
 | CP-02 | Operate / Trading / System Control Plane | Nous Hermes Agent | Active, partially built | System pages and contracts exist for warehouse, storage, freshness, workers, deployments, and credentials; route validation needs to be regenerated after Playwright/browser fixes. |
 | CP-03 | Executive / Decision / Second-Brain Intelligence | Nous Hermes Agent | Active | Decision intelligence and compounding intelligence work is in progress; final production proof depends on Hermes Brain connectivity, second-brain sync, and preflight memory enforcement. |
-| CP-04 | Cross-Project Data Warehouse / Storage / Archive | Cross-project | Active, blocked in parts | Warehouse/storage standards exist, but archive trust is blocked by invalid/incomplete OANDA archive bundles until verified compaction and restore proof exist. |
-| CP-05 | Investing Trading / OANDA Live-Readiness | Investing System | Active, should be merged | OANDA, FX risk, trading desk, pre-fund, and practice-to-live plans overlap and should be operated as one live-readiness track. |
+| CP-04 | Cross-Project Data Warehouse / Storage / Archive | Cross-project | Active, watch | Warehouse/storage standards exist, and OANDA archive trust now has bounded production proof; remaining work is approval-gated prune/live promotion plus Khashi mirror/archive/restore proof. |
+| CP-05 | Investing Trading / OANDA Live-Readiness | Investing System | Active, should be merged | OANDA, FX risk, trading desk, pre-fund, and practice-to-live plans overlap and should be operated as one live-readiness track with levels 7-9 locked. |
 | CP-06 | Investing Financial Analysis Maturity | Investing System | Active | Institutional financial analysis plan is the canonical investing analysis engine roadmap; should feed dashboard, memory, and executive intelligence. |
 | CP-07 | Khashi Trading / Market Intelligence | Khashi VC | Active, should be merged | Khashi trading maturity, market intelligence, and research workspace plans overlap and should become one market-intelligence implementation lane. |
 | CP-08 | Khashi Data Operations / Infrastructure Reliability | Khashi VC | Active | Khashi data ops, storage recovery, infrastructure split, lane split, and warehouse maturity should roll under the cross-project data operations standard. |
@@ -148,13 +148,13 @@ Merged or supporting inputs:
 
 Current status:
 
-- Active, with known blocker.
-- The current OANDA archive bundles are not trustworthy until lower-memory archive/compaction and restore proof are built and verified.
+- Active, on watch.
+- OANDA bounded archive/restore and database restore proof are ready; remaining work is approval-gated prune execution, Khashi mirror/archive/restore proof, and recurring proof ingestion.
 
 Next proof needed:
 
-- Produce verified archive bundles.
-- Add restore proof with checksums/catalog validation.
+- Run approval-gated archive/prune batches for OANDA ledger files over live budget.
+- Refresh Khashi mirror/archive/restore proof.
 - Surface warehouse growth, retention, pruning, freshness, mirror status, and failed collectors in Nous.
 
 ## CP-05 Investing Trading / OANDA Live-Readiness
@@ -179,14 +179,14 @@ Merged or supporting inputs:
 
 Current status:
 
-- Active, fragmented.
-- These should become one Investing live-readiness plan with explicit gates for archive integrity, risk controls, strategy evidence, operational monitoring, and human approval.
+- Active, partially consolidated and locked.
+- Bounded archive and backup restore proof exist; levels 7-9 stay blocked until fresh risk gates, live ops review, incident drill, and explicit scoped human approval exist.
 
 Next proof needed:
 
-- Consolidate duplicated OANDA phases into one live-readiness matrix.
-- Tie each phase to required data warehouse, risk, and dashboard evidence.
-- Keep live trading blocked until archive/restore and risk gates are green.
+- Keep the live-readiness matrix synced to warehouse, risk, and dashboard evidence.
+- Add current risk-gate, live ops review, incident drill, and approval proof.
+- Keep live trading blocked until all runtime, risk, restore, and human gates are green.
 
 ## CP-06 Investing Financial Analysis Maturity
 

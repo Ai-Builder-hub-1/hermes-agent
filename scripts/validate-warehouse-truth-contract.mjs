@@ -12,7 +12,11 @@ function fail(message) {
 }
 
 if (contract.canonicalPlan !== "CP-04") fail("contract must map to CP-04");
-if (!/OANDA archive/i.test(contract.blockerSummary ?? "")) fail("OANDA archive blocker must be explicit");
+const blockerSummary = contract.blockerSummary ?? "";
+if (!/OANDA archive/i.test(blockerSummary)) fail("OANDA archive proof state must be explicit");
+for (const phrase of ["proof", "prune", "Khashi", "destructive pruning disabled"]) {
+  if (!blockerSummary.includes(phrase)) fail(`blockerSummary missing phrase: ${phrase}`);
+}
 
 const requiredProjects = new Set(["khashi-vc", "investing-system", "nous-hermes-agent"]);
 for (const project of contract.projects ?? []) {
@@ -26,6 +30,11 @@ for (const project of contract.projects ?? []) {
   }
 }
 if (requiredProjects.size > 0) fail(`missing project contract: ${[...requiredProjects].join(", ")}`);
+
+const investing = contract.projects?.find((project) => project.id === "investing-system");
+if (!investing?.currentPosture?.includes("archive-prune-approval-required")) {
+  fail("investing-system posture must reflect archive proof plus prune approval gate");
+}
 
 const requiredGates = new Set([
   "collector-continuity",

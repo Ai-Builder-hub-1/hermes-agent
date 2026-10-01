@@ -2,8 +2,8 @@
   "id": "cross-project-warehouse-truth-contract",
   "canonicalPlan": "CP-04",
   "generatedAt": "2026-09-30",
-  "status": "active-blocked",
-  "blockerSummary": "OANDA archive bundles are not trusted until a lower-memory archive/compaction path produces verified bundles and restore proof.",
+  "status": "active-watch",
+  "blockerSummary": "OANDA archive bounded production proof and restore proof are ready; remaining watch items are ledger over live-file budget, approval-gated archive/prune batches, Khashi archive/mirror/restore proof, and keeping destructive pruning disabled until all gates pass.",
   "projects": [
     {
       "id": "khashi-vc",
@@ -26,7 +26,7 @@
     {
       "id": "investing-system",
       "role": "OANDA and financial-analysis warehouse producer",
-      "currentPosture": "blocked-on-archive-trust",
+      "currentPosture": "ready-watch-archive-prune-approval-required",
       "canonicalRunbooks": [
         "investing-system/docs/ops/INVESTING_STORAGE_MATURITY_RUNBOOK.md"
       ],
@@ -102,7 +102,7 @@
   "minimumWaveOneExit": [
     "canonical registry validates",
     "warehouse truth contract validates",
-    "OANDA archive blocker is explicitly represented",
+    "OANDA archive proof and remaining prune/live gates are explicitly represented",
     "Khashi data-ops implementation lane points at CP-04",
     "destructive pruning remains disabled unless archive, backup, restore, and approval gates pass"
   ]

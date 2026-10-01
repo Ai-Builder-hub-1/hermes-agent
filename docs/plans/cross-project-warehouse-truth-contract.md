@@ -2,22 +2,22 @@
 
 Canonical plan: CP-04
 
-Status: active-blocked
+Status: active-watch
 
 This contract defines what must be true before data collection, warehouse mirroring, archive trust, restore proof, retention, and pruning can be treated as mature across Nous Hermes Agent, Investing System, and Khashi VC.
 
 ## Current Position
 
-The system is not blocked because the external drive is small. The system is blocked where durable proof is incomplete.
+The system is not blocked because the external drive is small. The system is on watch where durable proof is incomplete, stale, or approval-gated.
 
-The most important current blocker is the OANDA archive path: existing archive bundles cannot be trusted until the lower-memory archive/compaction path can produce verified bundles with manifest, checksum, count, and restore proof.
+The previous OANDA archive-trust blocker is resolved to bounded production proof: verified bundles now include manifest, checksum, count, and restore proof. Remaining watch items are OANDA ledger files over live budget, approval-gated archive/prune batches, Khashi archive/mirror/restore proof, and keeping destructive pruning disabled until every gate passes.
 
 ## Project Roles
 
 | Project | Role | Current posture |
 | --- | --- | --- |
 | Khashi VC | Market-intelligence warehouse producer | Watch-ready: production proof exists, but storage/watch items and rollups remain. |
-| Investing System | OANDA and financial-analysis warehouse producer | Blocked on archive trust for OANDA bundles. |
+| Investing System | OANDA and financial-analysis warehouse producer | Ready/watch: archive trust proof exists; prune/live promotion remain approval-gated. |
 | Nous Hermes Agent | Fleet visibility and operator control plane | Consumer/control plane; must surface warehouse, storage, freshness, workers, archive, and restore proof. |
 
 ## Maturity Gates
@@ -47,6 +47,6 @@ Wave 1 is complete only when:
 
 - the canonical plan registry validates;
 - this warehouse truth contract validates;
-- the OANDA archive blocker is explicitly represented;
+- the OANDA archive proof and remaining prune/live gates are explicitly represented;
 - the Khashi data-ops implementation lane points at CP-04;
 - pruning remains blocked unless backup, archive, restore, rollup, and approval gates pass.
