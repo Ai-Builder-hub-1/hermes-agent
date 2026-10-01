@@ -156,6 +156,8 @@
     "dashboard:operating-system:report": "node scripts/generate-dashboard-operating-system-layer-report.mjs",
     "dashboard:operational-proof:report": "npx tsx scripts/generate-operational-proof-report.ts",
     "dashboard:operational-plan:validate": "node scripts/validate-operational-plan-consistency.mjs",
+    "warehouse:storage-proof:registry": "node scripts/generate-cross-project-storage-proof-registry.mjs --write",
+    "warehouse:storage-proof:validate": "node scripts/validate-cross-project-storage-proof-registry.mjs",
     "dashboard:operational-sources:validate": "npx tsx scripts/validate-operational-live-sources.ts",
     "dashboard:operational-routes:validate": "npx tsx scripts/validate-operational-routes.ts",
     "dashboard:fleet:v60:e2e": "node scripts/run-dashboard-fleet-v60-e2e.mjs",

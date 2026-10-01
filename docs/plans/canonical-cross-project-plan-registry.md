@@ -15,7 +15,7 @@ This registry consolidates the active and historical maturity plans across Nous 
 | CP-01 | Fleet Dashboard / Frontend Maturity | Nous Hermes Agent | Active | Dashboard quality system is mature, but proof hardening remains the gating item before treating dashboards as fully T3C-ready. |
 | CP-02 | Operate / Trading / System Control Plane | Nous Hermes Agent | Active, partially built | System pages and contracts exist for warehouse, storage, freshness, workers, deployments, and credentials; route validation needs to be regenerated after Playwright/browser fixes. |
 | CP-03 | Executive / Decision / Second-Brain Intelligence | Nous Hermes Agent | Active | Decision intelligence and compounding intelligence work is in progress; final production proof depends on Hermes Brain connectivity, second-brain sync, and preflight memory enforcement. |
-| CP-04 | Cross-Project Data Warehouse / Storage / Archive | Cross-project | Active, watch | Warehouse/storage standards exist, and OANDA archive trust now has bounded production proof; remaining work is approval-gated prune/live promotion plus Khashi mirror/archive/restore proof. |
+| CP-04 | Cross-Project Data Warehouse / Storage / Archive | Cross-project | Active, blocked | Warehouse/storage standards exist, Investing storage proof is ready, and OANDA archive trust has bounded production proof; remaining blockers are Khashi storage status, Khashi restore proof, and approval-gated OANDA prune execution. |
 | CP-05 | Investing Trading / OANDA Live-Readiness | Investing System | Active, should be merged | OANDA, FX risk, trading desk, pre-fund, and practice-to-live plans overlap and should be operated as one live-readiness track with levels 7-9 locked. |
 | CP-06 | Investing Financial Analysis Maturity | Investing System | Active | Institutional financial analysis plan is the canonical investing analysis engine roadmap; should feed dashboard, memory, and executive intelligence. |
 | CP-07 | Khashi Trading / Market Intelligence | Khashi VC | Active, should be merged | Khashi trading maturity, market intelligence, and research workspace plans overlap and should become one market-intelligence implementation lane. |
@@ -134,6 +134,8 @@ Canonical inputs:
 
 - `nous-hermes-agent/docs/plans/cross-project-warehouse-truth-contract.md`
 - `nous-hermes-agent/docs/plans/cross-project-warehouse-truth-contract.json`
+- `nous-hermes-agent/docs/plans/cross-project-storage-proof-registry.md`
+- `nous-hermes-agent/docs/plans/cross-project-storage-proof-registry.json`
 - `khashi-vc/docs/production-data-warehouse-maturity.md`
 - `khashi-vc/docs/design/KHASHI_DATA_OPERATIONS_MATURITY_STANDARD.md`
 - `khashi-vc/docs/ops/KHASHI_STORAGE_MATURITY_RUNBOOK.md`
@@ -148,14 +150,14 @@ Merged or supporting inputs:
 
 Current status:
 
-- Active, on watch.
-- OANDA bounded archive/restore and database restore proof are ready; remaining work is approval-gated prune execution, Khashi mirror/archive/restore proof, and recurring proof ingestion.
+- Active, blocked on Khashi storage proof.
+- OANDA bounded archive/restore and database restore proof are ready, Investing storage maturity is ready, and Nous now has a cross-project storage proof registry. Remaining work is Khashi storage blocker cleanup, Khashi restore proof, and approval-gated OANDA prune execution after dry-run review.
 
 Next proof needed:
 
-- Run approval-gated archive/prune batches for OANDA ledger files over live budget.
-- Refresh Khashi mirror/archive/restore proof.
-- Surface warehouse growth, retention, pruning, freshness, mirror status, and failed collectors in Nous.
+- Clear Khashi storage blockers and add explicit Khashi restore proof.
+- Keep OANDA prune execution approval-gated after dry-run review.
+- Surface the storage proof registry in Nous warehouse jobs and operator evidence.
 
 ## CP-05 Investing Trading / OANDA Live-Readiness
 

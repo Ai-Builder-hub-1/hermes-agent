@@ -2,21 +2,21 @@
 
 Canonical plan: CP-04
 
-Status: active-watch
+Status: active-blocked
 
 This contract defines what must be true before data collection, warehouse mirroring, archive trust, restore proof, retention, and pruning can be treated as mature across Nous Hermes Agent, Investing System, and Khashi VC.
 
 ## Current Position
 
-The system is not blocked because the external drive is small. The system is on watch where durable proof is incomplete, stale, or approval-gated.
+The system is not blocked because the external drive is small. The system is blocked where durable proof is incomplete, stale, or approval-gated.
 
-The previous OANDA archive-trust blocker is resolved to bounded production proof: verified bundles now include manifest, checksum, count, and restore proof. Remaining watch items are OANDA ledger files over live budget, approval-gated archive/prune batches, Khashi archive/mirror/restore proof, and keeping destructive pruning disabled until every gate passes.
+The previous OANDA archive-trust blocker is resolved to bounded production proof: verified bundles now include manifest, checksum, count, and restore proof. Investing storage proof is ready. Remaining blockers are Khashi storage status, Khashi restore proof, approval-gated OANDA archive/prune execution, and keeping destructive pruning disabled until every gate passes.
 
 ## Project Roles
 
 | Project | Role | Current posture |
 | --- | --- | --- |
-| Khashi VC | Market-intelligence warehouse producer | Watch-ready: production proof exists, but storage/watch items and rollups remain. |
+| Khashi VC | Market-intelligence warehouse producer | Blocked: fresh proof exists, but storage status remains blocked and restore proof is not yet explicit. |
 | Investing System | OANDA and financial-analysis warehouse producer | Ready/watch: archive trust proof exists; prune/live promotion remain approval-gated. |
 | Nous Hermes Agent | Fleet visibility and operator control plane | Consumer/control plane; must surface warehouse, storage, freshness, workers, archive, and restore proof. |
 

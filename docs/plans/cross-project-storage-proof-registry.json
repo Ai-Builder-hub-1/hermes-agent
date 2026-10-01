@@ -1,0 +1,71 @@
+{
+  "id": "cross-project-storage-proof-registry",
+  "canonicalPlan": "CP-04",
+  "generatedAt": "2026-10-01T01:38:31.836Z",
+  "workspaceRoot": "/Users/hq/Workspace/projects",
+  "status": "blocked",
+  "summary": {
+    "projects": 2,
+    "ready": 1,
+    "watch": 0,
+    "blocked": 1,
+    "missing": 0,
+    "averageScore": 89,
+    "oldestFreshnessHours": 0.28
+  },
+  "projects": [
+    {
+      "id": "investing-system",
+      "label": "Investing System",
+      "reportPath": "/Users/hq/Workspace/projects/investing-system/docs/reports/investing-storage-maturity/latest.json",
+      "canonicalPlan": "CP-04",
+      "status": "ready",
+      "score": 93,
+      "checkedAt": "2026-10-01T01:21:38.425Z",
+      "freshnessHours": 0.28,
+      "facts": {
+        "rootDiskUsedPct": "74%",
+        "ledgerFiles": 91217,
+        "ledgerBudgetProofStatus": "ready",
+        "archivePruneProofStatus": "missing",
+        "archiveRecords": 4,
+        "archiveRestoreVerifiedRecords": 4,
+        "backupFiles": 4,
+        "restoreProofStatus": "passed",
+        "localPullProofStatus": "ready",
+        "brokerWarehouseRows": 4,
+        "strategyBacktestRuns": 1
+      },
+      "blockers": [],
+      "nextAction": "Wire this maturity report into Nous Hermes and resource-governance Discord attribution."
+    },
+    {
+      "id": "khashi-vc",
+      "label": "Khashi VC",
+      "reportPath": "/Users/hq/Workspace/projects/khashi-vc/docs/reports/khashi-storage-maturity/latest.json",
+      "canonicalPlan": "CP-04",
+      "status": "blocked",
+      "score": 85,
+      "checkedAt": "2026-10-01T01:37:37.959Z",
+      "freshnessHours": 0.01,
+      "facts": {
+        "rootDiskUsedPct": "78%",
+        "storeRecordRows": 26357626,
+        "staleKeyStores": 0,
+        "retentionDryRunProofStatus": "ready",
+        "mirrorStatus": "blocked",
+        "localPullSourceStatus": "ready",
+        "localPullProofStatus": "ready",
+        "restoreProofStatus": "unknown"
+      },
+      "blockers": [
+        "project report status is blocked",
+        "restore proof unknown"
+      ],
+      "nextAction": "Reclaim Docker build cache before investigating server upgrades."
+    }
+  ],
+  "nextActions": [
+    "Khashi VC: Reclaim Docker build cache before investigating server upgrades."
+  ]
+}

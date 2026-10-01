@@ -92,8 +92,8 @@
       "wave": "wave-1-truth-layer",
       "order": 2,
       "owner": "cross-project",
-      "status": "active-watch",
-      "percentComplete": 78,
+      "status": "active-blocked",
+      "percentComplete": 82,
       "confidence": "medium",
       "canonicalInputs": [
         "nous-hermes-agent/docs/plans/cross-project-warehouse-truth-contract.md",
@@ -102,12 +102,14 @@
         "khashi-vc/docs/design/KHASHI_DATA_OPERATIONS_MATURITY_STANDARD.md",
         "khashi-vc/docs/ops/KHASHI_STORAGE_MATURITY_RUNBOOK.md",
         "khashi-vc/docs/ops/KHASHI_STORAGE_RECOVERY_AND_PREVENTION_PLAN.md",
-        "investing-system/docs/ops/INVESTING_STORAGE_MATURITY_RUNBOOK.md"
+        "investing-system/docs/ops/INVESTING_STORAGE_MATURITY_RUNBOOK.md",
+        "nous-hermes-agent/docs/plans/cross-project-storage-proof-registry.md",
+        "nous-hermes-agent/docs/plans/cross-project-storage-proof-registry.json"
       ],
       "supportingInputs": [
         "khashi-vc/docs/proofs/khashi-storage-maturity-production.json"
       ],
-      "nextProof": "Run approval-gated archive/prune batches, refresh Khashi mirror/restore proof, and ingest recurring storage proof into Nous."
+      "nextProof": "Clear Khashi storage blockers, add Khashi restore proof, and keep OANDA prune execution approval-gated after dry-run review."
     },
     {
       "id": "CP-05",
