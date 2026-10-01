@@ -387,12 +387,64 @@ function WarehousePanel() {
         <MetricCard label="Free storage" value={formatBytes(summary.warehouse.freeBytes)} detail={`${summary.warehouse.percentUsed}% used on warehouse volume`} tone={summary.warehouse.percentUsed > 85 ? "critical" : summary.warehouse.percentUsed > 70 ? "warning" : "success"} />
         <MetricCard label="24h ingest" value={formatBytes(summary.ingest.bytes24h)} detail={`${summary.ingest.records24h} records across ${summary.ingest.sources} sources`} tone="info" />
         <MetricCard label="Days until full" value={summary.forecast.daysUntilFull ?? "unknown"} detail={summary.forecast.confidence.replaceAll("_", " ")} tone={summary.forecast.daysUntilFull !== null && summary.forecast.daysUntilFull < 14 ? "critical" : "warning"} />
-        <MetricCard label="Mirror" value={summary.mirror.configured ? "mounted" : "missing"} detail={summary.mirror.lastMirrorAt ? `last mirror ${summary.mirror.lastMirrorAt}` : "no mirror proof yet"} tone={summary.mirror.configured ? "success" : "critical"} />
+        <MetricCard label="Mirror" value={summary.cp04Runtime.mirrorContinuity.state} detail={summary.mirror.lastMirrorAt ? `last mirror ${summary.mirror.lastMirrorAt}` : summary.cp04Runtime.mirrorContinuity.mode.replaceAll("-", " ")} tone={summary.mirror.configured ? "success" : "warning"} />
         <MetricCard label="Live DB backup" value={summary.databaseBackup.latestBackup.ok ? "current" : summary.databaseBackup.status} detail={summary.databaseBackup.latestBackup.createdAt ?? summary.databaseBackup.sourceOfTruth.path} tone={summary.databaseBackup.latestBackup.ok ? "success" : summary.databaseBackup.sourceOfTruth.exists ? "warning" : "critical"} />
         <MetricCard label="Restore proof" value={summary.restoreProof.ok ? "current" : "missing"} detail={summary.restoreProof.lastRestoreProofAt ?? "no restore proof evidence found"} tone={summary.restoreProof.ok ? "success" : "warning"} />
         <MetricCard label="Stale sources" value={summary.ingest.staleSources} detail={`${stale.length} partial or blocked rows in source table`} tone={summary.ingest.staleSources ? "critical" : "success"} />
         <MetricCard label="Backbone" value={`${summary.backbone.summary.ready}/${summary.backbone.summary.categories}`} detail={summary.backbone.summary.posture.replaceAll("_", " ")} tone={summary.backbone.summary.warehouseEnough ? "success" : summary.backbone.summary.ready || summary.backbone.summary.partial ? "warning" : "critical"} />
         <MetricCard label="Providers" value={`${summary.providerReadiness.summary.ready}/${summary.providerReadiness.summary.categories}`} detail={summary.providerReadiness.summary.posture.replaceAll("_", " ")} tone={summary.providerReadiness.summary.providerReady ? "success" : summary.providerReadiness.summary.ready || summary.providerReadiness.summary.partial ? "warning" : "critical"} />
+        <MetricCard label="CP04 certified" value={`${summary.cp04Runtime.runtimeCertification.score}%`} detail={summary.cp04Runtime.runtimeCertification.status.replaceAll("_", " ")} tone={summary.cp04Runtime.runtimeCertification.score >= 90 ? "success" : summary.cp04Runtime.runtimeCertification.score >= 70 ? "warning" : "critical"} />
+      </section>
+
+      <section className="grid gap-4 xl:grid-cols-[1.15fr_0.85fr]">
+        <Panel title="CP04 runtime decisions" count={summary.cp04Runtime.alerts.length}>
+          <div className="grid gap-3 p-3">
+            <div className="grid gap-2 sm:grid-cols-2">
+              <PolicyCallout
+                title={`${summary.cp04Runtime.deployGate.title}: ${summary.cp04Runtime.deployGate.status.replaceAll("_", " ")}`}
+                detail={summary.cp04Runtime.deployGate.blockers[0] ?? summary.cp04Runtime.deployGate.warnings[0] ?? summary.cp04Runtime.deployGate.detail}
+                tone={summary.cp04Runtime.deployGate.status === "blocked" ? "critical" : summary.cp04Runtime.deployGate.warnings.length ? "warning" : "success"}
+              />
+              <PolicyCallout
+                title={`${summary.cp04Runtime.pruneGate.title}: ${summary.cp04Runtime.pruneGate.status}`}
+                detail={summary.cp04Runtime.pruneGate.blockers[0] ?? summary.cp04Runtime.pruneGate.detail}
+                tone={summary.cp04Runtime.pruneGate.approvalRequired ? "warning" : "success"}
+              />
+            </div>
+            <div className="grid gap-2 sm:grid-cols-4">
+              {summary.cp04Runtime.durabilityTiers.map((tier) => (
+                <article key={tier.id} className="rounded-md border border-border bg-background p-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <h2 className="text-sm font-semibold leading-5 text-foreground">{tier.label}</h2>
+                    <ToneBadge tone={tier.status === "ready" ? "success" : tier.status === "blocked" ? "critical" : "warning"}>{tier.status}</ToneBadge>
+                  </div>
+                  <p className="mt-2 line-clamp-3 text-xs leading-5 text-muted-foreground">{tier.detail}</p>
+                  <div className="mt-2 flex flex-wrap gap-1.5 text-[11px] text-muted-foreground">
+                    <span>runtime {tier.runtimeDependency ? "required" : "not required"}</span>
+                    <span>deploy {tier.deployDependency ? "required" : "not required"}</span>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </Panel>
+        <Panel title="Recovery and quality">
+          <div className="grid gap-2 p-3">
+            <div className="grid gap-2 sm:grid-cols-3">
+              <MiniFact label="Recovery" value={`${summary.cp04Runtime.recoveryConfidence.score}%`} />
+              <MiniFact label="Quality" value={`${summary.cp04Runtime.dataQuality.score}%`} />
+              <MiniFact label="SLO budget" value={`${summary.cp04Runtime.sloBudget.remaining}/${summary.cp04Runtime.sloBudget.total}`} />
+            </div>
+            <PolicyCallout
+              title={summary.cp04Runtime.continuityMode.mode.replaceAll("-", " ")}
+              detail={summary.cp04Runtime.continuityMode.localOfflineOutcome}
+              tone="info"
+            />
+            {summary.cp04Runtime.remediation.slice(0, 3).map((item) => (
+              <PolicyCallout key={item.action} title={item.action} detail={`${item.command} / ${item.gateImpact}`} tone={item.priority <= 2 ? "warning" : "info"} />
+            ))}
+          </div>
+        </Panel>
       </section>
 
       <Panel title="Ingestion and capacity trend">
@@ -526,6 +578,19 @@ function WarehousePanel() {
               <PolicyCallout key={breach} title="Breach" detail={breach} tone="warning" />
             )) : <PolicyCallout title="SLO clear" detail={`Freshness ${summary.slo.freshnessMinutes}m, mirror lag ${summary.slo.mirrorLagHours}h, restore proof ${summary.slo.restoreProofDays}d.`} tone="success" />}
             <PolicyCallout title="Safe next actions" detail="Use sync check, restore proof, and prune dry-run for evidence. Collector execution, destructive prune, deploy, and remote mutation remain approval-gated." tone="info" />
+            <PolicyCallout title="Executive CP04 packet" detail={summary.cp04Runtime.executivePacket.summary} tone={summary.cp04Runtime.executivePacket.status === "certified" ? "success" : "warning"} />
+          </div>
+        </Panel>
+        <Panel title="CP04 phase certification" count={summary.cp04Runtime.runtimeCertification.phases.length}>
+          <div className="grid max-h-[420px] gap-2 overflow-auto p-3">
+            {summary.cp04Runtime.runtimeCertification.phases.map((phase) => (
+              <PolicyCallout
+                key={phase.id}
+                title={`${phase.id}: ${phase.name}`}
+                detail={`${phase.status} / ${phase.test}`}
+                tone={phase.status === "built" ? "success" : "warning"}
+              />
+            ))}
           </div>
         </Panel>
         <Panel title="Warehouse jobs and evidence" count={jobs.length}>

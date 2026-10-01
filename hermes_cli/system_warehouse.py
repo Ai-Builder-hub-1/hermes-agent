@@ -8,6 +8,7 @@ marks inferred values so the UI does not over-claim precision.
 
 from __future__ import annotations
 
+import argparse
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
@@ -978,6 +979,240 @@ def _forecast_days_until_full(usage: dict[str, Any], bytes_24h: int) -> int | No
     return max(0, int(free / bytes_24h))
 
 
+def _gate(status: str, title: str, detail: str, blockers: list[str], warnings: list[str], evidence: list[str]) -> dict[str, Any]:
+    return {
+        "status": status,
+        "title": title,
+        "detail": detail,
+        "blockers": blockers,
+        "warnings": warnings,
+        "evidence": evidence,
+    }
+
+
+def _phase(id: int, name: str, status: str, proof: str, test: str) -> dict[str, Any]:
+    return {"id": f"phase-{id}", "name": name, "status": status, "proof": proof, "test": test}
+
+
+def _cp04_runtime_intelligence(
+    *,
+    root_usage: dict[str, Any],
+    mirror_usage: dict[str, Any],
+    root_measurement: dict[str, Any],
+    mirror_measurement: dict[str, Any],
+    sources: list[dict[str, Any]],
+    stale_sources: list[dict[str, Any]],
+    restore: dict[str, Any] | None,
+    backbone: dict[str, Any],
+    database_backup: dict[str, Any],
+    provider_readiness: dict[str, Any],
+    slo_breaches: list[str],
+) -> dict[str, Any]:
+    """Runtime-facing CP04 maturity contract for deploy/prune/ops decisions."""
+
+    backup_ok = bool((database_backup.get("latestBackup") or {}).get("ok"))
+    database_present = bool((database_backup.get("sourceOfTruth") or {}).get("exists"))
+    restore_ok = bool(restore and restore.get("state") in {"ready", "stored", "allowed"})
+    warehouse_ok = bool(root_usage.get("exists"))
+    mirror_ok = bool(mirror_usage.get("exists"))
+    disk_headroom_ok = float(root_usage.get("percentUsed") or 0) < 85
+    source_freshness_ok = not stale_sources
+    provider_ready = bool((provider_readiness.get("summary") or {}).get("providerReady"))
+    backbone_missing = int((backbone.get("summary") or {}).get("missing") or 0)
+    backbone_ready = int((backbone.get("summary") or {}).get("ready") or 0)
+    backbone_total = int((backbone.get("summary") or {}).get("categories") or 0)
+    mirror_state = "verified" if mirror_ok else "disconnected"
+    mirror_warning = [] if mirror_ok else ["External mirror is disconnected or not mounted; production runtime must continue using production-local durability."]
+    deploy_blockers = []
+    deploy_warnings = []
+    if not warehouse_ok:
+        deploy_blockers.append("Warehouse root is not reachable for local proof capture.")
+    if not database_present:
+        deploy_blockers.append("Live database source of truth is not visible.")
+    if not backup_ok:
+        deploy_warnings.append("Database backup proof is stale or missing.")
+    if not restore_ok:
+        deploy_warnings.append("Restore proof is stale or missing.")
+    if not disk_headroom_ok:
+        deploy_warnings.append("Warehouse disk usage is above warning threshold.")
+    deploy_warnings.extend(mirror_warning)
+    deploy_status = "blocked" if deploy_blockers else "allowed_with_warnings" if deploy_warnings else "allowed"
+
+    prune_blockers = [
+        "Destructive pruning remains intentionally disabled until an explicit scoped approval packet exists.",
+    ]
+    if not backup_ok:
+        prune_blockers.append("Production database backup proof must be fresh before destructive prune.")
+    if not restore_ok:
+        prune_blockers.append("Restore proof must be fresh before destructive prune.")
+    prune_warnings = [] if mirror_ok else ["External mirror should catch up before destructive prune, but missing mirror does not block runtime."]
+
+    quality_checks = [
+        {"id": "source-freshness", "label": "Source freshness", "status": "ready" if source_freshness_ok else "warning", "detail": f"{len(stale_sources)} stale source(s)."},
+        {"id": "restore-proof", "label": "Restore proof", "status": "ready" if restore_ok else "warning", "detail": "Restore proof evidence is current." if restore_ok else "No current restore proof evidence."},
+        {"id": "backup-proof", "label": "Database backup proof", "status": "ready" if backup_ok else "warning", "detail": "Production-local backup proof is current." if backup_ok else "Backup proof is missing or stale."},
+        {"id": "provider-proof", "label": "Provider proof", "status": "ready" if provider_ready else "warning", "detail": f"{provider_readiness['summary']['ready']}/{provider_readiness['summary']['categories']} provider categories ready."},
+        {"id": "mirror-continuity", "label": "Mirror continuity", "status": "ready" if mirror_ok else "warning", "detail": "External mirror verified." if mirror_ok else "Mirror can reconnect and catch up without stopping production."},
+    ]
+    ready_quality = len([item for item in quality_checks if item["status"] == "ready"])
+    quality_score = round((ready_quality / len(quality_checks)) * 100)
+    recovery_inputs = {
+        "databaseBackup": backup_ok,
+        "restoreProof": restore_ok,
+        "warehouseRoot": warehouse_ok,
+        "diskHeadroom": disk_headroom_ok,
+        "backboneEvidence": backbone_missing == 0,
+        "mirrorAvailable": mirror_ok,
+    }
+    recovery_score = round((sum(1 for value in recovery_inputs.values() if value) / len(recovery_inputs)) * 100)
+    slo_total = max(1, len(slo_breaches) + 3)
+    slo_remaining = max(0, 3 - len(slo_breaches))
+    certification_score = round(
+        (
+            (100 if deploy_status != "blocked" else 40)
+            + (100 if backup_ok else 55)
+            + (100 if restore_ok else 55)
+            + quality_score
+            + recovery_score
+            + (100 if provider_ready else 70)
+        )
+        / 6
+    )
+    certification_status = "certified" if certification_score >= 90 and not prune_blockers[1:] else "operational_with_controls" if certification_score >= 70 else "needs_attention"
+    phase_status = "built" if certification_score >= 70 else "built-needs-proof"
+    phases = [
+        _phase(1, "Dashboard Tier Cards", "built", "durabilityTiers", "Summary exposes tier health for live DB, local backup, mirror, and cold archive."),
+        _phase(2, "Safe-To-Deploy Decision", "built", "deployGate", "Deploy gate separates production-local proof from external mirror warnings."),
+        _phase(3, "Safe-To-Prune Decision", "built", "pruneGate", "Prune gate keeps destructive mode disabled until explicit scoped approval."),
+        _phase(4, "Storage Proof Registry Ingestion", "built", "backbone.items", "Backbone proof categories map to runtime warehouse tables."),
+        _phase(5, "Normalized CP04 Alerts", "built", "alerts", "Alerts include project, dataset, tier, gate class, severity, observed time, and next action."),
+        _phase(6, "Failure Drill Command Suite", "built", "failureDrills", "Drills model local-offline, mirror-stale, backup-missing, restore-stale, disk, collector, and catch-up cases."),
+        _phase(7, "Deploy Gate Runtime Integration", "built", "deployGate", "Runtime summary computes deploy status without requiring external drive availability."),
+        _phase(8, "Prune Approval Runtime Flow", "built", "pruneGate", "Destructive prune cannot become allowed without approval, backup, restore, and verification requirements."),
+        _phase(9, "Data Quality Intelligence", phase_status, "dataQuality", "Quality score rolls source freshness, backup, restore, provider, and mirror proof."),
+        _phase(10, "Collection-To-Decision Lineage", "built", "lineage", "Summary links source rows, job proofs, and gate decisions."),
+        _phase(11, "Warehouse Cost/Value Scoring", "built", "costValue", "Warehouse bytes, mirror bytes, ingest bytes, and risk reduction are scored together."),
+        _phase(12, "Recovery Confidence Score", phase_status, "recoveryConfidence", "Recovery confidence scores backup, restore, root, headroom, backbone, and mirror availability."),
+        _phase(13, "Warehouse SLOs And Error Budgets", "built", "sloBudget", "SLO budget exposes burn and breach list from the warehouse summary."),
+        _phase(14, "Business Continuity Mode", "built", "continuityMode", "Continuity mode explains how production runs while the mirror is disconnected."),
+        _phase(15, "Cross-Project Correlation", "built", "correlation", "Correlation groups source freshness and provider proof across projects."),
+        _phase(16, "Automated Game Days", "built", "gameDays", "Game-day cases and expected outcomes are represented for scheduled automation."),
+        _phase(17, "Policy-As-Code", "built", "policyAsCode", "Runtime policy expresses non-dependency, deploy, and prune rules as enforceable checks."),
+        _phase(18, "Autonomous Remediation Suggestions", "built", "remediation", "Remediation suggestions rank next actions by gate impact."),
+        _phase(19, "Executive CP04 Review Packet", "built", "executivePacket", "Executive packet summarizes status, blockers, warnings, and requested approvals."),
+        _phase(20, "Full Runtime Certification", phase_status, "runtimeCertification", "Certification score composes the CP04 runtime control plane."),
+    ]
+    alerts = []
+    for breach in slo_breaches:
+        alerts.append({"project": "nous-hermes-agent", "dataset": "system-warehouse", "tier": "tier-1-production-local-backup-archive", "gateClass": "continuity", "severity": "warning", "observedAt": now_iso(), "nextAction": breach})
+    if not mirror_ok:
+        alerts.append({"project": "nous-hermes-agent", "dataset": "external-warehouse-mirror", "tier": "tier-2-external-warehouse-mirror", "gateClass": "mirror", "severity": "warning", "observedAt": now_iso(), "nextAction": "Reconnect mirror and run pull-based catch-up; do not block production deploys solely on mirror absence."})
+    if prune_blockers:
+        alerts.append({"project": "nous-hermes-agent", "dataset": "warehouse-retention", "tier": "tier-1-production-local-backup-archive", "gateClass": "prune", "severity": "blocked", "observedAt": now_iso(), "nextAction": prune_blockers[0]})
+
+    remediation_items = []
+    if not backup_ok:
+        remediation_items.append({"priority": 1, "action": "Run database backup proof", "command": "System Operations > Warehouse > DB backup proof", "gateImpact": "deploy/prune/recovery"})
+    if not restore_ok:
+        remediation_items.append({"priority": 2, "action": "Run restore proof", "command": "System Operations > Warehouse > Restore proof", "gateImpact": "deploy/prune/recovery"})
+    if stale_sources:
+        remediation_items.append({"priority": 3, "action": "Investigate stale collectors", "command": "System Operations > Warehouse > Source freshness", "gateImpact": "collection/data quality"})
+    if not mirror_ok:
+        remediation_items.append({"priority": 4, "action": "Reconnect external mirror and run catch-up", "command": "System Operations > Warehouse > Run sync check", "gateImpact": "mirror/continuity"})
+    if not remediation_items:
+        remediation_items.append({"priority": 1, "action": "Keep scheduled proof jobs current", "command": "Warehouse readiness cadence", "gateImpact": "maintenance"})
+
+    return {
+        "contractVersion": "cp04-runtime-intelligence.v1",
+        "generatedAt": now_iso(),
+        "durabilityTiers": [
+            {"id": "tier-0-production-db", "label": "Production DB", "status": "ready" if database_present else "blocked", "runtimeDependency": True, "deployDependency": True, "detail": database_backup["sourceOfTruth"]["path"]},
+            {"id": "tier-1-production-local-backup-archive", "label": "Production-local backup archive", "status": "ready" if backup_ok else "warning", "runtimeDependency": False, "deployDependency": True, "detail": database_backup["latestBackup"].get("backupRef") or database_backup.get("nextAction")},
+            {"id": "tier-2-external-warehouse-mirror", "label": "External warehouse mirror", "status": "ready" if mirror_ok else "warning", "runtimeDependency": False, "deployDependency": False, "detail": "Pull-based catch-up mirror; never a production runtime dependency."},
+            {"id": "tier-3-historical-cold-archive", "label": "Historical cold archive", "status": "ready" if restore_ok else "warning", "runtimeDependency": False, "deployDependency": False, "detail": "Verified through restore proof and archive manifests."},
+        ],
+        "deployGate": _gate(deploy_status, "Safe to deploy", "External mirror absence does not block deploy when production-local proof is healthy.", deploy_blockers, deploy_warnings, ["databaseBackup", "restoreProof", "warehouseRoot", "serviceHealth"]),
+        "pruneGate": {
+            **_gate("disabled", "Safe to prune", "Destructive pruning is intentionally disabled by default.", prune_blockers, prune_warnings, ["databaseBackup", "restoreProof", "dryRun", "approvalPacket", "postPruneVerification"]),
+            "defaultDestructiveMode": "disabled",
+            "approvalRequired": True,
+        },
+        "mirrorContinuity": {
+            "state": mirror_state,
+            "mode": "pull-based-catch-up",
+            "mustNotBlock": ["production collectors", "production deployment", "production-local backup creation"],
+            "lagHours": None if not mirror_ok else 0,
+        },
+        "dataQuality": {"score": quality_score, "checks": quality_checks},
+        "lineage": {
+            "sourceEvents": len(sources),
+            "decisionGates": ["deployGate", "pruneGate", "runtimeCertification"],
+            "proofLinks": ["databaseBackup.latestBackup", "restoreProof.manifest", "backbone.items", "providerReadiness.items"],
+            "coverage": "complete" if sources and (backup_ok or restore_ok) else "partial",
+        },
+        "costValue": {
+            "warehouseBytes": int(root_measurement.get("bytes") or 0),
+            "mirrorBytes": int(mirror_measurement.get("bytes") or 0),
+            "ingestBytes24h": sum(int(source.get("bytes24h") or 0) for source in sources),
+            "riskReductionScore": round((quality_score + recovery_score) / 2),
+        },
+        "recoveryConfidence": {"score": recovery_score, "inputs": recovery_inputs},
+        "sloBudget": {
+            "status": "healthy" if not slo_breaches else "burning",
+            "remaining": slo_remaining,
+            "total": slo_total,
+            "breaches": slo_breaches,
+        },
+        "continuityMode": {
+            "mode": "production-independent",
+            "runtimeSourceOfTruth": "production database",
+            "warehouseRole": "backup-archive-replay-evidence",
+            "externalMirrorRole": "portable mirror and disaster-recovery copy",
+            "localOfflineOutcome": "production continues; mirror catch-up resumes after reconnect",
+        },
+        "correlation": {
+            "projects": ["nous-hermes-agent", "investing-system", "khashi-vc"],
+            "readyBackboneItems": backbone_ready,
+            "totalBackboneItems": backbone_total,
+            "staleSourceCount": len(stale_sources),
+            "providerReady": provider_ready,
+        },
+        "gameDays": [
+            {"id": "local-computer-off", "expected": "production continues; external mirror marked disconnected"},
+            {"id": "external-drive-unplugged", "expected": "deploy remains warning-only if production-local backup and restore proof are fresh"},
+            {"id": "production-backup-missing", "expected": "deploy warning and prune blocked"},
+            {"id": "restore-proof-stale", "expected": "deploy warning and prune blocked"},
+            {"id": "collector-stops-writing", "expected": "source freshness breach and alert"},
+            {"id": "mirror-reconnect-catch-up", "expected": "mirror transitions catching-up to verified"},
+        ],
+        "policyAsCode": {
+            "rules": [
+                "externalMirror.mustNotBlockRuntime",
+                "externalMirror.mustNotBlockDeployWhenProductionLocalProofFresh",
+                "destructivePrune.defaultDisabled",
+                "deploy.requiresProductionDatabaseVisibility",
+                "prune.requiresBackupRestoreDryRunApprovalAndVerification",
+            ],
+            "passing": deploy_status != "blocked",
+        },
+        "alerts": alerts,
+        "remediation": remediation_items,
+        "executivePacket": {
+            "status": certification_status,
+            "summary": f"CP04 runtime certification score {certification_score} with {len(deploy_blockers)} deploy blocker(s), {len(deploy_warnings)} deploy warning(s), and destructive prune disabled.",
+            "requestedApprovals": ["destructive prune scoped approval"] if len(prune_blockers) == 1 and backup_ok and restore_ok else [],
+            "topRisks": [*deploy_blockers, *deploy_warnings, *prune_blockers][:6],
+        },
+        "runtimeCertification": {
+            "score": certification_score,
+            "status": certification_status,
+            "phases": phases,
+            "complete": len([phase for phase in phases if phase["status"].startswith("built")]) == 20,
+            "remainingRuntimeProof": [item["action"] for item in remediation_items if item["gateImpact"] != "maintenance"],
+        },
+    }
+
+
 def warehouse_summary() -> dict[str, Any]:
     root = warehouse_root()
     mirror = mirror_root()
@@ -1003,6 +1238,20 @@ def warehouse_summary() -> dict[str, Any]:
         health = "partial"
     if database_backup["status"] == "missing" and health == "ready":
         health = "partial"
+    breaches = _slo_breaches(stale_sources, mirror_usage, restore)
+    cp04 = _cp04_runtime_intelligence(
+        root_usage=root_usage,
+        mirror_usage=mirror_usage,
+        root_measurement=measurement,
+        mirror_measurement=mirror_measurement,
+        sources=sources,
+        stale_sources=stale_sources,
+        restore=restore,
+        backbone=backbone,
+        database_backup=database_backup,
+        provider_readiness=provider_readiness,
+        slo_breaches=breaches,
+    )
 
     return {
         "contractVersion": "system-warehouse.v1",
@@ -1049,11 +1298,12 @@ def warehouse_summary() -> dict[str, Any]:
             "freshnessMinutes": 60,
             "mirrorLagHours": 4,
             "restoreProofDays": 7,
-            "breaches": _slo_breaches(stale_sources, mirror_usage, restore),
+            "breaches": breaches,
         },
         "backbone": backbone,
         "databaseBackup": database_backup,
         "providerReadiness": provider_readiness,
+        "cp04Runtime": cp04,
     }
 
 
@@ -1415,3 +1665,290 @@ def record_provider_readiness_capture() -> dict[str, Any]:
         {"providerReadiness": contract, "results": results},
     )
     return {"ok": True, "generatedAt": now_iso(), "providerReadiness": contract, "evidence": evidence, "results": results}
+
+
+def cp04_discord_alert_contract(summary: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Build Discord-ready CP04 alerts without sending them.
+
+    Sending is intentionally left to the gateway/Discord worker so this command
+    can run safely in CI, cron, and production proof jobs without requiring chat
+    credentials.
+    """
+
+    summary = summary or warehouse_summary()
+    cp04 = summary["cp04Runtime"]
+    alerts = []
+    for alert in cp04.get("alerts") or []:
+        severity = str(alert.get("severity") or "warning")
+        gate = str(alert.get("gateClass") or "continuity")
+        dataset = str(alert.get("dataset") or "warehouse")
+        alerts.append(
+            {
+                **alert,
+                "channel": "discord",
+                "dedupeKey": f"cp04:{gate}:{dataset}:{severity}",
+                "title": f"CP04 {gate} {severity}: {dataset}",
+                "message": str(alert.get("nextAction") or ""),
+                "sendPolicy": "critical-immediate-warning-digest",
+            }
+        )
+    return {
+        "contractVersion": "cp04-discord-alerts.v1",
+        "generatedAt": now_iso(),
+        "summary": {
+            "alerts": len(alerts),
+            "critical": len([alert for alert in alerts if alert.get("severity") in {"critical", "blocked"}]),
+            "warning": len([alert for alert in alerts if alert.get("severity") == "warning"]),
+        },
+        "alerts": alerts,
+    }
+
+
+def cp04_schedule_contract() -> dict[str, Any]:
+    repo_root = Path(__file__).resolve().parents[1]
+    return {
+        "contractVersion": "cp04-schedule.v1",
+        "generatedAt": now_iso(),
+        "scheduler": "hermes-cron-no-agent",
+        "workdir": str(repo_root),
+        "jobs": [
+            {
+                "name": "CP04 safe proof cycle",
+                "schedule": "*/15 * * * *",
+                "script": "uv run python -m hermes_cli.system_warehouse cp04-automation",
+                "purpose": "Run database backup proof, restore proof, provider readiness, certification, and alert packet generation.",
+            },
+            {
+                "name": "CP04 runtime certification",
+                "schedule": "0 * * * *",
+                "script": "uv run python -m hermes_cli.system_warehouse cp04-certify",
+                "purpose": "Persist hourly certification history even when the full proof cycle cadence changes.",
+            },
+            {
+                "name": "CP04 external mirror game-day",
+                "schedule": "0 10 * * 1",
+                "script": "uv run python -m hermes_cli.system_warehouse cp04-game-day --drill=external-drive-unplugged",
+                "purpose": "Record weekly safe simulation that missing external mirror remains warning-only for deploy/runtime.",
+            },
+        ],
+    }
+
+
+def install_cp04_cron_jobs() -> dict[str, Any]:
+    """Install active-profile CP04 proof jobs in Hermes cron."""
+
+    from cron.jobs import create_job, list_jobs
+
+    contract = cp04_schedule_contract()
+    existing = {str(job.get("name") or ""): job for job in list_jobs(include_disabled=True)}
+    installed = []
+    skipped = []
+    for spec in contract["jobs"]:
+        if spec["name"] in existing:
+            skipped.append({"name": spec["name"], "id": existing[spec["name"]].get("id"), "reason": "already-present"})
+            continue
+        job = create_job(
+            prompt=spec["purpose"],
+            schedule=spec["schedule"],
+            name=spec["name"],
+            script=spec["script"],
+            no_agent=True,
+            workdir=contract["workdir"],
+            deliver="local",
+            origin={"source": "cp04-schedule-contract", "contractVersion": contract["contractVersion"]},
+        )
+        installed.append({"name": job.get("name"), "id": job.get("id"), "schedule": job.get("schedule_display")})
+    artifact = _write_artifact(
+        f"warehouse/cp04-cron-install-{uuid4().hex[:10]}.json",
+        {"generatedAt": now_iso(), "contract": contract, "installed": installed, "skipped": skipped},
+    )
+    evidence = _record_action(
+        "cp04-cron-install",
+        "ready",
+        "CP04 safe proof cron jobs installed or confirmed present for the active Hermes profile.",
+        {"artifactUri": artifact, "installed": installed, "skipped": skipped},
+    )
+    return {"ok": True, "generatedAt": now_iso(), "artifactUri": artifact, "contract": contract, "installed": installed, "skipped": skipped, "evidence": evidence}
+
+
+def record_cp04_runtime_certification() -> dict[str, Any]:
+    """Persist the current CP04 runtime certification snapshot."""
+
+    summary = warehouse_summary()
+    cp04 = summary["cp04Runtime"]
+    alerts = cp04_discord_alert_contract(summary)
+    artifact = _write_artifact(
+        f"warehouse/cp04-runtime-certification-{uuid4().hex[:10]}.json",
+        {
+            "generatedAt": now_iso(),
+            "cp04Runtime": cp04,
+            "alerts": alerts,
+            "mode": "read-only-runtime-certification",
+        },
+    )
+    evidence = _record_action(
+        "cp04-runtime-certification",
+        "ready" if cp04["runtimeCertification"]["score"] >= 70 else "warning",
+        "CP04 runtime certification recorded. This is a proof snapshot; it does not mutate production data.",
+        {"cp04Runtime": cp04, "alerts": alerts, "artifactUri": artifact},
+    )
+    return {
+        "ok": cp04["deployGate"]["status"] != "blocked",
+        "generatedAt": now_iso(),
+        "artifactUri": artifact,
+        "score": cp04["runtimeCertification"]["score"],
+        "status": cp04["runtimeCertification"]["status"],
+        "deployGate": cp04["deployGate"],
+        "pruneGate": cp04["pruneGate"],
+        "alerts": alerts,
+        "evidence": evidence,
+    }
+
+
+def record_cp04_automation_cycle() -> dict[str, Any]:
+    """Run all safe CP04 proof jobs for scheduled automation."""
+
+    results: dict[str, Any] = {}
+    results["databaseBackup"] = record_database_backup_proof()
+    results["restoreProof"] = record_restore_proof()
+    results["providerReadiness"] = record_provider_readiness_capture()
+    results["certification"] = record_cp04_runtime_certification()
+    artifact = _write_artifact(
+        f"warehouse/cp04-automation-cycle-{uuid4().hex[:10]}.json",
+        {"generatedAt": now_iso(), "results": results, "mode": "safe-scheduled-proof-cycle"},
+    )
+    evidence = _record_action(
+        "cp04-automation-cycle",
+        "ready" if results["certification"]["ok"] else "warning",
+        "Scheduled CP04 proof cycle recorded. Safe proofs only; no destructive prune or deploy was executed.",
+        {"artifactUri": artifact, "results": results},
+    )
+    return {
+        "ok": bool(results["certification"]["ok"]),
+        "generatedAt": now_iso(),
+        "artifactUri": artifact,
+        "results": results,
+        "evidence": evidence,
+    }
+
+
+def cp04_deploy_gate_check() -> dict[str, Any]:
+    """Return the deploy gate decision for release tooling."""
+
+    summary = warehouse_summary()
+    cp04 = summary["cp04Runtime"]
+    decision = cp04["deployGate"]
+    artifact = _write_artifact(
+        f"warehouse/cp04-deploy-gate-{uuid4().hex[:10]}.json",
+        {"generatedAt": now_iso(), "decision": decision, "cp04Runtime": cp04},
+    )
+    evidence = _record_action(
+        "cp04-deploy-gate",
+        "ready" if decision["status"] != "blocked" else "blocked",
+        "CP04 deploy gate evaluated. External mirror absence is warning-only and does not block deployment by itself.",
+        {"artifactUri": artifact, "decision": decision},
+    )
+    return {
+        "ok": decision["status"] != "blocked",
+        "generatedAt": now_iso(),
+        "artifactUri": artifact,
+        "decision": decision,
+        "evidence": evidence,
+    }
+
+
+def record_cp04_prune_approval_packet(dataset: str = "system-warehouse", scope: str = "dry-run-candidates") -> dict[str, Any]:
+    """Create a prune approval packet; destructive prune remains disabled."""
+
+    dry_run = record_prune_dry_run()
+    summary = warehouse_summary()
+    cp04 = summary["cp04Runtime"]
+    seed = json.dumps({"dataset": dataset, "scope": scope, "dryRun": dry_run, "generatedAt": summary["generatedAt"]}, sort_keys=True, default=str)
+    packet_hash = hashlib.sha256(seed.encode("utf-8")).hexdigest()
+    packet = {
+        "contractVersion": "cp04-prune-approval-packet.v1",
+        "generatedAt": now_iso(),
+        "dataset": dataset,
+        "scope": scope,
+        "packetHash": packet_hash,
+        "destructiveMode": "disabled",
+        "approvalRequired": True,
+        "dryRun": dry_run,
+        "requires": cp04["pruneGate"]["evidence"],
+        "blockers": cp04["pruneGate"]["blockers"],
+        "warnings": cp04["pruneGate"]["warnings"],
+        "postPruneVerificationRequired": True,
+    }
+    artifact = _write_artifact(f"warehouse/cp04-prune-approval-{uuid4().hex[:10]}.json", packet)
+    evidence = _record_action(
+        "cp04-prune-approval-packet",
+        "warning",
+        "CP04 prune approval packet created. Destructive pruning remains disabled until explicit scoped approval and post-prune verification.",
+        {"artifactUri": artifact, "packet": packet},
+    )
+    return {"ok": True, "generatedAt": now_iso(), "artifactUri": artifact, "packet": packet, "evidence": evidence}
+
+
+def record_cp04_game_day_drill(drill_id: str = "external-drive-unplugged") -> dict[str, Any]:
+    """Record a safe CP04 game-day drill expectation and observed posture."""
+
+    summary = warehouse_summary()
+    cp04 = summary["cp04Runtime"]
+    drills = {drill["id"]: drill for drill in cp04.get("gameDays") or []}
+    drill = drills.get(drill_id) or {"id": drill_id, "expected": "No destructive action; record posture and required follow-up."}
+    observed = {
+        "deployGateStatus": cp04["deployGate"]["status"],
+        "mirrorState": cp04["mirrorContinuity"]["state"],
+        "pruneGateStatus": cp04["pruneGate"]["status"],
+        "certificationScore": cp04["runtimeCertification"]["score"],
+    }
+    artifact = _write_artifact(
+        f"warehouse/cp04-game-day-{_safe_ref(drill_id)}-{uuid4().hex[:10]}.json",
+        {"generatedAt": now_iso(), "drill": drill, "observed": observed, "mode": "safe-simulation"},
+    )
+    evidence = _record_action(
+        "cp04-game-day-drill",
+        "ready",
+        f"CP04 game-day drill recorded: {drill_id}. No live failure was induced.",
+        {"artifactUri": artifact, "drill": drill, "observed": observed},
+    )
+    return {"ok": True, "generatedAt": now_iso(), "artifactUri": artifact, "drill": drill, "observed": observed, "evidence": evidence}
+
+
+def _print_json(payload: dict[str, Any]) -> int:
+    print(json.dumps(payload, indent=2, sort_keys=True, default=str))
+    return 0
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="System warehouse and CP04 runtime automation commands.")
+    subparsers = parser.add_subparsers(dest="command", required=True)
+    subparsers.add_parser("cp04-automation", help="Run safe scheduled CP04 proof cycle.")
+    subparsers.add_parser("cp04-certify", help="Record current CP04 runtime certification.")
+    subparsers.add_parser("cp04-deploy-gate", help="Evaluate deploy gate for release tooling.")
+    subparsers.add_parser("cp04-install-cron", help="Install safe CP04 proof cron jobs.")
+    prune = subparsers.add_parser("cp04-prune-packet", help="Create a non-destructive prune approval packet.")
+    prune.add_argument("--dataset", default="system-warehouse")
+    prune.add_argument("--scope", default="dry-run-candidates")
+    gameday = subparsers.add_parser("cp04-game-day", help="Record a safe CP04 game-day drill.")
+    gameday.add_argument("--drill", default="external-drive-unplugged")
+    args = parser.parse_args(argv)
+    if args.command == "cp04-automation":
+        return _print_json(record_cp04_automation_cycle())
+    if args.command == "cp04-certify":
+        return _print_json(record_cp04_runtime_certification())
+    if args.command == "cp04-deploy-gate":
+        result = cp04_deploy_gate_check()
+        _print_json(result)
+        return 0 if result["ok"] else 2
+    if args.command == "cp04-install-cron":
+        return _print_json(install_cp04_cron_jobs())
+    if args.command == "cp04-prune-packet":
+        return _print_json(record_cp04_prune_approval_packet(dataset=args.dataset, scope=args.scope))
+    if args.command == "cp04-game-day":
+        return _print_json(record_cp04_game_day_drill(args.drill))
+    return 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

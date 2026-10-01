@@ -134,6 +134,10 @@ Canonical inputs:
 
 - `nous-hermes-agent/docs/plans/cross-project-warehouse-truth-contract.md`
 - `nous-hermes-agent/docs/plans/cross-project-warehouse-truth-contract.json`
+- `nous-hermes-agent/docs/plans/cp04-production-independent-warehouse-durability.md`
+- `nous-hermes-agent/docs/plans/cp04-production-independent-warehouse-durability.json`
+- `nous-hermes-agent/docs/plans/cp04-runtime-intelligence-maturity.md`
+- `nous-hermes-agent/docs/plans/cp04-runtime-intelligence-maturity.json`
 - `nous-hermes-agent/docs/plans/cross-project-storage-proof-registry.md`
 - `nous-hermes-agent/docs/plans/cross-project-storage-proof-registry.json`
 - `khashi-vc/docs/production-data-warehouse-maturity.md`
@@ -151,13 +155,15 @@ Merged or supporting inputs:
 Current status:
 
 - Active, ready with destructive pruning still approval-gated.
-- OANDA bounded archive/restore and database restore proof are ready, Investing storage maturity is ready, Khashi storage pressure is cleared by Docker build-cache maintenance proof, Khashi backup/targeted restore proof is ready, and Nous has a ready cross-project storage proof registry. Destructive prune execution remains gated by archive, backup, restore, rollup, and explicit approval proof.
+- OANDA bounded archive/restore and database restore proof are ready, Investing storage maturity is ready, Khashi storage pressure is cleared by Docker build-cache maintenance proof, Khashi backup/targeted restore proof is ready, Nous has a ready cross-project storage proof registry, and the CP04 runtime intelligence/certification layer is built into the warehouse summary and System Operations dashboard. Destructive prune execution remains gated by archive, backup, restore, rollup, and explicit approval proof.
 
 Next proof needed:
 
 - Keep storage proof registry and Docker build-cache maintenance proof fresh.
 - Keep destructive prune execution approval-gated after dry-run review.
 - Surface the storage proof registry in Nous warehouse jobs and operator evidence.
+- Keep production runtime and deployment independent from the local computer and external warehouse mirror; external mirror lag is warning-level unless continuity policy escalates it.
+- Keep `warehouse:runtime-intelligence:validate` green so tier health, deploy/prune gates, failure drills, remediation, and the executive packet stay aligned with runtime behavior.
 
 ## CP-05 Investing Trading / OANDA Live-Readiness
 

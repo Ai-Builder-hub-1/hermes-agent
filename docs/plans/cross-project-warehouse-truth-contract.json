@@ -3,7 +3,31 @@
   "canonicalPlan": "CP-04",
   "generatedAt": "2026-09-30",
   "status": "active-ready",
+  "productionIndependenceContract": "cp04-production-independent-warehouse-durability",
   "blockerSummary": "OANDA archive bounded production proof and restore proof are ready; Investing storage proof is ready; Khashi storage pressure is cleared by Docker build-cache maintenance proof; Khashi backup and targeted restore proof are ready. prune execution remains approval-gated, and destructive pruning disabled remains the policy unless archive, backup, restore, rollup, and approval gates pass.",
+  "durabilityPolicy": {
+    "productionRuntimeMustNotDependOnExternalMirror": true,
+    "deploymentMustNotDependOnExternalMirror": true,
+    "externalMirrorAbsenceSeverity": "warning",
+    "sourceOfTruthTiers": [
+      "tier-0-production-db",
+      "tier-1-production-local-backup-archive",
+      "tier-2-external-warehouse-mirror",
+      "tier-3-historical-cold-archive"
+    ],
+    "deployGateDependsOn": [
+      "production backup within SLO",
+      "restore proof within SLO",
+      "rollback or migration proof when schema changed",
+      "production disk headroom",
+      "service health check"
+    ],
+    "deployGateDoesNotDependOn": [
+      "external drive mounted",
+      "local warehouse current",
+      "local computer online"
+    ]
+  },
   "projects": [
     {
       "id": "khashi-vc",

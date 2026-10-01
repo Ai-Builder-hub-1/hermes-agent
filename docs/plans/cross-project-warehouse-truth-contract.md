@@ -12,6 +12,32 @@ The system is not blocked because the external drive is small. The system remain
 
 The previous OANDA archive-trust blocker is resolved to bounded production proof: verified bundles now include manifest, checksum, count, and restore proof. Investing storage proof is ready. Khashi storage pressure is cleared by Docker build-cache maintenance proof. Khashi backup and targeted restore proof are ready. Destructive pruning remains disabled until every archive, backup, restore, rollup, and approval gate passes.
 
+Production independence is now explicit: production collectors, production-local backups, and deployments must not depend on the local computer or external drive being online. The external warehouse mirror is a pull-based off-server durability layer. If it is disconnected, CP-04 records mirror lag and raises a warning, but production continues as long as Tier 0 and Tier 1 proof are healthy.
+
+The production-independent durability standard is defined in:
+
+- `docs/plans/cp04-production-independent-warehouse-durability.md`
+- `docs/plans/cp04-production-independent-warehouse-durability.json`
+
+## Durability Tiers
+
+| Tier | Role | Runtime dependency | Deploy dependency |
+| --- | --- | --- | --- |
+| Tier 0: Production database | Active source of truth for live application state and collected records. | Yes | Yes |
+| Tier 1: Production-local backup/archive | Server-side recovery layer for backups, archive bundles, manifests, and restore proof. | Yes | Yes |
+| Tier 2: External warehouse mirror | Off-server durability and long-term mirror that catches up when connected. | No | No |
+| Tier 3: Historical cold archive | Optional deep retention and long-horizon evidence archive. | No | No |
+
+## Gate Split
+
+- Runtime gates protect active collection and service health.
+- Deploy gates require production-local backup, restore, rollback/migration, disk, and service health proof.
+- Prune gates require archive, backup, restore, dry-run, explicit approval, and post-prune verification.
+- Mirror gates measure off-server durability lag and catch-up proof.
+- Continuity gates track how long the system can safely operate before off-server lag becomes a business continuity concern.
+
+Deploy gates do not require an external drive mount, a current local warehouse mirror, or a local computer being online.
+
 ## Project Roles
 
 | Project | Role | Current posture |

@@ -35,6 +35,17 @@ def test_warehouse_summary_reports_configured_root(tmp_path, monkeypatch):
     checklist = summary["providerReadiness"]["connectionChecklist"]
     assert {item["id"] for item in checklist} >= {"database-backup", "object-store", "deployment-provider", "vault-rotation"}
     assert all(item["needed"] and item["acceptedInputs"] and item["safeTest"] for item in checklist)
+    assert summary["cp04Runtime"]["contractVersion"] == "cp04-runtime-intelligence.v1"
+    assert len(summary["cp04Runtime"]["durabilityTiers"]) == 4
+    assert len(summary["cp04Runtime"]["runtimeCertification"]["phases"]) == 20
+    mirror_tier = {
+        tier["id"]: tier
+        for tier in summary["cp04Runtime"]["durabilityTiers"]
+    }["tier-2-external-warehouse-mirror"]
+    assert mirror_tier["runtimeDependency"] is False
+    assert mirror_tier["deployDependency"] is False
+    assert summary["cp04Runtime"]["pruneGate"]["defaultDestructiveMode"] == "disabled"
+    assert summary["cp04Runtime"]["pruneGate"]["approvalRequired"] is True
 
 
 def test_warehouse_series_has_points(tmp_path, monkeypatch):
@@ -195,3 +206,103 @@ def test_provider_readiness_uses_accepted_group_one_defaults(tmp_path, monkeypat
     checklist = {item["id"]: item for item in contract["connectionChecklist"]}
     assert "systemd" in checklist["external-scheduler"]["currentProvider"]
     assert "hetzner" in checklist["deployment-provider"]["currentProvider"]
+
+
+def test_cp04_runtime_mirror_absence_is_warning_not_deploy_blocker(tmp_path, monkeypatch):
+    warehouse = tmp_path / "warehouse"
+    warehouse.mkdir()
+    monkeypatch.setenv("HERMES_HOME", str(tmp_path / "home"))
+    monkeypatch.setenv("HERMES_WAREHOUSE_ROOT", str(warehouse))
+    monkeypatch.setenv("HERMES_WAREHOUSE_MIRROR_ROOT", str(tmp_path / "external-drive-not-mounted"))
+
+    from hermes_cli.system_warehouse import record_database_backup_proof, record_restore_proof, warehouse_summary
+
+    record_database_backup_proof()
+    record_restore_proof()
+    summary = warehouse_summary()
+    cp04 = summary["cp04Runtime"]
+
+    assert cp04["mirrorContinuity"]["state"] == "disconnected"
+    assert cp04["deployGate"]["status"] != "blocked"
+    assert any("mirror" in warning.lower() for warning in cp04["deployGate"]["warnings"])
+    assert "production deployment" in cp04["mirrorContinuity"]["mustNotBlock"]
+    assert cp04["pruneGate"]["status"] == "disabled"
+    assert cp04["runtimeCertification"]["complete"] is True
+    assert cp04["recoveryConfidence"]["inputs"]["mirrorAvailable"] is False
+
+
+def test_cp04_automation_cycle_records_safe_proofs(tmp_path, monkeypatch):
+    warehouse = tmp_path / "warehouse"
+    warehouse.mkdir()
+    monkeypatch.setenv("HERMES_HOME", str(tmp_path / "home"))
+    monkeypatch.setenv("HERMES_WAREHOUSE_ROOT", str(warehouse))
+    monkeypatch.setenv("HERMES_WAREHOUSE_MIRROR_ROOT", str(tmp_path / "external-drive-not-mounted"))
+
+    from hermes_cli.system_warehouse import record_cp04_automation_cycle
+
+    result = record_cp04_automation_cycle()
+    assert result["ok"] is True
+    assert Path(result["artifactUri"]).exists()
+    assert result["results"]["databaseBackup"]["databaseBackup"]["latestBackup"]["ok"] is True
+    assert result["results"]["restoreProof"]["manifestHash"]
+    assert result["results"]["certification"]["deployGate"]["status"] != "blocked"
+    assert result["results"]["certification"]["pruneGate"]["defaultDestructiveMode"] == "disabled"
+    assert result["results"]["certification"]["alerts"]["summary"]["alerts"] >= 1
+
+
+def test_cp04_deploy_gate_and_prune_packet_are_safe(tmp_path, monkeypatch):
+    warehouse = tmp_path / "warehouse"
+    warehouse.mkdir()
+    monkeypatch.setenv("HERMES_HOME", str(tmp_path / "home"))
+    monkeypatch.setenv("HERMES_WAREHOUSE_ROOT", str(warehouse))
+
+    from hermes_cli.system_warehouse import cp04_deploy_gate_check, record_cp04_prune_approval_packet
+
+    gate = cp04_deploy_gate_check()
+    packet = record_cp04_prune_approval_packet(dataset="events", scope="older-than-30d")
+
+    assert gate["ok"] is True
+    assert gate["decision"]["status"] != "blocked"
+    assert Path(gate["artifactUri"]).exists()
+    assert packet["packet"]["dataset"] == "events"
+    assert packet["packet"]["scope"] == "older-than-30d"
+    assert packet["packet"]["destructiveMode"] == "disabled"
+    assert packet["packet"]["approvalRequired"] is True
+    assert packet["packet"]["packetHash"]
+    assert Path(packet["artifactUri"]).exists()
+
+
+def test_cp04_game_day_drill_records_expected_posture(tmp_path, monkeypatch):
+    warehouse = tmp_path / "warehouse"
+    warehouse.mkdir()
+    monkeypatch.setenv("HERMES_HOME", str(tmp_path / "home"))
+    monkeypatch.setenv("HERMES_WAREHOUSE_ROOT", str(warehouse))
+
+    from hermes_cli.system_warehouse import record_cp04_game_day_drill
+
+    result = record_cp04_game_day_drill("external-drive-unplugged")
+    assert result["ok"] is True
+    assert result["drill"]["id"] == "external-drive-unplugged"
+    assert result["observed"]["pruneGateStatus"] == "disabled"
+    assert Path(result["artifactUri"]).exists()
+
+
+def test_cp04_cron_installer_is_idempotent(tmp_path, monkeypatch):
+    monkeypatch.setenv("HERMES_HOME", str(tmp_path / "home"))
+
+    from cron.jobs import list_jobs, use_cron_store
+    from hermes_cli.system_warehouse import install_cp04_cron_jobs
+
+    with use_cron_store(tmp_path / "home"):
+        first = install_cp04_cron_jobs()
+        second = install_cp04_cron_jobs()
+        jobs = list_jobs(include_disabled=True)
+
+    assert first["ok"] is True
+    assert len(first["installed"]) == 3
+    assert len(first["skipped"]) == 0
+    assert len(second["installed"]) == 0
+    assert len(second["skipped"]) == 3
+    names = {job["name"] for job in jobs}
+    assert names >= {"CP04 safe proof cycle", "CP04 runtime certification", "CP04 external mirror game-day"}
+    assert all(job["no_agent"] is True for job in jobs if job["name"].startswith("CP04"))

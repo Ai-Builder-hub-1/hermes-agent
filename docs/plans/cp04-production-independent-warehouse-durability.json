@@ -1,0 +1,239 @@
+{
+  "id": "cp04-production-independent-warehouse-durability",
+  "canonicalPlan": "CP-04",
+  "generatedAt": "2026-10-01",
+  "status": "active-build",
+  "objective": "Production keeps collecting, storing, backing up, and deploying when the local computer is off or the external drive is unplugged. The external warehouse mirror is monitored downstream durability, not a runtime dependency.",
+  "successDefinition": "If the local computer is off and the external drive is unplugged for a week, production still collects data, deploys when server-side proof is fresh, stores backups locally, alerts that the mirror is stale, and catches the external warehouse up when it returns.",
+  "nonDependencyRules": [
+    "External warehouse mirror absence must not stop production collectors.",
+    "External warehouse mirror absence must not block deployments when production-local backup and restore proof are fresh.",
+    "External warehouse mirror lag is warning-level by default, not a runtime blocker.",
+    "Destructive pruning remains disabled unless production-local archive, backup, restore, dry-run, approval, and post-prune verification gates pass."
+  ],
+  "durabilityTiers": [
+    {
+      "id": "tier-0-production-db",
+      "name": "Production database",
+      "role": "Active source of truth for live application state and collected records.",
+      "runtimeDependency": true,
+      "deployDependency": true,
+      "pruneDependency": true
+    },
+    {
+      "id": "tier-1-production-local-backup-archive",
+      "name": "Production-local backup/archive",
+      "role": "Server-side recovery layer for backups, archive bundles, manifests, and restore proof.",
+      "runtimeDependency": true,
+      "deployDependency": true,
+      "pruneDependency": true
+    },
+    {
+      "id": "tier-2-external-warehouse-mirror",
+      "name": "External warehouse mirror",
+      "role": "Off-server durability and long-term mirror that catches up when connected.",
+      "runtimeDependency": false,
+      "deployDependency": false,
+      "pruneDependency": "recommended-policy-gate"
+    },
+    {
+      "id": "tier-3-historical-cold-archive",
+      "name": "Historical cold archive",
+      "role": "Optional deep retention and long-horizon evidence archive.",
+      "runtimeDependency": false,
+      "deployDependency": false,
+      "pruneDependency": false
+    }
+  ],
+  "gateClasses": [
+    {
+      "id": "runtime",
+      "blocksRuntime": true,
+      "blocksDeploy": true,
+      "blocksDestructivePrune": true,
+      "mirrorStaleBehavior": "warning"
+    },
+    {
+      "id": "deploy",
+      "blocksRuntime": false,
+      "blocksDeploy": true,
+      "blocksDestructivePrune": true,
+      "mirrorStaleBehavior": "warning"
+    },
+    {
+      "id": "prune",
+      "blocksRuntime": false,
+      "blocksDeploy": false,
+      "blocksDestructivePrune": true,
+      "mirrorStaleBehavior": "warning-or-policy-precondition"
+    },
+    {
+      "id": "mirror",
+      "blocksRuntime": false,
+      "blocksDeploy": false,
+      "blocksDestructivePrune": false,
+      "mirrorStaleBehavior": "warning"
+    },
+    {
+      "id": "continuity",
+      "blocksRuntime": false,
+      "blocksDeploy": "warning-unless-server-side-proof-is-stale",
+      "blocksDestructivePrune": "warning-or-block-by-lag-policy",
+      "mirrorStaleBehavior": "warning"
+    }
+  ],
+  "projectProductionLocalStandards": [
+    {
+      "project": "investing-system",
+      "requiredProofs": [
+        "production Postgres backup",
+        "OANDA archive bundle manifest",
+        "OANDA archive checksum catalog",
+        "OANDA restore proof",
+        "OANDA prune dry-run proof"
+      ]
+    },
+    {
+      "project": "khashi-vc",
+      "requiredProofs": [
+        "production Postgres backup",
+        "StoreRecord rollup or export bundle",
+        "warehouse export manifest",
+        "restore proof",
+        "retention dry-run proof"
+      ]
+    },
+    {
+      "project": "nous-hermes-agent",
+      "requiredProofs": [
+        "dashboard/session/config backup",
+        "second-brain sync proof",
+        "registry/report backup",
+        "restore proof"
+      ]
+    }
+  ],
+  "mirrorBehavior": {
+    "mode": "pull-based-catch-up",
+    "states": ["disconnected", "stale", "catching-up", "verified", "blocked"],
+    "disconnectedSeverity": "warning",
+    "mustNotBlock": ["production collectors", "production deployment", "production-local backup creation"],
+    "mustRecord": ["lag duration", "last successful pull", "missing manifests", "checksum verification", "catch-up result"]
+  },
+  "dashboardRequirements": [
+    "tier health",
+    "production source health",
+    "production backup freshness",
+    "restore proof age",
+    "external mirror lag",
+    "prune lock state",
+    "safe-to-deploy card",
+    "safe-to-prune card",
+    "project/dataset drilldown",
+    "failure drill evidence"
+  ],
+  "deployGate": {
+    "requires": [
+      "production backup within SLO",
+      "restore proof within SLO",
+      "rollback or migration proof when schema changed",
+      "production disk headroom",
+      "service health check"
+    ],
+    "doesNotRequire": [
+      "external drive mounted",
+      "local warehouse current",
+      "local computer online"
+    ]
+  },
+  "pruneGate": {
+    "defaultDestructiveMode": "disabled",
+    "requires": [
+      "production backup fresh",
+      "archive bundle verified",
+      "restore proof fresh",
+      "dry-run candidate hash",
+      "explicit scoped approval packet",
+      "post-prune verification"
+    ]
+  },
+  "alertContract": {
+    "requiredFields": ["project", "dataset", "tier", "gateClass", "severity", "observedAt", "nextAction"],
+    "criticalExamples": ["production database unhealthy", "collectors stopped", "disk above hard threshold"],
+    "warningExamples": ["external mirror stale", "restore proof aging", "backup near SLO"],
+    "infoExamples": ["mirror catch-up complete", "archive verified", "prune dry-run ready"]
+  },
+  "failureDrills": [
+    "local computer off",
+    "external drive unplugged",
+    "production deploy with mirror stale",
+    "production backup missing",
+    "restore proof stale",
+    "disk above warning threshold",
+    "collector stops writing",
+    "mirror reconnect catch-up"
+  ],
+  "phases": [
+    {
+      "id": "phase-1",
+      "name": "Durability Tier Contract",
+      "status": "built",
+      "test": "validate all four tiers and external mirror non-dependency"
+    },
+    {
+      "id": "phase-2",
+      "name": "Runtime Gate Split",
+      "status": "built",
+      "test": "validate separate runtime, deploy, prune, mirror, and continuity gate classes"
+    },
+    {
+      "id": "phase-3",
+      "name": "Production-Local Backup Standard",
+      "status": "built",
+      "test": "validate required production-local proofs per project"
+    },
+    {
+      "id": "phase-4",
+      "name": "External Mirror Catch-Up",
+      "status": "built",
+      "test": "validate pull-based catch-up states and warning behavior"
+    },
+    {
+      "id": "phase-5",
+      "name": "Nous CP04 Dashboard Visibility",
+      "status": "built",
+      "test": "validate required CP04 dashboard cards and drilldowns"
+    },
+    {
+      "id": "phase-6",
+      "name": "Deployment Gate Rework",
+      "status": "built",
+      "test": "validate deploy gate requires server-side proof and excludes local mirror dependency"
+    },
+    {
+      "id": "phase-7",
+      "name": "Prune Gate Rework",
+      "status": "built",
+      "test": "validate destructive prune remains disabled and approval-gated"
+    },
+    {
+      "id": "phase-8",
+      "name": "Alert Attribution",
+      "status": "built",
+      "test": "validate alert fields and severity distinctions"
+    },
+    {
+      "id": "phase-9",
+      "name": "Failure Drills",
+      "status": "built",
+      "test": "validate eight required failure drills"
+    },
+    {
+      "id": "phase-10",
+      "name": "Final CP04 Operating Standard",
+      "status": "built",
+      "test": "validate CP04 contract and project runbooks reference the production-independent standard"
+    }
+  ]
+}
+

@@ -156,6 +156,115 @@ export interface WarehouseSummary {
     }>;
     recommendations: string[];
   };
+  cp04Runtime: {
+    contractVersion: string;
+    generatedAt: string;
+    durabilityTiers: Array<{
+      id: string;
+      label: string;
+      status: string;
+      runtimeDependency: boolean;
+      deployDependency: boolean;
+      detail: string;
+    }>;
+    deployGate: {
+      status: string;
+      title: string;
+      detail: string;
+      blockers: string[];
+      warnings: string[];
+      evidence: string[];
+    };
+    pruneGate: {
+      status: string;
+      title: string;
+      detail: string;
+      blockers: string[];
+      warnings: string[];
+      evidence: string[];
+      defaultDestructiveMode: string;
+      approvalRequired: boolean;
+    };
+    mirrorContinuity: {
+      state: string;
+      mode: string;
+      mustNotBlock: string[];
+      lagHours: number | null;
+    };
+    dataQuality: {
+      score: number;
+      checks: Array<{ id: string; label: string; status: string; detail: string }>;
+    };
+    lineage: {
+      sourceEvents: number;
+      decisionGates: string[];
+      proofLinks: string[];
+      coverage: string;
+    };
+    costValue: {
+      warehouseBytes: number;
+      mirrorBytes: number;
+      ingestBytes24h: number;
+      riskReductionScore: number;
+    };
+    recoveryConfidence: {
+      score: number;
+      inputs: Record<string, boolean>;
+    };
+    sloBudget: {
+      status: string;
+      remaining: number;
+      total: number;
+      breaches: string[];
+    };
+    continuityMode: {
+      mode: string;
+      runtimeSourceOfTruth: string;
+      warehouseRole: string;
+      externalMirrorRole: string;
+      localOfflineOutcome: string;
+    };
+    correlation: {
+      projects: string[];
+      readyBackboneItems: number;
+      totalBackboneItems: number;
+      staleSourceCount: number;
+      providerReady: boolean;
+    };
+    gameDays: Array<{ id: string; expected: string }>;
+    policyAsCode: {
+      rules: string[];
+      passing: boolean;
+    };
+    alerts: Array<{
+      project: string;
+      dataset: string;
+      tier: string;
+      gateClass: string;
+      severity: string;
+      observedAt: string;
+      nextAction: string;
+    }>;
+    remediation: Array<{
+      priority: number;
+      action: string;
+      command: string;
+      gateImpact: string;
+    }>;
+    executivePacket: {
+      status: string;
+      summary: string;
+      requestedApprovals: string[];
+      topRisks: string[];
+    };
+    runtimeCertification: {
+      score: number;
+      status: string;
+      phases: Array<{ id: string; name: string; status: string; proof: string; test: string }>;
+      complete: boolean;
+      remainingRuntimeProof: string[];
+    };
+  };
 }
 
 export interface WarehouseSource {

@@ -93,11 +93,15 @@
       "order": 2,
       "owner": "cross-project",
       "status": "active-ready",
-      "percentComplete": 90,
+      "percentComplete": 96,
       "confidence": "medium-high",
       "canonicalInputs": [
         "nous-hermes-agent/docs/plans/cross-project-warehouse-truth-contract.md",
         "nous-hermes-agent/docs/plans/cross-project-warehouse-truth-contract.json",
+        "nous-hermes-agent/docs/plans/cp04-production-independent-warehouse-durability.md",
+        "nous-hermes-agent/docs/plans/cp04-production-independent-warehouse-durability.json",
+        "nous-hermes-agent/docs/plans/cp04-runtime-intelligence-maturity.md",
+        "nous-hermes-agent/docs/plans/cp04-runtime-intelligence-maturity.json",
         "khashi-vc/docs/production-data-warehouse-maturity.md",
         "khashi-vc/docs/design/KHASHI_DATA_OPERATIONS_MATURITY_STANDARD.md",
         "khashi-vc/docs/ops/KHASHI_STORAGE_MATURITY_RUNBOOK.md",
@@ -109,7 +113,7 @@
       "supportingInputs": [
         "khashi-vc/docs/proofs/khashi-storage-maturity-production.json"
       ],
-      "nextProof": "Keep storage proof registry fresh, keep Docker build-cache proof fresh, and keep destructive pruning approval-gated."
+      "nextProof": "Keep storage proof registry fresh, keep Docker build-cache proof fresh, keep production runtime/deploy independent from the external mirror, keep destructive pruning approval-gated, and keep CP04 runtime certification green."
     },
     {
       "id": "CP-05",

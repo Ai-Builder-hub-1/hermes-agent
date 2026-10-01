@@ -148,6 +148,30 @@ The target production workflow should:
 8. Upload deploy evidence as an artifact or PR comment.
 9. Fail closed on unknown source ref, dirty host checkout, service mismatch, rollback target, or domain-health status.
 
+## CP04 Warehouse Gate
+
+Production deployment must evaluate the CP04 deploy gate before promotion:
+
+```sh
+npm run warehouse:cp04:deploy-gate
+```
+
+The command exits non-zero only for true blockers. External warehouse mirror absence is warning-only when production-local database backup and restore proof are healthy. Do not make the external drive, local computer, or external mirror a production deploy dependency.
+
+Install the safe CP04 proof cadence in the active production Hermes profile:
+
+```sh
+npm run warehouse:cp04:install-cron
+```
+
+This creates no-agent cron jobs for:
+
+- CP04 safe proof cycle every 15 minutes.
+- CP04 runtime certification hourly.
+- CP04 external mirror game-day weekly.
+
+The proof cycle records database backup proof, restore proof, provider readiness, runtime certification, and Discord-ready alert payloads. It does not execute destructive prune or production deploy.
+
 ## Hermes Brain Production Wiring
 
 Hermes Brain is an internal second-brain service. It should not require a separate public hostname for the operator workflow.
