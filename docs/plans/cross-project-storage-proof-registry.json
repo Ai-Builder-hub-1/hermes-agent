@@ -1,17 +1,17 @@
 {
   "id": "cross-project-storage-proof-registry",
   "canonicalPlan": "CP-04",
-  "generatedAt": "2026-10-01T01:38:31.836Z",
+  "generatedAt": "2026-10-01T01:47:54.970Z",
   "workspaceRoot": "/Users/hq/Workspace/projects",
-  "status": "blocked",
+  "status": "watch",
   "summary": {
     "projects": 2,
     "ready": 1,
-    "watch": 0,
-    "blocked": 1,
+    "watch": 1,
+    "blocked": 0,
     "missing": 0,
-    "averageScore": 89,
-    "oldestFreshnessHours": 0.28
+    "averageScore": 91,
+    "oldestFreshnessHours": 0.44
   },
   "projects": [
     {
@@ -22,7 +22,7 @@
       "status": "ready",
       "score": 93,
       "checkedAt": "2026-10-01T01:21:38.425Z",
-      "freshnessHours": 0.28,
+      "freshnessHours": 0.44,
       "facts": {
         "rootDiskUsedPct": "74%",
         "ledgerFiles": 91217,
@@ -44,13 +44,13 @@
       "label": "Khashi VC",
       "reportPath": "/Users/hq/Workspace/projects/khashi-vc/docs/reports/khashi-storage-maturity/latest.json",
       "canonicalPlan": "CP-04",
-      "status": "blocked",
-      "score": 85,
-      "checkedAt": "2026-10-01T01:37:37.959Z",
-      "freshnessHours": 0.01,
+      "status": "watch",
+      "score": 89,
+      "checkedAt": "2026-10-01T01:46:29.787Z",
+      "freshnessHours": 0.02,
       "facts": {
         "rootDiskUsedPct": "78%",
-        "storeRecordRows": 26357626,
+        "storeRecordRows": 26360972,
         "staleKeyStores": 0,
         "retentionDryRunProofStatus": "ready",
         "mirrorStatus": "blocked",
@@ -59,13 +59,12 @@
         "restoreProofStatus": "unknown"
       },
       "blockers": [
-        "project report status is blocked",
         "restore proof unknown"
       ],
-      "nextAction": "Reclaim Docker build cache before investigating server upgrades."
+      "nextAction": "Use the dry-run proof to schedule approval-gated pruning with archive and restore proof."
     }
   ],
   "nextActions": [
-    "Khashi VC: Reclaim Docker build cache before investigating server upgrades."
+    "Khashi VC: Use the dry-run proof to schedule approval-gated pruning with archive and restore proof."
   ]
 }

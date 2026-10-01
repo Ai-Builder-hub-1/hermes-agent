@@ -92,8 +92,8 @@
       "wave": "wave-1-truth-layer",
       "order": 2,
       "owner": "cross-project",
-      "status": "active-blocked",
-      "percentComplete": 82,
+      "status": "active-watch",
+      "percentComplete": 86,
       "confidence": "medium",
       "canonicalInputs": [
         "nous-hermes-agent/docs/plans/cross-project-warehouse-truth-contract.md",
@@ -109,7 +109,7 @@
       "supportingInputs": [
         "khashi-vc/docs/proofs/khashi-storage-maturity-production.json"
       ],
-      "nextProof": "Clear Khashi storage blockers, add Khashi restore proof, and keep OANDA prune execution approval-gated after dry-run review."
+      "nextProof": "Add explicit Khashi restore proof, keep Docker build-cache proof fresh, and keep OANDA prune execution approval-gated after dry-run review."
     },
     {
       "id": "CP-05",
