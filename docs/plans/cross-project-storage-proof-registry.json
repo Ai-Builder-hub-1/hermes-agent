@@ -1,17 +1,17 @@
 {
   "id": "cross-project-storage-proof-registry",
   "canonicalPlan": "CP-04",
-  "generatedAt": "2026-10-01T01:47:54.970Z",
+  "generatedAt": "2026-10-01T13:23:41.995Z",
   "workspaceRoot": "/Users/hq/Workspace/projects",
-  "status": "watch",
+  "status": "ready",
   "summary": {
     "projects": 2,
-    "ready": 1,
-    "watch": 1,
+    "ready": 2,
+    "watch": 0,
     "blocked": 0,
     "missing": 0,
-    "averageScore": 91,
-    "oldestFreshnessHours": 0.44
+    "averageScore": 90,
+    "oldestFreshnessHours": 12.03
   },
   "projects": [
     {
@@ -22,7 +22,7 @@
       "status": "ready",
       "score": 93,
       "checkedAt": "2026-10-01T01:21:38.425Z",
-      "freshnessHours": 0.44,
+      "freshnessHours": 12.03,
       "facts": {
         "rootDiskUsedPct": "74%",
         "ledgerFiles": 91217,
@@ -44,27 +44,25 @@
       "label": "Khashi VC",
       "reportPath": "/Users/hq/Workspace/projects/khashi-vc/docs/reports/khashi-storage-maturity/latest.json",
       "canonicalPlan": "CP-04",
-      "status": "watch",
-      "score": 89,
-      "checkedAt": "2026-10-01T01:46:29.787Z",
-      "freshnessHours": 0.02,
+      "status": "ready",
+      "score": 87,
+      "checkedAt": "2026-10-01T13:22:50.681Z",
+      "freshnessHours": 0.01,
       "facts": {
         "rootDiskUsedPct": "78%",
-        "storeRecordRows": 26360972,
+        "storeRecordRows": 26913574,
         "staleKeyStores": 0,
         "retentionDryRunProofStatus": "ready",
         "mirrorStatus": "blocked",
         "localPullSourceStatus": "ready",
         "localPullProofStatus": "ready",
-        "restoreProofStatus": "unknown"
+        "restoreProofStatus": "ready"
       },
-      "blockers": [
-        "restore proof unknown"
-      ],
-      "nextAction": "Use the dry-run proof to schedule approval-gated pruning with archive and restore proof."
+      "blockers": [],
+      "nextAction": "Use the dry-run and restore proof to schedule approval-gated pruning."
     }
   ],
   "nextActions": [
-    "Khashi VC: Use the dry-run proof to schedule approval-gated pruning with archive and restore proof."
+    "All storage maturity reports are fresh and ready; keep the registry on cadence."
   ]
 }

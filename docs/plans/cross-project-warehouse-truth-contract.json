@@ -2,8 +2,8 @@
   "id": "cross-project-warehouse-truth-contract",
   "canonicalPlan": "CP-04",
   "generatedAt": "2026-09-30",
-  "status": "active-watch",
-  "blockerSummary": "OANDA archive bounded production proof and restore proof are ready; Investing storage proof is ready; Khashi storage pressure is cleared by Docker build-cache maintenance proof. Remaining watch items are Khashi restore proof, approval-gated OANDA archive/prune execution, and keeping destructive pruning disabled until all gates pass.",
+  "status": "active-ready",
+  "blockerSummary": "OANDA archive bounded production proof and restore proof are ready; Investing storage proof is ready; Khashi storage pressure is cleared by Docker build-cache maintenance proof; Khashi backup and targeted restore proof are ready. prune execution remains approval-gated, and destructive pruning disabled remains the policy unless archive, backup, restore, rollup, and approval gates pass.",
   "projects": [
     {
       "id": "khashi-vc",

@@ -2,21 +2,21 @@
 
 Canonical plan: CP-04
 
-Status: active-watch
+Status: active-ready
 
 This contract defines what must be true before data collection, warehouse mirroring, archive trust, restore proof, retention, and pruning can be treated as mature across Nous Hermes Agent, Investing System, and Khashi VC.
 
 ## Current Position
 
-The system is not blocked because the external drive is small. The system remains on watch where durable proof is incomplete, stale, or approval-gated.
+The system is not blocked because the external drive is small. The system remains governed where destructive operations require explicit approval even after durable proof is ready.
 
-The previous OANDA archive-trust blocker is resolved to bounded production proof: verified bundles now include manifest, checksum, count, and restore proof. Investing storage proof is ready. Khashi storage pressure is cleared by Docker build-cache maintenance proof. Remaining watch items are Khashi restore proof, approval-gated OANDA archive/prune execution, and keeping destructive pruning disabled until every gate passes.
+The previous OANDA archive-trust blocker is resolved to bounded production proof: verified bundles now include manifest, checksum, count, and restore proof. Investing storage proof is ready. Khashi storage pressure is cleared by Docker build-cache maintenance proof. Khashi backup and targeted restore proof are ready. Destructive pruning remains disabled until every archive, backup, restore, rollup, and approval gate passes.
 
 ## Project Roles
 
 | Project | Role | Current posture |
 | --- | --- | --- |
-| Khashi VC | Market-intelligence warehouse producer | Watch: fresh proof exists, Docker build-cache pressure is cleared, and restore proof is not yet explicit. |
+| Khashi VC | Market-intelligence warehouse producer | Ready: fresh proof exists, Docker build-cache pressure is cleared, and backup/targeted restore proof is explicit. |
 | Investing System | OANDA and financial-analysis warehouse producer | Ready/watch: archive trust proof exists; prune/live promotion remain approval-gated. |
 | Nous Hermes Agent | Fleet visibility and operator control plane | Consumer/control plane; must surface warehouse, storage, freshness, workers, archive, and restore proof. |
 
