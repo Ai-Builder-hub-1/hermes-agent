@@ -103,7 +103,7 @@ interface ServerActionIntentResponse {
   evidence: ServerEvidenceRecord;
 }
 
-interface ServerActionCloseoutResponse extends ServerActionIntentResponse {}
+type ServerActionCloseoutResponse = ServerActionIntentResponse;
 
 const STORAGE_KEY = "hermes.operatingRuntime.v1";
 
