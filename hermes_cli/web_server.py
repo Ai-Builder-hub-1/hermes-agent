@@ -15719,7 +15719,21 @@ async def pty_ws(ws: WebSocket) -> None:
     sidecar_url = _build_sidecar_url(channel) if channel else None
     active_session_file = None
     if channel:
-        active_session_file = str(_active_session_file_for_channel(app, channel))
+        active_session_path = _active_session_file_for_channel(app, channel)
+        active_session_file = str(active_session_path)
+        if ws.query_params.get("fresh") in {"1", "true", "yes"}:
+            try:
+                active_session_path.unlink()
+            except FileNotFoundError:
+                pass
+        elif resume is None:
+            try:
+                active_payload = json.loads(active_session_path.read_text(encoding="utf-8"))
+                active_resume = str(active_payload.get("session_id") or "").strip()
+                if active_resume:
+                    resume = active_resume
+            except (OSError, json.JSONDecodeError):
+                pass
 
     try:
         resolve_kwargs = {
@@ -15771,6 +15785,10 @@ async def pty_ws(ws: WebSocket) -> None:
                 None, bridge.read, _PTY_READ_CHUNK_TIMEOUT
             )
             if chunk is None:  # EOF
+                try:
+                    await ws.close(code=1000)
+                except Exception:
+                    pass
                 return
             if not chunk:  # no data this tick; yield control and retry
                 await asyncio.sleep(0)
