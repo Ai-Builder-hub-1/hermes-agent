@@ -1,7 +1,7 @@
 """Tests for user-defined quick commands that bypass the agent loop."""
 import os
 import subprocess
-from unittest.mock import MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock, patch
 from rich.text import Text
 import pytest
 
@@ -155,10 +155,32 @@ class TestGatewayQuickCommands:
         runner._running_agents = {}
         runner._pending_messages = {}
         runner._is_user_authorized = MagicMock(return_value=True)
+        runner._messaging_command_preflight_guard = AsyncMock(return_value=None)
 
         event = self._make_event("limits")
         result = await runner._handle_message(event)
         assert result == "ok"
+        runner._messaging_command_preflight_guard.assert_awaited_once()
+
+    @pytest.mark.asyncio
+    async def test_exec_command_preflight_block_stops_shell(self):
+        from gateway.run import GatewayRunner
+
+        runner = GatewayRunner.__new__(GatewayRunner)
+        runner.config = {"quick_commands": {"limits": {"type": "exec", "command": "echo should-not-run"}}}
+        runner._running_agents = {}
+        runner._pending_messages = {}
+        runner._is_user_authorized = MagicMock(return_value=True)
+        runner._messaging_command_preflight_guard = AsyncMock(return_value="High-impact preflight blocked command-runner-high-impact")
+
+        event = self._make_event("limits")
+        with patch(
+            "asyncio.create_subprocess_shell",
+            side_effect=AssertionError("quick command shell should not start"),
+        ):
+            result = await runner._handle_message(event)
+
+        assert result == "High-impact preflight blocked command-runner-high-impact"
 
     @pytest.mark.asyncio
     async def test_exec_command_does_not_leak_credentials(self):
@@ -170,6 +192,7 @@ class TestGatewayQuickCommands:
         runner._running_agents = {}
         runner._pending_messages = {}
         runner._is_user_authorized = MagicMock(return_value=True)
+        runner._messaging_command_preflight_guard = AsyncMock(return_value=None)
 
         event = self._make_event("leak")
         with patch.dict(os.environ, {"OPENROUTER_API_KEY": "sk-or-secret-12345"}):
@@ -192,6 +215,7 @@ class TestGatewayQuickCommands:
         runner._running_agents = {}
         runner._pending_messages = {}
         runner._is_user_authorized = MagicMock(return_value=True)
+        runner._messaging_command_preflight_guard = AsyncMock(return_value=None)
 
         event = self._make_event("token")
         result = await runner._handle_message(event)
@@ -222,6 +246,7 @@ class TestGatewayQuickCommands:
         runner._running_agents = {}
         runner._pending_messages = {}
         runner._is_user_authorized = MagicMock(return_value=True)
+        runner._messaging_command_preflight_guard = AsyncMock(return_value=None)
 
         event = self._make_event("slow")
         with patch("asyncio.wait_for", side_effect=asyncio.TimeoutError):
@@ -241,6 +266,7 @@ class TestGatewayQuickCommands:
         runner._running_agents = {}
         runner._pending_messages = {}
         runner._is_user_authorized = MagicMock(return_value=True)
+        runner._messaging_command_preflight_guard = AsyncMock(return_value=None)
 
         event = self._make_event("limits")
         result = await runner._handle_message(event)

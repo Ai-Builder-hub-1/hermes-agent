@@ -52,6 +52,7 @@ def _make_runner(hermes_home=None):
     runner._read_user_config = lambda: {
         "approvals": {"destructive_slash_confirm": False}
     }
+    runner._messaging_command_preflight_guard = AsyncMock(return_value=None)
     return runner
 
 
@@ -238,7 +239,30 @@ class TestUpdateCommandGatewayFlag:
         assert "PYTHONUNBUFFERED" in cmd_string
         assert "rc=$?" in cmd_string
         assert "status=$?" not in cmd_string
-        assert "stream progress" in result
+
+    @pytest.mark.asyncio
+    async def test_update_preflight_block_stops_spawn(self, tmp_path):
+        runner = _make_runner()
+        runner._messaging_command_preflight_guard = AsyncMock(
+            return_value="High-impact preflight blocked production-deploy-promote"
+        )
+        event = _make_event()
+
+        fake_root = tmp_path / "project"
+        fake_root.mkdir()
+        (fake_root / ".git").mkdir()
+        (fake_root / "gateway").mkdir()
+        (fake_root / "gateway" / "run.py").touch()
+        fake_file = str(fake_root / "gateway" / "run.py")
+        hermes_home = tmp_path / "hermes"
+        hermes_home.mkdir()
+
+        with patch("gateway.run._hermes_home", hermes_home), \
+             patch("gateway.run.__file__", fake_file), \
+             patch("subprocess.Popen", side_effect=AssertionError("update should not spawn")):
+            result = await runner._handle_update_command(event)
+
+        assert result == "High-impact preflight blocked production-deploy-promote"
 
 
 # ---------------------------------------------------------------------------

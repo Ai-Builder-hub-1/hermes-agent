@@ -102,6 +102,14 @@ Nous Hermes:
 CP-03 is no longer blocked on basic Hermes Brain runtime connectivity or token availability. Remaining maturity is now higher-level operating proof:
 
 - keep decision-intelligence maintenance on cadence
-- wire chat, command-runner, deploy, warehouse, and project adapters to call `/api/second-brain/agent-preflight` before high-impact execution
+- keep chat, command-runner, deploy, warehouse, project adapter, embedded gateway, and live messaging command preflight coverage green
 - prove blocked policies stop silent execution with production evidence for each workflow class
 - expose report-to-memory and report-to-decision flows from Khashi/Investing into the second brain
+
+## 2026-10-02 High-Impact Command Enforcement Update
+
+- Dashboard REST actions use the registered high-impact workflow preflight guard.
+- Embedded TUI `command.dispatch` and `slash.exec` now classify high-impact commands and call Hermes Brain preflight before execution.
+- Live messaging `/update` and messaging `quick_commands` with `type: exec` now call registered preflight before spawning update or shell work.
+- Destructive pruning and snapshot restore remain blocked by local/runtime policy unless their explicit approval gates are satisfied.
+- Production Nous Hermes was promoted to `d443a6eeb74c8549bc8342f03f223ad1f1007e13` and returned healthy status with basic auth required.

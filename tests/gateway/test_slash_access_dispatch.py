@@ -107,6 +107,7 @@ def _make_runner(*, platform_extra: dict | None = None,
     runner._send_voice_reply = AsyncMock()
     runner._capture_gateway_honcho_if_configured = lambda *args, **kwargs: None
     runner._emit_gateway_run_progress = AsyncMock()
+    runner._messaging_command_preflight_guard = AsyncMock(return_value=None)
     return runner
 
 
@@ -383,6 +384,28 @@ async def test_admin_runs_quick_command_when_gating_enabled():
     assert result == "quick-command-admin"
 
 
+@pytest.mark.asyncio
+async def test_quick_command_exec_preflight_blocks_even_for_admin():
+    runner = _make_runner(
+        platform_extra={
+            "allow_admin_from": ["111"],
+            "user_allowed_commands": [],
+        }
+    )
+    runner.config.quick_commands = {
+        "limits": {"type": "exec", "command": "printf should-not-run"}
+    }
+    runner._messaging_command_preflight_guard = AsyncMock(
+        return_value="High-impact preflight blocked command-runner-high-impact"
+    )
+
+    result = await runner._handle_message(
+        _make_event("/limits", _make_source(user_id="111"))
+    )
+
+    assert result == "High-impact preflight blocked command-runner-high-impact"
+
+
 # ---------------------------------------------------------------------------
 # Running-agent fast-path gating — admin/user split must hold even when an
 # agent is already running. The fast-path block in _handle_message dispatches
@@ -437,6 +460,27 @@ async def test_running_agent_fastpath_allows_admin_command():
     result = await runner._handle_message(_make_event("/restart", src))
     assert result == "restart-handled"
     assert "⛔" not in (result or "")
+
+
+@pytest.mark.asyncio
+async def test_running_agent_fastpath_update_runs_preflight_before_handler():
+    runner = _make_runner(
+        platform_extra={
+            "allow_admin_from": ["111"],
+            "user_allowed_commands": [],
+        }
+    )
+    src = _make_source(user_id="111")
+    sk = build_session_key(src)
+    runner._running_agents[sk] = MagicMock()
+    runner._running_agents_ts[sk] = 0
+    runner._messaging_command_preflight_guard = AsyncMock(
+        return_value="High-impact preflight blocked production-deploy-promote"
+    )
+
+    result = await runner._handle_message(_make_event("/update", src))
+
+    assert result == "High-impact preflight blocked production-deploy-promote"
 
 
 @pytest.mark.asyncio

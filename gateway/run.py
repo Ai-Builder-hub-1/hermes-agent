@@ -9232,6 +9232,66 @@ class GatewayRunner(GatewayAuthorizationMixin, GatewayKanbanWatchersMixin, Gatew
 
         await adapter.send(source.chat_id, content, metadata=metadata)
 
+    async def _messaging_command_preflight_guard(
+        self,
+        workflow_id: str,
+        event: MessageEvent,
+        *,
+        command: str,
+        args: str = "",
+        reason: str = "",
+    ) -> Optional[str]:
+        """Run registered second-brain preflight before live messaging commands."""
+
+        def _run() -> None:
+            from hermes_cli.command_preflight_policy import run_registered_high_impact_preflight_sync
+
+            source = event.source
+            platform = source.platform.value if source.platform else ""
+            run_reason = reason or f"Run live messaging command: /{command}"
+            run_registered_high_impact_preflight_sync(
+                workflow_id,
+                task=run_reason,
+                actor=f"{platform or 'gateway'}:{source.user_id or 'unknown'}",
+                entities=[
+                    "live-messaging",
+                    platform,
+                    command,
+                    *args.split()[:4],
+                ],
+                metadata={
+                    "platform": platform,
+                    "chatId": source.chat_id,
+                    "chatType": source.chat_type,
+                    "userId": source.user_id,
+                    "command": command,
+                    "args": args,
+                    "messageId": event.message_id,
+                    "source": "gateway-runner",
+                },
+            )
+
+        try:
+            await asyncio.to_thread(_run)
+            return None
+        except Exception as exc:
+            try:
+                from hermes_cli.command_preflight_policy import HighImpactCommandPreflightError
+
+                if isinstance(exc, HighImpactCommandPreflightError):
+                    detail = exc.detail if isinstance(exc.detail, dict) else {}
+                    workflow = detail.get("workflow") if isinstance(detail.get("workflow"), dict) else {}
+                    label = workflow.get("id") or workflow_id
+                    message = str(
+                        detail.get("message")
+                        or detail.get("error")
+                        or "High-impact messaging command preflight blocked."
+                    )
+                    return f"High-impact preflight blocked {label}: {message}"
+            except Exception:
+                pass
+            return f"High-impact preflight failed before /{command}: {exc}"
+
     async def _handle_message(self, event: MessageEvent) -> Optional[str]:
         """
         Handle an incoming message from any platform.
@@ -10419,6 +10479,15 @@ class GatewayRunner(GatewayAuthorizationMixin, GatewayKanbanWatchersMixin, Gatew
                     return _denied
                 qcmd = quick_commands[command]
                 if qcmd.get("type") == "exec":
+                    preflight_block = await self._messaging_command_preflight_guard(
+                        "command-runner-high-impact",
+                        event,
+                        command=command,
+                        args=event.get_command_args().strip(),
+                        reason=f"Run live messaging quick command: /{command}",
+                    )
+                    if preflight_block:
+                        return preflight_block
                     exec_cmd = qcmd.get("command", "")
                     if exec_cmd:
                         try:

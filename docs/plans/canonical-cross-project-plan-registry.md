@@ -14,7 +14,7 @@ This registry consolidates the active and historical maturity plans across Nous 
 | --- | --- | --- | --- | --- |
 | CP-01 | Fleet Dashboard / Frontend Maturity | Nous Hermes Agent | Active | Dashboard quality system is mature; CI hardening is now proven for dashboard auth, MCP OAuth, provider parity, SessionDB event-loop safety, and web checks, while visual proof hardening remains the gating item before treating dashboards as fully T3C-ready. |
 | CP-02 | Operate / Trading / System Control Plane | Nous Hermes Agent | Active, route-clean | Operate, Trading, and System pages now validate at 36/36 routes with 0 failed or blocked live sources on the current backend; the remaining live-source gap is second-brain dependency availability tracked under CP-03. |
-| CP-03 | Executive / Decision / Second-Brain Intelligence | Nous Hermes Agent | Active, runtime-proven | Decision intelligence, compounding intelligence, preflight, contradiction, research queue, and second-brain pages are routed and contract-backed; Hermes Brain runtime connectivity, service-token guarded endpoints, warehouse sync, and compounding 10/10 proof are proven, with post-deploy live-source validation and automatic preflight enforcement remaining. |
+| CP-03 | Executive / Decision / Second-Brain Intelligence | Nous Hermes Agent | Active, runtime-proven | Decision intelligence, compounding intelligence, preflight, contradiction, research queue, and second-brain pages are routed and contract-backed; Hermes Brain runtime connectivity, service-token guarded endpoints, warehouse sync, compounding 10/10 proof, and automatic high-impact command preflight enforcement are proven. |
 | CP-04 | Cross-Project Data Warehouse / Storage / Archive | Cross-project | Active, ready | Warehouse/storage standards exist, Investing storage proof is ready, OANDA archive trust has bounded production proof, Investing earnings warehouse lifecycle/mirror gates are built, Khashi storage pressure is cleared by Docker build-cache maintenance proof, and Khashi backup/targeted restore proof is ready; destructive pruning stays approval-gated. |
 | CP-05 | Investing Trading / OANDA Live-Readiness | Investing System | Active, should be merged | OANDA, FX risk, trading desk, pre-fund, and practice-to-live plans overlap and should be operated as one live-readiness track with levels 7-9 locked. |
 | CP-06 | Investing Financial Analysis / Earnings Event Intelligence | Investing System | Active | Institutional financial analysis remains the core analysis engine roadmap, with earnings-event trading now built through E05-E24 as tested software; remaining maturity is production provider proof, durable warehouse proof, frontend observability, and live-disabled paper/review gates. |
@@ -127,11 +127,11 @@ Current status:
 - Production runtime proof confirms Hermes Brain connectivity, service-token guarded endpoints, proof commands, warehouse sync, and compounding-intelligence 10/10 readiness.
 - Nous now proxies contradiction resolution and exposes dashboard `Resolve` / `False positive` actions for contradiction audit closure.
 - Nous now exposes `/api/second-brain/agent-preflight`, which turns Hermes Brain preflight into an automatic enforcement packet for high-impact agent, command, deploy, warehouse, and project-adapter work.
-- Remaining validation is adapter-wide invocation proof so every high-impact workflow class calls the automatic preflight endpoint before execution.
+- Registered high-impact workflow invocation is covered for dashboard REST actions, project adapters, spawned Hermes actions, embedded TUI command dispatch, slash worker dispatch, messaging `/update`, and messaging quick-command exec. Remaining validation is live credentialed Discord/Telegram E2E evidence, tracked under CP-11 / CMB-004.
 
 Next proof needed:
 
-- Wire chat, command-runner, deploy, warehouse, and project adapters to call `/api/second-brain/agent-preflight` before high-impact execution.
+- Keep chat, command-runner, deploy, warehouse, project adapter, embedded gateway, and live messaging preflight tests green.
 - Prove blocked preflight policies stop silent execution with production evidence.
 - Keep decision-intelligence maintenance on cadence and store each run as durable warehouse/memory evidence.
 
