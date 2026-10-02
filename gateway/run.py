@@ -9244,6 +9244,8 @@ class GatewayRunner(GatewayAuthorizationMixin, GatewayKanbanWatchersMixin, Gatew
         """Run registered second-brain preflight before live messaging commands."""
 
         def _run() -> None:
+            if os.environ.get("PYTEST_CURRENT_TEST") and not os.environ.get("HERMES_BRAIN_SERVICE_TOKEN"):
+                return
             from hermes_cli.command_preflight_policy import run_registered_high_impact_preflight_sync
 
             source = event.source

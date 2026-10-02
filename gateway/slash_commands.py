@@ -4745,18 +4745,6 @@ class GatewaySlashCommandsMixin:
         from datetime import datetime
         from hermes_cli.config import is_managed, format_managed_message
 
-        preflight_guard = getattr(self, "_messaging_command_preflight_guard", None)
-        if callable(preflight_guard):
-            preflight_block = await preflight_guard(
-                "production-deploy-promote",
-                event,
-                command="update",
-                args=event.get_command_args().strip(),
-                reason="Run live messaging /update command",
-            )
-            if preflight_block:
-                return preflight_block
-
         # Block non-messaging platforms (API server, webhooks, ACP)
         platform = event.source.platform
         _allowed = self._UPDATE_ALLOWED_PLATFORMS
@@ -4782,6 +4770,18 @@ class GatewaySlashCommandsMixin:
         hermes_cmd = _resolve_hermes_bin()
         if not hermes_cmd:
             return t("gateway.update.hermes_cmd_not_found")
+
+        preflight_guard = getattr(self, "_messaging_command_preflight_guard", None)
+        if callable(preflight_guard):
+            preflight_block = await preflight_guard(
+                "production-deploy-promote",
+                event,
+                command="update",
+                args=event.get_command_args().strip(),
+                reason="Run live messaging /update command",
+            )
+            if preflight_block:
+                return preflight_block
 
         pending_path = _hermes_home / ".update_pending.json"
         output_path = _hermes_home / ".update_output.txt"

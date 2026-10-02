@@ -15726,7 +15726,7 @@ async def pty_ws(ws: WebSocket) -> None:
                 active_session_path.unlink()
             except FileNotFoundError:
                 pass
-        elif resume is None:
+        elif resume is None and attach is None:
             try:
                 active_payload = json.loads(active_session_path.read_text(encoding="utf-8"))
                 active_resume = str(active_payload.get("session_id") or "").strip()
