@@ -3703,10 +3703,50 @@ def _adapter_kind(adapter: str) -> str:
     return "quality"
 
 
+def _adapter_run_preflight_workflow(payload: OperatingRuntimeAdapterRunRequest) -> Optional[str]:
+    adapter_lc = payload.adapter.lower()
+    project_lc = payload.project.lower()
+    combined = f"{adapter_lc} {project_lc}"
+
+    if payload.live or payload.explicit_approval:
+        return "command-runner-high-impact"
+    if "deploy" in combined or "promot" in combined or "hetzner" in combined or "ssh" in combined:
+        return "production-deploy-promote"
+    if "warehouse" in combined or "restore" in combined or "mirror" in combined or "archive" in combined or "prune" in combined:
+        return "warehouse-sync-restore"
+    if "investing" in project_lc and ("backfill" in adapter_lc or "provider" in adapter_lc or "massive" in adapter_lc or "finnhub" in adapter_lc):
+        return "investing-provider-backfill"
+    if "trading" in combined or "research" in combined or "simulation" in combined or "backtest" in combined:
+        return "trading-research-review"
+    if "khashi" in combined or "kalshi" in combined or "market-intelligence" in combined or "signal" in combined:
+        return "khashi-market-intelligence"
+    if "report" in combined or "briefing" in combined or "hard-stop" in combined:
+        return "report-generation"
+    if "command" in combined or "runner" in combined or "operator" in combined:
+        return "command-runner-high-impact"
+    return None
+
+
 @app.post("/api/operating-runtime/adapter-run")
 async def post_operating_runtime_adapter_run(payload: OperatingRuntimeAdapterRunRequest):
     from hermes_cli.operating_runtime import record_adapter_run
 
+    workflow_id = _adapter_run_preflight_workflow(payload)
+    if workflow_id:
+        await _run_registered_high_impact_preflight(
+            workflow_id,
+            task=f"Run operating-runtime adapter {payload.adapter} for {payload.project}",
+            actor=payload.actor,
+            entities=["adapter-run", payload.project, payload.adapter],
+            metadata={
+                "route": "/api/operating-runtime/adapter-run",
+                "adapter": payload.adapter,
+                "project": payload.project,
+                "status": payload.status,
+                "live": payload.live,
+                "explicitApproval": payload.explicit_approval,
+            },
+        )
     with _operating_runtime_conn() as conn:
         return record_adapter_run(
             conn,
@@ -3912,6 +3952,20 @@ async def post_operating_runtime_billing_provider_integration(payload: Operating
 async def post_operating_runtime_release_train_execution(payload: OperatingRuntimeReleaseTrainExecutionRequest):
     from hermes_cli.operating_runtime import execute_release_train_record
 
+    await _run_registered_high_impact_preflight(
+        "production-deploy-promote",
+        task=f"Execute release train {payload.train} {payload.version}",
+        actor="Hermes operator",
+        entities=["release-train", payload.train, *payload.projects],
+        metadata={
+            "route": "/api/operating-runtime/release-train-execution",
+            "train": payload.train,
+            "projects": payload.projects,
+            "version": payload.version,
+            "gatesPassed": payload.gates_passed,
+            "approved": payload.approved,
+        },
+    )
     with _operating_runtime_conn() as conn:
         return execute_release_train_record(
             conn,

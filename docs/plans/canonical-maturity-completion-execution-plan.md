@@ -86,7 +86,9 @@ Test gate:
 - Done: simulated locked workflow prevents destructive action and writes blocked evidence.
 - Done: production promotion planning calls registered preflight before execution.
 - Done: system warehouse sync, restore proof, and prune dry-run call registered preflight before execution.
-- Remaining: wire external project backfill handlers and any standalone deploy command runners outside the dashboard route layer.
+- Done: operating-runtime adapter runs now call registered preflight for provider backfill, trading research, Khashi market intelligence, reporting, warehouse, deploy, and command-runner patterns before recording the runtime action.
+- Done: release train execution now calls registered production deploy preflight before recording execution.
+- Remaining: wire direct chat command execution paths and messaging gateway commands that bypass the operating-runtime route layer.
 
 ### Phase 1.4: Messaging Command Layer Enforcement
 
