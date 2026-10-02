@@ -5828,6 +5828,92 @@ def test_snapshot_restore_is_blocked_from_tui_worker():
     )
 
 
+def test_command_dispatch_high_impact_preflight_blocks_before_exec(monkeypatch):
+    calls = []
+
+    def fake_preflight(name, arg="", *, method, actor="Embedded Hermes chat"):
+        calls.append({"name": name, "arg": arg, "method": method, "actor": actor})
+        from hermes_cli.command_preflight_policy import HighImpactCommandPreflightError
+
+        raise HighImpactCommandPreflightError(
+            409,
+            {
+                "error": "second_brain_preflight_blocked",
+                "message": "stale deployment memory",
+                "workflow": {"id": "production-deploy-promote"},
+            },
+        )
+
+    monkeypatch.setattr(server, "_run_embedded_command_preflight", fake_preflight)
+    monkeypatch.setattr(
+        server,
+        "_load_cfg",
+        lambda: {"quick_commands": {"update": {"type": "exec", "command": "should-not-run"}}},
+    )
+    monkeypatch.setattr(
+        server.subprocess,
+        "run",
+        lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError("exec should not run")),
+    )
+
+    resp = server.handle_request(
+        {"id": "1", "method": "command.dispatch", "params": {"name": "update"}}
+    )
+
+    assert resp["error"]["code"] == 4018
+    assert "production-deploy-promote" in resp["error"]["message"]
+    assert "stale deployment memory" in resp["error"]["message"]
+    assert calls == [
+        {
+            "name": "update",
+            "arg": "",
+            "method": "command.dispatch",
+            "actor": "Embedded Hermes chat",
+        }
+    ]
+
+
+def test_slash_exec_high_impact_preflight_blocks_before_worker(monkeypatch):
+    calls = []
+
+    def fake_preflight(name, arg="", *, method, actor="Embedded Hermes chat"):
+        calls.append({"name": name, "arg": arg, "method": method})
+        from hermes_cli.command_preflight_policy import HighImpactCommandPreflightError
+
+        raise HighImpactCommandPreflightError(
+            503,
+            {
+                "error": "hermes_brain_service_token_missing",
+                "message": "token missing",
+                "workflow": {"id": "warehouse-sync-restore"},
+            },
+        )
+
+    monkeypatch.setattr(server, "_run_embedded_command_preflight", fake_preflight)
+    monkeypatch.setattr(
+        server,
+        "_SlashWorker",
+        lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError("worker should not start")),
+    )
+
+    server._sessions["sid"] = _session()
+    try:
+        resp = server.handle_request(
+            {
+                "id": "1",
+                "method": "slash.exec",
+                "params": {"command": "/backup now", "session_id": "sid"},
+            }
+        )
+    finally:
+        server._sessions.pop("sid", None)
+
+    assert resp["error"]["code"] == 4018
+    assert "warehouse-sync-restore" in resp["error"]["message"]
+    assert "token missing" in resp["error"]["message"]
+    assert calls == [{"name": "backup", "arg": "now", "method": "slash.exec"}]
+
+
 def test_command_dispatch_exec_nonzero_surfaces_error(monkeypatch):
     monkeypatch.setattr(
         server,

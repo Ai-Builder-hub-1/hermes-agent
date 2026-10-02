@@ -313,6 +313,22 @@ def test_spawned_hermes_action_classifier_maps_mutating_commands():
     assert web_server._spawned_hermes_action_preflight_workflow(["doctor"], "doctor") is None
 
 
+def test_embedded_command_classifier_maps_mutating_commands():
+    from hermes_cli.command_preflight_policy import classify_embedded_command_preflight_workflow
+
+    assert classify_embedded_command_preflight_workflow("update") == "production-deploy-promote"
+    assert classify_embedded_command_preflight_workflow("gateway", "restart") == "command-runner-high-impact"
+    assert classify_embedded_command_preflight_workflow("backup", "now") == "warehouse-sync-restore"
+    assert classify_embedded_command_preflight_workflow("import", "/tmp/archive.zip --force") == "warehouse-sync-restore"
+    assert classify_embedded_command_preflight_workflow("skills", "install demo") == "command-runner-high-impact"
+    assert classify_embedded_command_preflight_workflow("mcp", "install robinhood") == "command-runner-high-impact"
+    assert classify_embedded_command_preflight_workflow("tools", "post-setup") == "command-runner-high-impact"
+    assert classify_embedded_command_preflight_workflow("config", "migrate") == "command-runner-high-impact"
+    assert classify_embedded_command_preflight_workflow("curator", "run") == "report-generation"
+    assert classify_embedded_command_preflight_workflow("snapshot", "restore latest") == "destructive-pruning"
+    assert classify_embedded_command_preflight_workflow("doctor") is None
+
+
 def test_backup_action_calls_registered_preflight_before_spawn(monkeypatch):
     from hermes_cli import web_server
 

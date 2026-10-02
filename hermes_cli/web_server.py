@@ -4651,30 +4651,9 @@ def _spawn_hermes_action(subcommand: List[str], name: str) -> subprocess.Popen:
 
 
 def _spawned_hermes_action_preflight_workflow(subcommand: List[str], name: str) -> Optional[str]:
-    tokens = [str(token).strip().lower() for token in subcommand if str(token).strip()]
-    while tokens and tokens[0] == "-p":
-        tokens = tokens[2:]
-    joined = " ".join(tokens)
+    from hermes_cli.command_preflight_policy import classify_hermes_command_preflight_workflow
 
-    if name == "hermes-update" or joined.startswith("update"):
-        return "production-deploy-promote"
-    if name.startswith("gateway-") or joined.startswith("gateway "):
-        return "command-runner-high-impact"
-    if name == "backup" or joined.startswith("backup"):
-        return "warehouse-sync-restore"
-    if name == "import" or joined.startswith("import"):
-        return "warehouse-sync-restore"
-    if name == "checkpoints-prune" or "checkpoints prune" in joined:
-        return "command-runner-high-impact"
-    if name in {"skills-install", "skills-uninstall", "skills-update", "mcp-install", "tools-post-setup"}:
-        return "command-runner-high-impact"
-    if joined.startswith("skills ") or joined.startswith("mcp install") or joined.startswith("tools post-setup"):
-        return "command-runner-high-impact"
-    if name == "config-migrate" or joined.startswith("config migrate"):
-        return "command-runner-high-impact"
-    if name == "curator-run" or joined.startswith("curator run"):
-        return "report-generation"
-    return None
+    return classify_hermes_command_preflight_workflow(subcommand, action_name=name)
 
 
 async def _run_spawned_hermes_action_preflight(

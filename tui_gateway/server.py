@@ -12379,6 +12379,63 @@ def _resolve_name(name: str) -> str:
         return name
 
 
+def _embedded_command_preflight_error_message(detail: dict, workflow_id: str) -> str:
+    message = str(detail.get("message") or detail.get("error") or "High-impact command preflight blocked.")
+    workflow = detail.get("workflow") if isinstance(detail.get("workflow"), dict) else {}
+    label = workflow.get("id") or workflow_id
+    return f"High-impact preflight blocked {label}: {message}"
+
+
+def _run_embedded_command_preflight(
+    name: str,
+    arg: str = "",
+    *,
+    method: str,
+    actor: str = "Embedded Hermes chat",
+) -> dict | None:
+    from hermes_cli.command_preflight_policy import (
+        classify_embedded_command_preflight_workflow,
+        run_registered_high_impact_preflight_sync,
+    )
+
+    workflow_id = classify_embedded_command_preflight_workflow(name, arg)
+    if not workflow_id:
+        return None
+
+    command = f"/{name.lstrip('/')}" + (f" {arg}" if arg else "")
+    return run_registered_high_impact_preflight_sync(
+        workflow_id,
+        task=f"Run embedded dashboard command: {command}",
+        actor=actor,
+        entities=["embedded-chat", "tui-gateway", name.lstrip("/"), *arg.split()[:4]],
+        metadata={
+            "method": method,
+            "command": command,
+            "commandName": name.lstrip("/"),
+            "commandArg": arg,
+        },
+    )
+
+
+def _embedded_command_preflight_guard(rid, name: str, arg: str = "", *, method: str) -> dict | None:
+    try:
+        _run_embedded_command_preflight(name, arg, method=method)
+        return None
+    except Exception as exc:
+        try:
+            from hermes_cli.command_preflight_policy import HighImpactCommandPreflightError
+
+            if isinstance(exc, HighImpactCommandPreflightError):
+                return _err(
+                    rid,
+                    4018,
+                    _embedded_command_preflight_error_message(exc.detail, str(exc.detail.get("workflowId") or "")),
+                )
+        except Exception:
+            pass
+        return _err(rid, 4018, f"High-impact preflight failed: {exc}")
+
+
 @method("command.dispatch")
 def _(rid, params: dict) -> dict:
     name, arg = params.get("name", "").lstrip("/"), params.get("arg", "")
@@ -12386,6 +12443,30 @@ def _(rid, params: dict) -> dict:
     if resolved != name:
         name = resolved
     session = _sessions.get(params.get("session_id", ""))
+
+    if name in {"snapshot", "snap"}:
+        subcommand = arg.split(maxsplit=1)[0].lower() if arg else ""
+        if subcommand in {"restore", "rewind"}:
+            return _ok(
+                rid,
+                {
+                    "type": "exec",
+                    "output": (
+                        "/snapshot restore is blocked in the TUI because it changes "
+                        "config/state on disk while the live agent has cached settings. "
+                        "Run it in the classic CLI, then restart the TUI."
+                    ),
+                },
+            )
+
+    preflight_error = _embedded_command_preflight_guard(
+        rid,
+        name,
+        arg,
+        method="command.dispatch",
+    )
+    if preflight_error:
+        return preflight_error
 
     qcmds = _load_cfg().get("quick_commands", {})
     if name in qcmds:
@@ -12815,21 +12896,6 @@ def _(rid, params: dict) -> dict:
             rid,
             {"type": "prefill", "message": target_text, "notice": notice},
         )
-
-    if name in {"snapshot", "snap"}:
-        subcommand = arg.split(maxsplit=1)[0].lower() if arg else ""
-        if subcommand in {"restore", "rewind"}:
-            return _ok(
-                rid,
-                {
-                    "type": "exec",
-                    "output": (
-                        "/snapshot restore is blocked in the TUI because it changes "
-                        "config/state on disk while the live agent has cached settings. "
-                        "Run it in the classic CLI, then restart the TUI."
-                    ),
-                },
-            )
 
     if name in {"compress", "compact"}:
         if not session:
@@ -14021,6 +14087,15 @@ def _(rid, params: dict) -> dict:
                 4018,
                 "snapshot restore mutates live config/state; use command.dispatch for /snapshot restore",
             )
+
+    preflight_error = _embedded_command_preflight_guard(
+        rid,
+        _cmd_base,
+        _cmd_arg,
+        method="slash.exec",
+    )
+    if preflight_error:
+        return preflight_error
 
     try:
         from agent.skill_bundles import resolve_bundle_command_key
