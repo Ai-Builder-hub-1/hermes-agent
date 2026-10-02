@@ -6,10 +6,10 @@
       "id": "CMB-001",
       "canonicalPlan": "CP-03/CP-11",
       "type": "runtime-integration",
-      "impact": "Direct chat/command execution paths and messaging gateway commands that bypass operating-runtime routes still need registered preflight proof before high-impact execution. Deploy, warehouse, operating-runtime adapter, release-train, provider-backfill, trading-research, Khashi-signal, and report adapter routes now have tested registered preflight coverage.",
+      "impact": "Embedded PTY chat/gateway command execution and live messaging gateway commands still need registered preflight proof before high-impact execution. Dashboard REST routes for deploy, warehouse, operating-runtime adapters, release trains, provider backfill, trading research, Khashi signals, reports, spawned Hermes actions, installs, imports, gateway lifecycle, and checkpoint pruning now have tested registered preflight coverage.",
       "owner": "Nous Hermes",
-      "continuePath": "Build direct chat command classifiers, simulated gateway command proofs, and audit evidence while keeping already-wrapped route paths deployed.",
-      "unblockCommand": "Run command/gateway-specific tests after each wrapper is added.",
+      "continuePath": "Build embedded chat command classifiers, simulated gateway command proofs, and live Discord/Telegram audit evidence while keeping already-wrapped route paths deployed.",
+      "unblockCommand": "Run gateway command tests and live messaging E2E checks after each wrapper is added.",
       "evidencePath": "docs/proofs/cp03-second-brain-production-readiness.md",
       "status": "active"
     },

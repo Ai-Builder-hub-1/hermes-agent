@@ -4408,7 +4408,9 @@ async def set_curator_paused(body: CuratorPause):
 async def run_curator():
     """Trigger a curator review now (backgrounded; tail via action status)."""
     try:
-        proc = _spawn_hermes_action(["curator", "run"], "curator-run")
+        proc = await _spawn_guarded_hermes_action(["curator", "run"], "curator-run", route="/api/curator/run")
+    except HTTPException:
+        raise
     except Exception as exc:
         raise HTTPException(status_code=500, detail=f"Failed to run curator: {exc}")
     return {"ok": True, "pid": proc.pid, "name": "curator-run"}
@@ -4496,7 +4498,9 @@ async def run_dump():
 @app.post("/api/ops/config-migrate")
 async def run_config_migrate():
     try:
-        proc = _spawn_hermes_action(["config", "migrate"], "config-migrate")
+        proc = await _spawn_guarded_hermes_action(["config", "migrate"], "config-migrate", route="/api/ops/config-migrate")
+    except HTTPException:
+        raise
     except Exception as exc:
         raise HTTPException(status_code=500, detail=f"Failed: {exc}")
     return {"ok": True, "pid": proc.pid, "name": "config-migrate"}
@@ -4646,6 +4650,67 @@ def _spawn_hermes_action(subcommand: List[str], name: str) -> subprocess.Popen:
     return proc
 
 
+def _spawned_hermes_action_preflight_workflow(subcommand: List[str], name: str) -> Optional[str]:
+    tokens = [str(token).strip().lower() for token in subcommand if str(token).strip()]
+    while tokens and tokens[0] == "-p":
+        tokens = tokens[2:]
+    joined = " ".join(tokens)
+
+    if name == "hermes-update" or joined.startswith("update"):
+        return "production-deploy-promote"
+    if name.startswith("gateway-") or joined.startswith("gateway "):
+        return "command-runner-high-impact"
+    if name == "backup" or joined.startswith("backup"):
+        return "warehouse-sync-restore"
+    if name == "import" or joined.startswith("import"):
+        return "warehouse-sync-restore"
+    if name == "checkpoints-prune" or "checkpoints prune" in joined:
+        return "command-runner-high-impact"
+    if name in {"skills-install", "skills-uninstall", "skills-update", "mcp-install", "tools-post-setup"}:
+        return "command-runner-high-impact"
+    if joined.startswith("skills ") or joined.startswith("mcp install") or joined.startswith("tools post-setup"):
+        return "command-runner-high-impact"
+    if name == "config-migrate" or joined.startswith("config migrate"):
+        return "command-runner-high-impact"
+    if name == "curator-run" or joined.startswith("curator run"):
+        return "report-generation"
+    return None
+
+
+async def _run_spawned_hermes_action_preflight(
+    subcommand: List[str],
+    name: str,
+    *,
+    actor: str = "Hermes operator",
+    route: str = "",
+) -> None:
+    workflow_id = _spawned_hermes_action_preflight_workflow(subcommand, name)
+    if not workflow_id:
+        return
+    await _run_registered_high_impact_preflight(
+        workflow_id,
+        task=f"Run dashboard command action: hermes {' '.join(subcommand)}",
+        actor=actor,
+        entities=["dashboard-command", name, *[str(token) for token in subcommand[:4]]],
+        metadata={
+            "route": route,
+            "action": name,
+            "subcommand": subcommand,
+        },
+    )
+
+
+async def _spawn_guarded_hermes_action(
+    subcommand: List[str],
+    name: str,
+    *,
+    actor: str = "Hermes operator",
+    route: str = "",
+) -> subprocess.Popen:
+    await _run_spawned_hermes_action_preflight(subcommand, name, actor=actor, route=route)
+    return _spawn_hermes_action(subcommand, name)
+
+
 def _tail_lines(path: Path, n: int) -> List[str]:
     """Return the last ``n`` lines of ``path``.  Reads the whole file — fine
     for our small per-action logs.  Binary-decoded with ``errors='replace'``
@@ -4703,7 +4768,14 @@ def _restart_gateway_after_webhook_enable() -> dict[str, Any]:
 async def restart_gateway():
     """Kick off a ``hermes gateway restart`` in the background."""
     try:
+        await _run_spawned_hermes_action_preflight(
+            ["gateway", "restart"],
+            "gateway-restart",
+            route="/api/gateway/restart",
+        )
         proc, _reused = _spawn_gateway_restart()
+    except HTTPException:
+        raise
     except Exception as exc:
         _log.exception("Failed to spawn gateway restart")
         raise HTTPException(status_code=500, detail=f"Failed to restart gateway: {exc}")
@@ -4717,6 +4789,7 @@ async def restart_gateway():
 @app.post("/api/hermes/update")
 async def update_hermes():
     """Kick off ``hermes update`` in the background."""
+    await _run_spawned_hermes_action_preflight(["update"], "hermes-update", route="/api/hermes/update")
     install_method = detect_install_method(PROJECT_ROOT)
     if install_method == "docker":
         message = format_docker_update_message()
@@ -10115,9 +10188,10 @@ async def install_mcp_catalog_entry(body: MCPCatalogInstall, profile: Optional[s
     # The -p subprocess rebinds HERMES_HOME-derived paths in the child.
     if entry.install is not None:
         try:
-            proc = _spawn_hermes_action(
+            proc = await _spawn_guarded_hermes_action(
                 _profile_cli_args(effective_profile) + ["mcp", "install", name],
                 "mcp-install",
+                route="/api/mcp/catalog/install",
             )
         except HTTPException:
             raise
@@ -10283,6 +10357,11 @@ async def list_webhooks():
 
 @app.post("/api/webhooks/enable")
 async def enable_webhooks():
+    await _run_spawned_hermes_action_preflight(
+        ["gateway", "restart"],
+        "gateway-restart",
+        route="/api/webhooks/enable",
+    )
     try:
         _write_platform_enabled("webhook", True)
     except Exception as exc:
@@ -10404,7 +10483,9 @@ async def set_webhook_enabled(name: str, body: WebhookEnabledToggle):
 @app.post("/api/gateway/start")
 async def start_gateway():
     try:
-        proc = _spawn_hermes_action(["gateway", "start"], "gateway-start")
+        proc = await _spawn_guarded_hermes_action(["gateway", "start"], "gateway-start", route="/api/gateway/start")
+    except HTTPException:
+        raise
     except Exception as exc:
         _log.exception("Failed to spawn gateway start")
         raise HTTPException(status_code=500, detail=f"Failed to start gateway: {exc}")
@@ -10414,7 +10495,9 @@ async def start_gateway():
 @app.post("/api/gateway/stop")
 async def stop_gateway():
     try:
-        proc = _spawn_hermes_action(["gateway", "stop"], "gateway-stop")
+        proc = await _spawn_guarded_hermes_action(["gateway", "stop"], "gateway-stop", route="/api/gateway/stop")
+    except HTTPException:
+        raise
     except Exception as exc:
         _log.exception("Failed to spawn gateway stop")
         raise HTTPException(status_code=500, detail=f"Failed to stop gateway: {exc}")
@@ -10684,7 +10767,9 @@ async def run_backup(body: BackupRequest):
     if body.output:
         args.append(body.output.strip())
     try:
-        proc = _spawn_hermes_action(args, "backup")
+        proc = await _spawn_guarded_hermes_action(args, "backup", route="/api/ops/backup")
+    except HTTPException:
+        raise
     except Exception as exc:
         _log.exception("Failed to spawn backup")
         raise HTTPException(status_code=500, detail=f"Failed to run backup: {exc}")
@@ -10714,7 +10799,9 @@ async def run_import(body: ImportRequest):
     if body.force:
         args.append("--force")
     try:
-        proc = _spawn_hermes_action(args, "import")
+        proc = await _spawn_guarded_hermes_action(args, "import", route="/api/ops/import")
+    except HTTPException:
+        raise
     except Exception as exc:
         _log.exception("Failed to spawn import")
         raise HTTPException(status_code=500, detail=f"Failed to run import: {exc}")
@@ -10914,7 +11001,9 @@ async def list_checkpoints():
 @app.post("/api/ops/checkpoints/prune")
 async def prune_checkpoints():
     try:
-        proc = _spawn_hermes_action(["checkpoints", "prune"], "checkpoints-prune")
+        proc = await _spawn_guarded_hermes_action(["checkpoints", "prune"], "checkpoints-prune", route="/api/ops/checkpoints/prune")
+    except HTTPException:
+        raise
     except Exception as exc:
         _log.exception("Failed to spawn checkpoints prune")
         raise HTTPException(status_code=500, detail=f"Failed to prune checkpoints: {exc}")
@@ -10959,10 +11048,11 @@ async def install_skill_hub(body: SkillInstallRequest, profile: Optional[str] = 
     if not identifier:
         raise HTTPException(status_code=400, detail="identifier is required")
     try:
-        proc = _spawn_hermes_action(
+        proc = await _spawn_guarded_hermes_action(
             _profile_cli_args(body.profile or profile)
             + ["skills", "install", identifier, "--yes"],
             "skills-install",
+            route="/api/skills/hub/install",
         )
     except HTTPException:
         raise
@@ -10983,9 +11073,10 @@ async def uninstall_skill_hub(body: SkillUninstallRequest, profile: Optional[str
     if not name:
         raise HTTPException(status_code=400, detail="name is required")
     try:
-        proc = _spawn_hermes_action(
+        proc = await _spawn_guarded_hermes_action(
             _profile_cli_args(body.profile or profile) + ["skills", "uninstall", name, "--yes"],
             "skills-uninstall",
+            route="/api/skills/hub/uninstall",
         )
     except HTTPException:
         raise
@@ -11005,8 +11096,10 @@ async def update_skills_hub(
 ):
     try:
         effective = (body.profile if body else None) or profile
-        proc = _spawn_hermes_action(
-            _profile_cli_args(effective) + ["skills", "update"], "skills-update"
+        proc = await _spawn_guarded_hermes_action(
+            _profile_cli_args(effective) + ["skills", "update"],
+            "skills-update",
+            route="/api/skills/hub/update",
         )
     except HTTPException:
         raise
@@ -11707,9 +11800,10 @@ async def create_profile_endpoint(body: ProfileCreate):
         if not ident:
             continue
         try:
-            proc = _spawn_hermes_action(
+            proc = await _spawn_guarded_hermes_action(
                 ["-p", body.name, "skills", "install", ident, "--yes"],
                 "skills-install",
+                route="/api/profiles",
             )
             hub_installs.append({"identifier": ident, "pid": proc.pid})
         except Exception:
@@ -12416,10 +12510,11 @@ async def run_toolset_post_setup(
         )
 
     try:
-        proc = _spawn_hermes_action(
+        proc = await _spawn_guarded_hermes_action(
             _profile_cli_args(body.profile or profile)
             + ["tools", "post-setup", body.key],
             "tools-post-setup",
+            route=f"/api/tools/toolsets/{name}/post-setup",
         )
     except HTTPException:
         raise

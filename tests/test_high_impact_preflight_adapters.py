@@ -1,5 +1,6 @@
 from fastapi import HTTPException
 from fastapi.testclient import TestClient
+from types import SimpleNamespace
 
 
 def test_promotion_execution_calls_registered_preflight_before_planning(monkeypatch, tmp_path):
@@ -298,3 +299,98 @@ def test_release_train_execution_stops_when_registered_preflight_blocks(monkeypa
     assert response.status_code == 409
     assert response.json()["detail"]["error"] == "second_brain_preflight_blocked"
     assert executed["recorded"] is False
+
+
+def test_spawned_hermes_action_classifier_maps_mutating_commands():
+    from hermes_cli import web_server
+
+    assert web_server._spawned_hermes_action_preflight_workflow(["update"], "hermes-update") == "production-deploy-promote"
+    assert web_server._spawned_hermes_action_preflight_workflow(["gateway", "restart"], "gateway-restart") == "command-runner-high-impact"
+    assert web_server._spawned_hermes_action_preflight_workflow(["backup"], "backup") == "warehouse-sync-restore"
+    assert web_server._spawned_hermes_action_preflight_workflow(["import", "/tmp/archive.zip", "--force"], "import") == "warehouse-sync-restore"
+    assert web_server._spawned_hermes_action_preflight_workflow(["-p", "demo", "skills", "install", "x"], "skills-install") == "command-runner-high-impact"
+    assert web_server._spawned_hermes_action_preflight_workflow(["prompt-size"], "prompt-size") is None
+    assert web_server._spawned_hermes_action_preflight_workflow(["doctor"], "doctor") is None
+
+
+def test_backup_action_calls_registered_preflight_before_spawn(monkeypatch):
+    from hermes_cli import web_server
+
+    calls = []
+
+    async def fake_preflight(workflow_id, *, task, actor="Hermes operator", entities=None, metadata=None):
+        calls.append({
+            "workflow_id": workflow_id,
+            "task": task,
+            "entities": entities,
+            "metadata": metadata,
+        })
+        return {"enforcement": {"mustStop": False}}
+
+    def fake_spawn(subcommand, name):
+        calls.append({"spawn": subcommand, "name": name})
+        return SimpleNamespace(pid=12345)
+
+    monkeypatch.setattr(web_server, "_run_registered_high_impact_preflight", fake_preflight)
+    monkeypatch.setattr(web_server, "_spawn_hermes_action", fake_spawn)
+
+    client = TestClient(web_server.app)
+    response = client.post(
+        "/api/ops/backup",
+        headers={"X-Hermes-Session-Token": web_server._SESSION_TOKEN},
+        json={},
+    )
+
+    assert response.status_code == 200
+    assert calls[0]["workflow_id"] == "warehouse-sync-restore"
+    assert calls[0]["metadata"]["route"] == "/api/ops/backup"
+    assert calls[1] == {"spawn": ["backup"], "name": "backup"}
+
+
+def test_mutating_spawn_action_stops_when_registered_preflight_blocks(monkeypatch):
+    from hermes_cli import web_server
+
+    executed = {"spawn": False}
+
+    async def fake_preflight(*args, **kwargs):
+        raise HTTPException(
+            status_code=409,
+            detail={"error": "second_brain_preflight_blocked", "workflow": "warehouse-sync-restore"},
+        )
+
+    def fake_spawn(*args, **kwargs):
+        executed["spawn"] = True
+        return SimpleNamespace(pid=12345)
+
+    monkeypatch.setattr(web_server, "_run_registered_high_impact_preflight", fake_preflight)
+    monkeypatch.setattr(web_server, "_spawn_hermes_action", fake_spawn)
+
+    client = TestClient(web_server.app)
+    response = client.post(
+        "/api/ops/backup",
+        headers={"X-Hermes-Session-Token": web_server._SESSION_TOKEN},
+        json={},
+    )
+
+    assert response.status_code == 409
+    assert response.json()["detail"]["error"] == "second_brain_preflight_blocked"
+    assert executed["spawn"] is False
+
+
+def test_read_only_diagnostic_spawn_does_not_call_registered_preflight(monkeypatch):
+    from hermes_cli import web_server
+
+    async def fake_preflight(*args, **kwargs):
+        raise AssertionError("read-only diagnostic actions should not require high-impact preflight")
+
+    monkeypatch.setattr(web_server, "_run_registered_high_impact_preflight", fake_preflight)
+    monkeypatch.setattr(web_server, "_spawn_hermes_action", lambda subcommand, name: SimpleNamespace(pid=12345))
+
+    client = TestClient(web_server.app)
+    response = client.post(
+        "/api/ops/prompt-size",
+        headers={"X-Hermes-Session-Token": web_server._SESSION_TOKEN},
+    )
+
+    assert response.status_code == 200
+    assert response.json()["name"] == "prompt-size"

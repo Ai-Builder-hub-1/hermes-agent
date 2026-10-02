@@ -68,7 +68,8 @@ Test gate:
 - Done: locked workflows such as destructive pruning stop before Hermes Brain is called.
 - Done: frontend client can call registered workflow preflight.
 - Done: second-brain warehouse sync now uses registered workflow preflight instead of a one-off guard.
-- Remaining: insert this wrapper directly into chat and command execution paths that mutate production state.
+- Done: dashboard-spawned Hermes command actions now use registered workflow preflight before mutating runtime, installing capabilities, restoring/importing data, pruning checkpoints, running updates, or controlling gateway lifecycle.
+- Remaining: insert this wrapper into embedded PTY chat/gateway command execution paths that bypass dashboard REST action routes.
 
 ### Phase 1.3: Deploy And Warehouse Preflight
 
@@ -88,7 +89,8 @@ Test gate:
 - Done: system warehouse sync, restore proof, and prune dry-run call registered preflight before execution.
 - Done: operating-runtime adapter runs now call registered preflight for provider backfill, trading research, Khashi market intelligence, reporting, warehouse, deploy, and command-runner patterns before recording the runtime action.
 - Done: release train execution now calls registered production deploy preflight before recording execution.
-- Remaining: wire direct chat command execution paths and messaging gateway commands that bypass the operating-runtime route layer.
+- Done: direct dashboard command action routes now call registered preflight for update, gateway lifecycle, backup/import, checkpoint prune, MCP install, skill install/uninstall/update, tool post-setup, config migrate, and curator report runs.
+- Remaining: wire embedded PTY chat/gateway commands and live messaging gateway commands that bypass the dashboard REST route layer.
 
 ### Phase 1.4: Messaging Command Layer Enforcement
 
