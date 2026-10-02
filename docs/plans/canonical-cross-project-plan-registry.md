@@ -14,7 +14,7 @@ This registry consolidates the active and historical maturity plans across Nous 
 | --- | --- | --- | --- | --- |
 | CP-01 | Fleet Dashboard / Frontend Maturity | Nous Hermes Agent | Active | Dashboard quality system is mature; CI hardening is now proven for dashboard auth, MCP OAuth, provider parity, SessionDB event-loop safety, and web checks, while visual proof hardening remains the gating item before treating dashboards as fully T3C-ready. |
 | CP-02 | Operate / Trading / System Control Plane | Nous Hermes Agent | Active, route-clean | Operate, Trading, and System pages now validate at 36/36 routes with 0 failed or blocked live sources on the current backend; the remaining live-source gap is second-brain dependency availability tracked under CP-03. |
-| CP-03 | Executive / Decision / Second-Brain Intelligence | Nous Hermes Agent | Active, dependency-gated | Decision intelligence, compounding intelligence, preflight, contradiction, research queue, and second-brain pages are routed and contract-backed; final production proof depends on Hermes Brain connectivity, service-token availability, second-brain sync, and preflight memory enforcement. |
+| CP-03 | Executive / Decision / Second-Brain Intelligence | Nous Hermes Agent | Active, runtime-proven | Decision intelligence, compounding intelligence, preflight, contradiction, research queue, and second-brain pages are routed and contract-backed; Hermes Brain runtime connectivity, service-token guarded endpoints, warehouse sync, and compounding 10/10 proof are proven, with post-deploy live-source validation and automatic preflight enforcement remaining. |
 | CP-04 | Cross-Project Data Warehouse / Storage / Archive | Cross-project | Active, ready | Warehouse/storage standards exist, Investing storage proof is ready, OANDA archive trust has bounded production proof, Investing earnings warehouse lifecycle/mirror gates are built, Khashi storage pressure is cleared by Docker build-cache maintenance proof, and Khashi backup/targeted restore proof is ready; destructive pruning stays approval-gated. |
 | CP-05 | Investing Trading / OANDA Live-Readiness | Investing System | Active, should be merged | OANDA, FX risk, trading desk, pre-fund, and practice-to-live plans overlap and should be operated as one live-readiness track with levels 7-9 locked. |
 | CP-06 | Investing Financial Analysis / Earnings Event Intelligence | Investing System | Active | Institutional financial analysis remains the core analysis engine roadmap, with earnings-event trading now built through E05-E24 as tested software; remaining maturity is production provider proof, durable warehouse proof, frontend observability, and live-disabled paper/review gates. |
@@ -121,17 +121,20 @@ Merged or supporting inputs:
 
 Current status:
 
-- Active, dependency-gated.
+- Active, runtime-proven.
 - The conceptual layers and dashboard routes are defined.
 - Compounding intelligence, decision lineage, contradiction intelligence, research queue, preflight, and second-brain surfaces have declared live-source contracts.
-- Current validation proves the route layer is present, but 8 second-brain endpoints return dependency-unavailable until Hermes Brain connectivity/service-token runtime proof is complete.
+- Production runtime proof confirms Hermes Brain connectivity, service-token guarded endpoints, proof commands, warehouse sync, and compounding-intelligence 10/10 readiness.
+- Nous now proxies contradiction resolution and exposes dashboard `Resolve` / `False positive` actions for contradiction audit closure.
+- Remaining validation is post-deploy live-source proof through the dashboard validator and automatic preflight injection before high-impact agent work.
 
 Next proof needed:
 
-- Verify `HERMES_BRAIN_URL` in local and production.
-- Verify `HERMES_BRAIN_SERVICE_TOKEN` wherever guarded preflight/decision metrics are required.
-- Verify the second-brain sync path writes durable warehouse records.
-- Add dashboard proof for source coverage, retrieval readiness, operating cadence, warehouse sync, and open memory actions.
+- Deploy the Hermes Brain repository reload fix so proof scripts and the long-running API share the same durable JSON state without restart.
+- Deploy the Nous contradiction-resolution proxy and dashboard action.
+- Rerun operational live-source validation and move second-brain sources from dependency unavailable to reachable.
+- Prove automatic preflight memory injection before high-impact tasks, not only manual dashboard preflight.
+- Keep decision-intelligence maintenance on cadence and store each run as durable warehouse/memory evidence.
 
 ## CP-04 Cross-Project Data Warehouse / Storage / Archive
 

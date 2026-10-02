@@ -419,6 +419,16 @@ export async function detectContradictions(): Promise<{ contradictions: Contradi
   return fetchJSON<{ contradictions: ContradictionRecord[] }>(`${BASE}/contradictions/detect`, { method: "POST" });
 }
 
+export async function resolveContradiction(
+  contradictionId: string,
+  input: { status: "resolved" | "false_positive" | "acknowledged"; actor: string; reason: string; metadata?: Record<string, unknown> },
+): Promise<{ contradiction: ContradictionRecord }> {
+  return fetchJSON<{ contradiction: ContradictionRecord }>(`${BASE}/contradictions/${encodeURIComponent(contradictionId)}/resolve`, {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
 export async function fetchResearchTasks(status?: string): Promise<{ tasks: ResearchTask[] }> {
   const suffix = status ? `?status=${encodeURIComponent(status)}` : "";
   return fetchJSON<{ tasks: ResearchTask[] }>(`${BASE}/research-tasks${suffix}`);

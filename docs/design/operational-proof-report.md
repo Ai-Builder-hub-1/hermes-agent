@@ -1,6 +1,6 @@
 # Operational Proof Report
 
-Generated: 2026-09-30T23:24:44.573Z
+Generated: 2026-10-02T15:26:49.884Z
 
 ## Summary
 
@@ -14,14 +14,14 @@ Generated: 2026-09-30T23:24:44.573Z
 | staticRoutes | 0 |
 | liveSourceGaps | 0 |
 | evidenceGaps | 0 |
-| safeActions | 27 |
+| safeActions | 28 |
 | safeActionHardeningGaps | 0 |
 | routeValidationStatus | ready |
 | routeValidationPassed | 36 |
 | routeValidationFailed | 0 |
 | routeValidationBlocked | 0 |
 | liveSourceValidationStatus | ready |
-| liveSourcesReachable | 51 |
+| liveSourcesReachable | 55 |
 | liveSourcesAuthRequired | 0 |
 | liveSourcesDependencyUnavailable | 0 |
 | liveSourcesFailed | 0 |
@@ -41,7 +41,7 @@ Generated: 2026-09-30T23:24:44.573Z
 | Route | Group | Maturity | Score | Status | Next action |
 | --- | --- | --- | --- | --- | --- |
 | /compounding-intelligence | operate | intelligent | 100 | ready | proposal drill-through |
-| /contradictions | operate | live | 100 | ready | inline resolution actions |
+| /contradictions | operate | live | 100 | ready | decision lineage backlinks |
 | /decision-lineage | operate | live | 100 | ready | resolution actions |
 | /operate | operate | actionable | 100 | ready | closeout audit flow |
 | /operate/actions | operate | actionable | 100 | ready | action completion API |
@@ -55,9 +55,9 @@ Generated: 2026-09-30T23:24:44.573Z
 
 | Metric | Value |
 | --- | --- |
-| actions | 27 |
-| evidenceBacked | 27 |
-| auditExpected | 27 |
+| actions | 28 |
+| evidenceBacked | 28 |
+| auditExpected | 28 |
 | needsHardening | 0 |
 
 ## Route Validation
@@ -69,15 +69,15 @@ Generated: 2026-09-30T23:24:44.573Z
 | passed | 36 |
 | failed | 0 |
 | blocked | 0 |
-| generatedAt | 2026-09-30T03:16:37.190Z |
+| generatedAt | 2026-10-02T15:26:41.500Z |
 
 ## Live Source Validation
 
 | Metric | Value |
 | --- | --- |
 | status | ready |
-| sources | 51 |
-| reachable | 51 |
+| sources | 55 |
+| reachable | 55 |
 | authRequired | 0 |
 | dependencyUnavailable | 0 |
 | failed | 0 |
@@ -85,7 +85,7 @@ Generated: 2026-09-30T23:24:44.573Z
 | impactedRoutes | 0 |
 | authMode | loopback_session_token |
 | sessionTokenDiscovered | true |
-| generatedAt | 2026-09-29T14:12:04.170Z |
+| generatedAt | 2026-10-02T15:26:07.070Z |
 
 ## Runtime Evidence Persistence
 

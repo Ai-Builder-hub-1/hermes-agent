@@ -73,8 +73,8 @@
       "wave": "wave-3-intelligence",
       "order": 7,
       "owner": "nous-hermes-agent",
-      "status": "active-dependency-gated",
-      "percentComplete": 63,
+      "status": "active-runtime-proven",
+      "percentComplete": 82,
       "confidence": "medium",
       "canonicalInputs": [
         "nous-hermes-agent/docs/plans/wave-3-intelligence-contract.json",
@@ -86,8 +86,8 @@
         "nous-hermes-agent/docs/design/dashboard-platform-intelligence-report.md"
       ],
       "supportingInputs": [],
-      "nextProof": "Bring Hermes Brain service endpoints online for second-brain summary, search, candidates, decisions, contradictions, research tasks, and preflight metrics; then rerun operational live-source validation to move 8 dependency-unavailable sources to reachable.",
-      "currentReadout": "Decision intelligence, compounding intelligence, preflight, contradiction, research queue, and second-brain pages are routed and contract-backed, but runtime proof remains dependency-gated on Hermes Brain connectivity/service-token availability."
+      "nextProof": "Deploy the Hermes Brain repository reload fix and Nous contradiction-resolution proxy/UI, rerun operational live-source validation to move second-brain sources to reachable, then prove automatic preflight memory injection before high-impact tasks.",
+      "currentReadout": "Decision intelligence, compounding intelligence, preflight, contradiction, research queue, and second-brain pages are routed and contract-backed. Production Hermes Brain connectivity, service-token guarded endpoints, proof commands, warehouse sync, and compounding 10/10 readiness are proven; remaining maturity is post-deploy live-source proof, maintenance cadence, and automatic preflight enforcement."
     },
     {
       "id": "CP-04",

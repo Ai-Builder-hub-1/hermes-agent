@@ -316,8 +316,8 @@ export const OPERATIONAL_PAGE_CONTRACTS: OperationalPageContract[] = [
     maturity: "live",
     liveSources: ["/api/second-brain/contradictions"],
     requiredSignals: REQUIRED_SURFACE_SIGNALS,
-    gaps: ["inline resolution actions", "decision lineage backlinks", "research task drill-through"],
-    safeActions: ["/api/second-brain/contradictions/detect"],
+    gaps: ["decision lineage backlinks", "research task drill-through"],
+    safeActions: ["/api/second-brain/contradictions/detect", "/api/second-brain/contradictions/{id}/resolve"],
     evidence: ["Hermes Brain contradiction records", "resolution audit trail"],
   },
   {

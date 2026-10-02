@@ -7,6 +7,7 @@ import { cn, isoTimeAgo } from "@/lib/utils";
 import {
   detectContradictions,
   fetchContradictions,
+  resolveContradiction,
   type ContradictionRecord,
 } from "@/lib/second-brain";
 
@@ -116,6 +117,31 @@ export default function ContradictionDashboardPage() {
   const open = records.filter((record) => record.status === "open").length;
   const blocking = records.filter((record) => record.blocksHighImpactUse && record.status === "open").length;
   const resolved = records.filter((record) => ["resolved", "false_positive"].includes(record.status)).length;
+  const canResolveSelected = selected ? !["resolved", "false_positive"].includes(selected.status) : false;
+
+  const resolveSelected = useCallback(async (status: "resolved" | "false_positive") => {
+    if (!selected || actionBusy) return;
+    setActionBusy(true);
+    try {
+      const result = await resolveContradiction(selected.id, {
+        status,
+        actor: "nous-hermes-dashboard",
+        reason: status === "resolved"
+          ? "Operator marked this contradiction resolved from the Nous contradiction dashboard."
+          : "Operator marked this contradiction as a false positive from the Nous contradiction dashboard.",
+        metadata: {
+          route: "/contradictions",
+          source: "nous-hermes-dashboard",
+        },
+      });
+      setRecords((current) => current.map((record) => record.id === selected.id ? result.contradiction : record));
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setActionBusy(false);
+    }
+  }, [actionBusy, selected]);
 
   useLayoutEffect(() => {
     setAfterTitle(
@@ -205,6 +231,19 @@ export default function ContradictionDashboardPage() {
                   {selected.resolutionReason}
                 </div>
               ) : null}
+              {canResolveSelected ? (
+                <div className="grid gap-2 sm:grid-cols-2">
+                  <Button size="sm" onClick={() => void resolveSelected("resolved")} disabled={actionBusy}>
+                    <CheckCircle2 className="mr-1 size-3.5" />
+                    Resolve
+                  </Button>
+                  <Button size="sm" ghost onClick={() => void resolveSelected("false_positive")} disabled={actionBusy}>
+                    <ShieldAlert className="mr-1 size-3.5" />
+                    False positive
+                  </Button>
+                </div>
+              ) : null}
+              {error ? <div className="text-xs text-destructive">{error}</div> : null}
             </div>
           ) : (
             <Empty title="Select a contradiction" detail="Pick an item from the queue to inspect its risk score and resolution path." />

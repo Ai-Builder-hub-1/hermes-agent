@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-30T23:24:44.573Z",
+  "generatedAt": "2026-10-02T15:26:49.884Z",
   "summary": {
     "routes": 36,
     "readyRoutes": 36,
@@ -10,14 +10,14 @@
     "staticRoutes": 0,
     "liveSourceGaps": 0,
     "evidenceGaps": 0,
-    "safeActions": 27,
+    "safeActions": 28,
     "safeActionHardeningGaps": 0,
     "routeValidationStatus": "ready",
     "routeValidationPassed": 36,
     "routeValidationFailed": 0,
     "routeValidationBlocked": 0,
     "liveSourceValidationStatus": "ready",
-    "liveSourcesReachable": 51,
+    "liveSourcesReachable": 55,
     "liveSourcesAuthRequired": 0,
     "liveSourcesDependencyUnavailable": 0,
     "liveSourcesFailed": 0,
@@ -66,7 +66,7 @@
       "score": 100,
       "status": "ready",
       "missing": [],
-      "nextAction": "inline resolution actions"
+      "nextAction": "decision lineage backlinks"
     },
     {
       "route": "/decision-lineage",
@@ -415,12 +415,12 @@
     "passed": 36,
     "failed": 0,
     "blocked": 0,
-    "generatedAt": "2026-09-30T03:16:37.190Z"
+    "generatedAt": "2026-10-02T15:26:41.500Z"
   },
   "liveSourceValidation": {
     "status": "ready",
-    "sources": 51,
-    "reachable": 51,
+    "sources": 55,
+    "reachable": 55,
     "authRequired": 0,
     "dependencyUnavailable": 0,
     "failed": 0,
@@ -428,7 +428,7 @@
     "impactedRoutes": 0,
     "authMode": "loopback_session_token",
     "sessionTokenDiscovered": true,
-    "generatedAt": "2026-09-29T14:12:04.170Z"
+    "generatedAt": "2026-10-02T15:26:07.070Z"
   },
   "staticRoutes": [],
   "liveSourceGaps": [],
@@ -734,6 +734,23 @@
         "gaps": []
       },
       {
+        "id": "/contradictions:/api/second-brain/contradictions/{id}/resolve",
+        "route": "/contradictions",
+        "group": "operate",
+        "pageLabel": "Contradictions",
+        "endpoint": "/api/second-brain/contradictions/{id}/resolve",
+        "risk": "review_required",
+        "evidenceContract": [
+          "Hermes Brain contradiction records",
+          "resolution audit trail"
+        ],
+        "liveSources": [
+          "/api/second-brain/contradictions"
+        ],
+        "auditWritebackExpected": true,
+        "gaps": []
+      },
+      {
         "id": "/research-queue:/api/second-brain/research-tasks/generate",
         "route": "/research-queue",
         "group": "operate",
@@ -945,9 +962,9 @@
       }
     ],
     "totals": {
-      "actions": 27,
-      "evidenceBacked": 27,
-      "auditExpected": 27,
+      "actions": 28,
+      "evidenceBacked": 28,
+      "auditExpected": 28,
       "needsHardening": 0
     },
     "gaps": []
@@ -958,9 +975,9 @@
     "subject": "Operational route proof report",
     "state": "ready",
     "owner": "Hermes",
-    "detail": "36/36 operational routes ready; 51 live sources reachable; 27 safe actions evidence-backed.",
+    "detail": "36/36 operational routes ready; 55 live sources reachable; 28 safe actions evidence-backed.",
     "payload": {
-      "generatedAt": "2026-09-30T23:24:44.573Z",
+      "generatedAt": "2026-10-02T15:26:49.884Z",
       "summary": {
         "routes": 36,
         "readyRoutes": 36,
@@ -970,14 +987,14 @@
         "staticRoutes": 0,
         "liveSourceGaps": 0,
         "evidenceGaps": 0,
-        "safeActions": 27,
+        "safeActions": 28,
         "safeActionHardeningGaps": 0,
         "routeValidationStatus": "ready",
         "routeValidationPassed": 36,
         "routeValidationFailed": 0,
         "routeValidationBlocked": 0,
         "liveSourceValidationStatus": "ready",
-        "liveSourcesReachable": 51,
+        "liveSourcesReachable": 55,
         "liveSourcesAuthRequired": 0,
         "liveSourcesDependencyUnavailable": 0,
         "liveSourcesFailed": 0,
@@ -990,12 +1007,12 @@
         "passed": 36,
         "failed": 0,
         "blocked": 0,
-        "generatedAt": "2026-09-30T03:16:37.190Z"
+        "generatedAt": "2026-10-02T15:26:41.500Z"
       },
       "liveSourceValidation": {
         "status": "ready",
-        "sources": 51,
-        "reachable": 51,
+        "sources": 55,
+        "reachable": 55,
         "authRequired": 0,
         "dependencyUnavailable": 0,
         "failed": 0,
@@ -1003,7 +1020,7 @@
         "impactedRoutes": 0,
         "authMode": "loopback_session_token",
         "sessionTokenDiscovered": true,
-        "generatedAt": "2026-09-29T14:12:04.170Z"
+        "generatedAt": "2026-10-02T15:26:07.070Z"
       },
       "reportPath": "docs/design/operational-proof-report.json"
     }

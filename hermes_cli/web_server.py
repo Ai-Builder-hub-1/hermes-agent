@@ -2098,12 +2098,12 @@ async def get_second_brain_decisions():
 
 @app.get("/api/second-brain/decisions/{decision_id}")
 async def get_second_brain_decision(decision_id: str):
-    return await _hermes_brain_request(f"/api/brain/decisions/{urllib.parse.quote(decision_id)}")
+    return await _hermes_brain_request(f"/api/brain/decisions/{urllib.parse.quote(decision_id, safe='')}")
 
 
 @app.get("/api/second-brain/decisions/{decision_id}/lineage")
 async def get_second_brain_decision_lineage(decision_id: str):
-    return await _hermes_brain_request(f"/api/brain/decisions/{urllib.parse.quote(decision_id)}/lineage")
+    return await _hermes_brain_request(f"/api/brain/decisions/{urllib.parse.quote(decision_id, safe='')}/lineage")
 
 
 @app.get("/api/second-brain/contradictions")
@@ -2115,6 +2115,15 @@ async def get_second_brain_contradictions(status: Optional[str] = None):
 @app.post("/api/second-brain/contradictions/detect")
 async def post_second_brain_contradictions_detect():
     return await _hermes_brain_request("/api/brain/contradictions/detect", method="POST", payload={})
+
+
+@app.post("/api/second-brain/contradictions/{contradiction_id}/resolve")
+async def post_second_brain_contradiction_resolve(contradiction_id: str, payload: Dict[str, Any]):
+    return await _hermes_brain_request(
+        f"/api/brain/contradictions/{urllib.parse.quote(contradiction_id, safe='')}/resolve",
+        method="POST",
+        payload=payload,
+    )
 
 
 @app.get("/api/second-brain/research-tasks")

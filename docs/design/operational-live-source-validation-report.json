@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-02T14:50:23.088Z",
+  "generatedAt": "2026-10-02T15:26:07.070Z",
   "summary": {
     "baseUrl": "http://127.0.0.1:9121",
     "sources": 55,
-    "reachable": 47,
+    "reachable": 55,
     "authRequired": 0,
-    "dependencyUnavailable": 8,
+    "dependencyUnavailable": 0,
     "failed": 0,
     "blocked": 0,
-    "impactedRoutes": 5,
-    "status": "dependency_unavailable",
+    "impactedRoutes": 0,
+    "status": "ready",
     "authMode": "loopback_session_token",
     "sessionTokenDiscovered": true
   },
@@ -209,83 +209,83 @@
     },
     {
       "source": "/api/second-brain/candidates",
-      "status": "dependency_unavailable",
-      "httpStatus": 503,
+      "status": "reachable",
+      "httpStatus": 200,
       "contentType": "application/json",
       "pages": [
         "/second-brain"
       ],
-      "issue": "HTTP status 503"
+      "issue": ""
     },
     {
       "source": "/api/second-brain/contradictions",
-      "status": "dependency_unavailable",
-      "httpStatus": 503,
+      "status": "reachable",
+      "httpStatus": 200,
       "contentType": "application/json",
       "pages": [
         "/contradictions"
       ],
-      "issue": "HTTP status 503"
+      "issue": ""
     },
     {
       "source": "/api/second-brain/decision-intelligence/metrics",
-      "status": "dependency_unavailable",
-      "httpStatus": 503,
+      "status": "reachable",
+      "httpStatus": 200,
       "contentType": "application/json",
       "pages": [
         "/preflight"
       ],
-      "issue": "HTTP status 503"
+      "issue": ""
     },
     {
       "source": "/api/second-brain/decisions",
-      "status": "dependency_unavailable",
-      "httpStatus": 503,
+      "status": "reachable",
+      "httpStatus": 200,
       "contentType": "application/json",
       "pages": [
         "/decision-lineage"
       ],
-      "issue": "HTTP status 503"
+      "issue": ""
     },
     {
       "source": "/api/second-brain/preflight-checks",
-      "status": "dependency_unavailable",
-      "httpStatus": 503,
+      "status": "reachable",
+      "httpStatus": 200,
       "contentType": "application/json",
       "pages": [
         "/preflight"
       ],
-      "issue": "HTTP status 503"
+      "issue": ""
     },
     {
       "source": "/api/second-brain/research-tasks",
-      "status": "dependency_unavailable",
-      "httpStatus": 503,
+      "status": "reachable",
+      "httpStatus": 200,
       "contentType": "application/json",
       "pages": [
         "/research-queue"
       ],
-      "issue": "HTTP status 503"
+      "issue": ""
     },
     {
       "source": "/api/second-brain/search",
-      "status": "dependency_unavailable",
-      "httpStatus": 503,
+      "status": "reachable",
+      "httpStatus": 200,
       "contentType": "application/json",
       "pages": [
         "/second-brain"
       ],
-      "issue": "HTTP status 503"
+      "issue": ""
     },
     {
       "source": "/api/second-brain/summary",
-      "status": "dependency_unavailable",
-      "httpStatus": 503,
+      "status": "reachable",
+      "httpStatus": 200,
       "contentType": "application/json",
       "pages": [
         "/second-brain"
       ],
-      "issue": "HTTP status 503"
+      "issue": ""
     },
     {
       "source": "/api/sessions",
@@ -586,39 +586,5 @@
       "issue": ""
     }
   ],
-  "routeImpacts": [
-    {
-      "route": "/contradictions",
-      "blockedSources": [
-        "/api/second-brain/contradictions"
-      ]
-    },
-    {
-      "route": "/decision-lineage",
-      "blockedSources": [
-        "/api/second-brain/decisions"
-      ]
-    },
-    {
-      "route": "/preflight",
-      "blockedSources": [
-        "/api/second-brain/decision-intelligence/metrics",
-        "/api/second-brain/preflight-checks"
-      ]
-    },
-    {
-      "route": "/research-queue",
-      "blockedSources": [
-        "/api/second-brain/research-tasks"
-      ]
-    },
-    {
-      "route": "/second-brain",
-      "blockedSources": [
-        "/api/second-brain/candidates",
-        "/api/second-brain/search",
-        "/api/second-brain/summary"
-      ]
-    }
-  ]
+  "routeImpacts": []
 }

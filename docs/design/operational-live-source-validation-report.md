@@ -1,6 +1,6 @@
 # Operational Live Source Validation Report
 
-Generated: 2026-10-02T14:50:23.088Z
+Generated: 2026-10-02T15:26:07.070Z
 
 ## Summary
 
@@ -8,13 +8,13 @@ Generated: 2026-10-02T14:50:23.088Z
 | --- | --- |
 | baseUrl | http://127.0.0.1:9121 |
 | sources | 55 |
-| reachable | 47 |
+| reachable | 55 |
 | authRequired | 0 |
-| dependencyUnavailable | 8 |
+| dependencyUnavailable | 0 |
 | failed | 0 |
 | blocked | 0 |
-| impactedRoutes | 5 |
-| status | dependency_unavailable |
+| impactedRoutes | 0 |
+| status | ready |
 | authMode | loopback_session_token |
 | sessionTokenDiscovered | true |
 
@@ -40,14 +40,14 @@ Generated: 2026-10-02T14:50:23.088Z
 | /api/operating-runtime/incidents | reachable | 200 | /operate/incidents | none |
 | /api/operating-runtime/summary | reachable | 200 | /operate | none |
 | /api/operating-runtime/workbench | reachable | 200 | /operate/actions | none |
-| /api/second-brain/candidates | dependency_unavailable | 503 | /second-brain | HTTP status 503 |
-| /api/second-brain/contradictions | dependency_unavailable | 503 | /contradictions | HTTP status 503 |
-| /api/second-brain/decision-intelligence/metrics | dependency_unavailable | 503 | /preflight | HTTP status 503 |
-| /api/second-brain/decisions | dependency_unavailable | 503 | /decision-lineage | HTTP status 503 |
-| /api/second-brain/preflight-checks | dependency_unavailable | 503 | /preflight | HTTP status 503 |
-| /api/second-brain/research-tasks | dependency_unavailable | 503 | /research-queue | HTTP status 503 |
-| /api/second-brain/search | dependency_unavailable | 503 | /second-brain | HTTP status 503 |
-| /api/second-brain/summary | dependency_unavailable | 503 | /second-brain | HTTP status 503 |
+| /api/second-brain/candidates | reachable | 200 | /second-brain | none |
+| /api/second-brain/contradictions | reachable | 200 | /contradictions | none |
+| /api/second-brain/decision-intelligence/metrics | reachable | 200 | /preflight | none |
+| /api/second-brain/decisions | reachable | 200 | /decision-lineage | none |
+| /api/second-brain/preflight-checks | reachable | 200 | /preflight | none |
+| /api/second-brain/research-tasks | reachable | 200 | /research-queue | none |
+| /api/second-brain/search | reachable | 200 | /second-brain | none |
+| /api/second-brain/summary | reachable | 200 | /second-brain | none |
 | /api/sessions | reachable | 200 | /system/sessions | none |
 | /api/status | reachable | 200 | /system/admin | none |
 | /api/system/credentials/series | reachable | 200 | /system/credentials | none |
@@ -80,10 +80,4 @@ Generated: 2026-10-02T14:50:23.088Z
 
 ## Impacted Routes
 
-| Route | Blocked sources |
-| --- | --- |
-| /contradictions | /api/second-brain/contradictions |
-| /decision-lineage | /api/second-brain/decisions |
-| /preflight | /api/second-brain/decision-intelligence/metrics, /api/second-brain/preflight-checks |
-| /research-queue | /api/second-brain/research-tasks |
-| /second-brain | /api/second-brain/candidates, /api/second-brain/search, /api/second-brain/summary |
+No routes have unreachable declared live sources.

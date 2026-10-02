@@ -12,6 +12,7 @@ import {
   fetchPreflightChecks,
   fetchResearchTasks,
   generateResearchTasks,
+  resolveContradiction,
   runPreflightCheck,
 } from "./second-brain";
 
@@ -143,6 +144,31 @@ describe("second brain API client", () => {
     expect(fetchMock.mock.calls[0][0]).toBe("/api/second-brain/contradictions?status=open");
     expect(fetchMock.mock.calls[1][0]).toBe("/api/second-brain/contradictions/detect");
     expect(fetchMock.mock.calls[1][1]).toEqual(expect.objectContaining({ method: "POST", credentials: "include" }));
+  });
+
+  it("resolves contradictions through the proxy", async () => {
+    vi.stubGlobal("window", {});
+    const fetchMock = jsonFetchMock({ contradiction: { id: "contradiction/with space", status: "resolved" } });
+    vi.stubGlobal("fetch", fetchMock);
+
+    await resolveContradiction("contradiction/with space", {
+      status: "resolved",
+      actor: "nous-hermes-dashboard",
+      reason: "Operator reviewed the evidence.",
+      metadata: { route: "/contradictions" },
+    });
+
+    expect(fetchMock.mock.calls[0][0]).toBe("/api/second-brain/contradictions/contradiction%2Fwith%20space/resolve");
+    expect(fetchMock.mock.calls[0][1]).toEqual(expect.objectContaining({
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify({
+        status: "resolved",
+        actor: "nous-hermes-dashboard",
+        reason: "Operator reviewed the evidence.",
+        metadata: { route: "/contradictions" },
+      }),
+    }));
   });
 
   it("loads and generates research tasks through the proxy", async () => {
