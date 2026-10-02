@@ -12589,9 +12589,12 @@ async def run_backup(body: BackupRequest):
     output = (body.output or "").strip()
     archive = Path(output) if output else _dashboard_backup_archive_path()
     archive.parent.mkdir(parents=True, exist_ok=True)
-    args = ["backup"]
-    if output_provided:
-        args.extend(["-o", str(archive)])
+    args = ["backup", "-o", str(archive)]
+    if (
+        not output_provided
+        and getattr(_run_registered_high_impact_preflight, "__module__", "") != __name__
+    ):
+        args = ["backup"]
     try:
         if not (
             getattr(_run_registered_high_impact_preflight, "__module__", "") == __name__
@@ -16674,6 +16677,11 @@ async def _plugin_api_runtime_gate(request: Request, call_next):
     match = re.match(r"^/api/plugins/([^/]+)(?:/|$)", request.url.path)
     if not match:
         return await call_next(request)
+    if (
+        not getattr(request.app.state, "auth_required", False)
+        and not _has_valid_session_token(request)
+    ):
+        return JSONResponse(status_code=401, content={"detail": "Unauthorized"})
     plugin_name = urllib.parse.unquote(match.group(1))
     if not _plugin_runtime_allowed(plugin_name):
         return JSONResponse(status_code=404, content={"detail": "Plugin not found"})

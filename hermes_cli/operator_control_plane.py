@@ -108,7 +108,7 @@ def record_operator_action_closeout(
 
 
 def _build_operator_queue(limit: int, include_system: bool, extra_items: list[Dict[str, Any]]) -> Dict[str, Any]:
-    safe_limit = max(1, min(int(limit), 50))
+    safe_limit = max(1, min(int(limit), 100))
     fleet = fleet_operator_queue(limit=50)
     conn = connect()
     try:
