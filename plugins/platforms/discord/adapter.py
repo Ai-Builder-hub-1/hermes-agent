@@ -24,6 +24,7 @@ import time
 from collections import defaultdict
 from contextlib import suppress
 from typing import Callable, Dict, List, Optional, Any, Tuple
+from urllib.parse import urlparse
 
 logger = logging.getLogger(__name__)
 
@@ -60,6 +61,12 @@ _DISCORD_NONCONVERSATIONAL_METADATA_KEYS = frozenset({
     "non_conversational",
     "non_conversational_history",
 })
+_DISCORD_TRUSTED_ATTACHMENT_HOSTS = frozenset({
+    "cdn.discordapp.com",
+    "media.discordapp.net",
+    "images-ext-1.discordapp.net",
+    "images-ext-2.discordapp.net",
+})
 # Upgrade-bridge fallback only. The primary mechanism is the persisted
 # non-conversational message-ID set populated from explicitly marked sends
 # (metadata["non_conversational"]). These regexes exist solely to recognize
@@ -87,6 +94,18 @@ _DISCORD_NONCONVERSATIONAL_HISTORY_MESSAGE_PATTERNS = (
     ),
     re.compile(r"^\s*♻️?\s+Gateway\s+(?:restarted successfully|online\b)[\s\S]*$", re.IGNORECASE),
 )
+
+
+def _is_safe_discord_attachment_url(url: str) -> bool:
+    try:
+        parsed = urlparse(url)
+        host = (parsed.hostname or "").strip().lower().rstrip(".")
+        if parsed.scheme.lower() == "https" and host in _DISCORD_TRUSTED_ATTACHMENT_HOSTS:
+            return True
+    except Exception:
+        return False
+    return is_safe_url(url)
+
 
 try:
     import discord
@@ -6173,7 +6192,7 @@ class DiscordAdapter(BasePlatformAdapter):
             return raw_bytes
 
         # Fallback: SSRF-gated URL download.
-        if not is_safe_url(att.url):
+        if not _is_safe_discord_attachment_url(att.url):
             raise ValueError(
                 f"Blocked unsafe attachment URL (SSRF protection): {att.url}"
             )
