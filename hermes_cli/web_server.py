@@ -267,6 +267,11 @@ def _has_valid_session_token(request: Request) -> bool:
     return hmac.compare_digest(auth.encode(), expected.encode())
 
 
+def _has_valid_download_query_token(request: Request) -> bool:
+    token = request.query_params.get("token", "")
+    return bool(token) and hmac.compare_digest(token.encode(), _SESSION_TOKEN.encode())
+
+
 def _require_token(request: Request) -> None:
     """Authorize a sensitive endpoint, raising 401 if the caller isn't allowed.
 
@@ -425,7 +430,8 @@ async def auth_middleware(request: Request, call_next):
         return await call_next(request)
     path = request.url.path
     if path.startswith("/api/") and path not in _PUBLIC_API_PATHS:
-        if not _has_valid_session_token(request):
+        download_token_ok = path == "/api/files/download" and _has_valid_download_query_token(request)
+        if not download_token_ok and not _has_valid_session_token(request):
             return JSONResponse(
                 status_code=401,
                 content={"detail": "Unauthorized"},
@@ -701,6 +707,16 @@ class TelegramOnboardingApply(BaseModel):
     allowed_user_ids: List[str]
 
 
+class WhatsAppOnboardingStart(BaseModel):
+    mode: str = "bot"
+    allowed_users: str = ""
+
+
+class WhatsAppOnboardingApply(BaseModel):
+    mode: str = "bot"
+    allowed_users: str = ""
+
+
 class AudioTranscriptionRequest(BaseModel):
     data_url: str
     mime_type: Optional[str] = None
@@ -724,6 +740,25 @@ class ManagedDirectoryCreate(BaseModel):
 class ManagedFileDelete(BaseModel):
     path: str
     recursive: bool = False
+
+
+@dataclass
+class _WhatsAppOnboardingSession:
+    proc: Any
+    mode: str
+    allowed_users: str
+    session_path: str
+    expires_at: str
+    expires_at_ts: float
+    status: str = "starting"
+    qr_payload: Optional[str] = None
+    account_id: Optional[str] = None
+    account_name: Optional[str] = None
+    account_phone: Optional[str] = None
+    error: Optional[str] = None
+
+
+_whatsapp_onboarding_sessions: Dict[str, _WhatsAppOnboardingSession] = {}
 
 
 _AUDIO_MIME_EXTENSIONS: Dict[str, str] = {
@@ -811,12 +846,35 @@ def _normalize_main_model_assignment(provider: str, model: str) -> tuple[str, st
     model_in = (model or "").strip()
     canonical = normalize_provider(prov_in)
 
+    try:
+        cfg = load_config()
+    except Exception:
+        cfg = {}
+
+    providers_cfg = cfg.get("providers") if isinstance(cfg, dict) else None
+    if (
+        isinstance(providers_cfg, dict)
+        and prov_in in providers_cfg
+        and isinstance(providers_cfg.get(prov_in), dict)
+    ):
+        return prov_in, model_in
+
+    custom_providers = cfg.get("custom_providers") if isinstance(cfg, dict) else None
+    if isinstance(custom_providers, list):
+        for item in custom_providers:
+            if not isinstance(item, dict):
+                continue
+            name = str(item.get("name") or "").strip()
+            slug = "custom:" + re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+            if prov_in in {name, slug}:
+                return slug, model_in
+
     if canonical not in _KNOWN_PROVIDER_NAMES and "/" in model_in:
         # Vendor prefix posing as a provider (analytics fallback). Resolve
         # against the user's current provider when it's an aggregator that
         # serves vendor-prefixed slugs; otherwise default to openrouter.
         try:
-            cur_cfg = load_config().get("model", {})
+            cur_cfg = cfg.get("model", {}) if isinstance(cfg, dict) else {}
             cur_provider = (
                 str(cur_cfg.get("provider", "") or "").strip().lower()
                 if isinstance(cur_cfg, dict) else ""
@@ -984,6 +1042,25 @@ _MANAGED_FILES_ROOT_ENV = "HERMES_DASHBOARD_FILES_ROOT"
 _MANAGED_FILE_MAX_BYTES = 100 * 1024 * 1024
 _SESSION_IMPORT_MAX_BYTES = 25 * 1024 * 1024
 _HOSTED_MANAGED_FILES_ROOT = Path("/opt/data")
+_SENSITIVE_MANAGED_FILE_BASENAMES = {
+    ".env",
+    ".envrc",
+    ".git-credentials",
+    ".anthropic_oauth.json",
+    "auth.json",
+    "auth.lock",
+    "bws_cache.json",
+    "config.yaml",
+    "credentials",
+    "google_oauth.json",
+    "google_oauth_pending.json",
+    "google_token.json",
+    "webhook_subscriptions.json",
+}
+_SENSITIVE_MANAGED_DIR_NAMES = {
+    "mcp-tokens",
+    "pairing",
+}
 
 
 @dataclass(frozen=True)
@@ -1386,6 +1463,22 @@ def _managed_response_meta(policy: ManagedFilesPolicy) -> Dict[str, Any]:
     }
 
 
+def _managed_path_is_sensitive(path: Path) -> bool:
+    parts = [part.lower() for part in path.parts]
+    if any(part in _SENSITIVE_MANAGED_DIR_NAMES for part in parts):
+        return True
+    name = path.name.lower()
+    return (
+        name in _SENSITIVE_MANAGED_FILE_BASENAMES
+        or name.startswith(".env.")
+    )
+
+
+def _raise_if_sensitive_managed_path(path: Path) -> None:
+    if _managed_path_is_sensitive(path):
+        raise HTTPException(status_code=403, detail="Credential file is not readable")
+
+
 def _managed_file_entry(policy: ManagedFilesPolicy, target: Path) -> Dict[str, Any]:
     try:
         resolved = target.resolve()
@@ -1437,7 +1530,11 @@ async def list_managed_files(request: Request, path: Optional[str] = None):
         raise HTTPException(status_code=400, detail="Path is not a directory")
 
     try:
-        entries = [_managed_file_entry(policy, child) for child in target.iterdir()]
+        entries = [
+            _managed_file_entry(policy, child)
+            for child in target.iterdir()
+            if not _managed_path_is_sensitive(child)
+        ]
     except PermissionError:
         raise HTTPException(status_code=403, detail="Directory is not readable")
     except OSError as exc:
@@ -1459,6 +1556,7 @@ async def list_managed_files(request: Request, path: Optional[str] = None):
 @app.get("/api/files/read")
 async def read_managed_file(request: Request, path: str):
     policy, target, display_path = _resolve_managed_path(path, request)
+    _raise_if_sensitive_managed_path(target)
     if not target.exists():
         raise HTTPException(status_code=404, detail="File not found")
     if not target.is_file():
@@ -1492,6 +1590,7 @@ async def read_managed_file(request: Request, path: str):
 @app.post("/api/files/upload")
 async def upload_managed_file(payload: ManagedFileUpload, request: Request):
     policy, target, display_path = _resolve_managed_path(payload.path, request, for_write=True)
+    _raise_if_sensitive_managed_path(target)
     if target.exists() and target.is_dir():
         raise HTTPException(status_code=409, detail="A directory already exists at that path")
     if target.exists() and not payload.overwrite:
@@ -1514,9 +1613,84 @@ async def upload_managed_file(payload: ManagedFileUpload, request: Request):
     }
 
 
+@app.get("/api/files/download")
+async def download_managed_file(request: Request, path: str):
+    policy, target, _display_path = _resolve_managed_path(path, request)
+    _raise_if_sensitive_managed_path(target)
+    if not target.exists():
+        raise HTTPException(status_code=404, detail="File not found")
+    if not target.is_file():
+        raise HTTPException(status_code=400, detail="Path is not a file")
+    try:
+        size = target.stat().st_size
+    except OSError as exc:
+        raise HTTPException(status_code=500, detail=f"Could not stat file: {exc}")
+    if size > _MANAGED_FILE_MAX_BYTES:
+        raise HTTPException(status_code=413, detail="File is too large")
+    return FileResponse(
+        target,
+        media_type=mimetypes.guess_type(target.name)[0] or "application/octet-stream",
+        filename=target.name,
+    )
+
+
+@app.post("/api/files/upload-stream")
+async def upload_managed_file_stream(
+    request: Request,
+    file: UploadFile = File(...),
+    path: str = Form(...),
+    overwrite: bool = Form(True),
+):
+    policy, target, display_path = _resolve_managed_path(path, request, for_write=True)
+    _raise_if_sensitive_managed_path(target)
+    if target.exists() and target.is_dir():
+        raise HTTPException(status_code=409, detail="A directory already exists at that path")
+    if target.exists() and not overwrite:
+        raise HTTPException(status_code=409, detail="File already exists")
+
+    target.parent.mkdir(parents=True, exist_ok=True)
+    tmp_path = target.parent / f".{target.name}.{secrets.token_hex(8)}.upload"
+    total = 0
+    promoted = False
+    try:
+        with tmp_path.open("wb") as handle:
+            while True:
+                chunk = await file.read(1024 * 1024)
+                if not chunk:
+                    break
+                total += len(chunk)
+                if total > _MANAGED_FILE_MAX_BYTES:
+                    raise HTTPException(status_code=413, detail="File is too large")
+                handle.write(chunk)
+        os.replace(tmp_path, target)
+        promoted = True
+    except HTTPException:
+        raise
+    finally:
+        try:
+            await file.close()
+        except Exception:
+            pass
+        if not promoted:
+            try:
+                tmp_path.unlink()
+            except FileNotFoundError:
+                pass
+            except OSError:
+                _log.debug("Could not clean managed upload temp file %s", tmp_path, exc_info=True)
+
+    return {
+        "ok": True,
+        "entry": _managed_file_entry(policy, target),
+        "path": display_path,
+        **_managed_response_meta(policy),
+    }
+
+
 @app.post("/api/files/mkdir")
 async def create_managed_directory(payload: ManagedDirectoryCreate, request: Request):
     policy, target, display_path = _resolve_managed_path(payload.path, request, for_write=True)
+    _raise_if_sensitive_managed_path(target)
     if target.exists() and not target.is_dir():
         raise HTTPException(status_code=409, detail="A file already exists at that path")
 
@@ -1806,7 +1980,71 @@ def _resolve_restart_drain_timeout() -> float:
 
 
 @app.get("/api/status")
-async def get_status():
+async def get_status(profile: Optional[str] = None):
+    if profile:
+        with _profile_scope(profile):
+            current_ver, latest_ver = check_config_version()
+            runtime = read_runtime_status()
+            gateway_pid = get_running_pid_cached()
+            if gateway_pid is None and runtime:
+                gateway_pid = get_runtime_status_running_pid(runtime)
+            gateway_running = gateway_pid is not None
+            gateway_state = runtime.get("gateway_state") if isinstance(runtime, dict) else None
+            gateway_platforms = runtime.get("platforms") if isinstance(runtime, dict) else {}
+            try:
+                from gateway.config import load_gateway_config
+
+                configured = {
+                    platform.value for platform in load_gateway_config().get_connected_platforms()
+                }
+                if isinstance(gateway_platforms, dict):
+                    gateway_platforms = {
+                        key: value for key, value in gateway_platforms.items() if key in configured
+                    }
+            except Exception:
+                pass
+            active_agents = 0
+            if isinstance(runtime, dict):
+                try:
+                    active_agents = max(0, int(runtime.get("active_agents") or 0))
+                except (TypeError, ValueError):
+                    active_agents = 0
+            if gateway_running and gateway_state is None:
+                gateway_state = "running"
+            if not gateway_running and gateway_state not in {"startup_failed", "stopped"}:
+                gateway_state = "stopped"
+            auth_required = bool(getattr(app.state, "auth_required", False))
+            status = {
+                "version": __version__,
+                "release_date": __release_date__,
+                "config_version": current_ver,
+                "latest_config_version": latest_ver,
+                "gateway_running": gateway_running,
+                "gateway_state": gateway_state,
+                "gateway_platforms": gateway_platforms if isinstance(gateway_platforms, dict) else {},
+                "gateway_exit_reason": runtime.get("exit_reason") if isinstance(runtime, dict) else None,
+                "gateway_updated_at": runtime.get("updated_at") if isinstance(runtime, dict) else None,
+                "active_agents": active_agents,
+                "gateway_busy": bool(gateway_running and gateway_state == "running" and active_agents > 0),
+                "gateway_drainable": bool(gateway_running and gateway_state == "running"),
+                "restart_drain_timeout": _resolve_restart_drain_timeout(),
+                "active_sessions": _count_status_active_sessions(),
+                "can_update_hermes": not _dashboard_local_update_managed_externally(),
+                "auth_required": auth_required,
+                "auth_providers": [],
+                "profiles": [],
+                "gateway_mode": "profile",
+            }
+            if not auth_required:
+                status.update({
+                    "hermes_home": str(get_hermes_home()),
+                    "config_path": str(get_config_path()),
+                    "env_path": str(get_env_path()),
+                    "gateway_pid": gateway_pid,
+                    "gateway_health_url": _GATEWAY_HEALTH_URL,
+                    "gateways": [],
+                })
+            return status
     current_ver, latest_ver = check_config_version()
 
     # --- Gateway liveness detection ---
@@ -4851,6 +5089,7 @@ _ACTION_LOG_FILES: Dict[str, str] = {
 # ``name`` → most recently spawned Popen handle.  Used so ``status`` can
 # report liveness and exit code without shelling out to ``ps``.
 _ACTION_PROCS: Dict[str, subprocess.Popen] = {}
+_ACTION_COMMANDS: Dict[str, List[str]] = {}
 
 # ``name`` → completed synthetic action result for actions the server handled
 # without spawning a subprocess (for example, unsupported Docker updates).
@@ -4913,6 +5152,7 @@ def _spawn_hermes_action(subcommand: List[str], name: str) -> subprocess.Popen:
     log_file.close()
     _ACTION_RESULTS.pop(name, None)
     _ACTION_PROCS[name] = proc
+    _ACTION_COMMANDS[name] = list(subcommand)
     return proc
 
 
@@ -4939,7 +5179,11 @@ async def _run_spawned_hermes_action_preflight(
     workflow_id = _spawned_hermes_action_preflight_workflow(subcommand, name)
     if not workflow_id:
         return
-    if os.environ.get("PYTEST_CURRENT_TEST") and not os.environ.get("HERMES_BRAIN_SERVICE_TOKEN"):
+    if (
+        os.environ.get("PYTEST_CURRENT_TEST")
+        and not os.environ.get("HERMES_BRAIN_SERVICE_TOKEN")
+        and getattr(_run_registered_high_impact_preflight, "__module__", "") == __name__
+    ):
         return
     await _run_registered_high_impact_preflight(
         workflow_id,
@@ -5024,15 +5268,22 @@ def _restart_gateway_after_webhook_enable() -> dict[str, Any]:
 
 
 @app.post("/api/gateway/restart")
-async def restart_gateway():
+async def restart_gateway(profile: Optional[str] = None):
     """Kick off a ``hermes gateway restart`` in the background."""
     try:
-        await _run_spawned_hermes_action_preflight(
-            ["gateway", "restart"],
-            "gateway-restart",
-            route="/api/gateway/restart",
-        )
-        proc, _reused = _spawn_gateway_restart()
+        if profile:
+            proc = await _spawn_guarded_hermes_action(
+                ["-p", profile, "gateway", "restart"],
+                "gateway-restart",
+                route="/api/gateway/restart",
+            )
+        else:
+            await _run_spawned_hermes_action_preflight(
+                ["gateway", "restart"],
+                "gateway-restart",
+                route="/api/gateway/restart",
+            )
+            proc, _reused = _spawn_gateway_restart()
     except HTTPException:
         raise
     except Exception as exc:
@@ -6060,7 +6311,11 @@ _AUX_TASK_SLOTS: Tuple[str, ...] = (
 
 
 @app.get("/api/model/options")
-def get_model_options(profile: Optional[str] = None):
+def get_model_options(
+    profile: Optional[str] = None,
+    explicit_only: bool = False,
+    include_unconfigured: bool = False,
+):
     """Return authenticated providers + their curated model lists.
 
     REST equivalent of the ``model.options`` JSON-RPC on tui_gateway, so the
@@ -6087,7 +6342,8 @@ def get_model_options(profile: Optional[str] = None):
             return build_models_payload(
                 load_picker_context(),
                 max_models=50,
-                include_unconfigured=True,
+                explicit_only=explicit_only,
+                include_unconfigured=include_unconfigured,
                 picker_hints=True,
                 canonical_order=True,
                 pricing=True,
@@ -6590,6 +6846,7 @@ async def get_env_vars(profile: Optional[str] = None):
             "is_password": info.get("password", False),
             "tools": info.get("tools", []),
             "advanced": info.get("advanced", False),
+            "custom": False,
             # True when this var is a messaging-platform credential owned by a
             # Channels page card. The Keys/Env page uses this to hide it and
             # avoid duplicating the (richer) Channels configuration UI.
@@ -6611,6 +6868,24 @@ async def get_env_vars(profile: Optional[str] = None):
             "tools": info.get("tools", []),
             "advanced": info.get("advanced", False),
             "channel_managed": var_name in channel_keys,
+            "custom": False,
+        }
+    for var_name, value in env_on_disk.items():
+        if var_name in result:
+            continue
+        result[var_name] = {
+            "is_set": bool(value),
+            "redacted_value": redact_key(value) if value else None,
+            "description": "Custom environment variable",
+            "url": None,
+            "category": "custom",
+            "provider": None,
+            "provider_label": None,
+            "is_password": True,
+            "tools": [],
+            "advanced": True,
+            "channel_managed": var_name in channel_keys,
+            "custom": True,
         }
     return result
 
@@ -7450,7 +7725,7 @@ def _messaging_platform_payload(
         error_code = "startup_failed"
         error_message = runtime.get("exit_reason")
 
-    return {
+    payload = {
         "id": platform_id,
         "name": entry["name"],
         "description": entry["description"],
@@ -7469,6 +7744,15 @@ def _messaging_platform_payload(
         "home_channel": home_channel,
         "env_vars": env_vars,
     }
+    if platform_id == "whatsapp":
+        mode = env_on_disk.get("WHATSAPP_MODE") or ("" if scoped else os.getenv("WHATSAPP_MODE", ""))
+        allowed_users = env_on_disk.get("WHATSAPP_ALLOWED_USERS") or ("" if scoped else os.getenv("WHATSAPP_ALLOWED_USERS", ""))
+        payload["whatsapp_setup"] = {
+            "mode": mode or "bot",
+            "allowed_users_set": bool(allowed_users),
+            "home_channel_set": bool(home_channel),
+        }
+    return payload
 
 
 def _write_platform_enabled(platform_id: str, enabled: bool) -> None:
@@ -7483,6 +7767,200 @@ def _write_platform_enabled(platform_id: str, enabled: bool) -> None:
         platforms[platform_id] = platform_config
     platform_config["enabled"] = enabled
     save_config(config)
+
+
+def _whatsapp_phone_from_jid(value: Optional[str]) -> Optional[str]:
+    if not value:
+        return None
+    head = str(value).split("@", 1)[0].split(":", 1)[0]
+    digits = re.sub(r"\D+", "", head)
+    return digits or None
+
+
+def _whatsapp_session_path() -> Path:
+    return get_hermes_home() / "whatsapp" / "session"
+
+
+def _whatsapp_existing_account(session_dir: Path) -> Optional[Dict[str, str]]:
+    creds_path = session_dir / "creds.json"
+    if not creds_path.exists():
+        return None
+    try:
+        data = json.loads(creds_path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    me = data.get("me") if isinstance(data, dict) else None
+    if not isinstance(me, dict):
+        return None
+    account_id = str(me.get("id") or "").strip()
+    if not account_id:
+        return None
+    return {
+        "account_id": account_id,
+        "account_name": str(me.get("name") or "").strip() or None,
+        "account_phone": _whatsapp_phone_from_jid(account_id),
+    }
+
+
+def _whatsapp_onboarding_payload(pairing_id: str, record: _WhatsAppOnboardingSession) -> Dict[str, Any]:
+    return {
+        "pairing_id": pairing_id,
+        "status": record.status,
+        "mode": record.mode,
+        "qr_payload": record.qr_payload,
+        "account_id": record.account_id,
+        "account_name": record.account_name,
+        "account_phone": record.account_phone,
+        "error": record.error,
+        "expires_at": record.expires_at,
+    }
+
+
+def _ensure_whatsapp_bridge_dependencies(bridge_dir: Path) -> None:
+    return None
+
+
+def _spawn_whatsapp_pairing_process(session_dir: Path, mode: str):
+    from gateway.platforms.whatsapp_common import resolve_whatsapp_bridge_dir
+    import hermes_constants
+
+    bridge_dir = resolve_whatsapp_bridge_dir()
+    _ensure_whatsapp_bridge_dependencies(bridge_dir)
+    node = hermes_constants.find_node_executable("node")
+    env = hermes_constants.with_hermes_node_path(os.environ.copy())
+    env["WHATSAPP_MODE"] = mode
+    env["WHATSAPP_DM_POLICY"] = "pairing"
+    session_dir.mkdir(parents=True, exist_ok=True)
+    return subprocess.Popen(
+        [
+            node,
+            str(bridge_dir / "bridge.js"),
+            "--pair-only",
+            "--pair-json",
+            "--session",
+            str(session_dir),
+        ],
+        cwd=str(bridge_dir),
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        env=env,
+    )
+
+
+def _watch_whatsapp_pairing(pairing_id: str, proc: Any) -> None:
+    record = _whatsapp_onboarding_sessions.get(pairing_id)
+    if record is None:
+        return
+    record.proc = proc
+    for line in getattr(proc, "stdout", []) or []:
+        try:
+            payload = json.loads(line)
+        except Exception:
+            continue
+        event = str(payload.get("event") or "")
+        if event == "qr":
+            record.status = "qr"
+            record.qr_payload = payload.get("qr")
+        elif event == "connected":
+            user = payload.get("user") if isinstance(payload.get("user"), dict) else {}
+            account_id = str(user.get("id") or "").strip() or None
+            record.status = "connected"
+            record.account_id = account_id
+            record.account_name = str(user.get("name") or "").strip() or None
+            record.account_phone = _whatsapp_phone_from_jid(account_id)
+            record.error = None
+            return
+        elif event == "error":
+            record.status = "error"
+            record.error = str(payload.get("message") or payload.get("error") or "WhatsApp pairing failed")
+            return
+    if record.status not in {"connected", "qr", "cancelled"}:
+        record.status = "error"
+        record.error = "WhatsApp pairing process exited before connecting."
+
+
+def _run_whatsapp_pairing(pairing_id: str, session_dir: Path, mode: str) -> None:
+    try:
+        proc = _spawn_whatsapp_pairing_process(session_dir, mode)
+        _watch_whatsapp_pairing(pairing_id, proc)
+    except Exception as exc:
+        record = _whatsapp_onboarding_sessions.get(pairing_id)
+        if record is not None:
+            record.status = "error"
+            record.error = str(exc)
+
+
+def _restart_gateway_after_whatsapp_onboarding(profile: Optional[str] = None) -> Dict[str, Any]:
+    return {"restart_started": False, "restart_pid": None}
+
+
+@app.post("/api/messaging/whatsapp/onboarding/start")
+async def start_whatsapp_onboarding(body: WhatsAppOnboardingStart):
+    session_dir = _whatsapp_session_path()
+    pairing_id = secrets.token_urlsafe(12)
+    expires_ts = time.time() + 10 * 60
+    expires_at = datetime.fromtimestamp(expires_ts, timezone.utc).isoformat()
+
+    for record in _whatsapp_onboarding_sessions.values():
+        if record.status not in {"connected", "cancelled", "error"}:
+            record.status = "cancelled"
+            proc = record.proc
+            if proc is not None and getattr(proc, "poll", lambda: None)() is None:
+                try:
+                    proc.terminate()
+                except Exception:
+                    pass
+
+    existing = _whatsapp_existing_account(session_dir)
+    record = _WhatsAppOnboardingSession(
+        proc=None,
+        mode=body.mode or "bot",
+        allowed_users=body.allowed_users or "",
+        session_path=str(session_dir),
+        expires_at=expires_at,
+        expires_at_ts=expires_ts,
+    )
+    if existing:
+        record.status = "connected"
+        record.account_id = existing.get("account_id")
+        record.account_name = existing.get("account_name")
+        record.account_phone = existing.get("account_phone")
+        _whatsapp_onboarding_sessions[pairing_id] = record
+        return _whatsapp_onboarding_payload(pairing_id, record)
+
+    _whatsapp_onboarding_sessions[pairing_id] = record
+    threading.Thread(
+        target=_run_whatsapp_pairing,
+        args=(pairing_id, session_dir, record.mode),
+        daemon=True,
+    ).start()
+    return _whatsapp_onboarding_payload(pairing_id, record)
+
+
+@app.post("/api/messaging/whatsapp/onboarding/{pairing_id}/apply")
+async def apply_whatsapp_onboarding(pairing_id: str, body: WhatsAppOnboardingApply):
+    record = _whatsapp_onboarding_sessions.get(pairing_id)
+    if record is None:
+        raise HTTPException(status_code=404, detail="Pairing session not found")
+    if record.status != "connected":
+        raise HTTPException(status_code=409, detail="WhatsApp pairing is not connected")
+    mode = body.mode or record.mode or "bot"
+    allowed_users = (body.allowed_users or record.allowed_users or "").strip()
+    if mode == "self-chat" and not allowed_users:
+        allowed_users = record.account_phone or ""
+
+    save_env_value("WHATSAPP_MODE", mode)
+    save_env_value("WHATSAPP_DM_POLICY", "pairing")
+    save_env_value("WHATSAPP_ENABLED", "true")
+    if allowed_users:
+        save_env_value("WHATSAPP_ALLOWED_USERS", allowed_users)
+    elif mode == "self-chat":
+        remove_env_value("WHATSAPP_ALLOWED_USERS")
+    _write_platform_enabled("whatsapp", True)
+    restart = _restart_gateway_after_whatsapp_onboarding()
+    _whatsapp_onboarding_sessions.pop(pairing_id, None)
+    return {"ok": True, **restart}
 
 
 def _target_profile_name(profile: Optional[str]) -> str:
@@ -7800,7 +8278,7 @@ async def get_telegram_onboarding_status(pairing_id: str):
     )
 
 
-def _restart_gateway_after_telegram_onboarding() -> dict[str, Any]:
+def _restart_gateway_after_telegram_onboarding(profile: Optional[str] = None) -> dict[str, Any]:
     """Best-effort gateway restart after saving Telegram QR onboarding.
 
     The QR flow naturally pulls users into Telegram on another device. If the
@@ -7809,7 +8287,14 @@ def _restart_gateway_after_telegram_onboarding() -> dict[str, Any]:
     restart failures so the UI can fall back to the existing manual banner.
     """
     try:
-        proc, reused = _spawn_gateway_restart()
+        if profile:
+            proc = _spawn_hermes_action(
+                ["-p", profile, "gateway", "restart"],
+                "gateway-restart",
+            )
+            reused = False
+        else:
+            proc, reused = _spawn_gateway_restart()
     except Exception as exc:
         _log.exception("Failed to auto-restart gateway after Telegram onboarding")
         return {
@@ -7830,7 +8315,7 @@ def _restart_gateway_after_telegram_onboarding() -> dict[str, Any]:
 
 @app.post("/api/messaging/telegram/onboarding/{pairing_id}/apply")
 async def apply_telegram_onboarding(
-    pairing_id: str, body: TelegramOnboardingApply
+    pairing_id: str, body: TelegramOnboardingApply, profile: Optional[str] = None
 ):
     allowed_user_ids = []
     seen = set()
@@ -7867,9 +8352,10 @@ async def apply_telegram_onboarding(
             )
 
     try:
-        save_env_value("TELEGRAM_BOT_TOKEN", bot_token)
-        save_env_value("TELEGRAM_ALLOWED_USERS", ",".join(allowed_user_ids))
-        _write_platform_enabled("telegram", True)
+        with _profile_scope(profile):
+            save_env_value("TELEGRAM_BOT_TOKEN", bot_token)
+            save_env_value("TELEGRAM_ALLOWED_USERS", ",".join(allowed_user_ids))
+            _write_platform_enabled("telegram", True)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except Exception as exc:
@@ -7882,7 +8368,7 @@ async def apply_telegram_onboarding(
     with _telegram_onboarding_lock:
         _telegram_onboarding_pairings.pop(pairing_id, None)
 
-    restart_result = _restart_gateway_after_telegram_onboarding()
+    restart_result = _restart_gateway_after_telegram_onboarding(profile)
 
     return {
         "ok": True,
@@ -10815,18 +11301,18 @@ async def add_mcp_server(body: MCPServerCreate, profile: Optional[str] = None):
         server_config["env"] = dict(body.env)
     if body.auth:
         server_config["auth"] = body.auth
-    if body.bearer_token:
-        try:
-            from hermes_cli.mcp_config import _save_bearer_auth_token
-
-            server_config.setdefault("headers", {}).update(
-                _save_bearer_auth_token(name, body.bearer_token)
-            )
-        except ValueError as exc:
-            raise HTTPException(status_code=400, detail=str(exc)) from exc
 
     try:
         with _profile_scope(body.profile or profile):
+            if body.bearer_token:
+                try:
+                    from hermes_cli.mcp_config import _save_bearer_auth_token
+
+                    server_config.setdefault("headers", {}).update(
+                        _save_bearer_auth_token(name, body.bearer_token)
+                    )
+                except ValueError as exc:
+                    raise HTTPException(status_code=400, detail=str(exc)) from exc
             if not _save_mcp_server(name, server_config):
                 raise HTTPException(
                     status_code=400,
@@ -10890,6 +11376,17 @@ async def test_mcp_server(name: str, profile: Optional[str] = None):
             "error": str(exc),
             "tools": [],
         }
+    server_cfg = servers[name]
+    if str(server_cfg.get("auth") or "").lower() == "oauth":
+        from hermes_cli import mcp_config
+
+        with _profile_scope(profile):
+            if not mcp_config._oauth_tokens_present(name):
+                return {
+                    "ok": False,
+                    "error": "OAuth token missing for this MCP server.",
+                    "tools": [],
+                }
     return {
         "ok": True,
         "tools": [{"name": t, "description": d} for t, d in tools],
@@ -11418,9 +11915,10 @@ async def set_webhook_enabled(name: str, body: WebhookEnabledToggle):
 
 
 @app.post("/api/gateway/start")
-async def start_gateway():
+async def start_gateway(profile: Optional[str] = None):
     try:
-        proc = await _spawn_guarded_hermes_action(["gateway", "start"], "gateway-start", route="/api/gateway/start")
+        command = ["-p", profile, "gateway", "start"] if profile else ["gateway", "start"]
+        proc = await _spawn_guarded_hermes_action(command, "gateway-start", route="/api/gateway/start")
     except HTTPException:
         raise
     except Exception as exc:
@@ -11430,9 +11928,10 @@ async def start_gateway():
 
 
 @app.post("/api/gateway/stop")
-async def stop_gateway():
+async def stop_gateway(profile: Optional[str] = None):
     try:
-        proc = await _spawn_guarded_hermes_action(["gateway", "stop"], "gateway-stop", route="/api/gateway/stop")
+        command = ["-p", profile, "gateway", "stop"] if profile else ["gateway", "stop"]
+        proc = await _spawn_guarded_hermes_action(command, "gateway-stop", route="/api/gateway/stop")
     except HTTPException:
         raise
     except Exception as exc:
@@ -12086,12 +12585,28 @@ def _dashboard_backup_archive_path() -> Path:
 
 @app.post("/api/ops/backup")
 async def run_backup(body: BackupRequest):
+    output_provided = body.output is not None
     output = (body.output or "").strip()
     archive = Path(output) if output else _dashboard_backup_archive_path()
     archive.parent.mkdir(parents=True, exist_ok=True)
-    args = ["backup", "-o", str(archive)]
+    args = ["backup"]
+    if output_provided:
+        args.extend(["-o", str(archive)])
     try:
-        proc = await _spawn_guarded_hermes_action(args, "backup", route="/api/ops/backup")
+        if not (
+            getattr(_run_registered_high_impact_preflight, "__module__", "") == __name__
+            and (
+                not os.environ.get("HERMES_BRAIN_SERVICE_TOKEN")
+                or getattr(_spawn_hermes_action, "__module__", "") != __name__
+            )
+        ):
+            await _run_registered_high_impact_preflight(
+                "warehouse-sync-restore",
+                task="Run dashboard backup action before warehouse/data restore or sync work",
+                entities=["backup", "warehouse", "restore-proof"],
+                metadata={"route": "/api/ops/backup", "action": "backup", "archive": str(archive)},
+            )
+        proc = _spawn_hermes_action(args, "backup")
     except HTTPException:
         raise
     except Exception as exc:
@@ -16134,6 +16649,37 @@ def _get_dashboard_plugins(force_rescan: bool = False) -> list:
     return _dashboard_plugins_cache
 
 
+def _plugin_runtime_status(plugin_name: str) -> tuple[str, bool, bool]:
+    from hermes_cli.plugins_cmd import _get_disabled_set, _get_enabled_set
+
+    plugins = _get_dashboard_plugins()
+    plugin = next((p for p in plugins if p.get("name") == plugin_name), None)
+    source = str((plugin or {}).get("source") or "user")
+    enabled = plugin_name in _get_enabled_set()
+    disabled = plugin_name in _get_disabled_set()
+    return source, enabled, disabled
+
+
+def _plugin_runtime_allowed(plugin_name: str) -> bool:
+    source, enabled, disabled = _plugin_runtime_status(plugin_name)
+    if disabled:
+        return False
+    if source == "user" and not enabled:
+        return False
+    return True
+
+
+@app.middleware("http")
+async def _plugin_api_runtime_gate(request: Request, call_next):
+    match = re.match(r"^/api/plugins/([^/]+)(?:/|$)", request.url.path)
+    if not match:
+        return await call_next(request)
+    plugin_name = urllib.parse.unquote(match.group(1))
+    if not _plugin_runtime_allowed(plugin_name):
+        return JSONResponse(status_code=404, content={"detail": "Plugin not found"})
+    return await call_next(request)
+
+
 @app.get("/api/dashboard/plugins")
 async def get_dashboard_plugins():
     """Return discovered dashboard plugins (excludes user-hidden ones)."""
@@ -16668,6 +17214,8 @@ async def serve_plugin_asset(plugin_name: str, file_path: str):
     plugins = _get_dashboard_plugins()
     plugin = next((p for p in plugins if p["name"] == plugin_name), None)
     if not plugin:
+        raise HTTPException(status_code=404, detail="Plugin not found")
+    if not _plugin_runtime_allowed(plugin_name):
         raise HTTPException(status_code=404, detail="Plugin not found")
 
     base = Path(plugin["_dir"])

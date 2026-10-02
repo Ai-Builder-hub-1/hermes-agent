@@ -97,6 +97,8 @@ _DISCORD_NONCONVERSATIONAL_HISTORY_MESSAGE_PATTERNS = (
 
 
 def _is_safe_discord_attachment_url(url: str) -> bool:
+    if not is_safe_url(url):
+        return False
     try:
         parsed = urlparse(url)
         host = (parsed.hostname or "").strip().lower().rstrip(".")
@@ -104,7 +106,7 @@ def _is_safe_discord_attachment_url(url: str) -> bool:
             return True
     except Exception:
         return False
-    return is_safe_url(url)
+    return False
 
 
 try:

@@ -1477,9 +1477,9 @@ def fetch_openrouter_models(
 
     curated: list[tuple[str, str]] = []
     silent_default = get_preferred_silent_default_model("openrouter")
-    for preferred_id in preferred_ids:
-        live_item = live_by_id.get(preferred_id)
-        if live_item is None:
+    for live_item in live_by_id.values():
+        preferred_id = str(live_item.get("id") or "").strip()
+        if not preferred_id:
             continue
         # Hide models that don't advertise tool-calling support — hermes-agent
         # requires it and surfacing them leads to immediate runtime failures
@@ -2121,6 +2121,9 @@ def detect_provider_for_model(
     """
     name = (model_name or "").strip()
     if not name:
+        return None
+    normalized_current = normalize_provider(current_provider)
+    if normalized_current == "custom" or normalized_current.startswith("custom:"):
         return None
 
     static_match = detect_static_provider_for_model(name, current_provider)
