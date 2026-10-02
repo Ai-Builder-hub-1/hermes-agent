@@ -103,6 +103,115 @@ def test_second_brain_agent_preflight_blocks_silent_high_impact_work(monkeypatch
     assert detail["preflight"]["policy"] == "block"
 
 
+def test_second_brain_high_impact_workflows_exposes_registry():
+    from hermes_cli import web_server
+
+    client = TestClient(web_server.app)
+    response = client.get(
+        "/api/second-brain/high-impact-workflows",
+        headers={"X-Hermes-Session-Token": web_server._SESSION_TOKEN},
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["summary"]["valid"] is True
+    assert body["summary"]["preflightRequired"] >= 1
+    workflow_ids = {workflow["id"] for workflow in body["workflows"]}
+    assert "chat-high-impact-task" in workflow_ids
+    assert "destructive-pruning" in workflow_ids
+    assert "oanda-live-trading" in workflow_ids
+
+
+def test_second_brain_registered_workflow_preflight_uses_registry_metadata(monkeypatch):
+    from hermes_cli import web_server
+
+    calls = []
+    evidence_calls = []
+
+    async def fake_request(path, method="GET", payload=None):
+        calls.append({"path": path, "method": method, "payload": payload})
+        return {
+            "check": {
+                "id": "preflight_chat",
+                "request": payload,
+                "policy": "pass",
+                "relevantMemories": [],
+                "relevantDecisions": [],
+                "contradictions": [],
+                "staleMemories": [],
+                "warnings": [],
+                "requiredAcknowledgements": [],
+                "blockReasons": [],
+                "citations": [],
+                "createdAt": "2026-10-02T00:00:00.000Z",
+                "metadata": {},
+            }
+        }
+
+    monkeypatch.setattr(web_server, "_hermes_brain_service_token", lambda: "test-token")
+    monkeypatch.setattr(web_server, "_hermes_brain_request", fake_request)
+    monkeypatch.setattr(
+        web_server,
+        "_record_high_impact_preflight_evidence",
+        lambda **kwargs: evidence_calls.append(kwargs) or {"id": "preflight-enforcement-chat-high-impact-task", **kwargs},
+    )
+
+    client = TestClient(web_server.app)
+    response = client.post(
+        "/api/second-brain/high-impact-workflows/chat-high-impact-task/preflight",
+        json={
+            "task": "Prepare production warehouse maintenance",
+            "actor": "test-operator",
+            "entities": ["warehouse", "production"],
+        },
+        headers={"X-Hermes-Session-Token": web_server._SESSION_TOKEN},
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["workflow"]["id"] == "chat-high-impact-task"
+    assert body["enforcement"]["mode"] == "registered-workflow-preflight"
+    assert body["evidence"]["id"] == "preflight-enforcement-chat-high-impact-task"
+    assert calls[0]["path"] == "/api/brain/preflight"
+    assert calls[0]["payload"]["workflow"] == "high-impact-agent-task"
+    assert calls[0]["payload"]["metadata"]["workflowId"] == "chat-high-impact-task"
+    assert calls[0]["payload"]["metadata"]["actor"] == "test-operator"
+    assert evidence_calls[0]["state"] == "ready"
+    assert evidence_calls[0]["workflow"]["id"] == "chat-high-impact-task"
+
+
+def test_second_brain_registered_workflow_preflight_stops_locked_workflow(monkeypatch):
+    from hermes_cli import web_server
+
+    evidence_calls = []
+
+    async def fake_request(path, method="GET", payload=None):
+        raise AssertionError("locked workflow should not call Hermes Brain")
+
+    monkeypatch.setattr(web_server, "_hermes_brain_service_token", lambda: "test-token")
+    monkeypatch.setattr(web_server, "_hermes_brain_request", fake_request)
+    monkeypatch.setattr(
+        web_server,
+        "_record_high_impact_preflight_evidence",
+        lambda **kwargs: evidence_calls.append(kwargs) or {"id": "preflight-enforcement-destructive-pruning", **kwargs},
+    )
+
+    client = TestClient(web_server.app)
+    response = client.post(
+        "/api/second-brain/high-impact-workflows/destructive-pruning/preflight",
+        json={"task": "Delete old warehouse data"},
+        headers={"X-Hermes-Session-Token": web_server._SESSION_TOKEN},
+    )
+
+    assert response.status_code == 423
+    detail = response.json()["detail"]
+    assert detail["error"] == "high_impact_workflow_locked"
+    assert detail["workflow"]["posture"] == "blocked_until_approved"
+    assert detail["enforcement"]["mustStop"] is True
+    assert detail["evidence"]["id"] == "preflight-enforcement-destructive-pruning"
+    assert evidence_calls[0]["state"] == "blocked"
+
+
 def test_second_brain_contradiction_resolve_proxies_to_hermes_brain(monkeypatch):
     from hermes_cli import web_server
 

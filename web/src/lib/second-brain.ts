@@ -313,6 +313,45 @@ export interface AgentPreflightResponse {
   };
 }
 
+export interface RegisteredWorkflowPreflightResponse {
+  workflow: HighImpactWorkflow;
+  check: PreflightCheck | null;
+  injection: AgentPreflightInjection;
+  enforcement: {
+    mode: "registered-workflow-preflight" | "preflight-exempt-with-reason" | "blocked-until-approved";
+    mustStop: boolean;
+    mustAcknowledge: boolean;
+    proceedSilentlyAllowed: false;
+  };
+  evidence?: Record<string, unknown>;
+}
+
+export interface HighImpactWorkflow {
+  id: string;
+  canonical_plan: string;
+  adapter_class: string;
+  project: string;
+  workflow: string;
+  risk_class: "medium" | "high" | "critical";
+  posture: "preflight_required" | "preflight_exempt_with_reason" | "blocked_until_approved";
+  endpoint: string;
+  owner: string;
+  reason: string;
+  evidence_path: string;
+}
+
+export interface HighImpactWorkflowRegistry {
+  workflows: HighImpactWorkflow[];
+  summary: {
+    total: number;
+    preflightRequired: number;
+    blockedUntilApproved: number;
+    exemptWithReason: number;
+    valid: boolean;
+    errors: string[];
+  };
+}
+
 export interface DecisionIntelligenceMetricsReport {
   generatedAt: string;
   status: "ready" | "watch" | "critical";
@@ -480,6 +519,23 @@ export async function runAgentPreflight(request: PreflightRequest): Promise<Agen
     method: "POST",
     body: JSON.stringify(request),
   });
+}
+
+export async function fetchHighImpactWorkflowRegistry(): Promise<HighImpactWorkflowRegistry> {
+  return fetchJSON<HighImpactWorkflowRegistry>(`${BASE}/high-impact-workflows`);
+}
+
+export async function runRegisteredWorkflowPreflight(
+  workflowId: string,
+  request: { task?: string; actor?: string; entities?: string[]; metadata?: Record<string, unknown> } = {},
+): Promise<RegisteredWorkflowPreflightResponse> {
+  return fetchJSON<RegisteredWorkflowPreflightResponse>(
+    `${BASE}/high-impact-workflows/${encodeURIComponent(workflowId)}/preflight`,
+    {
+      method: "POST",
+      body: JSON.stringify(request),
+    },
+  );
 }
 
 export async function fetchPreflightChecks(): Promise<{ checks: PreflightCheck[] }> {

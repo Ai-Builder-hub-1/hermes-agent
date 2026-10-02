@@ -2037,6 +2037,13 @@ class SecondBrainAgentPreflightRequest(BaseModel):
     metadata: Optional[Dict[str, Any]] = None
 
 
+class SecondBrainWorkflowPreflightRequest(BaseModel):
+    task: str = ""
+    actor: str = "Hermes operator"
+    entities: Optional[List[str]] = None
+    metadata: Optional[Dict[str, Any]] = None
+
+
 async def _second_brain_preflight_guard(
     *,
     task: str,
@@ -2117,6 +2124,35 @@ def _second_brain_agent_injection(check: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
+def _record_high_impact_preflight_evidence(
+    *,
+    workflow: Dict[str, Any],
+    state: str,
+    detail: str,
+    actor: str,
+    payload: Optional[Dict[str, Any]] = None,
+) -> Dict[str, Any]:
+    from hermes_cli.operating_runtime import connect, upsert_evidence
+
+    workflow_id = str(workflow.get("id") or "unknown-workflow")
+    evidence_id = f"preflight-enforcement-{workflow_id}"
+    with connect() as conn:
+        return upsert_evidence(
+            conn,
+            id=evidence_id,
+            kind="permission",  # type: ignore[arg-type]
+            subject=f"High-impact preflight: {workflow_id}",
+            state=state,  # type: ignore[arg-type]
+            owner=str(workflow.get("owner") or "Operations"),
+            detail=detail,
+            payload={
+                "actor": actor,
+                "workflow": workflow,
+                **(payload or {}),
+            },
+        )
+
+
 @app.post("/api/second-brain/agent-preflight")
 async def post_second_brain_agent_preflight(body: SecondBrainAgentPreflightRequest):
     check = await _second_brain_preflight_guard(
@@ -2144,6 +2180,173 @@ async def post_second_brain_agent_preflight(body: SecondBrainAgentPreflightReque
             "mustAcknowledge": injection["mustAcknowledge"],
             "proceedSilentlyAllowed": False,
         },
+    }
+
+
+@app.get("/api/second-brain/high-impact-workflows")
+async def get_second_brain_high_impact_workflows():
+    from hermes_cli.high_impact_preflight_registry import (
+        list_high_impact_workflows,
+        validate_high_impact_registry,
+    )
+
+    errors = validate_high_impact_registry()
+    return {
+        "workflows": list_high_impact_workflows(),
+        "summary": {
+            "total": len(list_high_impact_workflows()),
+            "preflightRequired": len([
+                workflow for workflow in list_high_impact_workflows()
+                if workflow["posture"] == "preflight_required"
+            ]),
+            "blockedUntilApproved": len([
+                workflow for workflow in list_high_impact_workflows()
+                if workflow["posture"] == "blocked_until_approved"
+            ]),
+            "exemptWithReason": len([
+                workflow for workflow in list_high_impact_workflows()
+                if workflow["posture"] == "preflight_exempt_with_reason"
+            ]),
+            "valid": not errors,
+            "errors": errors,
+        },
+    }
+
+
+@app.post("/api/second-brain/high-impact-workflows/{workflow_id}/preflight")
+async def post_second_brain_high_impact_workflow_preflight(workflow_id: str, body: SecondBrainWorkflowPreflightRequest):
+    from hermes_cli.high_impact_preflight_registry import find_workflow
+
+    workflow = find_workflow(workflow_id)
+    if workflow is None:
+        raise HTTPException(
+            status_code=404,
+            detail={
+                "error": "high_impact_workflow_not_found",
+                "workflowId": workflow_id,
+            },
+        )
+
+    workflow_payload = workflow.to_dict()
+    if workflow.posture == "blocked_until_approved":
+        evidence = _record_high_impact_preflight_evidence(
+            workflow=workflow_payload,
+            state="blocked",
+            detail=workflow.reason,
+            actor=body.actor,
+            payload={"mode": "blocked-until-approved"},
+        )
+        raise HTTPException(
+            status_code=423,
+            detail={
+                "error": "high_impact_workflow_locked",
+                "message": workflow.reason,
+                "workflow": workflow_payload,
+                "evidence": evidence,
+                "enforcement": {
+                    "mode": "blocked-until-approved",
+                    "mustStop": True,
+                    "proceedSilentlyAllowed": False,
+                },
+            },
+        )
+    if workflow.posture == "preflight_exempt_with_reason":
+        evidence = _record_high_impact_preflight_evidence(
+            workflow=workflow_payload,
+            state="ready",
+            detail=workflow.reason,
+            actor=body.actor,
+            payload={"mode": "preflight-exempt-with-reason"},
+        )
+        return {
+            "workflow": workflow_payload,
+            "check": None,
+            "injection": {
+                "policy": "pass",
+                "task": body.task or workflow.reason,
+                "workflow": workflow.workflow,
+                "riskClass": workflow.risk_class,
+                "mustStop": False,
+                "mustAcknowledge": False,
+                "context": {
+                    "memoryIds": [],
+                    "decisionIds": [],
+                    "contradictionIds": [],
+                    "staleMemoryIds": [],
+                    "citations": [],
+                },
+                "warnings": [workflow.reason],
+                "requiredAcknowledgements": [],
+                "blockReasons": [],
+            },
+            "enforcement": {
+                "mode": "preflight-exempt-with-reason",
+                "mustStop": False,
+                "mustAcknowledge": False,
+                "proceedSilentlyAllowed": False,
+            },
+            "evidence": evidence,
+        }
+
+    try:
+        check = await _second_brain_preflight_guard(
+            task=body.task or workflow.reason,
+            project=workflow.project,
+            workflow=workflow.workflow,
+            risk_class=workflow.risk_class,
+            entities=body.entities or [workflow.adapter_class, workflow.canonical_plan],
+            metadata={
+                **(body.metadata or {}),
+                "source": "high-impact-workflow-registry",
+                "workflowId": workflow.id,
+                "canonicalPlan": workflow.canonical_plan,
+                "adapterClass": workflow.adapter_class,
+                "actor": body.actor,
+                "enforcement": "must-not-proceed-silently",
+            },
+        )
+    except HTTPException as exc:
+        if exc.status_code == 409:
+            detail = exc.detail if isinstance(exc.detail, dict) else {}
+            evidence = _record_high_impact_preflight_evidence(
+                workflow=workflow_payload,
+                state="blocked",
+                detail=str(detail.get("message") or "Second-brain preflight blocked this workflow."),
+                actor=body.actor,
+                payload={
+                    "mode": "registered-workflow-preflight",
+                    "preflight": detail.get("preflight"),
+                    "injection": detail.get("injection"),
+                },
+            )
+            detail["evidence"] = evidence
+            exc.detail = detail
+        raise
+    injection = _second_brain_agent_injection(check)
+    state = "warning" if injection["warnings"] or injection["mustAcknowledge"] else "ready"
+    evidence = _record_high_impact_preflight_evidence(
+        workflow=workflow_payload,
+        state=state,
+        detail="Registered high-impact workflow preflight completed.",
+        actor=body.actor,
+        payload={
+            "mode": "registered-workflow-preflight",
+            "policy": injection["policy"],
+            "preflightId": check.get("id"),
+            "injection": injection,
+        },
+    )
+    return {
+        "workflow": workflow_payload,
+        "check": check,
+        "injection": injection,
+        "enforcement": {
+            "mode": "registered-workflow-preflight",
+            "mustStop": injection["mustStop"],
+            "mustAcknowledge": injection["mustAcknowledge"],
+            "proceedSilentlyAllowed": False,
+        },
+        "evidence": evidence,
     }
 
 

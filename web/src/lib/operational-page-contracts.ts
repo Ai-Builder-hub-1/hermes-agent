@@ -338,11 +338,11 @@ export const OPERATIONAL_PAGE_CONTRACTS: OperationalPageContract[] = [
     label: "Agent Preflight",
     purpose: "Run and inspect memory preflight checks before high-impact agent work proceeds.",
     maturity: "actionable",
-    liveSources: ["/api/second-brain/preflight-checks", "/api/second-brain/decision-intelligence/metrics"],
+    liveSources: ["/api/second-brain/preflight-checks", "/api/second-brain/decision-intelligence/metrics", "/api/second-brain/high-impact-workflows"],
     requiredSignals: REQUIRED_SURFACE_SIGNALS,
     gaps: ["acknowledgement persistence", "chat/runtime adapter invocation", "audit packet export UI"],
     safeActions: ["/api/second-brain/preflight", "/api/second-brain/agent-preflight"],
-    evidence: ["Hermes Brain preflight checks", "decision intelligence metrics", "policy warnings", "cited memory refs"],
+    evidence: ["Hermes Brain preflight checks", "high-impact workflow registry", "decision intelligence metrics", "policy warnings", "cited memory refs"],
   },
   {
     route: "/operate/chat-actions",

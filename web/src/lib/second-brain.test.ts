@@ -9,12 +9,14 @@ import {
   fetchMemoryRetrievalPack,
   fetchDecisionIntelligenceAuditPacket,
   fetchDecisionIntelligenceMetrics,
+  fetchHighImpactWorkflowRegistry,
   fetchPreflightChecks,
   fetchResearchTasks,
   generateResearchTasks,
   resolveContradiction,
   runAgentPreflight,
   runPreflightCheck,
+  runRegisteredWorkflowPreflight,
 } from "./second-brain";
 
 afterEach(() => {
@@ -277,6 +279,94 @@ describe("second brain API client", () => {
         workflow: "earnings-event-backfill",
         riskClass: "high",
         entities: ["earnings", "warehouse"],
+      }),
+    }));
+  });
+
+  it("loads the high-impact workflow preflight registry", async () => {
+    vi.stubGlobal("window", {});
+    const fetchMock = jsonFetchMock({
+      workflows: [{
+        id: "chat-high-impact-task",
+        canonical_plan: "CP-03",
+        adapter_class: "chat",
+        project: "nous-hermes-agent",
+        workflow: "high-impact-agent-task",
+        risk_class: "high",
+        posture: "preflight_required",
+        endpoint: "/api/second-brain/agent-preflight",
+        owner: "Nous Hermes",
+        reason: "Chat tasks can trigger high-impact actions.",
+        evidence_path: "docs/proofs/cp03-second-brain-production-readiness.md",
+      }],
+      summary: {
+        total: 1,
+        preflightRequired: 1,
+        blockedUntilApproved: 0,
+        exemptWithReason: 0,
+        valid: true,
+        errors: [],
+      },
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    await fetchHighImpactWorkflowRegistry();
+
+    expect(fetchMock.mock.calls[0][0]).toBe("/api/second-brain/high-impact-workflows");
+  });
+
+  it("runs preflight for a registered high-impact workflow", async () => {
+    vi.stubGlobal("window", {});
+    const fetchMock = jsonFetchMock({
+      workflow: {
+        id: "chat-high-impact-task",
+        canonical_plan: "CP-03",
+        adapter_class: "chat",
+        project: "nous-hermes-agent",
+        workflow: "high-impact-agent-task",
+        risk_class: "high",
+        posture: "preflight_required",
+        endpoint: "/api/second-brain/agent-preflight",
+        owner: "Nous Hermes",
+        reason: "Chat tasks can trigger high-impact actions.",
+        evidence_path: "docs/proofs/cp03-second-brain-production-readiness.md",
+      },
+      check: null,
+      injection: {
+        policy: "pass",
+        task: "Prepare deploy",
+        workflow: "high-impact-agent-task",
+        riskClass: "high",
+        mustStop: false,
+        mustAcknowledge: false,
+        context: { memoryIds: [], decisionIds: [], contradictionIds: [], staleMemoryIds: [], citations: [] },
+        warnings: [],
+        requiredAcknowledgements: [],
+        blockReasons: [],
+      },
+      enforcement: {
+        mode: "registered-workflow-preflight",
+        mustStop: false,
+        mustAcknowledge: false,
+        proceedSilentlyAllowed: false,
+      },
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    await runRegisteredWorkflowPreflight("chat-high-impact-task", {
+      task: "Prepare deploy",
+      actor: "dashboard",
+      entities: ["deploy"],
+    });
+
+    expect(fetchMock.mock.calls[0][0]).toBe("/api/second-brain/high-impact-workflows/chat-high-impact-task/preflight");
+    expect(fetchMock.mock.calls[0][1]).toEqual(expect.objectContaining({
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify({
+        task: "Prepare deploy",
+        actor: "dashboard",
+        entities: ["deploy"],
       }),
     }));
   });
