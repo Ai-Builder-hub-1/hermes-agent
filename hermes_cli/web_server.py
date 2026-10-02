@@ -45,6 +45,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from hermes_cli import __version__, __release_date__
+from hermes_cli import web_git as _web_git
 from hermes_cli.config import (
     cfg_get,
     DEFAULT_CONFIG,
@@ -361,7 +362,7 @@ def _is_accepted_host(host_header: str, bound_host: str) -> bool:
     if bound_lc in _LOOPBACK_HOST_VALUES:
         if host_only in _LOOPBACK_HOST_VALUES:
             return True
-        if os.environ.get("PYTEST_CURRENT_TEST") and host_only in {"testserver", "testclient"}:
+        if os.environ.get("PYTEST_CURRENT_TEST") and host_only in {"testserver", "testclient", "test"}:
             return True
         return False
 
@@ -8239,10 +8240,7 @@ _OAUTH_PROVIDER_CATALOG: tuple[Dict[str, Any], ...] = (
     {
         "id": "xai-oauth",
         "name": "xAI Grok OAuth (SuperGrok / Premium+)",
-        # Loopback PKCE: the desktop's local backend binds a 127.0.0.1
-        # callback server, the client opens the browser, and the redirect
-        # lands back on the loopback listener — no code to copy/paste.
-        "flow": "loopback",
+        "flow": "device_code",
         "cli_command": "hermes auth add xai-oauth",
         "docs_url": "https://hermes-agent.nousresearch.com/docs/guides/xai-grok-oauth",
         "status_fn": None,  # dispatched via auth.get_xai_oauth_auth_status
@@ -8267,6 +8265,23 @@ _OAUTH_PROVIDER_CATALOG: tuple[Dict[str, Any], ...] = (
         "status_fn": _claude_code_only_status,
     },
 )
+
+
+def _profile_override_token(profile: Optional[str]):
+    """Return a context-local HERMES_HOME token for an optional profile."""
+    if not profile:
+        return None
+    from hermes_constants import set_hermes_home_override
+
+    return set_hermes_home_override(str(_resolve_profile_dir(profile)))
+
+
+def _reset_profile_override_token(token) -> None:
+    if token is None:
+        return
+    from hermes_constants import reset_hermes_home_override
+
+    reset_hermes_home_override(token)
 
 
 def _resolve_provider_status(provider_id: str, status_fn) -> Dict[str, Any]:
@@ -8333,9 +8348,17 @@ def _resolve_provider_status(provider_id: str, status_fn) -> Dict[str, Any]:
                 "has_refresh_token": True,
                 "last_refresh": raw.get("last_refresh"),
             }
+        raw = hauth.get_auth_status(provider_id)
+        return {
+            "logged_in": bool(raw.get("logged_in")),
+            "source": raw.get("source") or raw.get("provider") or provider_id,
+            "source_label": raw.get("source_label") or raw.get("name") or raw.get("auth_store_path") or raw.get("provider"),
+            "token_preview": _truncate_token(raw.get("api_key") or raw.get("access_token")),
+            "expires_at": raw.get("expires_at"),
+            "has_refresh_token": bool(raw.get("has_refresh_token")),
+        }
     except Exception as e:
         return {"logged_in": False, "error": str(e)}
-    return {"logged_in": False}
 
 
 def _oauth_provider_disconnect_hint(provider: Dict[str, Any], status: Dict[str, Any]) -> Optional[str]:
@@ -8347,8 +8370,14 @@ def _oauth_provider_disconnect_hint(provider: Dict[str, Any], status: Dict[str, 
     return None
 
 
+def _oauth_provider_disconnect_command(provider: Dict[str, Any], status: Dict[str, Any]) -> Optional[str]:
+    if provider.get("id") == "claude-code":
+        return "rm -f ~/.claude/.credentials.json"
+    return None
+
+
 @app.get("/api/providers/oauth")
-async def list_oauth_providers():
+async def list_oauth_providers(request: Request):
     """Enumerate every OAuth-capable LLM provider with current status.
 
     Response shape (per provider):
@@ -8365,22 +8394,27 @@ async def list_oauth_providers():
           expires_at       ISO timestamp string or null
           has_refresh_token bool
     """
-    providers = []
-    seen: set[str] = set()
-    for p in _OAUTH_PROVIDER_CATALOG:
-        status = _resolve_provider_status(p["id"], p.get("status_fn"))
-        disconnect_hint = _oauth_provider_disconnect_hint(p, status)
-        providers.append({
-            "id": p["id"],
-            "name": p["name"],
-            "flow": p["flow"],
-            "cli_command": p["cli_command"],
-            "docs_url": p["docs_url"],
-            "disconnect_hint": disconnect_hint,
-            "disconnectable": disconnect_hint is None,
-            "status": status,
-        })
-        seen.add(p["id"])
+    token = _profile_override_token(request.query_params.get("profile"))
+    try:
+        providers = []
+        seen: set[str] = set()
+        for p in _OAUTH_PROVIDER_CATALOG:
+            status = _resolve_provider_status(p["id"], p.get("status_fn"))
+            disconnect_hint = _oauth_provider_disconnect_hint(p, status)
+            providers.append({
+                "id": p["id"],
+                "name": p["name"],
+                "flow": p["flow"],
+                "cli_command": p["cli_command"],
+                "docs_url": p["docs_url"],
+                "disconnect_hint": disconnect_hint,
+                "disconnect_command": _oauth_provider_disconnect_command(p, status),
+                "disconnectable": disconnect_hint is None,
+                "status": status,
+            })
+            seen.add(p["id"])
+    finally:
+        _reset_profile_override_token(token)
     try:
         from hermes_cli.provider_catalog import provider_catalog
 
@@ -8394,6 +8428,7 @@ async def list_oauth_providers():
                 "cli_command": f"hermes auth add {p.slug}",
                 "docs_url": p.signup_url,
                 "disconnect_hint": f"Use `hermes auth add {p.slug}` or that provider's CLI to manage it.",
+                "disconnect_command": None,
                 "disconnectable": False,
                 "status": {"logged_in": False, "source": None},
             }
@@ -8545,7 +8580,12 @@ def _gc_oauth_sessions() -> None:
             _oauth_sessions.pop(sid, None)
 
 
-def _new_oauth_session(provider_id: str, flow: str) -> tuple[str, Dict[str, Any]]:
+def _new_oauth_session(
+    provider_id: str,
+    flow: str,
+    *,
+    profile: Optional[str] = None,
+) -> tuple[str, Dict[str, Any]]:
     """Create + register a new OAuth session, return (session_id, session_dict)."""
     sid = secrets.token_urlsafe(16)
     sess = {
@@ -8556,6 +8596,8 @@ def _new_oauth_session(provider_id: str, flow: str) -> tuple[str, Dict[str, Any]
         "status": "pending",  # pending | approved | denied | expired | error
         "error_message": None,
     }
+    if profile:
+        sess["profile"] = profile
     with _oauth_sessions_lock:
         _oauth_sessions[sid] = sess
     return sid, sess
@@ -8567,32 +8609,16 @@ def _save_anthropic_oauth_creds(access_token: str, refresh_token: str, expires_a
     Mirrors what auth_commands.add_command does so the dashboard flow leaves
     the system in the same state as ``hermes auth add anthropic``.
     """
-    from agent.anthropic_adapter import _HERMES_OAUTH_FILE
+    from agent.anthropic_adapter import _get_hermes_oauth_file
+    from utils import atomic_json_write
+
+    oauth_file = _get_hermes_oauth_file()
     payload = {
         "accessToken": access_token,
         "refreshToken": refresh_token,
         "expiresAt": expires_at_ms,
     }
-    _HERMES_OAUTH_FILE.parent.mkdir(parents=True, exist_ok=True)
-    tmp_path = _HERMES_OAUTH_FILE.with_name(
-        f"{_HERMES_OAUTH_FILE.name}.tmp.{os.getpid()}.{secrets.token_hex(8)}"
-    )
-    try:
-        with tmp_path.open("w", encoding="utf-8") as handle:
-            handle.write(json.dumps(payload, indent=2))
-            handle.flush()
-            os.fsync(handle.fileno())
-        os.replace(tmp_path, _HERMES_OAUTH_FILE)
-        try:
-            _HERMES_OAUTH_FILE.chmod(stat.S_IRUSR | stat.S_IWUSR)
-        except OSError:
-            pass
-    finally:
-        try:
-            if tmp_path.exists():
-                tmp_path.unlink()
-        except OSError:
-            pass
+    atomic_json_write(oauth_file, payload, indent=2, mode=0o600)
     # Best-effort credential-pool insert. Failure here doesn't invalidate
     # the file write — pool registration only matters for the rotation
     # strategy, not for runtime credential resolution.
@@ -8721,7 +8747,11 @@ def _submit_anthropic_pkce(session_id: str, code_input: str) -> Dict[str, Any]:
     return {"ok": True, "status": "approved"}
 
 
-async def _start_device_code_flow(provider_id: str) -> Dict[str, Any]:
+async def _start_device_code_flow(
+    provider_id: str,
+    *,
+    profile: Optional[str] = None,
+) -> Dict[str, Any]:
     """Initiate a device-code flow (Nous, OpenAI Codex, or MiniMax).
 
     Calls the provider's device-auth endpoint via the existing CLI helpers,
@@ -8761,7 +8791,7 @@ async def _start_device_code_flow(provider_id: str) -> Dict[str, Any]:
         device_data, effective_scope = await asyncio.get_running_loop().run_in_executor(
             None, _do_nous_device_request
         )
-        sid, sess = _new_oauth_session("nous", "device_code")
+        sid, sess = _new_oauth_session("nous", "device_code", profile=profile)
         sess["device_code"] = str(device_data["device_code"])
         sess["interval"] = int(device_data["interval"])
         sess["expires_at"] = time.time() + int(device_data["expires_in"])
@@ -8782,7 +8812,7 @@ async def _start_device_code_flow(provider_id: str) -> Dict[str, Any]:
 
     if provider_id == "openai-codex":
         # Codex uses fixed OpenAI device-auth endpoints; reuse the helper.
-        sid, _ = _new_oauth_session("openai-codex", "device_code")
+        sid, _ = _new_oauth_session("openai-codex", "device_code", profile=profile)
         # Use the helper but in a thread because it polls inline.
         # We can't extract just the start step without refactoring auth.py,
         # so we run the full helper in a worker and proxy the user_code +
@@ -8849,7 +8879,7 @@ async def _start_device_code_flow(provider_id: str) -> Dict[str, Any]:
         device_data = await asyncio.get_event_loop().run_in_executor(
             None, _do_minimax_request
         )
-        sid, sess = _new_oauth_session("minimax-oauth", "device_code")
+        sid, sess = _new_oauth_session("minimax-oauth", "device_code", profile=profile)
         # The CLI flow names this `interval_ms` because MiniMax's
         # `interval` field is in milliseconds (defensive default 2000ms
         # in _minimax_poll_token).
@@ -8889,6 +8919,42 @@ async def _start_device_code_flow(provider_id: str) -> Dict[str, Any]:
             "verification_url": str(device_data["verification_uri"]),
             "expires_in": expires_in_seconds,
             "poll_interval": max(2, (sess["interval_ms"] or 2000) // 1000),
+        }
+
+    if provider_id == "xai-oauth":
+        from hermes_cli.auth import _xai_oauth_request_device_code
+        import httpx
+
+        def _do_xai_request():
+            with httpx.Client(
+                timeout=httpx.Timeout(15.0),
+                headers={"Accept": "application/json"},
+            ) as client:
+                return _xai_oauth_request_device_code(client)
+
+        device_data = await asyncio.get_running_loop().run_in_executor(
+            None, _do_xai_request
+        )
+        sid, sess = _new_oauth_session("xai-oauth", "device_code", profile=profile)
+        sess["device_code"] = str(device_data["device_code"])
+        sess["interval"] = int(device_data["interval"])
+        sess["expires_at"] = time.time() + int(device_data["expires_in"])
+        threading.Thread(
+            target=_xai_device_poller,
+            args=(sid,),
+            daemon=True,
+            name=f"oauth-xai-{sid[:6]}",
+        ).start()
+        return {
+            "session_id": sid,
+            "flow": "device_code",
+            "user_code": str(device_data["user_code"]),
+            "verification_url": str(
+                device_data.get("verification_uri_complete")
+                or device_data["verification_uri"]
+            ),
+            "expires_in": int(device_data["expires_in"]),
+            "poll_interval": int(device_data["interval"]),
         }
 
     raise HTTPException(status_code=400, detail=f"Provider {provider_id} does not support device-code flow")
@@ -9171,6 +9237,78 @@ def _nous_poller(session_id: str) -> None:
             sess["error_message"] = str(e)
 
 
+def _xai_device_poller(session_id: str) -> None:
+    """Background poller that completes xAI's device-code OAuth flow."""
+    token = None
+    try:
+        with _oauth_sessions_lock:
+            sess = _oauth_sessions.get(session_id)
+        if not sess:
+            return
+        token = _profile_override_token(sess.get("profile"))
+
+        from datetime import datetime, timezone
+        import httpx
+        from hermes_cli import auth as hauth
+
+        discovery = hauth._xai_oauth_discovery()
+        expires_in = max(60, int(sess["expires_at"] - time.time()))
+        with httpx.Client(
+            timeout=httpx.Timeout(15.0),
+            headers={"Accept": "application/json"},
+        ) as client:
+            payload = hauth._xai_oauth_poll_device_token(
+                client,
+                token_endpoint=discovery["token_endpoint"],
+                device_code=sess["device_code"],
+                expires_in=expires_in,
+                poll_interval=int(sess.get("interval") or 5),
+            )
+
+        base_url = hauth._xai_validate_inference_base_url(
+            os.getenv("HERMES_XAI_BASE_URL", "").strip().rstrip("/")
+            or os.getenv("XAI_BASE_URL", "").strip().rstrip("/"),
+            fallback=hauth.DEFAULT_XAI_OAUTH_BASE_URL,
+        )
+        hauth._save_xai_oauth_tokens(
+            {
+                "access_token": payload["access_token"],
+                "refresh_token": payload["refresh_token"],
+                "id_token": str(payload.get("id_token", "") or "").strip(),
+                "expires_in": payload.get("expires_in"),
+                "token_type": str(payload.get("token_type") or "Bearer").strip() or "Bearer",
+                "base_url": base_url,
+            },
+            discovery=discovery,
+            redirect_uri="",
+            last_refresh=datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            auth_mode="oauth_device_code",
+        )
+        hauth.unsuppress_credential_source("xai-oauth", "device_code")
+
+        # Force one pool load while the profile override is active so the
+        # singleton auth-store record seeds the canonical device_code entry.
+        try:
+            from agent.credential_pool import load_pool
+
+            load_pool("xai-oauth")
+        except Exception:
+            pass
+
+        with _oauth_sessions_lock:
+            sess["status"] = "approved"
+        _log.info("oauth/device: xai-oauth login completed (session=%s)", session_id)
+    except Exception as e:
+        _log.warning("xai device-code poll failed (session=%s): %s", session_id, e)
+        with _oauth_sessions_lock:
+            sess = _oauth_sessions.get(session_id)
+            if sess:
+                sess["status"] = "error"
+                sess["error_message"] = str(e)
+    finally:
+        _reset_profile_override_token(token)
+
+
 def _minimax_poller(session_id: str) -> None:
     """Background poller that drives a MiniMax OAuth flow to completion.
 
@@ -9269,7 +9407,11 @@ def _codex_full_login_worker(session_id: str) -> None:
     single function — we need to surface the user_code to the dashboard the
     moment we receive it, well before polling completes.
     """
+    token = None
     try:
+        with _oauth_sessions_lock:
+            profile = (_oauth_sessions.get(session_id) or {}).get("profile")
+        token = _profile_override_token(profile)
         import httpx
         from hermes_cli.auth import (
             CODEX_OAUTH_CLIENT_ID,
@@ -9286,7 +9428,22 @@ def _codex_full_login_worker(session_id: str) -> None:
                 headers={"Content-Type": "application/json"},
             )
         if resp.status_code != 200:
-            raise RuntimeError(f"deviceauth/usercode returned {resp.status_code}")
+            detail = ""
+            try:
+                error_payload = resp.json()
+                detail = (
+                    error_payload.get("error", {}).get("message")
+                    if isinstance(error_payload.get("error"), dict)
+                    else error_payload.get("error")
+                ) or ""
+            except Exception:
+                detail = getattr(resp, "text", "") or ""
+            raise RuntimeError(
+                "OpenAI rejected the device-code login request"
+                f" (deviceauth/usercode returned {resp.status_code}). "
+                "Enable device-code authorization in OpenAI, then click Login again."
+                + (f" OpenAI said: {detail}" if detail else "")
+            )
         device_data = resp.json()
         user_code = device_data.get("user_code", "")
         device_auth_id = device_data.get("device_auth_id", "")
@@ -9370,6 +9527,8 @@ def _codex_full_login_worker(session_id: str) -> None:
             if s:
                 s["status"] = "error"
                 s["error_message"] = str(e)
+    finally:
+        _reset_profile_override_token(token)
 
 
 @app.post("/api/providers/oauth/{provider_id}/start")
@@ -9381,6 +9540,9 @@ async def start_oauth_login(provider_id: str, request: Request):
     if provider_id not in valid:
         raise HTTPException(status_code=400, detail=f"Unknown provider {provider_id}")
     catalog_entry = next(p for p in _OAUTH_PROVIDER_CATALOG if p["id"] == provider_id)
+    profile = request.query_params.get("profile")
+    if profile:
+        _resolve_profile_dir(profile)
     if catalog_entry["flow"] == "external":
         raise HTTPException(
             status_code=400,
@@ -9396,7 +9558,7 @@ async def start_oauth_login(provider_id: str, request: Request):
         if catalog_entry["flow"] == "pkce" and provider_id == "anthropic":
             return _start_anthropic_pkce()
         if catalog_entry["flow"] == "device_code":
-            return await _start_device_code_flow(provider_id)
+            return await _start_device_code_flow(provider_id, profile=profile)
         if catalog_entry["flow"] == "loopback" and provider_id == "xai-oauth":
             return await asyncio.get_running_loop().run_in_executor(
                 None, _start_xai_loopback_flow
@@ -14877,6 +15039,108 @@ def _ws_close_reason(text: str) -> str:
     return encoded[:120].decode("utf-8", "ignore") + "..."
 
 
+@app.websocket("/api/console")
+async def console_ws(ws: WebSocket) -> None:
+    """Safe dashboard command console over WebSocket.
+
+    This is intentionally backed by ``HermesConsoleEngine`` rather than a shell:
+    the dashboard gets a small, confirmable set of Hermes commands without
+    exposing arbitrary process execution.
+    """
+    if not _DASHBOARD_EMBEDDED_CHAT_ENABLED:
+        await ws.close(code=4403)
+        return
+
+    auth_reason, _cred = _ws_auth_reason(ws)
+    if auth_reason is not None:
+        await ws.close(code=4401, reason=_ws_close_reason(f"auth: {auth_reason}"))
+        return
+
+    if not _ws_request_is_allowed(ws):
+        await ws.close(code=4403)
+        return
+
+    from hermes_cli.console_engine import HermesConsoleEngine
+
+    await ws.accept()
+    await ws.send_json({"type": "ready", "prompt": "hermes> "})
+
+    engine = HermesConsoleEngine()
+    loop = asyncio.get_running_loop()
+    active_task: Optional[asyncio.Task] = None
+
+    async def _execute(line: str, *, confirmed: bool = False) -> None:
+        nonlocal active_task
+        try:
+            result = await loop.run_in_executor(
+                None,
+                lambda: engine.execute(line, confirmed=confirmed),
+            )
+            if result.status == "confirm_required":
+                await ws.send_json(
+                    {
+                        "type": "confirm_required",
+                        "command": result.command,
+                        "message": result.confirmation_message,
+                        "prompt": "hermes> ",
+                    }
+                )
+                return
+            if result.output:
+                await ws.send_json({"type": "output", "data": result.output})
+            await ws.send_json(
+                {
+                    "type": "complete",
+                    "status": result.status,
+                    "command": result.command,
+                    "prompt": "hermes> ",
+                }
+            )
+        finally:
+            active_task = None
+
+    try:
+        while True:
+            msg = await ws.receive_json()
+            msg_type = msg.get("type")
+            if msg_type == "cancel":
+                if active_task is not None and not active_task.done():
+                    active_task.cancel()
+                await ws.send_json(
+                    {"type": "complete", "status": "cancelled", "prompt": "hermes> "}
+                )
+                active_task = None
+                continue
+
+            if msg_type not in {"input", "confirm"}:
+                await ws.send_json(
+                    {
+                        "type": "complete",
+                        "status": "error",
+                        "prompt": "hermes> ",
+                    }
+                )
+                continue
+
+            if active_task is not None and not active_task.done():
+                await ws.send_json(
+                    {
+                        "type": "complete",
+                        "status": "error",
+                        "prompt": "hermes> ",
+                    }
+                )
+                continue
+
+            line = str(msg.get("line") or msg.get("command") or "")
+            active_task = asyncio.create_task(
+                _execute(line, confirmed=(msg_type == "confirm"))
+            )
+    except WebSocketDisconnect:
+        if active_task is not None and not active_task.done():
+            active_task.cancel()
+
+
 @app.websocket("/api/pty")
 async def pty_ws(ws: WebSocket) -> None:
     peer = ws.client.host if ws.client else "?"
@@ -16118,6 +16382,191 @@ class _PluginProvidersPutBody(BaseModel):
     context_engine: Optional[str] = None
 
 
+class _GitFileBody(BaseModel):
+    path: str
+    file: Optional[str] = None
+
+
+class _GitCommitBody(BaseModel):
+    path: str
+    message: str
+    push: bool = False
+
+
+class _GitWorktreeAddBody(BaseModel):
+    path: str
+    branch: Optional[str] = None
+    name: Optional[str] = None
+    base: Optional[str] = None
+    existingBranch: Optional[str] = None
+
+
+class _GitWorktreeRemoveBody(BaseModel):
+    path: str
+    worktreePath: str
+    force: bool = False
+
+
+class _GitBranchSwitchBody(BaseModel):
+    path: str
+    branch: str
+
+
+def _git_error(exc: Exception) -> HTTPException:
+    return HTTPException(status_code=400, detail=str(exc) or "Git operation failed.")
+
+
+def _model_dump_compat(model: BaseModel, **kwargs) -> Dict[str, Any]:
+    dump = getattr(model, "model_dump", None)
+    if callable(dump):
+        return dump(**kwargs)
+    return model.dict(**kwargs)
+
+
+@app.get("/api/git/status")
+async def get_git_status(request: Request, path: str):
+    _require_token(request)
+    return _web_git.repo_status(path)
+
+
+@app.get("/api/git/review/list")
+async def get_git_review_list(
+    request: Request,
+    path: str,
+    scope: str = "workingTree",
+    baseRef: Optional[str] = None,
+):
+    _require_token(request)
+    return _web_git.review_list(path, scope, baseRef)
+
+
+@app.get("/api/git/review/diff")
+async def get_git_review_diff(
+    request: Request,
+    path: str,
+    file: str,
+    scope: str = "workingTree",
+    baseRef: Optional[str] = None,
+    staged: bool = False,
+):
+    _require_token(request)
+    return {
+        "diff": _web_git.review_diff(path, file, scope, baseRef, staged)
+    }
+
+
+@app.post("/api/git/review/stage")
+async def post_git_review_stage(request: Request, body: _GitFileBody):
+    _require_token(request)
+    try:
+        return _web_git.review_stage(body.path, body.file)
+    except Exception as exc:
+        raise _git_error(exc) from exc
+
+
+@app.post("/api/git/review/unstage")
+async def post_git_review_unstage(request: Request, body: _GitFileBody):
+    _require_token(request)
+    try:
+        return _web_git.review_unstage(body.path, body.file)
+    except Exception as exc:
+        raise _git_error(exc) from exc
+
+
+@app.post("/api/git/review/revert")
+async def post_git_review_revert(request: Request, body: _GitFileBody):
+    _require_token(request)
+    try:
+        return _web_git.review_revert(body.path, body.file)
+    except Exception as exc:
+        raise _git_error(exc) from exc
+
+
+@app.post("/api/git/review/commit")
+async def post_git_review_commit(request: Request, body: _GitCommitBody):
+    _require_token(request)
+    try:
+        return _web_git.review_commit(body.path, body.message, body.push)
+    except Exception as exc:
+        raise _git_error(exc) from exc
+
+
+@app.post("/api/git/review/push")
+async def post_git_review_push(request: Request, body: _GitFileBody):
+    _require_token(request)
+    try:
+        return _web_git.review_push(body.path)
+    except Exception as exc:
+        raise _git_error(exc) from exc
+
+
+@app.get("/api/git/review/commit-context")
+async def get_git_review_commit_context(request: Request, path: str):
+    _require_token(request)
+    return _web_git.review_commit_context(path)
+
+
+@app.get("/api/git/review/ship-info")
+async def get_git_review_ship_info(request: Request, path: str):
+    _require_token(request)
+    return _web_git.review_ship_info(path)
+
+
+@app.post("/api/git/review/create-pr")
+async def post_git_review_create_pr(request: Request, body: _GitFileBody):
+    _require_token(request)
+    try:
+        return _web_git.review_create_pr(body.path)
+    except Exception as exc:
+        raise _git_error(exc) from exc
+
+
+@app.get("/api/git/worktrees")
+async def get_git_worktrees(request: Request, path: str):
+    _require_token(request)
+    return {"worktrees": _web_git.worktree_list(path)}
+
+
+@app.post("/api/git/worktree/add")
+async def post_git_worktree_add(request: Request, body: _GitWorktreeAddBody):
+    _require_token(request)
+    try:
+        options = _model_dump_compat(body, exclude={"path"}, exclude_none=True)
+        return _web_git.worktree_add(body.path, options)
+    except Exception as exc:
+        raise _git_error(exc) from exc
+
+
+@app.post("/api/git/worktree/remove")
+async def post_git_worktree_remove(request: Request, body: _GitWorktreeRemoveBody):
+    _require_token(request)
+    try:
+        return _web_git.worktree_remove(body.path, body.worktreePath, body.force)
+    except Exception as exc:
+        raise _git_error(exc) from exc
+
+
+@app.get("/api/git/branches")
+async def get_git_branches(request: Request, path: str):
+    _require_token(request)
+    return {"branches": _web_git.branch_list(path)}
+
+
+@app.post("/api/git/branch/switch")
+async def post_git_branch_switch(request: Request, body: _GitBranchSwitchBody):
+    _require_token(request)
+    try:
+        return _web_git.branch_switch(body.path, body.branch)
+    except Exception as exc:
+        raise _git_error(exc) from exc
+
+
+@app.get("/api/git/base-branches")
+async def get_git_base_branches(request: Request, path: str):
+    _require_token(request)
+    return {"branches": _web_git.base_branch_list(path)}
+
+
 @app.put("/api/dashboard/plugin-providers")
 async def put_plugin_providers(request: Request, body: _PluginProvidersPutBody):
     """Persist memory provider / context engine selection (writes config.yaml)."""
@@ -16511,6 +16960,10 @@ def start_server(
     # For explicit non-zero ports, if the port is taken uvicorn catches
     # OSError inside create_server() and exits with a clear error — no
     # separate preflight probe needed.
+    loopback_bind = host.strip().lower() in _LOOPBACK_HOST_VALUES
+    ws_ping_interval = None if loopback_bind else 20.0
+    ws_ping_timeout = None if loopback_bind else 20.0
+
     config = uvicorn.Config(
         app, host=host, port=port, log_level="warning",
         # proxy_headers defaults to False so _ws_client_is_allowed sees
@@ -16525,8 +16978,8 @@ def start_server(
         # tunnels) within ~20-40s so WebSocketDisconnect fires the
         # disconnect→reap path.  20s stays under Cloudflare Tunnel's idle
         # timeout, keeping it warm.
-        ws_ping_interval=20.0,
-        ws_ping_timeout=20.0,
+        ws_ping_interval=ws_ping_interval,
+        ws_ping_timeout=ws_ping_timeout,
     )
     server = uvicorn.Server(config)
 
@@ -16551,5 +17004,17 @@ def start_server(
             await server.main_loop()
             if server.started:
                 await server.shutdown()
+
+    if sys.platform == "win32":
+        try:
+            from uvicorn._compat import asyncio_run as _uvicorn_asyncio_run
+
+            _uvicorn_asyncio_run(
+                _serve(),
+                loop_factory=config.get_loop_factory(),
+            )
+            return
+        except ImportError:
+            pass
 
     asyncio.run(_serve())
