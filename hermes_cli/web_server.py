@@ -73,7 +73,7 @@ def get_running_pid_cached():
 
 
 try:
-    from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile, WebSocket, WebSocketDisconnect
+    from fastapi import BackgroundTasks, FastAPI, File, Form, HTTPException, Request, UploadFile, WebSocket, WebSocketDisconnect
     from fastapi.middleware.cors import CORSMiddleware
     from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, Response
     from fastapi.staticfiles import StaticFiles
@@ -85,7 +85,7 @@ except ImportError:
     try:
         from tools.lazy_deps import ensure as _lazy_ensure
         _lazy_ensure("tool.dashboard", prompt=False)
-        from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile, WebSocket, WebSocketDisconnect
+        from fastapi import BackgroundTasks, FastAPI, File, Form, HTTPException, Request, UploadFile, WebSocket, WebSocketDisconnect
         from fastapi.middleware.cors import CORSMiddleware
         from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, Response
         from fastapi.staticfiles import StaticFiles
@@ -9759,11 +9759,22 @@ async def get_logs(
 
 
 class CronJobCreate(BaseModel):
-    prompt: str
+    prompt: Optional[str] = None
     schedule: str
     name: str = ""
     deliver: str = "local"
+    repeat: Optional[int] = None
+    skill: Optional[str] = None
     skills: Optional[List[str]] = None
+    model: Optional[str] = None
+    provider: Optional[str] = None
+    base_url: Optional[str] = None
+    script: Optional[str] = None
+    context_from: Optional[Any] = None
+    enabled_toolsets: Optional[List[str]] = None
+    workdir: Optional[str] = None
+    no_agent: bool = False
+    attach_to_session: Optional[bool] = None
 
 
 class CronJobUpdate(BaseModel):
@@ -9771,6 +9782,12 @@ class CronJobUpdate(BaseModel):
 
 
 _CRON_PROFILE_LOCK = threading.RLock()
+
+
+async def _run_cron_dashboard_io(func, *args, **kwargs):
+    if asyncio.iscoroutinefunction(func):
+        raise TypeError("_run_cron_dashboard_io only accepts sync callables")
+    return await asyncio.to_thread(func, *args, **kwargs)
 
 
 def _cron_profile_dicts() -> List[Dict[str, Any]]:
@@ -9807,6 +9824,99 @@ def _annotate_cron_job(job: Dict[str, Any], profile: str, home: Path) -> Dict[st
     return annotated
 
 
+def _normalize_dashboard_cron_script(profile: Optional[str], script: Any) -> Optional[str]:
+    if script is None:
+        return None
+    text = str(script).strip()
+    if not text:
+        return None
+    _profile_name, home = _cron_profile_home(profile)
+    scripts_dir = (home / "scripts").resolve()
+    candidate = Path(text).expanduser()
+    if candidate.is_absolute():
+        resolved = candidate.resolve()
+        try:
+            rel = resolved.relative_to(scripts_dir)
+        except ValueError as exc:
+            raise ValueError(f"Script must be inside {scripts_dir}") from exc
+        if ".." in rel.parts:
+            raise ValueError(f"Script must be inside {scripts_dir}")
+        return rel.as_posix()
+    if ".." in candidate.parts:
+        raise ValueError(f"Script must be inside {scripts_dir}")
+    return candidate.as_posix()
+
+
+def _context_refs_from_value(value: Any) -> List[str]:
+    if isinstance(value, str):
+        return [value.strip()] if value.strip() else []
+    if isinstance(value, list):
+        return [str(item).strip() for item in value if str(item).strip()]
+    return []
+
+
+def _validate_dashboard_context_refs(profile: Optional[str], value: Any) -> None:
+    refs = _context_refs_from_value(value)
+    if not refs:
+        return
+    jobs = _call_cron_for_profile(profile, "list_jobs", True)
+    known = {
+        str(job.get("id") or "")
+        for job in jobs
+    } | {
+        str(job.get("name") or "")
+        for job in jobs
+    }
+    missing = [ref for ref in refs if ref not in known]
+    if missing:
+        raise ValueError(f"Unknown context_from job(s) for this profile: {', '.join(missing)}")
+
+
+def _dashboard_cron_create_kwargs(profile: Optional[str], body: CronJobCreate) -> Dict[str, Any]:
+    script = _normalize_dashboard_cron_script(profile, body.script)
+    if not any([
+        str(body.prompt or "").strip(),
+        str(body.skill or "").strip(),
+        body.skills,
+        script,
+    ]):
+        raise ValueError("Cron job requires a prompt, skill, or script")
+    _validate_dashboard_context_refs(profile, body.context_from)
+    return {
+        "prompt": body.prompt,
+        "schedule": body.schedule,
+        "name": body.name,
+        "repeat": body.repeat,
+        "deliver": body.deliver,
+        "skill": body.skill,
+        "skills": body.skills,
+        "model": body.model,
+        "provider": body.provider,
+        "base_url": body.base_url,
+        "script": script,
+        "context_from": body.context_from,
+        "enabled_toolsets": body.enabled_toolsets,
+        "workdir": body.workdir,
+        "no_agent": body.no_agent,
+        "attach_to_session": body.attach_to_session,
+    }
+
+
+def _dashboard_cron_update_payload(profile: Optional[str], updates: Dict[str, Any]) -> Dict[str, Any]:
+    clean = dict(updates or {})
+    if "id" in clean:
+        raise ValueError("Cron job id cannot be updated")
+    if isinstance(clean.get("base_url"), str):
+        clean["base_url"] = clean["base_url"].strip().rstrip("/") or None
+    if "script" in clean:
+        clean["script"] = _normalize_dashboard_cron_script(profile, clean.get("script"))
+    if "context_from" in clean:
+        _validate_dashboard_context_refs(profile, clean.get("context_from"))
+        refs = _context_refs_from_value(clean.get("context_from"))
+        clean["context_from"] = refs or None
+    return clean
+
+
 def _call_cron_for_profile(profile: Optional[str], func_name: str, *args, **kwargs):
     """Run cron.jobs helpers against the selected profile's cron directory.
 
@@ -9818,19 +9928,14 @@ def _call_cron_for_profile(profile: Optional[str], func_name: str, *args, **kwar
     profile_name, home = _cron_profile_home(profile)
     with _CRON_PROFILE_LOCK:
         from cron import jobs as cron_jobs
+        from hermes_constants import reset_hermes_home_override, set_hermes_home_override
 
-        old_cron_dir = cron_jobs.CRON_DIR
-        old_jobs_file = cron_jobs.JOBS_FILE
-        old_output_dir = cron_jobs.OUTPUT_DIR
-        cron_jobs.CRON_DIR = home / "cron"
-        cron_jobs.JOBS_FILE = cron_jobs.CRON_DIR / "jobs.json"
-        cron_jobs.OUTPUT_DIR = cron_jobs.CRON_DIR / "output"
+        token = set_hermes_home_override(home)
         try:
-            result = getattr(cron_jobs, func_name)(*args, **kwargs)
+            with cron_jobs.use_cron_store(home):
+                result = getattr(cron_jobs, func_name)(*args, **kwargs)
         finally:
-            cron_jobs.CRON_DIR = old_cron_dir
-            cron_jobs.JOBS_FILE = old_jobs_file
-            cron_jobs.OUTPUT_DIR = old_output_dir
+            reset_hermes_home_override(token)
 
     if isinstance(result, list):
         return [_annotate_cron_job(j, profile_name, home) for j in result]
@@ -9850,30 +9955,86 @@ def _find_cron_job_profile(job_id: str) -> Optional[str]:
     return None
 
 
+def _fire_cron_job_for_profile(profile: str, job_id: str) -> bool:
+    """Fire a cron job with both cron storage and runtime home profile-scoped."""
+    from cron import jobs as cron_jobs
+    from cron.scheduler_provider import resolve_cron_scheduler
+    from hermes_constants import reset_hermes_home_override, set_hermes_home_override
+
+    _profile_name, home = _cron_profile_home(profile)
+    with _CRON_PROFILE_LOCK:
+        token = set_hermes_home_override(home)
+        try:
+            with cron_jobs.use_cron_store(home):
+                provider = resolve_cron_scheduler()
+                return bool(provider.fire_due(job_id, adapters=None, loop=None))
+        finally:
+            reset_hermes_home_override(token)
+
+
+@app.post("/api/cron/fire")
+async def fire_cron_job(request: Request, background_tasks: BackgroundTasks):
+    """Chronos managed-cron fire webhook for hosted dashboard deployments."""
+    from plugins.cron_providers.chronos.verify import get_fire_verifier
+
+    auth = request.headers.get("Authorization", "")
+    token = auth[7:].strip() if auth.startswith("Bearer ") else ""
+
+    cfg = load_config()
+    claims = get_fire_verifier()(
+        token=token,
+        expected_audience=cfg_get(cfg, "cron", "chronos", "expected_audience", default=""),
+        jwks_or_key=cfg_get(cfg, "cron", "chronos", "nas_jwks_url", default="") or None,
+        issuer=cfg_get(cfg, "cron", "chronos", "portal_url", default="") or None,
+    )
+    if claims is None:
+        _log.warning("cron fire: rejected invalid dashboard token")
+        return JSONResponse({"error": "invalid fire token"}, status_code=401)
+
+    try:
+        body = await request.json()
+    except Exception:
+        body = {}
+    job_id = str((body or {}).get("job_id") or "").strip()
+    if not job_id:
+        return JSONResponse({"error": "missing job_id"}, status_code=400)
+
+    profile = _find_cron_job_profile(job_id)
+    if not profile:
+        return {"status": "gone", "job_id": job_id}
+
+    background_tasks.add_task(_fire_cron_job_for_profile, profile, job_id)
+    return JSONResponse({"status": "accepted", "job_id": job_id}, status_code=202)
+
+
 @app.get("/api/cron/jobs")
 async def list_cron_jobs(profile: str = "all"):
     requested = (profile or "all").strip()
     if requested.lower() != "all":
-        return _call_cron_for_profile(requested, "list_jobs", True)
+        return await _run_cron_dashboard_io(_call_cron_for_profile, requested, "list_jobs", True)
 
     jobs: List[Dict[str, Any]] = []
-    for item in _cron_profile_dicts():
-        name = str(item.get("name") or "")
-        if not name:
-            continue
-        try:
-            jobs.extend(_call_cron_for_profile(name, "list_jobs", True))
-        except Exception:
-            _log.exception("Failed to list cron jobs for profile %s", name)
+    def _list_all_jobs():
+        found: List[Dict[str, Any]] = []
+        for item in _cron_profile_dicts():
+            name = str(item.get("name") or "")
+            if not name:
+                continue
+            try:
+                found.extend(_call_cron_for_profile(name, "list_jobs", True))
+            except Exception:
+                _log.exception("Failed to list cron jobs for profile %s", name)
+        return found
+    jobs = await _run_cron_dashboard_io(_list_all_jobs)
     return jobs
 
 
 @app.get("/api/cron/jobs/{job_id}")
 async def get_cron_job(job_id: str, profile: Optional[str] = None):
-    selected = profile or _find_cron_job_profile(job_id)
+    selected = profile or await _run_cron_dashboard_io(_find_cron_job_profile, job_id)
     if not selected:
         raise HTTPException(status_code=404, detail="Job not found")
-    job = _call_cron_for_profile(selected, "get_job", job_id)
+    job = await _run_cron_dashboard_io(_call_cron_for_profile, selected, "get_job", job_id)
     if not job:
         raise HTTPException(status_code=404, detail="Job not found")
     return job
@@ -9895,11 +10056,11 @@ async def list_cron_job_runs(job_id: str, profile: Optional[str] = None, limit: 
     so the cost scales with the requested window and not the (unbounded) total
     cron history.
     """
-    selected = profile or _find_cron_job_profile(job_id)
+    selected = profile or await _run_cron_dashboard_io(_find_cron_job_profile, job_id)
     # job_id may be a human name; resolve to the canonical id used in run-session ids.
     canonical = job_id
     if selected:
-        job = _call_cron_for_profile(selected, "get_job", job_id)
+        job = await _run_cron_dashboard_io(_call_cron_for_profile, selected, "get_job", job_id)
         if job and job.get("id"):
             canonical = str(job["id"])
 
@@ -9928,14 +10089,12 @@ async def list_cron_job_runs(job_id: str, profile: Optional[str] = None, limit: 
 @app.post("/api/cron/jobs")
 async def create_cron_job(body: CronJobCreate, profile: str = "default"):
     try:
-        return _call_cron_for_profile(
+        kwargs = _dashboard_cron_create_kwargs(profile, body)
+        return await _run_cron_dashboard_io(
+            _call_cron_for_profile,
             profile,
             "create_job",
-            prompt=body.prompt,
-            schedule=body.schedule,
-            name=body.name,
-            deliver=body.deliver,
-            skills=body.skills,
+            **kwargs,
         )
     except Exception as e:
         _log.exception("POST /api/cron/jobs failed")
@@ -9972,11 +10131,12 @@ async def get_cron_delivery_targets():
 
 @app.put("/api/cron/jobs/{job_id}")
 async def update_cron_job(job_id: str, body: CronJobUpdate, profile: Optional[str] = None):
-    selected = profile or _find_cron_job_profile(job_id)
+    selected = profile or await _run_cron_dashboard_io(_find_cron_job_profile, job_id)
     if not selected:
         raise HTTPException(status_code=404, detail="Job not found")
     try:
-        job = _call_cron_for_profile(selected, "update_job", job_id, body.updates)
+        updates = _dashboard_cron_update_payload(selected, body.updates)
+        job = await _run_cron_dashboard_io(_call_cron_for_profile, selected, "update_job", job_id, updates)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     if not job:
@@ -9986,10 +10146,10 @@ async def update_cron_job(job_id: str, body: CronJobUpdate, profile: Optional[st
 
 @app.post("/api/cron/jobs/{job_id}/pause")
 async def pause_cron_job(job_id: str, profile: Optional[str] = None):
-    selected = profile or _find_cron_job_profile(job_id)
+    selected = profile or await _run_cron_dashboard_io(_find_cron_job_profile, job_id)
     if not selected:
         raise HTTPException(status_code=404, detail="Job not found")
-    job = _call_cron_for_profile(selected, "pause_job", job_id)
+    job = await _run_cron_dashboard_io(_call_cron_for_profile, selected, "pause_job", job_id)
     if not job:
         raise HTTPException(status_code=404, detail="Job not found")
     return job
@@ -9997,10 +10157,10 @@ async def pause_cron_job(job_id: str, profile: Optional[str] = None):
 
 @app.post("/api/cron/jobs/{job_id}/resume")
 async def resume_cron_job(job_id: str, profile: Optional[str] = None):
-    selected = profile or _find_cron_job_profile(job_id)
+    selected = profile or await _run_cron_dashboard_io(_find_cron_job_profile, job_id)
     if not selected:
         raise HTTPException(status_code=404, detail="Job not found")
-    job = _call_cron_for_profile(selected, "resume_job", job_id)
+    job = await _run_cron_dashboard_io(_call_cron_for_profile, selected, "resume_job", job_id)
     if not job:
         raise HTTPException(status_code=404, detail="Job not found")
     return job
@@ -10008,10 +10168,10 @@ async def resume_cron_job(job_id: str, profile: Optional[str] = None):
 
 @app.post("/api/cron/jobs/{job_id}/trigger")
 async def trigger_cron_job(job_id: str, profile: Optional[str] = None):
-    selected = profile or _find_cron_job_profile(job_id)
+    selected = profile or await _run_cron_dashboard_io(_find_cron_job_profile, job_id)
     if not selected:
         raise HTTPException(status_code=404, detail="Job not found")
-    job = _call_cron_for_profile(selected, "trigger_job", job_id)
+    job = await _run_cron_dashboard_io(_call_cron_for_profile, selected, "trigger_job", job_id)
     if not job:
         raise HTTPException(status_code=404, detail="Job not found")
     return job
@@ -10019,11 +10179,11 @@ async def trigger_cron_job(job_id: str, profile: Optional[str] = None):
 
 @app.delete("/api/cron/jobs/{job_id}")
 async def delete_cron_job(job_id: str, profile: Optional[str] = None):
-    selected = profile or _find_cron_job_profile(job_id)
+    selected = profile or await _run_cron_dashboard_io(_find_cron_job_profile, job_id)
     if not selected:
         raise HTTPException(status_code=404, detail="Job not found")
     try:
-        removed = _call_cron_for_profile(selected, "remove_job", job_id)
+        removed = await _run_cron_dashboard_io(_call_cron_for_profile, selected, "remove_job", job_id)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     if not removed:
@@ -14189,7 +14349,7 @@ def _build_gateway_ws_url() -> Optional[str]:
     the child reads this URL once at startup and reuses it on every reconnect,
     and a 30s-TTL ticket can expire before a slow cold boot even dials.
     """
-    host = getattr(app.state, "bound_host", None)
+    host = _resolve_client_ws_host()
     port = getattr(app.state, "bound_port", None)
 
     if not host or not port:
@@ -14211,6 +14371,19 @@ def _build_gateway_ws_url() -> Optional[str]:
     return f"ws://{netloc}/api/ws?{qs}"
 
 
+def _resolve_client_ws_host() -> Optional[str]:
+    override = os.getenv("HERMES_DASHBOARD_WS_HOST", "").strip()
+    if override:
+        return override
+    host = getattr(app.state, "bound_host", None)
+    if not host:
+        return None
+    text = str(host).strip()
+    if text in {"0.0.0.0", "::", "[::]", ""}:
+        return "127.0.0.1"
+    return text
+
+
 def _build_sidecar_url(channel: str) -> Optional[str]:
     """ws:// URL the PTY child should publish events to, or None when unbound.
 
@@ -14225,7 +14398,7 @@ def _build_sidecar_url(channel: str) -> Optional[str]:
     Connections authenticated this way are recorded under the
     ``server-internal`` identity in the audit log.
     """
-    host = getattr(app.state, "bound_host", None)
+    host = _resolve_client_ws_host()
     port = getattr(app.state, "bound_port", None)
 
     if not host or not port:
