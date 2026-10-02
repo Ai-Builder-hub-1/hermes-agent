@@ -120,6 +120,7 @@ def _build_operator_queue(limit: int, include_system: bool, extra_items: list[Di
         [*fleet["items"], *runtime_items, *system_items, *extra_items],
         key=lambda item: (-_severity_rank(item["severity"]), -_state_rank(item["state"]), item["title"]),
     )
+    required_ids = {str(item.get("id")) for item in [*system_items, *extra_items] if item.get("id")}
     return {
         "schemaVersion": 1,
         "generatedAt": fleet["generatedAt"],
@@ -127,8 +128,38 @@ def _build_operator_queue(limit: int, include_system: bool, extra_items: list[Di
         + (" + system summaries" if include_system else "")
         + (" + trading intelligence" if extra_items else ""),
         "summary": _summary(items),
-        "items": items[:safe_limit],
+        "items": _select_operator_queue_items(items, safe_limit=safe_limit, required_ids=required_ids),
     }
+
+
+def _select_operator_queue_items(
+    items: list[Dict[str, Any]],
+    *,
+    safe_limit: int,
+    required_ids: set[str],
+) -> list[Dict[str, Any]]:
+    selected = list(items[:safe_limit])
+    selected_ids = {str(item.get("id")) for item in selected}
+    missing_required = [
+        item
+        for item in items[safe_limit:]
+        if str(item.get("id")) in required_ids and str(item.get("id")) not in selected_ids
+    ]
+    for item in missing_required:
+        replacement_index = next(
+            (
+                index
+                for index in range(len(selected) - 1, -1, -1)
+                if str(selected[index].get("id")) not in required_ids
+            ),
+            None,
+        )
+        if replacement_index is None:
+            selected.append(item)
+        else:
+            selected[replacement_index] = item
+        selected_ids.add(str(item.get("id")))
+    return selected
 
 
 def _runtime_evidence_to_item(record: Dict[str, Any]) -> Dict[str, Any]:

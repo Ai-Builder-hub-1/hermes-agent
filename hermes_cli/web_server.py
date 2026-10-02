@@ -16677,8 +16677,11 @@ async def _plugin_api_runtime_gate(request: Request, call_next):
     match = re.match(r"^/api/plugins/([^/]+)(?:/|$)", request.url.path)
     if not match:
         return await call_next(request)
+    app_state = getattr(request.scope.get("app"), "state", None)
+    token_authenticated = bool(request.scope.get("state", {}).get("token_authenticated"))
     if (
-        not getattr(request.app.state, "auth_required", False)
+        not getattr(app_state, "auth_required", False)
+        and not token_authenticated
         and not _has_valid_session_token(request)
     ):
         return JSONResponse(status_code=401, content={"detail": "Unauthorized"})
