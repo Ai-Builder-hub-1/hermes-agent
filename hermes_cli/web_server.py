@@ -139,6 +139,10 @@ def _start_desktop_cron_ticker(stop_event: "threading.Event", interval: int = 60
 async def _lifespan(app: "FastAPI"):
     app.state.event_channels = {}  # dict[str, set]
     app.state.event_lock = asyncio.Lock()
+    app.state.pty_active_session_files = {}
+
+    loop = asyncio.get_running_loop()
+    loop.run_in_executor(None, _warm_gateway_module)
 
     # Desktop-spawned backends (HERMES_DESKTOP=1) fire cron jobs themselves,
     # since the app has no gateway running the scheduler. Server `hermes
@@ -160,6 +164,14 @@ async def _lifespan(app: "FastAPI"):
     finally:
         if cron_stop is not None:
             cron_stop.set()
+
+
+def _warm_gateway_module() -> None:
+    """Warm imports used by status/gateway surfaces without blocking startup."""
+    try:
+        import gateway.restart  # noqa: F401
+    except Exception:
+        _log.debug("Gateway restart warmup failed", exc_info=True)
 
 
 def _get_event_state(app: "FastAPI"):
@@ -1651,6 +1663,19 @@ def _count_status_active_sessions() -> int:
         return 0
 
 
+def _resolve_restart_drain_timeout() -> float:
+    try:
+        from gateway.restart import parse_restart_drain_timeout
+
+        return float(
+            parse_restart_drain_timeout(
+                os.environ.get("HERMES_RESTART_DRAIN_TIMEOUT")
+            )
+        )
+    except Exception:
+        return 0.0
+
+
 @app.get("/api/status")
 async def get_status():
     current_ver, latest_ver = check_config_version()
@@ -1733,14 +1758,10 @@ async def get_status():
         active_sessions = 0
     gateway_busy = bool(gateway_running and gateway_state == "running" and active_agents > 0)
     gateway_drainable = bool(gateway_running and gateway_state == "running")
-    try:
-        from gateway.restart import parse_restart_drain_timeout
-
-        restart_drain_timeout = parse_restart_drain_timeout(
-            os.environ.get("HERMES_RESTART_DRAIN_TIMEOUT")
-        )
-    except Exception:
-        restart_drain_timeout = 0.0
+    loop = asyncio.get_running_loop()
+    restart_drain_timeout = await loop.run_in_executor(
+        None, _resolve_restart_drain_timeout
+    )
     auth_required = bool(getattr(app.state, "auth_required", False))
     auth_providers: list[str] = []
     try:
@@ -7275,6 +7296,27 @@ def _messaging_platform_payload(
     elif not gateway_running and not state:
         state = "gateway_stopped"
 
+    error_code = (
+        runtime_platform.get("error_code")
+        if isinstance(runtime_platform, dict)
+        else None
+    )
+    error_message = (
+        runtime_platform.get("error_message")
+        if isinstance(runtime_platform, dict)
+        else None
+    )
+    if (
+        enabled
+        and configured
+        and runtime
+        and runtime.get("gateway_state") == "startup_failed"
+        and not runtime_platform
+    ):
+        state = "startup_failed"
+        error_code = "startup_failed"
+        error_message = runtime.get("exit_reason")
+
     return {
         "id": platform_id,
         "name": entry["name"],
@@ -7284,16 +7326,8 @@ def _messaging_platform_payload(
         "configured": configured,
         "gateway_running": gateway_running,
         "state": state,
-        "error_code": (
-            runtime_platform.get("error_code")
-            if isinstance(runtime_platform, dict)
-            else None
-        ),
-        "error_message": (
-            runtime_platform.get("error_message")
-            if isinstance(runtime_platform, dict)
-            else None
-        ),
+        "error_code": error_code,
+        "error_message": error_message,
         "updated_at": (
             runtime_platform.get("updated_at")
             if isinstance(runtime_platform, dict)
@@ -7316,6 +7350,56 @@ def _write_platform_enabled(platform_id: str, enabled: bool) -> None:
         platforms[platform_id] = platform_config
     platform_config["enabled"] = enabled
     save_config(config)
+
+
+def _target_profile_name(profile: Optional[str]) -> str:
+    requested = (profile or "").strip()
+    if not requested or requested.lower() == "current":
+        return "default"
+    return requested
+
+
+def _default_profile_multiplex_enabled() -> bool:
+    try:
+        cfg = load_config()
+        value = cfg.get("multiplex_profiles")
+        gateway_cfg = cfg.get("gateway") if isinstance(cfg.get("gateway"), dict) else {}
+        if value is None:
+            value = gateway_cfg.get("multiplex_profiles")
+        if isinstance(value, bool):
+            return value
+        if isinstance(value, str):
+            return value.strip().lower() in {"1", "true", "yes", "on"}
+        return bool(value)
+    except Exception:
+        return False
+
+
+def _reject_secondary_port_binding_messaging_platform(
+    platform_id: str,
+    profile: Optional[str],
+    enabled: Optional[bool],
+) -> None:
+    if enabled is not True:
+        return
+    target_profile = _target_profile_name(profile)
+    if target_profile == "default":
+        return
+    try:
+        from gateway.config import PORT_BINDING_PLATFORM_VALUES
+    except Exception:
+        return
+    if platform_id not in PORT_BINDING_PLATFORM_VALUES:
+        return
+    if not _default_profile_multiplex_enabled():
+        return
+    raise HTTPException(
+        status_code=409,
+        detail=(
+            f"{platform_id} binds a local port and can only be enabled on the "
+            "default profile while gateway multiplexing is enabled."
+        ),
+    )
 
 
 _TELEGRAM_ONBOARDING_DEFAULT_URL = "https://setup.hermes-agent.nousresearch.com"
@@ -7689,10 +7773,17 @@ async def get_messaging_platforms(profile: Optional[str] = None):
     # TARGET profile's channel credentials/state, not the root install's.
     # Inside _profile_scope, load_env()/read_runtime_status()/get_running_pid()
     # all resolve against the requested profile's HERMES_HOME.
+    target_profile = _target_profile_name(profile)
     with _profile_scope(profile) as scoped_dir:
         env_on_disk = load_env()
         runtime = read_runtime_status()
         return {
+            "env_path": str(get_env_path()),
+            "gateway_start_command": (
+                "hermes gateway start"
+                if scoped_dir is None
+                else f"hermes -p {target_profile} gateway start"
+            ),
             "platforms": [
                 _messaging_platform_payload(
                     entry, env_on_disk, runtime, scoped=scoped_dir is not None
@@ -7744,8 +7835,12 @@ async def update_messaging_platform(
         )
 
     allowed_env = set(entry["env_vars"])
+    target_profile = body.profile or profile
+    _reject_secondary_port_binding_messaging_platform(
+        platform_id, target_profile, body.enabled
+    )
     try:
-        with _profile_scope(body.profile or profile):
+        with _profile_scope(target_profile):
             for key in body.clear_env:
                 if key not in allowed_env:
                     raise HTTPException(
@@ -13961,6 +14056,136 @@ async def get_models_analytics(days: int = 30, profile: Optional[str] = None):
     return await asyncio.to_thread(_run_sessiondb_work, profile, _work)
 
 
+def _aux_usage_rows(db: Any, cutoff: float) -> list[dict[str, Any]]:
+    cur = db._conn.execute(
+        """
+        SELECT session_id,
+               model,
+               billing_provider,
+               billing_mode,
+               task,
+               SUM(COALESCE(api_call_count, 0)) as api_calls,
+               SUM(COALESCE(input_tokens, 0)) as input_tokens,
+               SUM(COALESCE(output_tokens, 0)) as output_tokens,
+               SUM(COALESCE(cache_read_tokens, 0)) as cache_read_tokens,
+               SUM(COALESCE(cache_write_tokens, 0)) as cache_write_tokens,
+               SUM(COALESCE(reasoning_tokens, 0)) as reasoning_tokens,
+               COALESCE(SUM(estimated_cost_usd), 0) as estimated_cost,
+               COALESCE(SUM(actual_cost_usd), 0) as actual_cost,
+               MAX(COALESCE(last_seen, first_seen, 0)) as last_used_at
+        FROM session_model_usage
+        WHERE COALESCE(task, '') != ''
+          AND COALESCE(last_seen, first_seen, 0) > ?
+        GROUP BY session_id, model, billing_provider, billing_mode, task
+        """,
+        (cutoff,),
+    )
+    return [dict(row) for row in cur.fetchall()]
+
+
+def _merge_aux_into_by_model(
+    by_model: list[dict[str, Any]], aux_rows: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
+    merged = [dict(row) for row in by_model]
+    by_key: dict[tuple[str, str], dict[str, Any]] = {
+        (str(row.get("model") or ""), str(row.get("provider") or row.get("billing_provider") or "")): row
+        for row in merged
+    }
+    for aux in aux_rows:
+        model = str(aux.get("model") or "")
+        if not model:
+            continue
+        provider = str(aux.get("provider") or aux.get("billing_provider") or "")
+        key = (model, provider)
+        row = by_key.get(key)
+        if row is None and (model, "") in by_key:
+            row = by_key[(model, "")]
+        if row is None:
+            row = {
+                "model": model,
+                "provider": provider,
+                "input_tokens": 0,
+                "output_tokens": 0,
+                "cache_read_tokens": 0,
+                "cache_write_tokens": 0,
+                "reasoning_tokens": 0,
+                "estimated_cost": 0,
+                "actual_cost": 0,
+                "sessions": 0,
+                "api_calls": 0,
+                "tool_calls": 0,
+                "last_used_at": aux.get("last_used_at"),
+                "avg_tokens_per_session": 0,
+            }
+            by_key[key] = row
+            merged.append(row)
+        for field in (
+            "input_tokens",
+            "output_tokens",
+            "cache_read_tokens",
+            "cache_write_tokens",
+            "reasoning_tokens",
+            "estimated_cost",
+            "actual_cost",
+            "api_calls",
+        ):
+            row[field] = (row.get(field) or 0) + (aux.get(field) or 0)
+        row["sessions"] = max(int(row.get("sessions") or 0), 1)
+        if aux.get("last_used_at"):
+            row["last_used_at"] = max(row.get("last_used_at") or 0, aux.get("last_used_at") or 0)
+        total_tokens = (row.get("input_tokens") or 0) + (row.get("output_tokens") or 0)
+        sessions = row.get("sessions") or 0
+        row["avg_tokens_per_session"] = total_tokens / sessions if sessions else 0
+    return merged
+
+
+def _aux_task_summary(aux_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    tasks: dict[str, dict[str, Any]] = {}
+    for row in aux_rows:
+        task = str(row.get("task") or "")
+        if not task:
+            continue
+        item = tasks.setdefault(
+            task,
+            {
+                "task": task,
+                "input_tokens": 0,
+                "output_tokens": 0,
+                "cache_read_tokens": 0,
+                "cache_write_tokens": 0,
+                "reasoning_tokens": 0,
+                "estimated_cost": 0,
+                "actual_cost": 0,
+                "api_calls": 0,
+                "models": set(),
+            },
+        )
+        for field in (
+            "input_tokens",
+            "output_tokens",
+            "cache_read_tokens",
+            "cache_write_tokens",
+            "reasoning_tokens",
+            "estimated_cost",
+            "actual_cost",
+            "api_calls",
+        ):
+            item[field] = (item.get(field) or 0) + (row.get(field) or 0)
+        if row.get("model"):
+            item["models"].add(row["model"])
+
+    out = []
+    for item in tasks.values():
+        clean = dict(item)
+        clean["models"] = sorted(clean["models"])
+        out.append(clean)
+    return sorted(
+        out,
+        key=lambda row: (row.get("input_tokens") or 0) + (row.get("output_tokens") or 0),
+        reverse=True,
+    )
+
+
 # ---------------------------------------------------------------------------
 # /api/pty — PTY-over-WebSocket bridge for the dashboard "Chat" tab.
 #
@@ -14008,6 +14233,37 @@ _VALID_CHANNEL_RE = re.compile(r"^[A-Za-z0-9._-]{1,128}$")
 # Starlette's TestClient reports the peer as "testclient"; treat it as
 # loopback so tests don't need to rewrite request scope.
 _LOOPBACK_HOSTS = frozenset({"127.0.0.1", "::1", "localhost", "testclient"})
+
+
+@dataclass
+class _PtySession:
+    bridge: Any
+    argv: list[str]
+    cwd: Optional[str]
+    env: Optional[dict[str, str]]
+
+
+class _PtyRegistry:
+    def __init__(self) -> None:
+        self._sessions: dict[tuple[str, str, str], _PtySession] = {}
+        self._lock = threading.Lock()
+
+    def get(self, key: tuple[str, str, str]) -> Optional[_PtySession]:
+        with self._lock:
+            session = self._sessions.get(key)
+            if session is None:
+                return None
+            if getattr(session.bridge, "alive", True) is False:
+                self._sessions.pop(key, None)
+                return None
+            return session
+
+    def set(self, key: tuple[str, str, str], session: _PtySession) -> None:
+        with self._lock:
+            self._sessions[key] = session
+
+
+PTY_REGISTRY = _PtyRegistry()
 
 
 def _ws_client_reason(ws: "WebSocket") -> Optional[str]:
@@ -14338,6 +14594,35 @@ async def _resolve_chat_argv_async(
     )
 
 
+def _active_session_file_for_channel(app_obj: Any, channel: str) -> Path:
+    active_dir = get_hermes_home() / "dashboard-active-sessions"
+    active_dir.mkdir(parents=True, exist_ok=True)
+    safe_channel = re.sub(r"[^A-Za-z0-9_.-]+", "_", channel)
+    path = active_dir / f"{safe_channel}.json"
+    try:
+        app_obj.state.pty_active_session_files[channel] = str(path)
+    except Exception:
+        pass
+    return path
+
+
+def _pty_attach_key(
+    attach: Optional[str],
+    profile: Optional[str],
+    resume: Optional[str],
+    env: Optional[dict[str, str]],
+) -> Optional[tuple[str, str, str]]:
+    token = (attach or "").strip()
+    if not token:
+        return None
+    canonical_resume = ""
+    if env:
+        canonical_resume = str(env.get("HERMES_TUI_RESUME") or "")
+    if not canonical_resume:
+        canonical_resume = resume or ""
+    return (token, profile or "", canonical_resume)
+
+
 def _build_gateway_ws_url() -> Optional[str]:
     """ws:// URL the PTY child should attach to for JSON-RPC gateway traffic.
 
@@ -14510,17 +14795,12 @@ async def pty_ws(ws: WebSocket) -> None:
     # --- spawn PTY ------------------------------------------------------
     resume = ws.query_params.get("resume") or None
     profile = ws.query_params.get("profile") or None
+    attach = ws.query_params.get("attach") or None
     channel = _channel_or_close_code(ws)
     sidecar_url = _build_sidecar_url(channel) if channel else None
     active_session_file = None
     if channel:
-        active_dir = get_hermes_home() / "dashboard-active-sessions"
-        active_dir.mkdir(parents=True, exist_ok=True)
-        active_session_file = str(active_dir / f"{re.sub(r'[^A-Za-z0-9_.-]+', '_', channel)}.json")
-        try:
-            app.state.pty_active_session_files[channel] = active_session_file
-        except Exception:
-            pass
+        active_session_file = str(_active_session_file_for_channel(app, channel))
 
     try:
         resolve_kwargs = {
@@ -14542,17 +14822,26 @@ async def pty_ws(ws: WebSocket) -> None:
         await ws.close(code=1011)
         return
 
-
-    try:
-        bridge = PtyBridge.spawn(argv, cwd=cwd, env=env)
-    except PtyUnavailableError as exc:
-        await ws.send_text(f"\r\n\x1b[31mChat unavailable: {exc}\x1b[0m\r\n")
-        await ws.close(code=1011)
-        return
-    except (FileNotFoundError, OSError) as exc:
-        await ws.send_text(f"\r\n\x1b[31mChat failed to start: {exc}\x1b[0m\r\n")
-        await ws.close(code=1011)
-        return
+    attach_key = _pty_attach_key(attach, profile, resume, env)
+    keepalive_session = PTY_REGISTRY.get(attach_key) if attach_key else None
+    if keepalive_session is not None:
+        bridge = keepalive_session.bridge
+    else:
+        try:
+            bridge = PtyBridge.spawn(argv, cwd=cwd, env=env)
+        except PtyUnavailableError as exc:
+            await ws.send_text(f"\r\n\x1b[31mChat unavailable: {exc}\x1b[0m\r\n")
+            await ws.close(code=1011)
+            return
+        except (FileNotFoundError, OSError) as exc:
+            await ws.send_text(f"\r\n\x1b[31mChat failed to start: {exc}\x1b[0m\r\n")
+            await ws.close(code=1011)
+            return
+        if attach_key is not None:
+            PTY_REGISTRY.set(
+                attach_key,
+                _PtySession(bridge=bridge, argv=argv, cwd=cwd, env=env),
+            )
 
     loop = asyncio.get_running_loop()
 
@@ -14605,7 +14894,8 @@ async def pty_ws(ws: WebSocket) -> None:
             await reader_task
         except (asyncio.CancelledError, Exception):
             pass
-        bridge.close()
+        if attach_key is None:
+            bridge.close()
 
 
 # ---------------------------------------------------------------------------
