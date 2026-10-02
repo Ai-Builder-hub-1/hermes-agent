@@ -1663,6 +1663,134 @@ def _count_status_active_sessions() -> int:
         return 0
 
 
+_PROFILE_GATEWAY_DEFAULT_PORTS = {
+    "webhook": 8644,
+    "api_server": 8642,
+    "msgraph_webhook": 8646,
+    "bluebubbles": 8645,
+    "sms": 8647,
+    "whatsapp_cloud": 8648,
+    "line": 8649,
+    "wecom_callback": 8650,
+    "feishu": 8651,
+}
+_PROFILE_GATEWAY_DEAD_STATES = {
+    "disabled",
+    "disconnected",
+    "fatal",
+    "not_configured",
+    "startup_failed",
+    "stopped",
+}
+
+
+def _coerce_port(value: Any) -> Optional[int]:
+    try:
+        port = int(value)
+    except (TypeError, ValueError):
+        return None
+    return port if 0 < port <= 65535 else None
+
+
+def _profile_platform_ports(profile_home: Path, runtime: Optional[dict]) -> dict[str, int]:
+    platforms = runtime.get("platforms") if isinstance(runtime, dict) else {}
+    if not isinstance(platforms, dict):
+        return {}
+    try:
+        from gateway.config import PORT_BINDING_PLATFORM_VALUES
+    except Exception:
+        PORT_BINDING_PLATFORM_VALUES = frozenset(_PROFILE_GATEWAY_DEFAULT_PORTS)
+
+    cfg: dict[str, Any] = {}
+    config_path = profile_home / "config.yaml"
+    if config_path.exists():
+        try:
+            loaded = yaml.safe_load(config_path.read_text(encoding="utf-8")) or {}
+            cfg = loaded if isinstance(loaded, dict) else {}
+        except Exception:
+            cfg = {}
+
+    top_platforms = cfg.get("platforms") if isinstance(cfg.get("platforms"), dict) else {}
+    gateway_cfg = cfg.get("gateway") if isinstance(cfg.get("gateway"), dict) else {}
+    gateway_platforms = (
+        gateway_cfg.get("platforms")
+        if isinstance(gateway_cfg.get("platforms"), dict)
+        else {}
+    )
+
+    ports: dict[str, int] = {}
+    for platform, state_payload in platforms.items():
+        platform_id = str(platform)
+        if platform_id not in PORT_BINDING_PLATFORM_VALUES:
+            continue
+        state = ""
+        if isinstance(state_payload, dict):
+            state = str(state_payload.get("state") or "").lower()
+        if state in _PROFILE_GATEWAY_DEAD_STATES:
+            continue
+
+        platform_cfg = top_platforms.get(platform_id)
+        if not isinstance(platform_cfg, dict):
+            platform_cfg = gateway_platforms.get(platform_id)
+        if not isinstance(platform_cfg, dict):
+            platform_cfg = {}
+        extra = platform_cfg.get("extra") if isinstance(platform_cfg.get("extra"), dict) else {}
+
+        port = (
+            _coerce_port(platform_cfg.get("port"))
+            or _coerce_port(platform_cfg.get("webhook_port"))
+            or _coerce_port(extra.get("port"))
+            or _coerce_port(extra.get("webhook_port"))
+            or _PROFILE_GATEWAY_DEFAULT_PORTS.get(platform_id)
+        )
+        if port:
+            ports[platform_id] = port
+    return ports
+
+
+def _collect_profile_gateway_topology() -> dict[str, Any]:
+    try:
+        import gateway.status as status_mod
+        import hermes_cli.profiles as profiles_mod
+
+        homes = list(profiles_mod.profiles_to_serve(True))
+    except Exception:
+        return {"profiles": [], "gateway_mode": "unknown", "gateways": []}
+
+    profile_names = [str(name) for name, _home in homes]
+    gateways: list[dict[str, Any]] = []
+    for name, home in homes:
+        try:
+            home_path = Path(home)
+            if not profiles_mod._check_gateway_running(home_path):
+                continue
+            runtime = status_mod.read_runtime_status(home_path / "gateway_state.json")
+            gateway = {
+                "profile": str(name),
+                "path": str(home_path),
+                "state": (runtime or {}).get("gateway_state") if isinstance(runtime, dict) else None,
+                "served_profiles": (
+                    list((runtime or {}).get("served_profiles") or [])
+                    if isinstance(runtime, dict)
+                    else []
+                ),
+                "ports": _profile_platform_ports(home_path, runtime),
+            }
+            gateways.append(gateway)
+        except Exception:
+            _log.debug("Failed to collect gateway topology for profile %s", name, exc_info=True)
+
+    if not gateways:
+        mode = "none"
+    elif any(len(g.get("served_profiles") or []) > 1 for g in gateways):
+        mode = "multiplex"
+    elif len(gateways) == 1:
+        mode = "single"
+    else:
+        mode = "multiple"
+    return {"profiles": profile_names, "gateway_mode": mode, "gateways": gateways}
+
+
 def _resolve_restart_drain_timeout() -> float:
     try:
         from gateway.restart import parse_restart_drain_timeout
@@ -1796,6 +1924,9 @@ async def get_status():
         "auth_required": auth_required,
         "auth_providers": auth_providers,
     }
+    topology = await loop.run_in_executor(None, _collect_profile_gateway_topology)
+    status["profiles"] = topology.get("profiles", [])
+    status["gateway_mode"] = topology.get("gateway_mode", "unknown")
 
     # Absolute host paths, the gateway PID, and the internal gateway health
     # URL are deployment recon a liveness probe never needs. ``/api/status``
@@ -1814,6 +1945,7 @@ async def get_status():
             "env_path": str(get_env_path()),
             "gateway_pid": gateway_pid,
             "gateway_health_url": _GATEWAY_HEALTH_URL,
+            "gateways": topology.get("gateways", []),
         })
 
     return status
@@ -10094,7 +10226,7 @@ async def fire_cron_job(request: Request, background_tasks: BackgroundTasks):
     if not job_id:
         return JSONResponse({"error": "missing job_id"}, status_code=400)
 
-    profile = _find_cron_job_profile(job_id)
+    profile = await _run_cron_dashboard_io(_find_cron_job_profile, job_id)
     if not profile:
         return {"status": "gone", "job_id": job_id}
 
@@ -10347,7 +10479,12 @@ async def instantiate_blueprint(body: AutomationBlueprintInstantiate, profile: s
         # Blueprint-created jobs deliver to the dashboard's configured target by
         # default; the form's deliver slot overrides via spec["deliver"].
         spec.pop("origin", None)
-        return _call_cron_for_profile(profile, "create_job", **spec)
+        return await _run_cron_dashboard_io(
+            _call_cron_for_profile,
+            profile,
+            "create_job",
+            **spec,
+        )
     except HTTPException:
         raise
     except Exception as e:
