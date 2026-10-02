@@ -340,8 +340,8 @@ export const OPERATIONAL_PAGE_CONTRACTS: OperationalPageContract[] = [
     maturity: "actionable",
     liveSources: ["/api/second-brain/preflight-checks", "/api/second-brain/decision-intelligence/metrics"],
     requiredSignals: REQUIRED_SURFACE_SIGNALS,
-    gaps: ["acknowledgement persistence", "runtime auto-invocation", "audit packet export UI"],
-    safeActions: ["/api/second-brain/preflight"],
+    gaps: ["acknowledgement persistence", "chat/runtime adapter invocation", "audit packet export UI"],
+    safeActions: ["/api/second-brain/preflight", "/api/second-brain/agent-preflight"],
     evidence: ["Hermes Brain preflight checks", "decision intelligence metrics", "policy warnings", "cited memory refs"],
   },
   {

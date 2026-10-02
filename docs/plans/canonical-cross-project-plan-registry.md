@@ -126,14 +126,13 @@ Current status:
 - Compounding intelligence, decision lineage, contradiction intelligence, research queue, preflight, and second-brain surfaces have declared live-source contracts.
 - Production runtime proof confirms Hermes Brain connectivity, service-token guarded endpoints, proof commands, warehouse sync, and compounding-intelligence 10/10 readiness.
 - Nous now proxies contradiction resolution and exposes dashboard `Resolve` / `False positive` actions for contradiction audit closure.
-- Remaining validation is post-deploy live-source proof through the dashboard validator and automatic preflight injection before high-impact agent work.
+- Nous now exposes `/api/second-brain/agent-preflight`, which turns Hermes Brain preflight into an automatic enforcement packet for high-impact agent, command, deploy, warehouse, and project-adapter work.
+- Remaining validation is adapter-wide invocation proof so every high-impact workflow class calls the automatic preflight endpoint before execution.
 
 Next proof needed:
 
-- Deploy the Hermes Brain repository reload fix so proof scripts and the long-running API share the same durable JSON state without restart.
-- Deploy the Nous contradiction-resolution proxy and dashboard action.
-- Rerun operational live-source validation and move second-brain sources from dependency unavailable to reachable.
-- Prove automatic preflight memory injection before high-impact tasks, not only manual dashboard preflight.
+- Wire chat, command-runner, deploy, warehouse, and project adapters to call `/api/second-brain/agent-preflight` before high-impact execution.
+- Prove blocked preflight policies stop silent execution with production evidence.
 - Keep decision-intelligence maintenance on cadence and store each run as durable warehouse/memory evidence.
 
 ## CP-04 Cross-Project Data Warehouse / Storage / Archive

@@ -73,6 +73,14 @@ Hermes Brain already supported contradiction resolution, but Nous only exposed c
 - frontend and backend regression tests
 - operational safe-action contract entry for contradiction resolution
 
+Nous also now exposes a normalized automatic preflight enforcement route:
+
+- backend route: `POST /api/second-brain/agent-preflight`
+- frontend client: `runAgentPreflight(...)`
+- response includes the Hermes Brain preflight check, a compact injection packet, and enforcement flags
+- blocked Hermes Brain policies return `409 second_brain_preflight_blocked` with cited context so high-impact work cannot proceed silently
+- operational safe-action contract now lists both manual preflight and automatic agent preflight
+
 ## Tests
 
 Hermes Brain:
@@ -82,8 +90,8 @@ Hermes Brain:
 
 Nous Hermes:
 
-- `npm run test --workspace web -- second-brain`: passed, `8/8`
-- `uv run pytest -q tests/test_second_brain_proxy.py`: passed, `1/1`
+- `npm run test --workspace web -- second-brain`: passed, `9/9`
+- `uv run pytest -q tests/test_second_brain_proxy.py`: passed, `3/3`
 - `npm run build --workspace web`: passed
 - `npm run dashboard:operational-sources:validate -- --base-url http://127.0.0.1:9121`: passed, `55/55` reachable
 - `npm run dashboard:operational-routes:validate -- --base-url http://127.0.0.1:9121`: passed, `36/36` routes
@@ -93,9 +101,7 @@ Nous Hermes:
 
 CP-03 is no longer blocked on basic Hermes Brain runtime connectivity or token availability. Remaining maturity is now higher-level operating proof:
 
-- deploy the repository reload fix to Hermes Brain production
-- deploy the Nous contradiction-resolution proxy/UI
-- rerun production post-deploy smoke checks for Hermes Brain and Nous
 - keep decision-intelligence maintenance on cadence
-- prove automatic agent preflight injection before high-impact tasks, not only manual dashboard preflight
+- wire chat, command-runner, deploy, warehouse, and project adapters to call `/api/second-brain/agent-preflight` before high-impact execution
+- prove blocked policies stop silent execution with production evidence for each workflow class
 - expose report-to-memory and report-to-decision flows from Khashi/Investing into the second brain

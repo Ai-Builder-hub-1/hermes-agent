@@ -13,6 +13,7 @@ import {
   fetchResearchTasks,
   generateResearchTasks,
   resolveContradiction,
+  runAgentPreflight,
   runPreflightCheck,
 } from "./second-brain";
 
@@ -211,6 +212,73 @@ describe("second brain API client", () => {
       }),
     }));
     expect(fetchMock.mock.calls[1][0]).toBe("/api/second-brain/preflight-checks");
+  });
+
+  it("runs automatic agent preflight through the normalized enforcement endpoint", async () => {
+    vi.stubGlobal("window", {});
+    const fetchMock = jsonFetchMock({
+      check: {
+        id: "preflight_1",
+        request: {
+          task: "Scale earnings backfill",
+          project: "investing-system",
+          workflow: "earnings-event-backfill",
+          riskClass: "high",
+          entities: ["earnings", "warehouse"],
+        },
+        policy: "warn",
+        relevantMemories: [],
+        relevantDecisions: [],
+        contradictions: [],
+        staleMemories: [],
+        warnings: ["Use warehouse mirror proof."],
+        requiredAcknowledgements: [],
+        blockReasons: [],
+        citations: [],
+        createdAt: "2026-10-02T00:00:00.000Z",
+        metadata: {},
+      },
+      injection: {
+        policy: "warn",
+        task: "Scale earnings backfill",
+        workflow: "earnings-event-backfill",
+        riskClass: "high",
+        mustStop: false,
+        mustAcknowledge: false,
+        context: { memoryIds: [], decisionIds: [], contradictionIds: [], staleMemoryIds: [], citations: [] },
+        warnings: ["Use warehouse mirror proof."],
+        requiredAcknowledgements: [],
+        blockReasons: [],
+      },
+      enforcement: {
+        mode: "automatic-agent-preflight",
+        mustStop: false,
+        mustAcknowledge: false,
+        proceedSilentlyAllowed: false,
+      },
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    await runAgentPreflight({
+      task: "Scale earnings backfill",
+      project: "investing-system",
+      workflow: "earnings-event-backfill",
+      riskClass: "high",
+      entities: ["earnings", "warehouse"],
+    });
+
+    expect(fetchMock.mock.calls[0][0]).toBe("/api/second-brain/agent-preflight");
+    expect(fetchMock.mock.calls[0][1]).toEqual(expect.objectContaining({
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify({
+        task: "Scale earnings backfill",
+        project: "investing-system",
+        workflow: "earnings-event-backfill",
+        riskClass: "high",
+        entities: ["earnings", "warehouse"],
+      }),
+    }));
   });
 
   it("loads decision intelligence metrics and audit packets through protected proxy routes", async () => {

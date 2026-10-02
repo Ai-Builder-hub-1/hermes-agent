@@ -74,7 +74,7 @@
       "order": 7,
       "owner": "nous-hermes-agent",
       "status": "active-runtime-proven",
-      "percentComplete": 82,
+      "percentComplete": 86,
       "confidence": "medium",
       "canonicalInputs": [
         "nous-hermes-agent/docs/plans/wave-3-intelligence-contract.json",
@@ -86,8 +86,8 @@
         "nous-hermes-agent/docs/design/dashboard-platform-intelligence-report.md"
       ],
       "supportingInputs": [],
-      "nextProof": "Deploy the Hermes Brain repository reload fix and Nous contradiction-resolution proxy/UI, rerun operational live-source validation to move second-brain sources to reachable, then prove automatic preflight memory injection before high-impact tasks.",
-      "currentReadout": "Decision intelligence, compounding intelligence, preflight, contradiction, research queue, and second-brain pages are routed and contract-backed. Production Hermes Brain connectivity, service-token guarded endpoints, proof commands, warehouse sync, and compounding 10/10 readiness are proven; remaining maturity is post-deploy live-source proof, maintenance cadence, and automatic preflight enforcement."
+      "nextProof": "Wire every chat, command-runner, deploy, warehouse, and project-adapter high-impact workflow to call /api/second-brain/agent-preflight before execution, then store production evidence that blocked policies stop silent execution.",
+      "currentReadout": "Decision intelligence, compounding intelligence, preflight, contradiction, research queue, and second-brain pages are routed and contract-backed. Production Hermes Brain connectivity, service-token guarded endpoints, proof commands, warehouse sync, compounding 10/10 readiness, contradiction resolution, and the automatic agent-preflight enforcement packet are proven; remaining maturity is adapter-wide invocation, maintenance cadence, and production evidence for each high-impact workflow class."
     },
     {
       "id": "CP-04",

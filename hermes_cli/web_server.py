@@ -2025,12 +2025,29 @@ async def post_second_brain_preflight(body: Dict[str, Any]):
     return await _hermes_brain_request("/api/brain/preflight", method="POST", payload=body)
 
 
+class SecondBrainAgentPreflightRequest(BaseModel):
+    task: str
+    project: str = "nous-hermes-agent"
+    workflow: str = "agent-task"
+    riskClass: str = "high"
+    entities: Optional[List[str]] = None
+    ticker: Optional[str] = None
+    strategy: Optional[str] = None
+    sourceRefs: Optional[List[Dict[str, Any]]] = None
+    metadata: Optional[Dict[str, Any]] = None
+
+
 async def _second_brain_preflight_guard(
     *,
     task: str,
     workflow: str,
     risk_class: str,
+    project: str = "nous-hermes-agent",
     entities: Optional[List[str]] = None,
+    ticker: Optional[str] = None,
+    strategy: Optional[str] = None,
+    source_refs: Optional[List[Dict[str, Any]]] = None,
+    metadata: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
     if not _hermes_brain_service_token():
         raise HTTPException(
@@ -2045,10 +2062,14 @@ async def _second_brain_preflight_guard(
         method="POST",
         payload={
             "task": task,
-            "project": "nous-hermes-agent",
+            "project": project,
             "workflow": workflow,
             "riskClass": risk_class,
             "entities": entities or ["second-brain", "data-warehouse"],
+            "ticker": ticker,
+            "strategy": strategy,
+            "sourceRefs": source_refs or [],
+            "metadata": metadata or {},
         },
     )
     check = result.get("check", {})
@@ -2059,9 +2080,71 @@ async def _second_brain_preflight_guard(
                 "error": "second_brain_preflight_blocked",
                 "message": "Hermes Brain blocked this high-impact action because critical memory is stale, contradicted, or missing.",
                 "preflight": check,
+                "injection": _second_brain_agent_injection(check),
             },
         )
     return check
+
+
+def _second_brain_agent_injection(check: Dict[str, Any]) -> Dict[str, Any]:
+    request = check.get("request") if isinstance(check.get("request"), dict) else {}
+    relevant_memories = check.get("relevantMemories") if isinstance(check.get("relevantMemories"), list) else []
+    relevant_decisions = check.get("relevantDecisions") if isinstance(check.get("relevantDecisions"), list) else []
+    contradictions = check.get("contradictions") if isinstance(check.get("contradictions"), list) else []
+    stale_memories = check.get("staleMemories") if isinstance(check.get("staleMemories"), list) else []
+    warnings = check.get("warnings") if isinstance(check.get("warnings"), list) else []
+    required_acknowledgements = check.get("requiredAcknowledgements") if isinstance(check.get("requiredAcknowledgements"), list) else []
+    block_reasons = check.get("blockReasons") if isinstance(check.get("blockReasons"), list) else []
+    citations = check.get("citations") if isinstance(check.get("citations"), list) else []
+
+    return {
+        "policy": check.get("policy", "warn"),
+        "task": request.get("task"),
+        "workflow": request.get("workflow"),
+        "riskClass": request.get("riskClass"),
+        "mustStop": check.get("policy") == "block",
+        "mustAcknowledge": check.get("policy") == "acknowledge" or bool(required_acknowledgements),
+        "context": {
+            "memoryIds": [item.get("id") for item in relevant_memories if isinstance(item, dict) and item.get("id")],
+            "decisionIds": [item.get("id") for item in relevant_decisions if isinstance(item, dict) and item.get("id")],
+            "contradictionIds": [item.get("id") for item in contradictions if isinstance(item, dict) and item.get("id")],
+            "staleMemoryIds": [item.get("id") for item in stale_memories if isinstance(item, dict) and item.get("id")],
+            "citations": citations,
+        },
+        "warnings": warnings,
+        "requiredAcknowledgements": required_acknowledgements,
+        "blockReasons": block_reasons,
+    }
+
+
+@app.post("/api/second-brain/agent-preflight")
+async def post_second_brain_agent_preflight(body: SecondBrainAgentPreflightRequest):
+    check = await _second_brain_preflight_guard(
+        task=body.task,
+        project=body.project,
+        workflow=body.workflow,
+        risk_class=body.riskClass,
+        entities=body.entities,
+        ticker=body.ticker,
+        strategy=body.strategy,
+        source_refs=body.sourceRefs,
+        metadata={
+            **(body.metadata or {}),
+            "source": "nous-hermes-agent-preflight",
+            "enforcement": "must-not-proceed-silently",
+        },
+    )
+    injection = _second_brain_agent_injection(check)
+    return {
+        "check": check,
+        "injection": injection,
+        "enforcement": {
+            "mode": "automatic-agent-preflight",
+            "mustStop": injection["mustStop"],
+            "mustAcknowledge": injection["mustAcknowledge"],
+            "proceedSilentlyAllowed": False,
+        },
+    }
 
 
 @app.get("/api/second-brain/decision-intelligence/metrics")

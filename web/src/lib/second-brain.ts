@@ -283,6 +283,36 @@ export interface PreflightCheck {
   metadata: Record<string, unknown>;
 }
 
+export interface AgentPreflightInjection {
+  policy: PreflightCheck["policy"];
+  task?: string;
+  workflow?: string;
+  riskClass?: string;
+  mustStop: boolean;
+  mustAcknowledge: boolean;
+  context: {
+    memoryIds: string[];
+    decisionIds: string[];
+    contradictionIds: string[];
+    staleMemoryIds: string[];
+    citations: string[];
+  };
+  warnings: string[];
+  requiredAcknowledgements: string[];
+  blockReasons: string[];
+}
+
+export interface AgentPreflightResponse {
+  check: PreflightCheck;
+  injection: AgentPreflightInjection;
+  enforcement: {
+    mode: "automatic-agent-preflight";
+    mustStop: boolean;
+    mustAcknowledge: boolean;
+    proceedSilentlyAllowed: false;
+  };
+}
+
 export interface DecisionIntelligenceMetricsReport {
   generatedAt: string;
   status: "ready" | "watch" | "critical";
@@ -440,6 +470,13 @@ export async function generateResearchTasks(): Promise<{ tasks: ResearchTask[] }
 
 export async function runPreflightCheck(request: PreflightRequest): Promise<{ check: PreflightCheck }> {
   return fetchJSON<{ check: PreflightCheck }>(`${BASE}/preflight`, {
+    method: "POST",
+    body: JSON.stringify(request),
+  });
+}
+
+export async function runAgentPreflight(request: PreflightRequest): Promise<AgentPreflightResponse> {
+  return fetchJSON<AgentPreflightResponse>(`${BASE}/agent-preflight`, {
     method: "POST",
     body: JSON.stringify(request),
   });
