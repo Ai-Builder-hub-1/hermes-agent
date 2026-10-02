@@ -1,20 +1,20 @@
 # Operational Live Source Validation Report
 
-Generated: 2026-09-29T14:12:04.170Z
+Generated: 2026-10-02T14:50:23.088Z
 
 ## Summary
 
 | Metric | Value |
 | --- | --- |
-| baseUrl | http://127.0.0.1:9122 |
-| sources | 51 |
-| reachable | 51 |
+| baseUrl | http://127.0.0.1:9121 |
+| sources | 55 |
+| reachable | 47 |
 | authRequired | 0 |
-| dependencyUnavailable | 0 |
+| dependencyUnavailable | 8 |
 | failed | 0 |
 | blocked | 0 |
-| impactedRoutes | 0 |
-| status | ready |
+| impactedRoutes | 5 |
+| status | dependency_unavailable |
 | authMode | loopback_session_token |
 | sessionTokenDiscovered | true |
 
@@ -24,28 +24,30 @@ Generated: 2026-09-29T14:12:04.170Z
 | --- | --- | --- | --- | --- |
 | /api/analytics/models | reachable | 200 | /system/analytics | none |
 | /api/analytics/usage | reachable | 200 | /system/analytics | none |
+| /api/compounding-intelligence/summary | reachable | 200 | /compounding-intelligence | none |
 | /api/cron/jobs | reachable | 200 | /system/automations | none |
 | /api/head-trader/audit | reachable | 200 | /trading/head-trader | none |
 | /api/head-trader/credential-status | reachable | 200 | /system/credentials | none |
 | /api/head-trader/incidents | reachable | 200 | /operate/incidents, /trading/head-trader | none |
-| /api/head-trader/summary | reachable | 200 | /trading/head-trader, /trading/risk | none |
+| /api/head-trader/summary | reachable | 200 | /trading/head-trader | none |
 | /api/logs | reachable | 200 | /system/logs | none |
 | /api/model/auxiliary | reachable | 200 | /system/models | none |
 | /api/model/info | reachable | 200 | /system/models | none |
 | /api/model/options | reachable | 200 | /system/models | none |
+| /api/operate/queue | reachable | 200 | /operate | none |
 | /api/operating-runtime/audit | reachable | 200 | /operate, /operate/approvals, /operate/blockers, /operate/chat-actions, /operate/evidence | none |
 | /api/operating-runtime/evidence | reachable | 200 | /operate, /operate/actions, /operate/blockers, /operate/chat-actions, /operate/evidence, /operate/runs, /system/deployments, /system/workers | none |
 | /api/operating-runtime/incidents | reachable | 200 | /operate/incidents | none |
 | /api/operating-runtime/summary | reachable | 200 | /operate | none |
 | /api/operating-runtime/workbench | reachable | 200 | /operate/actions | none |
-| /api/second-brain/candidates | reachable | 200 | /second-brain | none |
-| /api/second-brain/compounding-intelligence | reachable | 200 | /compounding-intelligence | none |
-| /api/second-brain/contradictions | reachable | 200 | /contradictions | none |
-| /api/second-brain/decisions | reachable | 200 | /decision-lineage | none |
-| /api/second-brain/research-tasks | reachable | 200 | /research-queue | none |
-| /api/second-brain/retrieval-pack | reachable | 200 | /compounding-intelligence | none |
-| /api/second-brain/search | reachable | 200 | /second-brain | none |
-| /api/second-brain/summary | reachable | 200 | /second-brain | none |
+| /api/second-brain/candidates | dependency_unavailable | 503 | /second-brain | HTTP status 503 |
+| /api/second-brain/contradictions | dependency_unavailable | 503 | /contradictions | HTTP status 503 |
+| /api/second-brain/decision-intelligence/metrics | dependency_unavailable | 503 | /preflight | HTTP status 503 |
+| /api/second-brain/decisions | dependency_unavailable | 503 | /decision-lineage | HTTP status 503 |
+| /api/second-brain/preflight-checks | dependency_unavailable | 503 | /preflight | HTTP status 503 |
+| /api/second-brain/research-tasks | dependency_unavailable | 503 | /research-queue | HTTP status 503 |
+| /api/second-brain/search | dependency_unavailable | 503 | /second-brain | HTTP status 503 |
+| /api/second-brain/summary | dependency_unavailable | 503 | /second-brain | HTTP status 503 |
 | /api/sessions | reachable | 200 | /system/sessions | none |
 | /api/status | reachable | 200 | /system/admin | none |
 | /api/system/credentials/series | reachable | 200 | /system/credentials | none |
@@ -63,17 +65,25 @@ Generated: 2026-09-29T14:12:04.170Z
 | /api/system/warehouse/summary | reachable | 200 | /system/warehouse | none |
 | /api/system/workers/series | reachable | 200 | /system/workers | none |
 | /api/system/workers/summary | reachable | 200 | /operate/runs, /system/workers | none |
-| /api/trading-intelligence/command-center | reachable | 200 | /trading, /trading/investing, /trading/khashi, /trading/risk, /trading/shadow-paper, /trading/strategies | none |
+| /api/trading-intelligence/command-center | reachable | 200 | /trading, /trading/investing, /trading/khashi, /trading/shadow-paper, /trading/strategies | none |
 | /api/trading-intelligence/controls | reachable | 200 | /trading | none |
 | /api/trading-intelligence/events | reachable | 200 | /trading/evidence, /trading/shadow-paper | none |
+| /api/trading-intelligence/portfolio/summary | reachable | 200 | /trading/risk | none |
 | /api/trading-research/backtesting/series | reachable | 200 | /trading/backtesting | none |
 | /api/trading-research/backtesting/summary | reachable | 200 | /trading/backtesting | none |
 | /api/trading-research/evidence/ledger | reachable | 200 | /trading/evidence | none |
 | /api/trading-research/evidence/series | reachable | 200 | /trading/evidence | none |
+| /api/trading-research/outcomes/summary | reachable | 200 | /trading/evidence | none |
 | /api/trading-research/strategies/series | reachable | 200 | /trading/strategies | none |
 | /api/trading-research/strategies/summary | reachable | 200 | /trading/backtesting, /trading/strategies | none |
 | /dashboard-plugins/registry | reachable | 200 | /system/plugins | none |
 
 ## Impacted Routes
 
-No routes have unreachable declared live sources.
+| Route | Blocked sources |
+| --- | --- |
+| /contradictions | /api/second-brain/contradictions |
+| /decision-lineage | /api/second-brain/decisions |
+| /preflight | /api/second-brain/decision-intelligence/metrics, /api/second-brain/preflight-checks |
+| /research-queue | /api/second-brain/research-tasks |
+| /second-brain | /api/second-brain/candidates, /api/second-brain/search, /api/second-brain/summary |

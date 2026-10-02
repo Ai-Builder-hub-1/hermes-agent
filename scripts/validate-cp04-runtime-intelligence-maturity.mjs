@@ -73,10 +73,11 @@ hasText(dashboardPath, [
   "CP04 runtime decisions",
   "CP04 phase certification",
   "Executive CP04 packet",
-  "summary.cp04Runtime.mirrorContinuity.state",
-  "summary.cp04Runtime.deployGate",
-  "summary.cp04Runtime.pruneGate",
-  "summary.cp04Runtime.runtimeCertification.phases",
+  "summary.cp04Runtime ?? fallbackCp04Runtime(summary)",
+  "cp04Runtime.mirrorContinuity.state",
+  "cp04Runtime.deployGate",
+  "cp04Runtime.pruneGate",
+  "cp04Runtime.runtimeCertification.phases",
 ]);
 
 for (const section of contract.requiredDashboardSections ?? []) {

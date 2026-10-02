@@ -336,7 +336,9 @@ function WarehousePanel() {
 
   if (!snapshot) return null;
 
-  const { summary, sources, series, jobs } = snapshot;
+  const { summary: rawSummary, sources, series, jobs } = snapshot;
+  const summary = normalizeWarehouseSummary(rawSummary);
+  const cp04Runtime = summary.cp04Runtime ?? fallbackCp04Runtime(summary);
   const stale = sources.filter((source) => source.status !== "ready");
   const healthTone = warehouseHealthTone(summary.health);
   const freshness = new Date(summary.generatedAt).toLocaleString();
@@ -387,32 +389,32 @@ function WarehousePanel() {
         <MetricCard label="Free storage" value={formatBytes(summary.warehouse.freeBytes)} detail={`${summary.warehouse.percentUsed}% used on warehouse volume`} tone={summary.warehouse.percentUsed > 85 ? "critical" : summary.warehouse.percentUsed > 70 ? "warning" : "success"} />
         <MetricCard label="24h ingest" value={formatBytes(summary.ingest.bytes24h)} detail={`${summary.ingest.records24h} records across ${summary.ingest.sources} sources`} tone="info" />
         <MetricCard label="Days until full" value={summary.forecast.daysUntilFull ?? "unknown"} detail={summary.forecast.confidence.replaceAll("_", " ")} tone={summary.forecast.daysUntilFull !== null && summary.forecast.daysUntilFull < 14 ? "critical" : "warning"} />
-        <MetricCard label="Mirror" value={summary.cp04Runtime.mirrorContinuity.state} detail={summary.mirror.lastMirrorAt ? `last mirror ${summary.mirror.lastMirrorAt}` : summary.cp04Runtime.mirrorContinuity.mode.replaceAll("-", " ")} tone={summary.mirror.configured ? "success" : "warning"} />
+        <MetricCard label="Mirror" value={cp04Runtime.mirrorContinuity.state} detail={summary.mirror.lastMirrorAt ? `last mirror ${summary.mirror.lastMirrorAt}` : cp04Runtime.mirrorContinuity.mode.replaceAll("-", " ")} tone={summary.mirror.configured ? "success" : "warning"} />
         <MetricCard label="Live DB backup" value={summary.databaseBackup.latestBackup.ok ? "current" : summary.databaseBackup.status} detail={summary.databaseBackup.latestBackup.createdAt ?? summary.databaseBackup.sourceOfTruth.path} tone={summary.databaseBackup.latestBackup.ok ? "success" : summary.databaseBackup.sourceOfTruth.exists ? "warning" : "critical"} />
         <MetricCard label="Restore proof" value={summary.restoreProof.ok ? "current" : "missing"} detail={summary.restoreProof.lastRestoreProofAt ?? "no restore proof evidence found"} tone={summary.restoreProof.ok ? "success" : "warning"} />
         <MetricCard label="Stale sources" value={summary.ingest.staleSources} detail={`${stale.length} partial or blocked rows in source table`} tone={summary.ingest.staleSources ? "critical" : "success"} />
         <MetricCard label="Backbone" value={`${summary.backbone.summary.ready}/${summary.backbone.summary.categories}`} detail={summary.backbone.summary.posture.replaceAll("_", " ")} tone={summary.backbone.summary.warehouseEnough ? "success" : summary.backbone.summary.ready || summary.backbone.summary.partial ? "warning" : "critical"} />
         <MetricCard label="Providers" value={`${summary.providerReadiness.summary.ready}/${summary.providerReadiness.summary.categories}`} detail={summary.providerReadiness.summary.posture.replaceAll("_", " ")} tone={summary.providerReadiness.summary.providerReady ? "success" : summary.providerReadiness.summary.ready || summary.providerReadiness.summary.partial ? "warning" : "critical"} />
-        <MetricCard label="CP04 certified" value={`${summary.cp04Runtime.runtimeCertification.score}%`} detail={summary.cp04Runtime.runtimeCertification.status.replaceAll("_", " ")} tone={summary.cp04Runtime.runtimeCertification.score >= 90 ? "success" : summary.cp04Runtime.runtimeCertification.score >= 70 ? "warning" : "critical"} />
+        <MetricCard label="CP04 certified" value={`${cp04Runtime.runtimeCertification.score}%`} detail={cp04Runtime.runtimeCertification.status.replaceAll("_", " ")} tone={cp04Runtime.runtimeCertification.score >= 90 ? "success" : cp04Runtime.runtimeCertification.score >= 70 ? "warning" : "critical"} />
       </section>
 
       <section className="grid gap-4 xl:grid-cols-[1.15fr_0.85fr]">
-        <Panel title="CP04 runtime decisions" count={summary.cp04Runtime.alerts.length}>
+        <Panel title="CP04 runtime decisions" count={cp04Runtime.alerts.length}>
           <div className="grid gap-3 p-3">
             <div className="grid gap-2 sm:grid-cols-2">
               <PolicyCallout
-                title={`${summary.cp04Runtime.deployGate.title}: ${summary.cp04Runtime.deployGate.status.replaceAll("_", " ")}`}
-                detail={summary.cp04Runtime.deployGate.blockers[0] ?? summary.cp04Runtime.deployGate.warnings[0] ?? summary.cp04Runtime.deployGate.detail}
-                tone={summary.cp04Runtime.deployGate.status === "blocked" ? "critical" : summary.cp04Runtime.deployGate.warnings.length ? "warning" : "success"}
+                title={`${cp04Runtime.deployGate.title}: ${cp04Runtime.deployGate.status.replaceAll("_", " ")}`}
+                detail={cp04Runtime.deployGate.blockers[0] ?? cp04Runtime.deployGate.warnings[0] ?? cp04Runtime.deployGate.detail}
+                tone={cp04Runtime.deployGate.status === "blocked" ? "critical" : cp04Runtime.deployGate.warnings.length ? "warning" : "success"}
               />
               <PolicyCallout
-                title={`${summary.cp04Runtime.pruneGate.title}: ${summary.cp04Runtime.pruneGate.status}`}
-                detail={summary.cp04Runtime.pruneGate.blockers[0] ?? summary.cp04Runtime.pruneGate.detail}
-                tone={summary.cp04Runtime.pruneGate.approvalRequired ? "warning" : "success"}
+                title={`${cp04Runtime.pruneGate.title}: ${cp04Runtime.pruneGate.status}`}
+                detail={cp04Runtime.pruneGate.blockers[0] ?? cp04Runtime.pruneGate.detail}
+                tone={cp04Runtime.pruneGate.approvalRequired ? "warning" : "success"}
               />
             </div>
             <div className="grid gap-2 sm:grid-cols-4">
-              {summary.cp04Runtime.durabilityTiers.map((tier) => (
+              {cp04Runtime.durabilityTiers.map((tier) => (
                 <article key={tier.id} className="rounded-md border border-border bg-background p-3">
                   <div className="flex items-start justify-between gap-2">
                     <h2 className="text-sm font-semibold leading-5 text-foreground">{tier.label}</h2>
@@ -431,16 +433,16 @@ function WarehousePanel() {
         <Panel title="Recovery and quality">
           <div className="grid gap-2 p-3">
             <div className="grid gap-2 sm:grid-cols-3">
-              <MiniFact label="Recovery" value={`${summary.cp04Runtime.recoveryConfidence.score}%`} />
-              <MiniFact label="Quality" value={`${summary.cp04Runtime.dataQuality.score}%`} />
-              <MiniFact label="SLO budget" value={`${summary.cp04Runtime.sloBudget.remaining}/${summary.cp04Runtime.sloBudget.total}`} />
+              <MiniFact label="Recovery" value={`${cp04Runtime.recoveryConfidence.score}%`} />
+              <MiniFact label="Quality" value={`${cp04Runtime.dataQuality.score}%`} />
+              <MiniFact label="SLO budget" value={`${cp04Runtime.sloBudget.remaining}/${cp04Runtime.sloBudget.total}`} />
             </div>
             <PolicyCallout
-              title={summary.cp04Runtime.continuityMode.mode.replaceAll("-", " ")}
-              detail={summary.cp04Runtime.continuityMode.localOfflineOutcome}
+              title={cp04Runtime.continuityMode.mode.replaceAll("-", " ")}
+              detail={cp04Runtime.continuityMode.localOfflineOutcome}
               tone="info"
             />
-            {summary.cp04Runtime.remediation.slice(0, 3).map((item) => (
+            {cp04Runtime.remediation.slice(0, 3).map((item) => (
               <PolicyCallout key={item.action} title={item.action} detail={`${item.command} / ${item.gateImpact}`} tone={item.priority <= 2 ? "warning" : "info"} />
             ))}
           </div>
@@ -578,12 +580,12 @@ function WarehousePanel() {
               <PolicyCallout key={breach} title="Breach" detail={breach} tone="warning" />
             )) : <PolicyCallout title="SLO clear" detail={`Freshness ${summary.slo.freshnessMinutes}m, mirror lag ${summary.slo.mirrorLagHours}h, restore proof ${summary.slo.restoreProofDays}d.`} tone="success" />}
             <PolicyCallout title="Safe next actions" detail="Use sync check, restore proof, and prune dry-run for evidence. Collector execution, destructive prune, deploy, and remote mutation remain approval-gated." tone="info" />
-            <PolicyCallout title="Executive CP04 packet" detail={summary.cp04Runtime.executivePacket.summary} tone={summary.cp04Runtime.executivePacket.status === "certified" ? "success" : "warning"} />
+            <PolicyCallout title="Executive CP04 packet" detail={cp04Runtime.executivePacket.summary} tone={cp04Runtime.executivePacket.status === "certified" ? "success" : "warning"} />
           </div>
         </Panel>
-        <Panel title="CP04 phase certification" count={summary.cp04Runtime.runtimeCertification.phases.length}>
+        <Panel title="CP04 phase certification" count={cp04Runtime.runtimeCertification.phases.length}>
           <div className="grid max-h-[420px] gap-2 overflow-auto p-3">
-            {summary.cp04Runtime.runtimeCertification.phases.map((phase) => (
+            {cp04Runtime.runtimeCertification.phases.map((phase) => (
               <PolicyCallout
                 key={phase.id}
                 title={`${phase.id}: ${phase.name}`}
@@ -644,6 +646,259 @@ function WarehouseTrendChart({ points }: { points: WarehouseSeriesPoint[] }) {
       </div>
     </div>
   );
+}
+
+function normalizeWarehouseSummary(payload: Partial<WarehouseSnapshot["summary"]>): WarehouseSnapshot["summary"] {
+  const generatedAt = payload.generatedAt ?? new Date().toISOString();
+  const emptyVolume = (label: string) => ({
+    path: `${label}-not-reported`,
+    exists: false,
+    configured: false,
+    totalBytes: 0,
+    usedBytes: 0,
+    freeBytes: 0,
+    percentUsed: 0,
+    measuredBytes: 0,
+    measuredFiles: 0,
+    measurementTruncated: false,
+    lastMirrorAt: null,
+  });
+
+  return {
+    contractVersion: payload.contractVersion ?? "warehouse-summary.partial",
+    generatedAt,
+    health: payload.health ?? "partial",
+    warehouse: payload.warehouse ?? emptyVolume("warehouse"),
+    mirror: payload.mirror ?? emptyVolume("mirror"),
+    ingest: payload.ingest ?? { bytes24h: 0, records24h: 0, sources: 0, staleSources: 0 },
+    retention: payload.retention ?? { policy: "not_reported", lastPruneAt: null, pruneDryRunAvailable: false },
+    restoreProof: payload.restoreProof ?? { ok: false, lastRestoreProofAt: null, manifestHash: null },
+    forecast: payload.forecast ?? { daysUntilFull: null, dailyGrowthBytes: 0, confidence: "not_reported" },
+    slo: payload.slo ?? { freshnessMinutes: 0, mirrorLagHours: 0, restoreProofDays: 0, breaches: ["warehouse summary missing SLO payload"] },
+    backbone: payload.backbone ?? {
+      contractVersion: "warehouse-backbone.partial",
+      generatedAt,
+      summary: { categories: 0, ready: 0, partial: 0, missing: 0, warehouseEnough: false, posture: "not_reported" },
+      requiredTables: [],
+      items: [],
+      recommendations: ["Regenerate the warehouse backbone proof."],
+    },
+    databaseBackup: payload.databaseBackup ?? {
+      contractVersion: "warehouse-database-backup.partial",
+      generatedAt,
+      status: "missing",
+      sourceOfTruth: {
+        type: "database",
+        path: "not-reported",
+        exists: false,
+        sizeBytes: 0,
+        modifiedAt: null,
+        role: "runtime-source-of-truth",
+      },
+      warehouseRole: "durable-async-copy",
+      latestBackup: {
+        ok: false,
+        backupRef: "",
+        createdAt: null,
+        ageMinutes: null,
+        maxAgeMinutes: 0,
+        sizeBytes: 0,
+        contentHash: "",
+        restoreMode: "not_reported",
+      },
+      requirements: ["Run database backup proof."],
+      nextAction: "Run DB backup proof from the warehouse dashboard.",
+    },
+    providerReadiness: payload.providerReadiness ?? {
+      contractVersion: "warehouse-provider-readiness.partial",
+      generatedAt,
+      summary: { categories: 0, ready: 0, partial: 0, missing: 0, providerReady: false, posture: "not_reported" },
+      items: [],
+      connectionChecklist: [],
+      recommendations: ["Run provider readiness proof."],
+    },
+    cp04Runtime: payload.cp04Runtime,
+  };
+}
+
+function fallbackCp04Runtime(summary: WarehouseSnapshot["summary"]): NonNullable<WarehouseSnapshot["summary"]["cp04Runtime"]> {
+  const mirrorReady = summary.mirror.configured && summary.mirror.exists;
+  const backupReady = summary.databaseBackup.latestBackup.ok;
+  const restoreReady = summary.restoreProof.ok;
+  const providerReady = summary.providerReadiness.summary.providerReady;
+  const qualityScore = [mirrorReady, backupReady, restoreReady, providerReady].filter(Boolean).length * 25;
+  const generatedAt = summary.generatedAt || new Date().toISOString();
+  const blockers = [
+    mirrorReady ? null : "Mirror root is not fully configured or reachable.",
+    backupReady ? null : "Latest database backup proof is not current.",
+    restoreReady ? null : "Restore proof is missing or stale.",
+    providerReady ? null : "Provider readiness is incomplete.",
+  ].filter((item): item is string => Boolean(item));
+
+  return {
+    contractVersion: "cp04-runtime-fallback.v1",
+    generatedAt,
+    durabilityTiers: [
+      {
+        id: "runtime-db",
+        label: "Runtime database",
+        status: summary.databaseBackup.sourceOfTruth.exists ? "ready" : "blocked",
+        runtimeDependency: true,
+        deployDependency: true,
+        detail: summary.databaseBackup.sourceOfTruth.exists
+          ? "Live database remains the runtime source of truth."
+          : "Runtime database proof is missing from the warehouse summary.",
+      },
+      {
+        id: "warehouse-root",
+        label: "Warehouse root",
+        status: summary.warehouse.configured && summary.warehouse.exists ? "ready" : "partial",
+        runtimeDependency: false,
+        deployDependency: false,
+        detail: "Warehouse storage is durable evidence and research history, not a hard runtime dependency.",
+      },
+      {
+        id: "external-mirror",
+        label: "External mirror",
+        status: mirrorReady ? "ready" : "partial",
+        runtimeDependency: false,
+        deployDependency: false,
+        detail: mirrorReady ? "Mirror path is configured and visible." : "Mirror is allowed to lag without blocking production runtime.",
+      },
+      {
+        id: "restore-proof",
+        label: "Restore proof",
+        status: restoreReady ? "ready" : "partial",
+        runtimeDependency: false,
+        deployDependency: false,
+        detail: restoreReady ? "Restore evidence is current." : "Run restore proof to promote this from degraded to certified.",
+      },
+    ],
+    deployGate: {
+      status: blockers.length ? "degraded" : "ready",
+      title: "Deploy gate",
+      detail: blockers.length ? "Deployment may proceed only if runtime database and provider requirements are independently healthy." : "Runtime and durability proof gates are clear.",
+      blockers: [],
+      warnings: blockers,
+      evidence: [summary.databaseBackup.latestBackup.backupRef, summary.restoreProof.manifestHash].filter((item): item is string => Boolean(item)),
+    },
+    pruneGate: {
+      status: "approval_required",
+      title: "Prune gate",
+      detail: "Destructive pruning remains approval-gated; dry-runs and restore proofs can run safely.",
+      blockers: [],
+      warnings: summary.retention.pruneDryRunAvailable ? ["Destructive pruning requires explicit approval."] : ["Prune dry-run proof is not available."],
+      evidence: [summary.retention.lastPruneAt ?? "no-prune-proof"],
+      defaultDestructiveMode: "disabled",
+      approvalRequired: true,
+    },
+    mirrorContinuity: {
+      state: mirrorReady ? "ready" : "degraded",
+      mode: mirrorReady ? "mirror-online" : "runtime-independent",
+      mustNotBlock: ["deploy", "ingest", "dashboard-readiness"],
+      lagHours: summary.slo.mirrorLagHours,
+    },
+    dataQuality: {
+      score: qualityScore,
+      checks: [
+        { id: "backup", label: "Backup proof", status: backupReady ? "ready" : "partial", detail: summary.databaseBackup.nextAction },
+        { id: "restore", label: "Restore proof", status: restoreReady ? "ready" : "partial", detail: summary.restoreProof.lastRestoreProofAt ?? "No restore proof timestamp reported." },
+        { id: "providers", label: "Provider proof", status: providerReady ? "ready" : "partial", detail: summary.providerReadiness.summary.posture },
+      ],
+    },
+    lineage: {
+      sourceEvents: summary.ingest.records24h,
+      decisionGates: ["deploy", "prune", "restore", "mirror"],
+      proofLinks: [summary.restoreProof.manifestHash, summary.databaseBackup.latestBackup.contentHash].filter((item): item is string => Boolean(item)),
+      coverage: blockers.length ? "partial" : "complete",
+    },
+    costValue: {
+      warehouseBytes: summary.warehouse.measuredBytes,
+      mirrorBytes: summary.mirror.measuredBytes,
+      ingestBytes24h: summary.ingest.bytes24h,
+      riskReductionScore: qualityScore,
+    },
+    recoveryConfidence: {
+      score: qualityScore,
+      inputs: { mirrorReady, backupReady, restoreReady, providerReady },
+    },
+    sloBudget: {
+      status: summary.slo.breaches.length ? "breached" : "clear",
+      remaining: Math.max(0, 3 - summary.slo.breaches.length),
+      total: 3,
+      breaches: summary.slo.breaches,
+    },
+    continuityMode: {
+      mode: mirrorReady ? "durable-mirror-ready" : "production-independent",
+      runtimeSourceOfTruth: summary.databaseBackup.sourceOfTruth.path,
+      warehouseRole: summary.databaseBackup.warehouseRole,
+      externalMirrorRole: "durable asynchronous mirror",
+      localOfflineOutcome: "Production should continue from the live database; external mirror availability affects durability proof freshness, not runtime reachability.",
+    },
+    correlation: {
+      projects: summary.providerReadiness.items.map((item) => item.category),
+      readyBackboneItems: summary.backbone.summary.ready,
+      totalBackboneItems: summary.backbone.summary.categories,
+      staleSourceCount: summary.ingest.staleSources,
+      providerReady,
+    },
+    gameDays: [
+      { id: "mirror-offline", expected: "Runtime continues while mirror lag is surfaced as degraded evidence." },
+      { id: "restore-proof", expected: "Restore proof can be rerun before destructive pruning or promotion." },
+    ],
+    policyAsCode: {
+      rules: ["runtime-db-first", "mirror-non-blocking", "destructive-prune-approval-required"],
+      passing: backupReady && restoreReady,
+    },
+    alerts: blockers.map((nextAction, index) => ({
+      project: "nous-hermes-agent",
+      dataset: "system-warehouse",
+      tier: "cp04",
+      gateClass: "runtime-proof",
+      severity: index === 0 ? "warning" : "info",
+      observedAt: generatedAt,
+      nextAction,
+    })),
+    remediation: [
+      {
+        priority: 1,
+        action: "Refresh backup and restore proof",
+        command: "Use DB backup proof and Restore proof actions",
+        gateImpact: "Raises CP04 certification from degraded to proven.",
+      },
+      {
+        priority: 2,
+        action: "Refresh provider readiness",
+        command: "Use Provider readiness action",
+        gateImpact: "Confirms collection credentials before scaling data ingestion.",
+      },
+      {
+        priority: 3,
+        action: "Run prune dry-run",
+        command: "Use Prune dry-run action",
+        gateImpact: "Keeps destructive pruning disabled while showing reclaim candidates.",
+      },
+    ],
+    executivePacket: {
+      status: blockers.length ? "degraded" : "certified",
+      summary: blockers.length
+        ? "CP04 runtime fallback is active because the backend summary did not include runtime certification details."
+        : "CP04 runtime fallback found core durability gates healthy.",
+      requestedApprovals: ["Destructive pruning approval remains manual."],
+      topRisks: blockers,
+    },
+    runtimeCertification: {
+      score: qualityScore,
+      status: blockers.length ? "fallback_degraded" : "fallback_ready",
+      phases: [
+        { id: "CP04-F1", name: "Runtime database first", status: summary.databaseBackup.sourceOfTruth.exists ? "built" : "partial", proof: summary.databaseBackup.sourceOfTruth.path, test: "warehouse summary payload" },
+        { id: "CP04-F2", name: "Mirror is non-blocking", status: "built", proof: summary.mirror.path, test: "fallback continuity contract" },
+        { id: "CP04-F3", name: "Restore proof visible", status: restoreReady ? "built" : "partial", proof: summary.restoreProof.lastRestoreProofAt ?? "missing", test: "restore proof summary" },
+      ],
+      complete: blockers.length === 0,
+      remainingRuntimeProof: blockers,
+    },
+  };
 }
 
 function WarehouseRootCard({

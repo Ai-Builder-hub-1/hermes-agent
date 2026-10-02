@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-30",
+  "generatedAt": "2026-10-02T14:49:32.412Z",
   "version": 1,
   "workspaceRoot": "/Users/hq/Workspace/projects",
   "waveOrder": [
@@ -30,7 +30,8 @@
         "nous-hermes-agent/docs/design/dashboard-component-evidence-backlog.md",
         "nous-hermes-agent/docs/design/dashboard-cross-project-action-backlog.md",
         "nous-hermes-agent/docs/design/package-native-dashboard-migration-backlog.md",
-        "nous-hermes-agent/docs/design/world-class-dashboard-system-backlog.md"
+        "nous-hermes-agent/docs/design/world-class-dashboard-system-backlog.md",
+        "nous-hermes-agent/docs/plans/nous-ci-maturity-hardening-proof.md"
       ],
       "supportingInputs": [
         "khashi-vc/docs/design/KHASHI_DASHBOARD_REDESIGN_PLAN.md",
@@ -40,7 +41,7 @@
         "nous-hermes-agent/docs/design/dashboard-project-type-component-coverage-audit.md",
         "nous-hermes-agent/docs/design/dashboard-token-debt-backlog.md"
       ],
-      "nextProof": "Regenerate route validation and store baseline/current visual proof."
+      "nextProof": "CI hardening proof is complete for dashboard auth, MCP OAuth, provider parity, SessionDB event-loop safety, and web checks; regenerate route validation and store baseline/current visual proof."
     },
     {
       "id": "CP-02",
@@ -48,8 +49,8 @@
       "wave": "wave-2-operational-safety",
       "order": 5,
       "owner": "nous-hermes-agent",
-      "status": "active-partial",
-      "percentComplete": 60,
+      "status": "active-route-clean",
+      "percentComplete": 78,
       "confidence": "medium",
       "canonicalInputs": [
         "nous-hermes-agent/docs/plans/wave-2-operational-safety-contract.json",
@@ -63,7 +64,8 @@
         "nous-hermes-agent/docs/design/dashboard-cross-project-component-audit.md",
         "nous-hermes-agent/docs/design/dashboard-ultimate-gap-assessment.md"
       ],
-      "nextProof": "Re-run route validation and update the 20-phase status ledger."
+      "nextProof": "Operational route validation is clean at 36/36 and live-source validation has 0 failed/blocked sources; next proof is reducing the 8 Hermes Brain dependency-unavailable endpoints to reachable after second-brain service/runtime configuration.",
+      "currentReadout": "Operate, Trading, and System pages now render as actionable operational surfaces. Warehouse route crash was fixed with partial-payload normalization and CP04 runtime fallback; current backend source validates all registered routes and all non-second-brain live sources."
     },
     {
       "id": "CP-03",
@@ -71,8 +73,8 @@
       "wave": "wave-3-intelligence",
       "order": 7,
       "owner": "nous-hermes-agent",
-      "status": "active",
-      "percentComplete": 55,
+      "status": "active-dependency-gated",
+      "percentComplete": 63,
       "confidence": "medium",
       "canonicalInputs": [
         "nous-hermes-agent/docs/plans/wave-3-intelligence-contract.json",
@@ -84,7 +86,8 @@
         "nous-hermes-agent/docs/design/dashboard-platform-intelligence-report.md"
       ],
       "supportingInputs": [],
-      "nextProof": "Verify Hermes Brain, second-brain warehouse sync, and preflight memory enforcement."
+      "nextProof": "Bring Hermes Brain service endpoints online for second-brain summary, search, candidates, decisions, contradictions, research tasks, and preflight metrics; then rerun operational live-source validation to move 8 dependency-unavailable sources to reachable.",
+      "currentReadout": "Decision intelligence, compounding intelligence, preflight, contradiction, research queue, and second-brain pages are routed and contract-backed, but runtime proof remains dependency-gated on Hermes Brain connectivity/service-token availability."
     },
     {
       "id": "CP-04",
@@ -113,7 +116,7 @@
       "supportingInputs": [
         "khashi-vc/docs/proofs/khashi-storage-maturity-production.json"
       ],
-      "nextProof": "Keep storage proof registry fresh, keep Docker build-cache proof fresh, keep production runtime/deploy independent from the external mirror, keep destructive pruning approval-gated, and keep CP04 runtime certification green."
+      "nextProof": "Keep storage proof registry fresh, keep Docker build-cache proof fresh, keep production runtime/deploy independent from the external mirror, keep destructive pruning approval-gated, keep CP04 runtime certification green, and run Investing earnings warehouse mirror/restore proof from production roots."
     },
     {
       "id": "CP-05",
@@ -142,21 +145,31 @@
     },
     {
       "id": "CP-06",
-      "name": "Investing Financial Analysis Maturity",
+      "name": "Investing Financial Analysis / Earnings Event Intelligence",
       "wave": "wave-3-intelligence",
       "order": 8,
       "owner": "investing-system",
       "status": "active",
-      "percentComplete": 90,
+      "percentComplete": 93,
       "confidence": "high",
       "canonicalInputs": [
         "investing-system/docs/wave-3-financial-analysis-intelligence-lane.md",
         "investing-system/docs/wave-3-financial-analysis-intelligence-lane.json",
         "investing-system/docs/institutional-financial-analysis-maturity-plan.md",
-        "investing-system/docs/external-deep-dive-and-commodities-assessment.md"
+        "investing-system/docs/external-deep-dive-and-commodities-assessment.md",
+        "investing-system/docs/earnings-event-trading-implementation-plan.md",
+        "investing-system/docs/earnings-event-trading-implementation-plan.json",
+        "investing-system/specs/earnings-event-trading-domain-contract.json",
+        "investing-system/docs/proofs/earnings-event-trading-phase-0-proof.md",
+        "investing-system/docs/proofs/earnings-event-trading-e02-schema-proof.md",
+        "investing-system/docs/proofs/earnings-event-trading-e03-universe-proof.md",
+        "investing-system/docs/proofs/earnings-event-trading-e04-archive-proof.md",
+        "investing-system/docs/proofs/earnings-event-trading-e05-e24-full-extent-audit.md"
       ],
-      "supportingInputs": [],
-      "nextProof": "Convert analysis categories into tested contracts and dashboard freshness states."
+      "supportingInputs": [
+        "investing-system/docs/proofs/earnings-event-trading-e05-e24-proof.md"
+      ],
+      "nextProof": "Earnings E05-E24 software is built/tested; next proof is production durable warehouse backfill/mirror/restore, provider and event-contract proofs, frontend observability, and financial-analysis category freshness states."
     },
     {
       "id": "CP-07",

@@ -144,6 +144,11 @@ def provider_catalog() -> list[ProviderDescriptor]:
             api_key_vars, base_url_var = _split_env_vars(tuple(prof.env_vars))
         else:
             api_key_vars, base_url_var = (), ""
+        if not api_key_vars:
+            if slug == "vertex":
+                api_key_vars = ("VERTEX_CREDENTIALS_PATH",)
+            elif slug == "bedrock":
+                api_key_vars = ("AWS_REGION", "AWS_PROFILE")
 
         label = (
             (getattr(prof, "display_name", "") if prof else "")

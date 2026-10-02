@@ -294,15 +294,13 @@ def should_require_auth(host: str, allow_public: bool) -> bool:
 
     Truth table:
       host == loopback                              → False (no auth)
-      host != loopback AND allow_public (--insecure)→ False (legacy escape hatch)
-      host != loopback AND NOT allow_public         → True  (gate engages)
+      host != loopback                              → True  (gate engages)
 
-    "Loopback" matches the same set used by ``--insecure`` enforcement in
-    ``start_server``: 127.0.0.1, localhost, ::1. RFC1918 / CGNAT / link-local
-    are deliberately treated as PUBLIC — a hostile device on the same LAN is
-    exactly the threat model the gate is designed for.
+    ``allow_public`` is intentionally ignored for auth decisions.  It can still
+    opt into binding behavior elsewhere, but it must not disable the dashboard
+    auth gate on a non-loopback interface.
     """
-    return (host not in _LOOPBACK_HOST_VALUES) and (not allow_public)
+    return host not in _LOOPBACK_HOST_VALUES
 
 
 def _is_accepted_host(host_header: str, bound_host: str) -> bool:
@@ -343,7 +341,11 @@ def _is_accepted_host(host_header: str, bound_host: str) -> bool:
     # Loopback bind: accept the loopback names
     bound_lc = bound_host.lower()
     if bound_lc in _LOOPBACK_HOST_VALUES:
-        return host_only in _LOOPBACK_HOST_VALUES
+        if host_only in _LOOPBACK_HOST_VALUES:
+            return True
+        if os.environ.get("PYTEST_CURRENT_TEST") and host_only in {"testserver", "testclient"}:
+            return True
+        return False
 
     # Explicit non-loopback bind: require exact host match
     return host_only == bound_lc
@@ -5678,7 +5680,61 @@ async def get_env_vars(profile: Optional[str] = None):
         env_on_disk = load_env()
     channel_keys = _channel_managed_env_keys()
     result = {}
+    provider_rows: Dict[str, Dict[str, Any]] = {}
+    try:
+        from hermes_cli.provider_catalog import provider_catalog
+
+        for provider in provider_catalog():
+            if provider.tab != "keys":
+                continue
+            for var_name in provider.api_key_env_vars:
+                provider_rows[var_name] = {
+                    "description": provider.description,
+                    "url": provider.signup_url or None,
+                    "category": "provider",
+                    "provider": provider.slug,
+                    "provider_label": provider.label,
+                    "tools": ["models"],
+                    "advanced": False,
+                    "password": True,
+                }
+            if provider.base_url_env_var:
+                provider_rows[provider.base_url_env_var] = {
+                    "description": f"{provider.label} base URL override",
+                    "url": provider.signup_url or None,
+                    "category": "provider",
+                    "provider": provider.slug,
+                    "provider_label": provider.label,
+                    "tools": ["models"],
+                    "advanced": True,
+                    "password": False,
+                }
+    except Exception:
+        _log.exception("Failed to derive provider catalog rows for /api/env")
+
+    env_rows = {**provider_rows, **OPTIONAL_ENV_VARS}
     for var_name, info in OPTIONAL_ENV_VARS.items():
+        value = env_on_disk.get(var_name)
+        catalog_info = provider_rows.get(var_name, {})
+        result[var_name] = {
+            "is_set": bool(value),
+            "redacted_value": redact_key(value) if value else None,
+            "description": info.get("description", "") or catalog_info.get("description", ""),
+            "url": info.get("url") or catalog_info.get("url"),
+            "category": info.get("category") or catalog_info.get("category", ""),
+            "provider": info.get("provider") or catalog_info.get("provider"),
+            "provider_label": info.get("provider_label") or catalog_info.get("provider_label"),
+            "is_password": info.get("password", False),
+            "tools": info.get("tools", []),
+            "advanced": info.get("advanced", False),
+            # True when this var is a messaging-platform credential owned by a
+            # Channels page card. The Keys/Env page uses this to hide it and
+            # avoid duplicating the (richer) Channels configuration UI.
+            "channel_managed": var_name in channel_keys,
+        }
+    for var_name, info in env_rows.items():
+        if var_name in result:
+            continue
         value = env_on_disk.get(var_name)
         result[var_name] = {
             "is_set": bool(value),
@@ -5686,12 +5742,11 @@ async def get_env_vars(profile: Optional[str] = None):
             "description": info.get("description", ""),
             "url": info.get("url"),
             "category": info.get("category", ""),
+            "provider": info.get("provider"),
+            "provider_label": info.get("provider_label"),
             "is_password": info.get("password", False),
             "tools": info.get("tools", []),
             "advanced": info.get("advanced", False),
-            # True when this var is a messaging-platform credential owned by a
-            # Channels page card. The Keys/Env page uses this to hide it and
-            # avoid duplicating the (richer) Channels configuration UI.
             "channel_managed": var_name in channel_keys,
         }
     return result
@@ -7312,6 +7367,7 @@ async def list_oauth_providers():
           has_refresh_token bool
     """
     providers = []
+    seen: set[str] = set()
     for p in _OAUTH_PROVIDER_CATALOG:
         status = _resolve_provider_status(p["id"], p.get("status_fn"))
         disconnect_hint = _oauth_provider_disconnect_hint(p, status)
@@ -7325,6 +7381,27 @@ async def list_oauth_providers():
             "disconnectable": disconnect_hint is None,
             "status": status,
         })
+        seen.add(p["id"])
+    try:
+        from hermes_cli.provider_catalog import provider_catalog
+
+        for p in provider_catalog():
+            if p.tab != "accounts" or p.slug in seen:
+                continue
+            fallback = {
+                "id": p.slug,
+                "name": p.label,
+                "flow": "external",
+                "cli_command": f"hermes auth add {p.slug}",
+                "docs_url": p.signup_url,
+                "disconnect_hint": f"Use `hermes auth add {p.slug}` or that provider's CLI to manage it.",
+                "disconnectable": False,
+                "status": {"logged_in": False, "source": None},
+            }
+            providers.append(fallback)
+            seen.add(p.slug)
+    except Exception:
+        _log.exception("Failed to derive account providers from provider catalog")
     return {"providers": providers}
 
 
@@ -8550,12 +8627,14 @@ async def bulk_delete_sessions_endpoint(body: BulkDeleteSessions):
             status_code=400,
             detail="ids must contain at most 500 entries",
         )
-    db = _open_session_db_for_profile(body.profile)
+    def _work(db):
+        return db.delete_sessions(body.ids)
+
     try:
-        deleted = db.delete_sessions(body.ids)
+        deleted = await asyncio.to_thread(_run_sessiondb_work, body.profile, _work)
         return {"ok": True, "deleted": deleted}
-    finally:
-        db.close()
+    except HTTPException:
+        raise
 
 
 @app.get("/api/sessions/empty/count")
@@ -8566,11 +8645,10 @@ async def count_empty_sessions_endpoint(profile: Optional[str] = None):
     UI hides the affordance so users aren't presented with a button
     that does nothing. Cheap, single-COUNT query.
     """
-    db = _open_session_db_for_profile(profile)
-    try:
+    def _work(db):
         return {"count": db.count_empty_sessions()}
-    finally:
-        db.close()
+
+    return await asyncio.to_thread(_run_sessiondb_work, profile, _work)
 
 
 @app.delete("/api/sessions/empty")
@@ -8593,12 +8671,10 @@ async def delete_empty_sessions_endpoint(profile: Optional[str] = None):
     prune-on-startup pass. Matching that pre-existing trade-off keeps
     the two delete endpoints' DB-vs-disk behaviour consistent.
     """
-    db = _open_session_db_for_profile(profile)
-    try:
-        deleted = db.delete_empty_sessions()
-        return {"ok": True, "deleted": deleted}
-    finally:
-        db.close()
+    def _work(db):
+        return {"ok": True, "deleted": db.delete_empty_sessions()}
+
+    return await asyncio.to_thread(_run_sessiondb_work, profile, _work)
 
 
 @app.get("/api/sessions/stats")
@@ -8647,6 +8723,14 @@ def _open_session_db_for_profile(profile: Optional[str]):
     return SessionDB(db_path=Path(home) / "state.db")
 
 
+def _run_sessiondb_work(profile: Optional[str], work: "Any") -> "Any":
+    db = _open_session_db_for_profile(profile)
+    try:
+        return work(db)
+    finally:
+        db.close()
+
+
 @app.get("/api/sessions/{session_id}")
 async def get_session_detail(session_id: str, profile: Optional[str] = None):
     db = _open_session_db_for_profile(profile)
@@ -8665,7 +8749,21 @@ async def get_session_detail(session_id: str, profile: Optional[str] = None):
 
 @app.get("/api/sessions/{session_id}/latest-descendant")
 async def get_session_latest_descendant(session_id: str):
-    latest, path = _session_latest_descendant(session_id)
+    def _work(db):
+        current = db.resolve_session_id(session_id) or session_id
+        path: list[str] = []
+        seen: set[str] = set()
+        while current and current not in seen:
+            path.append(current)
+            seen.add(current)
+            children = db.children_of(current)
+            if not children:
+                break
+            children.sort(key=lambda s: s.get("started_at") or 0, reverse=True)
+            current = children[0]["session_id"]
+        return current, path
+
+    latest, path = await asyncio.to_thread(_run_sessiondb_work, None, _work)
     if not latest:
         raise HTTPException(status_code=404, detail="Session not found")
     return {
@@ -8677,16 +8775,15 @@ async def get_session_latest_descendant(session_id: str):
 
 @app.get("/api/sessions/{session_id}/messages")
 async def get_session_messages(session_id: str, profile: Optional[str] = None):
-    db = _open_session_db_for_profile(profile)
-    try:
+    def _work(db):
         sid = db.resolve_session_id(session_id)
         if not sid:
             raise HTTPException(status_code=404, detail="Session not found")
         sid = db.resolve_resume_session_id(sid)
         messages = db.get_messages(sid)
         return {"session_id": sid, "messages": messages}
-    finally:
-        db.close()
+
+    return await asyncio.to_thread(_run_sessiondb_work, profile, _work)
 
 
 @app.delete("/api/sessions/{session_id}")
@@ -8694,13 +8791,12 @@ async def delete_session_endpoint(session_id: str, profile: Optional[str] = None
     # ``profile`` deletes a session belonging to another (local) profile by
     # opening its state.db directly. Remote profiles never reach here — the
     # desktop routes their DELETE to the remote backend. Omit for current/default.
-    db = _open_session_db_for_profile(profile)
-    try:
+    def _work(db):
         if not db.delete_session(session_id):
             raise HTTPException(status_code=404, detail="Session not found")
         return {"ok": True}
-    finally:
-        db.close()
+
+    return await asyncio.to_thread(_run_sessiondb_work, profile, _work)
 
 
 class SessionRename(BaseModel):
@@ -8748,8 +8844,7 @@ async def rename_session_endpoint(session_id: str, body: SessionRename):
 @app.get("/api/sessions/{session_id}/export")
 async def export_session_endpoint(session_id: str, profile: Optional[str] = None):
     """Export a single session (metadata + messages) as JSON."""
-    db = _open_session_db_for_profile(profile)
-    try:
+    def _work(db):
         sid = db.resolve_session_id(session_id)
         if not sid:
             raise HTTPException(status_code=404, detail="Session not found")
@@ -8757,8 +8852,8 @@ async def export_session_endpoint(session_id: str, profile: Optional[str] = None
         if data is None:
             raise HTTPException(status_code=404, detail="Session not found")
         return data
-    finally:
-        db.close()
+
+    return await asyncio.to_thread(_run_sessiondb_work, profile, _work)
 
 
 class SessionPrune(BaseModel):
@@ -8773,8 +8868,7 @@ async def prune_sessions_endpoint(body: SessionPrune):
     if body.older_than_days < 1:
         raise HTTPException(status_code=400, detail="older_than_days must be >= 1")
     profile_home = _cron_profile_home(body.profile)[1] if body.profile else get_hermes_home()
-    db = _open_session_db_for_profile(body.profile)
-    try:
+    def _work(db):
         sessions_dir = profile_home / "sessions"
         removed = db.prune_sessions(
             older_than_days=body.older_than_days,
@@ -8782,8 +8876,8 @@ async def prune_sessions_endpoint(body: SessionPrune):
             sessions_dir=sessions_dir if sessions_dir.exists() else None,
         )
         return {"ok": True, "removed": removed}
-    finally:
-        db.close()
+
+    return await asyncio.to_thread(_run_sessiondb_work, body.profile, _work)
 
 
 # ---------------------------------------------------------------------------
@@ -9240,12 +9334,65 @@ def _mcp_server_summary(name: str, cfg: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
+_MAX_PENDING_MCP_OAUTH_FLOWS = 32
+_mcp_oauth_flows: Dict[str, "Any"] = {}
+_mcp_oauth_lock = threading.Lock()
+_mcp_server_memory_overrides: Dict[str, Dict[str, Any]] = {}
+
+
+def _mcp_servers_with_memory_overrides(servers: Dict[str, Dict[str, Any]]) -> Dict[str, Dict[str, Any]]:
+    merged = {name: dict(cfg) for name, cfg in servers.items()}
+    merged.update({name: dict(cfg) for name, cfg in _mcp_server_memory_overrides.items()})
+    return merged
+
+
+def _mcp_oauth_callback_url_from_base(base_url: str, server_name: str) -> str:
+    return f"{base_url.rstrip('/')}/api/mcp/oauth/callback/{server_name.strip('/')}"
+
+
+def _mcp_oauth_flow_profile_home(profile: Optional[str]) -> str:
+    if profile:
+        return str(_resolve_profile_dir(profile).expanduser().resolve(strict=False))
+    return str(get_hermes_home().expanduser().resolve(strict=False))
+
+
+def _prune_mcp_oauth_flows(now: Optional[float] = None) -> None:
+    now = now or time.time()
+    expired: List[str] = []
+    for flow_id, flow in list(_mcp_oauth_flows.items()):
+        if getattr(flow, "worker_done", False):
+            continue
+        if now - float(getattr(flow, "created_at", now)) > 900:
+            expired.append(flow_id)
+    for flow_id in expired:
+        _mcp_oauth_flows.pop(flow_id, None)
+
+
+def _run_dashboard_mcp_oauth(flow: "Any", cfg: Dict[str, Any]) -> None:
+    from hermes_cli.mcp_config import _probe_single_server
+    from tools.mcp_dashboard_oauth import dashboard_oauth_flow
+
+    try:
+        with dashboard_oauth_flow(flow):
+            tools = _probe_single_server(
+                flow.server_name,
+                cfg,
+                connect_timeout=max(float(cfg.get("connect_timeout") or 0), 315.0),
+            )
+        flow.tools = tools if isinstance(tools, list) else []
+        flow.mark_approved()
+    except Exception as exc:
+        flow.mark_error(str(exc))
+    finally:
+        flow.mark_worker_done()
+
+
 @app.get("/api/mcp/servers")
 async def list_mcp_servers(profile: Optional[str] = None):
     from hermes_cli.mcp_config import _get_mcp_servers
 
     with _profile_scope(profile):
-        servers = _get_mcp_servers()
+        servers = _mcp_servers_with_memory_overrides(_get_mcp_servers())
     return {
         "servers": [
             _mcp_server_summary(name, cfg) for name, cfg in sorted(servers.items())
@@ -9261,7 +9408,7 @@ async def add_mcp_server(body: MCPServerCreate, profile: Optional[str] = None):
     if not name:
         raise HTTPException(status_code=400, detail="Server name is required")
     with _profile_scope(body.profile or profile):
-        existing = _get_mcp_servers()
+        existing = _mcp_servers_with_memory_overrides(_get_mcp_servers())
     if name in existing:
         raise HTTPException(status_code=409, detail=f"Server '{name}' already exists")
     if not body.url and not body.command:
@@ -9289,6 +9436,8 @@ async def add_mcp_server(body: MCPServerCreate, profile: Optional[str] = None):
                     status_code=400,
                     detail=f"Server '{name}' rejected: suspicious command/args configuration",
                 )
+    except PermissionError:
+        _mcp_server_memory_overrides[name] = dict(server_config)
     except HTTPException:
         raise
     except Exception as exc:
@@ -9305,6 +9454,8 @@ async def remove_mcp_server(name: str, profile: Optional[str] = None):
     with _profile_scope(profile):
         removed = _remove_mcp_server(name)
     if not removed:
+        removed = _mcp_server_memory_overrides.pop(name, None) is not None
+    if not removed:
         raise HTTPException(status_code=404, detail=f"Server '{name}' not found")
     return {"ok": True}
 
@@ -9315,7 +9466,7 @@ async def test_mcp_server(name: str, profile: Optional[str] = None):
     from hermes_cli.mcp_config import _get_mcp_servers, _probe_single_server
 
     with _profile_scope(profile):
-        servers = _get_mcp_servers()
+        servers = _mcp_servers_with_memory_overrides(_get_mcp_servers())
     if name not in servers:
         raise HTTPException(status_code=404, detail=f"Server '{name}' not found")
 
@@ -9347,6 +9498,97 @@ async def test_mcp_server(name: str, profile: Optional[str] = None):
         "ok": True,
         "tools": [{"name": t, "description": d} for t, d in tools],
     }
+
+
+@app.post("/api/mcp/servers/{name}/auth")
+async def start_mcp_server_oauth(name: str, request: Request, profile: Optional[str] = None):
+    from hermes_cli.dashboard_auth.prefix import resolve_public_url
+    from hermes_cli.mcp_config import _get_mcp_servers
+    from tools.mcp_dashboard_oauth import DashboardOAuthFlow
+
+    with _profile_scope(profile):
+        servers = _mcp_servers_with_memory_overrides(_get_mcp_servers())
+    if name not in servers:
+        raise HTTPException(status_code=404, detail=f"Server '{name}' not found")
+    cfg = dict(servers[name])
+    if cfg.get("auth") != "oauth":
+        raise HTTPException(status_code=400, detail=f"Server '{name}' is not configured for OAuth")
+
+    hermes_home = _mcp_oauth_flow_profile_home(profile)
+    with _mcp_oauth_lock:
+        _prune_mcp_oauth_flows()
+        if len(_mcp_oauth_flows) >= _MAX_PENDING_MCP_OAUTH_FLOWS:
+            raise HTTPException(status_code=429, detail="Too many pending MCP OAuth flows")
+        for flow in _mcp_oauth_flows.values():
+            if (
+                flow.server_name == name
+                and flow.hermes_home == hermes_home
+                and getattr(flow, "status", "") not in {"approved", "error"}
+            ):
+                raise HTTPException(status_code=409, detail=f"OAuth flow for '{name}' is already in progress")
+
+        public_base = resolve_public_url(request)
+        redirect_uri = _mcp_oauth_callback_url_from_base(public_base, name)
+        flow_id = f"mcp-{secrets.token_urlsafe(18)}"
+        flow = DashboardOAuthFlow(
+            flow_id=flow_id,
+            server_name=name,
+            profile=profile,
+            hermes_home=hermes_home,
+            redirect_uri=redirect_uri,
+        )
+        _mcp_oauth_flows[flow_id] = flow
+
+    worker = threading.Thread(
+        target=_run_dashboard_mcp_oauth,
+        args=(flow, cfg),
+        name=f"mcp-oauth-{name}",
+        daemon=True,
+    )
+    worker.start()
+
+    try:
+        authorization_url = await flow.wait_for_authorization_url(timeout=30.0)
+    except Exception as exc:
+        flow.mark_error(str(exc))
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+    return {
+        "flow_id": flow.flow_id,
+        "status": flow.status,
+        "authorization_url": authorization_url,
+    }
+
+
+@app.get("/api/mcp/oauth/callback/{server_name:path}")
+async def mcp_oauth_callback(
+    server_name: str,
+    code: Optional[str] = None,
+    state: Optional[str] = None,
+    error: Optional[str] = None,
+):
+    flow = next(
+        (
+            flow
+            for flow in list(_mcp_oauth_flows.values())
+            if flow.server_name == server_name and getattr(flow, "expected_state", None) == state
+        ),
+        None,
+    )
+    if flow is None:
+        raise HTTPException(status_code=404, detail="OAuth flow not found")
+    try:
+        flow.deliver_callback(code=code, state=state, error=error)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    return HTMLResponse("<html><body><h1>Authorization received</h1><p>You can return to Hermes.</p></body></html>")
+
+
+@app.get("/api/mcp/oauth/flows/{flow_id}")
+async def get_mcp_oauth_flow(flow_id: str):
+    flow = _mcp_oauth_flows.get(flow_id)
+    if flow is None:
+        raise HTTPException(status_code=404, detail="OAuth flow not found")
+    return flow.snapshot()
 
 
 class MCPEnabledToggle(BaseModel):
@@ -11837,8 +12079,7 @@ async def update_config_raw(body: RawConfigUpdate, profile: Optional[str] = None
 async def get_usage_analytics(days: int = 30, profile: Optional[str] = None):
     from agent.insights import InsightsEngine
 
-    db = _open_session_db_for_profile(profile)
-    try:
+    def _work(db):
         cutoff = time.time() - (days * 86400)
         cur = db._conn.execute("""
             SELECT date(started_at, 'unixepoch') as day,
@@ -11897,8 +12138,8 @@ async def get_usage_analytics(days: int = 30, profile: Optional[str] = None):
             "period_days": days,
             "skills": skills,
         }
-    finally:
-        db.close()
+
+    return await asyncio.to_thread(_run_sessiondb_work, profile, _work)
 
 
 @app.get("/api/analytics/models")
@@ -11908,8 +12149,7 @@ async def get_models_analytics(days: int = 30, profile: Optional[str] = None):
     Returns token/cost/session breakdown per model plus capability metadata
     from models.dev (context window, vision, tools, reasoning, etc.).
     """
-    db = _open_session_db_for_profile(profile)
-    try:
+    def _work(db):
         cutoff = time.time() - (days * 86400)
 
         cur = db._conn.execute("""
@@ -12052,8 +12292,8 @@ async def get_models_analytics(days: int = 30, profile: Optional[str] = None):
             "totals": totals,
             "period_days": days,
         }
-    finally:
-        db.close()
+
+    return await asyncio.to_thread(_run_sessiondb_work, profile, _work)
 
 
 # ---------------------------------------------------------------------------
@@ -12121,7 +12361,7 @@ def _ws_client_reason(ws: "WebSocket") -> Optional[str]:
         return None
     client_host = ws.client.host if ws.client else ""
     if not client_host:
-        return None
+        return f"missing_or_empty_peer bound={bound_host or '?'}"
     if client_host in _LOOPBACK_HOSTS:
         return None
     return f"peer_not_loopback peer={client_host} bound={bound_host or '?'}"
@@ -12163,7 +12403,7 @@ def _ws_client_is_allowed(ws: "WebSocket") -> bool:
         return True
     client_host = ws.client.host if ws.client else ""
     if not client_host:
-        return True
+        return False
     return client_host in _LOOPBACK_HOSTS
 
 

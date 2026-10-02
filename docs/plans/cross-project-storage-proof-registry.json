@@ -1,7 +1,7 @@
 {
   "id": "cross-project-storage-proof-registry",
   "canonicalPlan": "CP-04",
-  "generatedAt": "2026-10-01T13:23:41.995Z",
+  "generatedAt": "2026-10-02T14:39:55.017Z",
   "workspaceRoot": "/Users/hq/Workspace/projects",
   "status": "ready",
   "summary": {
@@ -11,7 +11,7 @@
     "blocked": 0,
     "missing": 0,
     "averageScore": 90,
-    "oldestFreshnessHours": 12.03
+    "oldestFreshnessHours": 37.3
   },
   "projects": [
     {
@@ -22,7 +22,7 @@
       "status": "ready",
       "score": 93,
       "checkedAt": "2026-10-01T01:21:38.425Z",
-      "freshnessHours": 12.03,
+      "freshnessHours": 37.3,
       "facts": {
         "rootDiskUsedPct": "74%",
         "ledgerFiles": 91217,
@@ -47,7 +47,7 @@
       "status": "ready",
       "score": 87,
       "checkedAt": "2026-10-01T13:22:50.681Z",
-      "freshnessHours": 0.01,
+      "freshnessHours": 25.28,
       "facts": {
         "rootDiskUsedPct": "78%",
         "storeRecordRows": 26913574,

@@ -156,7 +156,7 @@ export interface WarehouseSummary {
     }>;
     recommendations: string[];
   };
-  cp04Runtime: {
+  cp04Runtime?: {
     contractVersion: string;
     generatedAt: string;
     durabilityTiers: Array<{

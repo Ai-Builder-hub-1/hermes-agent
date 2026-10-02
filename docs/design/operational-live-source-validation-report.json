@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-29T14:12:04.170Z",
+  "generatedAt": "2026-10-02T14:50:23.088Z",
   "summary": {
-    "baseUrl": "http://127.0.0.1:9122",
-    "sources": 51,
-    "reachable": 51,
+    "baseUrl": "http://127.0.0.1:9121",
+    "sources": 55,
+    "reachable": 47,
     "authRequired": 0,
-    "dependencyUnavailable": 0,
+    "dependencyUnavailable": 8,
     "failed": 0,
     "blocked": 0,
-    "impactedRoutes": 0,
-    "status": "ready",
+    "impactedRoutes": 5,
+    "status": "dependency_unavailable",
     "authMode": "loopback_session_token",
     "sessionTokenDiscovered": true
   },
@@ -32,6 +32,16 @@
       "contentType": "application/json",
       "pages": [
         "/system/analytics"
+      ],
+      "issue": ""
+    },
+    {
+      "source": "/api/compounding-intelligence/summary",
+      "status": "reachable",
+      "httpStatus": 200,
+      "contentType": "application/json",
+      "pages": [
+        "/compounding-intelligence"
       ],
       "issue": ""
     },
@@ -82,8 +92,7 @@
       "httpStatus": 200,
       "contentType": "application/json",
       "pages": [
-        "/trading/head-trader",
-        "/trading/risk"
+        "/trading/head-trader"
       ],
       "issue": ""
     },
@@ -124,6 +133,16 @@
       "contentType": "application/json",
       "pages": [
         "/system/models"
+      ],
+      "issue": ""
+    },
+    {
+      "source": "/api/operate/queue",
+      "status": "reachable",
+      "httpStatus": 200,
+      "contentType": "application/json",
+      "pages": [
+        "/operate"
       ],
       "issue": ""
     },
@@ -190,83 +209,83 @@
     },
     {
       "source": "/api/second-brain/candidates",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "dependency_unavailable",
+      "httpStatus": 503,
       "contentType": "application/json",
       "pages": [
         "/second-brain"
       ],
-      "issue": ""
-    },
-    {
-      "source": "/api/second-brain/compounding-intelligence",
-      "status": "reachable",
-      "httpStatus": 200,
-      "contentType": "application/json",
-      "pages": [
-        "/compounding-intelligence"
-      ],
-      "issue": ""
+      "issue": "HTTP status 503"
     },
     {
       "source": "/api/second-brain/contradictions",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "dependency_unavailable",
+      "httpStatus": 503,
       "contentType": "application/json",
       "pages": [
         "/contradictions"
       ],
-      "issue": ""
+      "issue": "HTTP status 503"
+    },
+    {
+      "source": "/api/second-brain/decision-intelligence/metrics",
+      "status": "dependency_unavailable",
+      "httpStatus": 503,
+      "contentType": "application/json",
+      "pages": [
+        "/preflight"
+      ],
+      "issue": "HTTP status 503"
     },
     {
       "source": "/api/second-brain/decisions",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "dependency_unavailable",
+      "httpStatus": 503,
       "contentType": "application/json",
       "pages": [
         "/decision-lineage"
       ],
-      "issue": ""
+      "issue": "HTTP status 503"
+    },
+    {
+      "source": "/api/second-brain/preflight-checks",
+      "status": "dependency_unavailable",
+      "httpStatus": 503,
+      "contentType": "application/json",
+      "pages": [
+        "/preflight"
+      ],
+      "issue": "HTTP status 503"
     },
     {
       "source": "/api/second-brain/research-tasks",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "dependency_unavailable",
+      "httpStatus": 503,
       "contentType": "application/json",
       "pages": [
         "/research-queue"
       ],
-      "issue": ""
-    },
-    {
-      "source": "/api/second-brain/retrieval-pack",
-      "status": "reachable",
-      "httpStatus": 200,
-      "contentType": "application/json",
-      "pages": [
-        "/compounding-intelligence"
-      ],
-      "issue": ""
+      "issue": "HTTP status 503"
     },
     {
       "source": "/api/second-brain/search",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "dependency_unavailable",
+      "httpStatus": 503,
       "contentType": "application/json",
       "pages": [
         "/second-brain"
       ],
-      "issue": ""
+      "issue": "HTTP status 503"
     },
     {
       "source": "/api/second-brain/summary",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "dependency_unavailable",
+      "httpStatus": 503,
       "contentType": "application/json",
       "pages": [
         "/second-brain"
       ],
-      "issue": ""
+      "issue": "HTTP status 503"
     },
     {
       "source": "/api/sessions",
@@ -449,7 +468,6 @@
         "/trading",
         "/trading/investing",
         "/trading/khashi",
-        "/trading/risk",
         "/trading/shadow-paper",
         "/trading/strategies"
       ],
@@ -473,6 +491,16 @@
       "pages": [
         "/trading/evidence",
         "/trading/shadow-paper"
+      ],
+      "issue": ""
+    },
+    {
+      "source": "/api/trading-intelligence/portfolio/summary",
+      "status": "reachable",
+      "httpStatus": 200,
+      "contentType": "application/json",
+      "pages": [
+        "/trading/risk"
       ],
       "issue": ""
     },
@@ -517,6 +545,16 @@
       "issue": ""
     },
     {
+      "source": "/api/trading-research/outcomes/summary",
+      "status": "reachable",
+      "httpStatus": 200,
+      "contentType": "application/json",
+      "pages": [
+        "/trading/evidence"
+      ],
+      "issue": ""
+    },
+    {
       "source": "/api/trading-research/strategies/series",
       "status": "reachable",
       "httpStatus": 200,
@@ -548,5 +586,39 @@
       "issue": ""
     }
   ],
-  "routeImpacts": []
+  "routeImpacts": [
+    {
+      "route": "/contradictions",
+      "blockedSources": [
+        "/api/second-brain/contradictions"
+      ]
+    },
+    {
+      "route": "/decision-lineage",
+      "blockedSources": [
+        "/api/second-brain/decisions"
+      ]
+    },
+    {
+      "route": "/preflight",
+      "blockedSources": [
+        "/api/second-brain/decision-intelligence/metrics",
+        "/api/second-brain/preflight-checks"
+      ]
+    },
+    {
+      "route": "/research-queue",
+      "blockedSources": [
+        "/api/second-brain/research-tasks"
+      ]
+    },
+    {
+      "route": "/second-brain",
+      "blockedSources": [
+        "/api/second-brain/candidates",
+        "/api/second-brain/search",
+        "/api/second-brain/summary"
+      ]
+    }
+  ]
 }
