@@ -6,10 +6,10 @@
       "id": "CMB-001",
       "canonicalPlan": "CP-03/CP-11",
       "type": "runtime-integration",
-      "impact": "Chat, command-runner, deploy, warehouse, and project adapters still need to call /api/second-brain/agent-preflight directly before high-impact execution.",
+      "impact": "Direct chat/command execution paths and messaging gateway commands that bypass operating-runtime routes still need registered preflight proof before high-impact execution. Deploy, warehouse, operating-runtime adapter, release-train, provider-backfill, trading-research, Khashi-signal, and report adapter routes now have tested registered preflight coverage.",
       "owner": "Nous Hermes",
-      "continuePath": "Build registry, tests, route, and adapter wrappers while wiring each path.",
-      "unblockCommand": "Run adapter-specific tests after each wrapper is added.",
+      "continuePath": "Build direct chat command classifiers, simulated gateway command proofs, and audit evidence while keeping already-wrapped route paths deployed.",
+      "unblockCommand": "Run command/gateway-specific tests after each wrapper is added.",
       "evidencePath": "docs/proofs/cp03-second-brain-production-readiness.md",
       "status": "active"
     },
