@@ -67,6 +67,7 @@ Test gate:
 - Done: `/api/second-brain/high-impact-workflows/{workflow_id}/preflight` lets registered adapters call preflight by stable workflow id.
 - Done: locked workflows such as destructive pruning stop before Hermes Brain is called.
 - Done: frontend client can call registered workflow preflight.
+- Done: second-brain warehouse sync now uses registered workflow preflight instead of a one-off guard.
 - Remaining: insert this wrapper directly into chat and command execution paths that mutate production state.
 
 ### Phase 1.3: Deploy And Warehouse Preflight
@@ -83,7 +84,9 @@ Test gate:
 
 - Done: registered workflow preflight writes operating-runtime evidence for pass/warn, exempt, locked, and blocked outcomes.
 - Done: simulated locked workflow prevents destructive action and writes blocked evidence.
-- Remaining: wire deploy/promote and warehouse mirror/restore/prune/backfill handlers to call registered workflow preflight before execution.
+- Done: production promotion planning calls registered preflight before execution.
+- Done: system warehouse sync, restore proof, and prune dry-run call registered preflight before execution.
+- Remaining: wire external project backfill handlers and any standalone deploy command runners outside the dashboard route layer.
 
 ### Phase 1.4: Messaging Command Layer Enforcement
 

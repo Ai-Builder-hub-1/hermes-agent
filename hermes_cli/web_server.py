@@ -2350,6 +2350,25 @@ async def post_second_brain_high_impact_workflow_preflight(workflow_id: str, bod
     }
 
 
+async def _run_registered_high_impact_preflight(
+    workflow_id: str,
+    *,
+    task: str,
+    actor: str = "Hermes operator",
+    entities: Optional[List[str]] = None,
+    metadata: Optional[Dict[str, Any]] = None,
+) -> Dict[str, Any]:
+    return await post_second_brain_high_impact_workflow_preflight(
+        workflow_id,
+        SecondBrainWorkflowPreflightRequest(
+            task=task,
+            actor=actor,
+            entities=entities,
+            metadata=metadata,
+        ),
+    )
+
+
 @app.get("/api/second-brain/decision-intelligence/metrics")
 async def get_second_brain_decision_intelligence_metrics():
     if not _hermes_brain_service_token():
@@ -2436,11 +2455,11 @@ async def post_second_brain_staleness_scan():
 
 @app.post("/api/second-brain/warehouse/sync")
 async def post_second_brain_warehouse_sync():
-    await _second_brain_preflight_guard(
+    await _run_registered_high_impact_preflight(
+        "warehouse-sync-restore",
         task="Sync second brain records to the durable data warehouse",
-        workflow="second-brain-warehouse-sync",
-        risk_class="high",
         entities=["second-brain", "data-warehouse", "warehouse-sync"],
+        metadata={"route": "/api/second-brain/warehouse/sync"},
     )
     return await _hermes_brain_request("/api/brain/warehouse/sync", method="POST", payload={})
 
@@ -3492,6 +3511,20 @@ async def post_operating_runtime_production_sweep(payload: OperatingRuntimeProdu
 async def post_operating_runtime_promotion_execution(payload: OperatingRuntimePromotionExecutionRequest):
     from hermes_cli.operating_runtime import plan_promotion_execution
 
+    await _run_registered_high_impact_preflight(
+        "production-deploy-promote",
+        task=f"Plan production promotion for {payload.project} {payload.version}",
+        actor=payload.actor,
+        entities=["deploy", payload.project, payload.environment],
+        metadata={
+            "route": "/api/operating-runtime/promotion-execution",
+            "project": payload.project,
+            "version": payload.version,
+            "environment": payload.environment,
+            "live": payload.live,
+            "executeCommands": payload.execute_commands,
+        },
+    )
     with _operating_runtime_conn() as conn:
         return plan_promotion_execution(
             conn,
@@ -4097,6 +4130,12 @@ async def get_system_warehouse_jobs():
 async def post_system_warehouse_sync():
     from hermes_cli.system_warehouse import record_sync
 
+    await _run_registered_high_impact_preflight(
+        "warehouse-sync-restore",
+        task="Run system warehouse sync action",
+        entities=["warehouse", "sync", "system"],
+        metadata={"route": "/api/system/warehouse/sync"},
+    )
     return record_sync()
 
 
@@ -4104,6 +4143,12 @@ async def post_system_warehouse_sync():
 async def post_system_warehouse_restore_proof():
     from hermes_cli.system_warehouse import record_restore_proof
 
+    await _run_registered_high_impact_preflight(
+        "warehouse-sync-restore",
+        task="Run system warehouse restore proof action",
+        entities=["warehouse", "restore-proof", "system"],
+        metadata={"route": "/api/system/warehouse/restore-proof"},
+    )
     return record_restore_proof()
 
 
@@ -4111,6 +4156,12 @@ async def post_system_warehouse_restore_proof():
 async def post_system_warehouse_prune_dry_run():
     from hermes_cli.system_warehouse import record_prune_dry_run
 
+    await _run_registered_high_impact_preflight(
+        "warehouse-sync-restore",
+        task="Run system warehouse prune dry-run action",
+        entities=["warehouse", "prune-dry-run", "system"],
+        metadata={"route": "/api/system/warehouse/prune-dry-run", "destructive": False},
+    )
     return record_prune_dry_run()
 
 
