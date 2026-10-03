@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
@@ -795,9 +796,11 @@ async def record_evidence_review() -> dict[str, Any]:
 
 
 async def outcome_learning_summary() -> dict[str, Any]:
-    lifecycle = await strategy_lifecycle_summary()
-    backtests = await backtesting_summary()
-    ledger = await evidence_ledger(100)
+    lifecycle, backtests, ledger = await asyncio.gather(
+        strategy_lifecycle_summary(),
+        backtesting_summary(),
+        evidence_ledger(100),
+    )
     lifecycle_summary = lifecycle.get("summary", {})
     backtest_summary = backtests.get("summary", {})
     evidence_summary = ledger.get("summary", {})
