@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import asyncio
 from datetime import datetime, timezone
+from copy import deepcopy
 import json
 import os
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -15,10 +17,31 @@ from typing import Any
 CONTRACT_VERSION = "trading-intelligence-control-plane.v1"
 FRONTEND_CONTRACT_VERSION = "2026-09-08.v1"
 COMMAND_CENTER_CONTRACT_VERSION = "trading-command-center.v1"
+READ_CACHE_TTL_SECONDS = float(os.environ.get("TRADING_INTELLIGENCE_READ_CACHE_TTL_SECONDS", "20"))
+_READ_CACHE: dict[str, tuple[float, dict[str, Any]]] = {}
 
 
 def _env(name: str, default: str = "") -> str:
     return os.environ.get(name, default).strip()
+
+
+def _cached_read(key: str) -> dict[str, Any] | None:
+    if READ_CACHE_TTL_SECONDS <= 0:
+        return None
+    cached = _READ_CACHE.get(key)
+    if not cached:
+        return None
+    expires_at, payload = cached
+    if expires_at <= time.monotonic():
+        _READ_CACHE.pop(key, None)
+        return None
+    return deepcopy(payload)
+
+
+def _cache_read(key: str, payload: dict[str, Any]) -> dict[str, Any]:
+    if READ_CACHE_TTL_SECONDS > 0:
+        _READ_CACHE[key] = (time.monotonic() + READ_CACHE_TTL_SECONDS, deepcopy(payload))
+    return payload
 
 
 def default_sources() -> list[dict[str, Any]]:
@@ -66,6 +89,9 @@ def default_sources() -> list[dict[str, Any]]:
 
 
 async def trading_intelligence_summary() -> dict[str, Any]:
+    cached = _cached_read("summary")
+    if cached is not None:
+        return cached
     generated_at = _now()
     projects = await asyncio.gather(
         *[_project_summary(source) for source in default_sources()]
@@ -81,7 +107,7 @@ async def trading_intelligence_summary() -> dict[str, Any]:
         for recommendation in _as_list(project.get("recommendations"))
     )[:20]
     status = _fleet_status(projects)
-    return {
+    return _cache_read("summary", {
         "id": "trading-intelligence-control-plane-summary",
         "contractVersion": CONTRACT_VERSION,
         "frontendContractVersion": FRONTEND_CONTRACT_VERSION,
@@ -102,31 +128,37 @@ async def trading_intelligence_summary() -> dict[str, Any]:
         ],
         "blockers": blockers,
         "recommendations": recommendations,
-    }
+    })
 
 
 async def trading_intelligence_events(limit: Any = 10) -> dict[str, Any]:
     bounded_limit = max(1, min(50, _to_int(limit, 10)))
+    cached = _cached_read(f"events:{bounded_limit}")
+    if cached is not None:
+        return cached
     results = await asyncio.gather(
         *[_project_events(source, bounded_limit) for source in default_sources()]
     )
     events = [event for batch in results for event in batch]
     events.sort(key=lambda event: event.get("occurredAt", ""), reverse=True)
-    return {
+    return _cache_read(f"events:{bounded_limit}", {
         "id": "trading-intelligence-control-plane-events",
         "contractVersion": CONTRACT_VERSION,
         "title": "Trading Intelligence Control Plane Events",
         "generatedAt": _now(),
         "limit": bounded_limit,
         "events": events[:bounded_limit],
-    }
+    })
 
 
 async def trading_intelligence_controls() -> dict[str, Any]:
+    cached = _cached_read("controls")
+    if cached is not None:
+        return cached
     projects = await asyncio.gather(
         *[_project_controls(source) for source in default_sources()]
     )
-    return {
+    return _cache_read("controls", {
         "id": "trading-intelligence-control-plane-controls",
         "contractVersion": CONTRACT_VERSION,
         "title": "Trading Intelligence Control Plane Controls",
@@ -139,7 +171,7 @@ async def trading_intelligence_controls() -> dict[str, Any]:
         },
         "projects": projects,
         "controls": [control for project in projects for control in project.get("controls", [])],
-    }
+    })
 
 
 async def trading_command_center(limit: Any = 10) -> dict[str, Any]:
@@ -150,6 +182,9 @@ async def trading_command_center(limit: Any = 10) -> dict[str, Any]:
     infer permission to trade or submit live orders.
     """
     bounded_limit = max(1, min(50, _to_int(limit, 10)))
+    cached = _cached_read(f"command-center:{bounded_limit}")
+    if cached is not None:
+        return cached
     summary, events, controls = await asyncio.gather(
         trading_intelligence_summary(),
         trading_intelligence_events(bounded_limit),
@@ -163,7 +198,7 @@ async def trading_command_center(limit: Any = 10) -> dict[str, Any]:
     recommendations = _as_list(summary.get("recommendations"))
     action_queue = _action_queue(normalized_controls, blockers)
     daily_metrics = _daily_metrics_snapshot(projects, summary, normalized_events, action_queue)
-    return {
+    return _cache_read(f"command-center:{bounded_limit}", {
         "id": "trading-command-center",
         "contractVersion": COMMAND_CENTER_CONTRACT_VERSION,
         "sourceContractVersion": CONTRACT_VERSION,
@@ -202,7 +237,7 @@ async def trading_command_center(limit: Any = 10) -> dict[str, Any]:
             "Use sourceProjects[].summary for project-specific drilldowns when a normalized field is null.",
             "Route all risky actions through Head Trader or /api/trading-intelligence/control; never submit live orders from this endpoint.",
         ],
-    }
+    })
 
 
 async def trading_intelligence_control(payload: dict[str, Any]) -> dict[str, Any]:

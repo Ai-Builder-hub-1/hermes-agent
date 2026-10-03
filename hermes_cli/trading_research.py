@@ -3,18 +3,42 @@
 from __future__ import annotations
 
 import asyncio
+from copy import deepcopy
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
+import os
 from pathlib import Path
+import time
 from typing import Any, Literal
 from uuid import uuid4
 
 Window = Literal["1h", "24h", "7d", "30d"]
+READ_CACHE_TTL_SECONDS = float(os.environ.get("TRADING_RESEARCH_READ_CACHE_TTL_SECONDS", "20"))
+_READ_CACHE: dict[str, tuple[float, dict[str, Any]]] = {}
 
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def _cached_read(key: str) -> dict[str, Any] | None:
+    if READ_CACHE_TTL_SECONDS <= 0:
+        return None
+    cached = _READ_CACHE.get(key)
+    if not cached:
+        return None
+    expires_at, payload = cached
+    if expires_at <= time.monotonic():
+        _READ_CACHE.pop(key, None)
+        return None
+    return deepcopy(payload)
+
+
+def _cache_read(key: str, payload: dict[str, Any]) -> dict[str, Any]:
+    if READ_CACHE_TTL_SECONDS > 0:
+        _READ_CACHE[key] = (time.monotonic() + READ_CACHE_TTL_SECONDS, deepcopy(payload))
+    return payload
 
 
 def _tone(status: str | None) -> str:
@@ -187,6 +211,9 @@ def _falsification_status(raw: dict[str, Any], criteria: str, evidence_count: in
 
 
 async def strategy_summary() -> dict[str, Any]:
+    cached = _cached_read("strategy-summary")
+    if cached is not None:
+        return cached
     from hermes_cli.trading_intelligence import trading_command_center
 
     command = await trading_command_center(20)
@@ -243,7 +270,7 @@ async def strategy_summary() -> dict[str, Any]:
             })
     blocked = [item for item in candidates if item["status"] == "blocked"]
     ready = [item for item in candidates if item["status"] == "ready"]
-    return {
+    return _cache_read("strategy-summary", {
         "contractVersion": "trading-strategy-research.v1",
         "generatedAt": now_iso(),
         "health": "critical" if blocked else "warning" if not ready else "ready",
@@ -267,7 +294,7 @@ async def strategy_summary() -> dict[str, Any]:
         ],
         "recommendations": command.get("recommendations") or [],
         "blockers": command.get("blockers") or [],
-    }
+    })
 
 
 async def strategy_series(window: Window = "24h") -> dict[str, Any]:
@@ -276,8 +303,11 @@ async def strategy_series(window: Window = "24h") -> dict[str, Any]:
 
 
 async def backtesting_summary() -> dict[str, Any]:
+    cached = _cached_read("backtesting-summary")
+    if cached is not None:
+        return cached
     strategies = await strategy_summary()
-    return _backtesting_from_strategies(strategies)
+    return _cache_read("backtesting-summary", _backtesting_from_strategies(strategies))
 
 
 def _backtesting_from_strategies(strategies: dict[str, Any]) -> dict[str, Any]:
@@ -338,9 +368,12 @@ async def backtesting_series(window: Window = "24h") -> dict[str, Any]:
 
 
 async def strategy_lifecycle_summary() -> dict[str, Any]:
+    cached = _cached_read("strategy-lifecycle-summary")
+    if cached is not None:
+        return cached
     strategies = await strategy_summary()
     backtests = _backtesting_from_strategies(strategies)
-    return _strategy_lifecycle_from_components(strategies, backtests)
+    return _cache_read("strategy-lifecycle-summary", _strategy_lifecycle_from_components(strategies, backtests))
 
 
 def _strategy_lifecycle_from_components(strategies: dict[str, Any], backtests: dict[str, Any]) -> dict[str, Any]:
@@ -704,7 +737,11 @@ async def evidence_ledger(limit: int = 50) -> dict[str, Any]:
     from hermes_cli.trading_intelligence import trading_intelligence_events
 
     bounded = max(1, min(100, int(limit or 50)))
-    strategies, backtests, events = await strategy_summary(), await backtesting_summary(), await trading_intelligence_events(bounded)
+    cached = _cached_read(f"evidence-ledger:{bounded}")
+    if cached is not None:
+        return cached
+    strategies, events = await asyncio.gather(strategy_summary(), trading_intelligence_events(bounded))
+    backtests = _backtesting_from_strategies(strategies)
     rows: list[dict[str, Any]] = []
     for event in events.get("events") or []:
         rows.append({
@@ -769,7 +806,7 @@ async def evidence_ledger(limit: int = 50) -> dict[str, Any]:
     rows.sort(key=lambda row: row["occurredAt"], reverse=True)
     missing_hashes = len([row for row in rows if not row["proofHash"]])
     source_backbone = trading_source_backbone_audit()
-    return {
+    return _cache_read(f"evidence-ledger:{bounded}", {
         "contractVersion": "trading-evidence-ledger.v1",
         "generatedAt": now_iso(),
         "health": "warning" if missing_hashes or not source_backbone["summary"]["sourceNativeEnough"] else "ready",
@@ -789,12 +826,15 @@ async def evidence_ledger(limit: int = 50) -> dict[str, Any]:
         + ([] if source_backbone["summary"]["sourceNativeEnough"] else ["Trading source backbone is missing durable local proof rows."]),
         "recommendations": (["Add source-native artifact previews and proof hashes for promoted strategy/backtest evidence."] if missing_hashes else [])
         + list(source_backbone.get("recommendations") or []),
-    }
+    })
 
 
 async def evidence_series(window: Window = "24h") -> dict[str, Any]:
+    cached = _cached_read(f"evidence-series:{window}")
+    if cached is not None:
+        return cached
     ledger = await evidence_ledger(100)
-    return _series(window, max(int(ledger["summary"]["records"]), 1), ("records", "sourceEvents", "missingProofHashes"))
+    return _cache_read(f"evidence-series:{window}", _series(window, max(int(ledger["summary"]["records"]), 1), ("records", "sourceEvents", "missingProofHashes")))
 
 
 async def record_evidence_review() -> dict[str, Any]:
@@ -805,6 +845,9 @@ async def record_evidence_review() -> dict[str, Any]:
 
 
 async def outcome_learning_summary() -> dict[str, Any]:
+    cached = _cached_read("outcome-learning-summary")
+    if cached is not None:
+        return cached
     strategies, ledger = await asyncio.gather(
         strategy_summary(),
         evidence_ledger(100),
@@ -832,7 +875,7 @@ async def outcome_learning_summary() -> dict[str, Any]:
         tasks.append(_research_task("proof-hash-coverage", "Attach proof hashes to promoted strategy and backtest evidence", "medium", ledger.get("blockers") or []))
     if not tasks:
         tasks.append(_research_task("cadence-review", "Keep outcome learning review on cadence", "low", ["No current outcome-learning blockers."]))
-    return {
+    return _cache_read("outcome-learning-summary", {
         "contractVersion": "trading-outcome-learning.v1",
         "generatedAt": now_iso(),
         "health": "ready" if calibration == "ready" else "warning" if calibration == "watch" else "critical",
@@ -853,7 +896,7 @@ async def outcome_learning_summary() -> dict[str, Any]:
         "researchTasks": tasks,
         "blockers": [task["title"] for task in tasks if task["priority"] in {"critical", "high"}],
         "recommendations": [task["nextAction"] for task in tasks],
-    }
+    })
 
 
 def _research_task(task_id: str, title: str, priority: str, evidence: list[Any]) -> dict[str, Any]:
