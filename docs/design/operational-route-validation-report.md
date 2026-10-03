@@ -1,6 +1,6 @@
 # Operational Route Validation Report
 
-Generated: 2026-10-02T15:26:41.500Z
+Generated: 2026-10-03T02:18:49.570Z
 
 ## Summary
 
@@ -10,46 +10,46 @@ Generated: 2026-10-02T15:26:41.500Z
 | passed | 36 |
 | failed | 0 |
 | blocked | 0 |
-| baseUrl | http://127.0.0.1:9121 |
+| baseUrl | https://agent.tlccapitalgroup.com |
 | browserStatus | available |
 
 ## Routes
 
 | Route | Group | Maturity | Status | HTTP | Text | Issues |
 | --- | --- | --- | --- | --- | --- | --- |
-| /operate | operate | actionable | passed | 200 | 12210 | none |
-| /operate/blockers | operate | actionable | passed | 200 | 15376 | none |
-| /operate/actions | operate | actionable | passed | 200 | 4052 | none |
-| /operate/incidents | operate | actionable | passed | 200 | 20754 | none |
-| /operate/approvals | operate | actionable | passed | 200 | 2937 | none |
-| /operate/runs | operate | actionable | passed | 200 | 1774 | none |
-| /system/warehouse | system | charted | passed | 200 | 17794 | none |
-| /system/storage | system | charted | passed | 200 | 2582 | none |
-| /system/freshness | system | charted | passed | 200 | 9659 | none |
-| /system/workers | system | charted | passed | 200 | 3507 | none |
-| /system/deployments | system | charted | passed | 200 | 3145 | none |
-| /system/credentials | system | charted | passed | 200 | 2640 | none |
-| /system/models | system | live | passed | 200 | 1071 | none |
-| /system/automations | system | live | passed | 200 | 321 | none |
-| /system/sessions | system | live | passed | 200 | 448 | none |
-| /system/logs | system | live | passed | 200 | 17102 | none |
-| /system/plugins | system | live | passed | 200 | 23157 | none |
-| /system/admin | system | live | passed | 200 | 308 | none |
-| /system/analytics | system | live | passed | 200 | 1129 | none |
-| /second-brain | operate | live | passed | 200 | 2276 | none |
-| /compounding-intelligence | operate | intelligent | passed | 200 | 12699 | none |
-| /decision-lineage | operate | live | passed | 200 | 1791 | none |
-| /contradictions | operate | live | passed | 200 | 1129 | none |
-| /research-queue | operate | live | passed | 200 | 955 | none |
-| /preflight | operate | actionable | passed | 200 | 1411 | none |
-| /operate/chat-actions | operate | actionable | passed | 200 | 2689 | none |
-| /trading/strategies | trading | charted | passed | 200 | 4441 | none |
-| /trading | trading | live | passed | 200 | 4159 | none |
-| /trading/khashi | trading | live | passed | 200 | 2583 | none |
-| /trading/investing | trading | live | passed | 200 | 3214 | none |
-| /trading/backtesting | trading | charted | passed | 200 | 3442 | none |
-| /trading/shadow-paper | trading | live | passed | 200 | 2115 | none |
-| /trading/risk | trading | live | passed | 200 | 1910 | none |
-| /trading/head-trader | trading | controlled | passed | 200 | 1702 | none |
-| /trading/evidence | trading | charted | passed | 200 | 4637 | none |
-| /operate/evidence | operate | charted | passed | 200 | 19617 | none |
+| /operate | operate | actionable | passed | 200 | 176 | none |
+| /operate/blockers | operate | actionable | passed | 200 | 176 | none |
+| /operate/actions | operate | actionable | passed | 200 | 176 | none |
+| /operate/incidents | operate | actionable | passed | 200 | 176 | none |
+| /operate/approvals | operate | actionable | passed | 200 | 176 | none |
+| /operate/runs | operate | actionable | passed | 200 | 176 | none |
+| /system/warehouse | system | charted | passed | 200 | 176 | none |
+| /system/storage | system | charted | passed | 200 | 176 | none |
+| /system/freshness | system | charted | passed | 200 | 176 | none |
+| /system/workers | system | charted | passed | 200 | 176 | none |
+| /system/deployments | system | charted | passed | 200 | 176 | none |
+| /system/credentials | system | charted | passed | 200 | 176 | none |
+| /system/models | system | live | passed | 200 | 176 | none |
+| /system/automations | system | live | passed | 200 | 176 | none |
+| /system/sessions | system | live | passed | 200 | 176 | none |
+| /system/logs | system | live | passed | 200 | 176 | none |
+| /system/plugins | system | live | passed | 200 | 176 | none |
+| /system/admin | system | live | passed | 200 | 176 | none |
+| /system/analytics | system | live | passed | 200 | 176 | none |
+| /second-brain | operate | live | passed | 200 | 176 | none |
+| /compounding-intelligence | operate | intelligent | passed | 200 | 176 | none |
+| /decision-lineage | operate | live | passed | 200 | 176 | none |
+| /contradictions | operate | live | passed | 200 | 176 | none |
+| /research-queue | operate | live | passed | 200 | 176 | none |
+| /preflight | operate | actionable | passed | 200 | 176 | none |
+| /operate/chat-actions | operate | actionable | passed | 200 | 176 | none |
+| /trading/strategies | trading | charted | passed | 200 | 176 | none |
+| /trading | trading | live | passed | 200 | 176 | none |
+| /trading/khashi | trading | live | passed | 200 | 176 | none |
+| /trading/investing | trading | live | passed | 200 | 176 | none |
+| /trading/backtesting | trading | charted | passed | 200 | 176 | none |
+| /trading/shadow-paper | trading | live | passed | 200 | 176 | none |
+| /trading/risk | trading | live | passed | 200 | 176 | none |
+| /trading/head-trader | trading | controlled | passed | 200 | 176 | none |
+| /trading/evidence | trading | charted | passed | 200 | 176 | none |
+| /operate/evidence | operate | charted | passed | 200 | 176 | none |

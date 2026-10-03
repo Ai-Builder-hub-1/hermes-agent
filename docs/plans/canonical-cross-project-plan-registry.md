@@ -13,13 +13,13 @@ This registry consolidates the active and historical maturity plans across Nous 
 | ID | Canonical plan | Primary owner | Status | Current readout |
 | --- | --- | --- | --- | --- |
 | CP-01 | Fleet Dashboard / Frontend Maturity | Nous Hermes Agent | Active | Dashboard quality system is mature; CI hardening is now proven for dashboard auth, MCP OAuth, provider parity, SessionDB event-loop safety, and web checks, while visual proof hardening remains the gating item before treating dashboards as fully T3C-ready. |
-| CP-02 | Operate / Trading / System Control Plane | Nous Hermes Agent | Active, route-clean | Operate, Trading, and System pages now validate at 36/36 routes with 0 failed or blocked live sources on the current backend; the remaining live-source gap is second-brain dependency availability tracked under CP-03. |
+| CP-02 | Operate / Trading / System Control Plane | Nous Hermes Agent | Active, route-clean / source-proof-needs-stable-runtime | Operate, Trading, and System pages validate at 36/36 routes when pointed at an active dashboard server; current live-source proof needs a stable local/prod server rerun because local default `4177` was unavailable and a transient `9119` source run reported stale API drift before the server stopped responding. |
 | CP-03 | Executive / Decision / Second-Brain Intelligence | Nous Hermes Agent | Active, runtime-proven | Decision intelligence, compounding intelligence, preflight, contradiction, research queue, and second-brain pages are routed and contract-backed; Hermes Brain runtime connectivity, service-token guarded endpoints, warehouse sync, compounding 10/10 proof, and automatic high-impact command preflight enforcement are proven. |
 | CP-04 | Cross-Project Data Warehouse / Storage / Archive | Cross-project | Active, ready | Warehouse/storage standards exist, Investing storage proof is ready, OANDA archive trust has bounded production proof, Investing earnings warehouse lifecycle/mirror gates are built, Khashi storage pressure is cleared by Docker build-cache maintenance proof, and Khashi backup/targeted restore proof is ready; destructive pruning stays approval-gated. |
 | CP-05 | Investing Trading / OANDA Live-Readiness | Investing System | Active, should be merged | OANDA, FX risk, trading desk, pre-fund, and practice-to-live plans overlap and should be operated as one live-readiness track with levels 7-9 locked. |
-| CP-06 | Investing Financial Analysis / Earnings Event Intelligence | Investing System | Active | Institutional financial analysis remains the core analysis engine roadmap, with earnings-event trading now built through E05-E24 as tested software; remaining maturity is production provider proof, durable warehouse proof, frontend observability, and live-disabled paper/review gates. |
-| CP-07 | Khashi Trading / Market Intelligence | Khashi VC | Active, should be merged | Khashi trading maturity, market intelligence, and research workspace plans overlap and should become one market-intelligence implementation lane. |
-| CP-08 | Khashi Data Operations / Infrastructure Reliability | Khashi VC | Active | Khashi data ops, storage recovery, infrastructure split, lane split, and warehouse maturity should roll under the cross-project data operations standard. |
+| CP-06 | Investing Financial Analysis / Earnings Event Intelligence | Investing System | Active, software-complete / production-proof-blocked | Institutional financial analysis remains the core analysis engine roadmap, with earnings-event trading now built through E05-E24 as tested software; the new production warehouse proof command exists, while durable production archive roots, mirror ledger evidence, provider/broker proof, frontend observability, and live-disabled paper/review gates remain the operational blockers. |
+| CP-07 | Khashi Trading / Market Intelligence | Khashi VC | Active, stale-proof-blocked | Khashi trading maturity, market intelligence, and research workspace plans overlap and should become one market-intelligence implementation lane; current truth proof shows required market/report evidence is expired, so market claims stay blocked until production freshness and reports are regenerated. |
+| CP-08 | Khashi Data Operations / Infrastructure Reliability | Khashi VC | Active, stale-proof-blocked | Khashi data ops, storage recovery, infrastructure split, lane split, and warehouse maturity roll under the cross-project data operations standard; the proof commands exist, but current storage/freshness artifacts are expired and must be refreshed before this lane can be called ready. |
 | CP-09 | Khashi Dashboard / T3C UI Readiness | Khashi VC + Nous Hermes Agent | Active | Khashi dashboard redesign, Mobbin research, and T3C readiness belong under the fleet dashboard/frontend maturity plan. |
 | CP-10 | Reporting / Briefing / Daily Hard Stop | Khashi VC + Nous Hermes Agent | Active | Khashi reporting and daily hard-stop work should feed the Nous executive cockpit instead of remaining an isolated reporting surface. |
 | CP-11 | Messaging / Agent Command Layer | Nous Hermes Agent | Active support layer | Discord, Telegram, reset commands, alerts, and approvals are shared infrastructure for all operating plans. |
@@ -90,13 +90,14 @@ Current status:
 - Active, route-clean.
 - System warehouse, storage, freshness, workers, deployments, and credentials pages are represented in the frontend code and supporting libraries.
 - Operational route validation passes at 36/36 routes with 0 failed and 0 blocked routes against the current dashboard backend.
-- Operational live-source validation has 0 failed and 0 blocked sources; the only unavailable sources are second-brain dependency endpoints owned by CP-03.
+- Operational live-source validation must be rerun against a stable active dashboard server. Current source code defines the previously missing endpoints, but CMB-007 tracks the proof-environment/runtime drift until the reports are refreshed against the intended local/prod URL.
 - The warehouse page now handles partial/older backend summary payloads through normalization and CP04 runtime fallback instead of rendering a blank page.
 
 Next proof needed:
 
 - Keep route validation green after every frontend/backend control-plane change.
-- Reduce second-brain dependency-unavailable endpoints from 8 to 0 after Hermes Brain runtime configuration.
+- Refresh route/source validation against the intended active dashboard URL and clear CMB-007.
+- Reduce second-brain dependency-unavailable endpoints after Hermes Brain runtime configuration if they recur in stable proof.
 - Continue hardening stale/empty/error states, charts, actions, and audit writeback where appropriate.
 
 ## CP-03 Executive / Decision / Second-Brain Intelligence
@@ -233,17 +234,18 @@ Merged or supporting inputs:
 
 Current status:
 
-- Active.
+- Active, software-complete / production-proof-blocked.
 - This is separate from OANDA execution, but it should feed the same evidence, memory, and executive reporting layers.
 - Earnings-event trading E01-E24 are built as tested software. It is not live-authorized; execution defaults to disabled and no broker authority changes are included.
-- E05-E24 now include provider capability gates, Massive/Finnhub backfill planning/running, archive verification, replay proof, operational records, command-center APIs, non-software gate tracking, restricted-live dossier, scaled readiness, and warehouse lifecycle/mirror gates.
+- E05-E24 now include provider capability gates, Massive/Finnhub backfill planning/running, archive verification, replay proof, operational records, command-center APIs, non-software gate tracking, restricted-live dossier, scaled readiness, warehouse lifecycle/mirror gates, and the operator command `npm run earnings:warehouse:production-proof`.
+- The current 23-symbol archive evidence is verified at the local/temp layer, but production-safe scaled collection remains blocked until production-managed durable archive roots, warehouse mirror ledger entries, and restore proof are recorded.
 
 Next proof needed:
 
 - Convert each financial analysis category into testable engines or contracts.
 - Store outputs in the warehouse and second-brain memory layer.
 - Surface company-level analysis status and stale-data warnings in Nous.
-- Run production durable earnings backfill/mirror/restore proof.
+- Run `npm run earnings:warehouse:production-proof -- --archive-roots=<production-staging-roots> --warehouse-root=<durable-warehouse-root> --write-mirror --output=docs/proofs/earnings-warehouse-production-proof.json` from production roots.
 - Prove Khashi/Kalshi/Robinhood event-contract discovery and broker capability.
 - Add earnings/frontend observability for provider status, warehouse lifecycle, replay freshness, paper cycles, and restricted-live blockers.
 
@@ -270,13 +272,15 @@ Merged or supporting inputs:
 
 Current status:
 
-- Active, fragmented.
+- Active, stale-proof-blocked.
 - The plan reconciliation document should be used as supporting evidence, but the canonical plan should now be this merged market-intelligence track.
+- `npm run khashi:maturity:truth:stdout` is the current operator entrypoint. The latest run reports `blocked` because production freshness proof, storage maturity report, storage production-source proof, and hard-stop report artifacts are expired, even though their required statuses were previously ready.
 
 Next proof needed:
 
 - Define which market-intelligence signals are collected, how often, from which sources, and what qualifies as usable evidence.
 - Connect Khashi status to Nous dashboards and warehouse freshness views.
+- Refresh production freshness, storage maturity, Khashi v2 reports, and hard-stop evidence until maturity truth returns `ready` or only documented optional watches remain.
 
 ## CP-08 Khashi Data Operations / Infrastructure Reliability
 
@@ -299,13 +303,15 @@ Merged or supporting inputs:
 
 Current status:
 
-- Active.
+- Active, stale-proof-blocked.
 - Should be operated as the Khashi implementation lane under CP-04, not as a standalone competing infrastructure plan.
+- Khashi storage/data-ops proof commands exist and tests pass, but the current maturity truth gate shows storage/reporting/freshness artifacts are expired and must be regenerated before this lane can be called current.
 
 Next proof needed:
 
 - Confirm production mounts, retention, archive, collector, and recovery checks.
 - Surface Khashi-specific data health in Nous and Khashi dashboards.
+- Run `npm run khashi:storage:maturity`, production freshness proof, and report regeneration, then rerun `npm run khashi:maturity:truth:stdout`.
 
 ## CP-09 Khashi Dashboard / T3C UI Readiness
 

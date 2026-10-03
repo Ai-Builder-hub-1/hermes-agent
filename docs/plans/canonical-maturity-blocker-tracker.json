@@ -6,12 +6,12 @@
       "id": "CMB-001",
       "canonicalPlan": "CP-03/CP-11",
       "type": "runtime-integration",
-      "impact": "Embedded PTY chat/gateway command execution and live messaging gateway commands still need registered preflight proof before high-impact execution. Dashboard REST routes for deploy, warehouse, operating-runtime adapters, release trains, provider backfill, trading research, Khashi signals, reports, spawned Hermes actions, installs, imports, gateway lifecycle, and checkpoint pruning now have tested registered preflight coverage.",
+      "impact": "Embedded PTY chat/gateway command execution and live messaging gateway commands now have registered preflight software coverage before high-impact execution. Dashboard REST routes for deploy, warehouse, operating-runtime adapters, release trains, provider backfill, trading research, Khashi signals, reports, spawned Hermes actions, installs, imports, gateway lifecycle, checkpoint pruning, embedded TUI command dispatch, slash worker dispatch, messaging /update, and messaging quick-command exec are test-covered.",
       "owner": "Nous Hermes",
-      "continuePath": "Build embedded chat command classifiers, simulated gateway command proofs, and live Discord/Telegram audit evidence while keeping already-wrapped route paths deployed.",
-      "unblockCommand": "Run gateway command tests and live messaging E2E checks after each wrapper is added.",
+      "continuePath": "Keep route, gateway, and messaging command tests green; live credentialed Discord/Telegram E2E evidence is tracked separately under CMB-004.",
+      "unblockCommand": "uv run pytest -q tests/test_tui_gateway_server.py tests/cli/test_quick_commands.py tests/gateway/test_slash_access_dispatch.py tests/gateway/test_update_streaming.py tests/test_high_impact_preflight_adapters.py",
       "evidencePath": "docs/proofs/cp03-second-brain-production-readiness.md",
-      "status": "active"
+      "status": "resolved"
     },
     {
       "id": "CMB-002",
@@ -26,13 +26,13 @@
     },
     {
       "id": "CMB-003",
-      "canonicalPlan": "CP-07/CP-10",
-      "type": "source-contract",
-      "impact": "Khashi market intelligence and reporting need finalized source cadence and report ingestion contract.",
-      "owner": "Khashi VC",
-      "continuePath": "Build contracts, validators, sample ingestion, and Nous visibility with mocked examples.",
-      "unblockCommand": "Confirm source list/cadence and run Khashi signal/report ingestion proof.",
-      "evidencePath": "khashi-vc/docs/ops/KHASHI_CP07_MARKET_INTELLIGENCE_LANE.md",
+      "canonicalPlan": "CP-07/CP-08/CP-10",
+      "type": "stale-production-proof",
+      "impact": "Khashi market intelligence/reporting/data-ops code and proof commands exist, but the current maturity truth gate is blocked because required production freshness, storage maturity, storage production-source, and hard-stop artifacts are expired. The latest local refresh attempt also showed the freshness proof needs a reachable production ROC URL plus a viewer/researcher/admin token, and storage maturity needs readable warehouse catalog access.",
+      "owner": "Khashi VC / Operations",
+      "continuePath": "Keep dashboard/report/proof scripts tested; keep paper/live locked; let stale claims remain blocked until refreshed production evidence exists.",
+      "unblockCommand": "Run npm run khashi:freshness:proof against production with the correct base URL/token, run npm run khashi:storage:maturity with readable warehouse catalog access, regenerate Khashi v2 reports/hard-stop, then run npm run khashi:maturity:truth until status is ready or only documented optional watches remain.",
+      "evidencePath": "khashi-vc/docs/reports/khashi-maturity-truth/latest.json",
       "status": "active"
     },
     {
@@ -44,6 +44,17 @@
       "continuePath": "Build authorization tests, audit contracts, and simulated command proofs.",
       "unblockCommand": "Run live Discord and Telegram command E2E checks with production credentials.",
       "evidencePath": "docs/plans/wave-2-operational-safety-completion-report.md",
+      "status": "active"
+    },
+    {
+      "id": "CMB-007",
+      "canonicalPlan": "CP-01/CP-02/CP-03",
+      "type": "proof-environment",
+      "impact": "Production operational route validation now passes 36/36 routes at https://agent.tlccapitalgroup.com. The remaining proof gap is credentialed source validation: 53 protected dashboard API sources returned 401 without a production dashboard token/session, while 3 public sources were reachable and 0 sources failed structurally.",
+      "owner": "Nous Hermes / Operations",
+      "continuePath": "Keep CP04/runtime and backend CI green; treat the route layer as proven and keep the source layer active until credentialed production API validation is captured.",
+      "unblockCommand": "Rerun npm run dashboard:operational-sources:validate -- --base-url https://agent.tlccapitalgroup.com with production dashboard auth configured, then store the refreshed source report with protected APIs reachable or intentionally classified.",
+      "evidencePath": "docs/design/operational-route-validation-report.md and docs/design/operational-live-source-validation-report.md",
       "status": "active"
     },
     {

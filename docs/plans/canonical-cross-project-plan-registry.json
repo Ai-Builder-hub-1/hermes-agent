@@ -49,8 +49,8 @@
       "wave": "wave-2-operational-safety",
       "order": 5,
       "owner": "nous-hermes-agent",
-      "status": "active-route-clean",
-      "percentComplete": 78,
+      "status": "active-route-clean-source-proof-needs-stable-runtime",
+      "percentComplete": 86,
       "confidence": "medium",
       "canonicalInputs": [
         "nous-hermes-agent/docs/plans/wave-2-operational-safety-contract.json",
@@ -64,8 +64,8 @@
         "nous-hermes-agent/docs/design/dashboard-cross-project-component-audit.md",
         "nous-hermes-agent/docs/design/dashboard-ultimate-gap-assessment.md"
       ],
-      "nextProof": "Operational route validation is clean at 36/36 and live-source validation has 0 failed/blocked sources; next proof is reducing the 8 Hermes Brain dependency-unavailable endpoints to reachable after second-brain service/runtime configuration.",
-      "currentReadout": "Operate, Trading, and System pages now render as actionable operational surfaces. Warehouse route crash was fixed with partial-payload normalization and CP04 runtime fallback; current backend source validates all registered routes and all non-second-brain live sources."
+      "nextProof": "Refresh route/source validation against the intended active dashboard URL and clear CMB-007.",
+      "currentReadout": "Operate, Trading, and System pages validate at 36/36 routes when pointed at an active dashboard server. Current live-source proof needs a stable local/prod server rerun because local default 4177 was unavailable and a transient 9119 source run reported stale API drift before the server stopped responding."
     },
     {
       "id": "CP-03",
@@ -149,8 +149,8 @@
       "wave": "wave-3-intelligence",
       "order": 8,
       "owner": "investing-system",
-      "status": "active",
-      "percentComplete": 93,
+      "status": "active-software-complete-production-proof-blocked",
+      "percentComplete": 95,
       "confidence": "high",
       "canonicalInputs": [
         "investing-system/docs/wave-3-financial-analysis-intelligence-lane.md",
@@ -169,7 +169,7 @@
       "supportingInputs": [
         "investing-system/docs/proofs/earnings-event-trading-e05-e24-proof.md"
       ],
-      "nextProof": "Earnings E05-E24 software is built/tested; next proof is production durable warehouse backfill/mirror/restore, provider and event-contract proofs, frontend observability, and financial-analysis category freshness states."
+      "nextProof": "Run npm run earnings:warehouse:production-proof with production staging roots, durable warehouse root, --write-mirror, and output artifact; then prove provider/event-contract/broker gates and frontend observability."
     },
     {
       "id": "CP-07",
@@ -177,8 +177,8 @@
       "wave": "wave-3-intelligence",
       "order": 9,
       "owner": "khashi-vc",
-      "status": "active-merge-needed",
-      "percentComplete": 72,
+      "status": "active-stale-proof-blocked",
+      "percentComplete": 78,
       "confidence": "medium",
       "canonicalInputs": [
         "khashi-vc/docs/ops/KHASHI_CP07_MARKET_INTELLIGENCE_LANE.md",
@@ -195,7 +195,7 @@
         "khashi-vc/docs/design/KHASHI_MATURITY_ASSESSMENT_2026-09-04.md",
         "khashi-vc/docs/design/KHASHI_MATURITY_REASSESSMENT_2026-09-04.md"
       ],
-      "nextProof": "Define collection cadence, signal evidence standards, and Nous visibility."
+      "nextProof": "Refresh production freshness, storage maturity, Khashi v2 reports, and hard-stop evidence until npm run khashi:maturity:truth:stdout returns ready or only documented optional watches remain."
     },
     {
       "id": "CP-08",
@@ -203,8 +203,8 @@
       "wave": "wave-1-truth-layer",
       "order": 3,
       "owner": "khashi-vc",
-      "status": "active",
-      "percentComplete": 82,
+      "status": "active-stale-proof-blocked",
+      "percentComplete": 84,
       "confidence": "medium-high",
       "canonicalInputs": [
         "khashi-vc/docs/ops/KHASHI_CP08_DATA_OPS_IMPLEMENTATION_LANE.md",
@@ -219,7 +219,7 @@
         "khashi-vc/docs/ops/KHASHI_STORAGE_RECOVERY_AND_PREVENTION_PLAN.md",
         "khashi-vc/docs/ops/KHASHI_STORAGE_MATURITY_RUNBOOK.md"
       ],
-      "nextProof": "Confirm mounts, collector freshness, retention, archive, and recovery checks."
+      "nextProof": "Run npm run khashi:storage:maturity, production freshness proof, and report regeneration, then rerun npm run khashi:maturity:truth:stdout."
     },
     {
       "id": "CP-09",

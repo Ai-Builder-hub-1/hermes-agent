@@ -1,120 +1,120 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-02T15:26:07.070Z",
+  "generatedAt": "2026-10-03T02:18:14.659Z",
   "summary": {
-    "baseUrl": "http://127.0.0.1:9121",
-    "sources": 55,
-    "reachable": 55,
-    "authRequired": 0,
+    "baseUrl": "https://agent.tlccapitalgroup.com",
+    "sources": 56,
+    "reachable": 3,
+    "authRequired": 53,
     "dependencyUnavailable": 0,
     "failed": 0,
     "blocked": 0,
-    "impactedRoutes": 0,
-    "status": "ready",
-    "authMode": "loopback_session_token",
-    "sessionTokenDiscovered": true
+    "impactedRoutes": 35,
+    "status": "auth_required",
+    "authMode": "none",
+    "sessionTokenDiscovered": false
   },
   "sources": [
     {
       "source": "/api/analytics/models",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/analytics"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/analytics/usage",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/analytics"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/compounding-intelligence/summary",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/compounding-intelligence"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/cron/jobs",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/automations"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/head-trader/audit",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/trading/head-trader"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/head-trader/credential-status",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/credentials"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/head-trader/incidents",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/operate/incidents",
         "/trading/head-trader"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/head-trader/summary",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/trading/head-trader"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/logs",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/logs"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/model/auxiliary",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/models"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/model/info",
@@ -128,28 +128,28 @@
     },
     {
       "source": "/api/model/options",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/models"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/operate/queue",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/operate"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/operating-runtime/audit",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/operate",
@@ -158,12 +158,12 @@
         "/operate/chat-actions",
         "/operate/evidence"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/operating-runtime/evidence",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/operate",
@@ -175,127 +175,137 @@
         "/system/deployments",
         "/system/workers"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/operating-runtime/incidents",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/operate/incidents"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/operating-runtime/summary",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/operate"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/operating-runtime/workbench",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/operate/actions"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/second-brain/candidates",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/second-brain"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/second-brain/contradictions",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/contradictions"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/second-brain/decision-intelligence/metrics",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/preflight"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/second-brain/decisions",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/decision-lineage"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
-      "source": "/api/second-brain/preflight-checks",
-      "status": "reachable",
-      "httpStatus": 200,
+      "source": "/api/second-brain/high-impact-workflows",
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/preflight"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
+    },
+    {
+      "source": "/api/second-brain/preflight-checks",
+      "status": "auth_required",
+      "httpStatus": 401,
+      "contentType": "application/json",
+      "pages": [
+        "/preflight"
+      ],
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/second-brain/research-tasks",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/research-queue"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/second-brain/search",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/second-brain"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/second-brain/summary",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/second-brain"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/sessions",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/sessions"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/status",
@@ -309,160 +319,160 @@
     },
     {
       "source": "/api/system/credentials/series",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/credentials"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/credentials/summary",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/credentials"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/deployments/series",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/deployments"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/deployments/summary",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/deployments"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/freshness/series",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/freshness"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/freshness/summary",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/freshness"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/stats",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/admin"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/storage/series",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/storage"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/storage/summary",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/storage"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/warehouse/jobs",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/warehouse"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/warehouse/series",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/warehouse"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/warehouse/sources",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/freshness",
         "/system/warehouse"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/warehouse/summary",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/warehouse"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/workers/series",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/system/workers"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/system/workers/summary",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/operate/runs",
         "/system/workers"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/trading-intelligence/command-center",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/trading",
@@ -471,109 +481,109 @@
         "/trading/shadow-paper",
         "/trading/strategies"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/trading-intelligence/controls",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/trading"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/trading-intelligence/events",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/trading/evidence",
         "/trading/shadow-paper"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/trading-intelligence/portfolio/summary",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/trading/risk"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/trading-research/backtesting/series",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/trading/backtesting"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/trading-research/backtesting/summary",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/trading/backtesting"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/trading-research/evidence/ledger",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/trading/evidence"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/trading-research/evidence/series",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/trading/evidence"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/trading-research/outcomes/summary",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/trading/evidence"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/trading-research/strategies/series",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/trading/strategies"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/api/trading-research/strategies/summary",
-      "status": "reachable",
-      "httpStatus": 200,
+      "status": "auth_required",
+      "httpStatus": 401,
       "contentType": "application/json",
       "pages": [
         "/trading/backtesting",
         "/trading/strategies"
       ],
-      "issue": ""
+      "issue": "HTTP status 401"
     },
     {
       "source": "/dashboard-plugins/registry",
@@ -586,5 +596,254 @@
       "issue": ""
     }
   ],
-  "routeImpacts": []
+  "routeImpacts": [
+    {
+      "route": "/compounding-intelligence",
+      "blockedSources": [
+        "/api/compounding-intelligence/summary"
+      ]
+    },
+    {
+      "route": "/contradictions",
+      "blockedSources": [
+        "/api/second-brain/contradictions"
+      ]
+    },
+    {
+      "route": "/decision-lineage",
+      "blockedSources": [
+        "/api/second-brain/decisions"
+      ]
+    },
+    {
+      "route": "/operate",
+      "blockedSources": [
+        "/api/operate/queue",
+        "/api/operating-runtime/audit",
+        "/api/operating-runtime/evidence",
+        "/api/operating-runtime/summary"
+      ]
+    },
+    {
+      "route": "/operate/actions",
+      "blockedSources": [
+        "/api/operating-runtime/evidence",
+        "/api/operating-runtime/workbench"
+      ]
+    },
+    {
+      "route": "/operate/approvals",
+      "blockedSources": [
+        "/api/operating-runtime/audit"
+      ]
+    },
+    {
+      "route": "/operate/blockers",
+      "blockedSources": [
+        "/api/operating-runtime/audit",
+        "/api/operating-runtime/evidence"
+      ]
+    },
+    {
+      "route": "/operate/chat-actions",
+      "blockedSources": [
+        "/api/operating-runtime/audit",
+        "/api/operating-runtime/evidence"
+      ]
+    },
+    {
+      "route": "/operate/evidence",
+      "blockedSources": [
+        "/api/operating-runtime/audit",
+        "/api/operating-runtime/evidence"
+      ]
+    },
+    {
+      "route": "/operate/incidents",
+      "blockedSources": [
+        "/api/head-trader/incidents",
+        "/api/operating-runtime/incidents"
+      ]
+    },
+    {
+      "route": "/operate/runs",
+      "blockedSources": [
+        "/api/operating-runtime/evidence",
+        "/api/system/workers/summary"
+      ]
+    },
+    {
+      "route": "/preflight",
+      "blockedSources": [
+        "/api/second-brain/decision-intelligence/metrics",
+        "/api/second-brain/high-impact-workflows",
+        "/api/second-brain/preflight-checks"
+      ]
+    },
+    {
+      "route": "/research-queue",
+      "blockedSources": [
+        "/api/second-brain/research-tasks"
+      ]
+    },
+    {
+      "route": "/second-brain",
+      "blockedSources": [
+        "/api/second-brain/candidates",
+        "/api/second-brain/search",
+        "/api/second-brain/summary"
+      ]
+    },
+    {
+      "route": "/system/admin",
+      "blockedSources": [
+        "/api/system/stats"
+      ]
+    },
+    {
+      "route": "/system/analytics",
+      "blockedSources": [
+        "/api/analytics/models",
+        "/api/analytics/usage"
+      ]
+    },
+    {
+      "route": "/system/automations",
+      "blockedSources": [
+        "/api/cron/jobs"
+      ]
+    },
+    {
+      "route": "/system/credentials",
+      "blockedSources": [
+        "/api/head-trader/credential-status",
+        "/api/system/credentials/series",
+        "/api/system/credentials/summary"
+      ]
+    },
+    {
+      "route": "/system/deployments",
+      "blockedSources": [
+        "/api/operating-runtime/evidence",
+        "/api/system/deployments/series",
+        "/api/system/deployments/summary"
+      ]
+    },
+    {
+      "route": "/system/freshness",
+      "blockedSources": [
+        "/api/system/freshness/series",
+        "/api/system/freshness/summary",
+        "/api/system/warehouse/sources"
+      ]
+    },
+    {
+      "route": "/system/logs",
+      "blockedSources": [
+        "/api/logs"
+      ]
+    },
+    {
+      "route": "/system/models",
+      "blockedSources": [
+        "/api/model/auxiliary",
+        "/api/model/options"
+      ]
+    },
+    {
+      "route": "/system/sessions",
+      "blockedSources": [
+        "/api/sessions"
+      ]
+    },
+    {
+      "route": "/system/storage",
+      "blockedSources": [
+        "/api/system/storage/series",
+        "/api/system/storage/summary"
+      ]
+    },
+    {
+      "route": "/system/warehouse",
+      "blockedSources": [
+        "/api/system/warehouse/jobs",
+        "/api/system/warehouse/series",
+        "/api/system/warehouse/sources",
+        "/api/system/warehouse/summary"
+      ]
+    },
+    {
+      "route": "/system/workers",
+      "blockedSources": [
+        "/api/operating-runtime/evidence",
+        "/api/system/workers/series",
+        "/api/system/workers/summary"
+      ]
+    },
+    {
+      "route": "/trading",
+      "blockedSources": [
+        "/api/trading-intelligence/command-center",
+        "/api/trading-intelligence/controls"
+      ]
+    },
+    {
+      "route": "/trading/backtesting",
+      "blockedSources": [
+        "/api/trading-research/backtesting/series",
+        "/api/trading-research/backtesting/summary",
+        "/api/trading-research/strategies/summary"
+      ]
+    },
+    {
+      "route": "/trading/evidence",
+      "blockedSources": [
+        "/api/trading-intelligence/events",
+        "/api/trading-research/evidence/ledger",
+        "/api/trading-research/evidence/series",
+        "/api/trading-research/outcomes/summary"
+      ]
+    },
+    {
+      "route": "/trading/head-trader",
+      "blockedSources": [
+        "/api/head-trader/audit",
+        "/api/head-trader/incidents",
+        "/api/head-trader/summary"
+      ]
+    },
+    {
+      "route": "/trading/investing",
+      "blockedSources": [
+        "/api/trading-intelligence/command-center"
+      ]
+    },
+    {
+      "route": "/trading/khashi",
+      "blockedSources": [
+        "/api/trading-intelligence/command-center"
+      ]
+    },
+    {
+      "route": "/trading/risk",
+      "blockedSources": [
+        "/api/trading-intelligence/portfolio/summary"
+      ]
+    },
+    {
+      "route": "/trading/shadow-paper",
+      "blockedSources": [
+        "/api/trading-intelligence/command-center",
+        "/api/trading-intelligence/events"
+      ]
+    },
+    {
+      "route": "/trading/strategies",
+      "blockedSources": [
+        "/api/trading-intelligence/command-center",
+        "/api/trading-research/strategies/series",
+        "/api/trading-research/strategies/summary"
+      ]
+    }
+  ]
 }

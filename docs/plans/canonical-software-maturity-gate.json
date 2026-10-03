@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-03T02:52:53.489Z",
+  "status": "software-maturity-gate-ready",
+  "summary": {
+    "plans": 12,
+    "blockers": 7,
+    "activeBlockers": 4,
+    "lockedBlockers": 2,
+    "resolvedBlockers": 1,
+    "requiredSoftwareHarnesses": 8,
+    "unresolvedSoftwareHarnessGaps": 0,
+    "activeUnclassifiedBlockers": 0,
+    "errors": 0,
+    "warnings": 0
+  },
+  "requiredSoftwareHarnesses": [
+    {
+      "id": "investing-warehouse-production-proof",
+      "project": "investing-system",
+      "script": "earnings:warehouse:production-proof",
+      "paths": [
+        "investing-system/src/earnings/warehouse-production-proof.ts",
+        "investing-system/src/scripts/earnings-warehouse-production-proof.ts",
+        "investing-system/tests/earnings/warehouse-production-proof.test.ts"
+      ]
+    },
+    {
+      "id": "khashi-maturity-truth",
+      "project": "khashi-vc",
+      "script": "khashi:maturity:truth:stdout",
+      "paths": [
+        "khashi-vc/scripts/khashi-maturity-truth.mjs"
+      ]
+    },
+    {
+      "id": "khashi-freshness-proof",
+      "project": "khashi-vc",
+      "script": "khashi:freshness:proof",
+      "paths": [
+        "khashi-vc/scripts/khashi-freshness-proof.mjs"
+      ]
+    },
+    {
+      "id": "khashi-storage-maturity",
+      "project": "khashi-vc",
+      "script": "khashi:storage:maturity",
+      "paths": [
+        "khashi-vc/scripts/khashi-storage-maturity.mjs"
+      ]
+    },
+    {
+      "id": "nous-operational-routes",
+      "project": "nous-hermes-agent",
+      "script": "dashboard:operational-routes:validate",
+      "paths": [
+        "nous-hermes-agent/scripts/validate-operational-routes.ts"
+      ]
+    },
+    {
+      "id": "nous-operational-sources",
+      "project": "nous-hermes-agent",
+      "script": "dashboard:operational-sources:validate",
+      "paths": [
+        "nous-hermes-agent/scripts/validate-operational-live-sources.ts"
+      ]
+    },
+    {
+      "id": "nous-cp04-runtime",
+      "project": "nous-hermes-agent",
+      "script": "warehouse:runtime-intelligence:validate",
+      "paths": [
+        "nous-hermes-agent/scripts/validate-cp04-runtime-intelligence-maturity.mjs"
+      ]
+    },
+    {
+      "id": "canonical-runtime-blockers",
+      "project": "nous-hermes-agent",
+      "script": "canonical:runtime-blockers:audit",
+      "paths": [
+        "nous-hermes-agent/scripts/audit-canonical-runtime-blockers.mjs"
+      ]
+    }
+  ],
+  "remainingRuntimeGates": [
+    {
+      "id": "CMB-002",
+      "canonicalPlan": "CP-04/CP-06",
+      "type": "production-env",
+      "owner": "Investing System / Operations",
+      "status": "active",
+      "unblockCommand": "Set/verify EARNINGS_BACKFILL_ARCHIVE_ROOT and EARNINGS_WAREHOUSE_ARCHIVE_ROOT, then run production mirror/restore proof.",
+      "evidencePath": "investing-system/docs/proofs/earnings-event-trading-e05-e24-full-extent-audit.md"
+    },
+    {
+      "id": "CMB-003",
+      "canonicalPlan": "CP-07/CP-08/CP-10",
+      "type": "stale-production-proof",
+      "owner": "Khashi VC / Operations",
+      "status": "active",
+      "unblockCommand": "Run npm run khashi:freshness:proof against production with the correct base URL/token, run npm run khashi:storage:maturity with readable warehouse catalog access, regenerate Khashi v2 reports/hard-stop, then run npm run khashi:maturity:truth until status is ready or only documented optional watches remain.",
+      "evidencePath": "khashi-vc/docs/reports/khashi-maturity-truth/latest.json"
+    },
+    {
+      "id": "CMB-004",
+      "canonicalPlan": "CP-11",
+      "type": "production-token",
+      "owner": "Nous Hermes / Operations",
+      "status": "active",
+      "unblockCommand": "Run live Discord and Telegram command E2E checks with production credentials.",
+      "evidencePath": "docs/plans/wave-2-operational-safety-completion-report.md"
+    },
+    {
+      "id": "CMB-007",
+      "canonicalPlan": "CP-01/CP-02/CP-03",
+      "type": "proof-environment",
+      "owner": "Nous Hermes / Operations",
+      "status": "active",
+      "unblockCommand": "Rerun npm run dashboard:operational-sources:validate -- --base-url https://agent.tlccapitalgroup.com with production dashboard auth configured, then store the refreshed source report with protected APIs reachable or intentionally classified.",
+      "evidencePath": "docs/design/operational-route-validation-report.md and docs/design/operational-live-source-validation-report.md"
+    },
+    {
+      "id": "CMB-005",
+      "canonicalPlan": "CP-05",
+      "type": "approval-policy",
+      "owner": "Investing System",
+      "status": "locked",
+      "unblockCommand": "Human approval after risk gate, live ops review, incident drill, and restore proof.",
+      "evidencePath": "investing-system/docs/oanda-live-readiness-canonical-matrix.md"
+    },
+    {
+      "id": "CMB-006",
+      "canonicalPlan": "CP-04",
+      "type": "approval-policy",
+      "owner": "Operations",
+      "status": "locked",
+      "unblockCommand": "Human approval after all prune readiness gates pass.",
+      "evidencePath": "docs/plans/cross-project-warehouse-truth-contract.md"
+    }
+  ],
+  "issues": []
+}
