@@ -61,11 +61,17 @@ if (process.argv.includes("--strict") && report.status === "blocked") process.ex
 
 function investingWarehouseCheck() {
   const proof = readJson(investingProofPath);
+  const proofHasBackfillRoot = Array.isArray(proof?.archiveRoots)
+    && proof.archiveRoots.some((root) => String(root || "").trim());
+  const proofHasWarehouseRoot = Boolean(String(proof?.warehouseRoot || "").trim());
   const env = {
-    EARNINGS_BACKFILL_ARCHIVE_ROOT: Boolean(process.env.EARNINGS_BACKFILL_ARCHIVE_ROOT),
-    EARNINGS_WAREHOUSE_ARCHIVE_ROOT: Boolean(process.env.EARNINGS_WAREHOUSE_ARCHIVE_ROOT)
+    EARNINGS_BACKFILL_ARCHIVE_ROOT: Boolean(process.env.EARNINGS_BACKFILL_ARCHIVE_ROOT) || proofHasBackfillRoot,
+    EARNINGS_WAREHOUSE_ARCHIVE_ROOT: Boolean(process.env.EARNINGS_WAREHOUSE_ARCHIVE_ROOT) || proofHasWarehouseRoot
   };
   const ready = proof?.status === "ready" && env.EARNINGS_BACKFILL_ARCHIVE_ROOT && env.EARNINGS_WAREHOUSE_ARCHIVE_ROOT;
+  const rootActions = missingEnv(env).length
+    ? ["Set EARNINGS_BACKFILL_ARCHIVE_ROOT and EARNINGS_WAREHOUSE_ARCHIVE_ROOT in the production/runtime environment."]
+    : [];
   return {
     id: "CMB-002",
     title: "Investing earnings warehouse production proof",
@@ -82,8 +88,10 @@ function investingWarehouseCheck() {
     nextActions: ready
       ? ["Keep the production proof fresh before scaled collection expansion."]
       : [
-          "Set EARNINGS_BACKFILL_ARCHIVE_ROOT and EARNINGS_WAREHOUSE_ARCHIVE_ROOT in the production/runtime environment.",
-          "Run `npm run earnings:warehouse:production-proof -- --write-mirror --output=docs/proofs/earnings-warehouse-production-proof-latest.json` from investing-system.",
+          ...rootActions,
+          ...(rootActions.length
+            ? ["Run `npm run earnings:warehouse:production-proof -- --write-mirror --output=docs/proofs/earnings-warehouse-production-proof-latest.json` from investing-system."]
+            : ["Backfill the missing earnings core layers into the configured production archive roots, then rerun the proof."]),
           "Rerun this canonical runtime blocker audit."
         ]
   };
