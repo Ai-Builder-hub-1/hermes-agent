@@ -366,6 +366,31 @@ def test_invalid_cookie_returns_401_on_api(gated_app):
     assert r.status_code == 401
 
 
+def test_loopback_session_token_allows_gated_api_proof(gated_app, monkeypatch):
+    monkeypatch.setenv("HERMES_DASHBOARD_SESSION_TOKEN", "loopback-proof-token")
+
+    r = gated_app.get(
+        "/api/sessions",
+        headers={"X-Hermes-Session-Token": "loopback-proof-token"},
+    )
+
+    assert r.status_code == 200, (
+        "Loopback proof jobs should be able to validate protected API sources "
+        f"without a human dashboard cookie: {r.status_code} {r.text}"
+    )
+
+
+def test_wrong_loopback_session_token_still_fails_closed(gated_app, monkeypatch):
+    monkeypatch.setenv("HERMES_DASHBOARD_SESSION_TOKEN", "loopback-proof-token")
+
+    r = gated_app.get(
+        "/api/sessions",
+        headers={"X-Hermes-Session-Token": "wrong-token"},
+    )
+
+    assert r.status_code == 401
+
+
 def test_invalid_cookie_redirects_on_html(gated_app):
     gated_app.cookies.set(SESSION_AT_COOKIE, "garbage")
     r = gated_app.get("/", follow_redirects=False)

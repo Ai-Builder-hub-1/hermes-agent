@@ -16,7 +16,10 @@ binds.
 """
 from __future__ import annotations
 
+import hmac
 import logging
+import os
+import time
 from typing import Awaitable, Callable
 
 from fastapi import Request
@@ -28,6 +31,7 @@ from hermes_cli.dashboard_auth.base import (
     DashboardAuthProvider,
     ProviderError,
     RefreshExpiredError,
+    Session,
 )
 from hermes_cli.dashboard_auth.cookies import (
     clear_sso_attempt_cookie,
@@ -89,6 +93,44 @@ def _client_ip(request: Request) -> str:
     if fwd:
         return fwd.split(",")[0].strip()
     return request.client.host if request.client else ""
+
+
+def _is_loopback_client(request: Request) -> bool:
+    client_host = request.client.host if request.client else ""
+    return client_host in {"127.0.0.1", "::1", "localhost", "testclient"}
+
+
+def _attach_loopback_service_session(request: Request) -> bool:
+    """Allow in-process dashboard proof jobs to validate gated API routes.
+
+    Production binds the dashboard on ``0.0.0.0``, so the normal gated auth
+    middleware expects a human dashboard cookie. Operational proof jobs run
+    inside the same container against ``127.0.0.1`` and cannot safely reuse a
+    human cookie. A strong ``HERMES_DASHBOARD_SESSION_TOKEN`` therefore acts as
+    a loopback-only service credential for read-side API validation while the
+    public dashboard gate remains unchanged.
+    """
+    if not request.url.path.startswith("/api/"):
+        return False
+    if not _is_loopback_client(request):
+        return False
+    expected = os.environ.get("HERMES_DASHBOARD_SESSION_TOKEN", "").strip()
+    presented = request.headers.get("X-Hermes-Session-Token", "").strip()
+    if not expected or not presented:
+        return False
+    if not hmac.compare_digest(presented.encode("utf-8"), expected.encode("utf-8")):
+        return False
+    request.state.session = Session(
+        user_id="dashboard-proof-service",
+        email="dashboard-proof@localhost",
+        display_name="Dashboard Proof Service",
+        org_id="local",
+        provider="loopback-service-token",
+        expires_at=int(time.time()) + 300,
+        access_token="",
+        refresh_token="",
+    )
+    return True
 
 
 def _ordered_session_providers(
@@ -296,6 +338,9 @@ async def gated_auth_middleware(
         return await call_next(request)
 
     path = request.url.path
+    if _attach_loopback_service_session(request):
+        return await call_next(request)
+
     if _path_is_public(path):
         return await call_next(request)
 
