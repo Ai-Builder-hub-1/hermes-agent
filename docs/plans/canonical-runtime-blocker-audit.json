@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-03T02:50:06.978Z",
+  "generatedAt": "2026-10-03T17:12:42.318Z",
   "status": "blocked",
   "summary": {
     "checks": 5,
-    "ready": 0,
-    "blocked": 3,
+    "ready": 1,
+    "blocked": 2,
     "locked": 2
   },
   "checks": [
@@ -40,9 +40,15 @@
     {
       "id": "CMB-003",
       "title": "Khashi freshness/storage production proof",
-      "status": "blocked",
+      "status": "ready",
       "evidencePath": "khashi-vc/docs/reports/khashi-maturity-truth/latest.json",
-      "evidenceStatus": "blocked",
+      "evidenceStatus": "watch",
+      "freshnessProof": {
+        "status": "fresh-enough",
+        "checkedAt": "2026-10-03T17:04:08.040Z",
+        "authPassed": true,
+        "blockers": []
+      },
       "requiredInputs": {
         "baseUrl": true,
         "token": false,
@@ -58,17 +64,9 @@
           "KHASHI_WAREHOUSE_ROOT": "missing"
         }
       },
-      "blockers": [
-        "Missing KHASHI_FRESHNESS_TOKEN or AMARI_* token.",
-        "Required artifact is blocked: blocked; 11 blocker(s).",
-        "Required artifact is expired: 2247m old, max 120m.",
-        "Required artifact is expired: 9152m old, max 120m.",
-        "Required artifact is expired: 9196m old, max 180m."
-      ],
+      "blockers": [],
       "nextActions": [
-        "Run `KHASHI_FRESHNESS_MODE=production npm run khashi:freshness:proof` from khashi-vc with production URL/token configured.",
-        "Run `npm run khashi:storage:maturity` from khashi-vc with readable warehouse root configured.",
-        "Regenerate Khashi v2 reports and run `npm run khashi:maturity:truth`."
+        "Keep Khashi maturity truth fresh before relying on market intelligence reports."
       ]
     },
     {

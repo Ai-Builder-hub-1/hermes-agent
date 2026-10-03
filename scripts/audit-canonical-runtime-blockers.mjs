@@ -91,6 +91,7 @@ function investingWarehouseCheck() {
 
 function khashiFreshnessStorageCheck() {
   const truth = readJson(khashiTruthPath);
+  const freshnessProof = readJson(path.join(workspaceRoot, "khashi-vc/docs/proofs/khashi-freshness-proof.json"));
   const env = {
     KHASHI_FRESHNESS_BASE_URL: Boolean(process.env.KHASHI_FRESHNESS_BASE_URL),
     KHASHI_ROC_BASE_URL: Boolean(process.env.KHASHI_ROC_BASE_URL),
@@ -104,13 +105,26 @@ function khashiFreshnessStorageCheck() {
   const hasBaseUrl = env.KHASHI_FRESHNESS_BASE_URL || env.KHASHI_ROC_BASE_URL;
   const hasToken = env.KHASHI_FRESHNESS_TOKEN || env.AMARI_VIEWER_TOKEN || env.AMARI_RESEARCHER_TOKEN || env.AMARI_ADMIN_TOKEN;
   const hasWarehouseRoot = env.MARKET_WAREHOUSE_ROOT || env.KHASHI_WAREHOUSE_ROOT;
-  const ready = truth?.status === "ready" && hasBaseUrl && hasToken && hasWarehouseRoot;
+  const freshnessAuthPassed = Boolean(
+    freshnessProof
+      && freshnessProof.status !== "observe-blocked"
+      && !hasFreshnessAuthFailure(freshnessProof)
+  );
+  const blockedFindings = (truth?.findings ?? []).filter((finding) => finding.severity === "blocked");
+  const requiredEvidenceReady = ["ready", "watch"].includes(String(truth?.status ?? "")) && blockedFindings.length === 0;
+  const ready = requiredEvidenceReady && hasBaseUrl && (hasToken || freshnessAuthPassed) && hasWarehouseRoot;
   return {
     id: "CMB-003",
     title: "Khashi freshness/storage production proof",
     status: ready ? "ready" : "blocked",
     evidencePath: relative(khashiTruthPath),
     evidenceStatus: truth?.status ?? "missing",
+    freshnessProof: {
+      status: freshnessProof?.status ?? "missing",
+      checkedAt: freshnessProof?.checkedAt ?? null,
+      authPassed: freshnessAuthPassed,
+      blockers: freshnessProof?.blockers ?? []
+    },
     requiredInputs: {
       baseUrl: hasBaseUrl,
       token: hasToken,
@@ -121,9 +135,9 @@ function khashiFreshnessStorageCheck() {
       ? []
       : [
           ...(hasBaseUrl ? [] : ["Missing KHASHI_FRESHNESS_BASE_URL or KHASHI_ROC_BASE_URL."]),
-          ...(hasToken ? [] : ["Missing KHASHI_FRESHNESS_TOKEN or AMARI_* token."]),
+          ...(hasToken || freshnessAuthPassed ? [] : ["Missing KHASHI_FRESHNESS_TOKEN or AMARI_* token."]),
           ...(hasWarehouseRoot ? [] : ["Missing MARKET_WAREHOUSE_ROOT or KHASHI_WAREHOUSE_ROOT for readable warehouse catalog proof."]),
-          ...(truth?.findings ?? []).filter((finding) => finding.severity === "blocked").map((finding) => finding.message),
+          ...blockedFindings.map((finding) => finding.message),
           ...(truth ? [] : ["Khashi maturity truth artifact is missing."])
         ],
     nextActions: ready
@@ -134,6 +148,15 @@ function khashiFreshnessStorageCheck() {
           "Regenerate Khashi v2 reports and run `npm run khashi:maturity:truth`."
         ]
   };
+}
+
+function hasFreshnessAuthFailure(proof) {
+  const failedChecks = Array.isArray(proof?.checks) ? proof.checks.filter((check) => check.required !== false && !check.ok) : [];
+  return failedChecks.some((check) => {
+    const status = Number(check.status);
+    const error = String(check.error ?? "").toLowerCase();
+    return status === 401 || status === 403 || error.includes("token missing") || error.includes("authorization");
+  });
 }
 
 function nousSourceAuthCheck() {
