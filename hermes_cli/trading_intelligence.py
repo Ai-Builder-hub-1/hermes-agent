@@ -18,6 +18,7 @@ CONTRACT_VERSION = "trading-intelligence-control-plane.v1"
 FRONTEND_CONTRACT_VERSION = "2026-09-08.v1"
 COMMAND_CENTER_CONTRACT_VERSION = "trading-command-center.v1"
 READ_CACHE_TTL_SECONDS = float(os.environ.get("TRADING_INTELLIGENCE_READ_CACHE_TTL_SECONDS", "20"))
+SOURCE_REQUEST_TIMEOUT_SECONDS = float(os.environ.get("TRADING_SOURCE_REQUEST_TIMEOUT_SECONDS", "2"))
 _READ_CACHE: dict[str, tuple[float, dict[str, Any]]] = {}
 
 
@@ -852,7 +853,7 @@ async def _request_source(
     last_error = "source_unavailable"
     last_status = 0
     for base_url in _source_base_urls(source):
-        result = await asyncio.to_thread(_request_json_sync, base_url, route, method, headers, data)
+        result = await asyncio.to_thread(_request_json_sync, base_url, route, method, headers, data, SOURCE_REQUEST_TIMEOUT_SECONDS)
         result["latencyMs"] = int((datetime.now(timezone.utc) - started).total_seconds() * 1000)
         if result["ok"]:
             return result
@@ -863,11 +864,11 @@ async def _request_source(
     return {"ok": False, "status": last_status, "latencyMs": int((datetime.now(timezone.utc) - started).total_seconds() * 1000), "payload": None, "error": last_error, "baseUrl": None}
 
 
-def _request_json_sync(base_url: str, route: str, method: str, headers: dict[str, str], data: bytes | None) -> dict[str, Any]:
+def _request_json_sync(base_url: str, route: str, method: str, headers: dict[str, str], data: bytes | None, timeout: float) -> dict[str, Any]:
     url = urllib.parse.urljoin(_ensure_trailing_slash(base_url), route.lstrip("/"))
     request = urllib.request.Request(url, data=data, headers=headers, method=method)
     try:
-        with urllib.request.urlopen(request, timeout=8) as response:
+        with urllib.request.urlopen(request, timeout=max(0.5, timeout)) as response:
             text = response.read().decode("utf-8")
             return {"ok": 200 <= response.status < 300, "status": response.status, "payload": json.loads(text) if text else None, "error": None, "baseUrl": base_url}
     except urllib.error.HTTPError as exc:
