@@ -277,6 +277,10 @@ async def strategy_series(window: Window = "24h") -> dict[str, Any]:
 
 async def backtesting_summary() -> dict[str, Any]:
     strategies = await strategy_summary()
+    return _backtesting_from_strategies(strategies)
+
+
+def _backtesting_from_strategies(strategies: dict[str, Any]) -> dict[str, Any]:
     runs = []
     for candidate in strategies["candidates"]:
         evidence_count = int(candidate.get("evidenceCount") or 0)
@@ -334,7 +338,12 @@ async def backtesting_series(window: Window = "24h") -> dict[str, Any]:
 
 
 async def strategy_lifecycle_summary() -> dict[str, Any]:
-    strategies, backtests = await strategy_summary(), await backtesting_summary()
+    strategies = await strategy_summary()
+    backtests = _backtesting_from_strategies(strategies)
+    return _strategy_lifecycle_from_components(strategies, backtests)
+
+
+def _strategy_lifecycle_from_components(strategies: dict[str, Any], backtests: dict[str, Any]) -> dict[str, Any]:
     candidates = list(strategies.get("candidates") or [])
     runs = list(backtests.get("runs") or [])
     run_by_strategy = {str(run.get("strategyId")): run for run in runs}
@@ -796,11 +805,12 @@ async def record_evidence_review() -> dict[str, Any]:
 
 
 async def outcome_learning_summary() -> dict[str, Any]:
-    lifecycle, backtests, ledger = await asyncio.gather(
-        strategy_lifecycle_summary(),
-        backtesting_summary(),
+    strategies, ledger = await asyncio.gather(
+        strategy_summary(),
         evidence_ledger(100),
     )
+    backtests = _backtesting_from_strategies(strategies)
+    lifecycle = _strategy_lifecycle_from_components(strategies, backtests)
     lifecycle_summary = lifecycle.get("summary", {})
     backtest_summary = backtests.get("summary", {})
     evidence_summary = ledger.get("summary", {})
