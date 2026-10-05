@@ -35,67 +35,17 @@ const requiredSteps = [
     command: ["npm", ["run", "dashboard:web:build-budget"]]
   },
   {
-    id: "dashboard-governance",
-    label: "Dashboard governance",
-    command: ["npm", ["run", "dashboard:governance:validate"]]
-  },
-  {
-    id: "dashboard-certification-report",
-    label: "Dashboard certification report",
-    command: ["npm", ["run", "dashboard:certify"]]
-  },
-  {
-    id: "dashboard-source-decomposition",
-    label: "Dashboard source decomposition report",
-    command: ["npm", ["run", "dashboard:source-decomposition:report"]]
-  },
-  {
-    id: "dashboard-certification-artifacts",
-    label: "Dashboard certification artifact validation",
-    command: ["npm", ["run", "dashboard:certify:validate:strict"]]
-  },
-  {
-    id: "dashboard-certification-repair",
-    label: "Dashboard certification repair supervisor",
-    command: ["npm", ["run", "dashboard:certify:repair"]]
-  },
-  {
-    id: "dashboard-certification-repair-validation",
-    label: "Dashboard certification repair validation",
-    command: ["npm", ["run", "dashboard:certify:repair:validate:strict"]]
-  },
-  {
-    id: "dashboard-certification-repair-execution",
-    label: "Dashboard certification repair execution ledger",
-    command: ["npm", ["run", "dashboard:certify:repair:execute:strict"]]
-  },
-  {
-    id: "dashboard-certification",
-    label: "Dashboard certification pre-deploy gate",
-    command: ["npm", ["run", "dashboard:certify:strict"]]
+    id: "ui-production-evidence",
+    label: "Project-owned UI production evidence and backend contracts",
+    command: ["npm", ["run", "dashboard:release:fleet"]]
   }
 ];
 
 const fullOnlySteps = [
   {
-    id: "dashboard-kit-adoption",
-    label: "Dashboard kit adoption strict gate",
-    command: ["npm", ["run", "dashboard-kit:adoption:audit:strict"]]
-  },
-  {
-    id: "dashboard-source-decomposition-strict",
-    label: "Dashboard source decomposition strict gate",
-    command: ["npm", ["run", "dashboard:source-decomposition:strict"]]
-  },
-  {
-    id: "fleet-maturity",
-    label: "Fleet maturity validation",
-    command: ["npm", ["run", "fleet:maturity:validate"]]
-  },
-  {
-    id: "dashboard-review-packet",
-    label: "Dashboard review packet validation",
-    command: ["npm", ["run", "dashboard:review-packet:validate"]]
+    id: "ui-policy-tests",
+    label: "UI policy regression tests",
+    command: ["npm", ["run", "dashboard:ui-policy:test"]]
   }
 ];
 

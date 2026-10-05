@@ -3,6 +3,8 @@ import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
 
+import { projectOwnsVisuals, isPrototypePath } from './dashboard-ui-policy.mjs';
+
 const root = process.cwd();
 const args = process.argv.slice(2);
 const strict = args.includes("--strict");
@@ -135,6 +137,8 @@ function localOverrideExceptions(manifest) {
 }
 
 function exceptionMatches(exception, finding) {
+  const expiry = Date.parse(exception.expiresAt ?? exception.expiresAfter);
+  if (!Number.isFinite(expiry) || expiry <= Date.now()) return false;
   const pathMatch =
     !exception.path ||
     finding.path.endsWith(exception.path) ||
@@ -217,7 +221,7 @@ function isSharedCss(file, projectRoot = root) {
 }
 
 function scanCssFile({ project, file, manifest, projectRoot }) {
-  if (isSharedCss(file, projectRoot)) return [];
+  if (isSharedCss(file, projectRoot) || isPrototypePath(path.relative(projectRoot, file), manifest)) return [];
   const findings = [];
   const content = fs.readFileSync(file, "utf8");
   const exceptions = localOverrideExceptions(manifest);
@@ -334,6 +338,9 @@ function evaluateProject(project) {
     }
   }
 
+  if (projectOwnsVisuals(manifest)) {
+    for (const finding of issues) { finding.severity = "warning"; finding.advisory = "Optional HDK conformance; project-owned design is allowed."; }
+  }
   const errors = issues.filter((item) => item.severity === "error").length;
   const warnings = issues.filter((item) => item.severity === "warning").length;
   return {

@@ -36,6 +36,12 @@ for (const project of projects) {
     skipped.push({ project: project.id, reason: "project path missing" });
     continue;
   }
+  const policyFile = path.join(projectRoot, '.hermes-dashboard.json');
+  const uiPolicy = fs.existsSync(policyFile) ? readJson(policyFile).uiPolicy : null;
+  if (uiPolicy?.sharedAssetSync === 'manual' && (!projectFilter || !args.includes('--apply-visual-sync'))) {
+    skipped.push({ project: project.id, reason: 'Project-owned design: use --project <id> --apply-visual-sync after reviewing asset changes.' });
+    continue;
+  }
   const vendorRoot = path.join(projectRoot, "vendor/hermes-dashboard-kit");
   if (!fs.existsSync(vendorRoot)) {
     skipped.push({ project: project.id, reason: "no vendor/hermes-dashboard-kit directory" });
@@ -48,7 +54,7 @@ for (const project of projects) {
       skipped.push({ project: project.id, reason: `source missing: ${sourceRel}` });
       continue;
     }
-    if (!fs.existsSync(path.dirname(target))) fs.mkdirSync(path.dirname(target), { recursive: true });
+    if (!dryRun && !fs.existsSync(path.dirname(target))) fs.mkdirSync(path.dirname(target), { recursive: true });
     const before = fs.existsSync(target) ? sha(target) : null;
     const after = sha(source);
     if (before === after) {
@@ -61,7 +67,7 @@ for (const project of projects) {
   for (const targetRel of servedCssTargets.get(project.id) ?? []) {
     const source = path.join(root, "packages/hermes-dashboard-kit/static/hermes-dashboard-kit.css");
     const target = path.join(projectRoot, targetRel);
-    if (!fs.existsSync(path.dirname(target))) fs.mkdirSync(path.dirname(target), { recursive: true });
+    if (!dryRun && !fs.existsSync(path.dirname(target))) fs.mkdirSync(path.dirname(target), { recursive: true });
     const before = fs.existsSync(target) ? sha(target) : null;
     const after = sha(source);
     if (before === after) {

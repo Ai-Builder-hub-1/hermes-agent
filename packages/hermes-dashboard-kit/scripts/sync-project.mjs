@@ -61,6 +61,10 @@ for (const project of projects) {
   }
 
   const manifest = readJson(manifestPath);
+  if (manifest.uiPolicy?.sharedAssetSync === 'manual' && (all || !args.includes('--apply-visual-sync'))) {
+    console.log(`Skipping ${project.id}: project-owned visuals require --project <id> --apply-visual-sync.`);
+    continue;
+  }
   const adapterPath = manifest.dashboardKit?.staticAdapterPath
     ? path.resolve(projectRoot, manifest.dashboardKit.staticAdapterPath)
     : project.adapterTarget

@@ -1,3 +1,26 @@
+## Visual freedom and production safeguards
+
+The project owns its frontend design. `.hermes-dashboard.json` → `uiPolicy` is the
+current acceptance policy and supersedes older mandatory HDK/tier/layout rules.
+Claude may change the shell, navigation, colors, typography, CSS, component library,
+and frontend framework. HDK remains optional; its adoption score is not release readiness.
+
+Keep experiments in `prototypes/` or `design-prototypes/`, outside production
+static roots and navigation. These are development-only, never proof of production
+readiness. Promoting a prototype requires integrating its data and auth contracts.
+
+Run `npm run dashboard:standard:check` for admission. Preserve backend authentication,
+API/data semantics, action permissions, and functional tests. Before production use,
+run `npm run dashboard:release:check`: it requires reviewed, current-revision evidence
+for build, auth, API contracts, workflows, accessibility, desktop/mobile layout,
+data states, prototype isolation, and production proof. Do not manufacture evidence
+or treat an admission pass as release approval. Existing project tests/builds still apply.
+
+Do not run shared-kit sync/migration to restore a previous design. Visual asset sync
+is manual and requires an explicit project selection and `--apply-visual-sync`.
+Legacy HDK checks are available as `dashboard:hdk:check` for optional kit adoption;
+their component names, CSS hashes, or tiers do not govern a project-owned frontend.
+
 # Claude Project Guidance
 
 Nous Hermes Agent is the design and dashboard standards hub for the workspace. When launched through `npm run claude`, Claude starts here and receives sibling project folders through `--add-dir`.

@@ -1,3 +1,9 @@
+> **Policy update — 2026-10-04:** For manifests with `uiPolicy.visualOwnership: "project"`,
+> [Visual freedom and production safeguards](../design/visual-freedom-policy.md) governs
+> acceptance. HDK tiers, wrappers, tokens, layouts, and CSS conformance below are optional
+> kit certification, not production admission criteria. Use `dashboard:standard:check`
+> for admission and `dashboard:release:check` for reviewed production evidence.
+
 # Dashboard Branch Protection Requirements
 
 Status: V12 standard

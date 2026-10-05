@@ -4,7 +4,11 @@ import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
 
+import { projectOwnsVisuals, isPrototypePath } from './dashboard-ui-policy.mjs';
+
 const root = process.cwd();
+const manifest = JSON.parse(fs.readFileSync(path.join(root, '.hermes-dashboard.json'), 'utf8'));
+const enforceTokens = !projectOwnsVisuals(manifest);
 const args = new Set(process.argv.slice(2));
 const scanAll = args.has("--all");
 const strict = args.has("--strict");
@@ -94,7 +98,7 @@ const candidateFiles = scanAll
 
 for (const file of candidateFiles) {
   const rel = relative(file);
-  if (sourceArtifacts.has(rel)) continue;
+  if (sourceArtifacts.has(rel) || isPrototypePath(rel, manifest)) continue;
   const text = fs.readFileSync(file, "utf8");
   for (const rule of registry.forbiddenPatterns ?? []) {
     if (!(rule.scope ?? []).some((scope) => rel.startsWith(`${scope}/`))) continue;
@@ -106,7 +110,7 @@ for (const file of candidateFiles) {
       if (rule.id === "raw-shadow" && isTokenizedShadowSample(text, match.index, match[0])) continue;
       const line = text.slice(0, match.index).split(/\r?\n/).length;
       issues.push({
-        severity: strict ? "error" : "warning",
+        severity: strict && (enforceTokens || rel.startsWith("packages/hermes-dashboard-kit/")) ? "error" : "warning",
         rule: rule.id,
         file: rel,
         line,
@@ -124,7 +128,7 @@ for (const issue of issues) {
   grouped.set(key, (grouped.get(key) ?? 0) + 1);
 }
 const newDebt = [...grouped.entries()].filter(([key, count]) => count > (suppressionCounts.get(key) ?? 0));
-if (strict && newDebt.length) {
+if (strict && enforceTokens && newDebt.length) {
   for (const [key, count] of newDebt) {
     const [file, rule] = key.split("::");
     issues.push({

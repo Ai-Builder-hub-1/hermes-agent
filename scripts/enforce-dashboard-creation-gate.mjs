@@ -3,6 +3,8 @@ import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
 
+import { checkProject, projectOwnsVisuals, isPrototypePath } from './dashboard-ui-policy.mjs';
+
 const root = process.cwd();
 const args = parseArgs(process.argv.slice(2));
 const projectDir = path.resolve(root, args.projectDir || ".");
@@ -12,6 +14,11 @@ const warnings = [];
 const pkgPath = path.join(projectDir, "package.json");
 const manifestPath = path.join(projectDir, ".hermes-dashboard.json");
 const registryPath = path.join(projectDir, "hermes.dashboards.json");
+if (fs.existsSync(manifestPath) && projectOwnsVisuals(readJson(manifestPath))) {
+  const result = checkProject(projectDir);
+  console.log(JSON.stringify(result, null, 2));
+  process.exit(result.errors.length ? 1 : 0);
+}
 const requiredDashboardKitFields = {
   baseline: "hdk-first",
   package: "@hermes/dashboard-kit",
@@ -112,7 +119,7 @@ const manifestForStaticScan = fs.existsSync(manifestPath) ? readJson(manifestPat
 const staticAllowlist = manifestForStaticScan.enforcement?.staticEntrypointAllowlist ?? [];
 for (const file of staticEntrypoints) {
   const relative = path.relative(projectDir, file);
-  if (isAllowed(relative, staticAllowlist)) continue;
+  if (isAllowed(relative, staticAllowlist) || isPrototypePath(relative, manifestForStaticScan)) continue;
   const source = fs.readFileSync(file, "utf8");
   const looksLikeStandalone = /<html[\s>]/i.test(source) && /sidebar|topbar|dashboard|app-shell/i.test(source);
   if (looksLikeStandalone && !/dev-only|prototype|compatibility route/i.test(source)) {

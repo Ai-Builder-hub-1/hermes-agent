@@ -128,5 +128,15 @@
       "reason": "The gallery route is page content inside the existing React application shell. Shell/sidebar/header evidence lives in web/src/App.tsx instead of being re-rendered inside the page route.",
       "expiresAt": "2026-09-30"
     }
-  ]
+  ],
+  "uiPolicy": {
+    "version": 1,
+    "visualOwnership": "project",
+    "prototypeRoots": [
+      "prototypes",
+      "design-prototypes"
+    ],
+    "sharedAssetSync": "manual",
+    "releaseEvidence": "docs/design/ui-release-evidence.json"
+  }
 }

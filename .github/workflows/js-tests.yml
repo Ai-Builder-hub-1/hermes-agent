@@ -20,6 +20,8 @@ jobs:
       - uses: ./.github/actions/retry
         with:
           command: npm ci --ignore-scripts
+      - name: UI policy regression tests
+        run: npm run dashboard:ui-policy:test
       - id: set-matrix
         run: |
           PACKAGES=$(npm query .workspace | jq -c '[.[].location]')

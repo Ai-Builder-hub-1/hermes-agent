@@ -267,6 +267,10 @@ for (const dashboard of dashboards) {
   if (!fs.existsSync(path.join(projectPath, "package.json"))) throw new Error(`Missing package.json for ${dashboard.id} at ${projectPath}`);
   const projectManifestPath = path.join(projectPath, ".hermes-dashboard.json");
   const manifest = fs.existsSync(projectManifestPath) ? JSON.parse(fs.readFileSync(projectManifestPath, "utf8")) : {};
+  if (manifest.uiPolicy?.visualOwnership === 'project') {
+    console.log(`Preserving ${dashboard.id}: project-owned platform policy and checks.`);
+    continue;
+  }
   const platformManifest = {
     schemaVersion: 1,
     version: "V1",
