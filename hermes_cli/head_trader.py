@@ -46,6 +46,9 @@ _INTENT_ACTIONS: list[tuple[tuple[str, ...], dict[str, str]]] = [
 ]
 
 CONTRACT_VERSION = "head-trader-control-plane.v1"
+
+# Controls that only ever reduce risk. They stay available when everything else is held.
+RISK_REDUCING_ACTION_IDS = frozenset({"investing.emergency_lock_trading", "investing.pause_oanda_runtime", "khashi.pause_collection"})
 FRONTEND_CONTRACT_VERSION = "2026-09-09.v1"
 
 
@@ -389,7 +392,11 @@ async def risk_check(payload: dict[str, Any], store: "HeadTraderStore | None" = 
         blockers.append("Live order actions are never routable from Head Trader.")
     # An unlocked control plane is itself a reason to refuse anything that
     # touches a runtime: the safety contract this desk relies on is gone.
-    if summary.get("liveTradingLocked") is False and action.get("liveTradingImpact") in {"runtime_control", "live_order"}:
+    # Risk-reducing controls (emergency lock, pause) are the exception: an
+    # unlocked control plane is exactly when they are needed, so refusing
+    # them then would leave no way to stop trading from here.
+    risk_reducing = action.get("id") in RISK_REDUCING_ACTION_IDS
+    if summary.get("liveTradingLocked") is False and action.get("liveTradingImpact") in {"runtime_control", "live_order"} and not risk_reducing:
         blockers.append("Control plane reports live trading unlocked; runtime actions are held until it is locked again.")
     if action["permissionLevel"] == "forbidden":
         blockers.append("Action is forbidden by policy.")

@@ -18,7 +18,8 @@ CONTRACT_VERSION = "trading-intelligence-control-plane.v1"
 FRONTEND_CONTRACT_VERSION = "2026-09-08.v1"
 COMMAND_CENTER_CONTRACT_VERSION = "trading-command-center.v1"
 READ_CACHE_TTL_SECONDS = float(os.environ.get("TRADING_INTELLIGENCE_READ_CACHE_TTL_SECONDS", "20"))
-SOURCE_REQUEST_TIMEOUT_SECONDS = float(os.environ.get("TRADING_SOURCE_REQUEST_TIMEOUT_SECONDS", "2"))
+# The investing summary takes about 1.8 s; a 2 s budget made it flap to "unavailable".
+SOURCE_REQUEST_TIMEOUT_SECONDS = float(os.environ.get("TRADING_SOURCE_REQUEST_TIMEOUT_SECONDS", "6"))
 _READ_CACHE: dict[str, tuple[float, dict[str, Any]]] = {}
 
 

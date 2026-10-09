@@ -258,3 +258,24 @@ def test_channel_status_reports_why_inbound_is_not_ready(desk):
     for channel in channels:
         assert channel["inboundReady"] is False
         assert channel["verification"] in {"telegram_secret_token", "discord_ed25519"}
+
+
+# ── risk-reducing controls when the control plane is unlocked ──────────────
+
+
+def test_emergency_lock_and_pause_stay_available_when_the_control_plane_is_unlocked(desk, monkeypatch):
+    """An unlocked control plane held every runtime control, including the
+    emergency lock, which is exactly the control needed in that state."""
+    from hermes_cli import head_trader as ht
+
+    async def unlocked_summary():
+        payload = _summary_payload()
+        payload["liveTradingLocked"] = False
+        return payload
+
+    monkeypatch.setattr(ht, "trading_intelligence_summary", unlocked_summary)
+    for action_id in ("investing.emergency_lock_trading", "investing.pause_oanda_runtime"):
+        risk = desk["client"].post("/api/head-trader/risk-check", headers=desk["headers"], json={"actionId": action_id}).json()
+        assert not any("held until it is locked" in blocker for blocker in risk["blockers"]), (action_id, risk)
+    resume = desk["client"].post("/api/head-trader/risk-check", headers=desk["headers"], json={"actionId": "investing.resume_oanda_runtime"}).json()
+    assert any("held until it is locked" in blocker for blocker in resume["blockers"]), resume
