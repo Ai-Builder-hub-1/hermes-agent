@@ -13,7 +13,9 @@ import { Spinner } from "@nous-research/ui/ui/components/spinner";
 import { usePageHeader } from "@/contexts/usePageHeader";
 import { cn, isoTimeAgo } from "@/lib/utils";
 import {
+  approveSecondBrainCandidate,
   fetchSecondBrainCandidates,
+  rejectSecondBrainCandidate,
   fetchSecondBrainRestoreProof,
   fetchSecondBrainSummary,
   scanSecondBrainStaleness,
@@ -72,8 +74,33 @@ function Stat({ label, value, tone = "unknown" }: { label: string; value: string
   );
 }
 
-function CandidateRow({ candidate }: { candidate: BrainCandidate }) {
+function CandidateRow({ candidate, onDecided }: { candidate: BrainCandidate; onDecided: () => void }) {
   const blockers = candidate.policy?.blockers ?? [];
+  const [busy, setBusy] = useState<"approve" | "reject" | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const decide = async (action: "approve" | "reject") => {
+    setBusy(action);
+    setError(null);
+    try {
+      if (action === "approve") {
+        const reason = window.prompt("Approval reason (recorded in the Brain audit):", "Reviewed and approved from the dashboard.");
+        if (reason === null) return;
+        await approveSecondBrainCandidate(candidate.id, { approvalReason: reason });
+      } else {
+        const reason = window.prompt("Rejection reason:", "");
+        if (reason === null) return;
+        await rejectSecondBrainCandidate(candidate.id, { reason: reason || undefined });
+      }
+      onDecided();
+    } catch (err) {
+      const detail = err instanceof Error ? err.message : String(err);
+      setError(detail);
+    } finally {
+      setBusy(null);
+    }
+  };
+
   return (
     <article className="rounded-md border border-border bg-background p-2">
       <div className="flex items-start gap-2">
@@ -87,6 +114,26 @@ function CandidateRow({ candidate }: { candidate: BrainCandidate }) {
       </div>
       <p className="mt-2 line-clamp-2 text-xs text-muted-foreground">{candidate.whyItMatters}</p>
       {blockers.length ? <p className="mt-2 text-xs text-destructive">{blockers.join("; ")}</p> : null}
+      <div className="mt-2 flex items-center gap-2">
+        <button
+          type="button"
+          onClick={() => decide("approve")}
+          disabled={busy !== null || blockers.length > 0}
+          title={blockers.length ? `Resolve blockers first: ${blockers.join("; ")}` : "Approve into the Brain"}
+          className="rounded border border-border px-2 py-0.5 text-xs font-medium text-emerald-600 hover:bg-emerald-500/10 disabled:cursor-not-allowed disabled:opacity-40 dark:text-emerald-400"
+        >
+          {busy === "approve" ? "Approving…" : "Approve"}
+        </button>
+        <button
+          type="button"
+          onClick={() => decide("reject")}
+          disabled={busy !== null}
+          className="rounded border border-border px-2 py-0.5 text-xs font-medium text-red-600 hover:bg-red-500/10 disabled:cursor-not-allowed disabled:opacity-40 dark:text-red-400"
+        >
+          {busy === "reject" ? "Rejecting…" : "Reject"}
+        </button>
+        {error ? <span className="min-w-0 truncate text-xs text-destructive" title={error}>{error}</span> : null}
+      </div>
     </article>
   );
 }
@@ -239,7 +286,7 @@ export default function SecondBrainPage() {
 
       <Panel title="Candidate Review Queue" aside={candidates.length}>
         <div className="space-y-2">
-          {candidates.length ? candidates.map((candidate) => <CandidateRow key={candidate.id} candidate={candidate} />) : (
+          {candidates.length ? candidates.map((candidate) => <CandidateRow key={candidate.id} candidate={candidate} onDecided={() => void load()} />) : (
             <div className="rounded-md border border-dashed border-border p-4 text-center text-xs text-muted-foreground">No candidates waiting for review.</div>
           )}
         </div>

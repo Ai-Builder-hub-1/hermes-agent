@@ -440,6 +440,28 @@ export async function fetchSecondBrainSummary(): Promise<SecondBrainSummary> {
   return fetchJSON<SecondBrainSummary>(`${BASE}/summary`);
 }
 
+export async function approveSecondBrainCandidate(
+  id: string,
+  input?: { approvalReason?: string; reviewedBy?: string },
+): Promise<{ candidate: BrainCandidate; node: { id: string } }> {
+  return fetchJSON(`${BASE}/candidates/${encodeURIComponent(id)}/approve`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(input ?? {}),
+  });
+}
+
+export async function rejectSecondBrainCandidate(
+  id: string,
+  input?: { reason?: string; reviewedBy?: string },
+): Promise<{ candidate: BrainCandidate }> {
+  return fetchJSON(`${BASE}/candidates/${encodeURIComponent(id)}/reject`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(input ?? {}),
+  });
+}
+
 export async function fetchSecondBrainCandidates(status?: string): Promise<{ candidates: BrainCandidate[] }> {
   const suffix = status ? `?status=${encodeURIComponent(status)}` : "";
   return fetchJSON<{ candidates: BrainCandidate[] }>(`${BASE}/candidates${suffix}`);

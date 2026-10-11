@@ -2463,6 +2463,39 @@ async def get_second_brain_summary():
     }
 
 
+@app.post("/api/second-brain/candidates/{candidate_id}/approve")
+async def approve_second_brain_candidate(candidate_id: str, request: Request):
+    """Approve a Brain candidate from the review queue. Brain enforces its own
+    policy (evidence required, approvalReason for human-gated levels); errors
+    pass through so the operator sees exactly what blocked."""
+    try:
+        body = await request.json()
+    except Exception:
+        body = {}
+    payload = {
+        "reviewedBy": (body.get("reviewedBy") or "operator:agent-dashboard").strip(),
+        "approvalReason": (body.get("approvalReason") or body.get("reason") or "Approved from the Second Brain review queue.").strip(),
+    }
+    return await _hermes_brain_request(
+        f"/api/brain/candidates/{candidate_id}/approve", method="POST", payload=payload
+    )
+
+
+@app.post("/api/second-brain/candidates/{candidate_id}/reject")
+async def reject_second_brain_candidate(candidate_id: str, request: Request):
+    try:
+        body = await request.json()
+    except Exception:
+        body = {}
+    payload = {
+        "reviewedBy": (body.get("reviewedBy") or "operator:agent-dashboard").strip(),
+        "reason": (body.get("reason") or "Rejected from the Second Brain review queue.").strip(),
+    }
+    return await _hermes_brain_request(
+        f"/api/brain/candidates/{candidate_id}/reject", method="POST", payload=payload
+    )
+
+
 @app.get("/api/second-brain/candidates")
 async def get_second_brain_candidates(status: Optional[str] = None):
     suffix = f"?status={urllib.parse.quote(status)}" if status else ""
