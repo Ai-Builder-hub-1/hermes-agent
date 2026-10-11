@@ -26,6 +26,9 @@ export interface BrainCandidate {
   status: string;
   promotionScore?: number | null;
   confidence?: number | null;
+  createdAt?: string;
+  evidenceRefs?: Array<{ sourceSystem?: string; sourceType?: string; sourceIdentifier?: string; label?: string }>;
+  relatedEntities?: Array<{ type?: string; id?: string; label?: string; relationship?: string }>;
   policy?: {
     qualifies: boolean;
     approvalLevel: string;

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import {
   AlertTriangle,
   CheckCircle2,
@@ -74,7 +75,7 @@ function Stat({ label, value, tone = "unknown" }: { label: string; value: string
   );
 }
 
-function CandidateRow({ candidate, onDecided }: { candidate: BrainCandidate; onDecided: () => void }) {
+function CandidateRow({ candidate, onDecided, onOpen }: { candidate: BrainCandidate; onDecided: () => void; onOpen: () => void }) {
   const blockers = candidate.policy?.blockers ?? [];
   const [busy, setBusy] = useState<"approve" | "reject" | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -102,7 +103,11 @@ function CandidateRow({ candidate, onDecided }: { candidate: BrainCandidate; onD
   };
 
   return (
-    <article className="rounded-md border border-border bg-background p-2">
+    <article
+      className="cursor-pointer rounded-md border border-border bg-background p-2 transition-colors hover:border-foreground/30"
+      onClick={onOpen}
+      title="Open full review"
+    >
       <div className="flex items-start gap-2">
         <div className="min-w-0 flex-1">
           <div className="truncate text-sm font-semibold">{candidate.title}</div>
@@ -117,7 +122,7 @@ function CandidateRow({ candidate, onDecided }: { candidate: BrainCandidate; onD
       <div className="mt-2 flex items-center gap-2">
         <button
           type="button"
-          onClick={() => decide("approve")}
+          onClick={(event) => { event.stopPropagation(); void decide("approve"); }}
           disabled={busy !== null || blockers.length > 0}
           title={blockers.length ? `Resolve blockers first: ${blockers.join("; ")}` : "Approve into the Brain"}
           className="rounded border border-border px-2 py-0.5 text-xs font-medium text-emerald-600 hover:bg-emerald-500/10 disabled:cursor-not-allowed disabled:opacity-40 dark:text-emerald-400"
@@ -126,7 +131,7 @@ function CandidateRow({ candidate, onDecided }: { candidate: BrainCandidate; onD
         </button>
         <button
           type="button"
-          onClick={() => decide("reject")}
+          onClick={(event) => { event.stopPropagation(); void decide("reject"); }}
           disabled={busy !== null}
           className="rounded border border-border px-2 py-0.5 text-xs font-medium text-red-600 hover:bg-red-500/10 disabled:cursor-not-allowed disabled:opacity-40 dark:text-red-400"
         >
@@ -135,6 +140,180 @@ function CandidateRow({ candidate, onDecided }: { candidate: BrainCandidate; onD
         {error ? <span className="min-w-0 truncate text-xs text-destructive" title={error}>{error}</span> : null}
       </div>
     </article>
+  );
+}
+
+function DrawerField({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="min-w-0">
+      <div className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">{label}</div>
+      <div className="mt-0.5 text-sm">{children}</div>
+    </div>
+  );
+}
+
+/**
+ * Full-content review sidecar: click a candidate to read everything (no
+ * truncation), decide with a recorded reason, and step through the queue with
+ * Prev/Next (arrow keys work too) without leaving the panel. Approving or
+ * rejecting advances to the next candidate automatically.
+ */
+function CandidateReviewDrawer({
+  candidates,
+  index,
+  onIndex,
+  onClose,
+  onDecided,
+}: {
+  candidates: BrainCandidate[];
+  index: number;
+  onIndex: (next: number) => void;
+  onClose: () => void;
+  onDecided: () => Promise<unknown>;
+}) {
+  const candidate = candidates[Math.min(index, candidates.length - 1)];
+  const [reason, setReason] = useState("Reviewed in the dashboard sidecar.");
+  const [busy, setBusy] = useState<"approve" | "reject" | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const prev = useCallback(() => onIndex(Math.max(0, index - 1)), [index, onIndex]);
+  const next = useCallback(() => onIndex(Math.min(candidates.length - 1, index + 1)), [candidates.length, index, onIndex]);
+
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) return;
+      if (event.key === "Escape") onClose();
+      if (event.key === "ArrowRight") next();
+      if (event.key === "ArrowLeft") prev();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [next, onClose, prev]);
+
+  if (!candidate) return null;
+  const blockers = candidate.policy?.blockers ?? [];
+
+  const decide = async (action: "approve" | "reject") => {
+    setBusy(action);
+    setError(null);
+    try {
+      if (action === "approve") {
+        await approveSecondBrainCandidate(candidate.id, { approvalReason: reason || undefined });
+      } else {
+        await rejectSecondBrainCandidate(candidate.id, { reason: reason || undefined });
+      }
+      await onDecided();
+      // The decided candidate leaves the queue, so the same index now points
+      // at the next one; close only when the queue is empty.
+      if (candidates.length <= 1) onClose();
+      else onIndex(Math.min(index, candidates.length - 2));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[100] flex justify-end bg-background/60"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
+      <div className="flex h-full w-full max-w-[480px] flex-col border-l border-border bg-card shadow-2xl">
+        <div className="flex items-center gap-2 border-b border-border px-4 py-3">
+          <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+            Candidate review · {index + 1} of {candidates.length}
+          </div>
+          <div className="ml-auto flex items-center gap-1">
+            <Button size="sm" ghost onClick={prev} disabled={index === 0} aria-label="Previous candidate">←</Button>
+            <Button size="sm" ghost onClick={next} disabled={index >= candidates.length - 1} aria-label="Next candidate">Next →</Button>
+            <Button size="sm" ghost onClick={onClose} aria-label="Close review">✕</Button>
+          </div>
+        </div>
+
+        <div className="min-h-0 flex-1 space-y-4 overflow-y-auto px-4 py-4">
+          <div>
+            <div className="text-base font-semibold leading-snug">{candidate.title}</div>
+            <div className="mt-1 flex flex-wrap items-center gap-1.5">
+              <Pill tone={blockers.length ? "blocked" : "ready"}>{candidate.policy?.approvalLevel ?? candidate.status}</Pill>
+              <span className="text-xs text-muted-foreground">
+                {candidate.sourceSystem} / {candidate.sourceType} / {candidate.suggestedType}
+              </span>
+            </div>
+          </div>
+          <DrawerField label="Summary">
+            <p className="whitespace-pre-wrap text-sm text-foreground/90">{candidate.summary}</p>
+          </DrawerField>
+          <DrawerField label="Why it matters">
+            <p className="whitespace-pre-wrap text-sm text-foreground/90">{candidate.whyItMatters}</p>
+          </DrawerField>
+          {candidate.evidenceRefs?.length ? (
+            <DrawerField label={`Evidence (${candidate.evidenceRefs.length})`}>
+              <ul className="space-y-1">
+                {candidate.evidenceRefs.map((ref, refIndex) => (
+                  <li key={refIndex} className="rounded border border-border bg-background px-2 py-1 text-xs">
+                    <span className="font-medium">{ref.label ?? ref.sourceIdentifier}</span>
+                    <span className="ml-1 text-muted-foreground">{ref.sourceSystem} · {ref.sourceIdentifier}</span>
+                  </li>
+                ))}
+              </ul>
+            </DrawerField>
+          ) : (
+            <DrawerField label="Evidence"><span className="text-xs text-muted-foreground">None attached.</span></DrawerField>
+          )}
+          {candidate.relatedEntities?.length ? (
+            <DrawerField label="Related">
+              <div className="flex flex-wrap gap-1">
+                {candidate.relatedEntities.map((entity, entityIndex) => (
+                  <span key={entityIndex} className="rounded-full border border-border px-2 py-0.5 text-xs text-muted-foreground">
+                    {entity.label ?? entity.id}{entity.relationship ? ` · ${entity.relationship}` : ""}
+                  </span>
+                ))}
+              </div>
+            </DrawerField>
+          ) : null}
+          {candidate.policy ? (
+            <DrawerField label="Policy">
+              <div className="space-y-1 text-xs text-muted-foreground">
+                <div>approval: {candidate.policy.approvalLevel} · promotion {candidate.policy.promotionScore} · quality {candidate.policy.qualityScore}</div>
+                {candidate.policy.reasons?.length ? <div>reasons: {candidate.policy.reasons.join("; ")}</div> : null}
+                {blockers.length ? <div className="text-destructive">blockers: {blockers.join("; ")}</div> : null}
+              </div>
+            </DrawerField>
+          ) : null}
+        </div>
+
+        <div className="border-t border-border px-4 py-3">
+          <label className="block text-[11px] font-semibold uppercase tracking-wide text-muted-foreground" htmlFor="review-reason">
+            Decision reason (recorded in the Brain audit)
+          </label>
+          <input
+            id="review-reason"
+            value={reason}
+            onChange={(event) => setReason(event.target.value)}
+            className="mt-1 w-full rounded border border-border bg-background px-2 py-1.5 text-sm"
+          />
+          <div className="mt-2 flex items-center gap-2">
+            <Button
+              size="sm"
+              onClick={() => void decide("approve")}
+              disabled={busy !== null || blockers.length > 0}
+              title={blockers.length ? `Resolve blockers first: ${blockers.join("; ")}` : undefined}
+            >
+              {busy === "approve" ? "Approving…" : "Approve & next"}
+            </Button>
+            <Button size="sm" ghost onClick={() => void decide("reject")} disabled={busy !== null}>
+              {busy === "reject" ? "Rejecting…" : "Reject & next"}
+            </Button>
+            {error ? <span className="min-w-0 truncate text-xs text-destructive" title={error}>{error}</span> : null}
+          </div>
+          <div className="mt-1.5 text-[11px] text-muted-foreground">Esc closes · ←/→ move through the queue</div>
+        </div>
+      </div>
+    </div>,
+    document.body,
   );
 }
 
@@ -164,6 +343,7 @@ export default function SecondBrainPage() {
   const [query, setQuery] = useState("valuation");
   const [busy, setBusy] = useState(true);
   const [actionBusy, setActionBusy] = useState<string | null>(null);
+  const [reviewIndex, setReviewIndex] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const { setAfterTitle, setEnd } = usePageHeader();
 
@@ -286,7 +466,14 @@ export default function SecondBrainPage() {
 
       <Panel title="Candidate Review Queue" aside={candidates.length}>
         <div className="space-y-2">
-          {candidates.length ? candidates.map((candidate) => <CandidateRow key={candidate.id} candidate={candidate} onDecided={() => void load()} />) : (
+          {candidates.length ? candidates.map((candidate, candidateIndex) => (
+              <CandidateRow
+                key={candidate.id}
+                candidate={candidate}
+                onDecided={() => void load()}
+                onOpen={() => setReviewIndex(candidateIndex)}
+              />
+            )) : (
             <div className="rounded-md border border-dashed border-border p-4 text-center text-xs text-muted-foreground">No candidates waiting for review.</div>
           )}
         </div>
@@ -322,6 +509,15 @@ export default function SecondBrainPage() {
           </div>
         </Panel>
       </div>
+      {reviewIndex !== null && candidates.length ? (
+        <CandidateReviewDrawer
+          candidates={candidates}
+          index={Math.min(reviewIndex, candidates.length - 1)}
+          onIndex={setReviewIndex}
+          onClose={() => setReviewIndex(null)}
+          onDecided={() => load()}
+        />
+      ) : null}
     </div>
   );
 }
