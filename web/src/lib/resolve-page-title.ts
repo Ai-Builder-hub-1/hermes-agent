@@ -20,6 +20,7 @@ const ROUTE_TITLES: Record<string, string> = {
   "/fleet-maturity-review": "Fleet Maturity Review",
   "/trading-intelligence": "Trading Command Center",
   "/head-trader": "Head Trader",
+  "/key-rotation": "Key Rotation",
 };
 
 export function resolvePageTitle(

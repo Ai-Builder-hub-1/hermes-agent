@@ -598,6 +598,17 @@ export const dashboardPageMetadata: DashboardPageMetadata[] = [
     localOnlyReason: "Secrets posture route served by the Hermes dashboard app.",
   },
   {
+    route: "/key-rotation",
+    title: "Key Rotation",
+    recipe: "system-health-deployment",
+    owner: "Operations",
+    category: "security-governance",
+    dataContracts: ["SecretRotationStatus", "RotationStep", "VerifyResult", "RotationHistory"],
+    requiredStates: ["connected", "disconnected", "overdue", "due", "verify-failed", "dry-run", "mobile"],
+    validation: ["test --workspace web", "build --workspace web", "scripts/run_tests.sh tests/hermes_cli/test_secret_rotation.py"],
+    localOnlyReason: "Key rotation route served by the Hermes dashboard app; needs the host secret rotator socket in production.",
+  },
+  {
     route: "/data-source-catalog",
     title: "Data Source Catalog",
     recipe: "research-intelligence-dashboard",
