@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  ageTone,
   ageStatus,
   canSubmitRotation,
   filterSecrets,
@@ -34,14 +35,16 @@ function secret(overrides: Partial<RotationSecret> = {}): RotationSecret {
 const FAKE = "sk-FAKE-value-never-kept";
 
 describe("age thresholds", () => {
-  it("is amber over 90 days, red over 180 days or never rotated", () => {
+  it("is amber over 90 days and red over 180 days; no record is its own amber state", () => {
     expect(ageStatus(secret({ ageDays: 90 }), true)).toBe("ok");
     expect(ageStatus(secret({ ageDays: 91 }), true)).toBe("due");
     expect(ageStatus(secret({ ageDays: 181 }), true)).toBe("overdue");
-    expect(ageStatus(secret({ ageDays: null, lastRotatedAt: null }), true)).toBe("never");
+    expect(ageStatus(secret({ ageDays: null, lastRotatedAt: null }), true)).toBe("unrecorded");
+    expect(ageTone("unrecorded")).toBe("warning");
+    expect(ageTone("overdue")).toBe("critical");
   });
 
-  it("does not claim 'never rotated' when the rotator is disconnected", () => {
+  it("does not claim a missing record when the rotator is disconnected", () => {
     expect(ageStatus(secret({ ageDays: null, lastRotatedAt: null }), false)).toBe("unknown");
   });
 });
@@ -55,7 +58,7 @@ describe("risk ordering and filters", () => {
   ];
 
   it("puts the riskiest secrets first", () => {
-    expect(sortByRisk(rows, true).map((s) => s.name)).toEqual(["NEVER_KEY", "DUE_KEY", "BROKEN_KEY", "FRESH_KEY"]);
+    expect(sortByRisk(rows, true).map((s) => s.name)).toEqual(["DUE_KEY", "BROKEN_KEY", "NEVER_KEY", "FRESH_KEY"]);
   });
 
   it("filters by provider and status", () => {

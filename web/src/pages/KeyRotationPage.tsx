@@ -59,8 +59,9 @@ const toneClasses: Record<Tone, string> = {
 const STATUS_FILTERS: Array<{ value: StatusFilter; label: string }> = [
   { value: "all", label: "All secrets" },
   { value: "attention", label: "Needs attention" },
-  { value: "overdue", label: "Overdue / never rotated" },
+  { value: "overdue", label: "Overdue (over 180 days)" },
   { value: "due", label: "Due (over 90 days)" },
+  { value: "unrecorded", label: "No recorded rotation" },
   { value: "verify-failed", label: "Verify failed" },
   { value: "ok", label: "Healthy" },
 ];
@@ -102,11 +103,12 @@ export default function KeyRotationPage() {
   );
   const providers = useMemo(() => providerOptions(sorted), [sorted]);
   const counts = useMemo(() => {
-    const out = { overdue: 0, due: 0, ok: 0, verifyFailed: 0 };
+    const out = { overdue: 0, due: 0, unrecorded: 0, ok: 0, verifyFailed: 0 };
     for (const secret of sorted) {
       const age = ageStatus(secret, connected);
-      if (age === "overdue" || age === "never") out.overdue += 1;
+      if (age === "overdue") out.overdue += 1;
       else if (age === "due") out.due += 1;
+      else if (age === "unrecorded") out.unrecorded += 1;
       else if (age === "ok") out.ok += 1;
       if (verifyFailed(secret)) out.verifyFailed += 1;
     }
@@ -150,8 +152,9 @@ export default function KeyRotationPage() {
             </div>
           </div>
           <div className="grid min-w-[220px] grid-cols-2 gap-2 text-xs font-semibold text-muted-foreground">
-            <MiniStat label="Overdue / never" value={counts.overdue} tone={counts.overdue ? "critical" : "neutral"} />
+            <MiniStat label="Overdue >180d" value={counts.overdue} tone={counts.overdue ? "critical" : "neutral"} />
             <MiniStat label="Due >90d" value={counts.due} tone={counts.due ? "warning" : "neutral"} />
+            <MiniStat label="No recorded rotation" value={counts.unrecorded} tone={counts.unrecorded ? "warning" : "neutral"} />
             <MiniStat label="Healthy" value={counts.ok} tone="neutral" />
             <MiniStat label="Verify failed" value={counts.verifyFailed} tone={counts.verifyFailed ? "critical" : "neutral"} />
           </div>
@@ -673,7 +676,7 @@ const AGE_LABEL: Record<AgeStatus, string> = {
   ok: "",
   due: "due",
   overdue: "overdue",
-  never: "never rotated",
+  unrecorded: "no recorded rotation",
   unknown: "unknown",
 };
 
@@ -682,7 +685,13 @@ function AgeBadge({ secret, connected }: { secret: RotationSecret; connected: bo
   const tone = ageTone(status);
   const text = secret.ageDays != null ? `${secret.ageDays}d${AGE_LABEL[status] ? ` · ${AGE_LABEL[status]}` : ""}` : AGE_LABEL[status];
   return (
-    <Pill tone={tone} title={secret.lastRotatedAt ? `Last rotated ${new Date(secret.lastRotatedAt).toLocaleString()}` : undefined}>
+    <Pill tone={tone} title={
+        secret.lastRotatedAt
+          ? `Last rotated ${new Date(secret.lastRotatedAt).toLocaleString()}`
+          : status === "unrecorded"
+            ? "No rotation recorded since key rotation tracking started. The key's real age is unknown."
+            : undefined
+      }>
       {text}
     </Pill>
   );
