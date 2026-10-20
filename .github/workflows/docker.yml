@@ -1,8 +1,6 @@
 name: Docker Build, Test, and Publish
 
 on:
-  release:
-    types: [published]
   workflow_call:
 
 permissions:
