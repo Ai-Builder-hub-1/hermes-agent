@@ -4897,6 +4897,180 @@ async def post_system_credentials_scan():
 
 
 # ---------------------------------------------------------------------------
+# Key rotation — proxies the host secret rotator (Unix socket) for the
+# /key-rotation page. See hermes_cli/secret_rotation.py for the contract.
+#
+# The rotate route carries new secret VALUES. It is protected like
+# /api/env/reveal (auth gate + ephemeral session token via _require_token,
+# rate limit, audit log) and parses its body by hand so FastAPI's 422
+# handler can never reflect submitted values back to the client.
+# ---------------------------------------------------------------------------
+
+_rotate_timestamps: List[float] = []
+_ROTATE_MAX_PER_WINDOW = 3
+_ROTATE_WINDOW_SECONDS = 60
+_SECRET_ROTATION_PATH_PREFIX = "/api/secrets/rotation"
+
+
+def _rotation_actor(request: Request) -> str:
+    """Who is rotating: the gated session identity, else the local operator."""
+    session = getattr(request.state, "session", None)
+    if session is not None:
+        for attr in ("email", "display_name", "user_id"):
+            value = getattr(session, attr, "")
+            if value:
+                return str(value)
+    principal = getattr(request.state, "token_principal", None)
+    if principal is not None and getattr(principal, "principal", ""):
+        return f"token:{principal.principal}"
+    return "local-dashboard"
+
+
+def _validate_secret_name(name: str) -> None:
+    from hermes_cli.secret_rotation import SECRET_NAME_RE
+
+    if not SECRET_NAME_RE.match(name or ""):
+        raise HTTPException(status_code=400, detail="Invalid secret name.")
+
+
+@app.get("/api/secrets/rotation")
+async def get_secrets_rotation():
+    from hermes_cli.secret_rotation import rotation_status
+
+    try:
+        return await rotation_status()
+    except Exception:  # rotation_status already never raises; belt-and-braces
+        _log.exception("GET /api/secrets/rotation failed")
+        return {"connected": False, "reason": "Rotation status unavailable.", "secrets": []}
+
+
+@app.post("/api/secrets/rotation/{name}/rotate")
+async def post_secret_rotate(name: str, request: Request):
+    """Rotate one secret through the host rotator.
+
+    Protected by the dashboard auth gate + session token (``_require_token``),
+    a 3/min rate limit, and audit logging. Values are never logged, stored,
+    or echoed; the rotator's response is scrubbed of them before returning.
+    """
+    from hermes_cli import secret_rotation as rot
+    from hermes_cli.dashboard_auth.audit import AuditEvent, audit_log
+
+    _require_token(request)
+    _validate_secret_name(name)
+
+    now = time.time()
+    cutoff = now - _ROTATE_WINDOW_SECONDS
+    _rotate_timestamps[:] = [t for t in _rotate_timestamps if t > cutoff]
+    if len(_rotate_timestamps) >= _ROTATE_MAX_PER_WINDOW:
+        raise HTTPException(status_code=429, detail="Too many rotation requests. Try again in a minute.")
+    _rotate_timestamps.append(now)
+
+    try:
+        raw = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Request body must be valid JSON.") from None
+    try:
+        values, dry_run = rot.parse_rotate_body(name, raw)
+    except rot.RotateRequestInvalid as exc:
+        raise HTTPException(status_code=400, detail=exc.message) from None
+    finally:
+        raw = None  # drop our reference to the plaintext body early
+
+    actor = _rotation_actor(request)
+    secret_values = list(values.values())
+    status_code = 200
+    steps: List[Dict[str, Any]] = []
+    error: Optional[str] = None
+    try:
+        response = await rot.get_client().rotate(
+            name=name, values=values, confirm=name, actor=actor, dry_run=dry_run
+        )
+        steps = [s for s in (response.get("steps") or []) if isinstance(s, dict)]
+        result = rot.summarize_result(steps, dry_run)
+    except rot.RotatorUnavailable as exc:
+        result, status_code, error = "rotator-unavailable", 503, exc.reason
+    except rot.RotatorError as exc:
+        result = "failed"
+        status_code = exc.status_code if 400 <= exc.status_code < 500 else 502
+        error = exc.detail
+    except Exception as exc:
+        result, status_code = "failed", 502
+        error = f"Rotation request failed ({type(exc).__name__})."
+    finally:
+        values = {}
+
+    steps = rot.scrub(steps, secret_values)
+    error = rot.scrub(error, secret_values) if error else None
+    secret_values = []
+
+    history = rot.record_rotation(name=name, actor=actor, result=result, dry_run=dry_run, steps=steps)
+    _log.info("secrets/rotate: %s actor=%s dryRun=%s result=%s", name, actor, dry_run, result)
+    audit_log(
+        AuditEvent.SECRET_ROTATION,
+        secret_name=name,
+        actor=actor,
+        dry_run=dry_run,
+        result=result,
+    )
+
+    payload = {
+        "name": name,
+        "dryRun": dry_run,
+        "result": result,
+        "steps": steps,
+        "error": error,
+        "history": history,
+        "macCommand": f"hermes-keys rotate {name} --mac-only",
+    }
+    if status_code != 200:
+        return JSONResponse(status_code=status_code, content=payload)
+    return payload
+
+
+@app.post("/api/secrets/rotation/{name}/verify")
+async def post_secret_verify(name: str, request: Request):
+    from hermes_cli import secret_rotation as rot
+
+    _require_token(request)
+    _validate_secret_name(name)
+    try:
+        result = await rot.get_client().verify(name)
+    except rot.RotatorUnavailable as exc:
+        return JSONResponse(status_code=503, content={"name": name, "status": "unavailable", "message": exc.reason})
+    except rot.RotatorError as exc:
+        code = exc.status_code if 400 <= exc.status_code < 500 else 502
+        return JSONResponse(status_code=code, content={"name": name, "status": "error", "message": exc.detail})
+    return {
+        "name": name,
+        "status": str(result.get("status") or "unknown"),
+        "checkedAt": result.get("checkedAt"),
+        "message": str(result.get("message") or ""),
+    }
+
+
+from fastapi.exceptions import RequestValidationError as _RequestValidationError  # noqa: E402
+from fastapi.exception_handlers import (  # noqa: E402
+    request_validation_exception_handler as _default_validation_handler,
+)
+
+
+@app.exception_handler(_RequestValidationError)
+async def _validation_error_handler(request: Request, exc: _RequestValidationError):
+    """Default 422 handling, except secret-rotation routes never reflect input.
+
+    FastAPI's default body includes each offending ``input``; for routes
+    that may carry secret values we return locations and types only.
+    """
+    if request.url.path.startswith(_SECRET_ROTATION_PATH_PREFIX):
+        errors = [
+            {"loc": [str(part) for part in err.get("loc", ())], "type": str(err.get("type", "invalid"))}
+            for err in exc.errors()
+        ]
+        return JSONResponse(status_code=422, content={"detail": "Invalid request.", "errors": errors})
+    return await _default_validation_handler(request, exc)
+
+
+# ---------------------------------------------------------------------------
 # Curator endpoints — background skill-maintenance status + controls.
 #
 # The curator periodically reviews skills (archive stale, prune, pin).  The
