@@ -120,13 +120,14 @@ export async function verifySecret(name: string): Promise<VerifyResult> {
 export const AGE_AMBER_DAYS = 90;
 export const AGE_RED_DAYS = 180;
 
-export type AgeStatus = "ok" | "due" | "overdue" | "never" | "unknown";
+/** "unrecorded": the rotator is connected but has no rotation on record, so the key's real age is unknown (not "never rotated"). */
+export type AgeStatus = "ok" | "due" | "overdue" | "unrecorded" | "unknown";
 
 export function ageStatus(secret: Pick<RotationSecret, "ageDays" | "lastRotatedAt">, connected: boolean): AgeStatus {
   if (secret.ageDays == null) {
     if (secret.lastRotatedAt) return "unknown";
     // Disconnected: the dashboard only knows names, not rotation dates.
-    return connected ? "never" : "unknown";
+    return connected ? "unrecorded" : "unknown";
   }
   if (secret.ageDays > AGE_RED_DAYS) return "overdue";
   if (secret.ageDays > AGE_AMBER_DAYS) return "due";
@@ -134,8 +135,8 @@ export function ageStatus(secret: Pick<RotationSecret, "ageDays" | "lastRotatedA
 }
 
 export function ageTone(status: AgeStatus): "success" | "warning" | "critical" | "neutral" {
-  if (status === "overdue" || status === "never") return "critical";
-  if (status === "due") return "warning";
+  if (status === "overdue") return "critical";
+  if (status === "due" || status === "unrecorded") return "warning";
   if (status === "ok") return "success";
   return "neutral";
 }
@@ -151,7 +152,7 @@ export function serverCoverage(secret: RotationSecret): { present: number; total
 
 export function riskScore(secret: RotationSecret, connected: boolean): number {
   const age = ageStatus(secret, connected);
-  let score = { overdue: 300, never: 300, due: 200, unknown: 100, ok: 0 }[age];
+  let score = { overdue: 300, due: 200, unrecorded: 150, unknown: 100, ok: 0 }[age];
   if (verifyFailed(secret)) score += 150;
   const { present, total } = serverCoverage(secret);
   if (total > 0 && present < total) score += 50;
@@ -164,7 +165,7 @@ export function sortByRisk(secrets: RotationSecret[], connected: boolean): Rotat
   );
 }
 
-export type StatusFilter = "all" | "attention" | "overdue" | "due" | "ok" | "verify-failed";
+export type StatusFilter = "all" | "attention" | "overdue" | "due" | "unrecorded" | "ok" | "verify-failed";
 
 export function filterSecrets(
   secrets: RotationSecret[],
@@ -178,9 +179,11 @@ export function filterSecrets(
     const age = ageStatus(secret, connected);
     switch (filter.status) {
       case "overdue":
-        return age === "overdue" || age === "never";
+        return age === "overdue";
       case "due":
         return age === "due";
+      case "unrecorded":
+        return age === "unrecorded";
       case "ok":
         return age === "ok" && !verifyFailed(secret);
       case "verify-failed":
