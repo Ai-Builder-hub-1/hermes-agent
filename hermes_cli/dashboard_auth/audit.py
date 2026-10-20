@@ -49,6 +49,7 @@ class AuditEvent(enum.Enum):
     WS_TICKET_REJECTED = "ws_ticket_rejected"
     TOKEN_AUTH_SUCCESS = "token_auth_success"
     TOKEN_AUTH_FAILURE = "token_auth_failure"
+    SECRET_ROTATION = "secret_rotation"
 
 
 def _resolve_log_path() -> Path:

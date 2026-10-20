@@ -68,6 +68,7 @@ These routes are mounted in the web dashboard and are wired to live API calls in
 | `/profiles/new` Profile Builder | Guided profile creation. | Build a new profile then route back to profile list. | New profile name/config fields. |
 | `/config` Config | Edit structured and raw config. | Read current/default/schema config, save structured config, read/write raw YAML. | Config categories/fields, defaults, raw config YAML path/content. |
 | `/env` Keys | Manage environment variables/secrets. | List env vars, set/unset keys, reveal selected keys. | Env key presence, provider grouping, key values when revealed. |
+| `/key-rotation` Key Rotation | Rotate server provider keys through the host secret rotator. | Status table, riskiest first (age amber >90d, red >180d or never rotated; last verify; server copies present/total; services; Mac-copies hint), filter by provider/status, rotate dialog (provider link, new value or both pair halves, type-the-name confirm, dry run first, file/service/verify step results), Verify now, Mac reminder `hermes-keys rotate NAME --mac-only`. Shows a "Rotator not connected" banner when the socket is missing. | `GET /api/secrets/rotation`, `POST /api/secrets/rotation/{name}/rotate` (session-token gated, 3/min, audit-logged, values never stored or echoed), `POST /api/secrets/rotation/{name}/verify`; dashboard history in `ops_secret_rotations`. |
 | `/system` System | Operate local backend/system services. | Restart/start/stop gateway, update Hermes, run doctor/security audit/backup/import, hooks, memory, curator, portal status, prompt-size/dump/config migration/checkpoints. | System status, portal/account state, memory provider state, hooks, curator state, system stats, action logs. |
 | `/docs` Documentation | Link out to docs. | Open configured documentation URL. | Documentation entrypoint. |
 
@@ -128,7 +129,7 @@ These routes are mostly generated from operating-system data. Use them to answer
 | `/telemetry-fabric` Telemetry Fabric | Observability signal coverage. | TelemetrySignal, FreshnessRule, QueuePressure, StorageSignal. |
 | `/incident-command` Incident Command | Incident severity/ownership/rollback view. | IncidentRecord, Severity, RollbackPlan, Owner. |
 | `/deployment-promotion` Deployment Promotion Rail | Promotion gate and rollback readiness. | PromotionGate, MigrationRequirement, HealthCheck, RollbackEvidence. |
-| `/secrets-posture` Secrets And Access Posture | Secret/access risk overview. | SecretPresence, AccessScope, RotationPolicy, DeployKey. |
+| `/secrets-posture` Secrets And Access Posture | Secret/access risk overview (redirects to `/system/credentials`; rotation itself lives at `/key-rotation`). | SecretPresence, AccessScope, RotationPolicy, DeployKey. |
 | `/data-source-catalog` Data Source Catalog | Data freshness/retention/consumer map. | DataSource, FreshnessRule, RetentionPolicy, ConsumerMap. |
 | `/finance-attribution` Finance And Cost Attribution | Cost attribution and budget view. | CostBucket, BusinessUnit, ManualRate, InvoiceReconciliation. |
 | `/learning-engine` Learning Engine | Evidence-to-policy learning workflow. | LearningRecord, EvidencePromotion, PolicyProposal, CounterEvidence. |
@@ -165,7 +166,7 @@ These routes are mostly generated from operating-system data. Use them to answer
 | `/release-train-orchestrator` Release Train Orchestrator | Planned/approved/promotion rail. | ReleaseTrain, PromotionGate, SweepEvidence, ReleaseSummary. |
 | `/production-screenshot-runner` Production Screenshot Runner | Screenshot capture/evidence runner. | ProductionScreenshotRunner, ScreenshotArtifact, ViewportCheck, BlankPageSignal. |
 | `/hetzner-promotion-transport` Hetzner Promotion Transport | SSH promotion transport evidence. | HetznerPromotionTransport, SshReceipt, PromotionScriptRun, RollbackEvidence. |
-| `/server-secret-posture-scanner` Server Secret Posture Scanner | Server-side secret manifest/presence checks. | ServerSecretManifest, SecretPresenceResult, RotationMetadata. |
+| `/server-secret-posture-scanner` Server Secret Posture Scanner | Server-side secret manifest/presence checks; links to `/key-rotation` to act on findings. | ServerSecretManifest, SecretPresenceResult, RotationMetadata. |
 | `/incident-notification-fanout` Incident Notification Fanout | Notification targets, dedupe, acknowledgement. | IncidentNotificationTarget, FanoutAttempt, DedupeWindow, Acknowledgement. |
 | `/durable-artifact-backend` Durable Artifact Backend | Storage backend/retention health. | ArtifactBackend, ArtifactWriteResult, RetentionPolicy, StorageUsage. |
 | `/remaining-project-outcome-adapters` Remaining Project Outcome Adapters | Tracks projects still needing outcome adapters. | OutcomeAdapterAdoption, DashboardManifest, OutcomeEndpointCheck. |

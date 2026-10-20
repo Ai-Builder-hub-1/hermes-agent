@@ -44,6 +44,7 @@ import {
 const ConfigPage = lazy(() => import("@/pages/ConfigPage"));
 const DocsPage = lazy(() => import("@/pages/DocsPage"));
 const EnvPage = lazy(() => import("@/pages/EnvPage"));
+const KeyRotationPage = lazy(() => import("@/pages/KeyRotationPage"));
 const FilesPage = lazy(() => import("@/pages/FilesPage"));
 const SessionsPage = lazy(() => import("@/pages/SessionsPage"));
 const LogsPage = lazy(() => import("@/pages/LogsPage"));
@@ -329,6 +330,7 @@ export const BUILTIN_ROUTES_CORE: Record<string, RouteComponent> = {
   "/profiles/new": ProfileBuilderPage,
   "/config": ConfigPage,
   "/env": EnvPage,
+  "/key-rotation": KeyRotationPage,
   "/docs": DocsPage,
 };
 
@@ -422,6 +424,7 @@ export const BUILTIN_NAV_REST: BuiltinNavItem[] = [
   { path: "/profiles", labelKey: "profiles", label: "Profiles", icon: Users },
   { path: "/config", labelKey: "config", label: "Config", icon: Settings },
   { path: "/env", labelKey: "keys", label: "Keys", icon: KeyRound },
+  { path: "/key-rotation", label: "Key Rotation", icon: RotateCw },
   { path: "/system", label: "System", icon: Wrench },
   { path: "/docs", labelKey: "documentation", label: "Documentation", icon: BookOpen },
 ];
@@ -523,6 +526,7 @@ export const OPERATOR_NAV_GROUPS: OperatorNavGroup[] = [
       { path: "/system/workers", label: "Workers", icon: RotateCw },
       { path: "/system/deployments", label: "Deployments", icon: GitBranch },
       { path: "/system/credentials", label: "Credentials", icon: KeyRound },
+      { path: "/key-rotation", label: "Key Rotation", icon: RotateCw },
       { path: "/system/models", label: "Models", icon: Cpu },
       { path: "/system/automations", label: "Automations", icon: Clock },
       { path: "/system/sessions", label: "Sessions", icon: MessageSquare },
