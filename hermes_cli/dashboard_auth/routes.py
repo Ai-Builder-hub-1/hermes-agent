@@ -47,6 +47,10 @@ from hermes_cli.dashboard_auth.cookies import (
     set_session_cookies,
 )
 from hermes_cli.dashboard_auth.login_page import render_login_html
+from hermes_cli.dashboard_auth.sign_in_gate import (
+    PROVIDER_NAME as GATE_PROVIDER,
+    SIGN_IN_URL,
+)
 
 _log = logging.getLogger(__name__)
 
@@ -138,6 +142,11 @@ async def login_page(request: Request) -> HTMLResponse:
     next_path = _validate_post_login_target(
         request.query_params.get("next", "")
     )
+    # Already signed in through the shared sign-in gate: skip the form.
+    if getattr(request.state, "session", None) is not None:
+        return RedirectResponse(
+            url=f"{_prefix(request)}{next_path or '/'}", status_code=302
+        )
     return HTMLResponse(
         render_login_html(next_path=next_path),
         headers={"Cache-Control": "no-store, no-cache, must-revalidate"},
@@ -580,7 +589,13 @@ async def auth_logout(request: Request):
     )
 
     prefix = _prefix(request)
-    resp = RedirectResponse(url=f"{prefix}/login", status_code=302)
+    # A shared-sign-in session ends at the sign-in service, not here —
+    # /login would just bounce a still-signed-in owner back in.
+    target = (
+        SIGN_IN_URL if sess is not None and sess.provider == GATE_PROVIDER
+        else f"{prefix}/login"
+    )
+    resp = RedirectResponse(url=target, status_code=302)
     clear_session_cookies(resp, prefix=prefix)
     clear_pkce_cookie(resp, prefix=prefix)
     return resp

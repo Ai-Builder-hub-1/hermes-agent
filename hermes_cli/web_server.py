@@ -15461,6 +15461,12 @@ def _ws_auth_reason(ws: "WebSocket") -> tuple[Optional[str], str]:
             consume_ticket,
         )
 
+        # Shared sign-in gate: the proxy vouched for the owner on the upgrade.
+        from hermes_cli.dashboard_auth.sign_in_gate import gate_user
+
+        if gate_user(ws.headers) is not None:
+            return None, "sign_in_gate"
+
         # Server-spawned children (PTY child → /api/ws, /api/pub) present the
         # multi-use internal credential rather than a single-use ticket, so
         # they survive reconnects and slow cold boots.

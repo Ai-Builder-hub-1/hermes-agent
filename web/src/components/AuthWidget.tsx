@@ -26,7 +26,12 @@
 import { useEffect, useState } from "react";
 import { api, type AuthMeResponse } from "@/lib/api";
 import { cn } from "@/lib/utils";
-import { LogOut } from "lucide-react";
+import { KeyRound, LogOut } from "lucide-react";
+
+/** Sessions vouched for by the shared *.tlccapitalgroup.com sign-in gate are
+ *  managed (and signed out) at the sign-in service, not by this dashboard. */
+const SHARED_SIGN_IN_PROVIDER = "tlc-sign-in";
+const SHARED_SIGN_IN_URL = "https://login.tlccapitalgroup.com/";
 
 interface AuthWidgetProps {
   className?: string;
@@ -111,6 +116,11 @@ export function AuthWidget({ className }: AuthWidgetProps) {
   // populates user_id; the fallthroughs are forward-compat for a future
   // Portal that adds a userinfo endpoint (OQ-C1 in the plan).
   const label = me.display_name || me.email || truncateUserId(me.user_id);
+  const actionClass = cn(
+    "shrink-0 rounded p-1.5 text-muted-foreground/70",
+    "transition-colors hover:bg-current/10 hover:text-foreground",
+    "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-current/40",
+  );
 
   return (
     <div
@@ -132,19 +142,26 @@ export function AuthWidget({ className }: AuthWidgetProps) {
           via {me.provider}
         </span>
       </div>
-      <button
-        type="button"
-        onClick={handleLogout}
-        className={cn(
-          "shrink-0 rounded p-1.5 text-muted-foreground/70",
-          "transition-colors hover:bg-current/10 hover:text-foreground",
-          "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-current/40",
-        )}
-        aria-label="Log out"
-        title="Log out"
-      >
-        <LogOut className="h-3.5 w-3.5" />
-      </button>
+      {me.provider === SHARED_SIGN_IN_PROVIDER ? (
+        <a
+          href={SHARED_SIGN_IN_URL}
+          className={actionClass}
+          aria-label="Sign-in & password"
+          title="Sign-in & password"
+        >
+          <KeyRound className="h-3.5 w-3.5" />
+        </a>
+      ) : (
+        <button
+          type="button"
+          onClick={handleLogout}
+          className={actionClass}
+          aria-label="Log out"
+          title="Log out"
+        >
+          <LogOut className="h-3.5 w-3.5" />
+        </button>
+      )}
     </div>
   );
 }

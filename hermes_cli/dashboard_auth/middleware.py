@@ -42,6 +42,7 @@ from hermes_cli.dashboard_auth.cookies import (
     set_sso_attempt_cookie,
 )
 from hermes_cli.dashboard_auth.public_paths import PUBLIC_API_PATHS
+from hermes_cli.dashboard_auth.sign_in_gate import gate_session
 
 _log = logging.getLogger(__name__)
 
@@ -335,6 +336,13 @@ async def gated_auth_middleware(
     # a cookie session and must not be bounced to /login. Pass it through; the
     # seam already attached ``request.state.token_principal``.
     if getattr(request.state, "token_authenticated", False):
+        return await call_next(request)
+
+    # Signed in through the shared *.tlccapitalgroup.com sign-in: the proxy
+    # vouched for the owner with the gate secret. Full session, no cookies.
+    gate = gate_session(request.headers)
+    if gate is not None:
+        request.state.session = gate
         return await call_next(request)
 
     path = request.url.path
