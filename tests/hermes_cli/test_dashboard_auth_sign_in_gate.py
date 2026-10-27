@@ -54,6 +54,20 @@ def gated_app(monkeypatch):
         setattr(web_server.app.state, k, v)
 
 
+def _gate_ws(*, origin, host="agent.tlccapitalgroup.com", forwarded_host="", query=None):
+    headers = {"x-tlc-user": "edward", "x-tlc-gate": GATE_SECRET, "host": host}
+    if origin:
+        headers["origin"] = origin
+    if forwarded_host:
+        headers["x-forwarded-host"] = forwarded_host
+    return SimpleNamespace(
+        query_params=query or {},
+        headers=headers,
+        client=SimpleNamespace(host="203.0.113.5"),
+        url=SimpleNamespace(path="/api/pty"),
+    )
+
+
 class TestGateAccepted:
     def test_api_is_authenticated_as_the_owner(self, gated_app):
         me = gated_app.get("/api/auth/me", headers=GATE)
@@ -79,11 +93,14 @@ class TestGateAccepted:
         assert resp.json()["ticket"]
 
     def test_websocket_upgrade_accepts_the_gate(self, gated_app):
-        ws = SimpleNamespace(
-            query_params={},
-            headers={"x-tlc-user": "edward", "x-tlc-gate": GATE_SECRET},
-            client=SimpleNamespace(host="203.0.113.5"),
-            url=SimpleNamespace(path="/api/pty"),
+        ws = _gate_ws(origin="https://agent.tlccapitalgroup.com")
+        assert web_server._ws_auth_reason(ws) == (None, "sign_in_gate")
+
+    def test_websocket_upgrade_accepts_forwarded_host_origin(self, gated_app):
+        ws = _gate_ws(
+            origin="https://agent.tlccapitalgroup.com",
+            host="127.0.0.1:9119",
+            forwarded_host="agent.tlccapitalgroup.com",
         )
         assert web_server._ws_auth_reason(ws) == (None, "sign_in_gate")
 
@@ -99,6 +116,28 @@ class TestGateAccepted:
 
 
 class TestGateRejected:
+    @pytest.mark.parametrize(
+        "origin",
+        [
+            "https://evil.tlccapitalgroup.com",
+            "https://agent.tlccapitalgroup.com.evil.example",
+            "null",
+            "",
+        ],
+    )
+    def test_websocket_gate_needs_same_host_origin(self, gated_app, origin):
+        ws = _gate_ws(origin=origin)
+        assert web_server._ws_auth_reason(ws) == ("no_credential", "none")
+
+    def test_websocket_foreign_origin_still_accepts_a_ticket(self, gated_app):
+        from hermes_cli.dashboard_auth.ws_tickets import mint_ticket
+
+        ws = _gate_ws(
+            origin="https://evil.tlccapitalgroup.com",
+            query={"ticket": mint_ticket(user_id="edward", provider="basic")},
+        )
+        assert web_server._ws_auth_reason(ws) == (None, "ticket")
+
     @pytest.mark.parametrize(
         "headers",
         [

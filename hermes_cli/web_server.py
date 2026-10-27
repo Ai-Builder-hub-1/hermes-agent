@@ -15418,6 +15418,26 @@ def _ws_auth_mode() -> str:
     return "loopback"
 
 
+def _ws_origin_is_same_host(ws: "WebSocket") -> bool:
+    """True when the upgrade's web Origin targets the request's own host.
+
+    Ambient credentials (the shared sign-in gate rides on a browser cookie)
+    are only honoured on a same-origin handshake, so a page on another
+    origin cannot hijack the socket the way a missing ticket used to prevent.
+    """
+    origin = urllib.parse.urlparse(ws.headers.get("origin", "") or "")
+    if origin.scheme not in {"http", "https"} or not origin.netloc:
+        return False
+    origin_host = origin.netloc.lower()
+    forwarded = (ws.headers.get("x-forwarded-host", "") or "").split(",")[0]
+    candidates = {
+        h.strip().lower()
+        for h in (ws.headers.get("host", "") or "", forwarded)
+        if h.strip()
+    }
+    return origin_host in candidates
+
+
 def _ws_auth_reason(ws: "WebSocket") -> tuple[Optional[str], str]:
     """Validate WS-upgrade auth; return ``(reason, credential)``.
 
@@ -15464,7 +15484,7 @@ def _ws_auth_reason(ws: "WebSocket") -> tuple[Optional[str], str]:
         # Shared sign-in gate: the proxy vouched for the owner on the upgrade.
         from hermes_cli.dashboard_auth.sign_in_gate import gate_user
 
-        if gate_user(ws.headers) is not None:
+        if gate_user(ws.headers) is not None and _ws_origin_is_same_host(ws):
             return None, "sign_in_gate"
 
         # Server-spawned children (PTY child → /api/ws, /api/pub) present the
