@@ -67,7 +67,7 @@ def status():
 
 @router.get("/existing")
 def existing():
-    """Drive reports published before the worker was deployed."""
+    """Drive folders of reports published before the worker was deployed."""
     return [
         {
             "title": "AI Reports",

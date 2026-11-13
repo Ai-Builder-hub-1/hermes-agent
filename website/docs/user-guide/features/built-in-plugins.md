@@ -67,7 +67,7 @@ The repo ships these bundled plugins under `plugins/`. All are opt-in — enable
 | `image_gen/xai` | image backend | xAI `grok-2-image` backend |
 | `hermes-achievements` | dashboard tab | Steam-style collectible badges generated from your real Hermes session history |
 | `kanban/dashboard` | dashboard tab | Kanban board UI for the multi-agent dispatcher — tasks, comments, fan-out, board switching. See [Kanban Multi-Agent](./kanban.md). |
-| `reports-of-reports` | dashboard tab | Read-only view of Drive reports published before the worker was deployed, plus the Reports of Reports worker's status snapshot (`/run/reports-of-reports/status.json`): scan status, recent runs, failures, recorded spend, and Drive report links |
+| `reports-of-reports` | dashboard tab | Read-only view of Drive reports published before the worker was deployed, grouped under their Drive folder links, plus the Reports of Reports worker's status snapshot (`/run/reports-of-reports/status.json`): scan status, recent runs, failures, recorded spend, and Drive report links |
 
 Memory providers (`plugins/memory/*`) and context engines (`plugins/context_engine/*`) are listed separately on [Memory Providers](./memory-providers.md) — they're managed through `hermes memory` and `hermes plugins` respectively. The full per-plugin detail for the two long-running hooks-based plugins follows.
 
