@@ -37,11 +37,17 @@
       h("p", null, "Reports saved to Drive before the worker was deployed."),
       existing === null && h("p", null, "Loading existing reports…"),
       existing === false && h("p", {role: "status"}, "Existing reports could not be loaded."),
-      Array.isArray(existing) && h("ul", {className: "space-y-2"}, existing.map(report =>
-        h("li", {key: report.id}, h("a", {
-          href: "https://docs.google.com/document/d/" + report.id + "/edit",
-          target: "_blank", rel: "noopener noreferrer", className: "underline",
-        }, report.title)))),
+      Array.isArray(existing) && h("ul", {className: "space-y-2"}, existing.map(folder =>
+        h("li", {key: folder.id},
+          h("a", {
+            href: "https://drive.google.com/drive/folders/" + folder.id,
+            target: "_blank", rel: "noopener noreferrer", className: "underline font-semibold",
+          }, folder.title),
+          h("ul", {className: "ml-4 mt-2 space-y-2"}, folder.reports.map(report =>
+            h("li", {key: report.id}, h("a", {
+              href: "https://docs.google.com/document/d/" + report.id + "/edit",
+              target: "_blank", rel: "noopener noreferrer", className: "underline",
+            }, report.title))))))),
       failed && h("p", {role: "status"}, "Status could not be refreshed."),
       !data && !failed && h("p", null, "Loading research status…"),
       data && !ready && h("p", null, "No worker status snapshot has been published yet."),
