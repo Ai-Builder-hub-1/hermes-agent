@@ -25,14 +25,14 @@
       return () => { active = false; clearInterval(interval); };
     }, []);
     const ready = data?.available;
-    const stale = ready && Date.now() - Date.parse(data.generated_at) > 60 * 60000;
+    const stale = ready && !(Date.now() - Date.parse(data.generated_at) <= 60 * 60000);
     return h("section", {className: "space-y-4"},
       h("h1", {className: "text-2xl font-semibold"}, "Reports of Reports"),
       failed && h("p", {role: "status"}, "Status could not be refreshed."),
       !data && !failed && h("p", null, "Loading research status…"),
       data && !ready && h("p", null, "No worker status snapshot has been published yet."),
       ready && h(React.Fragment, null,
-        data.scan_exit_code > 0 && h("p", {role: "status"}, "Latest scan failed."),
+        typeof data.scan_exit_code === "number" && data.scan_exit_code !== 0 && h("p", {role: "status"}, "Latest scan failed."),
         h("p", null, "Last recorded scan: ", time(data.last_scan)),
         h("p", null, "Snapshot: ", time(data.generated_at), stale ? " (stale)" : ""),
         h("p", null, "Recorded spend this month: ", usd(data.month_spend_usd)),
