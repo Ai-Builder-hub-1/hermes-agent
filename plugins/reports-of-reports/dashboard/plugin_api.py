@@ -63,3 +63,16 @@ def status():
     except (OSError, ValueError, RecursionError):
         raise HTTPException(503, "Research status snapshot unavailable") from None
     return {**projection, "available": True}
+
+
+@router.get("/existing")
+def existing():
+    """Drive reports published before the worker was deployed."""
+    return [
+        {"title": "October 26 — research article test",
+         "id": "1g4EX-jkGZUyXlCqbuojcCnYikgPsSYIt1nYozpNgDLI"},
+        {"title": "October 25 — research sample",
+         "id": "1WTXNqBI8QCOTFVjAK-BY_rrf2u7xy0CUJiYIpFZjiMM"},
+        {"title": "Week 43 — test run",
+         "id": "1xwdApbWbSvRZUsiX5gdm5uQapiOo1TsX9Ls18sugjUw"},
+    ]
