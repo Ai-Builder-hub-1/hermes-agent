@@ -1,0 +1,8 @@
+{
+  "name": "reports-of-reports",
+  "label": "Reports of Reports",
+  "description": "Read-only research job status and completed reports.",
+  "tab": {"path": "/reports-of-reports", "position": "end"},
+  "entry": "index.js",
+  "api": "plugin_api.py"
+}
