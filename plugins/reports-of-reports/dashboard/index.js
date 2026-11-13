@@ -8,6 +8,7 @@
     style: "currency", currency: "USD", maximumFractionDigits: 5,
   });
   function Reports() {
+    const [existing, setExisting] = React.useState(null);
     const [data, setData] = React.useState(null);
     const [failed, setFailed] = React.useState(false);
     React.useEffect(() => {
@@ -20,6 +21,10 @@
           if (active) setFailed(true);
         }
       };
+      sdk.fetchJSON("/api/plugins/reports-of-reports/existing").then(
+        reports => { if (active) setExisting(reports); },
+        () => { if (active) setExisting(false); },
+      );
       refresh();
       const interval = setInterval(refresh, 60000);
       return () => { active = false; clearInterval(interval); };
@@ -28,6 +33,15 @@
     const stale = ready && !(Date.now() - Date.parse(data.generated_at) <= 60 * 60000);
     return h("section", {className: "space-y-4"},
       h("h1", {className: "text-2xl font-semibold"}, "Reports of Reports"),
+      h("h2", {className: "text-lg font-semibold"}, "Existing reports"),
+      h("p", null, "Reports saved to Drive before the worker was deployed."),
+      existing === null && h("p", null, "Loading existing reports…"),
+      existing === false && h("p", {role: "status"}, "Existing reports could not be loaded."),
+      Array.isArray(existing) && h("ul", {className: "space-y-2"}, existing.map(report =>
+        h("li", {key: report.id}, h("a", {
+          href: "https://docs.google.com/document/d/" + report.id + "/edit",
+          target: "_blank", rel: "noopener noreferrer", className: "underline",
+        }, report.title)))),
       failed && h("p", {role: "status"}, "Status could not be refreshed."),
       !data && !failed && h("p", null, "Loading research status…"),
       data && !ready && h("p", null, "No worker status snapshot has been published yet."),
