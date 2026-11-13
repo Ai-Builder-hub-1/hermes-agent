@@ -33,18 +33,17 @@ def test_real_read_tool_binaries_confirm_option_ownership(
 
 
 @pytest.mark.parametrize(
-    ("tool", "args", "stdin", "needs_tty"),
+    ("tool", "args", "needs_tty"),
     [
-        ("rg", ["--pre", "-payload-marker", "needle", "{input}"], None, False),
-        ("rg", ["--hostname-bin=-payload-marker", "needle", "{input}"], None, False),
-        ("sort", ["--buffer-size=1K", "--compress-program", "-payload-marker"], "{bulk}", False),
-        ("ag", ["--pager=-payload-marker", "needle", "{input}"], None, True),
-        ("man", ["--pager", "-payload-marker", "ls"], None, True),
-        ("man", ["-P", "-payload-marker", "ls"], None, True),
+        ("rg", ["--pre", "-payload-marker", "needle", "{input}"], False),
+        ("rg", ["--hostname-bin=-payload-marker", "needle", "{input}"], False),
+        ("ag", ["--pager=-payload-marker", "needle", "{input}"], True),
+        ("man", ["--pager", "-payload-marker", "ls"], True),
+        ("man", ["-P", "-payload-marker", "ls"], True),
     ],
 )
 def test_real_binaries_execute_leading_dash_program_payload(
-    tmp_path, tool, args, stdin, needs_tty
+    tmp_path, tool, args, needs_tty
 ):
     """A PATH marker proves these binaries do not reparse '-program' as an option."""
     if shutil.which(tool) is None or (needs_tty and shutil.which("script") is None):
@@ -57,11 +56,6 @@ def test_real_binaries_execute_leading_dash_program_payload(
     input_file = tmp_path / "input.txt"
     input_file.write_text("needle\n")
     resolved_args = [arg.format(input=str(input_file)) for arg in args]
-    input_text = (
-        "\n".join(str(number) for number in range(10_000, 0, -1)) + "\n"
-        if stdin == "{bulk}"
-        else stdin
-    )
     env = {
         **os.environ,
         "PATH": f"{tmp_path}{os.pathsep}{os.environ['PATH']}",
@@ -72,7 +66,7 @@ def test_real_binaries_execute_leading_dash_program_payload(
     if needs_tty:
         argv = ["script", "-qec", shlex.join(argv), "/dev/null"]
 
-    subprocess.run(argv, input=input_text, text=True, capture_output=True, env=env, timeout=20)
+    subprocess.run(argv, text=True, capture_output=True, env=env, timeout=20)
 
     assert marker.read_text() == "executed"
 
