@@ -1,6 +1,14 @@
 from __future__ import annotations
 
+import pytest
 from fastapi.testclient import TestClient
+
+
+@pytest.fixture(autouse=True)
+def isolate_trading_read_cache(monkeypatch):
+    from hermes_cli import trading_intelligence as ti
+
+    monkeypatch.setattr(ti, "_READ_CACHE", {})
 
 
 def test_trading_intelligence_summary_route(monkeypatch):
